@@ -1,4 +1,4 @@
-import type { ResumeData } from "@/components/Resume";
+import { languageLevels, type ResumeData } from "@/components/Resume";
 
 interface PreviewProps {
   data: ResumeData;
@@ -9,26 +9,31 @@ export default function Preview({ data }: PreviewProps) {
     [data.title, data.firstName, data.lastName].filter(Boolean).join(" ") ||
     "Your Name";
 
-  const fullAddress = [
-    data.street,
-    data.city,
-    data.zipCode,
-    data.country,
-  ]
+  const fullAddress = [data.street, data.city, data.zipCode, data.country]
     .filter(Boolean)
     .join(", ");
 
-  const dateRange = [data.dateFrom, data.dateTo].filter(Boolean).join(" – ");
-  const hasWorkHistory =
-    dateRange || data.position || data.location || data.jobDescription;
+  const workEntries = data.workHistory.filter(
+    (entry) =>
+      entry.position ||
+      entry.location ||
+      entry.jobDescription ||
+      entry.dateFrom ||
+      entry.dateTo,
+  );
 
-  const eduDateRange = [data.eduDateFrom, data.eduDateTo]
-    .filter(Boolean)
-    .join(" – ");
-  const hasEducation =
-    eduDateRange || data.eduSubject || data.eduLocation || data.eduDescription;
+  const educationEntries = data.education.filter(
+    (entry) =>
+      entry.subject ||
+      entry.location ||
+      entry.description ||
+      entry.dateFrom ||
+      entry.dateTo,
+  );
 
+  const skillEntries = data.skills.filter((entry) => entry.value);
   const languageEntries = data.languages.filter((entry) => entry.language);
+  const interestEntries = data.interests.filter((entry) => entry.value);
 
   return (
     <div className="w-[210mm] min-h-[297mm] bg-white shadow-xl print:shadow-none">
@@ -82,7 +87,7 @@ export default function Preview({ data }: PreviewProps) {
           )}
         </div>
 
-        {hasWorkHistory && (
+        {workEntries.length > 0 && (
           <>
             <h2 className="mt-4 mb-2 flex items-center gap-2 text-sm font-semibold tracking-wide text-gray-500 uppercase">
               <svg
@@ -115,26 +120,51 @@ export default function Preview({ data }: PreviewProps) {
               Work History
             </h2>
 
-            <div className="grid grid-cols-[6rem_1fr] gap-4">
-              <div className="text-sm text-gray-500">{dateRange}</div>
-              <div>
-                {data.position && (
-                  <p className="font-semibold">{data.position}</p>
-                )}
-                {data.location && (
-                  <p className="text-sm text-gray-500">{data.location}</p>
-                )}
-                {data.jobDescription && (
-                  <p className="mt-2 whitespace-pre-line text-gray-700">
-                    {data.jobDescription}
-                  </p>
-                )}
-              </div>
-            </div>
+            <ul className="timeline timeline-vertical timeline-compact">
+              {workEntries.map((entry, index) => {
+                const dateRange = [entry.dateFrom, entry.dateTo]
+                  .filter(Boolean)
+                  .join(" – ");
+
+                return (
+                  <li key={entry.id}>
+                    {index > 0 && <hr />}
+                    <div className="timeline-start text-sm text-gray-500">
+                      {dateRange}
+                    </div>
+                    <div className="timeline-middle">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 20 20"
+                        className="text-primary h-3 w-3 fill-current"
+                      >
+                        <circle cx="10" cy="10" r="6" />
+                      </svg>
+                    </div>
+                    <div className="timeline-end timeline-box">
+                      {entry.position && (
+                        <p className="font-semibold">{entry.position}</p>
+                      )}
+                      {entry.location && (
+                        <p className="text-sm text-gray-500">
+                          {entry.location}
+                        </p>
+                      )}
+                      {entry.jobDescription && (
+                        <p className="mt-2 whitespace-pre-line text-gray-700">
+                          {entry.jobDescription}
+                        </p>
+                      )}
+                    </div>
+                    {index < workEntries.length - 1 && <hr />}
+                  </li>
+                );
+              })}
+            </ul>
           </>
         )}
 
-        {hasEducation && (
+        {educationEntries.length > 0 && (
           <>
             <h2 className="mt-4 mb-2 flex items-center gap-2 text-sm font-semibold tracking-wide text-gray-500 uppercase">
               <svg
@@ -165,26 +195,51 @@ export default function Preview({ data }: PreviewProps) {
               Education
             </h2>
 
-            <div className="grid grid-cols-[6rem_1fr] gap-4">
-              <div className="text-sm text-gray-500">{eduDateRange}</div>
-              <div>
-                {data.eduSubject && (
-                  <p className="font-semibold">{data.eduSubject}</p>
-                )}
-                {data.eduLocation && (
-                  <p className="text-sm text-gray-500">{data.eduLocation}</p>
-                )}
-                {data.eduDescription && (
-                  <p className="mt-2 whitespace-pre-line text-gray-700">
-                    {data.eduDescription}
-                  </p>
-                )}
-              </div>
-            </div>
+            <ul className="timeline timeline-vertical timeline-compact">
+              {educationEntries.map((entry, index) => {
+                const dateRange = [entry.dateFrom, entry.dateTo]
+                  .filter(Boolean)
+                  .join(" – ");
+
+                return (
+                  <li key={entry.id}>
+                    {index > 0 && <hr />}
+                    <div className="timeline-start text-sm text-gray-500">
+                      {dateRange}
+                    </div>
+                    <div className="timeline-middle">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 20 20"
+                        className="text-primary h-3 w-3 fill-current"
+                      >
+                        <circle cx="10" cy="10" r="6" />
+                      </svg>
+                    </div>
+                    <div className="timeline-end timeline-box">
+                      {entry.subject && (
+                        <p className="font-semibold">{entry.subject}</p>
+                      )}
+                      {entry.location && (
+                        <p className="text-sm text-gray-500">
+                          {entry.location}
+                        </p>
+                      )}
+                      {entry.description && (
+                        <p className="mt-2 whitespace-pre-line text-gray-700">
+                          {entry.description}
+                        </p>
+                      )}
+                    </div>
+                    {index < educationEntries.length - 1 && <hr />}
+                  </li>
+                );
+              })}
+            </ul>
           </>
         )}
 
-        {data.skills && (
+        {skillEntries.length > 0 && (
           <>
             <h2 className="mt-4 mb-2 flex items-center gap-2 text-sm font-semibold tracking-wide text-gray-500 uppercase">
               <svg
@@ -203,7 +258,9 @@ export default function Preview({ data }: PreviewProps) {
               Skills
             </h2>
 
-            <p className="whitespace-pre-line text-gray-700">{data.skills}</p>
+            <p className="text-gray-700">
+              {skillEntries.map((entry) => entry.value).join(", ")}
+            </p>
           </>
         )}
 
@@ -228,17 +285,35 @@ export default function Preview({ data }: PreviewProps) {
             </h2>
 
             <div className="space-y-1">
-              {languageEntries.map((entry) => (
-                <p key={entry.id} className="text-gray-700">
-                  <span className="font-semibold">{entry.language}</span>
-                  {entry.level && ` — ${entry.level}`}
-                </p>
-              ))}
+              {languageEntries.map((entry) => {
+                const levelIndex = languageLevels.indexOf(entry.level);
+
+                return (
+                  <div
+                    key={entry.id}
+                    className="flex items-center gap-2 text-gray-700"
+                  >
+                    <span className="font-semibold">{entry.language}</span>
+                    <div className="rating rating-sm pointer-events-none">
+                      {languageLevels.map((level, index) => (
+                        <input
+                          key={level}
+                          type="radio"
+                          aria-label={level}
+                          className="mask mask-star"
+                          checked={index === levelIndex}
+                          onChange={() => {}}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </>
         )}
 
-        {data.interests && (
+        {interestEntries.length > 0 && (
           <>
             <h2 className="mt-4 mb-2 flex items-center gap-2 text-sm font-semibold tracking-wide text-gray-500 uppercase">
               <svg
@@ -257,8 +332,8 @@ export default function Preview({ data }: PreviewProps) {
               Interests
             </h2>
 
-            <p className="whitespace-pre-line text-gray-700">
-              {data.interests}
+            <p className="text-gray-700">
+              {interestEntries.map((entry) => entry.value).join(", ")}
             </p>
           </>
         )}

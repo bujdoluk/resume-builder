@@ -5,22 +5,64 @@ import Navbar from "@/components/Navbar";
 import Preview from "@/components/Preview";
 import Resume, {
   emptyResumeData,
+  type EducationEntry,
   type LanguageEntry,
   type ResumeData,
+  type SectionKey,
+  type SimpleEntry,
+  type WorkEntry,
 } from "@/components/Resume";
 import Sidebar from "@/components/Sidebar";
 
+const allSectionsVisible: Record<SectionKey, boolean> = {
+  workHistory: true,
+  education: true,
+  skills: true,
+  languages: true,
+  interests: true,
+};
+
 export default function Home() {
   const [data, setData] = useState<ResumeData>(emptyResumeData);
+  const [visibleSections, setVisibleSections] = useState(allSectionsVisible);
   const previewRef = useRef<HTMLDialogElement>(null);
 
   function handleChange(field: keyof ResumeData, value: string) {
     setData((prev) => ({ ...prev, [field]: value }));
   }
 
+  function handleWorkHistoryChange(workHistory: WorkEntry[]) {
+    setData((prev) => ({ ...prev, workHistory }));
+  }
+
+  function handleEducationChange(education: EducationEntry[]) {
+    setData((prev) => ({ ...prev, education }));
+  }
+
+  function handleSkillsChange(skills: SimpleEntry[]) {
+    setData((prev) => ({ ...prev, skills }));
+  }
+
   function handleLanguagesChange(languages: LanguageEntry[]) {
     setData((prev) => ({ ...prev, languages }));
   }
+
+  function handleInterestsChange(interests: SimpleEntry[]) {
+    setData((prev) => ({ ...prev, interests }));
+  }
+
+  function removeSection(key: SectionKey) {
+    setVisibleSections((prev) => ({ ...prev, [key]: false }));
+    setData((prev) => ({ ...prev, [key]: [] }));
+  }
+
+  function addSection(key: SectionKey) {
+    setVisibleSections((prev) => ({ ...prev, [key]: true }));
+  }
+
+  const hiddenSections = (Object.keys(visibleSections) as SectionKey[]).filter(
+    (key) => !visibleSections[key],
+  );
 
   return (
     <div className="drawer lg:drawer-open">
@@ -33,12 +75,18 @@ export default function Home() {
           <Resume
             data={data}
             onChange={handleChange}
+            onWorkHistoryChange={handleWorkHistoryChange}
+            onEducationChange={handleEducationChange}
+            onSkillsChange={handleSkillsChange}
             onLanguagesChange={handleLanguagesChange}
+            onInterestsChange={handleInterestsChange}
+            visibleSections={visibleSections}
+            onRemoveSection={removeSection}
           />
 
           <button
             type="button"
-            className="btn btn-primary btn-lg self-start"
+            className="btn btn-primary btn-lg sticky top-8 self-start"
             onClick={() => previewRef.current?.showModal()}
           >
             Preview
@@ -46,7 +94,7 @@ export default function Home() {
         </div>
       </div>
 
-      <Sidebar />
+      <Sidebar hiddenSections={hiddenSections} onAddSection={addSection} />
 
       <dialog ref={previewRef} className="modal">
         <div className="modal-box max-h-[90vh]! w-fit! max-w-none! overflow-y-auto! bg-transparent! p-0! shadow-none!">

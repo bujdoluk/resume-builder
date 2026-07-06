@@ -1,10 +1,19 @@
 "use client";
 
 import { useState } from "react";
+import { sectionLabels, type SectionKey } from "@/components/Resume";
 
 const sections = ["Personal Info", "Experience", "Education", "Skills"];
 
-export default function Sidebar() {
+interface SidebarProps {
+  hiddenSections: SectionKey[];
+  onAddSection: (key: SectionKey) => void;
+}
+
+export default function Sidebar({
+  hiddenSections,
+  onAddSection,
+}: SidebarProps) {
   const [collapsed, setCollapsed] = useState(false);
 
   return (
@@ -47,7 +56,7 @@ export default function Sidebar() {
           </button>
         </div>
 
-        <ul className="menu w-full flex-1 flex-nowrap p-4 pt-0">
+        <ul className="menu w-full flex-nowrap p-4 pt-0">
           {!collapsed && <li className="menu-title">Sections</li>}
           {sections.map((section) => (
             <li key={section}>
@@ -57,6 +66,26 @@ export default function Sidebar() {
             </li>
           ))}
         </ul>
+
+        {hiddenSections.length > 0 && !collapsed && (
+          <div className="border-base-300 flex-1 border-t p-4">
+            <p className="mb-2 text-xs font-semibold text-gray-400 uppercase">
+              Add Section
+            </p>
+            <div className="flex flex-col gap-1">
+              {hiddenSections.map((key) => (
+                <button
+                  key={key}
+                  type="button"
+                  className="btn btn-outline btn-xs justify-start"
+                  onClick={() => onAddSection(key)}
+                >
+                  + {sectionLabels[key]}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
