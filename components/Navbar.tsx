@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function Navbar() {
   return (
     <div className="navbar border-base-300 bg-base-100 border-b px-4">
@@ -23,7 +25,9 @@ export default function Navbar() {
         </label>
       </div>
       <div className="flex-1">
-        <span className="text-lg font-semibold">Resume Builder</span>
+        <Link href="/" className="text-lg font-semibold">
+          QuickResumeBuilder.online
+        </Link>
       </div>
     </div>
   );

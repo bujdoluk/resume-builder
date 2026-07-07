@@ -47,3 +47,32 @@ body {
   box-shadow: none;
   outline: none;
 }
+
+/* Modern template's dark sidebar: daisyUI buttons and rating stars don't
+   inherit the sidebar's light text color on their own (--btn-color and the
+   star's fill are separate from the inherited `color`), so force them here. */
+.modern-sidebar .btn {
+  --btn-color: #fff;
+}
+
+.modern-sidebar input.mask {
+  background-color: #fff;
+}
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+
+  #print-area,
+  #print-area * {
+    visibility: visible;
+  }
+
+  #print-area {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+  }
+}

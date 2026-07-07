@@ -1,9 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { sectionLabels, type SectionKey } from "@/components/Resume";
-
-const sections = ["Personal Info", "Experience", "Education", "Skills"];
+import Link from "next/link";
+import { sectionLabels, type SectionKey } from "@/lib/resumeData";
 
 interface SidebarProps {
   hiddenSections: SectionKey[];
@@ -57,14 +56,11 @@ export default function Sidebar({
         </div>
 
         <ul className="menu w-full flex-nowrap p-4 pt-0">
-          {!collapsed && <li className="menu-title">Sections</li>}
-          {sections.map((section) => (
-            <li key={section}>
-              <a title={collapsed ? section : undefined}>
-                {collapsed ? section.charAt(0) : section}
-              </a>
-            </li>
-          ))}
+          <li>
+            <Link href="/templates" title={collapsed ? "Templates" : undefined}>
+              {collapsed ? "T" : "Templates"}
+            </Link>
+          </li>
         </ul>
 
         {hiddenSections.length > 0 && !collapsed && (

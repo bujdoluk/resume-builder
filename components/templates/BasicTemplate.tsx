@@ -3,14 +3,14 @@ import {
   languageLevels,
   type ResumeData,
   type SectionKey,
-} from "@/components/Resume";
+} from "@/lib/resumeData";
 
-interface PreviewProps {
+export interface TemplateProps {
   data: ResumeData;
   sectionOrder: SectionKey[];
 }
 
-export default function Preview({ data, sectionOrder }: PreviewProps) {
+export default function BasicTemplate({ data, sectionOrder }: TemplateProps) {
   const fullName =
     [data.title, data.name].filter(Boolean).join(" ") || "Your Name";
 
@@ -33,10 +33,13 @@ export default function Preview({ data, sectionOrder }: PreviewProps) {
   );
 
   const skillEntries = data.skills.filter((entry) => entry.value);
+  const certificationEntries = data.certifications.filter(
+    (entry) => entry.name || entry.date,
+  );
   const languageEntries = data.languages.filter((entry) => entry.language);
   const interestEntries = data.interests.filter((entry) => entry.value);
 
-  const sectionContent: Record<SectionKey, React.ReactNode> = {
+  const sectionContent: Partial<Record<SectionKey, React.ReactNode>> = {
     workHistory: workEntries.length > 0 && (
       <>
         <h2 className="mt-4 mb-2 flex items-center gap-2 text-sm font-semibold tracking-wide text-gray-500 uppercase">
@@ -210,6 +213,39 @@ export default function Preview({ data, sectionOrder }: PreviewProps) {
       </>
     ),
 
+    certifications: certificationEntries.length > 0 && (
+      <>
+        <h2 className="mt-4 mb-2 flex items-center gap-2 text-sm font-semibold tracking-wide text-gray-500 uppercase">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            className="h-6 w-6 stroke-current"
+          >
+            <circle cx="12" cy="8" r="5" strokeWidth="1.5" />
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="1.5"
+              d="m8.5 12.5-1.5 7 5-3 5 3-1.5-7"
+            />
+          </svg>
+          Certifications
+        </h2>
+
+        <div className="space-y-1">
+          {certificationEntries.map((entry) => (
+            <p key={entry.id} className="text-gray-700">
+              <span className="font-semibold">{entry.name}</span>
+              {entry.date && (
+                <span className="text-sm text-gray-500"> · {entry.date}</span>
+              )}
+            </p>
+          ))}
+        </div>
+      </>
+    ),
+
     languages: languageEntries.length > 0 && (
       <>
         <h2 className="mt-4 mb-2 flex items-center gap-2 text-sm font-semibold tracking-wide text-gray-500 uppercase">
@@ -241,6 +277,7 @@ export default function Preview({ data, sectionOrder }: PreviewProps) {
               >
                 <span className="font-semibold">{entry.language}</span>
                 <div className="flex items-center gap-2">
+                  <span className="text-sm text-gray-500">{entry.level}</span>
                   <div className="rating rating-sm pointer-events-none">
                     {languageLevels.map((level, index) => (
                       <input
@@ -248,12 +285,10 @@ export default function Preview({ data, sectionOrder }: PreviewProps) {
                         type="radio"
                         aria-label={level}
                         className="mask mask-star"
-                        checked={index === levelIndex}
-                        onChange={() => {}}
+                        defaultChecked={index === levelIndex}
                       />
                     ))}
                   </div>
-                  <span className="text-sm text-gray-500">{entry.level}</span>
                 </div>
               </div>
             );

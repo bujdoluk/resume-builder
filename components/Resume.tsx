@@ -1,88 +1,31 @@
 "use client";
 
 import { Fragment } from "react";
+import {
+  emptyResumeData,
+  languageLevels,
+  sectionLabels,
+  type CertificationEntry,
+  type EducationEntry,
+  type LanguageEntry,
+  type ResumeData,
+  type SectionKey,
+  type SimpleEntry,
+  type WorkEntry,
+} from "@/lib/resumeData";
+import type { TemplateId } from "@/lib/templates";
 
-export interface LanguageEntry {
-  id: string;
-  language: string;
-  level: string;
-}
-
-export const languageLevels = [
-  "Beginner",
-  "Advanced",
-  "Full Professional Proficiency",
-  "Native Speaker",
-];
-
-export interface WorkEntry {
-  id: string;
-  position: string;
-  dateFrom: string;
-  dateTo: string;
-  location: string;
-  jobDescription: string;
-}
-
-export interface EducationEntry {
-  id: string;
-  subject: string;
-  location: string;
-  description: string;
-  dateFrom: string;
-  dateTo: string;
-}
-
-export interface SimpleEntry {
-  id: string;
-  value: string;
-}
-
-export type SectionKey =
-  | "workHistory"
-  | "education"
-  | "skills"
-  | "languages"
-  | "interests";
-
-export const sectionLabels: Record<SectionKey, string> = {
-  workHistory: "Work History",
-  education: "Education",
-  skills: "Skills",
-  languages: "Languages",
-  interests: "Interests",
-};
-
-export interface ResumeData {
-  photo: string;
-  title: string;
-  name: string;
-  jobTitle: string;
-  phone: string;
-  email: string;
-  address: string;
-  website: string;
-  workHistory: WorkEntry[];
-  education: EducationEntry[];
-  skills: SimpleEntry[];
-  languages: LanguageEntry[];
-  interests: SimpleEntry[];
-}
-
-export const emptyResumeData: ResumeData = {
-  photo: "",
-  title: "",
-  name: "",
-  jobTitle: "",
-  phone: "",
-  email: "",
-  address: "",
-  website: "",
-  workHistory: [],
-  education: [],
-  skills: [],
-  languages: [],
-  interests: [],
+export {
+  emptyResumeData,
+  languageLevels,
+  sectionLabels,
+  type CertificationEntry,
+  type EducationEntry,
+  type LanguageEntry,
+  type ResumeData,
+  type SectionKey,
+  type SimpleEntry,
+  type WorkEntry,
 };
 
 interface ResumeProps {
@@ -91,11 +34,21 @@ interface ResumeProps {
   onWorkHistoryChange: (workHistory: WorkEntry[]) => void;
   onEducationChange: (education: EducationEntry[]) => void;
   onSkillsChange: (skills: SimpleEntry[]) => void;
+  onCertificationsChange: (certifications: CertificationEntry[]) => void;
   onLanguagesChange: (languages: LanguageEntry[]) => void;
   onInterestsChange: (interests: SimpleEntry[]) => void;
   sectionOrder: SectionKey[];
   onRemoveSection: (key: SectionKey) => void;
+  templateId: TemplateId;
 }
+
+// Sections that render in the Modern template's sidebar column instead of
+// the main column. Mirrors the grouping in components/templates/ModernTemplate.tsx.
+const modernSidebarKeys: SectionKey[] = [
+  "skills",
+  "certifications",
+  "languages",
+];
 
 function RemoveButton({
   onClick,
@@ -132,43 +85,60 @@ function SectionHeader({
   icon,
   title,
   onRemoveSection,
+  minimal = false,
 }: {
   icon: React.ReactNode;
   title: string;
   onRemoveSection: () => void;
+  minimal?: boolean;
 }) {
+  const removeButton = (
+    <button
+      type="button"
+      aria-label={`Remove ${title} section`}
+      className="btn btn-square btn-ghost btn-xs"
+      onClick={onRemoveSection}
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        className="h-4 w-4 stroke-current"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="1.5"
+          d="M5 7h14M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2m2 0-.8 12.2a2 2 0 0 1-2 1.8H7.8a2 2 0 0 1-2-1.8L5 7Z"
+        />
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="1.5"
+          d="M10 11v6M14 11v6"
+        />
+      </svg>
+    </button>
+  );
+
+  if (minimal) {
+    return (
+      <div className="border-primary mt-6 mb-3 flex items-center justify-between border-b-2 pb-1">
+        <h2 className="text-sm font-bold tracking-[0.2em] uppercase">
+          {title}
+        </h2>
+        {removeButton}
+      </div>
+    );
+  }
+
   return (
     <div className="mt-4 mb-2 flex items-center justify-between">
       <h2 className="flex items-center gap-2 text-sm font-semibold tracking-wide text-gray-500 uppercase">
         {icon}
         {title}
       </h2>
-      <button
-        type="button"
-        aria-label={`Remove ${title} section`}
-        className="btn btn-square btn-ghost btn-xs"
-        onClick={onRemoveSection}
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          className="h-4 w-4 stroke-current"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="1.5"
-            d="M5 7h14M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2m2 0-.8 12.2a2 2 0 0 1-2 1.8H7.8a2 2 0 0 1-2-1.8L5 7Z"
-          />
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="1.5"
-            d="M10 11v6M14 11v6"
-          />
-        </svg>
-      </button>
+      {removeButton}
     </div>
   );
 }
@@ -179,10 +149,12 @@ export default function Resume({
   onWorkHistoryChange,
   onEducationChange,
   onSkillsChange,
+  onCertificationsChange,
   onLanguagesChange,
   onInterestsChange,
   sectionOrder,
   onRemoveSection,
+  templateId,
 }: ResumeProps) {
   function handlePhotoChange(event: React.ChangeEvent<HTMLInputElement>) {
     const file = event.target.files?.[0];
@@ -273,6 +245,31 @@ export default function Resume({
     onSkillsChange(data.skills.filter((entry) => entry.id !== id));
   }
 
+  function addCertification() {
+    onCertificationsChange([
+      ...data.certifications,
+      { id: crypto.randomUUID(), name: "", date: "" },
+    ]);
+  }
+
+  function updateCertification(
+    id: string,
+    field: "name" | "date",
+    value: string,
+  ) {
+    onCertificationsChange(
+      data.certifications.map((entry) =>
+        entry.id === id ? { ...entry, [field]: value } : entry,
+      ),
+    );
+  }
+
+  function removeCertification(id: string) {
+    onCertificationsChange(
+      data.certifications.filter((entry) => entry.id !== id),
+    );
+  }
+
   function addLanguage() {
     onLanguagesChange([
       ...data.languages,
@@ -315,12 +312,18 @@ export default function Resume({
     onInterestsChange(data.interests.filter((entry) => entry.id !== id));
   }
 
+  const entryCardClass =
+    templateId === "minimal"
+      ? "border-primary/40 flex flex-col gap-2 border-l-2 pl-3"
+      : "border-base-300 flex flex-col gap-2 rounded-lg border p-4";
+
   const sectionContent: Record<SectionKey, React.ReactNode> = {
     workHistory: (
       <>
         <SectionHeader
           title={sectionLabels.workHistory}
           onRemoveSection={() => onRemoveSection("workHistory")}
+          minimal={templateId === "minimal"}
           icon={
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -356,7 +359,7 @@ export default function Resume({
           {data.workHistory.map((entry) => (
             <div
               key={entry.id}
-              className="border-base-300 flex flex-col gap-2 rounded-lg border p-4"
+              className={entryCardClass}
             >
               <div className="flex items-start gap-2">
                 <fieldset className="fieldset flex-1">
@@ -448,6 +451,7 @@ export default function Resume({
         <SectionHeader
           title={sectionLabels.education}
           onRemoveSection={() => onRemoveSection("education")}
+          minimal={templateId === "minimal"}
           icon={
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -481,7 +485,7 @@ export default function Resume({
           {data.education.map((entry) => (
             <div
               key={entry.id}
-              className="border-base-300 flex flex-col gap-2 rounded-lg border p-4"
+              className={entryCardClass}
             >
               <div className="flex items-start gap-2">
                 <fieldset className="fieldset flex-1">
@@ -577,6 +581,7 @@ export default function Resume({
         <SectionHeader
           title={sectionLabels.skills}
           onRemoveSection={() => onRemoveSection("skills")}
+          minimal={templateId === "minimal"}
           icon={
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -624,11 +629,83 @@ export default function Resume({
       </>
     ),
 
+    certifications: (
+      <>
+        <SectionHeader
+          title={sectionLabels.certifications}
+          onRemoveSection={() => onRemoveSection("certifications")}
+          minimal={templateId === "minimal"}
+          icon={
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              className="h-6 w-6 stroke-current"
+            >
+              <circle cx="12" cy="8" r="5" strokeWidth="1.5" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="1.5"
+                d="m8.5 12.5-1.5 7 5-3 5 3-1.5-7"
+              />
+            </svg>
+          }
+        />
+
+        <div className="flex flex-col gap-2">
+          {data.certifications.map((entry) => (
+            <div key={entry.id} className="flex items-start gap-2">
+              <div className="flex flex-1 flex-col gap-2">
+                <fieldset className="fieldset">
+                  <input
+                    type="text"
+                    placeholder="Certification name"
+                    className="input w-full"
+                    value={entry.name}
+                    onChange={(e) =>
+                      updateCertification(entry.id, "name", e.target.value)
+                    }
+                  />
+                </fieldset>
+
+                <fieldset className="fieldset">
+                  <input
+                    type="text"
+                    placeholder="Date"
+                    className="input w-full"
+                    value={entry.date}
+                    onChange={(e) =>
+                      updateCertification(entry.id, "date", e.target.value)
+                    }
+                  />
+                </fieldset>
+              </div>
+
+              <RemoveButton
+                label="Remove certification"
+                onClick={() => removeCertification(entry.id)}
+              />
+            </div>
+          ))}
+
+          <button
+            type="button"
+            className="btn btn-outline btn-sm w-fit"
+            onClick={addCertification}
+          >
+            + Add Certification
+          </button>
+        </div>
+      </>
+    ),
+
     languages: (
       <>
         <SectionHeader
           title={sectionLabels.languages}
           onRemoveSection={() => onRemoveSection("languages")}
+          minimal={templateId === "minimal"}
           icon={
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -667,6 +744,9 @@ export default function Resume({
                   className="flex items-center gap-2"
                   aria-label="Language proficiency level"
                 >
+                  <span className="text-xs whitespace-nowrap text-gray-500">
+                    {entry.level}
+                  </span>
                   <div className="rating">
                     {languageLevels.map((level) => (
                       <input
@@ -682,9 +762,6 @@ export default function Resume({
                       />
                     ))}
                   </div>
-                  <span className="text-xs whitespace-nowrap text-gray-500">
-                    {entry.level}
-                  </span>
                 </div>
               </fieldset>
 
@@ -711,6 +788,7 @@ export default function Resume({
         <SectionHeader
           title={sectionLabels.interests}
           onRemoveSection={() => onRemoveSection("interests")}
+          minimal={templateId === "minimal"}
           icon={
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -759,128 +837,229 @@ export default function Resume({
     ),
   };
 
+  const avatarBgClass =
+    templateId === "modern"
+      ? "bg-white text-neutral"
+      : "bg-neutral text-neutral-content";
+
+  const avatarField = (
+    <label
+      className="avatar avatar-placeholder cursor-pointer items-center justify-center"
+      aria-label="Upload profile photo"
+    >
+      <div className={`h-32 w-32 rounded-full ${avatarBgClass}`}>
+        {data.photo ? (
+          // eslint-disable-next-line @next/next/no-img-element -- user-uploaded data URL, not an optimizable static asset
+          <img
+            src={data.photo}
+            alt="Profile photo"
+            className="h-full w-full object-cover"
+          />
+        ) : (
+          <div className="flex h-full w-full flex-col items-center justify-center gap-1">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              className="h-10 w-10 stroke-current"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="1.5"
+                d="M12 16.5V4.5m0 0-4 4m4-4 4 4M4.5 16.5v2a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2v-2"
+              />
+            </svg>
+            <span className="text-xs font-medium">Upload photo</span>
+          </div>
+        )}
+      </div>
+      <input
+        type="file"
+        accept="image/*"
+        className="hidden"
+        onChange={handlePhotoChange}
+      />
+    </label>
+  );
+
+  const titleField = (
+    <fieldset className="fieldset w-24">
+      <input
+        type="text"
+        name="title"
+        placeholder="Your title"
+        className="input w-full"
+        value={data.title}
+        onChange={(e) => onChange("title", e.target.value)}
+      />
+    </fieldset>
+  );
+
+  const nameField = (
+    <fieldset className="fieldset flex-1">
+      <input
+        type="text"
+        name="name"
+        placeholder="Your name"
+        className="input w-full"
+        value={data.name}
+        onChange={(e) => onChange("name", e.target.value)}
+      />
+    </fieldset>
+  );
+
+  const jobTitleField = (
+    <fieldset className="fieldset">
+      <input
+        type="text"
+        name="jobTitle"
+        placeholder="Your job title"
+        className="input w-full"
+        value={data.jobTitle}
+        onChange={(e) => onChange("jobTitle", e.target.value)}
+      />
+    </fieldset>
+  );
+
+  const phoneField = (
+    <fieldset className="fieldset">
+      <input
+        type="tel"
+        name="phone"
+        placeholder="Your phone"
+        className="input w-full"
+        value={data.phone}
+        onChange={(e) => onChange("phone", e.target.value)}
+      />
+    </fieldset>
+  );
+
+  const emailField = (
+    <fieldset className="fieldset">
+      <input
+        type="email"
+        name="email"
+        placeholder="Your email"
+        className="input w-full"
+        value={data.email}
+        onChange={(e) => onChange("email", e.target.value)}
+      />
+    </fieldset>
+  );
+
+  const addressField = (
+    <fieldset className="fieldset">
+      <input
+        type="text"
+        name="address"
+        placeholder="Your address"
+        className="input w-full"
+        value={data.address}
+        onChange={(e) => onChange("address", e.target.value)}
+      />
+    </fieldset>
+  );
+
+  const websiteField = (
+    <fieldset className="fieldset">
+      <input
+        type="text"
+        name="website"
+        placeholder="Your website"
+        className="input w-full"
+        value={data.website}
+        onChange={(e) => onChange("website", e.target.value)}
+      />
+    </fieldset>
+  );
+
+  if (templateId === "modern") {
+    const sidebarKeys = sectionOrder.filter((key) =>
+      modernSidebarKeys.includes(key),
+    );
+    const mainKeys = sectionOrder.filter(
+      (key) => !modernSidebarKeys.includes(key),
+    );
+
+    return (
+      <div className="grid w-[210mm] min-h-[297mm] grid-cols-[70mm_1fr] bg-white shadow-xl print:shadow-none">
+        <div className="modern-sidebar bg-neutral text-neutral-content flex flex-col gap-2 p-6">
+          {avatarField}
+          <div className="flex gap-2">
+            {titleField}
+            {nameField}
+          </div>
+          {jobTitleField}
+          {phoneField}
+          {emailField}
+          {addressField}
+          {websiteField}
+
+          {sidebarKeys.map((key) => (
+            <Fragment key={key}>{sectionContent[key]}</Fragment>
+          ))}
+        </div>
+
+        <div className="p-6">
+          {mainKeys.map((key) => (
+            <Fragment key={key}>{sectionContent[key]}</Fragment>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  if (templateId === "minimal") {
+    return (
+      <div className="w-[210mm] min-h-[297mm] bg-white shadow-xl print:shadow-none">
+        <div className="p-10">
+          <div className="flex flex-col items-center gap-2">
+            {avatarField}
+
+            <div className="flex items-end gap-2">
+              {titleField}
+              {nameField}
+            </div>
+            {jobTitleField}
+
+            <div className="flex w-full gap-2">
+              <div className="flex-1">{addressField}</div>
+              <div className="flex-1">{phoneField}</div>
+              <div className="flex-1">{emailField}</div>
+              <div className="flex-1">{websiteField}</div>
+            </div>
+          </div>
+
+          {sectionOrder.map((key) => (
+            <Fragment key={key}>{sectionContent[key]}</Fragment>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="w-[210mm] min-h-[297mm] bg-white shadow-xl print:shadow-none">
       <div className="p-8">
         <div className="grid grid-cols-2 gap-x-4">
           <div className="col-span-2 flex gap-6">
-            <label
-              className="avatar avatar-placeholder cursor-pointer items-center justify-center"
-              aria-label="Upload profile photo"
-            >
-              <div className="bg-neutral text-neutral-content h-50 rounded-full">
-                {data.photo ? (
-                  // eslint-disable-next-line @next/next/no-img-element -- user-uploaded data URL, not an optimizable static asset
-                  <img
-                    src={data.photo}
-                    alt="Profile photo"
-                    className="h-full w-full object-cover"
-                  />
-                ) : (
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    className="h-1/2 w-1/2 stroke-current"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="1.5"
-                      d="M12 16.5V4.5m0 0-4 4m4-4 4 4M4.5 16.5v2a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2v-2"
-                    />
-                  </svg>
-                )}
-              </div>
-              <input
-                type="file"
-                accept="image/*"
-                className="hidden"
-                onChange={handlePhotoChange}
-              />
-            </label>
+            {avatarField}
 
             <div className="flex flex-1 flex-col justify-center gap-2">
               <div className="flex items-end gap-2">
-                <fieldset className="fieldset w-24">
-                  <input
-                    type="text"
-                    name="title"
-                    placeholder="Your title"
-                    className="input w-full"
-                    value={data.title}
-                    onChange={(e) => onChange("title", e.target.value)}
-                  />
-                </fieldset>
-
-                <fieldset className="fieldset flex-1">
-                  <input
-                    type="text"
-                    name="name"
-                    placeholder="Your name"
-                    className="input w-full"
-                    value={data.name}
-                    onChange={(e) => onChange("name", e.target.value)}
-                  />
-                </fieldset>
+                {titleField}
+                {nameField}
               </div>
-
-              <fieldset className="fieldset">
-                <input
-                  type="text"
-                  name="jobTitle"
-                  placeholder="Your job title"
-                  className="input w-full"
-                  value={data.jobTitle}
-                  onChange={(e) => onChange("jobTitle", e.target.value)}
-                />
-              </fieldset>
+              {jobTitleField}
             </div>
           </div>
 
-          <fieldset className="fieldset">
-            <input
-              type="tel"
-              name="phone"
-              placeholder="Your phone"
-              className="input w-full"
-              value={data.phone}
-              onChange={(e) => onChange("phone", e.target.value)}
-            />
-          </fieldset>
+          {phoneField}
+          {emailField}
 
-          <fieldset className="fieldset">
-            <input
-              type="email"
-              name="email"
-              placeholder="Your email"
-              className="input w-full"
-              value={data.email}
-              onChange={(e) => onChange("email", e.target.value)}
-            />
-          </fieldset>
-
-          <fieldset className="fieldset col-span-2">
-            <input
-              type="text"
-              name="address"
-              placeholder="Your address"
-              className="input w-full"
-              value={data.address}
-              onChange={(e) => onChange("address", e.target.value)}
-            />
-          </fieldset>
-
-          <fieldset className="fieldset col-span-2">
-            <input
-              type="text"
-              name="website"
-              placeholder="Your website"
-              className="input w-full"
-              value={data.website}
-              onChange={(e) => onChange("website", e.target.value)}
-            />
-          </fieldset>
+          <div className="col-span-2">{addressField}</div>
+          <div className="col-span-2">{websiteField}</div>
         </div>
 
         {sectionOrder.map((key) => (

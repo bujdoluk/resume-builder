@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Resume Builder",
+  title: "QuickResumeBuilder.online",
   description: "Build and preview your resume",
 };
 
