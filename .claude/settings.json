@@ -3,7 +3,8 @@
     "allow": [
       "Bash(pkill -f \"next dev\")",
       "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:3000/)",
-      "Bash(curl -s -o /tmp/home5.html -w \"%{http_code}\\\\n\" http://localhost:3000/)"
+      "Bash(curl -s -o /tmp/home5.html -w \"%{http_code}\\\\n\" http://localhost:3000/)",
+      "Bash(curl -s -o /tmp/homeP.html -w \"%{http_code}\\\\n\" http://localhost:3000/)"
     ]
   }
 }

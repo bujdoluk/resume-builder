@@ -14,17 +14,17 @@ import Resume, {
 } from "@/components/Resume";
 import Sidebar from "@/components/Sidebar";
 
-const allSectionsVisible: Record<SectionKey, boolean> = {
-  workHistory: true,
-  education: true,
-  skills: true,
-  languages: true,
-  interests: true,
-};
+const allSections: SectionKey[] = [
+  "workHistory",
+  "education",
+  "skills",
+  "languages",
+  "interests",
+];
 
 export default function Home() {
   const [data, setData] = useState<ResumeData>(emptyResumeData);
-  const [visibleSections, setVisibleSections] = useState(allSectionsVisible);
+  const [sectionOrder, setSectionOrder] = useState<SectionKey[]>(allSections);
   const previewRef = useRef<HTMLDialogElement>(null);
 
   function handleChange(field: keyof ResumeData, value: string) {
@@ -52,16 +52,16 @@ export default function Home() {
   }
 
   function removeSection(key: SectionKey) {
-    setVisibleSections((prev) => ({ ...prev, [key]: false }));
+    setSectionOrder((prev) => prev.filter((section) => section !== key));
     setData((prev) => ({ ...prev, [key]: [] }));
   }
 
   function addSection(key: SectionKey) {
-    setVisibleSections((prev) => ({ ...prev, [key]: true }));
+    setSectionOrder((prev) => [...prev, key]);
   }
 
-  const hiddenSections = (Object.keys(visibleSections) as SectionKey[]).filter(
-    (key) => !visibleSections[key],
+  const hiddenSections = allSections.filter(
+    (key) => !sectionOrder.includes(key),
   );
 
   return (
@@ -80,7 +80,7 @@ export default function Home() {
             onSkillsChange={handleSkillsChange}
             onLanguagesChange={handleLanguagesChange}
             onInterestsChange={handleInterestsChange}
-            visibleSections={visibleSections}
+            sectionOrder={sectionOrder}
             onRemoveSection={removeSection}
           />
 
@@ -98,7 +98,7 @@ export default function Home() {
 
       <dialog ref={previewRef} className="modal">
         <div className="modal-box max-h-[90vh]! w-fit! max-w-none! overflow-y-auto! bg-transparent! p-0! shadow-none!">
-          <Preview data={data} />
+          <Preview data={data} sectionOrder={sectionOrder} />
         </div>
         <form method="dialog" className="modal-backdrop">
           <button>close</button>

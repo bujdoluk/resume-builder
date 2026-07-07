@@ -25,3 +25,25 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+.input,
+.select,
+.textarea {
+  background-color: transparent;
+  border-color: transparent;
+  border-radius: 0;
+  border-bottom: 1px solid var(--color-base-300);
+  box-shadow: none;
+}
+
+.input:focus,
+.input:focus-within,
+.select:focus,
+.select:focus-within,
+.textarea:focus,
+.textarea:focus-within {
+  border-color: transparent;
+  border-bottom-color: var(--color-primary);
+  box-shadow: none;
+  outline: none;
+}
