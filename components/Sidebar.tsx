@@ -2,18 +2,47 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import {
+  allFields,
+  allSections,
+  fieldLabels,
+  useAppState,
+  type FieldKey,
+} from "@/components/AppState";
+import { rows } from "@/lib/color";
+import { fontRows } from "@/lib/fonts";
 import { sectionLabels, type SectionKey } from "@/lib/resumeData";
 
-interface SidebarProps {
-  hiddenSections: SectionKey[];
-  onAddSection: (key: SectionKey) => void;
-}
+export default function Sidebar() {
+  const {
+    color,
+    setColor,
+    font,
+    setFont,
+    sectionOrder,
+    setSectionOrder,
+    visibleFields,
+    setVisibleFields,
+  } = useAppState();
 
-export default function Sidebar({
-  hiddenSections,
-  onAddSection,
-}: SidebarProps) {
+  function toggleSection(key: SectionKey, enabled: boolean) {
+    setSectionOrder((prev) =>
+      enabled ? [...prev, key] : prev.filter((section) => section !== key),
+    );
+  }
+
+  function toggleField(key: FieldKey, enabled: boolean) {
+    setVisibleFields((prev) =>
+      enabled ? [...prev, key] : prev.filter((field) => field !== key),
+    );
+  }
+
   const [collapsed, setCollapsed] = useState(false);
+
+  const isPresetColor = rows.some((row) =>
+    row.some((swatch) => swatch.value === color),
+  );
+  const isCustomSelected = color !== null && !isPresetColor;
 
   return (
     <div className="drawer-side">
@@ -25,7 +54,7 @@ export default function Sidebar({
 
       <div
         className={`bg-base-100 border-base-300 flex min-h-full flex-col border-r transition-[width] duration-200 ${
-          collapsed ? "w-16" : "w-64"
+          collapsed ? "w-20" : "w-80"
         }`}
       >
         <div
@@ -35,7 +64,7 @@ export default function Sidebar({
             type="button"
             onClick={() => setCollapsed((value) => !value)}
             aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
-            className="btn btn-square btn-ghost btn-sm"
+            className="btn btn-square btn-ghost btn-sm flex items-center justify-center"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -57,27 +86,187 @@ export default function Sidebar({
 
         <ul className="menu w-full flex-nowrap p-4 pt-0">
           <li>
-            <Link href="/templates" title={collapsed ? "Templates" : undefined}>
-              {collapsed ? "T" : "Templates"}
+            <Link
+              href="/templates"
+              title={collapsed ? "Templates" : undefined}
+              className={`flex items-center ${collapsed ? "justify-center" : ""}`}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                className="h-7 w-7 stroke-current"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="1.5"
+                  d="M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6A2.25 2.25 0 0 1 3.75 18v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25A2.25 2.25 0 0 1 13.5 18v-2.25Z"
+                />
+              </svg>
+              {!collapsed && "Templates"}
             </Link>
+          </li>
+          <li>
+            <button
+              type="button"
+              onClick={() => setCollapsed(false)}
+              aria-label="Show features"
+              title={collapsed ? "Features" : undefined}
+              className={`flex items-center ${collapsed ? "justify-center" : ""}`}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                className="h-7 w-7 stroke-current"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="1.5"
+                  d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                />
+              </svg>
+              {!collapsed && "Features"}
+            </button>
           </li>
         </ul>
 
-        {hiddenSections.length > 0 && !collapsed && (
-          <div className="border-base-300 flex-1 border-t p-4">
+        {!collapsed && (
+          <div className="border-base-300 flex-1 overflow-y-auto border-t p-4">
             <p className="mb-2 text-xs font-semibold text-gray-400 uppercase">
-              Add Section
+              Features
             </p>
-            <div className="flex flex-col gap-1">
-              {hiddenSections.map((key) => (
-                <button
-                  key={key}
-                  type="button"
-                  className="btn btn-outline btn-xs justify-start"
-                  onClick={() => onAddSection(key)}
-                >
-                  + {sectionLabels[key]}
-                </button>
+            <div className="flex flex-col gap-2">
+              {allFields.map((key) => {
+                const enabled = visibleFields.includes(key);
+                return (
+                  <label
+                    key={key}
+                    className="flex cursor-pointer items-center gap-2 text-sm"
+                  >
+                    <input
+                      type="checkbox"
+                      className="checkbox checkbox-sm"
+                      checked={enabled}
+                      onChange={() => toggleField(key, !enabled)}
+                    />
+                    {fieldLabels[key]}
+                  </label>
+                );
+              })}
+
+              {allSections.map((key) => {
+                const enabled = sectionOrder.includes(key);
+                return (
+                  <label
+                    key={key}
+                    className="flex cursor-pointer items-center gap-2 text-sm"
+                  >
+                    <input
+                      type="checkbox"
+                      className="checkbox checkbox-sm"
+                      checked={enabled}
+                      onChange={() => toggleSection(key, !enabled)}
+                    />
+                    {sectionLabels[key]}
+                  </label>
+                );
+              })}
+            </div>
+
+            <p className="mt-4 mb-2 text-xs font-semibold text-gray-400 uppercase">
+              Accent Color
+            </p>
+            <div className="flex flex-col gap-2">
+              {rows.map((row, rowIndex) => (
+                <div key={row[0].name} className="flex gap-2">
+                  {row.map((swatch) => (
+                    <button
+                      key={swatch.value}
+                      type="button"
+                      aria-label={swatch.name}
+                      title={swatch.name}
+                      className={`h-8 w-8 shrink-0 rounded-full border border-black/10 ${
+                        color === swatch.value ? "ring-2 ring-offset-1" : ""
+                      }`}
+                      style={{
+                        backgroundColor: swatch.value,
+                        ...(color === swatch.value
+                          ? ({
+                              "--tw-ring-color": swatch.value,
+                            } as React.CSSProperties)
+                          : {}),
+                      }}
+                      onClick={() => setColor(swatch.value)}
+                    />
+                  ))}
+
+                  {rowIndex === rows.length - 1 && (
+                    <span
+                      className={`relative flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-black/10 bg-base-200 ${
+                        isCustomSelected ? "ring-2 ring-offset-1" : ""
+                      }`}
+                      style={
+                        isCustomSelected
+                          ? ({
+                              "--tw-ring-color": color,
+                            } as React.CSSProperties)
+                          : undefined
+                      }
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        className="pointer-events-none h-4 w-4 stroke-current"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="1.5"
+                          d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125"
+                        />
+                      </svg>
+                      <input
+                        type="color"
+                        aria-label="Custom color"
+                        title="Custom color"
+                        className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
+                        value={color ?? "#000000"}
+                        onChange={(e) => setColor(e.target.value)}
+                      />
+                    </span>
+                  )}
+                </div>
+              ))}
+            </div>
+
+            <p className="mt-4 mb-2 text-xs font-semibold text-gray-400 uppercase">
+              Typography
+            </p>
+            <div className="flex flex-col gap-2">
+              {fontRows.map((row) => (
+                <div key={row[0].key} className="flex gap-2">
+                  {row.map((option) => (
+                    <button
+                      key={option.key}
+                      type="button"
+                      aria-label={option.name}
+                      title={option.name}
+                      className={`bg-base-200 flex h-11 flex-1 items-center justify-center overflow-hidden rounded-md border border-black/10 px-1 text-center text-[10px] leading-tight ${
+                        font === option.key
+                          ? "ring-primary ring-2 ring-offset-1"
+                          : ""
+                      }`}
+                      style={{ fontFamily: option.variable }}
+                      onClick={() => setFont(option.key)}
+                    >
+                      {option.name}
+                    </button>
+                  ))}
+                </div>
               ))}
             </div>
           </div>

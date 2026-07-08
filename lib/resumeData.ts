@@ -66,6 +66,8 @@ export interface ResumeData {
   email: string;
   address: string;
   website: string;
+  linkedin: string;
+  aboutMe: string;
   workHistory: WorkEntry[];
   education: EducationEntry[];
   skills: SimpleEntry[];
@@ -83,6 +85,8 @@ export const emptyResumeData: ResumeData = {
   email: "",
   address: "",
   website: "",
+  linkedin: "",
+  aboutMe: "",
   workHistory: [],
   education: [],
   skills: [],

@@ -1,14 +1,35 @@
 import { Fragment } from "react";
+import type { FieldKey } from "@/components/AppState";
+import {
+  AddressIcon,
+  EmailIcon,
+  LinkedInIcon,
+  PhoneIcon,
+  WebsiteIcon,
+} from "@/components/Icons";
+import { fontsByKey, type FontKey } from "@/lib/fonts";
 import type { ResumeData, SectionKey } from "@/lib/resumeData";
 
 export interface TemplateProps {
   data: ResumeData;
   sectionOrder: SectionKey[];
+  color?: string | null;
+  font?: FontKey | null;
+  visibleFields?: FieldKey[];
 }
 
-function SectionTitle({ children }: { children: React.ReactNode }) {
+function SectionTitle({
+  children,
+  color,
+}: {
+  children: React.ReactNode;
+  color?: string | null;
+}) {
   return (
-    <h2 className="border-primary mt-6 mb-3 border-b-2 pb-1 text-sm font-bold tracking-[0.2em] uppercase">
+    <h2
+      className="border-primary mt-6 mb-3 border-b-2 pb-1 text-sm font-bold tracking-[0.2em] uppercase"
+      style={color ? { borderColor: color } : undefined}
+    >
       {children}
     </h2>
   );
@@ -18,16 +39,44 @@ function SectionTitle({ children }: { children: React.ReactNode }) {
  * Third template: a clean, centered-header single column with no icons or
  * timeline dots — entries are set off with a thin left accent border instead.
  */
-export default function MinimalTemplate({ data, sectionOrder }: TemplateProps) {
-  const fullName =
-    [data.title, data.name].filter(Boolean).join(" ") || "Your Name";
+export default function MinimalTemplate({
+  data,
+  sectionOrder,
+  color,
+  font,
+  visibleFields,
+}: TemplateProps) {
+  const isVisible = (key: FieldKey) =>
+    !visibleFields || visibleFields.includes(key);
+  const fontFamily = font ? fontsByKey[font].variable : undefined;
 
-  const contactParts = [
-    data.address,
-    data.phone,
-    data.email,
-    data.website,
-  ].filter(Boolean);
+  const fullName =
+    [
+      isVisible("title") && data.title,
+      isVisible("name") && data.name,
+    ]
+      .filter(Boolean)
+      .join(" ") || "Your Name";
+
+  type ContactPart = { Icon: typeof AddressIcon; value: string };
+
+  const contactParts: ContactPart[] = [
+    data.address && isVisible("address")
+      ? { Icon: AddressIcon, value: data.address }
+      : null,
+    data.phone && isVisible("phone")
+      ? { Icon: PhoneIcon, value: data.phone }
+      : null,
+    data.email && isVisible("email")
+      ? { Icon: EmailIcon, value: data.email }
+      : null,
+    data.website && isVisible("website")
+      ? { Icon: WebsiteIcon, value: data.website }
+      : null,
+    data.linkedin && isVisible("linkedin")
+      ? { Icon: LinkedInIcon, value: data.linkedin }
+      : null,
+  ].filter((part): part is ContactPart => part !== null);
 
   const workEntries = data.workHistory.filter(
     (entry) =>
@@ -57,7 +106,7 @@ export default function MinimalTemplate({ data, sectionOrder }: TemplateProps) {
   const sectionContent: Partial<Record<SectionKey, React.ReactNode>> = {
     workHistory: workEntries.length > 0 && (
       <>
-        <SectionTitle>Work History</SectionTitle>
+        <SectionTitle color={color}>Work History</SectionTitle>
         <div className="flex flex-col gap-4">
           {workEntries.map((entry) => {
             const dateRange = [entry.dateFrom, entry.dateTo]
@@ -96,7 +145,7 @@ export default function MinimalTemplate({ data, sectionOrder }: TemplateProps) {
 
     education: educationEntries.length > 0 && (
       <>
-        <SectionTitle>Education</SectionTitle>
+        <SectionTitle color={color}>Education</SectionTitle>
         <div className="flex flex-col gap-4">
           {educationEntries.map((entry) => {
             const dateRange = [entry.dateFrom, entry.dateTo]
@@ -135,7 +184,7 @@ export default function MinimalTemplate({ data, sectionOrder }: TemplateProps) {
 
     skills: skillEntries.length > 0 && (
       <>
-        <SectionTitle>Skills</SectionTitle>
+        <SectionTitle color={color}>Skills</SectionTitle>
         <p className="text-gray-700">
           {skillEntries.map((entry) => entry.value).join(" · ")}
         </p>
@@ -144,7 +193,7 @@ export default function MinimalTemplate({ data, sectionOrder }: TemplateProps) {
 
     certifications: certificationEntries.length > 0 && (
       <>
-        <SectionTitle>Certifications</SectionTitle>
+        <SectionTitle color={color}>Certifications</SectionTitle>
         <div className="flex flex-col gap-1">
           {certificationEntries.map((entry) => (
             <p key={entry.id} className="text-gray-700">
@@ -160,7 +209,7 @@ export default function MinimalTemplate({ data, sectionOrder }: TemplateProps) {
 
     languages: languageEntries.length > 0 && (
       <>
-        <SectionTitle>Languages</SectionTitle>
+        <SectionTitle color={color}>Languages</SectionTitle>
         <p className="text-gray-700">
           {languageEntries
             .map((entry) => `${entry.language} (${entry.level})`)
@@ -171,7 +220,7 @@ export default function MinimalTemplate({ data, sectionOrder }: TemplateProps) {
 
     interests: interestEntries.length > 0 && (
       <>
-        <SectionTitle>Interests</SectionTitle>
+        <SectionTitle color={color}>Interests</SectionTitle>
         <p className="text-gray-700">
           {interestEntries.map((entry) => entry.value).join(" · ")}
         </p>
@@ -180,10 +229,13 @@ export default function MinimalTemplate({ data, sectionOrder }: TemplateProps) {
   };
 
   return (
-    <div className="w-[210mm] min-h-[297mm] bg-white shadow-xl print:shadow-none">
+    <div
+      className="w-[210mm] min-h-[297mm] bg-white shadow-xl print:shadow-none"
+      style={{ fontFamily }}
+    >
       <div className="p-10">
         <div className="flex flex-col items-center text-center">
-          {data.photo && (
+          {data.photo && isVisible("photo") && (
             <div className="avatar mb-3">
               <div className="w-20 rounded-full">
                 {/* eslint-disable-next-line @next/next/no-img-element -- user-uploaded data URL, not an optimizable static asset */}
@@ -197,17 +249,31 @@ export default function MinimalTemplate({ data, sectionOrder }: TemplateProps) {
           )}
 
           <h1 className="text-3xl font-bold tracking-wide">{fullName}</h1>
-          {data.jobTitle && (
+          {data.jobTitle && isVisible("jobTitle") && (
             <p className="text-primary mt-1 text-sm font-semibold tracking-[0.15em] uppercase">
               {data.jobTitle}
             </p>
           )}
           {contactParts.length > 0 && (
-            <p className="mt-2 text-sm text-gray-500">
-              {contactParts.join("   ·   ")}
-            </p>
+            <div className="mt-2 flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-sm text-gray-500">
+              {contactParts.map(({ Icon, value }, index) => (
+                <span key={index} className="flex items-center gap-1.5">
+                  <Icon className="h-4 w-4 shrink-0 stroke-current" />
+                  {value}
+                </span>
+              ))}
+            </div>
           )}
         </div>
+
+        {data.aboutMe && isVisible("aboutMe") && (
+          <>
+            <SectionTitle color={color}>About Me</SectionTitle>
+            <p className="whitespace-pre-line text-gray-700">
+              {data.aboutMe}
+            </p>
+          </>
+        )}
 
         {sectionOrder.map((key) => (
           <Fragment key={key}>{sectionContent[key]}</Fragment>

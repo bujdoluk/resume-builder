@@ -9,6 +9,9 @@ export const sampleResumeData: ResumeData = {
   email: "jane.doe@example.com",
   address: "123 Main St, New York, 10001, United States",
   website: "janedoe.com",
+  linkedin: "linkedin.com/in/janedoe",
+  aboutMe:
+    "Product designer with 8+ years of experience leading end-to-end design for consumer and B2B products, from research through shipping polished, accessible interfaces.",
   workHistory: [
     {
       id: "sample-work-1",

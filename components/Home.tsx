@@ -1,9 +1,9 @@
 "use client";
 
 import { useRef, useState } from "react";
+import { useAppState } from "@/components/AppState";
 import Navbar from "@/components/Navbar";
 import Resume from "@/components/Resume";
-import Sidebar from "@/components/Sidebar";
 import {
   emptyResumeData,
   type CertificationEntry,
@@ -20,22 +20,6 @@ import {
   type TemplateId,
 } from "@/lib/templates";
 
-const allSections: SectionKey[] = [
-  "workHistory",
-  "education",
-  "skills",
-  "certifications",
-  "languages",
-  "interests",
-];
-
-// Certifications is opt-in: it's a valid section for any template, but
-// starts out of sectionOrder so it only appears once added via the
-// sidebar's "Add Section" list.
-const defaultSectionOrder: SectionKey[] = allSections.filter(
-  (key) => key !== "certifications",
-);
-
 function resolveTemplateId(id: string | undefined): TemplateId {
   return templates.some((template) => template.id === id)
     ? (id as TemplateId)
@@ -48,12 +32,12 @@ interface HomeProps {
 
 export default function Home({ initialTemplateId }: HomeProps) {
   const templateId = resolveTemplateId(initialTemplateId);
+  const { color, font, sectionOrder, setSectionOrder, visibleFields } =
+    useAppState();
   const [data, setData] = useState<ResumeData>(emptyResumeData);
-  const [sectionOrder, setSectionOrder] =
-    useState<SectionKey[]>(defaultSectionOrder);
   const [isGeneratingPdf, setIsGeneratingPdf] = useState(false);
   const previewRef = useRef<HTMLDialogElement>(null);
-  const printAreaRef = useRef<HTMLDivElement>(null);
+  const pdfAreaRef = useRef<HTMLDivElement>(null);
 
   function handleChange(field: keyof ResumeData, value: string) {
     setData((prev) => ({ ...prev, [field]: value }));
@@ -88,17 +72,8 @@ export default function Home({ initialTemplateId }: HomeProps) {
     setData((prev) => ({ ...prev, [key]: [] }));
   }
 
-  function addSection(key: SectionKey) {
-    setSectionOrder((prev) => [...prev, key]);
-  }
-
-  function handlePrint() {
-    previewRef.current?.showModal();
-    window.print();
-  }
-
   async function handleDownloadPdf() {
-    const source = printAreaRef.current;
+    const source = pdfAreaRef.current;
     if (!source || isGeneratingPdf) return;
 
     setIsGeneratingPdf(true);
@@ -147,83 +122,74 @@ export default function Home({ initialTemplateId }: HomeProps) {
     }
   }
 
-  const hiddenSections = allSections.filter(
-    (key) => !sectionOrder.includes(key),
-  );
-
   const TemplateComponent =
     templates.find((template) => template.id === templateId)?.component ??
     templates[0].component;
 
   return (
-    <div className="drawer lg:drawer-open">
-      <input id="sidebar-drawer" type="checkbox" className="drawer-toggle" />
+    <>
+      <Navbar />
 
-      <div className="drawer-content flex flex-col">
-        <Navbar />
+      <div className="bg-base-200 flex flex-1 justify-center gap-8 p-8">
+        <Resume
+          data={data}
+          onChange={handleChange}
+          onWorkHistoryChange={handleWorkHistoryChange}
+          onEducationChange={handleEducationChange}
+          onSkillsChange={handleSkillsChange}
+          onCertificationsChange={handleCertificationsChange}
+          onLanguagesChange={handleLanguagesChange}
+          onInterestsChange={handleInterestsChange}
+          sectionOrder={sectionOrder}
+          onRemoveSection={removeSection}
+          templateId={templateId}
+          color={color}
+          font={font}
+          visibleFields={visibleFields}
+        />
 
-        <div className="bg-base-200 flex flex-1 justify-center gap-8 p-8">
-          <Resume
-            data={data}
-            onChange={handleChange}
-            onWorkHistoryChange={handleWorkHistoryChange}
-            onEducationChange={handleEducationChange}
-            onSkillsChange={handleSkillsChange}
-            onCertificationsChange={handleCertificationsChange}
-            onLanguagesChange={handleLanguagesChange}
-            onInterestsChange={handleInterestsChange}
-            sectionOrder={sectionOrder}
-            onRemoveSection={removeSection}
-            templateId={templateId}
-          />
+        <div className="sticky top-8 flex flex-col gap-2 self-start">
+          <button
+            type="button"
+            className="btn btn-primary btn-lg"
+            onClick={() => previewRef.current?.showModal()}
+          >
+            Preview
+          </button>
 
-          <div className="sticky top-8 flex flex-col gap-2 self-start">
-            <button
-              type="button"
-              className="btn btn-primary btn-lg"
-              onClick={() => previewRef.current?.showModal()}
-            >
-              Preview
-            </button>
-
-            <button
-              type="button"
-              className="btn btn-outline"
-              onClick={handlePrint}
-            >
-              Print / Save PDF
-            </button>
-
-            <button
-              type="button"
-              className="btn btn-outline"
-              disabled={isGeneratingPdf}
-              onClick={handleDownloadPdf}
-            >
-              {isGeneratingPdf ? (
-                <span className="loading loading-spinner loading-sm" />
-              ) : (
-                "Download PDF"
-              )}
-            </button>
-          </div>
+          <button
+            type="button"
+            className="btn btn-outline"
+            disabled={isGeneratingPdf}
+            onClick={handleDownloadPdf}
+          >
+            {isGeneratingPdf ? (
+              <span className="loading loading-spinner loading-sm" />
+            ) : (
+              "Download PDF"
+            )}
+          </button>
         </div>
       </div>
 
-      <Sidebar hiddenSections={hiddenSections} onAddSection={addSection} />
-
       <dialog ref={previewRef} className="modal">
         <div
-          id="print-area"
-          ref={printAreaRef}
+          id="pdf-area"
+          ref={pdfAreaRef}
           className="modal-box max-h-[90vh]! w-fit! max-w-none! overflow-y-auto! bg-transparent! p-0! shadow-none!"
         >
-          <TemplateComponent data={data} sectionOrder={sectionOrder} />
+          <TemplateComponent
+            data={data}
+            sectionOrder={sectionOrder}
+            color={color}
+            font={font}
+            visibleFields={visibleFields}
+          />
         </div>
         <form method="dialog" className="modal-backdrop">
           <button>close</button>
         </form>
       </dialog>
-    </div>
+    </>
   );
 }

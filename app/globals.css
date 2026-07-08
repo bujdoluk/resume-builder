@@ -34,6 +34,7 @@ body {
   border-radius: 0;
   border-bottom: 1px solid var(--color-base-300);
   box-shadow: none;
+  font-size: 1.05rem;
 }
 
 .input:focus,
@@ -48,6 +49,14 @@ body {
   outline: none;
 }
 
+.input::placeholder,
+.select::placeholder,
+.textarea::placeholder,
+.input input::placeholder {
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
 /* Modern template's dark sidebar: daisyUI buttons and rating stars don't
    inherit the sidebar's light text color on their own (--btn-color and the
    star's fill are separate from the inherited `color`), so force them here. */
@@ -59,20 +68,29 @@ body {
   background-color: #fff;
 }
 
-@media print {
-  body * {
-    visibility: hidden;
-  }
+/* Placeholder color is hardcoded by daisyUI to a light-theme dark color, so
+   it's invisible against the dark sidebar's black background — force it
+   light there. Icons use text-gray-500 directly (not currentColor), so they
+   need the same treatment.
+   Both read --sidebar-fg (set inline on .modern-sidebar itself, computed
+   from the picked background color for readable contrast; defaults to white
+   for the template's default black background) rather than a hardcoded
+   white, and both need !important: the accent-color picker also sets an
+   inline `style={{ color }}` on these same elements, which would otherwise
+   win and render text/icons in the exact color of the background they sit
+   on, making them disappear. */
+.modern-sidebar {
+  --sidebar-fg: #fff;
+}
 
-  #print-area,
-  #print-area * {
-    visibility: visible;
-  }
+.modern-sidebar .input::placeholder,
+.modern-sidebar .textarea::placeholder,
+.modern-sidebar .input input::placeholder {
+  color: var(--sidebar-fg) !important;
+  opacity: 0.6;
+}
 
-  #print-area {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-  }
+.modern-sidebar .text-gray-500 {
+  color: var(--sidebar-fg) !important;
+  opacity: 0.7;
 }

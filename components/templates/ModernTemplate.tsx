@@ -1,4 +1,21 @@
 import { Fragment } from "react";
+import type { FieldKey } from "@/components/AppState";
+import {
+  AboutMeIcon,
+  AddressIcon,
+  CertificationsIcon,
+  EducationIcon,
+  EmailIcon,
+  InterestsIcon,
+  LanguagesIcon,
+  LinkedInIcon,
+  PhoneIcon,
+  SkillsIcon,
+  WebsiteIcon,
+  WorkHistoryIcon,
+} from "@/components/Icons";
+import { getContrastTextColor } from "@/lib/color";
+import { fontsByKey, type FontKey } from "@/lib/fonts";
 import {
   languageLevels,
   type ResumeData,
@@ -8,6 +25,9 @@ import {
 export interface TemplateProps {
   data: ResumeData;
   sectionOrder: SectionKey[];
+  color?: string | null;
+  font?: FontKey | null;
+  visibleFields?: FieldKey[];
 }
 
 /**
@@ -16,9 +36,24 @@ export interface TemplateProps {
  * swap the JSX below for your own look while keeping the same TemplateProps
  * shape so it drops straight into the templates registry.
  */
-export default function ModernTemplate({ data, sectionOrder }: TemplateProps) {
+export default function ModernTemplate({
+  data,
+  sectionOrder,
+  color,
+  font,
+  visibleFields,
+}: TemplateProps) {
+  const isVisible = (key: FieldKey) =>
+    !visibleFields || visibleFields.includes(key);
+  const fontFamily = font ? fontsByKey[font].variable : undefined;
+
   const fullName =
-    [data.title, data.name].filter(Boolean).join(" ") || "Your Name";
+    [
+      isVisible("title") && data.title,
+      isVisible("name") && data.name,
+    ]
+      .filter(Boolean)
+      .join(" ") || "Your Name";
 
   const workEntries = data.workHistory.filter(
     (entry) =>
@@ -48,7 +83,11 @@ export default function ModernTemplate({ data, sectionOrder }: TemplateProps) {
   const mainSectionContent: Partial<Record<SectionKey, React.ReactNode>> = {
     workHistory: workEntries.length > 0 && (
       <>
-        <h2 className="mt-4 mb-2 text-sm font-semibold tracking-wide text-gray-500 uppercase">
+        <h2
+          className="mt-4 mb-2 flex items-center gap-2 text-sm font-semibold tracking-wide text-gray-500 uppercase"
+          style={color ? { color } : undefined}
+        >
+          <WorkHistoryIcon className="h-6 w-6 stroke-current" />
           Work History
         </h2>
         <div className="flex flex-col gap-3">
@@ -81,7 +120,11 @@ export default function ModernTemplate({ data, sectionOrder }: TemplateProps) {
 
     education: educationEntries.length > 0 && (
       <>
-        <h2 className="mt-4 mb-2 text-sm font-semibold tracking-wide text-gray-500 uppercase">
+        <h2
+          className="mt-4 mb-2 flex items-center gap-2 text-sm font-semibold tracking-wide text-gray-500 uppercase"
+          style={color ? { color } : undefined}
+        >
+          <EducationIcon className="h-6 w-6 stroke-current" />
           Education
         </h2>
         <div className="flex flex-col gap-3">
@@ -114,7 +157,11 @@ export default function ModernTemplate({ data, sectionOrder }: TemplateProps) {
 
     interests: interestEntries.length > 0 && (
       <>
-        <h2 className="mt-4 mb-2 text-sm font-semibold tracking-wide text-gray-500 uppercase">
+        <h2
+          className="mt-4 mb-2 flex items-center gap-2 text-sm font-semibold tracking-wide text-gray-500 uppercase"
+          style={color ? { color } : undefined}
+        >
+          <InterestsIcon className="h-6 w-6 stroke-current" />
           Interests
         </h2>
         <p className="text-gray-700">
@@ -127,7 +174,8 @@ export default function ModernTemplate({ data, sectionOrder }: TemplateProps) {
   const sidebarSectionContent: Partial<Record<SectionKey, React.ReactNode>> = {
     skills: skillEntries.length > 0 && (
       <>
-        <h2 className="mt-4 mb-2 text-sm font-semibold tracking-wide uppercase opacity-70">
+        <h2 className="mt-4 mb-2 flex items-center gap-2 text-sm font-semibold tracking-wide uppercase opacity-70">
+          <SkillsIcon className="h-5 w-5 stroke-current" />
           Skills
         </h2>
         <ul className="flex flex-col gap-1">
@@ -140,7 +188,8 @@ export default function ModernTemplate({ data, sectionOrder }: TemplateProps) {
 
     certifications: certificationEntries.length > 0 && (
       <>
-        <h2 className="mt-4 mb-2 text-sm font-semibold tracking-wide uppercase opacity-70">
+        <h2 className="mt-4 mb-2 flex items-center gap-2 text-sm font-semibold tracking-wide uppercase opacity-70">
+          <CertificationsIcon className="h-5 w-5 stroke-current" />
           Certifications
         </h2>
         <ul className="flex flex-col gap-1">
@@ -158,7 +207,8 @@ export default function ModernTemplate({ data, sectionOrder }: TemplateProps) {
 
     languages: languageEntries.length > 0 && (
       <>
-        <h2 className="mt-4 mb-2 text-sm font-semibold tracking-wide uppercase opacity-70">
+        <h2 className="mt-4 mb-2 flex items-center gap-2 text-sm font-semibold tracking-wide uppercase opacity-70">
+          <LanguagesIcon className="h-5 w-5 stroke-current" />
           Languages
         </h2>
         <div className="flex flex-col gap-1">
@@ -193,9 +243,23 @@ export default function ModernTemplate({ data, sectionOrder }: TemplateProps) {
   const mainKeys = sectionOrder.filter((key) => !sidebarKeys.includes(key));
 
   return (
-    <div className="grid w-[210mm] min-h-[297mm] grid-cols-[70mm_1fr] bg-white shadow-xl print:shadow-none">
-      <div className="modern-sidebar bg-neutral text-neutral-content flex flex-col gap-2 p-6">
-        {data.photo && (
+    <div
+      className="grid w-[210mm] min-h-[297mm] grid-cols-[70mm_1fr] bg-white shadow-xl print:shadow-none"
+      style={{ fontFamily }}
+    >
+      <div
+        className="modern-sidebar bg-neutral text-neutral-content flex flex-col gap-2 p-6"
+        style={
+          color
+            ? ({
+                backgroundColor: color,
+                color: getContrastTextColor(color),
+                "--sidebar-fg": getContrastTextColor(color),
+              } as React.CSSProperties)
+            : undefined
+        }
+      >
+        {data.photo && isVisible("photo") && (
           <div className="avatar mb-2">
             <div className="w-20 rounded-full bg-white">
               {/* eslint-disable-next-line @next/next/no-img-element -- user-uploaded data URL, not an optimizable static asset */}
@@ -209,13 +273,41 @@ export default function ModernTemplate({ data, sectionOrder }: TemplateProps) {
         )}
 
         <h1 className="text-xl font-bold">{fullName}</h1>
-        {data.jobTitle && <p className="text-sm opacity-80">{data.jobTitle}</p>}
+        {data.jobTitle && isVisible("jobTitle") && (
+          <p className="text-sm opacity-80">{data.jobTitle}</p>
+        )}
 
         <div className="mt-2 flex flex-col gap-1 text-xs opacity-80">
-          {data.address && <p>{data.address}</p>}
-          {data.phone && <p>{data.phone}</p>}
-          {data.email && <p>{data.email}</p>}
-          {data.website && <p>{data.website}</p>}
+          {data.address && isVisible("address") && (
+            <p className="flex items-center gap-1.5">
+              <AddressIcon className="h-3.5 w-3.5 shrink-0 stroke-current" />
+              {data.address}
+            </p>
+          )}
+          {data.phone && isVisible("phone") && (
+            <p className="flex items-center gap-1.5">
+              <PhoneIcon className="h-3.5 w-3.5 shrink-0 stroke-current" />
+              {data.phone}
+            </p>
+          )}
+          {data.email && isVisible("email") && (
+            <p className="flex items-center gap-1.5">
+              <EmailIcon className="h-3.5 w-3.5 shrink-0 stroke-current" />
+              {data.email}
+            </p>
+          )}
+          {data.website && isVisible("website") && (
+            <p className="flex items-center gap-1.5">
+              <WebsiteIcon className="h-3.5 w-3.5 shrink-0 stroke-current" />
+              {data.website}
+            </p>
+          )}
+          {data.linkedin && isVisible("linkedin") && (
+            <p className="flex items-center gap-1.5">
+              <LinkedInIcon className="h-3.5 w-3.5 shrink-0 stroke-current" />
+              {data.linkedin}
+            </p>
+          )}
         </div>
 
         {sidebarKeys.map((key) => (
@@ -224,6 +316,20 @@ export default function ModernTemplate({ data, sectionOrder }: TemplateProps) {
       </div>
 
       <div className="p-6">
+        {data.aboutMe && isVisible("aboutMe") && (
+          <>
+            <h2
+              className="mt-4 mb-2 flex items-center gap-2 text-sm font-semibold tracking-wide text-gray-500 uppercase"
+              style={color ? { color } : undefined}
+            >
+              <AboutMeIcon className="h-6 w-6 stroke-current" />
+              About Me
+            </h2>
+            <p className="whitespace-pre-line text-gray-700">
+              {data.aboutMe}
+            </p>
+          </>
+        )}
         {mainKeys.map((key) => (
           <Fragment key={key}>{mainSectionContent[key]}</Fragment>
         ))}
