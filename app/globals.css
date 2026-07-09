@@ -37,6 +37,45 @@ body {
   font-size: 1.05rem;
 }
 
+/* About Me's textarea reads as a paragraph of body text, not a form field,
+   so it skips the ghost/underline styling every other input gets. */
+.textarea.textarea-plain {
+  border-bottom: none;
+}
+
+/* Work Experience/Education entries now break every value (position, dates,
+   location, description) into its own draggable row, so the usual
+   ghost/underline border on each one stacks into a distracting ladder of
+   lines — these entry sub-fields skip it and rely on the entry card's own
+   background/border for grouping instead. */
+.input.input-plain,
+.textarea.input-plain {
+  border-bottom: none;
+}
+
+/* The typography select reads as a real dropdown control rather than the
+   app's usual ghost/underline inputs, so it gets a solid, non-transparent
+   background — both closed and in its open option-list popup. */
+.select.typography-select {
+  background-color: var(--color-base-200);
+  border: 1px solid var(--color-base-300);
+  border-radius: 0.375rem;
+  padding-inline: 0.75rem;
+}
+
+.select.typography-select option {
+  background-color: var(--color-base-200);
+  color: var(--color-base-content);
+}
+
+/* Overrides the ghost/underline focus style below (which would otherwise
+   drop this select's border to transparent on all sides but the bottom) so
+   the box stays fully bordered while open/focused. */
+.select.typography-select:focus,
+.select.typography-select:focus-within {
+  border-color: var(--color-primary);
+}
+
 .input:focus,
 .input:focus-within,
 .select:focus,

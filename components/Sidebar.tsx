@@ -10,7 +10,7 @@ import {
   type FieldKey,
 } from "@/components/AppState";
 import { rows } from "@/lib/color";
-import { fontRows } from "@/lib/fonts";
+import { allFonts, type FontKey } from "@/lib/fonts";
 import { sectionLabels, type SectionKey } from "@/lib/resumeData";
 
 export default function Sidebar() {
@@ -136,47 +136,6 @@ export default function Sidebar() {
         {!collapsed && (
           <div className="border-base-300 flex-1 overflow-y-auto border-t p-4">
             <p className="mb-2 text-xs font-semibold text-gray-400 uppercase">
-              Features
-            </p>
-            <div className="flex flex-col gap-2">
-              {allFields.map((key) => {
-                const enabled = visibleFields.includes(key);
-                return (
-                  <label
-                    key={key}
-                    className="flex cursor-pointer items-center gap-2 text-sm"
-                  >
-                    <input
-                      type="checkbox"
-                      className="checkbox checkbox-sm"
-                      checked={enabled}
-                      onChange={() => toggleField(key, !enabled)}
-                    />
-                    {fieldLabels[key]}
-                  </label>
-                );
-              })}
-
-              {allSections.map((key) => {
-                const enabled = sectionOrder.includes(key);
-                return (
-                  <label
-                    key={key}
-                    className="flex cursor-pointer items-center gap-2 text-sm"
-                  >
-                    <input
-                      type="checkbox"
-                      className="checkbox checkbox-sm"
-                      checked={enabled}
-                      onChange={() => toggleSection(key, !enabled)}
-                    />
-                    {sectionLabels[key]}
-                  </label>
-                );
-              })}
-            </div>
-
-            <p className="mt-4 mb-2 text-xs font-semibold text-gray-400 uppercase">
               Colors
             </p>
             <div className="flex flex-col gap-2">
@@ -246,28 +205,62 @@ export default function Sidebar() {
             <p className="mt-4 mb-2 text-xs font-semibold text-gray-400 uppercase">
               Typography
             </p>
-            <div className="flex flex-col gap-2">
-              {fontRows.map((row) => (
-                <div key={row[0].key} className="flex gap-2">
-                  {row.map((option) => (
-                    <button
-                      key={option.key}
-                      type="button"
-                      aria-label={option.name}
-                      title={option.name}
-                      className={`bg-base-200 flex h-11 flex-1 items-center justify-center overflow-hidden rounded-md border border-black/10 px-1 text-center text-[10px] leading-tight ${
-                        font === option.key
-                          ? "ring-primary ring-2 ring-offset-1"
-                          : ""
-                      }`}
-                      style={{ fontFamily: option.variable }}
-                      onClick={() => setFont(option.key)}
-                    >
-                      {option.name}
-                    </button>
-                  ))}
-                </div>
+            <select
+              aria-label="Typography"
+              className="select typography-select w-full"
+              value={font ?? allFonts[0].key}
+              onChange={(e) => setFont(e.target.value as FontKey)}
+            >
+              {allFonts.map((option) => (
+                <option
+                  key={option.key}
+                  value={option.key}
+                  style={{ fontFamily: option.variable }}
+                >
+                  {option.name}
+                </option>
               ))}
+            </select>
+
+            <p className="mt-4 mb-2 text-xs font-semibold text-gray-400 uppercase">
+              Features
+            </p>
+            <div className="flex flex-col gap-2">
+              {allFields.map((key) => {
+                const enabled = visibleFields.includes(key);
+                return (
+                  <label
+                    key={key}
+                    className="flex cursor-pointer items-center gap-2 text-sm"
+                  >
+                    <input
+                      type="checkbox"
+                      className="checkbox checkbox-sm"
+                      checked={enabled}
+                      onChange={() => toggleField(key, !enabled)}
+                    />
+                    {fieldLabels[key]}
+                  </label>
+                );
+              })}
+
+              {allSections.map((key) => {
+                const enabled = sectionOrder.includes(key);
+                return (
+                  <label
+                    key={key}
+                    className="flex cursor-pointer items-center gap-2 text-sm"
+                  >
+                    <input
+                      type="checkbox"
+                      className="checkbox checkbox-sm"
+                      checked={enabled}
+                      onChange={() => toggleSection(key, !enabled)}
+                    />
+                    {sectionLabels[key]}
+                  </label>
+                );
+              })}
             </div>
           </div>
         )}

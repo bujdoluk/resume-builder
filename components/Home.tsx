@@ -32,8 +32,14 @@ interface HomeProps {
 
 export default function Home({ initialTemplateId }: HomeProps) {
   const templateId = resolveTemplateId(initialTemplateId);
-  const { color, font, sectionOrder, setSectionOrder, visibleFields } =
-    useAppState();
+  const {
+    color,
+    font,
+    sectionOrder,
+    setSectionOrder,
+    visibleFields,
+    setVisibleFields,
+  } = useAppState();
   const [data, setData] = useState<ResumeData>(emptyResumeData);
   const [isGeneratingPdf, setIsGeneratingPdf] = useState(false);
   const previewRef = useRef<HTMLDialogElement>(null);
@@ -43,8 +49,8 @@ export default function Home({ initialTemplateId }: HomeProps) {
     setData((prev) => ({ ...prev, [field]: value }));
   }
 
-  function handleWorkHistoryChange(workHistory: WorkEntry[]) {
-    setData((prev) => ({ ...prev, workHistory }));
+  function handleWorkHistoryChange(workExperience: WorkEntry[]) {
+    setData((prev) => ({ ...prev, workExperience }));
   }
 
   function handleEducationChange(education: EducationEntry[]) {
@@ -142,10 +148,12 @@ export default function Home({ initialTemplateId }: HomeProps) {
           onInterestsChange={handleInterestsChange}
           sectionOrder={sectionOrder}
           onRemoveSection={removeSection}
+          onReorderSections={setSectionOrder}
           templateId={templateId}
           color={color}
           font={font}
           visibleFields={visibleFields}
+          onReorderFields={setVisibleFields}
         />
 
         <div className="sticky top-8 flex flex-col gap-2 self-start">

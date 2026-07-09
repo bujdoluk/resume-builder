@@ -25,7 +25,12 @@
       "Bash(powershell -Command \"Stop-Process -Id 57128 -Force -ErrorAction SilentlyContinue\")",
       "Bash(curl -s http://localhost:3000/ -o /tmp/resp.html -w \"HTTP_CODE:%{http_code}\\\\n\")",
       "Bash(powershell -Command \"Get-Process -Id 35964 -ErrorAction SilentlyContinue | Select-Object Id, ProcessName, Path, StartTime\")",
-      "Bash(powershell -Command \"Stop-Process -Id 35964 -Force -ErrorAction SilentlyContinue\")"
+      "Bash(powershell -Command \"Stop-Process -Id 35964 -Force -ErrorAction SilentlyContinue\")",
+      "Bash(node verify-dnd.mjs)",
+      "Bash(node verify-typography4.mjs)",
+      "Bash(node verify-typography5.mjs)",
+      "Bash(node check-remove-btn.mjs)",
+      "Bash(powershell -Command \"Stop-Process -Id 52392 -Force -ErrorAction SilentlyContinue\")"
     ],
     "additionalDirectories": [
       "C:\\Users\\lukas\\AppData\\Local\\npm-cache\\_npx\\e41f203b7505f1fb"

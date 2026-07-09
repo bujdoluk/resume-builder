@@ -2,7 +2,6 @@ import type { ResumeData } from "@/lib/resumeData";
 
 export const sampleResumeData: ResumeData = {
   photo: "",
-  title: "Ms.",
   name: "Jane Doe",
   jobTitle: "Senior Product Designer",
   phone: "+1 555 123 4567",
@@ -12,7 +11,7 @@ export const sampleResumeData: ResumeData = {
   linkedin: "linkedin.com/in/janedoe",
   aboutMe:
     "Product designer with 8+ years of experience leading end-to-end design for consumer and B2B products, from research through shipping polished, accessible interfaces.",
-  workHistory: [
+  workExperience: [
     {
       id: "sample-work-1",
       position: "Senior Product Designer at Acme Inc.",

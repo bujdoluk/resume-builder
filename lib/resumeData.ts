@@ -41,7 +41,7 @@ export interface CertificationEntry {
 }
 
 export type SectionKey =
-  | "workHistory"
+  | "workExperience"
   | "education"
   | "skills"
   | "certifications"
@@ -49,7 +49,7 @@ export type SectionKey =
   | "interests";
 
 export const sectionLabels: Record<SectionKey, string> = {
-  workHistory: "Work History",
+  workExperience: "Work Experience",
   education: "Education",
   skills: "Skills",
   certifications: "Certifications",
@@ -59,7 +59,6 @@ export const sectionLabels: Record<SectionKey, string> = {
 
 export interface ResumeData {
   photo: string;
-  title: string;
   name: string;
   jobTitle: string;
   phone: string;
@@ -68,7 +67,7 @@ export interface ResumeData {
   website: string;
   linkedin: string;
   aboutMe: string;
-  workHistory: WorkEntry[];
+  workExperience: WorkEntry[];
   education: EducationEntry[];
   skills: SimpleEntry[];
   certifications: CertificationEntry[];
@@ -78,7 +77,6 @@ export interface ResumeData {
 
 export const emptyResumeData: ResumeData = {
   photo: "",
-  title: "",
   name: "",
   jobTitle: "",
   phone: "",
@@ -87,7 +85,7 @@ export const emptyResumeData: ResumeData = {
   website: "",
   linkedin: "",
   aboutMe: "",
-  workHistory: [],
+  workExperience: [],
   education: [],
   skills: [],
   certifications: [],

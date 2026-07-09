@@ -21,7 +21,7 @@ export interface FontOption {
 // Each `variable` matches a CSS custom property registered by next/font in
 // app/layout.tsx; the value there is a real font-family stack, so setting
 // `fontFamily: var(--font-x)` anywhere picks it up.
-const allFonts: FontOption[] = [
+export const allFonts: FontOption[] = [
   { key: "inter", name: "Inter", variable: "var(--font-inter)" },
   { key: "roboto", name: "Roboto", variable: "var(--font-roboto)" },
   { key: "lato", name: "Lato", variable: "var(--font-lato)" },
@@ -47,13 +47,6 @@ const allFonts: FontOption[] = [
   { key: "oswald", name: "Oswald", variable: "var(--font-oswald)" },
   { key: "raleway", name: "Raleway", variable: "var(--font-raleway)" },
 ];
-
-// Four fonts per row for the sidebar's Typography section.
-const FONT_ROW_SIZE = 4;
-export const fontRows: FontOption[][] = Array.from(
-  { length: Math.ceil(allFonts.length / FONT_ROW_SIZE) },
-  (_, i) => allFonts.slice(i * FONT_ROW_SIZE, (i + 1) * FONT_ROW_SIZE),
-);
 
 export const fontsByKey: Record<FontKey, FontOption> = Object.fromEntries(
   allFonts.map((font) => [font.key, font]),

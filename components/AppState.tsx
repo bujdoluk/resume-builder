@@ -8,11 +8,23 @@ import {
   type ReactNode,
   type SetStateAction,
 } from "react";
-import type { FontKey } from "@/lib/fonts";
+import { allFields, fieldLabels, type FieldKey } from "@/lib/fields";
+import { allFonts, type FontKey } from "@/lib/fonts";
 import type { SectionKey } from "@/lib/resumeData";
 
+// Typography defaults to the first font in the list rather than leaving the
+// page's plain system font in place, so the sidebar's font select always
+// reflects a real, named choice.
+const defaultFont: FontKey = allFonts[0].key;
+
+// Re-exported for existing call sites (Sidebar.tsx, Resume.tsx) — the
+// underlying data lives in lib/fields.ts, a plain module without "use
+// client", so read-only Server Components (e.g. the /templates gallery)
+// can import it directly without pulling in this client-only file.
+export { allFields, fieldLabels, type FieldKey };
+
 export const allSections: SectionKey[] = [
-  "workHistory",
+  "workExperience",
   "education",
   "skills",
   "certifications",
@@ -26,44 +38,6 @@ export const allSections: SectionKey[] = [
 export const defaultSectionOrder: SectionKey[] = allSections.filter(
   (key) => key !== "certifications",
 );
-
-export type FieldKey =
-  | "photo"
-  | "title"
-  | "name"
-  | "jobTitle"
-  | "phone"
-  | "email"
-  | "address"
-  | "website"
-  | "linkedin"
-  | "aboutMe";
-
-export const allFields: FieldKey[] = [
-  "photo",
-  "title",
-  "name",
-  "jobTitle",
-  "phone",
-  "email",
-  "address",
-  "website",
-  "linkedin",
-  "aboutMe",
-];
-
-export const fieldLabels: Record<FieldKey, string> = {
-  photo: "Photo",
-  title: "Title",
-  name: "Name",
-  jobTitle: "Job Title",
-  phone: "Phone",
-  email: "Email",
-  address: "Address",
-  website: "Website",
-  linkedin: "LinkedIn",
-  aboutMe: "About Me",
-};
 
 // Every personal-info field is visible by default.
 const defaultVisibleFields: FieldKey[] = [...allFields];
@@ -87,7 +61,7 @@ const AppStateContext = createContext<AppStateValue | null>(null);
 // on every page, not just "/".
 export function AppStateProvider({ children }: { children: ReactNode }) {
   const [color, setColor] = useState<string | null>(null);
-  const [font, setFont] = useState<FontKey | null>(null);
+  const [font, setFont] = useState<FontKey | null>(defaultFont);
   const [sectionOrder, setSectionOrder] =
     useState<SectionKey[]>(defaultSectionOrder);
   const [visibleFields, setVisibleFields] = useState<FieldKey[]>(

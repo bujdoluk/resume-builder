@@ -1,6 +1,25 @@
 "use client";
 
-import { Fragment } from "react";
+import {
+  closestCenter,
+  DndContext,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  type DragEndEvent,
+} from "@dnd-kit/core";
+import {
+  arrayMove,
+  rectSortingStrategy,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  useSortable,
+  verticalListSortingStrategy,
+  type SortingStrategy,
+} from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
+import { Fragment, useState } from "react";
 import type { FieldKey } from "@/components/AppState";
 import { AboutMeIcon } from "@/components/Icons";
 import { getContrastTextColor } from "@/lib/color";
@@ -35,7 +54,7 @@ export {
 interface ResumeProps {
   data: ResumeData;
   onChange: (field: keyof ResumeData, value: string) => void;
-  onWorkHistoryChange: (workHistory: WorkEntry[]) => void;
+  onWorkHistoryChange: (workExperience: WorkEntry[]) => void;
   onEducationChange: (education: EducationEntry[]) => void;
   onSkillsChange: (skills: SimpleEntry[]) => void;
   onCertificationsChange: (certifications: CertificationEntry[]) => void;
@@ -43,10 +62,12 @@ interface ResumeProps {
   onInterestsChange: (interests: SimpleEntry[]) => void;
   sectionOrder: SectionKey[];
   onRemoveSection: (key: SectionKey) => void;
+  onReorderSections: (order: SectionKey[]) => void;
   templateId: TemplateId;
   color: string | null;
   font: FontKey | null;
   visibleFields: FieldKey[];
+  onReorderFields: (order: FieldKey[]) => void;
 }
 
 // Sections that render in the Modern template's sidebar column instead of
@@ -56,6 +77,276 @@ const modernSidebarKeys: SectionKey[] = [
   "certifications",
   "languages",
 ];
+
+// Personal-info fields that render in the Modern template's main column
+// instead of the sidebar — About Me stays spatially just before Work
+// History, which itself lives in the main column for Modern.
+const modernMainFieldKeys: FieldKey[] = ["aboutMe"];
+
+// The sub-fields within a single entry card (e.g. one Work Experience entry)
+// are also individually draggable in the editing form. Order is shared
+// across every entry of that type, same as the top-level fields/sections —
+// this only affects the editable form; the read-only Preview/PDF templates
+// keep their own fixed, per-template composition of these values.
+type WorkEntryFieldKey =
+  | "position"
+  | "dateFrom"
+  | "dateTo"
+  | "location"
+  | "jobDescription";
+const defaultWorkHistoryFieldOrder: WorkEntryFieldKey[] = [
+  "position",
+  "dateFrom",
+  "dateTo",
+  "location",
+  "jobDescription",
+];
+
+type EducationEntryFieldKey =
+  | "subject"
+  | "dateFrom"
+  | "dateTo"
+  | "location"
+  | "description";
+const defaultEducationFieldOrder: EducationEntryFieldKey[] = [
+  "subject",
+  "dateFrom",
+  "dateTo",
+  "location",
+  "description",
+];
+
+type LanguageEntryFieldKey = "language" | "level";
+const defaultLanguageFieldOrder: LanguageEntryFieldKey[] = [
+  "language",
+  "level",
+];
+
+type CertificationEntryFieldKey = "name" | "date";
+const defaultCertificationFieldOrder: CertificationEntryFieldKey[] = [
+  "name",
+  "date",
+];
+
+function GripIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      className={className}
+      fill="currentColor"
+    >
+      <circle cx="9" cy="6" r="1.5" />
+      <circle cx="9" cy="12" r="1.5" />
+      <circle cx="9" cy="18" r="1.5" />
+      <circle cx="15" cy="6" r="1.5" />
+      <circle cx="15" cy="12" r="1.5" />
+      <circle cx="15" cy="18" r="1.5" />
+    </svg>
+  );
+}
+
+// Wraps a single field/section block so it can be dragged directly on the
+// resume canvas to reorder it — a grip handle appears in the left gutter on
+// hover/focus instead of taking up space in the layout.
+function SortableBlock({
+  id,
+  className,
+  children,
+}: {
+  id: string;
+  className?: string;
+  children: React.ReactNode;
+}) {
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } =
+    useSortable({ id });
+
+  const style: React.CSSProperties = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isDragging ? 0.4 : 1,
+  };
+
+  return (
+    <div
+      ref={setNodeRef}
+      style={style}
+      className={`group/sortable relative ${className ?? ""}`}
+    >
+      <button
+        type="button"
+        aria-label="Reorder"
+        className="absolute top-0 -left-7 touch-none rounded p-1 text-gray-400 opacity-60 hover:bg-gray-100 hover:text-gray-600 focus:opacity-100 focus-visible:opacity-100 group-hover/sortable:opacity-100"
+        {...attributes}
+        {...listeners}
+      >
+        <GripIcon className="h-5 w-5" />
+      </button>
+      {children}
+    </div>
+  );
+}
+
+// Hosts one DndContext + SortableContext for a single reorderable group of
+// blocks (a template's field list, or its section list). Each layout zone
+// (e.g. Modern's sidebar vs main column) gets its own instance so dragging
+// can't cross between zones that don't share a render order.
+function SortableGroup<T extends string>({
+  dndId,
+  ids,
+  onReorder,
+  strategy = verticalListSortingStrategy,
+  children,
+}: {
+  dndId: string;
+  ids: T[];
+  onReorder: (order: T[]) => void;
+  strategy?: SortingStrategy;
+  children: React.ReactNode;
+}) {
+  const sensors = useSensors(
+    useSensor(PointerSensor, { activationConstraint: { distance: 4 } }),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    }),
+  );
+
+  function handleDragEnd(event: DragEndEvent) {
+    const { active, over } = event;
+    if (!over || active.id === over.id) return;
+    const oldIndex = ids.indexOf(active.id as T);
+    const newIndex = ids.indexOf(over.id as T);
+    if (oldIndex === -1 || newIndex === -1) return;
+    onReorder(arrayMove(ids, oldIndex, newIndex));
+  }
+
+  return (
+    <DndContext
+      id={dndId}
+      sensors={sensors}
+      collisionDetection={closestCenter}
+      onDragEnd={handleDragEnd}
+    >
+      <SortableContext items={ids} strategy={strategy}>
+        {children}
+      </SortableContext>
+    </DndContext>
+  );
+}
+
+// Contact fields that Minimal packs onto shared, wrapping rows instead of
+// stacking one-per-line — mirrors the read-only MinimalTemplate.tsx.
+const contactFieldKeys: FieldKey[] = [
+  "phone",
+  "email",
+  "address",
+  "website",
+  "linkedin",
+];
+
+// Renders a field order as SortableBlocks, one per field — except Photo,
+// which visually pairs with Name/Job Title (photo left, text stacked right,
+// height-matched to the photo) whenever they immediately follow it in the
+// current order, and (when `wrapContactFields` is set, for Minimal) any
+// immediately-consecutive run of contact fields, which shares a flex-wrap
+// row instead of stacking. Each field keeps its own grip handle and stays
+// independently draggable; dragging a field away from its neighbors just
+// ends the pairing rather than disabling the drag.
+function renderFieldItems(
+  order: FieldKey[],
+  fieldContent: Partial<Record<FieldKey, React.ReactNode>>,
+  options?: { wrapContactFields?: boolean },
+): React.ReactNode[] {
+  const nodes: React.ReactNode[] = [];
+  let i = 0;
+
+  while (i < order.length) {
+    const key = order[i];
+
+    if (key === "photo" && fieldContent.photo) {
+      const pairedKeys: FieldKey[] = [];
+      let j = i + 1;
+      while (
+        j < order.length &&
+        (order[j] === "name" || order[j] === "jobTitle") &&
+        fieldContent[order[j]]
+      ) {
+        pairedKeys.push(order[j]);
+        j++;
+      }
+
+      if (pairedKeys.length > 0) {
+        nodes.push(
+          <div key={key} className="flex items-stretch gap-4">
+            <div className="pr-4">
+              <SortableBlock id="photo">{fieldContent.photo}</SortableBlock>
+            </div>
+            <div className="flex flex-1 flex-col justify-center gap-1">
+              {pairedKeys.map((pairedKey) => (
+                <SortableBlock key={pairedKey} id={pairedKey}>
+                  {fieldContent[pairedKey]}
+                </SortableBlock>
+              ))}
+            </div>
+          </div>,
+        );
+        i = j;
+        continue;
+      }
+    }
+
+    if (options?.wrapContactFields && contactFieldKeys.includes(key)) {
+      const rowKeys: FieldKey[] = [];
+      let j = i;
+      while (
+        j < order.length &&
+        contactFieldKeys.includes(order[j]) &&
+        fieldContent[order[j]]
+      ) {
+        rowKeys.push(order[j]);
+        j++;
+      }
+
+      if (rowKeys.length > 1) {
+        nodes.push(
+          <div key={key} className="flex flex-wrap gap-x-4 gap-y-2">
+            {rowKeys.map((rowKey) => (
+              <SortableBlock
+                key={rowKey}
+                id={rowKey}
+                className="min-w-[220px] flex-1"
+              >
+                {fieldContent[rowKey]}
+              </SortableBlock>
+            ))}
+          </div>,
+        );
+        i = j;
+        continue;
+      }
+    }
+
+    nodes.push(
+      <SortableBlock key={key} id={key}>
+        {fieldContent[key]}
+      </SortableBlock>,
+    );
+    i++;
+  }
+
+  return nodes;
+}
+
+// Rebuilds a repeatable-entry list (Work Experience, skills, languages, etc.)
+// in the order produced by a SortableGroup drag — entries carry a stable
+// `id` already, so dragging just needs to resolve ids back to their entries.
+function reorderEntries<T extends { id: string }>(
+  entries: T[],
+  order: string[],
+): T[] {
+  const byId = new Map(entries.map((entry) => [entry.id, entry]));
+  return order.map((id) => byId.get(id)!);
+}
 
 function RemoveButton({
   onClick,
@@ -169,12 +460,32 @@ export default function Resume({
   onInterestsChange,
   sectionOrder,
   onRemoveSection,
+  onReorderSections,
   templateId,
   color,
   font,
   visibleFields,
+  onReorderFields,
 }: ResumeProps) {
   const fontFamily = font ? fontsByKey[font].variable : undefined;
+
+  const [workHistoryFieldOrder, setWorkHistoryFieldOrder] = useState(
+    defaultWorkHistoryFieldOrder,
+  );
+  const [educationFieldOrder, setEducationFieldOrder] = useState(
+    defaultEducationFieldOrder,
+  );
+  const [languageFieldOrder, setLanguageFieldOrder] = useState(
+    defaultLanguageFieldOrder,
+  );
+  const [certificationFieldOrder, setCertificationFieldOrder] = useState(
+    defaultCertificationFieldOrder,
+  );
+
+  // Where About Me sits among Modern's main-column sections (Work Experience,
+  // Education, Interests) — an index rather than a full merged order, so it
+  // stays correct as sections are toggled on/off without extra bookkeeping.
+  const [aboutMeMainIndex, setAboutMeMainIndex] = useState(0);
 
   function handlePhotoChange(event: React.ChangeEvent<HTMLInputElement>) {
     const file = event.target.files?.[0];
@@ -191,7 +502,7 @@ export default function Resume({
 
   function addWorkEntry() {
     onWorkHistoryChange([
-      ...data.workHistory,
+      ...data.workExperience,
       {
         id: crypto.randomUUID(),
         position: "",
@@ -209,14 +520,86 @@ export default function Resume({
     value: string,
   ) {
     onWorkHistoryChange(
-      data.workHistory.map((entry) =>
+      data.workExperience.map((entry) =>
         entry.id === id ? { ...entry, [field]: value } : entry,
       ),
     );
   }
 
   function removeWorkEntry(id: string) {
-    onWorkHistoryChange(data.workHistory.filter((entry) => entry.id !== id));
+    onWorkHistoryChange(data.workExperience.filter((entry) => entry.id !== id));
+  }
+
+  function workEntryFields(
+    entry: WorkEntry,
+  ): Record<WorkEntryFieldKey, React.ReactNode> {
+    return {
+      position: (
+        <fieldset className="fieldset">
+          <input
+            type="text"
+            placeholder="Your position"
+            className="input input-plain w-full"
+            value={entry.position}
+            onChange={(e) =>
+              updateWorkEntry(entry.id, "position", e.target.value)
+            }
+          />
+        </fieldset>
+      ),
+      dateFrom: (
+        <fieldset className="fieldset">
+          <input
+            type="text"
+            placeholder="Start date (e.g. 01-06-2020)"
+            className="input input-plain w-full"
+            value={entry.dateFrom}
+            onChange={(e) =>
+              updateWorkEntry(entry.id, "dateFrom", e.target.value)
+            }
+          />
+        </fieldset>
+      ),
+      dateTo: (
+        <fieldset className="fieldset">
+          <input
+            type="text"
+            placeholder="End date or Present"
+            className="input input-plain w-full"
+            value={entry.dateTo}
+            onChange={(e) =>
+              updateWorkEntry(entry.id, "dateTo", e.target.value)
+            }
+          />
+        </fieldset>
+      ),
+      location: (
+        <fieldset className="fieldset">
+          <input
+            type="text"
+            placeholder="Location"
+            className="input input-plain w-full"
+            value={entry.location}
+            onChange={(e) =>
+              updateWorkEntry(entry.id, "location", e.target.value)
+            }
+          />
+        </fieldset>
+      ),
+      jobDescription: (
+        <fieldset className="fieldset">
+          <textarea
+            placeholder="Describe your responsibilities and achievements..."
+            className="textarea input-plain w-full"
+            rows={4}
+            value={entry.jobDescription}
+            onChange={(e) =>
+              updateWorkEntry(entry.id, "jobDescription", e.target.value)
+            }
+          />
+        </fieldset>
+      ),
+    };
   }
 
   function addEducationEntry() {
@@ -247,6 +630,78 @@ export default function Resume({
 
   function removeEducationEntry(id: string) {
     onEducationChange(data.education.filter((entry) => entry.id !== id));
+  }
+
+  function educationEntryFields(
+    entry: EducationEntry,
+  ): Record<EducationEntryFieldKey, React.ReactNode> {
+    return {
+      subject: (
+        <fieldset className="fieldset">
+          <input
+            type="text"
+            placeholder="Subject of study"
+            className="input input-plain w-full"
+            value={entry.subject}
+            onChange={(e) =>
+              updateEducationEntry(entry.id, "subject", e.target.value)
+            }
+          />
+        </fieldset>
+      ),
+      dateFrom: (
+        <fieldset className="fieldset">
+          <input
+            type="text"
+            placeholder="Start date (e.g. 01-09-2016)"
+            className="input input-plain w-full"
+            value={entry.dateFrom}
+            onChange={(e) =>
+              updateEducationEntry(entry.id, "dateFrom", e.target.value)
+            }
+          />
+        </fieldset>
+      ),
+      dateTo: (
+        <fieldset className="fieldset">
+          <input
+            type="text"
+            placeholder="End date"
+            className="input input-plain w-full"
+            value={entry.dateTo}
+            onChange={(e) =>
+              updateEducationEntry(entry.id, "dateTo", e.target.value)
+            }
+          />
+        </fieldset>
+      ),
+      location: (
+        <fieldset className="fieldset">
+          <input
+            type="text"
+            placeholder="Location"
+            className="input input-plain w-full"
+            value={entry.location}
+            onChange={(e) =>
+              updateEducationEntry(entry.id, "location", e.target.value)
+            }
+          />
+        </fieldset>
+      ),
+      description: (
+        <fieldset className="fieldset">
+          <textarea
+            placeholder="Describe your studies, thesis, honors..."
+            className="textarea input-plain w-full"
+            rows={4}
+            value={entry.description}
+            onChange={(e) =>
+              updateEducationEntry(entry.id, "description", e.target.value)
+            }
+          />
+        </fieldset>
+      ),
+    };
   }
 
   function addSkill() {
@@ -290,6 +745,39 @@ export default function Resume({
     );
   }
 
+  function certificationEntryFields(
+    entry: CertificationEntry,
+  ): Record<CertificationEntryFieldKey, React.ReactNode> {
+    return {
+      name: (
+        <fieldset className="fieldset">
+          <input
+            type="text"
+            placeholder="Certification name"
+            className="input w-full"
+            value={entry.name}
+            onChange={(e) =>
+              updateCertification(entry.id, "name", e.target.value)
+            }
+          />
+        </fieldset>
+      ),
+      date: (
+        <fieldset className="fieldset">
+          <input
+            type="text"
+            placeholder="Date"
+            className="input w-full"
+            value={entry.date}
+            onChange={(e) =>
+              updateCertification(entry.id, "date", e.target.value)
+            }
+          />
+        </fieldset>
+      ),
+    };
+  }
+
   function addLanguage() {
     onLanguagesChange([
       ...data.languages,
@@ -311,6 +799,53 @@ export default function Resume({
 
   function removeLanguage(id: string) {
     onLanguagesChange(data.languages.filter((entry) => entry.id !== id));
+  }
+
+  function languageEntryFields(
+    entry: LanguageEntry,
+  ): Record<LanguageEntryFieldKey, React.ReactNode> {
+    const levelIndex = languageLevels.indexOf(entry.level);
+
+    return {
+      language: (
+        <fieldset className="fieldset">
+          <input
+            type="text"
+            placeholder="Your language"
+            className="input w-full"
+            value={entry.language}
+            onChange={(e) =>
+              updateLanguage(entry.id, "language", e.target.value)
+            }
+          />
+        </fieldset>
+      ),
+      level: (
+        <fieldset className="fieldset">
+          <div
+            className="flex items-center gap-2"
+            aria-label="Language proficiency level"
+          >
+            <span className="text-xs whitespace-nowrap text-gray-500">
+              {entry.level}
+            </span>
+            <div className="rating">
+              {languageLevels.map((level, index) => (
+                <input
+                  key={level}
+                  type="radio"
+                  name={`language-level-${entry.id}`}
+                  aria-label={level}
+                  className="mask mask-star"
+                  checked={index === levelIndex}
+                  onChange={() => updateLanguage(entry.id, "level", level)}
+                />
+              ))}
+            </div>
+          </div>
+        </fieldset>
+      ),
+    };
   }
 
   function addInterest() {
@@ -338,11 +873,11 @@ export default function Resume({
       : "flex flex-col gap-2 rounded-lg p-4";
 
   const sectionContent: Record<SectionKey, React.ReactNode> = {
-    workHistory: (
+    workExperience: (
       <>
         <SectionHeader
-          title={sectionLabels.workHistory}
-          onRemoveSection={() => onRemoveSection("workHistory")}
+          title={sectionLabels.workExperience}
+          onRemoveSection={() => onRemoveSection("workExperience")}
           minimal={templateId === "minimal"}
           color={color}
           icon={
@@ -377,84 +912,30 @@ export default function Resume({
         />
 
         <div className="flex flex-col gap-4">
-          {data.workHistory.map((entry) => (
-            <div
-              key={entry.id}
-              className={entryCardClass}
-            >
-              <div className="flex items-start gap-2">
-                <fieldset className="fieldset flex-1">
-                  <input
-                    type="text"
-                    placeholder="Your position"
-                    className="input w-full"
-                    value={entry.position}
-                    onChange={(e) =>
-                      updateWorkEntry(entry.id, "position", e.target.value)
-                    }
+          {data.workExperience.map((entry) => {
+            const fields = workEntryFields(entry);
+            return (
+              <div key={entry.id} className={entryCardClass}>
+                <div className="flex justify-end">
+                  <RemoveButton
+                    label="Remove work experience"
+                    onClick={() => removeWorkEntry(entry.id)}
                   />
-                </fieldset>
-                <RemoveButton
-                  label="Remove work experience"
-                  onClick={() => removeWorkEntry(entry.id)}
-                />
+                </div>
+                <SortableGroup
+                  dndId={`work-history-fields-${entry.id}`}
+                  ids={workHistoryFieldOrder}
+                  onReorder={setWorkHistoryFieldOrder}
+                >
+                  {workHistoryFieldOrder.map((key) => (
+                    <SortableBlock key={key} id={key}>
+                      {fields[key]}
+                    </SortableBlock>
+                  ))}
+                </SortableGroup>
               </div>
-
-              <div className="flex gap-2">
-                <fieldset className="fieldset flex-1">
-                  <input
-                    type="text"
-                    placeholder="Start date (e.g. 01-06-2020)"
-                    className="input w-full"
-                    value={entry.dateFrom}
-                    onChange={(e) =>
-                      updateWorkEntry(entry.id, "dateFrom", e.target.value)
-                    }
-                  />
-                </fieldset>
-
-                <fieldset className="fieldset flex-1">
-                  <input
-                    type="text"
-                    placeholder="End date or Present"
-                    className="input w-full"
-                    value={entry.dateTo}
-                    onChange={(e) =>
-                      updateWorkEntry(entry.id, "dateTo", e.target.value)
-                    }
-                  />
-                </fieldset>
-              </div>
-
-              <fieldset className="fieldset">
-                <input
-                  type="text"
-                  placeholder="Location"
-                  className="input w-full"
-                  value={entry.location}
-                  onChange={(e) =>
-                    updateWorkEntry(entry.id, "location", e.target.value)
-                  }
-                />
-              </fieldset>
-
-              <fieldset className="fieldset">
-                <textarea
-                  placeholder="Describe your responsibilities and achievements..."
-                  className="textarea w-full"
-                  rows={4}
-                  value={entry.jobDescription}
-                  onChange={(e) =>
-                    updateWorkEntry(
-                      entry.id,
-                      "jobDescription",
-                      e.target.value,
-                    )
-                  }
-                />
-              </fieldset>
-            </div>
-          ))}
+            );
+          })}
 
           <button
             type="button"
@@ -504,88 +985,30 @@ export default function Resume({
         />
 
         <div className="flex flex-col gap-4">
-          {data.education.map((entry) => (
-            <div
-              key={entry.id}
-              className={entryCardClass}
-            >
-              <div className="flex items-start gap-2">
-                <fieldset className="fieldset flex-1">
-                  <input
-                    type="text"
-                    placeholder="Subject of study"
-                    className="input w-full"
-                    value={entry.subject}
-                    onChange={(e) =>
-                      updateEducationEntry(entry.id, "subject", e.target.value)
-                    }
+          {data.education.map((entry) => {
+            const fields = educationEntryFields(entry);
+            return (
+              <div key={entry.id} className={entryCardClass}>
+                <div className="flex justify-end">
+                  <RemoveButton
+                    label="Remove education"
+                    onClick={() => removeEducationEntry(entry.id)}
                   />
-                </fieldset>
-                <RemoveButton
-                  label="Remove education"
-                  onClick={() => removeEducationEntry(entry.id)}
-                />
+                </div>
+                <SortableGroup
+                  dndId={`education-fields-${entry.id}`}
+                  ids={educationFieldOrder}
+                  onReorder={setEducationFieldOrder}
+                >
+                  {educationFieldOrder.map((key) => (
+                    <SortableBlock key={key} id={key}>
+                      {fields[key]}
+                    </SortableBlock>
+                  ))}
+                </SortableGroup>
               </div>
-
-              <div className="flex gap-2">
-                <fieldset className="fieldset flex-1">
-                  <input
-                    type="text"
-                    placeholder="Start date (e.g. 01-09-2016)"
-                    className="input w-full"
-                    value={entry.dateFrom}
-                    onChange={(e) =>
-                      updateEducationEntry(
-                        entry.id,
-                        "dateFrom",
-                        e.target.value,
-                      )
-                    }
-                  />
-                </fieldset>
-
-                <fieldset className="fieldset flex-1">
-                  <input
-                    type="text"
-                    placeholder="End date"
-                    className="input w-full"
-                    value={entry.dateTo}
-                    onChange={(e) =>
-                      updateEducationEntry(entry.id, "dateTo", e.target.value)
-                    }
-                  />
-                </fieldset>
-              </div>
-
-              <fieldset className="fieldset">
-                <input
-                  type="text"
-                  placeholder="Location"
-                  className="input w-full"
-                  value={entry.location}
-                  onChange={(e) =>
-                    updateEducationEntry(entry.id, "location", e.target.value)
-                  }
-                />
-              </fieldset>
-
-              <fieldset className="fieldset">
-                <textarea
-                  placeholder="Describe your studies, thesis, honors..."
-                  className="textarea w-full"
-                  rows={4}
-                  value={entry.description}
-                  onChange={(e) =>
-                    updateEducationEntry(
-                      entry.id,
-                      "description",
-                      e.target.value,
-                    )
-                  }
-                />
-              </fieldset>
-            </div>
-          ))}
+            );
+          })}
 
           <button
             type="button"
@@ -623,23 +1046,33 @@ export default function Resume({
         />
 
         <div className="flex flex-col gap-2">
-          {data.skills.map((entry) => (
-            <div key={entry.id} className="flex items-end gap-2">
-              <fieldset className="fieldset flex-1">
-                <input
-                  type="text"
-                  placeholder="Your skill"
-                  className="input w-full"
-                  value={entry.value}
-                  onChange={(e) => updateSkill(entry.id, e.target.value)}
-                />
-              </fieldset>
-              <RemoveButton
-                label="Remove skill"
-                onClick={() => removeSkill(entry.id)}
-              />
-            </div>
-          ))}
+          <SortableGroup
+            dndId="skills-entries"
+            ids={data.skills.map((entry) => entry.id)}
+            onReorder={(order) =>
+              onSkillsChange(reorderEntries(data.skills, order))
+            }
+          >
+            {data.skills.map((entry) => (
+              <SortableBlock key={entry.id} id={entry.id}>
+                <div className="flex items-end gap-2">
+                  <fieldset className="fieldset flex-1">
+                    <input
+                      type="text"
+                      placeholder="Your skill"
+                      className="input w-full"
+                      value={entry.value}
+                      onChange={(e) => updateSkill(entry.id, e.target.value)}
+                    />
+                  </fieldset>
+                  <RemoveButton
+                    label="Remove skill"
+                    onClick={() => removeSkill(entry.id)}
+                  />
+                </div>
+              </SortableBlock>
+            ))}
+          </SortableGroup>
 
           <button
             type="button"
@@ -678,40 +1111,42 @@ export default function Resume({
         />
 
         <div className="flex flex-col gap-2">
-          {data.certifications.map((entry) => (
-            <div key={entry.id} className="flex items-start gap-2">
-              <div className="flex flex-1 flex-col gap-2">
-                <fieldset className="fieldset">
-                  <input
-                    type="text"
-                    placeholder="Certification name"
-                    className="input w-full"
-                    value={entry.name}
-                    onChange={(e) =>
-                      updateCertification(entry.id, "name", e.target.value)
-                    }
-                  />
-                </fieldset>
-
-                <fieldset className="fieldset">
-                  <input
-                    type="text"
-                    placeholder="Date"
-                    className="input w-full"
-                    value={entry.date}
-                    onChange={(e) =>
-                      updateCertification(entry.id, "date", e.target.value)
-                    }
-                  />
-                </fieldset>
-              </div>
-
-              <RemoveButton
-                label="Remove certification"
-                onClick={() => removeCertification(entry.id)}
-              />
-            </div>
-          ))}
+          <SortableGroup
+            dndId="certifications-entries"
+            ids={data.certifications.map((entry) => entry.id)}
+            onReorder={(order) =>
+              onCertificationsChange(
+                reorderEntries(data.certifications, order),
+              )
+            }
+          >
+            {data.certifications.map((entry) => {
+              const fields = certificationEntryFields(entry);
+              return (
+                <SortableBlock key={entry.id} id={entry.id}>
+                  <div className="flex flex-col gap-2">
+                    <div className="flex justify-end">
+                      <RemoveButton
+                        label="Remove certification"
+                        onClick={() => removeCertification(entry.id)}
+                      />
+                    </div>
+                    <SortableGroup
+                      dndId={`certification-fields-${entry.id}`}
+                      ids={certificationFieldOrder}
+                      onReorder={setCertificationFieldOrder}
+                    >
+                      {certificationFieldOrder.map((key) => (
+                        <SortableBlock key={key} id={key}>
+                          {fields[key]}
+                        </SortableBlock>
+                      ))}
+                    </SortableGroup>
+                  </div>
+                </SortableBlock>
+              );
+            })}
+          </SortableGroup>
 
           <button
             type="button"
@@ -750,72 +1185,40 @@ export default function Resume({
         />
 
         <div className="flex flex-col gap-2">
-          {data.languages.map((entry) => {
-            const languageInput = (
-              <fieldset className="fieldset flex-1">
-                <input
-                  type="text"
-                  placeholder="Your language"
-                  className="input w-full"
-                  value={entry.language}
-                  onChange={(e) =>
-                    updateLanguage(entry.id, "language", e.target.value)
-                  }
-                />
-              </fieldset>
-            );
-
-            const ratingWidget = (
-              <div
-                className="flex items-center gap-2"
-                aria-label="Language proficiency level"
-              >
-                <span className="text-xs whitespace-nowrap text-gray-500">
-                  {entry.level}
-                </span>
-                <div className="rating">
-                  {languageLevels.map((level) => (
-                    <input
-                      key={level}
-                      type="radio"
-                      name={`language-level-${entry.id}`}
-                      aria-label={level}
-                      className="mask mask-star"
-                      checked={entry.level === level}
-                      onChange={() => updateLanguage(entry.id, "level", level)}
-                    />
-                  ))}
-                </div>
-              </div>
-            );
-
-            const removeButton = (
-              <RemoveButton
-                label="Remove language"
-                onClick={() => removeLanguage(entry.id)}
-              />
-            );
-
-            if (templateId === "modern") {
-              return (
-                <div key={entry.id} className="flex flex-col gap-1">
-                  <div className="flex items-end gap-2">
-                    {languageInput}
-                    {removeButton}
-                  </div>
-                  <fieldset className="fieldset">{ratingWidget}</fieldset>
-                </div>
-              );
+          <SortableGroup
+            dndId="languages-entries"
+            ids={data.languages.map((entry) => entry.id)}
+            onReorder={(order) =>
+              onLanguagesChange(reorderEntries(data.languages, order))
             }
-
-            return (
-              <div key={entry.id} className="flex items-end gap-2">
-                {languageInput}
-                <fieldset className="fieldset">{ratingWidget}</fieldset>
-                {removeButton}
-              </div>
-            );
-          })}
+          >
+            {data.languages.map((entry) => {
+              const fields = languageEntryFields(entry);
+              return (
+                <SortableBlock key={entry.id} id={entry.id}>
+                  <div className="flex flex-col gap-2">
+                    <div className="flex justify-end">
+                      <RemoveButton
+                        label="Remove language"
+                        onClick={() => removeLanguage(entry.id)}
+                      />
+                    </div>
+                    <SortableGroup
+                      dndId={`language-fields-${entry.id}`}
+                      ids={languageFieldOrder}
+                      onReorder={setLanguageFieldOrder}
+                    >
+                      {languageFieldOrder.map((key) => (
+                        <SortableBlock key={key} id={key}>
+                          {fields[key]}
+                        </SortableBlock>
+                      ))}
+                    </SortableGroup>
+                  </div>
+                </SortableBlock>
+              );
+            })}
+          </SortableGroup>
 
           <button
             type="button"
@@ -853,23 +1256,35 @@ export default function Resume({
         />
 
         <div className="flex flex-col gap-2">
-          {data.interests.map((entry) => (
-            <div key={entry.id} className="flex items-end gap-2">
-              <fieldset className="fieldset flex-1">
-                <input
-                  type="text"
-                  placeholder="Your interest"
-                  className="input w-full"
-                  value={entry.value}
-                  onChange={(e) => updateInterest(entry.id, e.target.value)}
-                />
-              </fieldset>
-              <RemoveButton
-                label="Remove interest"
-                onClick={() => removeInterest(entry.id)}
-              />
-            </div>
-          ))}
+          <SortableGroup
+            dndId="interests-entries"
+            ids={data.interests.map((entry) => entry.id)}
+            onReorder={(order) =>
+              onInterestsChange(reorderEntries(data.interests, order))
+            }
+          >
+            {data.interests.map((entry) => (
+              <SortableBlock key={entry.id} id={entry.id}>
+                <div className="flex items-end gap-2">
+                  <fieldset className="fieldset flex-1">
+                    <input
+                      type="text"
+                      placeholder="Your interest"
+                      className="input w-full"
+                      value={entry.value}
+                      onChange={(e) =>
+                        updateInterest(entry.id, e.target.value)
+                      }
+                    />
+                  </fieldset>
+                  <RemoveButton
+                    label="Remove interest"
+                    onClick={() => removeInterest(entry.id)}
+                  />
+                </div>
+              </SortableBlock>
+            ))}
+          </SortableGroup>
 
           <button
             type="button"
@@ -889,61 +1304,50 @@ export default function Resume({
       : "bg-neutral text-neutral-content";
 
   const avatar = !visibleFields.includes("photo") ? null : (
-    <label
-      className="avatar avatar-placeholder cursor-pointer items-center justify-center"
-      aria-label="Upload profile photo"
-    >
-      <div className={`h-32 w-32 rounded-full ${avatarBgClass}`}>
-        {data.photo ? (
-          // eslint-disable-next-line @next/next/no-img-element -- user-uploaded data URL, not an optimizable static asset
-          <img
-            src={data.photo}
-            alt="Profile photo"
-            className="h-full w-full object-cover"
-          />
-        ) : (
-          <div className="flex h-full w-full flex-col items-center justify-center gap-1">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              className="h-10 w-10 stroke-current"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="1.5"
-                d="M12 16.5V4.5m0 0-4 4m4-4 4 4M4.5 16.5v2a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2v-2"
-              />
-            </svg>
-            <span className="text-xs font-medium">Upload photo</span>
-          </div>
-        )}
-      </div>
-      <input
-        type="file"
-        accept="image/*"
-        className="hidden"
-        onChange={handlePhotoChange}
-      />
-    </label>
-  );
-
-  const title = !visibleFields.includes("title") ? null : (
-    <fieldset className="fieldset w-24">
-      <input
-        type="text"
-        name="title"
-        placeholder="Your title"
-        className="input w-full"
-        value={data.title}
-        onChange={(e) => onChange("title", e.target.value)}
-      />
-    </fieldset>
+    <div className={templateId === "modern" ? "flex justify-center" : undefined}>
+      <label
+        className="avatar avatar-placeholder cursor-pointer items-center justify-center"
+        aria-label="Upload profile photo"
+      >
+        <div className={`h-32 w-32 rounded-full ${avatarBgClass}`}>
+          {data.photo ? (
+            // eslint-disable-next-line @next/next/no-img-element -- user-uploaded data URL, not an optimizable static asset
+            <img
+              src={data.photo}
+              alt="Profile photo"
+              className="h-full w-full object-cover"
+            />
+          ) : (
+            <div className="flex h-full w-full flex-col items-center justify-center gap-1">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                className="h-10 w-10 stroke-current"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="1.5"
+                  d="M12 16.5V4.5m0 0-4 4m4-4 4 4M4.5 16.5v2a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2v-2"
+                />
+              </svg>
+              <span className="text-xs font-medium">Upload photo</span>
+            </div>
+          )}
+        </div>
+        <input
+          type="file"
+          accept="image/*"
+          className="hidden"
+          onChange={handlePhotoChange}
+        />
+      </label>
+    </div>
   );
 
   const name = !visibleFields.includes("name") ? null : (
-    <fieldset className="fieldset flex-1">
+    <fieldset className="fieldset">
       <input
         type="text"
         name="name"
@@ -1144,7 +1548,7 @@ export default function Resume({
       )}
       <textarea
         placeholder="Write a short summary about yourself..."
-        className="textarea w-full"
+        className="textarea textarea-plain w-full"
         rows={3}
         value={data.aboutMe}
         onChange={(e) => onChange("aboutMe", e.target.value)}
@@ -1152,13 +1556,52 @@ export default function Resume({
     </div>
   );
 
+  const fieldContent: Partial<Record<FieldKey, React.ReactNode>> = {
+    photo: avatar,
+    name,
+    jobTitle,
+    phone,
+    email,
+    address,
+    website,
+    linkedin,
+    aboutMe,
+  };
+
   if (templateId === "modern") {
+    const sidebarFieldKeys = visibleFields.filter(
+      (key) => !modernMainFieldKeys.includes(key),
+    );
     const sidebarKeys = sectionOrder.filter((key) =>
       modernSidebarKeys.includes(key),
     );
-    const mainKeys = sectionOrder.filter(
+    const mainSectionKeys = sectionOrder.filter(
       (key) => !modernSidebarKeys.includes(key),
     );
+
+    // About Me is interleaved with the main-column sections here (instead of
+    // always pinned first) so it can be dragged freely between Work Experience,
+    // Education, and Interests.
+    const aboutMeIndex = Math.min(aboutMeMainIndex, mainSectionKeys.length);
+    const mainItems: (SectionKey | "aboutMe")[] = visibleFields.includes(
+      "aboutMe",
+    )
+      ? [
+          ...mainSectionKeys.slice(0, aboutMeIndex),
+          "aboutMe",
+          ...mainSectionKeys.slice(aboutMeIndex),
+        ]
+      : mainSectionKeys;
+
+    function handleMainReorder(newOrder: (SectionKey | "aboutMe")[]) {
+      const newAboutMeIndex = newOrder.indexOf("aboutMe");
+      if (newAboutMeIndex !== -1) setAboutMeMainIndex(newAboutMeIndex);
+
+      const newMainSectionKeys = newOrder.filter(
+        (item): item is SectionKey => item !== "aboutMe",
+      );
+      onReorderSections([...sidebarKeys, ...newMainSectionKeys]);
+    }
 
     return (
       <div
@@ -1166,7 +1609,7 @@ export default function Resume({
         style={{ fontFamily }}
       >
         <div
-          className="modern-sidebar bg-neutral text-neutral-content flex flex-col gap-2 p-6"
+          className="modern-sidebar bg-neutral text-neutral-content flex flex-col gap-2 p-6 pl-8"
           style={
             color
               ? ({
@@ -1177,28 +1620,50 @@ export default function Resume({
               : undefined
           }
         >
-          {avatar}
-          <div className="flex gap-2">
-            {title}
-            {name}
-          </div>
-          {jobTitle}
-          {avatar}
-          {email}
-          {address}
-          {website}
-          {linkedin}
+          <SortableGroup
+            dndId="modern-sidebar-fields"
+            ids={sidebarFieldKeys}
+            onReorder={(order) =>
+              onReorderFields([
+                ...order,
+                ...visibleFields.filter((key) =>
+                  modernMainFieldKeys.includes(key),
+                ),
+              ])
+            }
+          >
+            {sidebarFieldKeys.map((key) => (
+              <SortableBlock key={key} id={key}>
+                {fieldContent[key]}
+              </SortableBlock>
+            ))}
+          </SortableGroup>
 
-          {sidebarKeys.map((key) => (
-            <Fragment key={key}>{sectionContent[key]}</Fragment>
-          ))}
+          <SortableGroup
+            dndId="modern-sidebar-sections"
+            ids={sidebarKeys}
+            onReorder={(order) => onReorderSections([...order, ...mainSectionKeys])}
+          >
+            {sidebarKeys.map((key) => (
+              <SortableBlock key={key} id={key}>
+                {sectionContent[key]}
+              </SortableBlock>
+            ))}
+          </SortableGroup>
         </div>
 
-        <div className="p-6">
-          {aboutMe}
-          {mainKeys.map((key) => (
-            <Fragment key={key}>{sectionContent[key]}</Fragment>
-          ))}
+        <div className="p-6 pl-8">
+          <SortableGroup
+            dndId="modern-main"
+            ids={mainItems}
+            onReorder={handleMainReorder}
+          >
+            {mainItems.map((item) => (
+              <SortableBlock key={item} id={item}>
+                {item === "aboutMe" ? fieldContent.aboutMe : sectionContent[item]}
+              </SortableBlock>
+            ))}
+          </SortableGroup>
         </div>
       </div>
     );
@@ -1210,31 +1675,31 @@ export default function Resume({
         className="w-[280mm] min-h-[297mm] bg-white shadow-xl print:shadow-none"
         style={{ fontFamily }}
       >
-        <div className="p-10">
-          <div className="flex flex-col items-center gap-2">
-            {avatar}
-
-            <div className="grid gap-2">
-              <div className="flex items-end gap-2">
-                {title}
-                {name}
-              </div>
-              {jobTitle}
+        <div className="p-10 pl-12">
+          <SortableGroup
+            dndId="minimal-fields"
+            ids={visibleFields}
+            onReorder={onReorderFields}
+            strategy={rectSortingStrategy}
+          >
+            <div className="flex flex-col gap-2">
+              {renderFieldItems(visibleFields, fieldContent, {
+                wrapContactFields: true,
+              })}
             </div>
+          </SortableGroup>
 
-            <div className="flex w-full gap-2">
-              <div className="flex-1">{address}</div>
-              <div className="flex-1">{phone}</div>
-              <div className="flex-1">{email}</div>
-              <div className="flex-1">{website}</div>
-              <div className="flex-1">{linkedin}</div>
-            </div>
-          </div>
-
-          {aboutMe}
-          {sectionOrder.map((key) => (
-            <Fragment key={key}>{sectionContent[key]}</Fragment>
-          ))}
+          <SortableGroup
+            dndId="minimal-sections"
+            ids={sectionOrder}
+            onReorder={onReorderSections}
+          >
+            {sectionOrder.map((key) => (
+              <SortableBlock key={key} id={key}>
+                {sectionContent[key]}
+              </SortableBlock>
+            ))}
+          </SortableGroup>
         </div>
       </div>
     );
@@ -1245,32 +1710,28 @@ export default function Resume({
       className="w-[280mm] min-h-[297mm] bg-white shadow-xl print:shadow-none"
       style={{ fontFamily }}
     >
-      <div className="p-8">
-        <div className="grid grid-cols-2 gap-x-4">
-          <div className="col-span-2 flex gap-6">
-            {avatar}
-
-            <div className="flex flex-1 flex-col justify-center gap-2">
-              <div className="flex items-end gap-2">
-                {title}
-                {name}
-              </div>
-              {jobTitle}
-            </div>
+      <div className="p-8 pl-10">
+        <SortableGroup
+          dndId="basic-fields"
+          ids={visibleFields}
+          onReorder={onReorderFields}
+        >
+          <div className="flex flex-col gap-2">
+            {renderFieldItems(visibleFields, fieldContent)}
           </div>
+        </SortableGroup>
 
-          {phone}
-          {email}
-
-          <div className="col-span-2">{address}</div>
-          <div className="col-span-2">{website}</div>
-          <div className="col-span-2">{linkedin}</div>
-        </div>
-
-        {aboutMe}
-        {sectionOrder.map((key) => (
-          <Fragment key={key}>{sectionContent[key]}</Fragment>
-        ))}
+        <SortableGroup
+          dndId="basic-sections"
+          ids={sectionOrder}
+          onReorder={onReorderSections}
+        >
+          {sectionOrder.map((key) => (
+            <SortableBlock key={key} id={key}>
+              {sectionContent[key]}
+            </SortableBlock>
+          ))}
+        </SortableGroup>
       </div>
     </div>
   );

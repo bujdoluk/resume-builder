@@ -6,7 +6,7 @@ import { sampleResumeData } from "@/lib/sampleResumeData";
 import { templates } from "@/lib/templates";
 
 const allSections: SectionKey[] = [
-  "workHistory",
+  "workExperience",
   "education",
   "skills",
   "languages",

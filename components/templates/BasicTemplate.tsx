@@ -1,5 +1,5 @@
 import { Fragment } from "react";
-import type { FieldKey } from "@/components/AppState";
+import { allFields, type FieldKey } from "@/lib/fields";
 import {
   AboutMeIcon,
   AddressIcon,
@@ -29,6 +29,56 @@ export interface TemplateProps {
   visibleFields?: FieldKey[];
 }
 
+// Renders a field order, pairing Photo with Name/Job Title (photo left,
+// text stacked right, height-matched to the photo) whenever they
+// immediately follow it — matches the same pairing rule used in the
+// editable form (components/Resume.tsx), so drag-reordering there is
+// reflected consistently here.
+function renderFieldItems(
+  order: FieldKey[],
+  fieldContent: Partial<Record<FieldKey, React.ReactNode>>,
+): React.ReactNode[] {
+  const nodes: React.ReactNode[] = [];
+  let i = 0;
+
+  while (i < order.length) {
+    const key = order[i];
+
+    if (key === "photo" && fieldContent.photo) {
+      const pairedKeys: FieldKey[] = [];
+      let j = i + 1;
+      while (
+        j < order.length &&
+        (order[j] === "name" || order[j] === "jobTitle") &&
+        fieldContent[order[j]]
+      ) {
+        pairedKeys.push(order[j]);
+        j++;
+      }
+
+      if (pairedKeys.length > 0) {
+        nodes.push(
+          <div key={key} className="flex items-stretch gap-4">
+            {fieldContent.photo}
+            <div className="flex flex-1 flex-col justify-center gap-1">
+              {pairedKeys.map((pairedKey) => (
+                <Fragment key={pairedKey}>{fieldContent[pairedKey]}</Fragment>
+              ))}
+            </div>
+          </div>,
+        );
+        i = j;
+        continue;
+      }
+    }
+
+    nodes.push(<Fragment key={key}>{fieldContent[key]}</Fragment>);
+    i++;
+  }
+
+  return nodes;
+}
+
 export default function BasicTemplate({
   data,
   sectionOrder,
@@ -38,17 +88,10 @@ export default function BasicTemplate({
 }: TemplateProps) {
   const isVisible = (key: FieldKey) =>
     !visibleFields || visibleFields.includes(key);
+  const fieldOrder = visibleFields ?? allFields;
   const fontFamily = font ? fontsByKey[font].variable : undefined;
 
-  const fullName =
-    [
-      isVisible("title") && data.title,
-      isVisible("name") && data.name,
-    ]
-      .filter(Boolean)
-      .join(" ") || "Your Name";
-
-  const workEntries = data.workHistory.filter(
+  const workEntries = data.workExperience.filter(
     (entry) =>
       entry.position ||
       entry.location ||
@@ -74,14 +117,14 @@ export default function BasicTemplate({
   const interestEntries = data.interests.filter((entry) => entry.value);
 
   const sectionContent: Partial<Record<SectionKey, React.ReactNode>> = {
-    workHistory: workEntries.length > 0 && (
+    workExperience: workEntries.length > 0 && (
       <>
         <h2
           className="mt-4 mb-2 flex items-center gap-2 text-sm font-semibold tracking-wide text-gray-500 uppercase"
           style={color ? { color } : undefined}
         >
           <WorkHistoryIcon className="h-6 w-6 stroke-current" />
-          Work History
+          Work Experience
         </h2>
 
         <ul className="timeline timeline-vertical timeline-compact">
@@ -277,79 +320,86 @@ export default function BasicTemplate({
     ),
   };
 
+  const fieldContent: Partial<Record<FieldKey, React.ReactNode>> = {
+    photo: data.photo && isVisible("photo") && (
+      <div className="avatar">
+        <div className="w-16 rounded-full">
+          {/* eslint-disable-next-line @next/next/no-img-element -- user-uploaded data URL, not an optimizable static asset */}
+          <img
+            src={data.photo}
+            alt="Profile photo"
+            className="h-full w-full object-cover"
+          />
+        </div>
+      </div>
+    ),
+
+    name: isVisible("name") && (
+      <h1 className="text-3xl font-bold">{data.name || "Your Name"}</h1>
+    ),
+
+    jobTitle: data.jobTitle && isVisible("jobTitle") && (
+      <p className="text-lg text-gray-600">{data.jobTitle}</p>
+    ),
+
+    phone: data.phone && isVisible("phone") && (
+      <p className="flex items-center gap-1.5 text-sm text-gray-500">
+        <PhoneIcon className="h-4 w-4 shrink-0 stroke-current" />
+        {data.phone}
+      </p>
+    ),
+
+    email: data.email && isVisible("email") && (
+      <p className="flex items-center gap-1.5 text-sm text-gray-500">
+        <EmailIcon className="h-4 w-4 shrink-0 stroke-current" />
+        {data.email}
+      </p>
+    ),
+
+    address: data.address && isVisible("address") && (
+      <p className="flex items-center gap-1.5 text-sm text-gray-500">
+        <AddressIcon className="h-4 w-4 shrink-0 stroke-current" />
+        {data.address}
+      </p>
+    ),
+
+    website: data.website && isVisible("website") && (
+      <p className="flex items-center gap-1.5 text-sm text-gray-500">
+        <WebsiteIcon className="h-4 w-4 shrink-0 stroke-current" />
+        {data.website}
+      </p>
+    ),
+
+    linkedin: data.linkedin && isVisible("linkedin") && (
+      <p className="flex items-center gap-1.5 text-sm text-gray-500">
+        <LinkedInIcon className="h-4 w-4 shrink-0 stroke-current" />
+        {data.linkedin}
+      </p>
+    ),
+
+    aboutMe: data.aboutMe && isVisible("aboutMe") && (
+      <>
+        <h2
+          className="mt-4 mb-2 flex items-center gap-2 text-sm font-semibold tracking-wide text-gray-500 uppercase"
+          style={color ? { color } : undefined}
+        >
+          <AboutMeIcon className="h-6 w-6 stroke-current" />
+          About Me
+        </h2>
+        <p className="whitespace-pre-line text-gray-700">{data.aboutMe}</p>
+      </>
+    ),
+  };
+
   return (
     <div
       className="w-[210mm] min-h-[297mm] bg-white shadow-xl print:shadow-none"
       style={{ fontFamily }}
     >
       <div className="p-8">
-        <div className="flex items-center gap-4">
-          {data.photo && isVisible("photo") && (
-            <div className="avatar">
-              <div className="w-16 rounded-full">
-                {/* eslint-disable-next-line @next/next/no-img-element -- user-uploaded data URL, not an optimizable static asset */}
-                <img
-                  src={data.photo}
-                  alt="Profile photo"
-                  className="h-full w-full object-cover"
-                />
-              </div>
-            </div>
-          )}
-          <div>
-            <h1 className="text-3xl font-bold">{fullName}</h1>
-            {data.jobTitle && isVisible("jobTitle") && (
-              <p className="text-lg text-gray-600">{data.jobTitle}</p>
-            )}
-          </div>
+        <div className="flex flex-col gap-1">
+          {renderFieldItems(fieldOrder, fieldContent)}
         </div>
-        <div className="mt-2 flex flex-col gap-1 text-sm text-gray-500">
-          {data.address && isVisible("address") && (
-            <p className="flex items-center gap-1.5">
-              <AddressIcon className="h-4 w-4 shrink-0 stroke-current" />
-              {data.address}
-            </p>
-          )}
-          {data.phone && isVisible("phone") && (
-            <p className="flex items-center gap-1.5">
-              <PhoneIcon className="h-4 w-4 shrink-0 stroke-current" />
-              {data.phone}
-            </p>
-          )}
-          {data.email && isVisible("email") && (
-            <p className="flex items-center gap-1.5">
-              <EmailIcon className="h-4 w-4 shrink-0 stroke-current" />
-              {data.email}
-            </p>
-          )}
-          {data.website && isVisible("website") && (
-            <p className="flex items-center gap-1.5">
-              <WebsiteIcon className="h-4 w-4 shrink-0 stroke-current" />
-              {data.website}
-            </p>
-          )}
-          {data.linkedin && isVisible("linkedin") && (
-            <p className="flex items-center gap-1.5">
-              <LinkedInIcon className="h-4 w-4 shrink-0 stroke-current" />
-              {data.linkedin}
-            </p>
-          )}
-        </div>
-
-        {data.aboutMe && isVisible("aboutMe") && (
-          <>
-            <h2
-              className="mt-4 mb-2 flex items-center gap-2 text-sm font-semibold tracking-wide text-gray-500 uppercase"
-              style={color ? { color } : undefined}
-            >
-              <AboutMeIcon className="h-6 w-6 stroke-current" />
-              About Me
-            </h2>
-            <p className="whitespace-pre-line text-gray-700">
-              {data.aboutMe}
-            </p>
-          </>
-        )}
 
         {sectionOrder.map((key) => (
           <Fragment key={key}>{sectionContent[key]}</Fragment>

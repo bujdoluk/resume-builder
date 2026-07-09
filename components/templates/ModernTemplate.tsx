@@ -1,5 +1,5 @@
 import { Fragment } from "react";
-import type { FieldKey } from "@/components/AppState";
+import { allFields, type FieldKey } from "@/lib/fields";
 import {
   AboutMeIcon,
   AddressIcon,
@@ -45,17 +45,10 @@ export default function ModernTemplate({
 }: TemplateProps) {
   const isVisible = (key: FieldKey) =>
     !visibleFields || visibleFields.includes(key);
+  const fieldOrder = visibleFields ?? allFields;
   const fontFamily = font ? fontsByKey[font].variable : undefined;
 
-  const fullName =
-    [
-      isVisible("title") && data.title,
-      isVisible("name") && data.name,
-    ]
-      .filter(Boolean)
-      .join(" ") || "Your Name";
-
-  const workEntries = data.workHistory.filter(
+  const workEntries = data.workExperience.filter(
     (entry) =>
       entry.position ||
       entry.location ||
@@ -81,14 +74,14 @@ export default function ModernTemplate({
   const interestEntries = data.interests.filter((entry) => entry.value);
 
   const mainSectionContent: Partial<Record<SectionKey, React.ReactNode>> = {
-    workHistory: workEntries.length > 0 && (
+    workExperience: workEntries.length > 0 && (
       <>
         <h2
           className="mt-4 mb-2 flex items-center gap-2 text-sm font-semibold tracking-wide text-gray-500 uppercase"
           style={color ? { color } : undefined}
         >
           <WorkHistoryIcon className="h-6 w-6 stroke-current" />
-          Work History
+          Work Experience
         </h2>
         <div className="flex flex-col gap-3">
           {workEntries.map((entry) => {
@@ -242,6 +235,87 @@ export default function ModernTemplate({
   const sidebarKeys: SectionKey[] = ["skills", "certifications", "languages"];
   const mainKeys = sectionOrder.filter((key) => !sidebarKeys.includes(key));
 
+  // About Me stays spatially just before Work Experience, which lives in the
+  // main column for Modern — every other field lives in the sidebar.
+  const mainFieldKeys: FieldKey[] = ["aboutMe"];
+  const sidebarFieldKeys = fieldOrder.filter(
+    (key) => !mainFieldKeys.includes(key),
+  );
+  const orderedMainFieldKeys = fieldOrder.filter((key) =>
+    mainFieldKeys.includes(key),
+  );
+
+  const fieldContent: Partial<Record<FieldKey, React.ReactNode>> = {
+    photo: data.photo && isVisible("photo") && (
+      <div className="avatar mb-2 self-center">
+        <div className="w-20 rounded-full bg-white">
+          {/* eslint-disable-next-line @next/next/no-img-element -- user-uploaded data URL, not an optimizable static asset */}
+          <img
+            src={data.photo}
+            alt="Profile photo"
+            className="h-full w-full object-cover"
+          />
+        </div>
+      </div>
+    ),
+
+    name: isVisible("name") && (
+      <h1 className="text-xl font-bold">{data.name || "Your Name"}</h1>
+    ),
+
+    jobTitle: data.jobTitle && isVisible("jobTitle") && (
+      <p className="text-sm opacity-80">{data.jobTitle}</p>
+    ),
+
+    phone: data.phone && isVisible("phone") && (
+      <p className="flex items-center gap-1.5 text-xs opacity-80">
+        <PhoneIcon className="h-3.5 w-3.5 shrink-0 stroke-current" />
+        {data.phone}
+      </p>
+    ),
+
+    email: data.email && isVisible("email") && (
+      <p className="flex items-center gap-1.5 text-xs opacity-80">
+        <EmailIcon className="h-3.5 w-3.5 shrink-0 stroke-current" />
+        {data.email}
+      </p>
+    ),
+
+    address: data.address && isVisible("address") && (
+      <p className="flex items-center gap-1.5 text-xs opacity-80">
+        <AddressIcon className="h-3.5 w-3.5 shrink-0 stroke-current" />
+        {data.address}
+      </p>
+    ),
+
+    website: data.website && isVisible("website") && (
+      <p className="flex items-center gap-1.5 text-xs opacity-80">
+        <WebsiteIcon className="h-3.5 w-3.5 shrink-0 stroke-current" />
+        {data.website}
+      </p>
+    ),
+
+    linkedin: data.linkedin && isVisible("linkedin") && (
+      <p className="flex items-center gap-1.5 text-xs opacity-80">
+        <LinkedInIcon className="h-3.5 w-3.5 shrink-0 stroke-current" />
+        {data.linkedin}
+      </p>
+    ),
+
+    aboutMe: data.aboutMe && isVisible("aboutMe") && (
+      <>
+        <h2
+          className="mt-4 mb-2 flex items-center gap-2 text-sm font-semibold tracking-wide text-gray-500 uppercase"
+          style={color ? { color } : undefined}
+        >
+          <AboutMeIcon className="h-6 w-6 stroke-current" />
+          About Me
+        </h2>
+        <p className="whitespace-pre-line text-gray-700">{data.aboutMe}</p>
+      </>
+    ),
+  };
+
   return (
     <div
       className="grid w-[210mm] min-h-[297mm] grid-cols-[70mm_1fr] bg-white shadow-xl print:shadow-none"
@@ -259,56 +333,9 @@ export default function ModernTemplate({
             : undefined
         }
       >
-        {data.photo && isVisible("photo") && (
-          <div className="avatar mb-2">
-            <div className="w-20 rounded-full bg-white">
-              {/* eslint-disable-next-line @next/next/no-img-element -- user-uploaded data URL, not an optimizable static asset */}
-              <img
-                src={data.photo}
-                alt="Profile photo"
-                className="h-full w-full object-cover"
-              />
-            </div>
-          </div>
-        )}
-
-        <h1 className="text-xl font-bold">{fullName}</h1>
-        {data.jobTitle && isVisible("jobTitle") && (
-          <p className="text-sm opacity-80">{data.jobTitle}</p>
-        )}
-
-        <div className="mt-2 flex flex-col gap-1 text-xs opacity-80">
-          {data.address && isVisible("address") && (
-            <p className="flex items-center gap-1.5">
-              <AddressIcon className="h-3.5 w-3.5 shrink-0 stroke-current" />
-              {data.address}
-            </p>
-          )}
-          {data.phone && isVisible("phone") && (
-            <p className="flex items-center gap-1.5">
-              <PhoneIcon className="h-3.5 w-3.5 shrink-0 stroke-current" />
-              {data.phone}
-            </p>
-          )}
-          {data.email && isVisible("email") && (
-            <p className="flex items-center gap-1.5">
-              <EmailIcon className="h-3.5 w-3.5 shrink-0 stroke-current" />
-              {data.email}
-            </p>
-          )}
-          {data.website && isVisible("website") && (
-            <p className="flex items-center gap-1.5">
-              <WebsiteIcon className="h-3.5 w-3.5 shrink-0 stroke-current" />
-              {data.website}
-            </p>
-          )}
-          {data.linkedin && isVisible("linkedin") && (
-            <p className="flex items-center gap-1.5">
-              <LinkedInIcon className="h-3.5 w-3.5 shrink-0 stroke-current" />
-              {data.linkedin}
-            </p>
-          )}
-        </div>
+        {sidebarFieldKeys.map((key) => (
+          <Fragment key={key}>{fieldContent[key]}</Fragment>
+        ))}
 
         {sidebarKeys.map((key) => (
           <Fragment key={key}>{sidebarSectionContent[key]}</Fragment>
@@ -316,20 +343,9 @@ export default function ModernTemplate({
       </div>
 
       <div className="p-6">
-        {data.aboutMe && isVisible("aboutMe") && (
-          <>
-            <h2
-              className="mt-4 mb-2 flex items-center gap-2 text-sm font-semibold tracking-wide text-gray-500 uppercase"
-              style={color ? { color } : undefined}
-            >
-              <AboutMeIcon className="h-6 w-6 stroke-current" />
-              About Me
-            </h2>
-            <p className="whitespace-pre-line text-gray-700">
-              {data.aboutMe}
-            </p>
-          </>
-        )}
+        {orderedMainFieldKeys.map((key) => (
+          <Fragment key={key}>{fieldContent[key]}</Fragment>
+        ))}
         {mainKeys.map((key) => (
           <Fragment key={key}>{mainSectionContent[key]}</Fragment>
         ))}

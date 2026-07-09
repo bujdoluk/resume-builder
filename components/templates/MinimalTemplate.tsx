@@ -1,5 +1,5 @@
 import { Fragment } from "react";
-import type { FieldKey } from "@/components/AppState";
+import { allFields, type FieldKey } from "@/lib/fields";
 import {
   AddressIcon,
   EmailIcon,
@@ -35,6 +35,95 @@ function SectionTitle({
   );
 }
 
+// Contact fields packed onto shared, wrapping rows instead of stacking
+// one-per-line — mirrors the editable form (components/Resume.tsx).
+const contactFieldKeys: FieldKey[] = [
+  "phone",
+  "email",
+  "address",
+  "website",
+  "linkedin",
+];
+
+// Renders a field order, pairing Photo with Name/Job Title (photo left,
+// text stacked right, height-matched to the photo) whenever they
+// immediately follow it, and packing any immediately-consecutive run of
+// contact fields onto a shared flex-wrap row — matches the same rules used
+// in the editable form (components/Resume.tsx), so drag-reordering there is
+// reflected consistently here.
+function renderFieldItems(
+  order: FieldKey[],
+  fieldContent: Partial<Record<FieldKey, React.ReactNode>>,
+): React.ReactNode[] {
+  const nodes: React.ReactNode[] = [];
+  let i = 0;
+
+  while (i < order.length) {
+    const key = order[i];
+
+    if (key === "photo" && fieldContent.photo) {
+      const pairedKeys: FieldKey[] = [];
+      let j = i + 1;
+      while (
+        j < order.length &&
+        (order[j] === "name" || order[j] === "jobTitle") &&
+        fieldContent[order[j]]
+      ) {
+        pairedKeys.push(order[j]);
+        j++;
+      }
+
+      if (pairedKeys.length > 0) {
+        nodes.push(
+          <div key={key} className="flex items-stretch gap-4 text-left">
+            {fieldContent.photo}
+            <div className="flex flex-1 flex-col justify-center gap-1">
+              {pairedKeys.map((pairedKey) => (
+                <Fragment key={pairedKey}>{fieldContent[pairedKey]}</Fragment>
+              ))}
+            </div>
+          </div>,
+        );
+        i = j;
+        continue;
+      }
+    }
+
+    if (contactFieldKeys.includes(key)) {
+      const rowKeys: FieldKey[] = [];
+      let j = i;
+      while (
+        j < order.length &&
+        contactFieldKeys.includes(order[j]) &&
+        fieldContent[order[j]]
+      ) {
+        rowKeys.push(order[j]);
+        j++;
+      }
+
+      if (rowKeys.length > 1) {
+        nodes.push(
+          <div
+            key={key}
+            className="flex flex-wrap justify-center gap-x-4 gap-y-1"
+          >
+            {rowKeys.map((rowKey) => (
+              <Fragment key={rowKey}>{fieldContent[rowKey]}</Fragment>
+            ))}
+          </div>,
+        );
+        i = j;
+        continue;
+      }
+    }
+
+    nodes.push(<Fragment key={key}>{fieldContent[key]}</Fragment>);
+    i++;
+  }
+
+  return nodes;
+}
+
 /**
  * Third template: a clean, centered-header single column with no icons or
  * timeline dots — entries are set off with a thin left accent border instead.
@@ -48,37 +137,10 @@ export default function MinimalTemplate({
 }: TemplateProps) {
   const isVisible = (key: FieldKey) =>
     !visibleFields || visibleFields.includes(key);
+  const fieldOrder = visibleFields ?? allFields;
   const fontFamily = font ? fontsByKey[font].variable : undefined;
 
-  const fullName =
-    [
-      isVisible("title") && data.title,
-      isVisible("name") && data.name,
-    ]
-      .filter(Boolean)
-      .join(" ") || "Your Name";
-
-  type ContactPart = { Icon: typeof AddressIcon; value: string };
-
-  const contactParts: ContactPart[] = [
-    data.address && isVisible("address")
-      ? { Icon: AddressIcon, value: data.address }
-      : null,
-    data.phone && isVisible("phone")
-      ? { Icon: PhoneIcon, value: data.phone }
-      : null,
-    data.email && isVisible("email")
-      ? { Icon: EmailIcon, value: data.email }
-      : null,
-    data.website && isVisible("website")
-      ? { Icon: WebsiteIcon, value: data.website }
-      : null,
-    data.linkedin && isVisible("linkedin")
-      ? { Icon: LinkedInIcon, value: data.linkedin }
-      : null,
-  ].filter((part): part is ContactPart => part !== null);
-
-  const workEntries = data.workHistory.filter(
+  const workEntries = data.workExperience.filter(
     (entry) =>
       entry.position ||
       entry.location ||
@@ -104,9 +166,9 @@ export default function MinimalTemplate({
   const interestEntries = data.interests.filter((entry) => entry.value);
 
   const sectionContent: Partial<Record<SectionKey, React.ReactNode>> = {
-    workHistory: workEntries.length > 0 && (
+    workExperience: workEntries.length > 0 && (
       <>
-        <SectionTitle color={color}>Work History</SectionTitle>
+        <SectionTitle color={color}>Work Experience</SectionTitle>
         <div className="flex flex-col gap-4">
           {workEntries.map((entry) => {
             const dateRange = [entry.dateFrom, entry.dateTo]
@@ -228,52 +290,84 @@ export default function MinimalTemplate({
     ),
   };
 
+  const fieldContent: Partial<Record<FieldKey, React.ReactNode>> = {
+    photo: data.photo && isVisible("photo") && (
+      <div className="avatar mb-1">
+        <div className="w-20 rounded-full">
+          {/* eslint-disable-next-line @next/next/no-img-element -- user-uploaded data URL, not an optimizable static asset */}
+          <img
+            src={data.photo}
+            alt="Profile photo"
+            className="h-full w-full object-cover"
+          />
+        </div>
+      </div>
+    ),
+
+    name: isVisible("name") && (
+      <h1 className="text-3xl font-bold tracking-wide">
+        {data.name || "Your Name"}
+      </h1>
+    ),
+
+    jobTitle: data.jobTitle && isVisible("jobTitle") && (
+      <p className="text-primary text-sm font-semibold tracking-[0.15em] uppercase">
+        {data.jobTitle}
+      </p>
+    ),
+
+    phone: data.phone && isVisible("phone") && (
+      <p className="flex items-center gap-1.5 text-sm text-gray-500">
+        <PhoneIcon className="h-4 w-4 shrink-0 stroke-current" />
+        {data.phone}
+      </p>
+    ),
+
+    email: data.email && isVisible("email") && (
+      <p className="flex items-center gap-1.5 text-sm text-gray-500">
+        <EmailIcon className="h-4 w-4 shrink-0 stroke-current" />
+        {data.email}
+      </p>
+    ),
+
+    address: data.address && isVisible("address") && (
+      <p className="flex items-center gap-1.5 text-sm text-gray-500">
+        <AddressIcon className="h-4 w-4 shrink-0 stroke-current" />
+        {data.address}
+      </p>
+    ),
+
+    website: data.website && isVisible("website") && (
+      <p className="flex items-center gap-1.5 text-sm text-gray-500">
+        <WebsiteIcon className="h-4 w-4 shrink-0 stroke-current" />
+        {data.website}
+      </p>
+    ),
+
+    linkedin: data.linkedin && isVisible("linkedin") && (
+      <p className="flex items-center gap-1.5 text-sm text-gray-500">
+        <LinkedInIcon className="h-4 w-4 shrink-0 stroke-current" />
+        {data.linkedin}
+      </p>
+    ),
+
+    aboutMe: data.aboutMe && isVisible("aboutMe") && (
+      <div className="w-full text-left">
+        <SectionTitle color={color}>About Me</SectionTitle>
+        <p className="whitespace-pre-line text-gray-700">{data.aboutMe}</p>
+      </div>
+    ),
+  };
+
   return (
     <div
       className="w-[210mm] min-h-[297mm] bg-white shadow-xl print:shadow-none"
       style={{ fontFamily }}
     >
       <div className="p-10">
-        <div className="flex flex-col items-center text-center">
-          {data.photo && isVisible("photo") && (
-            <div className="avatar mb-3">
-              <div className="w-20 rounded-full">
-                {/* eslint-disable-next-line @next/next/no-img-element -- user-uploaded data URL, not an optimizable static asset */}
-                <img
-                  src={data.photo}
-                  alt="Profile photo"
-                  className="h-full w-full object-cover"
-                />
-              </div>
-            </div>
-          )}
-
-          <h1 className="text-3xl font-bold tracking-wide">{fullName}</h1>
-          {data.jobTitle && isVisible("jobTitle") && (
-            <p className="text-primary mt-1 text-sm font-semibold tracking-[0.15em] uppercase">
-              {data.jobTitle}
-            </p>
-          )}
-          {contactParts.length > 0 && (
-            <div className="mt-2 flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-sm text-gray-500">
-              {contactParts.map(({ Icon, value }, index) => (
-                <span key={index} className="flex items-center gap-1.5">
-                  <Icon className="h-4 w-4 shrink-0 stroke-current" />
-                  {value}
-                </span>
-              ))}
-            </div>
-          )}
+        <div className="flex flex-col items-center gap-1 text-center">
+          {renderFieldItems(fieldOrder, fieldContent)}
         </div>
-
-        {data.aboutMe && isVisible("aboutMe") && (
-          <>
-            <SectionTitle color={color}>About Me</SectionTitle>
-            <p className="whitespace-pre-line text-gray-700">
-              {data.aboutMe}
-            </p>
-          </>
-        )}
 
         {sectionOrder.map((key) => (
           <Fragment key={key}>{sectionContent[key]}</Fragment>
