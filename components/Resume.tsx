@@ -888,7 +888,7 @@ export default function Resume({
       ? "bg-white text-neutral"
       : "bg-neutral text-neutral-content";
 
-  const avatarField = !visibleFields.includes("photo") ? null : (
+  const avatar = !visibleFields.includes("photo") ? null : (
     <label
       className="avatar avatar-placeholder cursor-pointer items-center justify-center"
       aria-label="Upload profile photo"
@@ -929,7 +929,7 @@ export default function Resume({
     </label>
   );
 
-  const titleField = !visibleFields.includes("title") ? null : (
+  const title = !visibleFields.includes("title") ? null : (
     <fieldset className="fieldset w-24">
       <input
         type="text"
@@ -942,7 +942,7 @@ export default function Resume({
     </fieldset>
   );
 
-  const nameField = !visibleFields.includes("name") ? null : (
+  const name = !visibleFields.includes("name") ? null : (
     <fieldset className="fieldset flex-1">
       <input
         type="text"
@@ -955,7 +955,7 @@ export default function Resume({
     </fieldset>
   );
 
-  const jobTitleField = !visibleFields.includes("jobTitle") ? null : (
+  const jobTitle = !visibleFields.includes("jobTitle") ? null : (
     <fieldset className="fieldset">
       <input
         type="text"
@@ -968,7 +968,7 @@ export default function Resume({
     </fieldset>
   );
 
-  const phoneField = !visibleFields.includes("phone") ? null : (
+  const phone = !visibleFields.includes("phone") ? null : (
     <fieldset className="fieldset">
       <label className="input w-full">
         <svg
@@ -997,7 +997,7 @@ export default function Resume({
     </fieldset>
   );
 
-  const emailField = !visibleFields.includes("email") ? null : (
+  const email = !visibleFields.includes("email") ? null : (
     <fieldset className="fieldset">
       <label className="input w-full">
         <svg
@@ -1026,7 +1026,7 @@ export default function Resume({
     </fieldset>
   );
 
-  const addressField = !visibleFields.includes("address") ? null : (
+  const address = !visibleFields.includes("address") ? null : (
     <fieldset className="fieldset">
       <label className="input w-full">
         <svg
@@ -1061,7 +1061,7 @@ export default function Resume({
     </fieldset>
   );
 
-  const websiteField = !visibleFields.includes("website") ? null : (
+  const website = !visibleFields.includes("website") ? null : (
     <fieldset className="fieldset">
       <label className="input w-full">
         <svg
@@ -1090,7 +1090,7 @@ export default function Resume({
     </fieldset>
   );
 
-  const linkedinField = !visibleFields.includes("linkedin") ? null : (
+  const linkedin = !visibleFields.includes("linkedin") ? null : (
     <fieldset className="fieldset">
       <label className="input w-full">
         <svg
@@ -1119,7 +1119,7 @@ export default function Resume({
     </fieldset>
   );
 
-  const aboutMeField = !visibleFields.includes("aboutMe") ? null : (
+  const aboutMe = !visibleFields.includes("aboutMe") ? null : (
     <div>
       {templateId === "minimal" ? (
         <h2
@@ -1177,17 +1177,17 @@ export default function Resume({
               : undefined
           }
         >
-          {avatarField}
+          {avatar}
           <div className="flex gap-2">
-            {titleField}
-            {nameField}
+            {title}
+            {name}
           </div>
-          {jobTitleField}
-          {phoneField}
-          {emailField}
-          {addressField}
-          {websiteField}
-          {linkedinField}
+          {jobTitle}
+          {avatar}
+          {email}
+          {address}
+          {website}
+          {linkedin}
 
           {sidebarKeys.map((key) => (
             <Fragment key={key}>{sectionContent[key]}</Fragment>
@@ -1195,7 +1195,7 @@ export default function Resume({
         </div>
 
         <div className="p-6">
-          {aboutMeField}
+          {aboutMe}
           {mainKeys.map((key) => (
             <Fragment key={key}>{sectionContent[key]}</Fragment>
           ))}
@@ -1212,24 +1212,26 @@ export default function Resume({
       >
         <div className="p-10">
           <div className="flex flex-col items-center gap-2">
-            {avatarField}
+            {avatar}
 
-            <div className="flex items-end gap-2">
-              {titleField}
-              {nameField}
+            <div className="grid gap-2">
+              <div className="flex items-end gap-2">
+                {title}
+                {name}
+              </div>
+              {jobTitle}
             </div>
-            {jobTitleField}
 
             <div className="flex w-full gap-2">
-              <div className="flex-1">{addressField}</div>
-              <div className="flex-1">{phoneField}</div>
-              <div className="flex-1">{emailField}</div>
-              <div className="flex-1">{websiteField}</div>
-              <div className="flex-1">{linkedinField}</div>
+              <div className="flex-1">{address}</div>
+              <div className="flex-1">{phone}</div>
+              <div className="flex-1">{email}</div>
+              <div className="flex-1">{website}</div>
+              <div className="flex-1">{linkedin}</div>
             </div>
           </div>
 
-          {aboutMeField}
+          {aboutMe}
           {sectionOrder.map((key) => (
             <Fragment key={key}>{sectionContent[key]}</Fragment>
           ))}
@@ -1246,26 +1248,26 @@ export default function Resume({
       <div className="p-8">
         <div className="grid grid-cols-2 gap-x-4">
           <div className="col-span-2 flex gap-6">
-            {avatarField}
+            {avatar}
 
             <div className="flex flex-1 flex-col justify-center gap-2">
               <div className="flex items-end gap-2">
-                {titleField}
-                {nameField}
+                {title}
+                {name}
               </div>
-              {jobTitleField}
+              {jobTitle}
             </div>
           </div>
 
-          {phoneField}
-          {emailField}
+          {phone}
+          {email}
 
-          <div className="col-span-2">{addressField}</div>
-          <div className="col-span-2">{websiteField}</div>
-          <div className="col-span-2">{linkedinField}</div>
+          <div className="col-span-2">{address}</div>
+          <div className="col-span-2">{website}</div>
+          <div className="col-span-2">{linkedin}</div>
         </div>
 
-        {aboutMeField}
+        {aboutMe}
         {sectionOrder.map((key) => (
           <Fragment key={key}>{sectionContent[key]}</Fragment>
         ))}

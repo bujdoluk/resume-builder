@@ -177,7 +177,7 @@ export default function Sidebar() {
             </div>
 
             <p className="mt-4 mb-2 text-xs font-semibold text-gray-400 uppercase">
-              Accent Color
+              Colors
             </p>
             <div className="flex flex-col gap-2">
               {rows.map((row, rowIndex) => (
