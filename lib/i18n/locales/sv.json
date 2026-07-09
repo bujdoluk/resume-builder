@@ -1,0 +1,81 @@
+{
+  "sidebar": {
+    "templates": "Mallar",
+    "features": "Funktioner",
+    "colours": "Färger",
+    "typography": "Typografi",
+    "customColour": "Egen färg"
+  },
+  "fields": {
+    "photo": "Foto",
+    "name": "Namn",
+    "jobTitle": "Jobbtitel",
+    "phone": "Telefon",
+    "email": "E-post",
+    "address": "Adress",
+    "website": "Webbplats",
+    "linkedin": "LinkedIn",
+    "aboutMe": "Om mig"
+  },
+  "sections": {
+    "workExperience": "Arbetslivserfarenhet",
+    "education": "Utbildning",
+    "skills": "Färdigheter",
+    "certifications": "Certifieringar",
+    "languages": "Språk",
+    "interests": "Intressen"
+  },
+  "placeholders": {
+    "uploadPhoto": "Ladda upp foto",
+    "yourName": "Ditt namn",
+    "yourJobTitle": "Din jobbtitel",
+    "yourPhone": "Ditt telefonnummer",
+    "yourEmail": "Din e-post",
+    "yourAddress": "Din adress",
+    "yourWebsite": "Din webbplats",
+    "yourLinkedIn": "Din LinkedIn",
+    "aboutMe": "Skriv en kort sammanfattning om dig själv...",
+    "yourPosition": "Din befattning",
+    "startDateWork": "Startdatum (t.ex. 01-06-2020)",
+    "endDateWork": "Slutdatum eller Nuvarande",
+    "location": "Plats",
+    "describeResponsibilities": "Beskriv dina ansvarsområden och prestationer...",
+    "subjectOfStudy": "Studieämne",
+    "startDateEducation": "Startdatum (t.ex. 01-09-2016)",
+    "endDateEducation": "Slutdatum",
+    "describeStudies": "Beskriv dina studier, examensarbete, utmärkelser...",
+    "yourSkill": "Din färdighet",
+    "certificationName": "Certifieringens namn",
+    "date": "Datum",
+    "yourLanguage": "Ditt språk",
+    "yourInterest": "Ditt intresse"
+  },
+  "buttons": {
+    "addWorkExperience": "+ Lägg till arbetslivserfarenhet",
+    "addEducation": "+ Lägg till utbildning",
+    "addSkill": "+ Lägg till färdighet",
+    "addCertification": "+ Lägg till certifiering",
+    "addLanguage": "+ Lägg till språk",
+    "addInterest": "+ Lägg till intresse",
+    "preview": "Förhandsgranska",
+    "downloadPdf": "Ladda ner PDF"
+  },
+  "aria": {
+    "removeWorkExperience": "Ta bort arbetslivserfarenhet",
+    "removeEducation": "Ta bort utbildning",
+    "removeSkill": "Ta bort färdighet",
+    "removeCertification": "Ta bort certifiering",
+    "removeLanguage": "Ta bort språk",
+    "removeInterest": "Ta bort intresse",
+    "removeSection": "Ta bort avsnittet {{title}}",
+    "uploadProfilePhoto": "Ladda upp profilfoto",
+    "reorder": "Ändra ordning",
+    "selectLanguage": "Välj språk"
+  },
+  "templates": {
+    "basic": "Enkel",
+    "modern": "Modern",
+    "minimal": "Minimalistisk",
+    "pageTitle": "Mallar"
+  }
+}

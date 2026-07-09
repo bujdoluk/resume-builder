@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { useTranslation } from "react-i18next";
 import Navbar from "@/components/Navbar";
 import TemplateThumbnail from "@/components/TemplateThumbnail";
 import type { SectionKey } from "@/lib/resumeData";
@@ -14,12 +17,14 @@ const allSections: SectionKey[] = [
 ];
 
 export default function TemplatesPage() {
+  const { t } = useTranslation();
+
   return (
     <div className="flex min-h-full flex-col">
       <Navbar />
 
       <div className="bg-base-200 flex-1 p-8">
-        <h1 className="mb-6 text-2xl font-bold">Templates</h1>
+        <h1 className="mb-6 text-2xl font-bold">{t("templates.pageTitle")}</h1>
 
         <div className="flex flex-wrap gap-6">
           {templates.map((template) => (
@@ -35,7 +40,7 @@ export default function TemplatesPage() {
                 />
               </TemplateThumbnail>
               <span className="font-medium group-hover:underline">
-                {template.name}
+                {t(`templates.${template.id}`)}
               </span>
             </Link>
           ))}

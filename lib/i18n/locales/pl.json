@@ -1,0 +1,81 @@
+{
+  "sidebar": {
+    "templates": "Szablony",
+    "features": "Funkcje",
+    "colours": "Kolory",
+    "typography": "Typografia",
+    "customColour": "Własny kolor"
+  },
+  "fields": {
+    "photo": "Zdjęcie",
+    "name": "Imię i nazwisko",
+    "jobTitle": "Stanowisko",
+    "phone": "Telefon",
+    "email": "Email",
+    "address": "Adres",
+    "website": "Strona internetowa",
+    "linkedin": "LinkedIn",
+    "aboutMe": "O mnie"
+  },
+  "sections": {
+    "workExperience": "Doświadczenie zawodowe",
+    "education": "Wykształcenie",
+    "skills": "Umiejętności",
+    "certifications": "Certyfikaty",
+    "languages": "Języki",
+    "interests": "Zainteresowania"
+  },
+  "placeholders": {
+    "uploadPhoto": "Prześlij zdjęcie",
+    "yourName": "Twoje imię i nazwisko",
+    "yourJobTitle": "Twoje stanowisko",
+    "yourPhone": "Twój telefon",
+    "yourEmail": "Twój email",
+    "yourAddress": "Twój adres",
+    "yourWebsite": "Twoja strona internetowa",
+    "yourLinkedIn": "Twój LinkedIn",
+    "aboutMe": "Napisz krótkie podsumowanie o sobie...",
+    "yourPosition": "Twoje stanowisko",
+    "startDateWork": "Data rozpoczęcia (np. 01-06-2020)",
+    "endDateWork": "Data zakończenia lub Obecnie",
+    "location": "Lokalizacja",
+    "describeResponsibilities": "Opisz swoje obowiązki i osiągnięcia...",
+    "subjectOfStudy": "Kierunek studiów",
+    "startDateEducation": "Data rozpoczęcia (np. 01-09-2016)",
+    "endDateEducation": "Data zakończenia",
+    "describeStudies": "Opisz swoje studia, pracę dyplomową, wyróżnienia...",
+    "yourSkill": "Twoja umiejętność",
+    "certificationName": "Nazwa certyfikatu",
+    "date": "Data",
+    "yourLanguage": "Twój język",
+    "yourInterest": "Twoje zainteresowanie"
+  },
+  "buttons": {
+    "addWorkExperience": "+ Dodaj doświadczenie zawodowe",
+    "addEducation": "+ Dodaj wykształcenie",
+    "addSkill": "+ Dodaj umiejętność",
+    "addCertification": "+ Dodaj certyfikat",
+    "addLanguage": "+ Dodaj język",
+    "addInterest": "+ Dodaj zainteresowanie",
+    "preview": "Podgląd",
+    "downloadPdf": "Pobierz PDF"
+  },
+  "aria": {
+    "removeWorkExperience": "Usuń doświadczenie zawodowe",
+    "removeEducation": "Usuń wykształcenie",
+    "removeSkill": "Usuń umiejętność",
+    "removeCertification": "Usuń certyfikat",
+    "removeLanguage": "Usuń język",
+    "removeInterest": "Usuń zainteresowanie",
+    "removeSection": "Usuń sekcję {{title}}",
+    "uploadProfilePhoto": "Prześlij zdjęcie profilowe",
+    "reorder": "Zmień kolejność",
+    "selectLanguage": "Wybierz język"
+  },
+  "templates": {
+    "basic": "Podstawowy",
+    "modern": "Nowoczesny",
+    "minimal": "Minimalistyczny",
+    "pageTitle": "Szablony"
+  }
+}

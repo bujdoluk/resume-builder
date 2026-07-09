@@ -1,0 +1,81 @@
+{
+  "sidebar": {
+    "templates": "Šablóny",
+    "features": "Funkcie",
+    "colours": "Farby",
+    "typography": "Typografia",
+    "customColour": "Vlastná farba"
+  },
+  "fields": {
+    "photo": "Fotka",
+    "name": "Meno",
+    "jobTitle": "Pracovná pozícia",
+    "phone": "Telefón",
+    "email": "Email",
+    "address": "Adresa",
+    "website": "Webová stránka",
+    "linkedin": "LinkedIn",
+    "aboutMe": "O mne"
+  },
+  "sections": {
+    "workExperience": "Pracovné skúsenosti",
+    "education": "Vzdelanie",
+    "skills": "Zručnosti",
+    "certifications": "Certifikáty",
+    "languages": "Jazyky",
+    "interests": "Záujmy"
+  },
+  "placeholders": {
+    "uploadPhoto": "Nahrať fotku",
+    "yourName": "Vaše meno",
+    "yourJobTitle": "Vaša pracovná pozícia",
+    "yourPhone": "Váš telefón",
+    "yourEmail": "Váš email",
+    "yourAddress": "Vaša adresa",
+    "yourWebsite": "Vaša webová stránka",
+    "yourLinkedIn": "Váš LinkedIn",
+    "aboutMe": "Napíšte krátke zhrnutie o sebe...",
+    "yourPosition": "Vaša pozícia",
+    "startDateWork": "Dátum začiatku (napr. 01-06-2020)",
+    "endDateWork": "Dátum ukončenia alebo Súčasnosť",
+    "location": "Miesto",
+    "describeResponsibilities": "Opíšte svoje povinnosti a úspechy...",
+    "subjectOfStudy": "Odbor štúdia",
+    "startDateEducation": "Dátum začiatku (napr. 01-09-2016)",
+    "endDateEducation": "Dátum ukončenia",
+    "describeStudies": "Opíšte svoje štúdium, záverečnú prácu, ocenenia...",
+    "yourSkill": "Vaša zručnosť",
+    "certificationName": "Názov certifikátu",
+    "date": "Dátum",
+    "yourLanguage": "Váš jazyk",
+    "yourInterest": "Váš záujem"
+  },
+  "buttons": {
+    "addWorkExperience": "+ Pridať pracovnú skúsenosť",
+    "addEducation": "+ Pridať vzdelanie",
+    "addSkill": "+ Pridať zručnosť",
+    "addCertification": "+ Pridať certifikát",
+    "addLanguage": "+ Pridať jazyk",
+    "addInterest": "+ Pridať záujem",
+    "preview": "Náhľad",
+    "downloadPdf": "Stiahnuť PDF"
+  },
+  "aria": {
+    "removeWorkExperience": "Odstrániť pracovnú skúsenosť",
+    "removeEducation": "Odstrániť vzdelanie",
+    "removeSkill": "Odstrániť zručnosť",
+    "removeCertification": "Odstrániť certifikát",
+    "removeLanguage": "Odstrániť jazyk",
+    "removeInterest": "Odstrániť záujem",
+    "removeSection": "Odstrániť sekciu {{title}}",
+    "uploadProfilePhoto": "Nahrať profilovú fotku",
+    "reorder": "Zmeniť poradie",
+    "selectLanguage": "Vybrať jazyk"
+  },
+  "templates": {
+    "basic": "Základný",
+    "modern": "Moderný",
+    "minimal": "Minimalistický",
+    "pageTitle": "Šablóny"
+  }
+}

@@ -1,4 +1,7 @@
+"use client";
+
 import { Fragment } from "react";
+import { useTranslation } from "react-i18next";
 import { allFields, type FieldKey } from "@/lib/fields";
 import {
   AboutMeIcon,
@@ -43,6 +46,7 @@ export default function ModernTemplate({
   font,
   visibleFields,
 }: TemplateProps) {
+  const { t } = useTranslation();
   const isVisible = (key: FieldKey) =>
     !visibleFields || visibleFields.includes(key);
   const fieldOrder = visibleFields ?? allFields;
@@ -81,7 +85,7 @@ export default function ModernTemplate({
           style={color ? { color } : undefined}
         >
           <WorkHistoryIcon className="h-6 w-6 stroke-current" />
-          Work Experience
+          {t("sections.workExperience")}
         </h2>
         <div className="flex flex-col gap-3">
           {workEntries.map((entry) => {
@@ -118,7 +122,7 @@ export default function ModernTemplate({
           style={color ? { color } : undefined}
         >
           <EducationIcon className="h-6 w-6 stroke-current" />
-          Education
+          {t("sections.education")}
         </h2>
         <div className="flex flex-col gap-3">
           {educationEntries.map((entry) => {
@@ -155,7 +159,7 @@ export default function ModernTemplate({
           style={color ? { color } : undefined}
         >
           <InterestsIcon className="h-6 w-6 stroke-current" />
-          Interests
+          {t("sections.interests")}
         </h2>
         <p className="text-gray-700">
           {interestEntries.map((entry) => entry.value).join(", ")}
@@ -169,7 +173,7 @@ export default function ModernTemplate({
       <>
         <h2 className="mt-4 mb-2 flex items-center gap-2 text-sm font-semibold tracking-wide uppercase opacity-70">
           <SkillsIcon className="h-5 w-5 stroke-current" />
-          Skills
+          {t("sections.skills")}
         </h2>
         <ul className="flex flex-col gap-1">
           {skillEntries.map((entry) => (
@@ -183,7 +187,7 @@ export default function ModernTemplate({
       <>
         <h2 className="mt-4 mb-2 flex items-center gap-2 text-sm font-semibold tracking-wide uppercase opacity-70">
           <CertificationsIcon className="h-5 w-5 stroke-current" />
-          Certifications
+          {t("sections.certifications")}
         </h2>
         <ul className="flex flex-col gap-1">
           {certificationEntries.map((entry) => (
@@ -202,7 +206,7 @@ export default function ModernTemplate({
       <>
         <h2 className="mt-4 mb-2 flex items-center gap-2 text-sm font-semibold tracking-wide uppercase opacity-70">
           <LanguagesIcon className="h-5 w-5 stroke-current" />
-          Languages
+          {t("sections.languages")}
         </h2>
         <div className="flex flex-col gap-1">
           {languageEntries.map((entry) => {
@@ -260,7 +264,9 @@ export default function ModernTemplate({
     ),
 
     name: isVisible("name") && (
-      <h1 className="text-xl font-bold">{data.name || "Your Name"}</h1>
+      <h1 className="text-xl font-bold">
+        {data.name || t("placeholders.yourName")}
+      </h1>
     ),
 
     jobTitle: data.jobTitle && isVisible("jobTitle") && (
@@ -309,7 +315,7 @@ export default function ModernTemplate({
           style={color ? { color } : undefined}
         >
           <AboutMeIcon className="h-6 w-6 stroke-current" />
-          About Me
+          {t("fields.aboutMe")}
         </h2>
         <p className="whitespace-pre-line text-gray-700">{data.aboutMe}</p>
       </>

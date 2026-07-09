@@ -1,0 +1,81 @@
+{
+  "sidebar": {
+    "templates": "Шаблоны",
+    "features": "Возможности",
+    "colours": "Цвета",
+    "typography": "Типографика",
+    "customColour": "Свой цвет"
+  },
+  "fields": {
+    "photo": "Фото",
+    "name": "Имя",
+    "jobTitle": "Должность",
+    "phone": "Телефон",
+    "email": "Эл. почта",
+    "address": "Адрес",
+    "website": "Веб-сайт",
+    "linkedin": "LinkedIn",
+    "aboutMe": "Обо мне"
+  },
+  "sections": {
+    "workExperience": "Опыт работы",
+    "education": "Образование",
+    "skills": "Навыки",
+    "certifications": "Сертификаты",
+    "languages": "Языки",
+    "interests": "Интересы"
+  },
+  "placeholders": {
+    "uploadPhoto": "Загрузить фото",
+    "yourName": "Ваше имя",
+    "yourJobTitle": "Ваша должность",
+    "yourPhone": "Ваш телефон",
+    "yourEmail": "Ваша эл. почта",
+    "yourAddress": "Ваш адрес",
+    "yourWebsite": "Ваш веб-сайт",
+    "yourLinkedIn": "Ваш LinkedIn",
+    "aboutMe": "Напишите краткое описание о себе...",
+    "yourPosition": "Ваша должность",
+    "startDateWork": "Дата начала (напр. 01-06-2020)",
+    "endDateWork": "Дата окончания или По настоящее время",
+    "location": "Местоположение",
+    "describeResponsibilities": "Опишите свои обязанности и достижения...",
+    "subjectOfStudy": "Специальность",
+    "startDateEducation": "Дата начала (напр. 01-09-2016)",
+    "endDateEducation": "Дата окончания",
+    "describeStudies": "Опишите свою учёбу, дипломную работу, награды...",
+    "yourSkill": "Ваш навык",
+    "certificationName": "Название сертификата",
+    "date": "Дата",
+    "yourLanguage": "Ваш язык",
+    "yourInterest": "Ваш интерес"
+  },
+  "buttons": {
+    "addWorkExperience": "+ Добавить опыт работы",
+    "addEducation": "+ Добавить образование",
+    "addSkill": "+ Добавить навык",
+    "addCertification": "+ Добавить сертификат",
+    "addLanguage": "+ Добавить язык",
+    "addInterest": "+ Добавить интерес",
+    "preview": "Предпросмотр",
+    "downloadPdf": "Скачать PDF"
+  },
+  "aria": {
+    "removeWorkExperience": "Удалить опыт работы",
+    "removeEducation": "Удалить образование",
+    "removeSkill": "Удалить навык",
+    "removeCertification": "Удалить сертификат",
+    "removeLanguage": "Удалить язык",
+    "removeInterest": "Удалить интерес",
+    "removeSection": "Удалить раздел «{{title}}»",
+    "uploadProfilePhoto": "Загрузить фото профиля",
+    "reorder": "Изменить порядок",
+    "selectLanguage": "Выбрать язык"
+  },
+  "templates": {
+    "basic": "Базовый",
+    "modern": "Современный",
+    "minimal": "Минималистичный",
+    "pageTitle": "Шаблоны"
+  }
+}

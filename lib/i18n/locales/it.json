@@ -1,0 +1,81 @@
+{
+  "sidebar": {
+    "templates": "Modelli",
+    "features": "Funzionalità",
+    "colours": "Colori",
+    "typography": "Tipografia",
+    "customColour": "Colore personalizzato"
+  },
+  "fields": {
+    "photo": "Foto",
+    "name": "Nome",
+    "jobTitle": "Qualifica professionale",
+    "phone": "Telefono",
+    "email": "Email",
+    "address": "Indirizzo",
+    "website": "Sito web",
+    "linkedin": "LinkedIn",
+    "aboutMe": "Chi sono"
+  },
+  "sections": {
+    "workExperience": "Esperienza lavorativa",
+    "education": "Istruzione",
+    "skills": "Competenze",
+    "certifications": "Certificazioni",
+    "languages": "Lingue",
+    "interests": "Interessi"
+  },
+  "placeholders": {
+    "uploadPhoto": "Carica foto",
+    "yourName": "Il tuo nome",
+    "yourJobTitle": "La tua qualifica",
+    "yourPhone": "Il tuo telefono",
+    "yourEmail": "La tua email",
+    "yourAddress": "Il tuo indirizzo",
+    "yourWebsite": "Il tuo sito web",
+    "yourLinkedIn": "Il tuo LinkedIn",
+    "aboutMe": "Scrivi un breve riassunto su di te...",
+    "yourPosition": "La tua posizione",
+    "startDateWork": "Data di inizio (es. 01-06-2020)",
+    "endDateWork": "Data di fine o Presente",
+    "location": "Luogo",
+    "describeResponsibilities": "Descrivi le tue responsabilità e i tuoi risultati...",
+    "subjectOfStudy": "Materia di studio",
+    "startDateEducation": "Data di inizio (es. 01-09-2016)",
+    "endDateEducation": "Data di fine",
+    "describeStudies": "Descrivi i tuoi studi, la tesi, i riconoscimenti...",
+    "yourSkill": "La tua competenza",
+    "certificationName": "Nome della certificazione",
+    "date": "Data",
+    "yourLanguage": "La tua lingua",
+    "yourInterest": "Il tuo interesse"
+  },
+  "buttons": {
+    "addWorkExperience": "+ Aggiungi esperienza lavorativa",
+    "addEducation": "+ Aggiungi istruzione",
+    "addSkill": "+ Aggiungi competenza",
+    "addCertification": "+ Aggiungi certificazione",
+    "addLanguage": "+ Aggiungi lingua",
+    "addInterest": "+ Aggiungi interesse",
+    "preview": "Anteprima",
+    "downloadPdf": "Scarica PDF"
+  },
+  "aria": {
+    "removeWorkExperience": "Rimuovi esperienza lavorativa",
+    "removeEducation": "Rimuovi istruzione",
+    "removeSkill": "Rimuovi competenza",
+    "removeCertification": "Rimuovi certificazione",
+    "removeLanguage": "Rimuovi lingua",
+    "removeInterest": "Rimuovi interesse",
+    "removeSection": "Rimuovi la sezione {{title}}",
+    "uploadProfilePhoto": "Carica foto profilo",
+    "reorder": "Riordina",
+    "selectLanguage": "Seleziona lingua"
+  },
+  "templates": {
+    "basic": "Base",
+    "modern": "Moderno",
+    "minimal": "Minimalista",
+    "pageTitle": "Modelli"
+  }
+}

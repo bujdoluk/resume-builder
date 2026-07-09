@@ -1,4 +1,7 @@
+"use client";
+
 import { Fragment } from "react";
+import { useTranslation } from "react-i18next";
 import { allFields, type FieldKey } from "@/lib/fields";
 import {
   AboutMeIcon,
@@ -86,6 +89,7 @@ export default function BasicTemplate({
   font,
   visibleFields,
 }: TemplateProps) {
+  const { t } = useTranslation();
   const isVisible = (key: FieldKey) =>
     !visibleFields || visibleFields.includes(key);
   const fieldOrder = visibleFields ?? allFields;
@@ -124,7 +128,7 @@ export default function BasicTemplate({
           style={color ? { color } : undefined}
         >
           <WorkHistoryIcon className="h-6 w-6 stroke-current" />
-          Work Experience
+          {t("sections.workExperience")}
         </h2>
 
         <ul className="timeline timeline-vertical timeline-compact">
@@ -177,7 +181,7 @@ export default function BasicTemplate({
           style={color ? { color } : undefined}
         >
           <EducationIcon className="h-6 w-6 stroke-current" />
-          Education
+          {t("sections.education")}
         </h2>
 
         <ul className="timeline timeline-vertical timeline-compact">
@@ -230,7 +234,7 @@ export default function BasicTemplate({
           style={color ? { color } : undefined}
         >
           <SkillsIcon className="h-6 w-6 stroke-current" />
-          Skills
+          {t("sections.skills")}
         </h2>
 
         <p className="text-gray-700">
@@ -246,7 +250,7 @@ export default function BasicTemplate({
           style={color ? { color } : undefined}
         >
           <CertificationsIcon className="h-6 w-6 stroke-current" />
-          Certifications
+          {t("sections.certifications")}
         </h2>
 
         <div className="space-y-1">
@@ -269,7 +273,7 @@ export default function BasicTemplate({
           style={color ? { color } : undefined}
         >
           <LanguagesIcon className="h-6 w-6 stroke-current" />
-          Languages
+          {t("sections.languages")}
         </h2>
 
         <div className="space-y-1">
@@ -310,7 +314,7 @@ export default function BasicTemplate({
           style={color ? { color } : undefined}
         >
           <InterestsIcon className="h-6 w-6 stroke-current" />
-          Interests
+          {t("sections.interests")}
         </h2>
 
         <p className="text-gray-700">
@@ -335,7 +339,9 @@ export default function BasicTemplate({
     ),
 
     name: isVisible("name") && (
-      <h1 className="text-3xl font-bold">{data.name || "Your Name"}</h1>
+      <h1 className="text-3xl font-bold">
+        {data.name || t("placeholders.yourName")}
+      </h1>
     ),
 
     jobTitle: data.jobTitle && isVisible("jobTitle") && (
@@ -384,7 +390,7 @@ export default function BasicTemplate({
           style={color ? { color } : undefined}
         >
           <AboutMeIcon className="h-6 w-6 stroke-current" />
-          About Me
+          {t("fields.aboutMe")}
         </h2>
         <p className="whitespace-pre-line text-gray-700">{data.aboutMe}</p>
       </>

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import LanguageSelect from "@/components/LanguageSelect";
 
 export default function Navbar() {
   return (
@@ -28,6 +29,9 @@ export default function Navbar() {
         <Link href="/" className="text-lg font-semibold">
           QuickResumeBuilder.online
         </Link>
+      </div>
+      <div className="flex-none">
+        <LanguageSelect />
       </div>
     </div>
   );

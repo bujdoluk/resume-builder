@@ -1,0 +1,81 @@
+{
+  "sidebar": {
+    "templates": "Plantillas",
+    "features": "Funciones",
+    "colours": "Colores",
+    "typography": "Tipografía",
+    "customColour": "Color personalizado"
+  },
+  "fields": {
+    "photo": "Foto",
+    "name": "Nombre",
+    "jobTitle": "Puesto",
+    "phone": "Teléfono",
+    "email": "Correo electrónico",
+    "address": "Dirección",
+    "website": "Sitio web",
+    "linkedin": "LinkedIn",
+    "aboutMe": "Sobre mí"
+  },
+  "sections": {
+    "workExperience": "Experiencia laboral",
+    "education": "Educación",
+    "skills": "Habilidades",
+    "certifications": "Certificaciones",
+    "languages": "Idiomas",
+    "interests": "Intereses"
+  },
+  "placeholders": {
+    "uploadPhoto": "Subir foto",
+    "yourName": "Tu nombre",
+    "yourJobTitle": "Tu puesto",
+    "yourPhone": "Tu teléfono",
+    "yourEmail": "Tu correo electrónico",
+    "yourAddress": "Tu dirección",
+    "yourWebsite": "Tu sitio web",
+    "yourLinkedIn": "Tu LinkedIn",
+    "aboutMe": "Escribe un breve resumen sobre ti...",
+    "yourPosition": "Tu puesto",
+    "startDateWork": "Fecha de inicio (ej. 01-06-2020)",
+    "endDateWork": "Fecha de fin o Actualidad",
+    "location": "Ubicación",
+    "describeResponsibilities": "Describe tus responsabilidades y logros...",
+    "subjectOfStudy": "Área de estudio",
+    "startDateEducation": "Fecha de inicio (ej. 01-09-2016)",
+    "endDateEducation": "Fecha de fin",
+    "describeStudies": "Describe tus estudios, tesis, distinciones...",
+    "yourSkill": "Tu habilidad",
+    "certificationName": "Nombre de la certificación",
+    "date": "Fecha",
+    "yourLanguage": "Tu idioma",
+    "yourInterest": "Tu interés"
+  },
+  "buttons": {
+    "addWorkExperience": "+ Añadir experiencia laboral",
+    "addEducation": "+ Añadir educación",
+    "addSkill": "+ Añadir habilidad",
+    "addCertification": "+ Añadir certificación",
+    "addLanguage": "+ Añadir idioma",
+    "addInterest": "+ Añadir interés",
+    "preview": "Vista previa",
+    "downloadPdf": "Descargar PDF"
+  },
+  "aria": {
+    "removeWorkExperience": "Eliminar experiencia laboral",
+    "removeEducation": "Eliminar educación",
+    "removeSkill": "Eliminar habilidad",
+    "removeCertification": "Eliminar certificación",
+    "removeLanguage": "Eliminar idioma",
+    "removeInterest": "Eliminar interés",
+    "removeSection": "Eliminar sección {{title}}",
+    "uploadProfilePhoto": "Subir foto de perfil",
+    "reorder": "Reordenar",
+    "selectLanguage": "Seleccionar idioma"
+  },
+  "templates": {
+    "basic": "Básico",
+    "modern": "Moderno",
+    "minimal": "Minimalista",
+    "pageTitle": "Plantillas"
+  }
+}

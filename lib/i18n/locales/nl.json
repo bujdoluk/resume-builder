@@ -1,0 +1,81 @@
+{
+  "sidebar": {
+    "templates": "Sjablonen",
+    "features": "Functies",
+    "colours": "Kleuren",
+    "typography": "Typografie",
+    "customColour": "Aangepaste kleur"
+  },
+  "fields": {
+    "photo": "Foto",
+    "name": "Naam",
+    "jobTitle": "Functietitel",
+    "phone": "Telefoon",
+    "email": "E-mail",
+    "address": "Adres",
+    "website": "Website",
+    "linkedin": "LinkedIn",
+    "aboutMe": "Over mij"
+  },
+  "sections": {
+    "workExperience": "Werkervaring",
+    "education": "Opleiding",
+    "skills": "Vaardigheden",
+    "certifications": "Certificeringen",
+    "languages": "Talen",
+    "interests": "Interesses"
+  },
+  "placeholders": {
+    "uploadPhoto": "Foto uploaden",
+    "yourName": "Uw naam",
+    "yourJobTitle": "Uw functietitel",
+    "yourPhone": "Uw telefoonnummer",
+    "yourEmail": "Uw e-mail",
+    "yourAddress": "Uw adres",
+    "yourWebsite": "Uw website",
+    "yourLinkedIn": "Uw LinkedIn",
+    "aboutMe": "Schrijf een korte samenvatting over uzelf...",
+    "yourPosition": "Uw functie",
+    "startDateWork": "Startdatum (bijv. 01-06-2020)",
+    "endDateWork": "Einddatum of Heden",
+    "location": "Locatie",
+    "describeResponsibilities": "Beschrijf uw verantwoordelijkheden en prestaties...",
+    "subjectOfStudy": "Studierichting",
+    "startDateEducation": "Startdatum (bijv. 01-09-2016)",
+    "endDateEducation": "Einddatum",
+    "describeStudies": "Beschrijf uw studie, scriptie, onderscheidingen...",
+    "yourSkill": "Uw vaardigheid",
+    "certificationName": "Naam van certificering",
+    "date": "Datum",
+    "yourLanguage": "Uw taal",
+    "yourInterest": "Uw interesse"
+  },
+  "buttons": {
+    "addWorkExperience": "+ Werkervaring toevoegen",
+    "addEducation": "+ Opleiding toevoegen",
+    "addSkill": "+ Vaardigheid toevoegen",
+    "addCertification": "+ Certificering toevoegen",
+    "addLanguage": "+ Taal toevoegen",
+    "addInterest": "+ Interesse toevoegen",
+    "preview": "Voorbeeld",
+    "downloadPdf": "PDF downloaden"
+  },
+  "aria": {
+    "removeWorkExperience": "Werkervaring verwijderen",
+    "removeEducation": "Opleiding verwijderen",
+    "removeSkill": "Vaardigheid verwijderen",
+    "removeCertification": "Certificering verwijderen",
+    "removeLanguage": "Taal verwijderen",
+    "removeInterest": "Interesse verwijderen",
+    "removeSection": "Sectie {{title}} verwijderen",
+    "uploadProfilePhoto": "Profielfoto uploaden",
+    "reorder": "Volgorde wijzigen",
+    "selectLanguage": "Taal selecteren"
+  },
+  "templates": {
+    "basic": "Basis",
+    "modern": "Modern",
+    "minimal": "Minimalistisch",
+    "pageTitle": "Sjablonen"
+  }
+}

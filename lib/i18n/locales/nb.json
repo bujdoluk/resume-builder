@@ -1,0 +1,81 @@
+{
+  "sidebar": {
+    "templates": "Maler",
+    "features": "Funksjoner",
+    "colours": "Farger",
+    "typography": "Typografi",
+    "customColour": "Egendefinert farge"
+  },
+  "fields": {
+    "photo": "Bilde",
+    "name": "Navn",
+    "jobTitle": "Stillingstittel",
+    "phone": "Telefon",
+    "email": "E-post",
+    "address": "Adresse",
+    "website": "Nettside",
+    "linkedin": "LinkedIn",
+    "aboutMe": "Om meg"
+  },
+  "sections": {
+    "workExperience": "Arbeidserfaring",
+    "education": "Utdanning",
+    "skills": "Ferdigheter",
+    "certifications": "Sertifiseringer",
+    "languages": "Språk",
+    "interests": "Interesser"
+  },
+  "placeholders": {
+    "uploadPhoto": "Last opp bilde",
+    "yourName": "Ditt navn",
+    "yourJobTitle": "Din stillingstittel",
+    "yourPhone": "Ditt telefonnummer",
+    "yourEmail": "Din e-post",
+    "yourAddress": "Din adresse",
+    "yourWebsite": "Din nettside",
+    "yourLinkedIn": "Din LinkedIn",
+    "aboutMe": "Skriv et kort sammendrag om deg selv...",
+    "yourPosition": "Din stilling",
+    "startDateWork": "Startdato (f.eks. 01-06-2020)",
+    "endDateWork": "Sluttdato eller Nåværende",
+    "location": "Sted",
+    "describeResponsibilities": "Beskriv dine ansvarsområder og prestasjoner...",
+    "subjectOfStudy": "Studieretning",
+    "startDateEducation": "Startdato (f.eks. 01-09-2016)",
+    "endDateEducation": "Sluttdato",
+    "describeStudies": "Beskriv utdanningen din, oppgaven, utmerkelser...",
+    "yourSkill": "Din ferdighet",
+    "certificationName": "Navn på sertifisering",
+    "date": "Dato",
+    "yourLanguage": "Ditt språk",
+    "yourInterest": "Din interesse"
+  },
+  "buttons": {
+    "addWorkExperience": "+ Legg til arbeidserfaring",
+    "addEducation": "+ Legg til utdanning",
+    "addSkill": "+ Legg til ferdighet",
+    "addCertification": "+ Legg til sertifisering",
+    "addLanguage": "+ Legg til språk",
+    "addInterest": "+ Legg til interesse",
+    "preview": "Forhåndsvisning",
+    "downloadPdf": "Last ned PDF"
+  },
+  "aria": {
+    "removeWorkExperience": "Fjern arbeidserfaring",
+    "removeEducation": "Fjern utdanning",
+    "removeSkill": "Fjern ferdighet",
+    "removeCertification": "Fjern sertifisering",
+    "removeLanguage": "Fjern språk",
+    "removeInterest": "Fjern interesse",
+    "removeSection": "Fjern {{title}}-seksjonen",
+    "uploadProfilePhoto": "Last opp profilbilde",
+    "reorder": "Endre rekkefølge",
+    "selectLanguage": "Velg språk"
+  },
+  "templates": {
+    "basic": "Enkel",
+    "modern": "Moderne",
+    "minimal": "Minimalistisk",
+    "pageTitle": "Maler"
+  }
+}

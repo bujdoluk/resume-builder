@@ -1,0 +1,81 @@
+{
+  "sidebar": {
+    "templates": "Šablony",
+    "features": "Funkce",
+    "colours": "Barvy",
+    "typography": "Typografie",
+    "customColour": "Vlastní barva"
+  },
+  "fields": {
+    "photo": "Fotka",
+    "name": "Jméno",
+    "jobTitle": "Pracovní pozice",
+    "phone": "Telefon",
+    "email": "Email",
+    "address": "Adresa",
+    "website": "Webová stránka",
+    "linkedin": "LinkedIn",
+    "aboutMe": "O mně"
+  },
+  "sections": {
+    "workExperience": "Pracovní zkušenosti",
+    "education": "Vzdělání",
+    "skills": "Dovednosti",
+    "certifications": "Certifikáty",
+    "languages": "Jazyky",
+    "interests": "Zájmy"
+  },
+  "placeholders": {
+    "uploadPhoto": "Nahrát fotku",
+    "yourName": "Vaše jméno",
+    "yourJobTitle": "Vaše pracovní pozice",
+    "yourPhone": "Váš telefon",
+    "yourEmail": "Váš email",
+    "yourAddress": "Vaše adresa",
+    "yourWebsite": "Vaše webová stránka",
+    "yourLinkedIn": "Váš LinkedIn",
+    "aboutMe": "Napište krátké shrnutí o sobě...",
+    "yourPosition": "Vaše pozice",
+    "startDateWork": "Datum zahájení (např. 01-06-2020)",
+    "endDateWork": "Datum ukončení nebo Současnost",
+    "location": "Místo",
+    "describeResponsibilities": "Popište své povinnosti a úspěchy...",
+    "subjectOfStudy": "Obor studia",
+    "startDateEducation": "Datum zahájení (např. 01-09-2016)",
+    "endDateEducation": "Datum ukončení",
+    "describeStudies": "Popište své studium, závěrečnou práci, ocenění...",
+    "yourSkill": "Vaše dovednost",
+    "certificationName": "Název certifikátu",
+    "date": "Datum",
+    "yourLanguage": "Váš jazyk",
+    "yourInterest": "Váš zájem"
+  },
+  "buttons": {
+    "addWorkExperience": "+ Přidat pracovní zkušenost",
+    "addEducation": "+ Přidat vzdělání",
+    "addSkill": "+ Přidat dovednost",
+    "addCertification": "+ Přidat certifikát",
+    "addLanguage": "+ Přidat jazyk",
+    "addInterest": "+ Přidat zájem",
+    "preview": "Náhled",
+    "downloadPdf": "Stáhnout PDF"
+  },
+  "aria": {
+    "removeWorkExperience": "Odebrat pracovní zkušenost",
+    "removeEducation": "Odebrat vzdělání",
+    "removeSkill": "Odebrat dovednost",
+    "removeCertification": "Odebrat certifikát",
+    "removeLanguage": "Odebrat jazyk",
+    "removeInterest": "Odebrat zájem",
+    "removeSection": "Odebrat sekci {{title}}",
+    "uploadProfilePhoto": "Nahrát profilovou fotku",
+    "reorder": "Přeuspořádat",
+    "selectLanguage": "Vybrat jazyk"
+  },
+  "templates": {
+    "basic": "Základní",
+    "modern": "Moderní",
+    "minimal": "Minimalistický",
+    "pageTitle": "Šablony"
+  }
+}

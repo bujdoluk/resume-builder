@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useAppState } from "@/components/AppState";
 import Navbar from "@/components/Navbar";
 import Resume from "@/components/Resume";
@@ -31,6 +32,7 @@ interface HomeProps {
 }
 
 export default function Home({ initialTemplateId }: HomeProps) {
+  const { t } = useTranslation();
   const templateId = resolveTemplateId(initialTemplateId);
   const {
     color,
@@ -162,7 +164,7 @@ export default function Home({ initialTemplateId }: HomeProps) {
             className="btn btn-primary btn-lg"
             onClick={() => previewRef.current?.showModal()}
           >
-            Preview
+            {t("buttons.preview")}
           </button>
 
           <button
@@ -174,7 +176,7 @@ export default function Home({ initialTemplateId }: HomeProps) {
             {isGeneratingPdf ? (
               <span className="loading loading-spinner loading-sm" />
             ) : (
-              "Download PDF"
+              t("buttons.downloadPdf")
             )}
           </button>
         </div>

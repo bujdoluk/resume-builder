@@ -1,4 +1,7 @@
+"use client";
+
 import { Fragment } from "react";
+import { useTranslation } from "react-i18next";
 import { allFields, type FieldKey } from "@/lib/fields";
 import {
   AddressIcon,
@@ -135,6 +138,7 @@ export default function MinimalTemplate({
   font,
   visibleFields,
 }: TemplateProps) {
+  const { t } = useTranslation();
   const isVisible = (key: FieldKey) =>
     !visibleFields || visibleFields.includes(key);
   const fieldOrder = visibleFields ?? allFields;
@@ -168,7 +172,7 @@ export default function MinimalTemplate({
   const sectionContent: Partial<Record<SectionKey, React.ReactNode>> = {
     workExperience: workEntries.length > 0 && (
       <>
-        <SectionTitle color={color}>Work Experience</SectionTitle>
+        <SectionTitle color={color}>{t("sections.workExperience")}</SectionTitle>
         <div className="flex flex-col gap-4">
           {workEntries.map((entry) => {
             const dateRange = [entry.dateFrom, entry.dateTo]
@@ -207,7 +211,7 @@ export default function MinimalTemplate({
 
     education: educationEntries.length > 0 && (
       <>
-        <SectionTitle color={color}>Education</SectionTitle>
+        <SectionTitle color={color}>{t("sections.education")}</SectionTitle>
         <div className="flex flex-col gap-4">
           {educationEntries.map((entry) => {
             const dateRange = [entry.dateFrom, entry.dateTo]
@@ -246,7 +250,7 @@ export default function MinimalTemplate({
 
     skills: skillEntries.length > 0 && (
       <>
-        <SectionTitle color={color}>Skills</SectionTitle>
+        <SectionTitle color={color}>{t("sections.skills")}</SectionTitle>
         <p className="text-gray-700">
           {skillEntries.map((entry) => entry.value).join(" · ")}
         </p>
@@ -255,7 +259,7 @@ export default function MinimalTemplate({
 
     certifications: certificationEntries.length > 0 && (
       <>
-        <SectionTitle color={color}>Certifications</SectionTitle>
+        <SectionTitle color={color}>{t("sections.certifications")}</SectionTitle>
         <div className="flex flex-col gap-1">
           {certificationEntries.map((entry) => (
             <p key={entry.id} className="text-gray-700">
@@ -271,7 +275,7 @@ export default function MinimalTemplate({
 
     languages: languageEntries.length > 0 && (
       <>
-        <SectionTitle color={color}>Languages</SectionTitle>
+        <SectionTitle color={color}>{t("sections.languages")}</SectionTitle>
         <p className="text-gray-700">
           {languageEntries
             .map((entry) => `${entry.language} (${entry.level})`)
@@ -282,7 +286,7 @@ export default function MinimalTemplate({
 
     interests: interestEntries.length > 0 && (
       <>
-        <SectionTitle color={color}>Interests</SectionTitle>
+        <SectionTitle color={color}>{t("sections.interests")}</SectionTitle>
         <p className="text-gray-700">
           {interestEntries.map((entry) => entry.value).join(" · ")}
         </p>
@@ -306,7 +310,7 @@ export default function MinimalTemplate({
 
     name: isVisible("name") && (
       <h1 className="text-3xl font-bold tracking-wide">
-        {data.name || "Your Name"}
+        {data.name || t("placeholders.yourName")}
       </h1>
     ),
 
@@ -353,7 +357,7 @@ export default function MinimalTemplate({
 
     aboutMe: data.aboutMe && isVisible("aboutMe") && (
       <div className="w-full text-left">
-        <SectionTitle color={color}>About Me</SectionTitle>
+        <SectionTitle color={color}>{t("fields.aboutMe")}</SectionTitle>
         <p className="whitespace-pre-line text-gray-700">{data.aboutMe}</p>
       </div>
     ),

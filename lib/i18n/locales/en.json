@@ -1,0 +1,81 @@
+{
+  "sidebar": {
+    "templates": "Templates",
+    "features": "Features",
+    "colours": "Colours",
+    "typography": "Typography",
+    "customColour": "Custom colour"
+  },
+  "fields": {
+    "photo": "Photo",
+    "name": "Name",
+    "jobTitle": "Job Title",
+    "phone": "Phone",
+    "email": "Email",
+    "address": "Address",
+    "website": "Website",
+    "linkedin": "LinkedIn",
+    "aboutMe": "About Me"
+  },
+  "sections": {
+    "workExperience": "Work Experience",
+    "education": "Education",
+    "skills": "Skills",
+    "certifications": "Certifications",
+    "languages": "Languages",
+    "interests": "Interests"
+  },
+  "placeholders": {
+    "uploadPhoto": "Upload photo",
+    "yourName": "Your name",
+    "yourJobTitle": "Your job title",
+    "yourPhone": "Your phone",
+    "yourEmail": "Your email",
+    "yourAddress": "Your address",
+    "yourWebsite": "Your website",
+    "yourLinkedIn": "Your LinkedIn",
+    "aboutMe": "Write a short summary about yourself...",
+    "yourPosition": "Your position",
+    "startDateWork": "Start date (e.g. 01-06-2020)",
+    "endDateWork": "End date or Present",
+    "location": "Location",
+    "describeResponsibilities": "Describe your responsibilities and achievements...",
+    "subjectOfStudy": "Subject of study",
+    "startDateEducation": "Start date (e.g. 01-09-2016)",
+    "endDateEducation": "End date",
+    "describeStudies": "Describe your studies, thesis, honours...",
+    "yourSkill": "Your skill",
+    "certificationName": "Certification name",
+    "date": "Date",
+    "yourLanguage": "Your language",
+    "yourInterest": "Your interest"
+  },
+  "buttons": {
+    "addWorkExperience": "+ Add Work Experience",
+    "addEducation": "+ Add Education",
+    "addSkill": "+ Add Skill",
+    "addCertification": "+ Add Certification",
+    "addLanguage": "+ Add Language",
+    "addInterest": "+ Add Interest",
+    "preview": "Preview",
+    "downloadPdf": "Download PDF"
+  },
+  "aria": {
+    "removeWorkExperience": "Remove work experience",
+    "removeEducation": "Remove education",
+    "removeSkill": "Remove skill",
+    "removeCertification": "Remove certification",
+    "removeLanguage": "Remove language",
+    "removeInterest": "Remove interest",
+    "removeSection": "Remove {{title}} section",
+    "uploadProfilePhoto": "Upload profile photo",
+    "reorder": "Reorder",
+    "selectLanguage": "Select language"
+  },
+  "templates": {
+    "basic": "Basic",
+    "modern": "Modern",
+    "minimal": "Minimal",
+    "pageTitle": "Templates"
+  }
+}

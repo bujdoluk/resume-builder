@@ -20,6 +20,7 @@ import {
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { Fragment, useState } from "react";
+import { useTranslation } from "react-i18next";
 import type { FieldKey } from "@/components/AppState";
 import { AboutMeIcon } from "@/components/Icons";
 import { getContrastTextColor } from "@/lib/color";
@@ -158,6 +159,7 @@ function SortableBlock({
   className?: string;
   children: React.ReactNode;
 }) {
+  const { t } = useTranslation();
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } =
     useSortable({ id });
 
@@ -175,7 +177,7 @@ function SortableBlock({
     >
       <button
         type="button"
-        aria-label="Reorder"
+        aria-label={t("aria.reorder")}
         className="absolute top-0 -left-7 touch-none rounded p-1 text-gray-400 opacity-60 hover:bg-gray-100 hover:text-gray-600 focus:opacity-100 focus-visible:opacity-100 group-hover/sortable:opacity-100"
         {...attributes}
         {...listeners}
@@ -392,10 +394,11 @@ function SectionHeader({
   minimal?: boolean;
   color?: string | null;
 }) {
+  const { t } = useTranslation();
   const removeButton = (
     <button
       type="button"
-      aria-label={`Remove ${title} section`}
+      aria-label={t("aria.removeSection", { title })}
       className="btn btn-square btn-ghost btn-xs"
       onClick={onRemoveSection}
     >
@@ -467,6 +470,7 @@ export default function Resume({
   visibleFields,
   onReorderFields,
 }: ResumeProps) {
+  const { t } = useTranslation();
   const fontFamily = font ? fontsByKey[font].variable : undefined;
 
   const [workHistoryFieldOrder, setWorkHistoryFieldOrder] = useState(
@@ -538,7 +542,7 @@ export default function Resume({
         <fieldset className="fieldset">
           <input
             type="text"
-            placeholder="Your position"
+            placeholder={t("placeholders.yourPosition")}
             className="input input-plain w-full"
             value={entry.position}
             onChange={(e) =>
@@ -551,7 +555,7 @@ export default function Resume({
         <fieldset className="fieldset">
           <input
             type="text"
-            placeholder="Start date (e.g. 01-06-2020)"
+            placeholder={t("placeholders.startDateWork")}
             className="input input-plain w-full"
             value={entry.dateFrom}
             onChange={(e) =>
@@ -564,7 +568,7 @@ export default function Resume({
         <fieldset className="fieldset">
           <input
             type="text"
-            placeholder="End date or Present"
+            placeholder={t("placeholders.endDateWork")}
             className="input input-plain w-full"
             value={entry.dateTo}
             onChange={(e) =>
@@ -589,7 +593,7 @@ export default function Resume({
       jobDescription: (
         <fieldset className="fieldset">
           <textarea
-            placeholder="Describe your responsibilities and achievements..."
+            placeholder={t("placeholders.describeResponsibilities")}
             className="textarea input-plain w-full"
             rows={4}
             value={entry.jobDescription}
@@ -640,7 +644,7 @@ export default function Resume({
         <fieldset className="fieldset">
           <input
             type="text"
-            placeholder="Subject of study"
+            placeholder={t("placeholders.subjectOfStudy")}
             className="input input-plain w-full"
             value={entry.subject}
             onChange={(e) =>
@@ -653,7 +657,7 @@ export default function Resume({
         <fieldset className="fieldset">
           <input
             type="text"
-            placeholder="Start date (e.g. 01-09-2016)"
+            placeholder={t("placeholders.startDateEducation")}
             className="input input-plain w-full"
             value={entry.dateFrom}
             onChange={(e) =>
@@ -666,7 +670,7 @@ export default function Resume({
         <fieldset className="fieldset">
           <input
             type="text"
-            placeholder="End date"
+            placeholder={t("placeholders.endDateEducation")}
             className="input input-plain w-full"
             value={entry.dateTo}
             onChange={(e) =>
@@ -691,7 +695,7 @@ export default function Resume({
       description: (
         <fieldset className="fieldset">
           <textarea
-            placeholder="Describe your studies, thesis, honors..."
+            placeholder={t("placeholders.describeStudies")}
             className="textarea input-plain w-full"
             rows={4}
             value={entry.description}
@@ -753,7 +757,7 @@ export default function Resume({
         <fieldset className="fieldset">
           <input
             type="text"
-            placeholder="Certification name"
+            placeholder={t("placeholders.certificationName")}
             className="input w-full"
             value={entry.name}
             onChange={(e) =>
@@ -766,7 +770,7 @@ export default function Resume({
         <fieldset className="fieldset">
           <input
             type="text"
-            placeholder="Date"
+            placeholder={t("placeholders.date")}
             className="input w-full"
             value={entry.date}
             onChange={(e) =>
@@ -811,7 +815,7 @@ export default function Resume({
         <fieldset className="fieldset">
           <input
             type="text"
-            placeholder="Your language"
+            placeholder={t("placeholders.yourLanguage")}
             className="input w-full"
             value={entry.language}
             onChange={(e) =>
@@ -876,7 +880,7 @@ export default function Resume({
     workExperience: (
       <>
         <SectionHeader
-          title={sectionLabels.workExperience}
+          title={t("sections.workExperience")}
           onRemoveSection={() => onRemoveSection("workExperience")}
           minimal={templateId === "minimal"}
           color={color}
@@ -918,7 +922,7 @@ export default function Resume({
               <div key={entry.id} className={entryCardClass}>
                 <div className="flex justify-end">
                   <RemoveButton
-                    label="Remove work experience"
+                    label={t("aria.removeWorkExperience")}
                     onClick={() => removeWorkEntry(entry.id)}
                   />
                 </div>
@@ -942,7 +946,7 @@ export default function Resume({
             className="btn btn-outline btn-sm w-fit"
             onClick={addWorkEntry}
           >
-            + Add Work Experience
+            {t("buttons.addWorkExperience")}
           </button>
         </div>
       </>
@@ -951,7 +955,7 @@ export default function Resume({
     education: (
       <>
         <SectionHeader
-          title={sectionLabels.education}
+          title={t("sections.education")}
           onRemoveSection={() => onRemoveSection("education")}
           minimal={templateId === "minimal"}
           color={color}
@@ -991,7 +995,7 @@ export default function Resume({
               <div key={entry.id} className={entryCardClass}>
                 <div className="flex justify-end">
                   <RemoveButton
-                    label="Remove education"
+                    label={t("aria.removeEducation")}
                     onClick={() => removeEducationEntry(entry.id)}
                   />
                 </div>
@@ -1015,7 +1019,7 @@ export default function Resume({
             className="btn btn-outline btn-sm w-fit"
             onClick={addEducationEntry}
           >
-            + Add Education
+            {t("buttons.addEducation")}
           </button>
         </div>
       </>
@@ -1024,7 +1028,7 @@ export default function Resume({
     skills: (
       <>
         <SectionHeader
-          title={sectionLabels.skills}
+          title={t("sections.skills")}
           onRemoveSection={() => onRemoveSection("skills")}
           minimal={templateId === "minimal"}
           color={color}
@@ -1059,14 +1063,14 @@ export default function Resume({
                   <fieldset className="fieldset flex-1">
                     <input
                       type="text"
-                      placeholder="Your skill"
+                      placeholder={t("placeholders.yourSkill")}
                       className="input w-full"
                       value={entry.value}
                       onChange={(e) => updateSkill(entry.id, e.target.value)}
                     />
                   </fieldset>
                   <RemoveButton
-                    label="Remove skill"
+                    label={t("aria.removeSkill")}
                     onClick={() => removeSkill(entry.id)}
                   />
                 </div>
@@ -1079,7 +1083,7 @@ export default function Resume({
             className="btn btn-outline btn-sm w-fit"
             onClick={addSkill}
           >
-            + Add Skill
+            {t("buttons.addSkill")}
           </button>
         </div>
       </>
@@ -1088,7 +1092,7 @@ export default function Resume({
     certifications: (
       <>
         <SectionHeader
-          title={sectionLabels.certifications}
+          title={t("sections.certifications")}
           onRemoveSection={() => onRemoveSection("certifications")}
           minimal={templateId === "minimal"}
           color={color}
@@ -1127,7 +1131,7 @@ export default function Resume({
                   <div className="flex flex-col gap-2">
                     <div className="flex justify-end">
                       <RemoveButton
-                        label="Remove certification"
+                        label={t("aria.removeCertification")}
                         onClick={() => removeCertification(entry.id)}
                       />
                     </div>
@@ -1153,7 +1157,7 @@ export default function Resume({
             className="btn btn-outline btn-sm w-fit"
             onClick={addCertification}
           >
-            + Add Certification
+            {t("buttons.addCertification")}
           </button>
         </div>
       </>
@@ -1162,7 +1166,7 @@ export default function Resume({
     languages: (
       <>
         <SectionHeader
-          title={sectionLabels.languages}
+          title={t("sections.languages")}
           onRemoveSection={() => onRemoveSection("languages")}
           minimal={templateId === "minimal"}
           color={color}
@@ -1199,7 +1203,7 @@ export default function Resume({
                   <div className="flex flex-col gap-2">
                     <div className="flex justify-end">
                       <RemoveButton
-                        label="Remove language"
+                        label={t("aria.removeLanguage")}
                         onClick={() => removeLanguage(entry.id)}
                       />
                     </div>
@@ -1225,7 +1229,7 @@ export default function Resume({
             className="btn btn-outline btn-sm w-fit"
             onClick={addLanguage}
           >
-            + Add Language
+            {t("buttons.addLanguage")}
           </button>
         </div>
       </>
@@ -1234,7 +1238,7 @@ export default function Resume({
     interests: (
       <>
         <SectionHeader
-          title={sectionLabels.interests}
+          title={t("sections.interests")}
           onRemoveSection={() => onRemoveSection("interests")}
           minimal={templateId === "minimal"}
           color={color}
@@ -1269,7 +1273,7 @@ export default function Resume({
                   <fieldset className="fieldset flex-1">
                     <input
                       type="text"
-                      placeholder="Your interest"
+                      placeholder={t("placeholders.yourInterest")}
                       className="input w-full"
                       value={entry.value}
                       onChange={(e) =>
@@ -1278,7 +1282,7 @@ export default function Resume({
                     />
                   </fieldset>
                   <RemoveButton
-                    label="Remove interest"
+                    label={t("aria.removeInterest")}
                     onClick={() => removeInterest(entry.id)}
                   />
                 </div>
@@ -1291,7 +1295,7 @@ export default function Resume({
             className="btn btn-outline btn-sm w-fit"
             onClick={addInterest}
           >
-            + Add Interest
+            {t("buttons.addInterest")}
           </button>
         </div>
       </>
@@ -1307,7 +1311,7 @@ export default function Resume({
     <div className={templateId === "modern" ? "flex justify-center" : undefined}>
       <label
         className="avatar avatar-placeholder cursor-pointer items-center justify-center"
-        aria-label="Upload profile photo"
+        aria-label={t("aria.uploadProfilePhoto")}
       >
         <div className={`h-32 w-32 rounded-full ${avatarBgClass}`}>
           {data.photo ? (
@@ -1332,7 +1336,7 @@ export default function Resume({
                   d="M12 16.5V4.5m0 0-4 4m4-4 4 4M4.5 16.5v2a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2v-2"
                 />
               </svg>
-              <span className="text-xs font-medium">Upload photo</span>
+              <span className="text-xs font-medium">{t("placeholders.uploadPhoto")}</span>
             </div>
           )}
         </div>
@@ -1351,7 +1355,7 @@ export default function Resume({
       <input
         type="text"
         name="name"
-        placeholder="Your name"
+        placeholder={t("placeholders.yourName")}
         className="input w-full"
         value={data.name}
         onChange={(e) => onChange("name", e.target.value)}
@@ -1364,7 +1368,7 @@ export default function Resume({
       <input
         type="text"
         name="jobTitle"
-        placeholder="Your job title"
+        placeholder={t("placeholders.yourJobTitle")}
         className="input w-full"
         value={data.jobTitle}
         onChange={(e) => onChange("jobTitle", e.target.value)}
@@ -1392,7 +1396,7 @@ export default function Resume({
         <input
           type="tel"
           name="phone"
-          placeholder="Your phone"
+          placeholder={t("placeholders.yourPhone")}
           className="grow"
           value={data.phone}
           onChange={(e) => onChange("phone", e.target.value)}
@@ -1421,7 +1425,7 @@ export default function Resume({
         <input
           type="email"
           name="email"
-          placeholder="Your email"
+          placeholder={t("placeholders.yourEmail")}
           className="grow"
           value={data.email}
           onChange={(e) => onChange("email", e.target.value)}
@@ -1456,7 +1460,7 @@ export default function Resume({
         <input
           type="text"
           name="address"
-          placeholder="Your address"
+          placeholder={t("placeholders.yourAddress")}
           className="grow"
           value={data.address}
           onChange={(e) => onChange("address", e.target.value)}
@@ -1485,7 +1489,7 @@ export default function Resume({
         <input
           type="text"
           name="website"
-          placeholder="Your website"
+          placeholder={t("placeholders.yourWebsite")}
           className="grow"
           value={data.website}
           onChange={(e) => onChange("website", e.target.value)}
@@ -1514,7 +1518,7 @@ export default function Resume({
         <input
           type="text"
           name="linkedin"
-          placeholder="Your LinkedIn"
+          placeholder={t("placeholders.yourLinkedIn")}
           className="grow"
           value={data.linkedin}
           onChange={(e) => onChange("linkedin", e.target.value)}
@@ -1530,7 +1534,7 @@ export default function Resume({
           className="border-primary mt-6 mb-3 border-b-2 pb-1 text-sm font-bold tracking-[0.2em] uppercase"
           style={color ? { borderColor: color } : undefined}
         >
-          About Me
+          {t("fields.aboutMe")}
         </h2>
       ) : (
         <div className="mt-4 mb-2 flex items-center gap-2">
@@ -1542,12 +1546,12 @@ export default function Resume({
             className="text-sm font-semibold tracking-wide text-gray-500 uppercase"
             style={color ? { color } : undefined}
           >
-            About Me
+            {t("fields.aboutMe")}
           </h2>
         </div>
       )}
       <textarea
-        placeholder="Write a short summary about yourself..."
+        placeholder={t("placeholders.aboutMe")}
         className="textarea textarea-plain w-full"
         rows={3}
         value={data.aboutMe}

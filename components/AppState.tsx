@@ -3,6 +3,7 @@
 import {
   createContext,
   useContext,
+  useEffect,
   useState,
   type Dispatch,
   type ReactNode,
@@ -10,6 +11,8 @@ import {
 } from "react";
 import { allFields, fieldLabels, type FieldKey } from "@/lib/fields";
 import { allFonts, type FontKey } from "@/lib/fonts";
+import i18n from "@/lib/i18n/i18n";
+import { defaultLanguageCode } from "@/lib/i18n/languages";
 import type { SectionKey } from "@/lib/resumeData";
 
 // Typography defaults to the first font in the list rather than leaving the
@@ -51,6 +54,8 @@ interface AppStateValue {
   setSectionOrder: Dispatch<SetStateAction<SectionKey[]>>;
   visibleFields: FieldKey[];
   setVisibleFields: Dispatch<SetStateAction<FieldKey[]>>;
+  language: string;
+  setLanguage: Dispatch<SetStateAction<string>>;
 }
 
 const AppStateContext = createContext<AppStateValue | null>(null);
@@ -67,6 +72,15 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   const [visibleFields, setVisibleFields] = useState<FieldKey[]>(
     defaultVisibleFields,
   );
+  const [language, setLanguage] = useState<string>(defaultLanguageCode);
+
+  // Language switching is client-only (no URL routing), so the server
+  // always renders with the default language and this effect applies the
+  // user's pick after hydration, keeping every useTranslation() consumer
+  // (Sidebar, Resume, etc.) in sync with a single source of truth.
+  useEffect(() => {
+    i18n.changeLanguage(language);
+  }, [language]);
 
   return (
     <AppStateContext.Provider
@@ -79,6 +93,8 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
         setSectionOrder,
         visibleFields,
         setVisibleFields,
+        language,
+        setLanguage,
       }}
     >
       {children}

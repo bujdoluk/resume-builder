@@ -1,0 +1,81 @@
+{
+  "sidebar": {
+    "templates": "Vorlagen",
+    "features": "Funktionen",
+    "colours": "Farben",
+    "typography": "Typografie",
+    "customColour": "Eigene Farbe"
+  },
+  "fields": {
+    "photo": "Foto",
+    "name": "Name",
+    "jobTitle": "Berufsbezeichnung",
+    "phone": "Telefon",
+    "email": "E-Mail",
+    "address": "Adresse",
+    "website": "Webseite",
+    "linkedin": "LinkedIn",
+    "aboutMe": "Über mich"
+  },
+  "sections": {
+    "workExperience": "Berufserfahrung",
+    "education": "Ausbildung",
+    "skills": "Fähigkeiten",
+    "certifications": "Zertifikate",
+    "languages": "Sprachen",
+    "interests": "Interessen"
+  },
+  "placeholders": {
+    "uploadPhoto": "Foto hochladen",
+    "yourName": "Ihr Name",
+    "yourJobTitle": "Ihre Berufsbezeichnung",
+    "yourPhone": "Ihre Telefonnummer",
+    "yourEmail": "Ihre E-Mail",
+    "yourAddress": "Ihre Adresse",
+    "yourWebsite": "Ihre Webseite",
+    "yourLinkedIn": "Ihr LinkedIn",
+    "aboutMe": "Schreiben Sie eine kurze Zusammenfassung über sich...",
+    "yourPosition": "Ihre Position",
+    "startDateWork": "Startdatum (z. B. 01-06-2020)",
+    "endDateWork": "Enddatum oder Aktuell",
+    "location": "Ort",
+    "describeResponsibilities": "Beschreiben Sie Ihre Aufgaben und Erfolge...",
+    "subjectOfStudy": "Studienfach",
+    "startDateEducation": "Startdatum (z. B. 01-09-2016)",
+    "endDateEducation": "Enddatum",
+    "describeStudies": "Beschreiben Sie Ihr Studium, Ihre Abschlussarbeit, Auszeichnungen...",
+    "yourSkill": "Ihre Fähigkeit",
+    "certificationName": "Name des Zertifikats",
+    "date": "Datum",
+    "yourLanguage": "Ihre Sprache",
+    "yourInterest": "Ihr Interesse"
+  },
+  "buttons": {
+    "addWorkExperience": "+ Berufserfahrung hinzufügen",
+    "addEducation": "+ Ausbildung hinzufügen",
+    "addSkill": "+ Fähigkeit hinzufügen",
+    "addCertification": "+ Zertifikat hinzufügen",
+    "addLanguage": "+ Sprache hinzufügen",
+    "addInterest": "+ Interesse hinzufügen",
+    "preview": "Vorschau",
+    "downloadPdf": "PDF herunterladen"
+  },
+  "aria": {
+    "removeWorkExperience": "Berufserfahrung entfernen",
+    "removeEducation": "Ausbildung entfernen",
+    "removeSkill": "Fähigkeit entfernen",
+    "removeCertification": "Zertifikat entfernen",
+    "removeLanguage": "Sprache entfernen",
+    "removeInterest": "Interesse entfernen",
+    "removeSection": "Abschnitt {{title}} entfernen",
+    "uploadProfilePhoto": "Profilfoto hochladen",
+    "reorder": "Neu anordnen",
+    "selectLanguage": "Sprache auswählen"
+  },
+  "templates": {
+    "basic": "Einfach",
+    "modern": "Modern",
+    "minimal": "Minimalistisch",
+    "pageTitle": "Vorlagen"
+  }
+}

@@ -2,18 +2,19 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { useTranslation } from "react-i18next";
 import {
   allFields,
   allSections,
-  fieldLabels,
   useAppState,
   type FieldKey,
 } from "@/components/AppState";
 import { rows } from "@/lib/color";
 import { allFonts, type FontKey } from "@/lib/fonts";
-import { sectionLabels, type SectionKey } from "@/lib/resumeData";
+import type { SectionKey } from "@/lib/resumeData";
 
 export default function Sidebar() {
+  const { t } = useTranslation();
   const {
     color,
     setColor,
@@ -88,7 +89,7 @@ export default function Sidebar() {
           <li>
             <Link
               href="/templates"
-              title={collapsed ? "Templates" : undefined}
+              title={collapsed ? t("sidebar.templates") : undefined}
               className={`flex items-center ${collapsed ? "justify-center" : ""}`}
             >
               <svg
@@ -104,15 +105,15 @@ export default function Sidebar() {
                   d="M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6A2.25 2.25 0 0 1 3.75 18v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25A2.25 2.25 0 0 1 13.5 18v-2.25Z"
                 />
               </svg>
-              {!collapsed && "Templates"}
+              {!collapsed && t("sidebar.templates")}
             </Link>
           </li>
           <li>
             <button
               type="button"
               onClick={() => setCollapsed(false)}
-              aria-label="Show features"
-              title={collapsed ? "Features" : undefined}
+              aria-label={t("sidebar.features")}
+              title={collapsed ? t("sidebar.features") : undefined}
               className={`flex items-center ${collapsed ? "justify-center" : ""}`}
             >
               <svg
@@ -128,7 +129,7 @@ export default function Sidebar() {
                   d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
                 />
               </svg>
-              {!collapsed && "Features"}
+              {!collapsed && t("sidebar.features")}
             </button>
           </li>
         </ul>
@@ -136,7 +137,7 @@ export default function Sidebar() {
         {!collapsed && (
           <div className="border-base-300 flex-1 overflow-y-auto border-t p-4">
             <p className="mb-2 text-xs font-semibold text-gray-400 uppercase">
-              Colors
+              {t("sidebar.colours")}
             </p>
             <div className="flex flex-col gap-2">
               {rows.map((row, rowIndex) => (
@@ -190,8 +191,8 @@ export default function Sidebar() {
                       </svg>
                       <input
                         type="color"
-                        aria-label="Custom color"
-                        title="Custom color"
+                        aria-label={t("sidebar.customColour")}
+                        title={t("sidebar.customColour")}
                         className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
                         value={color ?? "#000000"}
                         onChange={(e) => setColor(e.target.value)}
@@ -203,10 +204,10 @@ export default function Sidebar() {
             </div>
 
             <p className="mt-4 mb-2 text-xs font-semibold text-gray-400 uppercase">
-              Typography
+              {t("sidebar.typography")}
             </p>
             <select
-              aria-label="Typography"
+              aria-label={t("sidebar.typography")}
               className="select typography-select w-full"
               value={font ?? allFonts[0].key}
               onChange={(e) => setFont(e.target.value as FontKey)}
@@ -223,7 +224,7 @@ export default function Sidebar() {
             </select>
 
             <p className="mt-4 mb-2 text-xs font-semibold text-gray-400 uppercase">
-              Features
+              {t("sidebar.features")}
             </p>
             <div className="flex flex-col gap-2">
               {allFields.map((key) => {
@@ -239,7 +240,7 @@ export default function Sidebar() {
                       checked={enabled}
                       onChange={() => toggleField(key, !enabled)}
                     />
-                    {fieldLabels[key]}
+                    {t(`fields.${key}`)}
                   </label>
                 );
               })}
@@ -257,7 +258,7 @@ export default function Sidebar() {
                       checked={enabled}
                       onChange={() => toggleSection(key, !enabled)}
                     />
-                    {sectionLabels[key]}
+                    {t(`sections.${key}`)}
                   </label>
                 );
               })}
