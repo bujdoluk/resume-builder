@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import { useTranslation } from "react-i18next";
 import { useAppState } from "@/components/AppState";
 import { DownloadIcon, SaveIcon } from "@/components/Icons";
-import MobileResumeForm from "@/components/MobileResumeForm";
 import Resume from "@/components/Resume";
 import { defaultFontSizeKey } from "@/lib/fontSize";
 import {
@@ -189,9 +188,10 @@ export default function Home({
     }
   }
 
-  const TemplateComponent =
-    templates.find((template) => template.id === templateId)?.component ??
-    templates[0].component;
+  const templateDefinition =
+    templates.find((template) => template.id === templateId) ?? templates[0];
+  const TemplateComponent = templateDefinition.component;
+  const MobileFormComponent = templateDefinition.mobileFormComponent;
 
   function renderActionButtons(className: string) {
     return (
@@ -245,7 +245,7 @@ export default function Home({
     <>
       {/* Mobile: plain one-column form, actions pinned at the bottom */}
       <div className="bg-base-200 flex flex-1 flex-col gap-6 p-4 md:hidden">
-        <MobileResumeForm
+        <MobileFormComponent
           data={data}
           onChange={handleChange}
           onWorkHistoryChange={handleWorkHistoryChange}
@@ -255,7 +255,10 @@ export default function Home({
           onLanguagesChange={handleLanguagesChange}
           onInterestsChange={handleInterestsChange}
           sectionOrder={sectionOrder}
+          onReorderSections={setSectionOrder}
           visibleFields={visibleFields}
+          onReorderFields={setVisibleFields}
+          color={color}
         />
         {renderActionButtons("flex gap-2")}
       </div>
