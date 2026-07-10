@@ -6,7 +6,6 @@ import { useTranslation } from "react-i18next";
 import ConfirmDialog, {
   type ConfirmDialogHandle,
 } from "@/components/ConfirmDialog";
-import Navbar from "@/components/Navbar";
 import { deleteResume, listResumes, type ResumeRow } from "@/lib/supabase/resumes";
 import { createClient } from "@/lib/supabase/client";
 import { ensureUserId } from "@/lib/supabase/session";
@@ -49,8 +48,6 @@ export default function MyResumesPage() {
 
   return (
     <div className="flex min-h-full flex-col">
-      <Navbar />
-
       <div className="bg-base-200 flex-1 p-8">
         <h1 className="mb-6 text-2xl font-bold">{t("myResumes.pageTitle")}</h1>
 

@@ -10,7 +10,6 @@ import {
   MyResumesIcon,
   TemplatesIcon,
 } from "@/components/Icons";
-import Navbar from "@/components/Navbar";
 
 const features = [
   { key: "templates", icon: TemplatesIcon },
@@ -25,8 +24,6 @@ export default function LandingPage() {
 
   return (
     <div className="flex min-h-full flex-col">
-      <Navbar />
-
       <div className="bg-base-200 flex-1">
         <div className="mx-auto max-w-3xl px-8 py-20 text-center">
           <h1 className="text-4xl font-bold sm:text-5xl">

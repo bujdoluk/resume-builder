@@ -28,7 +28,7 @@ export default function LanguageSelect() {
         className="btn btn-sm btn-ghost flex items-center gap-2"
       >
         <CurrentFlag className="h-4 w-6 shrink-0 rounded-sm" />
-        {current.name}
+        <span className="hidden sm:inline">{current.name}</span>
       </div>
       <ul
         tabIndex={0}

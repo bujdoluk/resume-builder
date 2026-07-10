@@ -6,10 +6,9 @@ export default function AppLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="drawer lg:drawer-open">
-      <input id="sidebar-drawer" type="checkbox" className="drawer-toggle" />
-      <div className="drawer-content flex flex-col">{children}</div>
+    <div className="flex flex-1 flex-col lg:flex-row">
       <Sidebar />
+      <div className="flex min-w-0 flex-1 flex-col">{children}</div>
     </div>
   );
 }

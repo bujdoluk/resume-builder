@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useTranslation } from "react-i18next";
 import { useAppState } from "@/components/AppState";
 import { DownloadIcon, SaveIcon } from "@/components/Icons";
-import Navbar from "@/components/Navbar";
+import MobileResumeForm from "@/components/MobileResumeForm";
 import Resume from "@/components/Resume";
 import { defaultFontSizeKey } from "@/lib/fontSize";
 import {
@@ -193,12 +193,59 @@ export default function Home({
     templates.find((template) => template.id === templateId)?.component ??
     templates[0].component;
 
+  function renderActionButtons(className: string) {
+    return (
+      <div className={className}>
+        <button
+          type="button"
+          className="btn btn-primary btn-lg flex-1 md:flex-none md:w-48"
+          onClick={() => previewRef.current?.showModal()}
+        >
+          {t("buttons.preview")}
+        </button>
+
+        <button
+          type="button"
+          className="btn btn-outline flex-1 md:flex-none md:w-48"
+          disabled={isSaving}
+          onClick={handleSave}
+        >
+          {isSaving ? (
+            <span className="loading loading-spinner loading-sm" />
+          ) : justSaved ? (
+            t("buttons.saved")
+          ) : (
+            <>
+              <SaveIcon className="h-5 w-5 stroke-current" />
+              {t("buttons.save")}
+            </>
+          )}
+        </button>
+
+        <button
+          type="button"
+          className="btn btn-outline flex-1 md:flex-none md:w-48"
+          disabled={isGeneratingPdf}
+          onClick={handleDownloadPdf}
+        >
+          {isGeneratingPdf ? (
+            <span className="loading loading-spinner loading-sm" />
+          ) : (
+            <>
+              <DownloadIcon className="h-5 w-5 stroke-current" />
+              {t("buttons.download")}
+            </>
+          )}
+        </button>
+      </div>
+    );
+  }
+
   return (
     <>
-      <Navbar />
-
-      <div className="bg-base-200 flex flex-1 justify-center gap-8 p-8">
-        <Resume
+      {/* Mobile: plain one-column form, actions pinned at the bottom */}
+      <div className="bg-base-200 flex flex-1 flex-col gap-6 p-4 md:hidden">
+        <MobileResumeForm
           data={data}
           onChange={handleChange}
           onWorkHistoryChange={handleWorkHistoryChange}
@@ -208,64 +255,43 @@ export default function Home({
           onLanguagesChange={handleLanguagesChange}
           onInterestsChange={handleInterestsChange}
           sectionOrder={sectionOrder}
-          onReorderSections={setSectionOrder}
-          templateId={templateId}
-          color={color}
-          font={font}
-          fontSize={fontSize}
           visibleFields={visibleFields}
-          onReorderFields={setVisibleFields}
         />
+        {renderActionButtons("flex gap-2")}
+      </div>
 
-        <div className="sticky top-8 flex flex-col gap-2 self-start">
-          <button
-            type="button"
-            className="btn btn-primary btn-lg w-48"
-            onClick={() => previewRef.current?.showModal()}
-          >
-            {t("buttons.preview")}
-          </button>
-
-          <button
-            type="button"
-            className="btn btn-outline w-48"
-            disabled={isSaving}
-            onClick={handleSave}
-          >
-            {isSaving ? (
-              <span className="loading loading-spinner loading-sm" />
-            ) : justSaved ? (
-              t("buttons.saved")
-            ) : (
-              <>
-                <SaveIcon className="h-5 w-5 stroke-current" />
-                {t("buttons.save")}
-              </>
-            )}
-          </button>
-
-          <button
-            type="button"
-            className="btn btn-outline w-48"
-            disabled={isGeneratingPdf}
-            onClick={handleDownloadPdf}
-          >
-            {isGeneratingPdf ? (
-              <span className="loading loading-spinner loading-sm" />
-            ) : (
-              <>
-                <DownloadIcon className="h-5 w-5 stroke-current" />
-                {t("buttons.download")}
-              </>
-            )}
-          </button>
+      {/* Tablet/desktop: WYSIWYG canvas + action column (unchanged) */}
+      <div className="bg-base-200 hidden flex-1 flex-col items-center gap-6 p-4 md:flex lg:flex-row lg:items-start lg:justify-center lg:gap-8 lg:p-8">
+        <div className="w-full min-w-0 overflow-x-auto lg:w-auto">
+          <Resume
+            data={data}
+            onChange={handleChange}
+            onWorkHistoryChange={handleWorkHistoryChange}
+            onEducationChange={handleEducationChange}
+            onSkillsChange={handleSkillsChange}
+            onCertificationsChange={handleCertificationsChange}
+            onLanguagesChange={handleLanguagesChange}
+            onInterestsChange={handleInterestsChange}
+            sectionOrder={sectionOrder}
+            onReorderSections={setSectionOrder}
+            templateId={templateId}
+            color={color}
+            font={font}
+            fontSize={fontSize}
+            visibleFields={visibleFields}
+            onReorderFields={setVisibleFields}
+          />
         </div>
+
+        {renderActionButtons(
+          "order-first flex flex-col gap-2 lg:sticky lg:top-8 lg:order-last lg:self-start",
+        )}
       </div>
 
       <dialog ref={previewRef} className="modal">
         <div
           id="pdf-area"
-          className="modal-box max-h-[90vh]! w-fit! max-w-none! overflow-y-auto! bg-transparent! p-0! shadow-none!"
+          className="modal-box max-h-[90vh]! w-[95vw]! max-w-[95vw]! overflow-auto! bg-transparent! p-0! shadow-none! lg:w-fit! lg:max-w-none!"
         >
           <TemplateComponent
             data={data}

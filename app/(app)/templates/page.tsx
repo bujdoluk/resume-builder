@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
-import Navbar from "@/components/Navbar";
 import TemplateThumbnail from "@/components/TemplateThumbnail";
 import type { SectionKey } from "@/lib/resumeData";
 import { sampleResumeData } from "@/lib/sampleResumeData";
@@ -21,8 +20,6 @@ export default function TemplatesPage() {
 
   return (
     <div className="flex min-h-full flex-col">
-      <Navbar />
-
       <div className="bg-base-200 flex-1 p-8">
         <h1 className="mb-6 text-2xl font-bold">{t("templates.pageTitle")}</h1>
 

@@ -16,6 +16,7 @@ import {
   Space_Mono,
 } from "next/font/google";
 import { AppStateProvider } from "@/components/AppState";
+import Navbar from "@/components/Navbar";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -121,7 +122,10 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${fontVariables} h-full antialiased`}>
       <body className="min-h-full flex flex-col">
-        <AppStateProvider>{children}</AppStateProvider>
+        <AppStateProvider>
+          <Navbar />
+          <div className="flex flex-1 flex-col">{children}</div>
+        </AppStateProvider>
       </body>
     </html>
   );
