@@ -17,6 +17,7 @@ import {
   WebsiteIcon,
   WorkHistoryIcon,
 } from "@/components/Icons";
+import { getFontSizeStyle, type FontSizeKey } from "@/lib/fontSize";
 import { fontsByKey, type FontKey } from "@/lib/fonts";
 import {
   languageLevels,
@@ -29,6 +30,7 @@ export interface TemplateProps {
   sectionOrder: SectionKey[];
   color?: string | null;
   font?: FontKey | null;
+  fontSize?: FontSizeKey;
   visibleFields?: FieldKey[];
 }
 
@@ -87,6 +89,7 @@ export default function BasicTemplate({
   sectionOrder,
   color,
   font,
+  fontSize,
   visibleFields,
 }: TemplateProps) {
   const { t } = useTranslation();
@@ -94,6 +97,7 @@ export default function BasicTemplate({
     !visibleFields || visibleFields.includes(key);
   const fieldOrder = visibleFields ?? allFields;
   const fontFamily = font ? fontsByKey[font].variable : undefined;
+  const fontSizeStyle = getFontSizeStyle(fontSize ?? "medium");
 
   const workEntries = data.workExperience.filter(
     (entry) =>
@@ -399,8 +403,8 @@ export default function BasicTemplate({
 
   return (
     <div
-      className="w-[210mm] min-h-[297mm] bg-white shadow-xl print:shadow-none"
-      style={{ fontFamily }}
+      className="resume-scalable w-[210mm] min-h-[297mm] bg-white shadow-xl print:shadow-none"
+      style={{ fontFamily, ...fontSizeStyle }}
     >
       <div className="p-8">
         <div className="flex flex-col gap-1">

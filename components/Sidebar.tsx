@@ -10,6 +10,7 @@ import {
   type FieldKey,
 } from "@/components/AppState";
 import { rows } from "@/lib/color";
+import { fontSizeOptions } from "@/lib/fontSize";
 import { allFonts, type FontKey } from "@/lib/fonts";
 import type { SectionKey } from "@/lib/resumeData";
 
@@ -20,6 +21,8 @@ export default function Sidebar() {
     setColor,
     font,
     setFont,
+    fontSize,
+    setFontSize,
     sectionOrder,
     setSectionOrder,
     visibleFields,
@@ -222,6 +225,30 @@ export default function Sidebar() {
                 </option>
               ))}
             </select>
+
+            <p className="mt-4 mb-2 text-xs font-semibold text-gray-400 uppercase">
+              {t("sidebar.fontSize")}
+            </p>
+            <div className="flex gap-2">
+              {fontSizeOptions.map((option) => (
+                <button
+                  key={option.key}
+                  type="button"
+                  aria-label={t(`sidebar.fontSizeOptions.${option.key}`)}
+                  title={t(`sidebar.fontSizeOptions.${option.key}`)}
+                  onClick={() => setFontSize(option.key)}
+                  className={`bg-base-200 flex h-11 flex-1 items-center justify-center rounded-md border border-black/10 font-semibold ${
+                    fontSize === option.key
+                      ? "ring-primary ring-2 ring-offset-1"
+                      : ""
+                  }`}
+                >
+                  <span style={{ fontSize: `${option.px}px`, lineHeight: 1 }}>
+                    A
+                  </span>
+                </button>
+              ))}
+            </div>
 
             <p className="mt-4 mb-2 text-xs font-semibold text-gray-400 uppercase">
               {t("sidebar.features")}

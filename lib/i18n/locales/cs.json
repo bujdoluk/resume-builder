@@ -4,7 +4,13 @@
     "features": "Funkce",
     "colours": "Barvy",
     "typography": "Typografie",
-    "customColour": "Vlastní barva"
+    "customColour": "Vlastní barva",
+    "fontSize": "Velikost písma",
+    "fontSizeOptions": {
+      "small": "Malé",
+      "medium": "Střední",
+      "large": "Velké"
+    }
   },
   "fields": {
     "photo": "Fotka",

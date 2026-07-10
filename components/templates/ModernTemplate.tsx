@@ -19,6 +19,7 @@ import {
 } from "@/components/Icons";
 import { getContrastTextColor } from "@/lib/color";
 import { fontsByKey, type FontKey } from "@/lib/fonts";
+import { getFontSizeStyle, type FontSizeKey } from "@/lib/fontSize";
 import {
   languageLevels,
   type ResumeData,
@@ -30,6 +31,7 @@ export interface TemplateProps {
   sectionOrder: SectionKey[];
   color?: string | null;
   font?: FontKey | null;
+  fontSize?: FontSizeKey;
   visibleFields?: FieldKey[];
 }
 
@@ -44,6 +46,7 @@ export default function ModernTemplate({
   sectionOrder,
   color,
   font,
+  fontSize,
   visibleFields,
 }: TemplateProps) {
   const { t } = useTranslation();
@@ -51,6 +54,7 @@ export default function ModernTemplate({
     !visibleFields || visibleFields.includes(key);
   const fieldOrder = visibleFields ?? allFields;
   const fontFamily = font ? fontsByKey[font].variable : undefined;
+  const fontSizeStyle = getFontSizeStyle(fontSize ?? "medium");
 
   const workEntries = data.workExperience.filter(
     (entry) =>
@@ -324,8 +328,8 @@ export default function ModernTemplate({
 
   return (
     <div
-      className="grid w-[210mm] min-h-[297mm] grid-cols-[70mm_1fr] bg-white shadow-xl print:shadow-none"
-      style={{ fontFamily }}
+      className="resume-scalable grid w-[210mm] min-h-[297mm] grid-cols-[70mm_1fr] bg-white shadow-xl print:shadow-none"
+      style={{ fontFamily, ...fontSizeStyle }}
     >
       <div
         className="modern-sidebar bg-neutral text-neutral-content flex flex-col gap-2 p-6"

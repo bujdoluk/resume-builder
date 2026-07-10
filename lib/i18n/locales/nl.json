@@ -4,7 +4,13 @@
     "features": "Functies",
     "colours": "Kleuren",
     "typography": "Typografie",
-    "customColour": "Aangepaste kleur"
+    "customColour": "Aangepaste kleur",
+    "fontSize": "Tekstgrootte",
+    "fontSizeOptions": {
+      "small": "Klein",
+      "medium": "Gemiddeld",
+      "large": "Groot"
+    }
   },
   "fields": {
     "photo": "Foto",

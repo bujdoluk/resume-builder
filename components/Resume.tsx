@@ -24,6 +24,7 @@ import { useTranslation } from "react-i18next";
 import type { FieldKey } from "@/components/AppState";
 import { AboutMeIcon } from "@/components/Icons";
 import { getContrastTextColor } from "@/lib/color";
+import { getFontSizeStyle, type FontSizeKey } from "@/lib/fontSize";
 import { fontsByKey, type FontKey } from "@/lib/fonts";
 import {
   emptyResumeData,
@@ -67,6 +68,7 @@ interface ResumeProps {
   templateId: TemplateId;
   color: string | null;
   font: FontKey | null;
+  fontSize: FontSizeKey;
   visibleFields: FieldKey[];
   onReorderFields: (order: FieldKey[]) => void;
 }
@@ -467,11 +469,13 @@ export default function Resume({
   templateId,
   color,
   font,
+  fontSize,
   visibleFields,
   onReorderFields,
 }: ResumeProps) {
   const { t } = useTranslation();
   const fontFamily = font ? fontsByKey[font].variable : undefined;
+  const fontSizeStyle = getFontSizeStyle(fontSize);
 
   const [workHistoryFieldOrder, setWorkHistoryFieldOrder] = useState(
     defaultWorkHistoryFieldOrder,
@@ -1609,8 +1613,8 @@ export default function Resume({
 
     return (
       <div
-        className="grid w-[280mm] min-h-[297mm] grid-cols-[90mm_1fr] bg-white shadow-xl print:shadow-none"
-        style={{ fontFamily }}
+        className="resume-scalable grid w-[280mm] min-h-[297mm] grid-cols-[90mm_1fr] bg-white shadow-xl print:shadow-none"
+        style={{ fontFamily, ...fontSizeStyle }}
       >
         <div
           className="modern-sidebar bg-neutral text-neutral-content flex flex-col gap-2 p-6 pl-8"
@@ -1676,8 +1680,8 @@ export default function Resume({
   if (templateId === "minimal") {
     return (
       <div
-        className="w-[280mm] min-h-[297mm] bg-white shadow-xl print:shadow-none"
-        style={{ fontFamily }}
+        className="resume-scalable w-[280mm] min-h-[297mm] bg-white shadow-xl print:shadow-none"
+        style={{ fontFamily, ...fontSizeStyle }}
       >
         <div className="p-10 pl-12">
           <SortableGroup
@@ -1711,8 +1715,8 @@ export default function Resume({
 
   return (
     <div
-      className="w-[280mm] min-h-[297mm] bg-white shadow-xl print:shadow-none"
-      style={{ fontFamily }}
+      className="resume-scalable w-[280mm] min-h-[297mm] bg-white shadow-xl print:shadow-none"
+      style={{ fontFamily, ...fontSizeStyle }}
     >
       <div className="p-8 pl-10">
         <SortableGroup

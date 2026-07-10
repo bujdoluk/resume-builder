@@ -4,7 +4,13 @@
     "features": "Funksjoner",
     "colours": "Farger",
     "typography": "Typografi",
-    "customColour": "Egendefinert farge"
+    "customColour": "Egendefinert farge",
+    "fontSize": "Tekststørrelse",
+    "fontSizeOptions": {
+      "small": "Liten",
+      "medium": "Middels",
+      "large": "Stor"
+    }
   },
   "fields": {
     "photo": "Bilde",

@@ -4,7 +4,13 @@
     "features": "Funktioner",
     "colours": "Färger",
     "typography": "Typografi",
-    "customColour": "Egen färg"
+    "customColour": "Egen färg",
+    "fontSize": "Textstorlek",
+    "fontSizeOptions": {
+      "small": "Liten",
+      "medium": "Medel",
+      "large": "Stor"
+    }
   },
   "fields": {
     "photo": "Foto",

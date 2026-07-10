@@ -11,6 +11,7 @@ import {
   WebsiteIcon,
 } from "@/components/Icons";
 import { fontsByKey, type FontKey } from "@/lib/fonts";
+import { getFontSizeStyle, type FontSizeKey } from "@/lib/fontSize";
 import type { ResumeData, SectionKey } from "@/lib/resumeData";
 
 export interface TemplateProps {
@@ -18,6 +19,7 @@ export interface TemplateProps {
   sectionOrder: SectionKey[];
   color?: string | null;
   font?: FontKey | null;
+  fontSize?: FontSizeKey;
   visibleFields?: FieldKey[];
 }
 
@@ -136,6 +138,7 @@ export default function MinimalTemplate({
   sectionOrder,
   color,
   font,
+  fontSize,
   visibleFields,
 }: TemplateProps) {
   const { t } = useTranslation();
@@ -143,6 +146,7 @@ export default function MinimalTemplate({
     !visibleFields || visibleFields.includes(key);
   const fieldOrder = visibleFields ?? allFields;
   const fontFamily = font ? fontsByKey[font].variable : undefined;
+  const fontSizeStyle = getFontSizeStyle(fontSize ?? "medium");
 
   const workEntries = data.workExperience.filter(
     (entry) =>
@@ -365,8 +369,8 @@ export default function MinimalTemplate({
 
   return (
     <div
-      className="w-[210mm] min-h-[297mm] bg-white shadow-xl print:shadow-none"
-      style={{ fontFamily }}
+      className="resume-scalable w-[210mm] min-h-[297mm] bg-white shadow-xl print:shadow-none"
+      style={{ fontFamily, ...fontSizeStyle }}
     >
       <div className="p-10">
         <div className="flex flex-col items-center gap-1 text-center">

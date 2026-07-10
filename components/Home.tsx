@@ -37,6 +37,7 @@ export default function Home({ initialTemplateId }: HomeProps) {
   const {
     color,
     font,
+    fontSize,
     sectionOrder,
     setSectionOrder,
     visibleFields,
@@ -154,6 +155,7 @@ export default function Home({ initialTemplateId }: HomeProps) {
           templateId={templateId}
           color={color}
           font={font}
+          fontSize={fontSize}
           visibleFields={visibleFields}
           onReorderFields={setVisibleFields}
         />
@@ -193,6 +195,7 @@ export default function Home({ initialTemplateId }: HomeProps) {
             sectionOrder={sectionOrder}
             color={color}
             font={font}
+            fontSize={fontSize}
             visibleFields={visibleFields}
           />
         </div>

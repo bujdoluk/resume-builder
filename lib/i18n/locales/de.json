@@ -4,7 +4,13 @@
     "features": "Funktionen",
     "colours": "Farben",
     "typography": "Typografie",
-    "customColour": "Eigene Farbe"
+    "customColour": "Eigene Farbe",
+    "fontSize": "Schriftgröße",
+    "fontSizeOptions": {
+      "small": "Klein",
+      "medium": "Mittel",
+      "large": "Groß"
+    }
   },
   "fields": {
     "photo": "Foto",

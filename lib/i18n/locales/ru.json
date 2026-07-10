@@ -4,7 +4,13 @@
     "features": "Возможности",
     "colours": "Цвета",
     "typography": "Типографика",
-    "customColour": "Свой цвет"
+    "customColour": "Свой цвет",
+    "fontSize": "Размер шрифта",
+    "fontSizeOptions": {
+      "small": "Маленький",
+      "medium": "Средний",
+      "large": "Большой"
+    }
   },
   "fields": {
     "photo": "Фото",

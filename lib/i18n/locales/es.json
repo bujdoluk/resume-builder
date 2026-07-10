@@ -4,7 +4,13 @@
     "features": "Funciones",
     "colours": "Colores",
     "typography": "Tipografía",
-    "customColour": "Color personalizado"
+    "customColour": "Color personalizado",
+    "fontSize": "Tamaño de texto",
+    "fontSizeOptions": {
+      "small": "Pequeño",
+      "medium": "Mediano",
+      "large": "Grande"
+    }
   },
   "fields": {
     "photo": "Foto",

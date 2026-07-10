@@ -30,7 +30,11 @@
       "Bash(node verify-typography4.mjs)",
       "Bash(node verify-typography5.mjs)",
       "Bash(node check-remove-btn.mjs)",
-      "Bash(powershell -Command \"Stop-Process -Id 52392 -Force -ErrorAction SilentlyContinue\")"
+      "Bash(powershell -Command \"Stop-Process -Id 52392 -Force -ErrorAction SilentlyContinue\")",
+      "Bash(xargs grep -l \"text-sm\")",
+      "Bash(xargs grep -l \"\\\\.text-sm\")",
+      "Bash(curl -s \"http://localhost:3000/_next/static/chunks/%5Broot-of-the-server%5D__1gke8nv._.css\" -o /tmp/app.css)",
+      "Bash(node verify-fontsize2.mjs)"
     ],
     "additionalDirectories": [
       "C:\\Users\\lukas\\AppData\\Local\\npm-cache\\_npx\\e41f203b7505f1fb"

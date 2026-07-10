@@ -4,7 +4,13 @@
     "features": "Features",
     "colours": "Colours",
     "typography": "Typography",
-    "customColour": "Custom colour"
+    "customColour": "Custom colour",
+    "fontSize": "Font Size",
+    "fontSizeOptions": {
+      "small": "Small",
+      "medium": "Medium",
+      "large": "Large"
+    }
   },
   "fields": {
     "photo": "Photo",

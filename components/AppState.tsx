@@ -10,6 +10,7 @@ import {
   type SetStateAction,
 } from "react";
 import { allFields, fieldLabels, type FieldKey } from "@/lib/fields";
+import { defaultFontSizeKey, type FontSizeKey } from "@/lib/fontSize";
 import { allFonts, type FontKey } from "@/lib/fonts";
 import i18n from "@/lib/i18n/i18n";
 import { defaultLanguageCode } from "@/lib/i18n/languages";
@@ -56,6 +57,8 @@ interface AppStateValue {
   setVisibleFields: Dispatch<SetStateAction<FieldKey[]>>;
   language: string;
   setLanguage: Dispatch<SetStateAction<string>>;
+  fontSize: FontSizeKey;
+  setFontSize: Dispatch<SetStateAction<FontSizeKey>>;
 }
 
 const AppStateContext = createContext<AppStateValue | null>(null);
@@ -73,6 +76,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     defaultVisibleFields,
   );
   const [language, setLanguage] = useState<string>(defaultLanguageCode);
+  const [fontSize, setFontSize] = useState<FontSizeKey>(defaultFontSizeKey);
 
   // Language switching is client-only (no URL routing), so the server
   // always renders with the default language and this effect applies the
@@ -95,6 +99,8 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
         setVisibleFields,
         language,
         setLanguage,
+        fontSize,
+        setFontSize,
       }}
     >
       {children}
