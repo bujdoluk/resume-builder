@@ -10,7 +10,8 @@
       "small": "Pequeño",
       "medium": "Mediano",
       "large": "Grande"
-    }
+    },
+    "myResumes": "Mis currículums"
   },
   "fields": {
     "photo": "Foto",
@@ -64,7 +65,11 @@
     "addLanguage": "+ Añadir idioma",
     "addInterest": "+ Añadir interés",
     "preview": "Vista previa",
-    "downloadPdf": "Descargar PDF"
+    "download": "Descargar",
+    "save": "Guardar",
+    "saved": "Guardado",
+    "cancel": "Cancelar",
+    "confirm": "Confirmar"
   },
   "aria": {
     "removeWorkExperience": "Eliminar experiencia laboral",
@@ -73,7 +78,6 @@
     "removeCertification": "Eliminar certificación",
     "removeLanguage": "Eliminar idioma",
     "removeInterest": "Eliminar interés",
-    "removeSection": "Eliminar sección {{title}}",
     "uploadProfilePhoto": "Subir foto de perfil",
     "reorder": "Reordenar",
     "selectLanguage": "Seleccionar idioma"
@@ -83,5 +87,46 @@
     "modern": "Moderno",
     "minimal": "Minimalista",
     "pageTitle": "Plantillas"
+  },
+  "myResumes": {
+    "pageTitle": "Mis currículums",
+    "name": "Nombre",
+    "edit": "Editar",
+    "delete": "Eliminar",
+    "empty": "Aún no has guardado ningún currículum.",
+    "untitled": "Currículum sin título",
+    "confirmDelete": "¿Eliminar este currículum? Esta acción no se puede deshacer.",
+    "saveFailed": "No se pudo guardar el currículum. Inténtalo de nuevo.",
+    "loadFailed": "No se pudieron cargar tus currículums guardados. Inténtalo de nuevo."
+  },
+  "landing": {
+    "heroTitle": "Crea un currículum profesional en minutos",
+    "heroSubtitle": "Gratis, sin registro. Elige una plantilla, completa tus datos y descarga un PDF listo directamente desde tu navegador.",
+    "ctaStart": "Crear currículum",
+    "features": {
+      "templates": {
+        "title": "3 plantillas profesionales",
+        "description": "Basic, Modern y Minimal: elige el estilo que más te guste."
+      },
+      "customization": {
+        "title": "Personalización completa",
+        "description": "Colores, tipografía, tamaño de fuente y diseño con arrastrar y soltar, todo en vivo."
+      },
+      "pdf": {
+        "title": "Exportación a PDF con un clic",
+        "description": "Descarga un PDF listo para imprimir en cuanto estés conforme."
+      },
+      "languages": {
+        "title": "13 idiomas",
+        "description": "Todo el creador se traduce al instante, no solo el texto de tu currículum."
+      },
+      "saveResumes": {
+        "title": "Guarda y continúa más tarde",
+        "description": "Guarda varios currículums y edítalos cuando quieras."
+      }
+    }
+  },
+  "footer": {
+    "copyright": "© {{year}} QuickResumeBuilder.online"
   }
 }

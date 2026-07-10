@@ -10,7 +10,8 @@
       "small": "Piccolo",
       "medium": "Medio",
       "large": "Grande"
-    }
+    },
+    "myResumes": "I miei curriculum"
   },
   "fields": {
     "photo": "Foto",
@@ -64,7 +65,11 @@
     "addLanguage": "+ Aggiungi lingua",
     "addInterest": "+ Aggiungi interesse",
     "preview": "Anteprima",
-    "downloadPdf": "Scarica PDF"
+    "download": "Scarica",
+    "save": "Salva",
+    "saved": "Salvato",
+    "cancel": "Annulla",
+    "confirm": "Conferma"
   },
   "aria": {
     "removeWorkExperience": "Rimuovi esperienza lavorativa",
@@ -73,7 +78,6 @@
     "removeCertification": "Rimuovi certificazione",
     "removeLanguage": "Rimuovi lingua",
     "removeInterest": "Rimuovi interesse",
-    "removeSection": "Rimuovi la sezione {{title}}",
     "uploadProfilePhoto": "Carica foto profilo",
     "reorder": "Riordina",
     "selectLanguage": "Seleziona lingua"
@@ -83,5 +87,46 @@
     "modern": "Moderno",
     "minimal": "Minimalista",
     "pageTitle": "Modelli"
+  },
+  "myResumes": {
+    "pageTitle": "I miei curriculum",
+    "name": "Nome",
+    "edit": "Modifica",
+    "delete": "Elimina",
+    "empty": "Non hai ancora salvato nessun curriculum.",
+    "untitled": "Curriculum senza titolo",
+    "confirmDelete": "Eliminare questo curriculum? Questa azione non può essere annullata.",
+    "saveFailed": "Salvataggio del curriculum non riuscito. Riprova.",
+    "loadFailed": "Impossibile caricare i curriculum salvati. Riprova."
+  },
+  "landing": {
+    "heroTitle": "Crea un curriculum professionale in pochi minuti",
+    "heroSubtitle": "Gratuito, senza registrazione. Scegli un modello, inserisci i tuoi dati e scarica un PDF pronto direttamente dal browser.",
+    "ctaStart": "Crea curriculum",
+    "features": {
+      "templates": {
+        "title": "3 modelli professionali",
+        "description": "Basic, Modern e Minimal: scegli lo stile più adatto a te."
+      },
+      "customization": {
+        "title": "Personalizzazione completa",
+        "description": "Colori, tipografia, dimensione del testo e layout drag-and-drop, tutto dal vivo."
+      },
+      "pdf": {
+        "title": "Esportazione PDF con un clic",
+        "description": "Scarica un PDF pronto per la stampa non appena sei soddisfatto."
+      },
+      "languages": {
+        "title": "13 lingue",
+        "description": "L'intero editor si traduce all'istante, non solo il testo del curriculum."
+      },
+      "saveResumes": {
+        "title": "Salva e continua più tardi",
+        "description": "Conserva più curriculum salvati e modificali quando vuoi."
+      }
+    }
+  },
+  "footer": {
+    "copyright": "© {{year}} QuickResumeBuilder.online"
   }
 }

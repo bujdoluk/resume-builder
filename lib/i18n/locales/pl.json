@@ -10,7 +10,8 @@
       "small": "Mały",
       "medium": "Średni",
       "large": "Duży"
-    }
+    },
+    "myResumes": "Moje CV"
   },
   "fields": {
     "photo": "Zdjęcie",
@@ -64,7 +65,11 @@
     "addLanguage": "+ Dodaj język",
     "addInterest": "+ Dodaj zainteresowanie",
     "preview": "Podgląd",
-    "downloadPdf": "Pobierz PDF"
+    "download": "Pobierz",
+    "save": "Zapisz",
+    "saved": "Zapisano",
+    "cancel": "Anuluj",
+    "confirm": "Potwierdź"
   },
   "aria": {
     "removeWorkExperience": "Usuń doświadczenie zawodowe",
@@ -73,7 +78,6 @@
     "removeCertification": "Usuń certyfikat",
     "removeLanguage": "Usuń język",
     "removeInterest": "Usuń zainteresowanie",
-    "removeSection": "Usuń sekcję {{title}}",
     "uploadProfilePhoto": "Prześlij zdjęcie profilowe",
     "reorder": "Zmień kolejność",
     "selectLanguage": "Wybierz język"
@@ -83,5 +87,46 @@
     "modern": "Nowoczesny",
     "minimal": "Minimalistyczny",
     "pageTitle": "Szablony"
+  },
+  "myResumes": {
+    "pageTitle": "Moje CV",
+    "name": "Nazwa",
+    "edit": "Edytuj",
+    "delete": "Usuń",
+    "empty": "Nie zapisałeś jeszcze żadnego CV.",
+    "untitled": "CV bez nazwy",
+    "confirmDelete": "Usunąć to CV? Tej czynności nie można cofnąć.",
+    "saveFailed": "Nie udało się zapisać CV. Spróbuj ponownie.",
+    "loadFailed": "Nie udało się wczytać zapisanych CV. Spróbuj ponownie."
+  },
+  "landing": {
+    "heroTitle": "Stwórz profesjonalne CV w kilka minut",
+    "heroSubtitle": "Za darmo, bez rejestracji. Wybierz szablon, uzupełnij swoje dane i pobierz gotowe PDF prosto z przeglądarki.",
+    "ctaStart": "Utwórz CV",
+    "features": {
+      "templates": {
+        "title": "3 profesjonalne szablony",
+        "description": "Basic, Modern i Minimal – wybierz styl, który Ci odpowiada."
+      },
+      "customization": {
+        "title": "Pełna personalizacja",
+        "description": "Kolory, typografia, rozmiar tekstu i układ metodą przeciągnij i upuść – wszystko na żywo."
+      },
+      "pdf": {
+        "title": "Eksport do PDF jednym kliknięciem",
+        "description": "Pobierz gotowy do druku PDF, gdy tylko będziesz zadowolony."
+      },
+      "languages": {
+        "title": "13 języków",
+        "description": "Cały kreator tłumaczy się natychmiast, nie tylko tekst Twojego CV."
+      },
+      "saveResumes": {
+        "title": "Zapisz i wróć później",
+        "description": "Przechowuj wiele zapisanych CV i edytuj je w dowolnym momencie."
+      }
+    }
+  },
+  "footer": {
+    "copyright": "© {{year}} QuickResumeBuilder.online"
   }
 }

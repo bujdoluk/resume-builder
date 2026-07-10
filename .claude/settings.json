@@ -34,7 +34,8 @@
       "Bash(xargs grep -l \"text-sm\")",
       "Bash(xargs grep -l \"\\\\.text-sm\")",
       "Bash(curl -s \"http://localhost:3000/_next/static/chunks/%5Broot-of-the-server%5D__1gke8nv._.css\" -o /tmp/app.css)",
-      "Bash(node verify-fontsize2.mjs)"
+      "Bash(node verify-fontsize2.mjs)",
+      "Bash(node verify-download-noflash.mjs)"
     ],
     "additionalDirectories": [
       "C:\\Users\\lukas\\AppData\\Local\\npm-cache\\_npx\\e41f203b7505f1fb"

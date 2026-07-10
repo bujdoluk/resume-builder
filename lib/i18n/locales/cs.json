@@ -10,7 +10,8 @@
       "small": "Malé",
       "medium": "Střední",
       "large": "Velké"
-    }
+    },
+    "myResumes": "Moje životopisy"
   },
   "fields": {
     "photo": "Fotka",
@@ -64,7 +65,11 @@
     "addLanguage": "+ Přidat jazyk",
     "addInterest": "+ Přidat zájem",
     "preview": "Náhled",
-    "downloadPdf": "Stáhnout PDF"
+    "download": "Stáhnout",
+    "save": "Uložit",
+    "saved": "Uloženo",
+    "cancel": "Zrušit",
+    "confirm": "Potvrdit"
   },
   "aria": {
     "removeWorkExperience": "Odebrat pracovní zkušenost",
@@ -73,7 +78,6 @@
     "removeCertification": "Odebrat certifikát",
     "removeLanguage": "Odebrat jazyk",
     "removeInterest": "Odebrat zájem",
-    "removeSection": "Odebrat sekci {{title}}",
     "uploadProfilePhoto": "Nahrát profilovou fotku",
     "reorder": "Přeuspořádat",
     "selectLanguage": "Vybrat jazyk"
@@ -83,5 +87,46 @@
     "modern": "Moderní",
     "minimal": "Minimalistický",
     "pageTitle": "Šablony"
+  },
+  "myResumes": {
+    "pageTitle": "Moje životopisy",
+    "name": "Název",
+    "edit": "Upravit",
+    "delete": "Smazat",
+    "empty": "Zatím jste neuložili žádný životopis.",
+    "untitled": "Nepojmenovaný životopis",
+    "confirmDelete": "Smazat tento životopis? Tuto akci nelze vrátit zpět.",
+    "saveFailed": "Uložení životopisu se nezdařilo. Zkuste to prosím znovu.",
+    "loadFailed": "Nepodařilo se načíst uložené životopisy. Zkuste to prosím znovu."
+  },
+  "landing": {
+    "heroTitle": "Vytvořte si profesionální životopis za pár minut",
+    "heroSubtitle": "Zdarma, bez registrace. Vyberte šablonu, vyplňte své údaje a stáhněte si hotové PDF přímo z prohlížeče.",
+    "ctaStart": "Vytvořit životopis",
+    "features": {
+      "templates": {
+        "title": "3 profesionální šablony",
+        "description": "Basic, Modern a Minimal – vyberte styl, který vám sedí."
+      },
+      "customization": {
+        "title": "Plná přizpůsobitelnost",
+        "description": "Barvy, typografie, velikost písma a rozložení přetažením – vše živě."
+      },
+      "pdf": {
+        "title": "Export do PDF jedním kliknutím",
+        "description": "Stáhněte si PDF připravené k tisku, jakmile budete spokojeni."
+      },
+      "languages": {
+        "title": "13 jazyků",
+        "description": "Celý editor se okamžitě přeloží, nejen text vašeho životopisu."
+      },
+      "saveResumes": {
+        "title": "Uložte si a vraťte se později",
+        "description": "Uchovávejte více životopisů a kdykoli je upravte."
+      }
+    }
+  },
+  "footer": {
+    "copyright": "© {{year}} QuickResumeBuilder.online"
   }
 }

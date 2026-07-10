@@ -10,7 +10,8 @@
       "small": "Liten",
       "medium": "Middels",
       "large": "Stor"
-    }
+    },
+    "myResumes": "Mine CV-er"
   },
   "fields": {
     "photo": "Bilde",
@@ -64,7 +65,11 @@
     "addLanguage": "+ Legg til språk",
     "addInterest": "+ Legg til interesse",
     "preview": "Forhåndsvisning",
-    "downloadPdf": "Last ned PDF"
+    "download": "Last ned",
+    "save": "Lagre",
+    "saved": "Lagret",
+    "cancel": "Avbryt",
+    "confirm": "Bekreft"
   },
   "aria": {
     "removeWorkExperience": "Fjern arbeidserfaring",
@@ -73,7 +78,6 @@
     "removeCertification": "Fjern sertifisering",
     "removeLanguage": "Fjern språk",
     "removeInterest": "Fjern interesse",
-    "removeSection": "Fjern {{title}}-seksjonen",
     "uploadProfilePhoto": "Last opp profilbilde",
     "reorder": "Endre rekkefølge",
     "selectLanguage": "Velg språk"
@@ -83,5 +87,46 @@
     "modern": "Moderne",
     "minimal": "Minimalistisk",
     "pageTitle": "Maler"
+  },
+  "myResumes": {
+    "pageTitle": "Mine CV-er",
+    "name": "Navn",
+    "edit": "Rediger",
+    "delete": "Slett",
+    "empty": "Du har ikke lagret noen CV-er ennå.",
+    "untitled": "Unavngitt CV",
+    "confirmDelete": "Slette denne CV-en? Dette kan ikke angres.",
+    "saveFailed": "Kunne ikke lagre CV-en. Prøv igjen.",
+    "loadFailed": "Kunne ikke laste inn de lagrede CV-ene dine. Prøv igjen."
+  },
+  "landing": {
+    "heroTitle": "Lag en profesjonell CV på få minutter",
+    "heroSubtitle": "Gratis, ingen registrering nødvendig. Velg en mal, fyll inn opplysningene dine, og last ned en ferdig PDF rett fra nettleseren.",
+    "ctaStart": "Opprett CV",
+    "features": {
+      "templates": {
+        "title": "3 profesjonelle maler",
+        "description": "Basic, Modern og Minimal – velg stilen som passer deg."
+      },
+      "customization": {
+        "title": "Full tilpasning",
+        "description": "Farger, typografi, tekststørrelse og dra-og-slipp-layout, alt live."
+      },
+      "pdf": {
+        "title": "PDF-eksport med ett klikk",
+        "description": "Last ned en utskriftsklar PDF så snart du er fornøyd."
+      },
+      "languages": {
+        "title": "13 språk",
+        "description": "Hele byggeverktøyet oversettes umiddelbart, ikke bare CV-teksten din."
+      },
+      "saveResumes": {
+        "title": "Lagre og fortsett senere",
+        "description": "Behold flere lagrede CV-er og rediger dem når som helst."
+      }
+    }
+  },
+  "footer": {
+    "copyright": "© {{year}} QuickResumeBuilder.online"
   }
 }

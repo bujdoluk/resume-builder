@@ -10,7 +10,8 @@
       "small": "Liten",
       "medium": "Medel",
       "large": "Stor"
-    }
+    },
+    "myResumes": "Mina CV:n"
   },
   "fields": {
     "photo": "Foto",
@@ -64,7 +65,11 @@
     "addLanguage": "+ Lägg till språk",
     "addInterest": "+ Lägg till intresse",
     "preview": "Förhandsgranska",
-    "downloadPdf": "Ladda ner PDF"
+    "download": "Ladda ner",
+    "save": "Spara",
+    "saved": "Sparat",
+    "cancel": "Avbryt",
+    "confirm": "Bekräfta"
   },
   "aria": {
     "removeWorkExperience": "Ta bort arbetslivserfarenhet",
@@ -73,7 +78,6 @@
     "removeCertification": "Ta bort certifiering",
     "removeLanguage": "Ta bort språk",
     "removeInterest": "Ta bort intresse",
-    "removeSection": "Ta bort avsnittet {{title}}",
     "uploadProfilePhoto": "Ladda upp profilfoto",
     "reorder": "Ändra ordning",
     "selectLanguage": "Välj språk"
@@ -83,5 +87,46 @@
     "modern": "Modern",
     "minimal": "Minimalistisk",
     "pageTitle": "Mallar"
+  },
+  "myResumes": {
+    "pageTitle": "Mina CV:n",
+    "name": "Namn",
+    "edit": "Redigera",
+    "delete": "Ta bort",
+    "empty": "Du har inte sparat något CV än.",
+    "untitled": "Namnlöst CV",
+    "confirmDelete": "Ta bort detta CV? Detta kan inte ångras.",
+    "saveFailed": "Det gick inte att spara CV:t. Försök igen.",
+    "loadFailed": "Det gick inte att läsa in dina sparade CV. Försök igen."
+  },
+  "landing": {
+    "heroTitle": "Skapa ett professionellt CV på några minuter",
+    "heroSubtitle": "Gratis, ingen registrering krävs. Välj en mall, fyll i dina uppgifter och ladda ner en färdig PDF direkt från din webbläsare.",
+    "ctaStart": "Skapa CV",
+    "features": {
+      "templates": {
+        "title": "3 professionella mallar",
+        "description": "Basic, Modern och Minimal – välj den stil som passar dig."
+      },
+      "customization": {
+        "title": "Full anpassning",
+        "description": "Färger, typografi, textstorlek och dra-och-släpp-layout, allt i realtid."
+      },
+      "pdf": {
+        "title": "PDF-export med ett klick",
+        "description": "Ladda ner en utskriftsklar PDF så snart du är nöjd."
+      },
+      "languages": {
+        "title": "13 språk",
+        "description": "Hela byggverktyget översätts direkt, inte bara texten i ditt CV."
+      },
+      "saveResumes": {
+        "title": "Spara och fortsätt senare",
+        "description": "Spara flera CV och redigera dem när du vill."
+      }
+    }
+  },
+  "footer": {
+    "copyright": "© {{year}} QuickResumeBuilder.online"
   }
 }

@@ -63,7 +63,6 @@ interface ResumeProps {
   onLanguagesChange: (languages: LanguageEntry[]) => void;
   onInterestsChange: (interests: SimpleEntry[]) => void;
   sectionOrder: SectionKey[];
-  onRemoveSection: (key: SectionKey) => void;
   onReorderSections: (order: SectionKey[]) => void;
   templateId: TemplateId;
   color: string | null;
@@ -386,62 +385,29 @@ function RemoveButton({
 function SectionHeader({
   icon,
   title,
-  onRemoveSection,
   minimal = false,
   color,
 }: {
   icon: React.ReactNode;
   title: string;
-  onRemoveSection: () => void;
   minimal?: boolean;
   color?: string | null;
 }) {
-  const { t } = useTranslation();
-  const removeButton = (
-    <button
-      type="button"
-      aria-label={t("aria.removeSection", { title })}
-      className="btn btn-square btn-ghost btn-xs"
-      onClick={onRemoveSection}
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-        className="h-4 w-4 stroke-current"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth="1.5"
-          d="M5 7h14M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2m2 0-.8 12.2a2 2 0 0 1-2 1.8H7.8a2 2 0 0 1-2-1.8L5 7Z"
-        />
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth="1.5"
-          d="M10 11v6M14 11v6"
-        />
-      </svg>
-    </button>
-  );
-
   if (minimal) {
     return (
       <div
-        className="border-primary mt-6 mb-3 flex items-center justify-between border-b-2 pb-1"
+        className="border-primary mt-6 mb-3 border-b-2 pb-1"
         style={color ? { borderColor: color } : undefined}
       >
         <h2 className="text-sm font-bold tracking-[0.2em] uppercase">
           {title}
         </h2>
-        {removeButton}
       </div>
     );
   }
 
   return (
-    <div className="mt-4 mb-2 flex items-center justify-between">
+    <div className="mt-4 mb-2">
       <h2
         className="flex items-center gap-2 text-sm font-semibold tracking-wide text-gray-500 uppercase"
         style={color ? { color } : undefined}
@@ -449,7 +415,6 @@ function SectionHeader({
         {icon}
         {title}
       </h2>
-      {removeButton}
     </div>
   );
 }
@@ -464,7 +429,6 @@ export default function Resume({
   onLanguagesChange,
   onInterestsChange,
   sectionOrder,
-  onRemoveSection,
   onReorderSections,
   templateId,
   color,
@@ -885,7 +849,6 @@ export default function Resume({
       <>
         <SectionHeader
           title={t("sections.workExperience")}
-          onRemoveSection={() => onRemoveSection("workExperience")}
           minimal={templateId === "minimal"}
           color={color}
           icon={
@@ -960,7 +923,6 @@ export default function Resume({
       <>
         <SectionHeader
           title={t("sections.education")}
-          onRemoveSection={() => onRemoveSection("education")}
           minimal={templateId === "minimal"}
           color={color}
           icon={
@@ -1033,7 +995,6 @@ export default function Resume({
       <>
         <SectionHeader
           title={t("sections.skills")}
-          onRemoveSection={() => onRemoveSection("skills")}
           minimal={templateId === "minimal"}
           color={color}
           icon={
@@ -1097,7 +1058,6 @@ export default function Resume({
       <>
         <SectionHeader
           title={t("sections.certifications")}
-          onRemoveSection={() => onRemoveSection("certifications")}
           minimal={templateId === "minimal"}
           color={color}
           icon={
@@ -1171,7 +1131,6 @@ export default function Resume({
       <>
         <SectionHeader
           title={t("sections.languages")}
-          onRemoveSection={() => onRemoveSection("languages")}
           minimal={templateId === "minimal"}
           color={color}
           icon={
@@ -1243,7 +1202,6 @@ export default function Resume({
       <>
         <SectionHeader
           title={t("sections.interests")}
-          onRemoveSection={() => onRemoveSection("interests")}
           minimal={templateId === "minimal"}
           color={color}
           icon={

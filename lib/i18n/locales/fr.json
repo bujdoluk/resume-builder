@@ -10,7 +10,8 @@
       "small": "Petit",
       "medium": "Moyen",
       "large": "Grand"
-    }
+    },
+    "myResumes": "Mes CV"
   },
   "fields": {
     "photo": "Photo",
@@ -64,7 +65,11 @@
     "addLanguage": "+ Ajouter une langue",
     "addInterest": "+ Ajouter un centre d'intérêt",
     "preview": "Aperçu",
-    "downloadPdf": "Télécharger le PDF"
+    "download": "Télécharger",
+    "save": "Enregistrer",
+    "saved": "Enregistré",
+    "cancel": "Annuler",
+    "confirm": "Confirmer"
   },
   "aria": {
     "removeWorkExperience": "Supprimer l'expérience professionnelle",
@@ -73,7 +78,6 @@
     "removeCertification": "Supprimer la certification",
     "removeLanguage": "Supprimer la langue",
     "removeInterest": "Supprimer le centre d'intérêt",
-    "removeSection": "Supprimer la section {{title}}",
     "uploadProfilePhoto": "Téléverser une photo de profil",
     "reorder": "Réorganiser",
     "selectLanguage": "Choisir la langue"
@@ -83,5 +87,46 @@
     "modern": "Moderne",
     "minimal": "Minimaliste",
     "pageTitle": "Modèles"
+  },
+  "myResumes": {
+    "pageTitle": "Mes CV",
+    "name": "Nom",
+    "edit": "Modifier",
+    "delete": "Supprimer",
+    "empty": "Vous n'avez encore enregistré aucun CV.",
+    "untitled": "CV sans titre",
+    "confirmDelete": "Supprimer ce CV ? Cette action est irréversible.",
+    "saveFailed": "Échec de l'enregistrement du CV. Veuillez réessayer.",
+    "loadFailed": "Impossible de charger vos CV enregistrés. Veuillez réessayer."
+  },
+  "landing": {
+    "heroTitle": "Créez un CV professionnel en quelques minutes",
+    "heroSubtitle": "Gratuit, sans inscription. Choisissez un modèle, renseignez vos informations et téléchargez un PDF prêt à l'emploi directement depuis votre navigateur.",
+    "ctaStart": "Créer un CV",
+    "features": {
+      "templates": {
+        "title": "3 modèles professionnels",
+        "description": "Basic, Modern et Minimal : choisissez le style qui vous convient."
+      },
+      "customization": {
+        "title": "Personnalisation complète",
+        "description": "Couleurs, typographie, taille de texte et mise en page par glisser-déposer, en direct."
+      },
+      "pdf": {
+        "title": "Export PDF en un clic",
+        "description": "Téléchargez un PDF prêt à imprimer dès que vous êtes satisfait."
+      },
+      "languages": {
+        "title": "13 langues",
+        "description": "Tout le créateur se traduit instantanément, pas seulement le texte de votre CV."
+      },
+      "saveResumes": {
+        "title": "Enregistrez et reprenez plus tard",
+        "description": "Conservez plusieurs CV enregistrés et modifiez-les à tout moment."
+      }
+    }
+  },
+  "footer": {
+    "copyright": "© {{year}} QuickResumeBuilder.online"
   }
 }

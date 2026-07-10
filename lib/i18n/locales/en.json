@@ -10,7 +10,8 @@
       "small": "Small",
       "medium": "Medium",
       "large": "Large"
-    }
+    },
+    "myResumes": "My Resumes"
   },
   "fields": {
     "photo": "Photo",
@@ -64,7 +65,11 @@
     "addLanguage": "+ Add Language",
     "addInterest": "+ Add Interest",
     "preview": "Preview",
-    "downloadPdf": "Download PDF"
+    "download": "Download",
+    "save": "Save",
+    "saved": "Saved",
+    "cancel": "Cancel",
+    "confirm": "Confirm"
   },
   "aria": {
     "removeWorkExperience": "Remove work experience",
@@ -73,7 +78,6 @@
     "removeCertification": "Remove certification",
     "removeLanguage": "Remove language",
     "removeInterest": "Remove interest",
-    "removeSection": "Remove {{title}} section",
     "uploadProfilePhoto": "Upload profile photo",
     "reorder": "Reorder",
     "selectLanguage": "Select language"
@@ -83,5 +87,46 @@
     "modern": "Modern",
     "minimal": "Minimal",
     "pageTitle": "Templates"
+  },
+  "myResumes": {
+    "pageTitle": "My Resumes",
+    "name": "Name",
+    "edit": "Edit",
+    "delete": "Delete",
+    "empty": "You haven't saved any resumes yet.",
+    "untitled": "Untitled resume",
+    "confirmDelete": "Delete this resume? This can't be undone.",
+    "saveFailed": "Failed to save resume. Please try again.",
+    "loadFailed": "Could not load your saved resumes. Please try again."
+  },
+  "landing": {
+    "heroTitle": "Build a professional resume in minutes",
+    "heroSubtitle": "Free, no sign-up required. Pick a template, fill in your details, and download a polished PDF straight from your browser.",
+    "ctaStart": "Create Resume",
+    "features": {
+      "templates": {
+        "title": "3 professional templates",
+        "description": "Basic, Modern, and Minimal — pick the look that fits you."
+      },
+      "customization": {
+        "title": "Full customization",
+        "description": "Colours, typography, font size, and drag-and-drop layout, all live."
+      },
+      "pdf": {
+        "title": "One-click PDF export",
+        "description": "Download a print-ready PDF whenever you're happy with it."
+      },
+      "languages": {
+        "title": "13 languages",
+        "description": "The whole builder translates instantly, not just your resume text."
+      },
+      "saveResumes": {
+        "title": "Save & come back later",
+        "description": "Keep multiple resumes saved and edit them anytime."
+      }
+    }
+  },
+  "footer": {
+    "copyright": "© {{year}} QuickResumeBuilder.online"
   }
 }

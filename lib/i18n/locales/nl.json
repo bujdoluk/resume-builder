@@ -10,7 +10,8 @@
       "small": "Klein",
       "medium": "Gemiddeld",
       "large": "Groot"
-    }
+    },
+    "myResumes": "Mijn cv's"
   },
   "fields": {
     "photo": "Foto",
@@ -64,7 +65,11 @@
     "addLanguage": "+ Taal toevoegen",
     "addInterest": "+ Interesse toevoegen",
     "preview": "Voorbeeld",
-    "downloadPdf": "PDF downloaden"
+    "download": "Downloaden",
+    "save": "Opslaan",
+    "saved": "Opgeslagen",
+    "cancel": "Annuleren",
+    "confirm": "Bevestigen"
   },
   "aria": {
     "removeWorkExperience": "Werkervaring verwijderen",
@@ -73,7 +78,6 @@
     "removeCertification": "Certificering verwijderen",
     "removeLanguage": "Taal verwijderen",
     "removeInterest": "Interesse verwijderen",
-    "removeSection": "Sectie {{title}} verwijderen",
     "uploadProfilePhoto": "Profielfoto uploaden",
     "reorder": "Volgorde wijzigen",
     "selectLanguage": "Taal selecteren"
@@ -83,5 +87,46 @@
     "modern": "Modern",
     "minimal": "Minimalistisch",
     "pageTitle": "Sjablonen"
+  },
+  "myResumes": {
+    "pageTitle": "Mijn cv's",
+    "name": "Naam",
+    "edit": "Bewerken",
+    "delete": "Verwijderen",
+    "empty": "Je hebt nog geen cv opgeslagen.",
+    "untitled": "Naamloos cv",
+    "confirmDelete": "Dit cv verwijderen? Dit kan niet ongedaan worden gemaakt.",
+    "saveFailed": "Opslaan van cv mislukt. Probeer het opnieuw.",
+    "loadFailed": "Je opgeslagen cv's konden niet worden geladen. Probeer het opnieuw."
+  },
+  "landing": {
+    "heroTitle": "Maak in enkele minuten een professioneel cv",
+    "heroSubtitle": "Gratis, geen registratie nodig. Kies een sjabloon, vul je gegevens in en download een kant-en-klare pdf rechtstreeks vanuit je browser.",
+    "ctaStart": "Cv maken",
+    "features": {
+      "templates": {
+        "title": "3 professionele sjablonen",
+        "description": "Basic, Modern en Minimal – kies de stijl die bij je past."
+      },
+      "customization": {
+        "title": "Volledig aanpasbaar",
+        "description": "Kleuren, typografie, tekstgrootte en sleep-en-neerzet-indeling, allemaal live."
+      },
+      "pdf": {
+        "title": "PDF-export met één klik",
+        "description": "Download een afdrukklare pdf zodra je tevreden bent."
+      },
+      "languages": {
+        "title": "13 talen",
+        "description": "De hele builder wordt direct vertaald, niet alleen de tekst van je cv."
+      },
+      "saveResumes": {
+        "title": "Opslaan en later verdergaan",
+        "description": "Bewaar meerdere cv's en bewerk ze wanneer je wilt."
+      }
+    }
+  },
+  "footer": {
+    "copyright": "© {{year}} QuickResumeBuilder.online"
   }
 }

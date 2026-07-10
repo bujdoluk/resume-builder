@@ -1,20 +1,25 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 import { useTranslation } from "react-i18next";
 import { useAppState } from "@/components/AppState";
+import { DownloadIcon, SaveIcon } from "@/components/Icons";
 import Navbar from "@/components/Navbar";
 import Resume from "@/components/Resume";
+import { defaultFontSizeKey } from "@/lib/fontSize";
 import {
   emptyResumeData,
   type CertificationEntry,
   type EducationEntry,
   type LanguageEntry,
   type ResumeData,
-  type SectionKey,
   type SimpleEntry,
   type WorkEntry,
 } from "@/lib/resumeData";
+import { createClient } from "@/lib/supabase/client";
+import { getResume, saveResume } from "@/lib/supabase/resumes";
+import { ensureUserId } from "@/lib/supabase/session";
 import {
   defaultTemplateId,
   templates,
@@ -29,15 +34,23 @@ function resolveTemplateId(id: string | undefined): TemplateId {
 
 interface HomeProps {
   initialTemplateId?: string;
+  initialResumeId?: string;
 }
 
-export default function Home({ initialTemplateId }: HomeProps) {
+export default function Home({
+  initialTemplateId,
+  initialResumeId,
+}: HomeProps) {
   const { t } = useTranslation();
+  const router = useRouter();
   const templateId = resolveTemplateId(initialTemplateId);
   const {
     color,
+    setColor,
     font,
+    setFont,
     fontSize,
+    setFontSize,
     sectionOrder,
     setSectionOrder,
     visibleFields,
@@ -45,8 +58,36 @@ export default function Home({ initialTemplateId }: HomeProps) {
   } = useAppState();
   const [data, setData] = useState<ResumeData>(emptyResumeData);
   const [isGeneratingPdf, setIsGeneratingPdf] = useState(false);
+  const [resumeId, setResumeId] = useState<string | null>(
+    initialResumeId ?? null,
+  );
+  const [isSaving, setIsSaving] = useState(false);
+  const [justSaved, setJustSaved] = useState(false);
   const previewRef = useRef<HTMLDialogElement>(null);
-  const pdfAreaRef = useRef<HTMLDivElement>(null);
+  const pdfExportRef = useRef<HTMLDivElement>(null);
+  const [supabase] = useState(() => createClient());
+
+  useEffect(() => {
+    if (!initialResumeId) return;
+    let cancelled = false;
+
+    getResume(supabase, initialResumeId).then((row) => {
+      if (!row || cancelled) return;
+      setData(row.data);
+      setColor(row.color);
+      setFont(row.font);
+      setFontSize(row.fontSize ?? defaultFontSizeKey);
+      setSectionOrder(row.sectionOrder);
+      setVisibleFields(row.visibleFields);
+    });
+
+    return () => {
+      cancelled = true;
+    };
+    // Only ever re-run if the id in the URL changes (e.g. opening a
+    // different saved resume from "My resumes") — the setters are stable.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialResumeId, supabase]);
 
   function handleChange(field: keyof ResumeData, value: string) {
     setData((prev) => ({ ...prev, [field]: value }));
@@ -76,22 +117,41 @@ export default function Home({ initialTemplateId }: HomeProps) {
     setData((prev) => ({ ...prev, interests }));
   }
 
-  function removeSection(key: SectionKey) {
-    setSectionOrder((prev) => prev.filter((section) => section !== key));
-    setData((prev) => ({ ...prev, [key]: [] }));
+  async function handleSave() {
+    if (isSaving) return;
+
+    setIsSaving(true);
+    try {
+      const userId = await ensureUserId(supabase);
+      const row = await saveResume(supabase, {
+        id: resumeId,
+        userId,
+        templateId,
+        color,
+        font,
+        fontSize,
+        sectionOrder,
+        visibleFields,
+        data,
+      });
+      setResumeId(row.id);
+      router.replace(`/app?resumeId=${row.id}&template=${templateId}`);
+      setJustSaved(true);
+      setTimeout(() => setJustSaved(false), 1500);
+    } catch (error) {
+      console.error(error);
+      alert(t("myResumes.saveFailed"));
+    } finally {
+      setIsSaving(false);
+    }
   }
 
   async function handleDownloadPdf() {
-    const source = pdfAreaRef.current;
+    const source = pdfExportRef.current;
     if (!source || isGeneratingPdf) return;
 
     setIsGeneratingPdf(true);
     try {
-      // The preview lives inside a <dialog>, which is display:none while
-      // closed, so it must be open for html2canvas to capture real content.
-      const wasOpen = previewRef.current?.open ?? false;
-      if (!wasOpen) previewRef.current?.showModal();
-
       const [{ default: html2canvas }, { jsPDF }] = await Promise.all([
         import("html2canvas-pro"),
         import("jspdf"),
@@ -124,8 +184,6 @@ export default function Home({ initialTemplateId }: HomeProps) {
       }
 
       pdf.save("resume.pdf");
-
-      if (!wasOpen) previewRef.current?.close();
     } finally {
       setIsGeneratingPdf(false);
     }
@@ -150,7 +208,6 @@ export default function Home({ initialTemplateId }: HomeProps) {
           onLanguagesChange={handleLanguagesChange}
           onInterestsChange={handleInterestsChange}
           sectionOrder={sectionOrder}
-          onRemoveSection={removeSection}
           onReorderSections={setSectionOrder}
           templateId={templateId}
           color={color}
@@ -163,7 +220,7 @@ export default function Home({ initialTemplateId }: HomeProps) {
         <div className="sticky top-8 flex flex-col gap-2 self-start">
           <button
             type="button"
-            className="btn btn-primary btn-lg"
+            className="btn btn-primary btn-lg w-48"
             onClick={() => previewRef.current?.showModal()}
           >
             {t("buttons.preview")}
@@ -171,14 +228,35 @@ export default function Home({ initialTemplateId }: HomeProps) {
 
           <button
             type="button"
-            className="btn btn-outline"
+            className="btn btn-outline w-48"
+            disabled={isSaving}
+            onClick={handleSave}
+          >
+            {isSaving ? (
+              <span className="loading loading-spinner loading-sm" />
+            ) : justSaved ? (
+              t("buttons.saved")
+            ) : (
+              <>
+                <SaveIcon className="h-5 w-5 stroke-current" />
+                {t("buttons.save")}
+              </>
+            )}
+          </button>
+
+          <button
+            type="button"
+            className="btn btn-outline w-48"
             disabled={isGeneratingPdf}
             onClick={handleDownloadPdf}
           >
             {isGeneratingPdf ? (
               <span className="loading loading-spinner loading-sm" />
             ) : (
-              t("buttons.downloadPdf")
+              <>
+                <DownloadIcon className="h-5 w-5 stroke-current" />
+                {t("buttons.download")}
+              </>
             )}
           </button>
         </div>
@@ -187,7 +265,6 @@ export default function Home({ initialTemplateId }: HomeProps) {
       <dialog ref={previewRef} className="modal">
         <div
           id="pdf-area"
-          ref={pdfAreaRef}
           className="modal-box max-h-[90vh]! w-fit! max-w-none! overflow-y-auto! bg-transparent! p-0! shadow-none!"
         >
           <TemplateComponent
@@ -203,6 +280,21 @@ export default function Home({ initialTemplateId }: HomeProps) {
           <button>close</button>
         </form>
       </dialog>
+
+      <div
+        ref={pdfExportRef}
+        aria-hidden="true"
+        className="pointer-events-none fixed top-0 left-[-9999px]"
+      >
+        <TemplateComponent
+          data={data}
+          sectionOrder={sectionOrder}
+          color={color}
+          font={font}
+          fontSize={fontSize}
+          visibleFields={visibleFields}
+        />
+      </div>
     </>
   );
 }

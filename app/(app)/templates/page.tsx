@@ -30,7 +30,7 @@ export default function TemplatesPage() {
           {templates.map((template) => (
             <Link
               key={template.id}
-              href={`/?template=${template.id}`}
+              href={`/app?template=${template.id}`}
               className="group flex flex-col items-center gap-3"
             >
               <TemplateThumbnail width={220}>

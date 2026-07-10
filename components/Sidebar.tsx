@@ -9,6 +9,7 @@ import {
   useAppState,
   type FieldKey,
 } from "@/components/AppState";
+import { MyResumesIcon, TemplatesIcon } from "@/components/Icons";
 import { rows } from "@/lib/color";
 import { fontSizeOptions } from "@/lib/fontSize";
 import { allFonts, type FontKey } from "@/lib/fonts";
@@ -95,20 +96,18 @@ export default function Sidebar() {
               title={collapsed ? t("sidebar.templates") : undefined}
               className={`flex items-center ${collapsed ? "justify-center" : ""}`}
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                className="h-7 w-7 stroke-current"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="1.5"
-                  d="M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6A2.25 2.25 0 0 1 3.75 18v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25A2.25 2.25 0 0 1 13.5 18v-2.25Z"
-                />
-              </svg>
+              <TemplatesIcon className="h-7 w-7 stroke-current" />
               {!collapsed && t("sidebar.templates")}
+            </Link>
+          </li>
+          <li>
+            <Link
+              href="/my-resumes"
+              title={collapsed ? t("sidebar.myResumes") : undefined}
+              className={`flex items-center ${collapsed ? "justify-center" : ""}`}
+            >
+              <MyResumesIcon className="h-7 w-7 stroke-current" />
+              {!collapsed && t("sidebar.myResumes")}
             </Link>
           </li>
           <li>

@@ -16,7 +16,6 @@ import {
   Space_Mono,
 } from "next/font/google";
 import { AppStateProvider } from "@/components/AppState";
-import Sidebar from "@/components/Sidebar";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -122,17 +121,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${fontVariables} h-full antialiased`}>
       <body className="min-h-full flex flex-col">
-        <AppStateProvider>
-          <div className="drawer lg:drawer-open">
-            <input
-              id="sidebar-drawer"
-              type="checkbox"
-              className="drawer-toggle"
-            />
-            <div className="drawer-content flex flex-col">{children}</div>
-            <Sidebar />
-          </div>
-        </AppStateProvider>
+        <AppStateProvider>{children}</AppStateProvider>
       </body>
     </html>
   );

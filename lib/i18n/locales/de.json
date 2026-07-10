@@ -10,7 +10,8 @@
       "small": "Klein",
       "medium": "Mittel",
       "large": "Groß"
-    }
+    },
+    "myResumes": "Meine Lebensläufe"
   },
   "fields": {
     "photo": "Foto",
@@ -64,7 +65,11 @@
     "addLanguage": "+ Sprache hinzufügen",
     "addInterest": "+ Interesse hinzufügen",
     "preview": "Vorschau",
-    "downloadPdf": "PDF herunterladen"
+    "download": "Herunterladen",
+    "save": "Speichern",
+    "saved": "Gespeichert",
+    "cancel": "Abbrechen",
+    "confirm": "Bestätigen"
   },
   "aria": {
     "removeWorkExperience": "Berufserfahrung entfernen",
@@ -73,7 +78,6 @@
     "removeCertification": "Zertifikat entfernen",
     "removeLanguage": "Sprache entfernen",
     "removeInterest": "Interesse entfernen",
-    "removeSection": "Abschnitt {{title}} entfernen",
     "uploadProfilePhoto": "Profilfoto hochladen",
     "reorder": "Neu anordnen",
     "selectLanguage": "Sprache auswählen"
@@ -83,5 +87,46 @@
     "modern": "Modern",
     "minimal": "Minimalistisch",
     "pageTitle": "Vorlagen"
+  },
+  "myResumes": {
+    "pageTitle": "Meine Lebensläufe",
+    "name": "Name",
+    "edit": "Bearbeiten",
+    "delete": "Löschen",
+    "empty": "Du hast noch keinen Lebenslauf gespeichert.",
+    "untitled": "Unbenannter Lebenslauf",
+    "confirmDelete": "Diesen Lebenslauf löschen? Dies kann nicht rückgängig gemacht werden.",
+    "saveFailed": "Speichern des Lebenslaufs fehlgeschlagen. Bitte versuche es erneut.",
+    "loadFailed": "Deine gespeicherten Lebensläufe konnten nicht geladen werden. Bitte versuche es erneut."
+  },
+  "landing": {
+    "heroTitle": "Erstelle in wenigen Minuten einen professionellen Lebenslauf",
+    "heroSubtitle": "Kostenlos, keine Registrierung nötig. Wähle eine Vorlage, trage deine Daten ein und lade ein fertiges PDF direkt aus deinem Browser herunter.",
+    "ctaStart": "Lebenslauf erstellen",
+    "features": {
+      "templates": {
+        "title": "3 professionelle Vorlagen",
+        "description": "Basic, Modern und Minimal – wähle den Stil, der zu dir passt."
+      },
+      "customization": {
+        "title": "Volle Anpassbarkeit",
+        "description": "Farben, Typografie, Schriftgröße und Drag-and-Drop-Layout – alles live."
+      },
+      "pdf": {
+        "title": "PDF-Export mit einem Klick",
+        "description": "Lade ein druckfertiges PDF herunter, sobald du zufrieden bist."
+      },
+      "languages": {
+        "title": "13 Sprachen",
+        "description": "Der gesamte Builder wird sofort übersetzt, nicht nur dein Lebenslauftext."
+      },
+      "saveResumes": {
+        "title": "Speichern & später weitermachen",
+        "description": "Behalte mehrere Lebensläufe gespeichert und bearbeite sie jederzeit."
+      }
+    }
+  },
+  "footer": {
+    "copyright": "© {{year}} QuickResumeBuilder.online"
   }
 }

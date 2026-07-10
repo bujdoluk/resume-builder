@@ -10,7 +10,8 @@
       "small": "Pequeno",
       "medium": "Médio",
       "large": "Grande"
-    }
+    },
+    "myResumes": "Meus currículos"
   },
   "fields": {
     "photo": "Foto",
@@ -64,7 +65,11 @@
     "addLanguage": "+ Adicionar idioma",
     "addInterest": "+ Adicionar interesse",
     "preview": "Pré-visualizar",
-    "downloadPdf": "Transferir PDF"
+    "download": "Transferir",
+    "save": "Guardar",
+    "saved": "Guardado",
+    "cancel": "Cancelar",
+    "confirm": "Confirmar"
   },
   "aria": {
     "removeWorkExperience": "Remover experiência profissional",
@@ -73,7 +78,6 @@
     "removeCertification": "Remover certificação",
     "removeLanguage": "Remover idioma",
     "removeInterest": "Remover interesse",
-    "removeSection": "Remover secção {{title}}",
     "uploadProfilePhoto": "Carregar foto de perfil",
     "reorder": "Reordenar",
     "selectLanguage": "Selecionar idioma"
@@ -83,5 +87,46 @@
     "modern": "Moderno",
     "minimal": "Minimalista",
     "pageTitle": "Modelos"
+  },
+  "myResumes": {
+    "pageTitle": "Meus currículos",
+    "name": "Nome",
+    "edit": "Editar",
+    "delete": "Eliminar",
+    "empty": "Ainda não guardou nenhum currículo.",
+    "untitled": "Currículo sem título",
+    "confirmDelete": "Eliminar este currículo? Esta ação não pode ser revertida.",
+    "saveFailed": "Falha ao guardar o currículo. Tente novamente.",
+    "loadFailed": "Não foi possível carregar os seus currículos guardados. Tente novamente."
+  },
+  "landing": {
+    "heroTitle": "Crie um currículo profissional em minutos",
+    "heroSubtitle": "Grátis, sem necessidade de registo. Escolha um modelo, preencha os seus dados e descarregue um PDF pronto diretamente do seu navegador.",
+    "ctaStart": "Criar currículo",
+    "features": {
+      "templates": {
+        "title": "3 modelos profissionais",
+        "description": "Basic, Modern e Minimal – escolha o estilo que mais lhe convém."
+      },
+      "customization": {
+        "title": "Personalização completa",
+        "description": "Cores, tipografia, tamanho do texto e disposição por arrastar e largar, tudo em tempo real."
+      },
+      "pdf": {
+        "title": "Exportação para PDF num clique",
+        "description": "Descarregue um PDF pronto a imprimir assim que estiver satisfeito."
+      },
+      "languages": {
+        "title": "13 idiomas",
+        "description": "Todo o criador é traduzido instantaneamente, não só o texto do seu currículo."
+      },
+      "saveResumes": {
+        "title": "Guarde e continue mais tarde",
+        "description": "Mantenha vários currículos guardados e edite-os quando quiser."
+      }
+    }
+  },
+  "footer": {
+    "copyright": "© {{year}} QuickResumeBuilder.online"
   }
 }
