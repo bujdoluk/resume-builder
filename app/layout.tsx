@@ -18,6 +18,8 @@ import {
 import { AppStateProvider } from "@/components/AppState";
 import Navbar from "@/components/Navbar";
 import "./globals.css";
+import { Analytics } from "@vercel/analytics/next"
+
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -125,6 +127,7 @@ export default function RootLayout({
         <AppStateProvider>
           <Navbar />
           <div className="flex flex-1 flex-col">{children}</div>
+          <Analytics />
         </AppStateProvider>
       </body>
     </html>
