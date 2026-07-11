@@ -1051,6 +1051,10 @@ export default function Resume({
     templateId === "modern"
       ? "bg-white text-neutral"
       : "bg-neutral text-neutral-content";
+  const avatarStyle =
+    templateId !== "modern" && color
+      ? { backgroundColor: color, color: getContrastTextColor(color) }
+      : undefined;
 
   const avatar = !visibleFields.includes("photo") ? null : (
     <div className={templateId === "modern" ? "flex justify-center" : undefined}>
@@ -1058,7 +1062,10 @@ export default function Resume({
         className="avatar avatar-placeholder cursor-pointer items-center justify-center"
         aria-label={t("aria.uploadProfilePhoto")}
       >
-        <div className={`h-32 w-32 rounded-full ${avatarBgClass}`}>
+        <div
+          className={`h-32 w-32 rounded-full ${avatarBgClass}`}
+          style={avatarStyle}
+        >
           {data.photo ? (
             // eslint-disable-next-line @next/next/no-img-element -- user-uploaded data URL, not an optimizable static asset
             <img

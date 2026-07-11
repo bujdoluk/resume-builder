@@ -31,6 +31,40 @@ function resolveTemplateId(id: string | undefined): TemplateId {
     : defaultTemplateId;
 }
 
+// The unsaved, in-progress resume (no resumeId yet) is mirrored to
+// localStorage so its content survives switching templates — which
+// navigates away to /templates and back, remounting Home — and closing the
+// browser entirely. Once the user explicitly saves, the data has a durable
+// home under its own resumeId and this scratch slot is cleared so a later
+// blank resume doesn't inherit it.
+const DRAFT_STORAGE_KEY = "resumeBuilder:draft";
+
+function loadDraft(): ResumeData | null {
+  try {
+    const raw = window.localStorage.getItem(DRAFT_STORAGE_KEY);
+    return raw ? (JSON.parse(raw) as ResumeData) : null;
+  } catch {
+    return null;
+  }
+}
+
+function saveDraft(data: ResumeData) {
+  try {
+    window.localStorage.setItem(DRAFT_STORAGE_KEY, JSON.stringify(data));
+  } catch {
+    // Ignore quota/serialization errors — the draft is a convenience, not
+    // the resume's source of truth.
+  }
+}
+
+function clearDraft() {
+  try {
+    window.localStorage.removeItem(DRAFT_STORAGE_KEY);
+  } catch {
+    // Ignore.
+  }
+}
+
 interface HomeProps {
   initialTemplateId?: string;
   initialResumeId?: string;
@@ -88,6 +122,31 @@ export default function Home({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialResumeId, supabase]);
 
+  // Restore the unsaved scratch draft once on mount — only when we're not
+  // already loading a specific saved resume by id (the effect above).
+  useEffect(() => {
+    if (initialResumeId) return;
+    const draft = loadDraft();
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    if (draft) setData(draft);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Mirror every edit to localStorage so it survives switching templates
+  // (which navigates away from /app and remounts this component) and
+  // closing the browser, as long as it hasn't been explicitly saved yet.
+  // Skipping while `data` is still reference-equal to the initial empty
+  // value avoids a real race: this effect and the restore effect above both
+  // fire on mount, and in dev, React's Strict Mode invokes each of them
+  // twice before the restored `setData` has actually landed as a render —
+  // without this guard, one of those extra passes writes the stale empty
+  // value right over the draft it just read.
+  useEffect(() => {
+    if (initialResumeId) return;
+    if (data === emptyResumeData) return;
+    saveDraft(data);
+  }, [data, initialResumeId]);
+
   function handleChange(field: keyof ResumeData, value: string) {
     setData((prev) => ({ ...prev, [field]: value }));
   }
@@ -135,6 +194,7 @@ export default function Home({
       });
       setResumeId(row.id);
       router.replace(`/app?resumeId=${row.id}&template=${templateId}`);
+      clearDraft();
       setJustSaved(true);
       setTimeout(() => setJustSaved(false), 1500);
     } catch (error) {

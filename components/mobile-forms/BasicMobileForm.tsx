@@ -17,6 +17,7 @@ import {
   SortableGroup,
 } from "@/components/Sortable";
 import { createResumeFormHandlers } from "@/components/useResumeFormHandlers";
+import { getContrastTextColor } from "@/lib/color";
 import { type FieldKey } from "@/lib/fields";
 import {
   languageLevels,
@@ -329,7 +330,14 @@ export default function BasicMobileForm({
       className="avatar avatar-placeholder w-fit cursor-pointer"
       aria-label={t("aria.uploadProfilePhoto")}
     >
-      <div className="bg-neutral text-neutral-content h-24 w-24 rounded-full">
+      <div
+        className="bg-neutral text-neutral-content h-24 w-24 rounded-full"
+        style={
+          color
+            ? { backgroundColor: color, color: getContrastTextColor(color) }
+            : undefined
+        }
+      >
         {data.photo ? (
           // eslint-disable-next-line @next/next/no-img-element -- user-uploaded data URL, not an optimizable static asset
           <img
