@@ -191,19 +191,19 @@ export default function MinimalTemplate({
               >
                 <div className="flex items-baseline justify-between gap-2">
                   {entry.position && (
-                    <p className="font-semibold">{entry.position}</p>
+                    <p className="text-lg font-semibold">{entry.position}</p>
                   )}
                   {dateRange && (
-                    <p className="text-sm whitespace-nowrap text-gray-500">
+                    <p className="text-base whitespace-nowrap text-gray-500">
                       {dateRange}
                     </p>
                   )}
                 </div>
                 {entry.location && (
-                  <p className="text-sm text-gray-500">{entry.location}</p>
+                  <p className="text-base text-gray-500">{entry.location}</p>
                 )}
                 {entry.jobDescription && (
-                  <p className="mt-1 whitespace-pre-line text-gray-700">
+                  <p className="mt-1 text-base whitespace-pre-line text-gray-700">
                     {entry.jobDescription}
                   </p>
                 )}
@@ -229,23 +229,23 @@ export default function MinimalTemplate({
                 className="border-primary/40 border-l-2 pl-3"
               >
                 {entry.school && (
-                  <p className="font-semibold">{entry.school}</p>
+                  <p className="text-lg font-semibold">{entry.school}</p>
                 )}
                 <div className="flex items-baseline justify-between gap-2">
                   {entry.subject && (
-                    <p className="text-sm text-gray-600">{entry.subject}</p>
+                    <p className="text-base text-gray-600">{entry.subject}</p>
                   )}
                   {dateRange && (
-                    <p className="text-sm whitespace-nowrap text-gray-500">
+                    <p className="text-base whitespace-nowrap text-gray-500">
                       {dateRange}
                     </p>
                   )}
                 </div>
                 {entry.location && (
-                  <p className="text-sm text-gray-500">{entry.location}</p>
+                  <p className="text-base text-gray-500">{entry.location}</p>
                 )}
                 {entry.description && (
-                  <p className="mt-1 whitespace-pre-line text-gray-700">
+                  <p className="mt-1 text-base whitespace-pre-line text-gray-700">
                     {entry.description}
                   </p>
                 )}

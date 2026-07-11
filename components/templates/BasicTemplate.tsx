@@ -145,7 +145,7 @@ export default function BasicTemplate({
             return (
               <li key={entry.id}>
                 {index > 0 && <hr />}
-                <div className="timeline-start text-sm text-gray-500">
+                <div className="timeline-start text-base text-gray-500">
                   {dateRange}
                 </div>
                 <div className="timeline-middle">
@@ -160,13 +160,13 @@ export default function BasicTemplate({
                 </div>
                 <div className="timeline-end timeline-box">
                   {entry.position && (
-                    <p className="font-semibold">{entry.position}</p>
+                    <p className="text-lg font-semibold">{entry.position}</p>
                   )}
                   {entry.location && (
-                    <p className="text-sm text-gray-500">{entry.location}</p>
+                    <p className="text-base text-gray-500">{entry.location}</p>
                   )}
                   {entry.jobDescription && (
-                    <p className="mt-2 whitespace-pre-line text-gray-700">
+                    <p className="mt-2 text-base whitespace-pre-line text-gray-700">
                       {entry.jobDescription}
                     </p>
                   )}
@@ -198,7 +198,7 @@ export default function BasicTemplate({
             return (
               <li key={entry.id}>
                 {index > 0 && <hr />}
-                <div className="timeline-start text-sm text-gray-500">
+                <div className="timeline-start text-base text-gray-500">
                   {dateRange}
                 </div>
                 <div className="timeline-middle">
@@ -213,16 +213,16 @@ export default function BasicTemplate({
                 </div>
                 <div className="timeline-end timeline-box">
                   {entry.school && (
-                    <p className="font-semibold">{entry.school}</p>
+                    <p className="text-lg font-semibold">{entry.school}</p>
                   )}
                   {entry.subject && (
-                    <p className="text-sm text-gray-600">{entry.subject}</p>
+                    <p className="text-base text-gray-600">{entry.subject}</p>
                   )}
                   {entry.location && (
-                    <p className="text-sm text-gray-500">{entry.location}</p>
+                    <p className="text-base text-gray-500">{entry.location}</p>
                   )}
                   {entry.description && (
-                    <p className="mt-2 whitespace-pre-line text-gray-700">
+                    <p className="mt-2 text-base whitespace-pre-line text-gray-700">
                       {entry.description}
                     </p>
                   )}
