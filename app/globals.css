@@ -159,3 +159,25 @@ body {
   color: var(--sidebar-fg) !important;
   opacity: 0.7;
 }
+
+@keyframes cta-attention {
+  0%,
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 color-mix(in oklab, var(--color-primary) 50%, transparent);
+  }
+  50% {
+    transform: scale(1.08);
+    box-shadow: 0 0 0 10px color-mix(in oklab, var(--color-primary) 0%, transparent);
+  }
+}
+
+.cta-attention {
+  animation: cta-attention 0.7s ease-in-out 3;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cta-attention {
+    animation: none;
+  }
+}

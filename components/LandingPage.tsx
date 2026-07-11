@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import Footer from "@/components/Footer";
 import {
@@ -22,6 +23,23 @@ const features = [
 
 export default function LandingPage() {
   const { t } = useTranslation();
+  const [pulseCount, setPulseCount] = useState(0);
+
+  useEffect(() => {
+    let interval: ReturnType<typeof setInterval> | undefined;
+
+    const startTimer = setTimeout(() => {
+      setPulseCount((count) => count + 1);
+      interval = setInterval(() => {
+        setPulseCount((count) => count + 1);
+      }, 7000);
+    }, 3000);
+
+    return () => {
+      clearTimeout(startTimer);
+      if (interval) clearInterval(interval);
+    };
+  }, []);
 
   return (
     <div className="flex min-h-full flex-col overflow-x-hidden">
@@ -46,7 +64,11 @@ export default function LandingPage() {
             </p>
 
             <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-              <Link href="/app" className="btn btn-primary btn-lg">
+              <Link
+                key={pulseCount}
+                href="/app"
+                className={`btn btn-primary btn-lg ${pulseCount > 0 ? "cta-attention" : ""}`}
+              >
                 {t("landing.ctaStart")}
               </Link>
             </div>
