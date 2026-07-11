@@ -7,7 +7,7 @@ export default function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="border-base-300 bg-base-200 text-base-content/60 border-t py-6 text-center text-sm">
+    <footer className="border-base-300 bg-base-100 text-base-content/60 border-t py-6 text-center text-sm">
       {t("footer.copyright", { year })}
     </footer>
   );

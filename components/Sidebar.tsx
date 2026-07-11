@@ -107,34 +107,32 @@ export default function Sidebar() {
           collapsed ? "lg:w-20" : "lg:w-80"
         }`}
       >
-        <div
-          className={`flex p-2 ${collapsed ? "justify-center" : "justify-end"}`}
+        <button
+          type="button"
+          onClick={() => setCollapsed((value) => !value)}
+          aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+          className={`btn btn-primary btn-circle btn-sm fixed top-[calc(50%+2rem)] z-10 -translate-x-1/2 -translate-y-1/2 transition-[left] duration-200 ${
+            collapsed ? "left-20" : "left-80"
+          }`}
         >
-          <button
-            type="button"
-            onClick={() => setCollapsed((value) => !value)}
-            aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
-            className="btn btn-square btn-ghost btn-sm flex items-center justify-center"
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            className={`h-5 w-5 stroke-current transition-transform ${
+              collapsed ? "rotate-180" : ""
+            }`}
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              className={`h-5 w-5 stroke-current transition-transform ${
-                collapsed ? "rotate-180" : ""
-              }`}
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M15 19l-7-7 7-7"
-              />
-            </svg>
-          </button>
-        </div>
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M15 19l-7-7 7-7"
+            />
+          </svg>
+        </button>
 
-        <ul className="menu w-full flex-nowrap p-4 pt-0">
+        <ul className="menu w-full flex-nowrap p-4">
           <li>
             <Link
               href="/templates"
@@ -173,6 +171,47 @@ export default function Sidebar() {
       {!collapsed && (
         <div className="border-base-300 overflow-y-auto border-t p-4 lg:flex-1">
           <p className="mb-2 text-xs font-semibold text-base-content/50 uppercase">
+            {t("sidebar.features")}
+          </p>
+          <div className="flex flex-col gap-2">
+            {allFields.map((key) => {
+              const enabled = visibleFields.includes(key);
+              return (
+                <label
+                  key={key}
+                  className="flex cursor-pointer items-center gap-2 text-sm"
+                >
+                  <input
+                    type="checkbox"
+                    className="checkbox checkbox-sm"
+                    checked={enabled}
+                    onChange={() => toggleField(key, !enabled)}
+                  />
+                  {t(`fields.${key}`)}
+                </label>
+              );
+            })}
+
+            {allSections.map((key) => {
+              const enabled = sectionOrder.includes(key);
+              return (
+                <label
+                  key={key}
+                  className="flex cursor-pointer items-center gap-2 text-sm"
+                >
+                  <input
+                    type="checkbox"
+                    className="checkbox checkbox-sm"
+                    checked={enabled}
+                    onChange={() => toggleSection(key, !enabled)}
+                  />
+                  {t(`sections.${key}`)}
+                </label>
+              );
+            })}
+          </div>
+
+          <p className="mt-4 mb-2 text-xs font-semibold text-base-content/50 uppercase">
             {t("sidebar.colours")}
           </p>
           <div className="flex flex-col gap-2">
@@ -281,47 +320,6 @@ export default function Sidebar() {
                 </span>
               </button>
             ))}
-          </div>
-
-          <p className="mt-4 mb-2 text-xs font-semibold text-base-content/50 uppercase">
-            {t("sidebar.features")}
-          </p>
-          <div className="flex flex-col gap-2">
-            {allFields.map((key) => {
-              const enabled = visibleFields.includes(key);
-              return (
-                <label
-                  key={key}
-                  className="flex cursor-pointer items-center gap-2 text-sm"
-                >
-                  <input
-                    type="checkbox"
-                    className="checkbox checkbox-sm"
-                    checked={enabled}
-                    onChange={() => toggleField(key, !enabled)}
-                  />
-                  {t(`fields.${key}`)}
-                </label>
-              );
-            })}
-
-            {allSections.map((key) => {
-              const enabled = sectionOrder.includes(key);
-              return (
-                <label
-                  key={key}
-                  className="flex cursor-pointer items-center gap-2 text-sm"
-                >
-                  <input
-                    type="checkbox"
-                    className="checkbox checkbox-sm"
-                    checked={enabled}
-                    onChange={() => toggleSection(key, !enabled)}
-                  />
-                  {t(`sections.${key}`)}
-                </label>
-              );
-            })}
           </div>
         </div>
       )}

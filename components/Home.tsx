@@ -206,7 +206,7 @@ export default function Home({
 
         <button
           type="button"
-          className="btn btn-outline flex-1 md:flex-none md:w-48"
+          className="btn btn-outline hover:border-primary flex-1 md:flex-none md:w-48"
           disabled={isSaving}
           onClick={handleSave}
         >
@@ -224,7 +224,7 @@ export default function Home({
 
         <button
           type="button"
-          className="btn btn-outline flex-1 md:flex-none md:w-48"
+          className="btn btn-outline hover:border-primary flex-1 md:flex-none md:w-48"
           disabled={isGeneratingPdf}
           onClick={handleDownloadPdf}
         >
