@@ -36,11 +36,8 @@ export const allSections: SectionKey[] = [
   "interests",
 ];
 
-// Every section is enabled by default, in the same order they appear in
-// the templates — Certifications sits right after Languages.
 export const defaultSectionOrder: SectionKey[] = [...allSections];
 
-// Every personal-info field is visible by default.
 const defaultVisibleFields: FieldKey[] = [...allFields];
 
 interface AppStateValue {
@@ -56,6 +53,8 @@ interface AppStateValue {
   setLanguage: Dispatch<SetStateAction<string>>;
   fontSize: FontSizeKey;
   setFontSize: Dispatch<SetStateAction<FontSizeKey>>;
+  resumeListVersion: number;
+  notifyResumeListChanged: () => void;
 }
 
 const AppStateContext = createContext<AppStateValue | null>(null);
@@ -74,6 +73,9 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   );
   const [language, setLanguage] = useState<string>(defaultLanguageCode);
   const [fontSize, setFontSize] = useState<FontSizeKey>(defaultFontSizeKey);
+  const [resumeListVersion, setResumeListVersion] = useState(0);
+  const notifyResumeListChanged = () =>
+    setResumeListVersion((version) => version + 1);
 
   // Language switching is client-only (no URL routing), so the server
   // always renders with the default language and this effect applies the
@@ -98,6 +100,8 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
         setLanguage,
         fontSize,
         setFontSize,
+        resumeListVersion,
+        notifyResumeListChanged,
       }}
     >
       {children}

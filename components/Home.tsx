@@ -88,6 +88,7 @@ export default function Home({
     setSectionOrder,
     visibleFields,
     setVisibleFields,
+    notifyResumeListChanged,
   } = useAppState();
   const [data, setData] = useState<ResumeData>(emptyResumeData);
   const [isGeneratingPdf, setIsGeneratingPdf] = useState(false);
@@ -195,6 +196,7 @@ export default function Home({
       setResumeId(row.id);
       router.replace(`/app?resumeId=${row.id}&template=${templateId}`);
       clearDraft();
+      notifyResumeListChanged();
       setJustSaved(true);
       setTimeout(() => setJustSaved(false), 1500);
     } catch (error) {

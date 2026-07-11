@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useAppState } from "@/components/AppState";
 import ConfirmDialog, {
   type ConfirmDialogHandle,
 } from "@/components/ConfirmDialog";
@@ -12,6 +13,7 @@ import { ensureUserId } from "@/lib/supabase/session";
 
 export default function MyResumesPage() {
   const { t } = useTranslation();
+  const { notifyResumeListChanged } = useAppState();
   const [supabase] = useState(() => createClient());
   const [resumes, setResumes] = useState<ResumeRow[] | null>(null);
   const [loadFailed, setLoadFailed] = useState(false);
@@ -44,6 +46,7 @@ export default function MyResumesPage() {
     if (!confirmed) return;
     await deleteResume(supabase, id);
     setResumes((prev) => prev?.filter((row) => row.id !== id) ?? null);
+    notifyResumeListChanged();
   }
 
   return (

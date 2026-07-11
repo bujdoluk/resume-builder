@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
 import {
@@ -14,6 +14,9 @@ import { rows } from "@/lib/color";
 import { fontSizeOptions } from "@/lib/fontSize";
 import { allFonts, type FontKey } from "@/lib/fonts";
 import type { SectionKey } from "@/lib/resumeData";
+import { createClient } from "@/lib/supabase/client";
+import { countResumes } from "@/lib/supabase/resumes";
+import { ensureUserId } from "@/lib/supabase/session";
 
 function FeaturesIcon({ className }: { className?: string }) {
   return (
@@ -46,6 +49,7 @@ export default function Sidebar() {
     setSectionOrder,
     visibleFields,
     setVisibleFields,
+    resumeListVersion,
   } = useAppState();
 
   function toggleSection(key: SectionKey, enabled: boolean) {
@@ -61,6 +65,29 @@ export default function Sidebar() {
   }
 
   const [collapsed, setCollapsed] = useState(false);
+  const [supabase] = useState(() => createClient());
+  const [resumeCount, setResumeCount] = useState<number | null>(null);
+
+  // Refetch whenever resumeListVersion is bumped (Home.tsx after a save,
+  // the "My Resumes" page after a delete) — this sidebar stays mounted
+  // across navigations, so those pages can't just rely on a remount.
+  useEffect(() => {
+    let cancelled = false;
+
+    (async () => {
+      try {
+        const userId = await ensureUserId(supabase);
+        const count = await countResumes(supabase, userId);
+        if (!cancelled) setResumeCount(count);
+      } catch (error) {
+        console.error(error);
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [supabase, resumeListVersion]);
 
   const isPresetColor = rows.some((row) =>
     row.some((swatch) => swatch.value === color),
@@ -87,7 +114,14 @@ export default function Sidebar() {
           aria-label={t("sidebar.myResumes")}
           title={t("sidebar.myResumes")}
         >
-          <MyResumesIcon className="h-5 w-5 stroke-current" />
+          <span className="indicator">
+            {!!resumeCount && (
+              <span className="indicator-item badge badge-primary badge-xs">
+                {resumeCount}
+              </span>
+            )}
+            <MyResumesIcon className="h-5 w-5 stroke-current" />
+          </span>
         </Link>
         <button
           type="button"
@@ -150,7 +184,16 @@ export default function Sidebar() {
               className={`flex items-center ${collapsed ? "justify-center" : ""}`}
             >
               <MyResumesIcon className="h-7 w-7 stroke-current" />
-              {!collapsed && t("sidebar.myResumes")}
+              {!collapsed && (
+                <span className="indicator">
+                  {!!resumeCount && (
+                    <span className="indicator-item badge badge-primary badge-xs translate-x-6">
+                      {resumeCount}
+                    </span>
+                  )}
+                  {t("sidebar.myResumes")}
+                </span>
+              )}
             </Link>
           </li>
           <li>

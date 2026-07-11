@@ -86,6 +86,16 @@ export async function saveResume(supabase: SupabaseClient, params: SaveResumePar
   return fromTableRow(data as ResumeTableRow);
 }
 
+export async function countResumes(supabase: SupabaseClient, userId: string): Promise<number> {
+  const { count, error } = await supabase
+    .from("resumes")
+    .select("id", { count: "exact", head: true })
+    .eq("user_id", userId);
+
+  if (error) throw error;
+  return count ?? 0;
+}
+
 export async function listResumes(supabase: SupabaseClient, userId: string): Promise<ResumeRow[]> {
   const { data, error } = await supabase
     .from("resumes")
