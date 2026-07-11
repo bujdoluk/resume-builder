@@ -93,9 +93,12 @@
     "pageTitle": "Mijn cv's",
     "name": "Naam",
     "edit": "Bewerken",
+    "rename": "Naam wijzigen",
     "delete": "Verwijderen",
     "empty": "Je hebt nog geen cv opgeslagen.",
     "untitled": "Naamloos cv",
+    "nameDialogTitle": "Geef uw cv een naam",
+    "namePlaceholder": "bijv. CV Frontend Developer",
     "confirmDelete": "Dit cv verwijderen? Dit kan niet ongedaan worden gemaakt.",
     "saveFailed": "Opslaan van cv mislukt. Probeer het opnieuw.",
     "loadFailed": "Je opgeslagen cv's konden niet worden geladen. Probeer het opnieuw."

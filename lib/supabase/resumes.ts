@@ -1,4 +1,5 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
+import { Temporal } from "temporal-polyfill";
 import type { FieldKey } from "@/lib/fields";
 import type { FontSizeKey } from "@/lib/fontSize";
 import type { FontKey } from "@/lib/fonts";
@@ -49,6 +50,7 @@ function fromTableRow(row: ResumeTableRow): ResumeRow {
 export interface SaveResumeParams {
   id: string | null;
   userId: string;
+  name: string;
   templateId: TemplateId;
   color: string | null;
   font: FontKey | null;
@@ -61,7 +63,7 @@ export interface SaveResumeParams {
 export async function saveResume(supabase: SupabaseClient, params: SaveResumeParams): Promise<ResumeRow> {
   const payload = {
     user_id: params.userId,
-    name: params.data.name || "Untitled resume",
+    name: params.name,
     template_id: params.templateId,
     color: params.color,
     font: params.font,
@@ -69,7 +71,7 @@ export async function saveResume(supabase: SupabaseClient, params: SaveResumePar
     section_order: params.sectionOrder,
     visible_fields: params.visibleFields,
     data: params.data,
-    updated_at: new Date().toISOString(),
+    updated_at: Temporal.Now.instant().toString(),
   };
 
   const query = params.id
@@ -120,5 +122,14 @@ export async function getResume(supabase: SupabaseClient, id: string): Promise<R
 
 export async function deleteResume(supabase: SupabaseClient, id: string): Promise<void> {
   const { error } = await supabase.from("resumes").delete().eq("id", id);
+  if (error) throw error;
+}
+
+export async function renameResume(supabase: SupabaseClient, id: string, name: string): Promise<void> {
+  const { error } = await supabase
+    .from("resumes")
+    .update({ name, updated_at: Temporal.Now.instant().toString() })
+    .eq("id", id);
+
   if (error) throw error;
 }

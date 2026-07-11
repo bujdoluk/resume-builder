@@ -93,9 +93,12 @@
     "pageTitle": "My Resumes",
     "name": "Name",
     "edit": "Edit",
+    "rename": "Rename",
     "delete": "Delete",
     "empty": "You haven't saved any resumes yet.",
     "untitled": "Untitled resume",
+    "nameDialogTitle": "Name your resume",
+    "namePlaceholder": "e.g. Frontend Developer Resume",
     "confirmDelete": "Delete this resume? This can't be undone.",
     "saveFailed": "Failed to save resume. Please try again.",
     "loadFailed": "Could not load your saved resumes. Please try again."

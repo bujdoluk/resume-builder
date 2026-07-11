@@ -93,9 +93,12 @@
     "pageTitle": "I miei curriculum",
     "name": "Nome",
     "edit": "Modifica",
+    "rename": "Rinomina",
     "delete": "Elimina",
     "empty": "Non hai ancora salvato nessun curriculum.",
     "untitled": "Curriculum senza titolo",
+    "nameDialogTitle": "Dai un nome al tuo curriculum",
+    "namePlaceholder": "es. Curriculum Sviluppatore Frontend",
     "confirmDelete": "Eliminare questo curriculum? Questa azione non può essere annullata.",
     "saveFailed": "Salvataggio del curriculum non riuscito. Riprova.",
     "loadFailed": "Impossibile caricare i curriculum salvati. Riprova."

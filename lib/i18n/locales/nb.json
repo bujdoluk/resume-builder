@@ -93,9 +93,12 @@
     "pageTitle": "Mine CV-er",
     "name": "Navn",
     "edit": "Rediger",
+    "rename": "Gi nytt navn",
     "delete": "Slett",
     "empty": "Du har ikke lagret noen CV-er ennå.",
     "untitled": "Unavngitt CV",
+    "nameDialogTitle": "Gi CV-en et navn",
+    "namePlaceholder": "f.eks. CV Frontend-utvikler",
     "confirmDelete": "Slette denne CV-en? Dette kan ikke angres.",
     "saveFailed": "Kunne ikke lagre CV-en. Prøv igjen.",
     "loadFailed": "Kunne ikke laste inn de lagrede CV-ene dine. Prøv igjen."

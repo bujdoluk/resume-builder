@@ -93,9 +93,12 @@
     "pageTitle": "Moje životopisy",
     "name": "Názov",
     "edit": "Upraviť",
+    "rename": "Premenovať",
     "delete": "Odstrániť",
     "empty": "Zatiaľ ste neuložili žiadny životopis.",
     "untitled": "Nepomenovaný životopis",
+    "nameDialogTitle": "Pomenujte svoj životopis",
+    "namePlaceholder": "napr. Životopis Frontend vývojár",
     "confirmDelete": "Odstrániť tento životopis? Túto akciu nemožno vrátiť späť.",
     "saveFailed": "Uloženie životopisu zlyhalo. Skúste to znova.",
     "loadFailed": "Nepodarilo sa načítať uložené životopisy. Skúste to znova."

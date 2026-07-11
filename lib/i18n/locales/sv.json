@@ -93,9 +93,12 @@
     "pageTitle": "Mina CV:n",
     "name": "Namn",
     "edit": "Redigera",
+    "rename": "Byt namn",
     "delete": "Ta bort",
     "empty": "Du har inte sparat något CV än.",
     "untitled": "Namnlöst CV",
+    "nameDialogTitle": "Namnge ditt CV",
+    "namePlaceholder": "t.ex. CV Frontend-utvecklare",
     "confirmDelete": "Ta bort detta CV? Detta kan inte ångras.",
     "saveFailed": "Det gick inte att spara CV:t. Försök igen.",
     "loadFailed": "Det gick inte att läsa in dina sparade CV. Försök igen."

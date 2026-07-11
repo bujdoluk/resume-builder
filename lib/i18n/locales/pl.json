@@ -93,9 +93,12 @@
     "pageTitle": "Moje CV",
     "name": "Nazwa",
     "edit": "Edytuj",
+    "rename": "Zmień nazwę",
     "delete": "Usuń",
     "empty": "Nie zapisałeś jeszcze żadnego CV.",
     "untitled": "CV bez nazwy",
+    "nameDialogTitle": "Nadaj nazwę swojemu CV",
+    "namePlaceholder": "np. CV Frontend Developer",
     "confirmDelete": "Usunąć to CV? Tej czynności nie można cofnąć.",
     "saveFailed": "Nie udało się zapisać CV. Spróbuj ponownie.",
     "loadFailed": "Nie udało się wczytać zapisanych CV. Spróbuj ponownie."

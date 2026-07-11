@@ -7,7 +7,16 @@ import { useAppState } from "@/components/AppState";
 import ConfirmDialog, {
   type ConfirmDialogHandle,
 } from "@/components/ConfirmDialog";
-import { deleteResume, listResumes, type ResumeRow } from "@/lib/supabase/resumes";
+import { PencilIcon } from "@/components/Icons";
+import SaveResumeDialog, {
+  type SaveResumeDialogHandle,
+} from "@/components/SaveResumeDialog";
+import {
+  deleteResume,
+  listResumes,
+  renameResume,
+  type ResumeRow,
+} from "@/lib/supabase/resumes";
 import { createClient } from "@/lib/supabase/client";
 import { ensureUserId } from "@/lib/supabase/session";
 
@@ -18,6 +27,7 @@ export default function MyResumesPage() {
   const [resumes, setResumes] = useState<ResumeRow[] | null>(null);
   const [loadFailed, setLoadFailed] = useState(false);
   const confirmDialogRef = useRef<ConfirmDialogHandle>(null);
+  const renameDialogRef = useRef<SaveResumeDialogHandle>(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -49,6 +59,18 @@ export default function MyResumesPage() {
     notifyResumeListChanged();
   }
 
+  async function handleRename(row: ResumeRow) {
+    const newName = await renameDialogRef.current?.open(row.name);
+    if (!newName) return;
+    await renameResume(supabase, row.id, newName);
+    setResumes(
+      (prev) =>
+        prev?.map((entry) =>
+          entry.id === row.id ? { ...entry, name: newName } : entry,
+        ) ?? null,
+    );
+  }
+
   return (
     <div className="flex min-h-full flex-col">
       <div className="bg-base-200 flex-1 p-8">
@@ -70,12 +92,24 @@ export default function MyResumesPage() {
                   <th>{t("myResumes.name")}</th>
                   <th></th>
                   <th></th>
+                  <th></th>
                 </tr>
               </thead>
               <tbody>
                 {resumes.map((row) => (
                   <tr key={row.id}>
                     <td>{row.name || t("myResumes.untitled")}</td>
+                    <td className="w-px">
+                      <button
+                        type="button"
+                        aria-label={t("myResumes.rename")}
+                        title={t("myResumes.rename")}
+                        className="btn btn-outline btn-sm btn-square"
+                        onClick={() => handleRename(row)}
+                      >
+                        <PencilIcon className="h-4 w-4 stroke-current" />
+                      </button>
+                    </td>
                     <td className="w-px">
                       <Link
                         href={`/app?resumeId=${row.id}&template=${row.templateId}`}
@@ -102,6 +136,7 @@ export default function MyResumesPage() {
       </div>
 
       <ConfirmDialog ref={confirmDialogRef} />
+      <SaveResumeDialog ref={renameDialogRef} />
     </div>
   );
 }

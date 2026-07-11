@@ -93,9 +93,12 @@
     "pageTitle": "Meine Lebensläufe",
     "name": "Name",
     "edit": "Bearbeiten",
+    "rename": "Umbenennen",
     "delete": "Löschen",
     "empty": "Du hast noch keinen Lebenslauf gespeichert.",
     "untitled": "Unbenannter Lebenslauf",
+    "nameDialogTitle": "Benenne deinen Lebenslauf",
+    "namePlaceholder": "z. B. Lebenslauf Frontend-Entwickler",
     "confirmDelete": "Diesen Lebenslauf löschen? Dies kann nicht rückgängig gemacht werden.",
     "saveFailed": "Speichern des Lebenslaufs fehlgeschlagen. Bitte versuche es erneut.",
     "loadFailed": "Deine gespeicherten Lebensläufe konnten nicht geladen werden. Bitte versuche es erneut."

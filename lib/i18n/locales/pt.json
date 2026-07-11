@@ -93,9 +93,12 @@
     "pageTitle": "Meus currículos",
     "name": "Nome",
     "edit": "Editar",
+    "rename": "Renomear",
     "delete": "Eliminar",
     "empty": "Ainda não guardou nenhum currículo.",
     "untitled": "Currículo sem título",
+    "nameDialogTitle": "Dê um nome ao seu currículo",
+    "namePlaceholder": "ex.: Currículo Programador Frontend",
     "confirmDelete": "Eliminar este currículo? Esta ação não pode ser revertida.",
     "saveFailed": "Falha ao guardar o currículo. Tente novamente.",
     "loadFailed": "Não foi possível carregar os seus currículos guardados. Tente novamente."

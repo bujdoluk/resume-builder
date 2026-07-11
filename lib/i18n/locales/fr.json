@@ -93,9 +93,12 @@
     "pageTitle": "Mes CV",
     "name": "Nom",
     "edit": "Modifier",
+    "rename": "Renommer",
     "delete": "Supprimer",
     "empty": "Vous n'avez encore enregistré aucun CV.",
     "untitled": "CV sans titre",
+    "nameDialogTitle": "Nommez votre CV",
+    "namePlaceholder": "ex. CV Développeur Frontend",
     "confirmDelete": "Supprimer ce CV ? Cette action est irréversible.",
     "saveFailed": "Échec de l'enregistrement du CV. Veuillez réessayer.",
     "loadFailed": "Impossible de charger vos CV enregistrés. Veuillez réessayer."

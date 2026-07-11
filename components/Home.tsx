@@ -6,6 +6,9 @@ import { useTranslation } from "react-i18next";
 import { useAppState } from "@/components/AppState";
 import { DownloadIcon, SaveIcon } from "@/components/Icons";
 import Resume from "@/components/Resume";
+import SaveResumeDialog, {
+  type SaveResumeDialogHandle,
+} from "@/components/SaveResumeDialog";
 import { defaultFontSizeKey } from "@/lib/fontSize";
 import {
   emptyResumeData,
@@ -97,8 +100,10 @@ export default function Home({
   );
   const [isSaving, setIsSaving] = useState(false);
   const [justSaved, setJustSaved] = useState(false);
+  const [resumeName, setResumeName] = useState("");
   const previewRef = useRef<HTMLDialogElement>(null);
   const pdfExportRef = useRef<HTMLDivElement>(null);
+  const saveDialogRef = useRef<SaveResumeDialogHandle>(null);
   const [supabase] = useState(() => createClient());
 
   useEffect(() => {
@@ -113,6 +118,7 @@ export default function Home({
       setFontSize(row.fontSize ?? defaultFontSizeKey);
       setSectionOrder(row.sectionOrder);
       setVisibleFields(row.visibleFields);
+      setResumeName(row.name);
     });
 
     return () => {
@@ -179,12 +185,20 @@ export default function Home({
   async function handleSave() {
     if (isSaving) return;
 
+    let nameToSave = resumeName;
+    if (!nameToSave) {
+      const chosenName = await saveDialogRef.current?.open(resumeName);
+      if (!chosenName) return;
+      nameToSave = chosenName;
+    }
+
     setIsSaving(true);
     try {
       const userId = await ensureUserId(supabase);
       const row = await saveResume(supabase, {
         id: resumeId,
         userId,
+        name: nameToSave,
         templateId,
         color,
         font,
@@ -194,6 +208,7 @@ export default function Home({
         data,
       });
       setResumeId(row.id);
+      setResumeName(row.name);
       router.replace(`/app?resumeId=${row.id}&template=${templateId}`);
       clearDraft();
       notifyResumeListChanged();
@@ -386,6 +401,8 @@ export default function Home({
           visibleFields={visibleFields}
         />
       </div>
+
+      <SaveResumeDialog ref={saveDialogRef} />
     </>
   );
 }
