@@ -112,8 +112,25 @@ const fontVariables = [
 ].join(" ");
 
 export const metadata: Metadata = {
-  title: "QuickResumeBuilder.online",
-  description: "Build and preview your resume",
+  metadataBase: new URL("https://www.lukasbujdos.com"),
+  title: {
+    default: "QuickResumeBuilder.online — Free Online Resume Builder",
+    template: "%s | QuickResumeBuilder.online",
+  },
+  description:
+    "Build a professional resume in minutes for free. Pick a template, customize colors and fonts, and download a polished PDF — no sign-up required.",
+  robots: {
+    index: true,
+    follow: true,
+  },
+  openGraph: {
+    siteName: "QuickResumeBuilder.online",
+    type: "website",
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary",
+  },
 };
 
 export default function RootLayout({
