@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
 import Footer from "@/components/Footer";
@@ -23,24 +24,36 @@ export default function LandingPage() {
   const { t } = useTranslation();
 
   return (
-    <div className="flex min-h-full flex-col">
+    <div className="flex min-h-full flex-col overflow-x-hidden">
       <div className="bg-base-200 flex-1">
-        <div className="mx-auto max-w-3xl px-8 py-20 text-center">
-          <h1 className="text-4xl font-bold sm:text-5xl">
-            {t("landing.heroTitle")}
-          </h1>
-          <p className="text-base-content/70 mx-auto mt-4 max-w-xl text-lg">
-            {t("landing.heroSubtitle")}
-          </p>
+        <div className="relative">
+          <Image
+            src="/images/Resume_lp_background.png"
+            alt="Resume preview picture"
+            aria-hidden="true"
+            width={1752}
+            height={1123}
+            priority
+            className="pointer-events-none absolute top-10 left-10 right-0 hidden h-[60vh] w-[45vw] rotate-[-10deg] object-cover object-top opacity-60 select-none lg:block"
+          />
 
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-            <Link href="/app" className="btn btn-primary btn-lg">
-              {t("landing.ctaStart")}
-            </Link>
+          <div className="relative mx-auto max-w-3xl px-8 py-20 text-center">
+            <h1 className="text-4xl font-bold sm:text-5xl">
+              {t("landing.heroTitle")}
+            </h1>
+            <p className="text-base-content/70 mx-auto mt-4 max-w-xl text-lg">
+              {t("landing.heroSubtitle")}
+            </p>
+
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+              <Link href="/app" className="btn btn-primary btn-lg">
+                {t("landing.ctaStart")}
+              </Link>
+            </div>
           </div>
         </div>
 
-        <div className="mx-auto grid max-w-5xl grid-cols-1 gap-6 px-8 pb-20 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="relative mx-auto grid max-w-5xl grid-cols-1 gap-6 px-8 pb-20 sm:grid-cols-2 lg:grid-cols-3">
           {features.map(({ key, icon: Icon }) => (
             <div
               key={key}
