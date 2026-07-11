@@ -94,6 +94,7 @@
     "name": "Nombre",
     "edit": "Editar",
     "rename": "Cambiar nombre",
+    "duplicate": "Duplicar",
     "delete": "Eliminar",
     "empty": "Aún no has guardado ningún currículum.",
     "untitled": "Currículum sin título",
@@ -101,7 +102,8 @@
     "namePlaceholder": "p. ej. Currículum Desarrollador Frontend",
     "confirmDelete": "¿Eliminar este currículum? Esta acción no se puede deshacer.",
     "saveFailed": "No se pudo guardar el currículum. Inténtalo de nuevo.",
-    "loadFailed": "No se pudieron cargar tus currículums guardados. Inténtalo de nuevo."
+    "loadFailed": "No se pudieron cargar tus currículums guardados. Inténtalo de nuevo.",
+    "duplicateFailed": "No se pudo duplicar el currículum. Inténtalo de nuevo."
   },
   "landing": {
     "heroTitle": "Crea un currículum profesional en minutos",

@@ -94,6 +94,7 @@
     "name": "Nome",
     "edit": "Modifica",
     "rename": "Rinomina",
+    "duplicate": "Duplica",
     "delete": "Elimina",
     "empty": "Non hai ancora salvato nessun curriculum.",
     "untitled": "Curriculum senza titolo",
@@ -101,7 +102,8 @@
     "namePlaceholder": "es. Curriculum Sviluppatore Frontend",
     "confirmDelete": "Eliminare questo curriculum? Questa azione non può essere annullata.",
     "saveFailed": "Salvataggio del curriculum non riuscito. Riprova.",
-    "loadFailed": "Impossibile caricare i curriculum salvati. Riprova."
+    "loadFailed": "Impossibile caricare i curriculum salvati. Riprova.",
+    "duplicateFailed": "Duplicazione del curriculum non riuscita. Riprova."
   },
   "landing": {
     "heroTitle": "Crea un curriculum professionale in pochi minuti",

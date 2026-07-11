@@ -7,12 +7,18 @@ import { useAppState } from "@/components/AppState";
 import ConfirmDialog, {
   type ConfirmDialogHandle,
 } from "@/components/ConfirmDialog";
-import { PencilIcon } from "@/components/Icons";
+import {
+  DuplicateIcon,
+  PencilIcon,
+  PencilSquareIcon,
+  TrashIcon,
+} from "@/components/Icons";
 import SaveResumeDialog, {
   type SaveResumeDialogHandle,
 } from "@/components/SaveResumeDialog";
 import {
   deleteResume,
+  duplicateResume,
   listResumes,
   renameResume,
   type ResumeRow,
@@ -26,6 +32,7 @@ export default function MyResumesPage() {
   const [supabase] = useState(() => createClient());
   const [resumes, setResumes] = useState<ResumeRow[] | null>(null);
   const [loadFailed, setLoadFailed] = useState(false);
+  const [duplicatingId, setDuplicatingId] = useState<string | null>(null);
   const confirmDialogRef = useRef<ConfirmDialogHandle>(null);
   const renameDialogRef = useRef<SaveResumeDialogHandle>(null);
 
@@ -71,6 +78,22 @@ export default function MyResumesPage() {
     );
   }
 
+  async function handleDuplicate(id: string) {
+    if (duplicatingId) return;
+    setDuplicatingId(id);
+    try {
+      const userId = await ensureUserId(supabase);
+      const copy = await duplicateResume(supabase, id, userId);
+      setResumes((prev) => (prev ? [copy, ...prev] : [copy]));
+      notifyResumeListChanged();
+    } catch (error) {
+      console.error(error);
+      alert(t("myResumes.duplicateFailed"));
+    } finally {
+      setDuplicatingId(null);
+    }
+  }
+
   return (
     <div className="flex min-h-full flex-col">
       <div className="bg-base-200 flex-1 p-8">
@@ -93,6 +116,7 @@ export default function MyResumesPage() {
                   <th></th>
                   <th></th>
                   <th></th>
+                  <th></th>
                 </tr>
               </thead>
               <tbody>
@@ -102,12 +126,26 @@ export default function MyResumesPage() {
                     <td className="w-px">
                       <button
                         type="button"
-                        aria-label={t("myResumes.rename")}
-                        title={t("myResumes.rename")}
-                        className="btn btn-outline btn-sm btn-square"
+                        className="btn btn-outline btn-sm"
                         onClick={() => handleRename(row)}
                       >
                         <PencilIcon className="h-4 w-4 stroke-current" />
+                        {t("myResumes.rename")}
+                      </button>
+                    </td>
+                    <td className="w-px">
+                      <button
+                        type="button"
+                        className="btn btn-outline btn-sm"
+                        disabled={duplicatingId === row.id}
+                        onClick={() => handleDuplicate(row.id)}
+                      >
+                        {duplicatingId === row.id ? (
+                          <span className="loading loading-spinner loading-xs" />
+                        ) : (
+                          <DuplicateIcon className="h-4 w-4 stroke-current" />
+                        )}
+                        {t("myResumes.duplicate")}
                       </button>
                     </td>
                     <td className="w-px">
@@ -115,6 +153,7 @@ export default function MyResumesPage() {
                         href={`/app?resumeId=${row.id}&template=${row.templateId}`}
                         className="btn btn-outline btn-sm"
                       >
+                        <PencilSquareIcon className="h-4 w-4 stroke-current" />
                         {t("myResumes.edit")}
                       </Link>
                     </td>
@@ -124,6 +163,7 @@ export default function MyResumesPage() {
                         className="btn btn-outline btn-sm btn-error"
                         onClick={() => handleDelete(row.id)}
                       >
+                        <TrashIcon className="h-4 w-4 stroke-current" />
                         {t("myResumes.delete")}
                       </button>
                     </td>

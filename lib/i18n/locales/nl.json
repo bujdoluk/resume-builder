@@ -94,6 +94,7 @@
     "name": "Naam",
     "edit": "Bewerken",
     "rename": "Naam wijzigen",
+    "duplicate": "Dupliceren",
     "delete": "Verwijderen",
     "empty": "Je hebt nog geen cv opgeslagen.",
     "untitled": "Naamloos cv",
@@ -101,7 +102,8 @@
     "namePlaceholder": "bijv. CV Frontend Developer",
     "confirmDelete": "Dit cv verwijderen? Dit kan niet ongedaan worden gemaakt.",
     "saveFailed": "Opslaan van cv mislukt. Probeer het opnieuw.",
-    "loadFailed": "Je opgeslagen cv's konden niet worden geladen. Probeer het opnieuw."
+    "loadFailed": "Je opgeslagen cv's konden niet worden geladen. Probeer het opnieuw.",
+    "duplicateFailed": "Dupliceren van cv mislukt. Probeer het opnieuw."
   },
   "landing": {
     "heroTitle": "Maak in enkele minuten een professioneel cv",

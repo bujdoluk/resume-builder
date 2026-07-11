@@ -94,6 +94,7 @@
     "name": "Název",
     "edit": "Upravit",
     "rename": "Přejmenovat",
+    "duplicate": "Duplikovat",
     "delete": "Smazat",
     "empty": "Zatím jste neuložili žádný životopis.",
     "untitled": "Nepojmenovaný životopis",
@@ -101,7 +102,8 @@
     "namePlaceholder": "např. Životopis Frontend vývojáře",
     "confirmDelete": "Smazat tento životopis? Tuto akci nelze vrátit zpět.",
     "saveFailed": "Uložení životopisu se nezdařilo. Zkuste to prosím znovu.",
-    "loadFailed": "Nepodařilo se načíst uložené životopisy. Zkuste to prosím znovu."
+    "loadFailed": "Nepodařilo se načíst uložené životopisy. Zkuste to prosím znovu.",
+    "duplicateFailed": "Duplikování životopisu se nezdařilo. Zkuste to prosím znovu."
   },
   "landing": {
     "heroTitle": "Vytvořte si profesionální životopis za pár minut",

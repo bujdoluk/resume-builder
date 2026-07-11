@@ -94,6 +94,7 @@
     "name": "Nom",
     "edit": "Modifier",
     "rename": "Renommer",
+    "duplicate": "Dupliquer",
     "delete": "Supprimer",
     "empty": "Vous n'avez encore enregistré aucun CV.",
     "untitled": "CV sans titre",
@@ -101,7 +102,8 @@
     "namePlaceholder": "ex. CV Développeur Frontend",
     "confirmDelete": "Supprimer ce CV ? Cette action est irréversible.",
     "saveFailed": "Échec de l'enregistrement du CV. Veuillez réessayer.",
-    "loadFailed": "Impossible de charger vos CV enregistrés. Veuillez réessayer."
+    "loadFailed": "Impossible de charger vos CV enregistrés. Veuillez réessayer.",
+    "duplicateFailed": "Échec de la duplication du CV. Veuillez réessayer."
   },
   "landing": {
     "heroTitle": "Créez un CV professionnel en quelques minutes",

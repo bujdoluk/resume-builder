@@ -94,6 +94,7 @@
     "name": "Nazwa",
     "edit": "Edytuj",
     "rename": "Zmień nazwę",
+    "duplicate": "Duplikuj",
     "delete": "Usuń",
     "empty": "Nie zapisałeś jeszcze żadnego CV.",
     "untitled": "CV bez nazwy",
@@ -101,7 +102,8 @@
     "namePlaceholder": "np. CV Frontend Developer",
     "confirmDelete": "Usunąć to CV? Tej czynności nie można cofnąć.",
     "saveFailed": "Nie udało się zapisać CV. Spróbuj ponownie.",
-    "loadFailed": "Nie udało się wczytać zapisanych CV. Spróbuj ponownie."
+    "loadFailed": "Nie udało się wczytać zapisanych CV. Spróbuj ponownie.",
+    "duplicateFailed": "Nie udało się zduplikować CV. Spróbuj ponownie."
   },
   "landing": {
     "heroTitle": "Stwórz profesjonalne CV w kilka minut",

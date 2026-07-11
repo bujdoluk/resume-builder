@@ -94,6 +94,7 @@
     "name": "Name",
     "edit": "Bearbeiten",
     "rename": "Umbenennen",
+    "duplicate": "Duplizieren",
     "delete": "Löschen",
     "empty": "Du hast noch keinen Lebenslauf gespeichert.",
     "untitled": "Unbenannter Lebenslauf",
@@ -101,7 +102,8 @@
     "namePlaceholder": "z. B. Lebenslauf Frontend-Entwickler",
     "confirmDelete": "Diesen Lebenslauf löschen? Dies kann nicht rückgängig gemacht werden.",
     "saveFailed": "Speichern des Lebenslaufs fehlgeschlagen. Bitte versuche es erneut.",
-    "loadFailed": "Deine gespeicherten Lebensläufe konnten nicht geladen werden. Bitte versuche es erneut."
+    "loadFailed": "Deine gespeicherten Lebensläufe konnten nicht geladen werden. Bitte versuche es erneut.",
+    "duplicateFailed": "Duplizieren des Lebenslaufs fehlgeschlagen. Bitte versuche es erneut."
   },
   "landing": {
     "heroTitle": "Erstelle in wenigen Minuten einen professionellen Lebenslauf",

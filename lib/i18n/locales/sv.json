@@ -94,6 +94,7 @@
     "name": "Namn",
     "edit": "Redigera",
     "rename": "Byt namn",
+    "duplicate": "Duplicera",
     "delete": "Ta bort",
     "empty": "Du har inte sparat något CV än.",
     "untitled": "Namnlöst CV",
@@ -101,7 +102,8 @@
     "namePlaceholder": "t.ex. CV Frontend-utvecklare",
     "confirmDelete": "Ta bort detta CV? Detta kan inte ångras.",
     "saveFailed": "Det gick inte att spara CV:t. Försök igen.",
-    "loadFailed": "Det gick inte att läsa in dina sparade CV. Försök igen."
+    "loadFailed": "Det gick inte att läsa in dina sparade CV. Försök igen.",
+    "duplicateFailed": "Det gick inte att duplicera CV:t. Försök igen."
   },
   "landing": {
     "heroTitle": "Skapa ett professionellt CV på några minuter",

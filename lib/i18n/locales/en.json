@@ -94,6 +94,7 @@
     "name": "Name",
     "edit": "Edit",
     "rename": "Rename",
+    "duplicate": "Duplicate",
     "delete": "Delete",
     "empty": "You haven't saved any resumes yet.",
     "untitled": "Untitled resume",
@@ -101,7 +102,8 @@
     "namePlaceholder": "e.g. Frontend Developer Resume",
     "confirmDelete": "Delete this resume? This can't be undone.",
     "saveFailed": "Failed to save resume. Please try again.",
-    "loadFailed": "Could not load your saved resumes. Please try again."
+    "loadFailed": "Could not load your saved resumes. Please try again.",
+    "duplicateFailed": "Failed to duplicate resume. Please try again."
   },
   "landing": {
     "heroTitle": "Build a professional resume in minutes",

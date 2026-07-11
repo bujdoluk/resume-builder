@@ -1,7 +1,7 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { Temporal } from "temporal-polyfill";
 import type { FieldKey } from "@/lib/fields";
-import type { FontSizeKey } from "@/lib/fontSize";
+import { defaultFontSizeKey, type FontSizeKey } from "@/lib/fontSize";
 import type { FontKey } from "@/lib/fonts";
 import type { ResumeData, SectionKey } from "@/lib/resumeData";
 import type { TemplateId } from "@/lib/templates";
@@ -132,4 +132,35 @@ export async function renameResume(supabase: SupabaseClient, id: string, name: s
     .eq("id", id);
 
   if (error) throw error;
+}
+
+export function nextCopyName(name: string): string {
+  const match = name.match(/^(.*) \(Copy\)(?: (\d+))?$/);
+  if (!match) return `${name} (Copy)`;
+
+  const [, base, count] = match;
+  const nextCount = count ? Number(count) + 1 : 2;
+  return `${base} (Copy) ${nextCount}`;
+}
+
+export async function duplicateResume(
+  supabase: SupabaseClient,
+  id: string,
+  userId: string,
+): Promise<ResumeRow> {
+  const original = await getResume(supabase, id);
+  if (!original) throw new Error("Resume not found");
+
+  return saveResume(supabase, {
+    id: null,
+    userId,
+    name: nextCopyName(original.name),
+    templateId: original.templateId,
+    color: original.color,
+    font: original.font,
+    fontSize: original.fontSize ?? defaultFontSizeKey,
+    sectionOrder: original.sectionOrder,
+    visibleFields: original.visibleFields,
+    data: original.data,
+  });
 }
