@@ -12,6 +12,7 @@ const allSections: SectionKey[] = [
   "education",
   "skills",
   "languages",
+  "certifications",
   "interests",
 ];
 

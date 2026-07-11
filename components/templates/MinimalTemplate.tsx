@@ -159,6 +159,7 @@ export default function MinimalTemplate({
 
   const educationEntries = data.education.filter(
     (entry) =>
+      entry.school ||
       entry.subject ||
       entry.location ||
       entry.description ||
@@ -227,9 +228,12 @@ export default function MinimalTemplate({
                 key={entry.id}
                 className="border-primary/40 border-l-2 pl-3"
               >
+                {entry.school && (
+                  <p className="font-semibold">{entry.school}</p>
+                )}
                 <div className="flex items-baseline justify-between gap-2">
                   {entry.subject && (
-                    <p className="font-semibold">{entry.subject}</p>
+                    <p className="text-sm text-gray-600">{entry.subject}</p>
                   )}
                   {dateRange && (
                     <p className="text-sm whitespace-nowrap text-gray-500">

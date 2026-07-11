@@ -56,7 +56,7 @@ export default function MyResumesPage() {
         )}
 
         {!loadFailed && resumes && resumes.length === 0 && (
-          <p className="text-gray-500">{t("myResumes.empty")}</p>
+          <p className="text-base-content/60">{t("myResumes.empty")}</p>
         )}
 
         {!loadFailed && resumes && resumes.length > 0 && (

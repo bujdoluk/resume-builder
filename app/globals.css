@@ -1,28 +1,14 @@
 @import "tailwindcss";
 @plugin "daisyui";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background: var(--color-base-100);
+  color: var(--color-base-content);
   font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -46,7 +32,23 @@ body {
    widths, padding, and the photo box stay put and only the text grows or
    shrinks. daisyUI's .fieldset also hardcodes its own font-size, so it needs
    its own override to follow the same scale. */
+/* The resume canvas is a printed page: it always renders as white paper with
+   dark text, independent of the app's light/dark theme. Without this, text
+   left uncolored by any Tailwind class (typed input values, name/job-title
+   spans, etc.) inherits `color` from the theme-following <body>, which turns
+   light-colored in dark mode and disappears against the still-white paper.
+   Pinning daisyUI's own base-* variables to their light-theme values too
+   means every daisyUI component used inside the canvas (buttons, badges,
+   checkboxes, etc. — e.g. the outline "Add Work Experience" buttons, whose
+   border/text color comes from --color-base-content) stays legible instead
+   of picking up the dark theme's near-white content color. */
 .resume-scalable {
+  color-scheme: light;
+  color: #171717;
+  --color-base-100: oklch(100% 0 0);
+  --color-base-200: oklch(98% 0 0);
+  --color-base-300: oklch(95% 0 0);
+  --color-base-content: oklch(21% 0.006 285.885);
   --text-xs: calc(0.75rem * var(--resume-font-scale, 1));
   --text-sm: calc(0.875rem * var(--resume-font-scale, 1));
   --text-base: calc(1rem * var(--resume-font-scale, 1));

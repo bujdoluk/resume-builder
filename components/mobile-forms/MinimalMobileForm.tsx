@@ -35,12 +35,14 @@ const defaultWorkFieldOrder: WorkEntryFieldKey[] = [
 ];
 
 type EducationEntryFieldKey =
+  | "school"
   | "subject"
   | "dateFrom"
   | "dateTo"
   | "location"
   | "description";
 const defaultEducationFieldOrder: EducationEntryFieldKey[] = [
+  "school",
   "subject",
   "dateFrom",
   "dateTo",
@@ -219,6 +221,19 @@ export default function MinimalMobileForm({
     entry: EducationEntry,
   ): Record<EducationEntryFieldKey, React.ReactNode> {
     return {
+      school: (
+        <fieldset className="fieldset">
+          <input
+            type="text"
+            placeholder={t("placeholders.schoolName")}
+            className="input input-plain w-full"
+            value={entry.school}
+            onChange={(e) =>
+              handlers.updateEducationEntry(entry.id, "school", e.target.value)
+            }
+          />
+        </fieldset>
+      ),
       subject: (
         <fieldset className="fieldset">
           <input

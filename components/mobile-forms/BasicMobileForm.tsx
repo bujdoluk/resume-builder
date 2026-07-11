@@ -44,12 +44,14 @@ const defaultWorkFieldOrder: WorkEntryFieldKey[] = [
 ];
 
 type EducationEntryFieldKey =
+  | "school"
   | "subject"
   | "dateFrom"
   | "dateTo"
   | "location"
   | "description";
 const defaultEducationFieldOrder: EducationEntryFieldKey[] = [
+  "school",
   "subject",
   "dateFrom",
   "dateTo",
@@ -237,6 +239,19 @@ export default function BasicMobileForm({
     entry: EducationEntry,
   ): Record<EducationEntryFieldKey, React.ReactNode> {
     return {
+      school: (
+        <fieldset className="fieldset">
+          <input
+            type="text"
+            placeholder={t("placeholders.schoolName")}
+            className="input input-plain w-full"
+            value={entry.school}
+            onChange={(e) =>
+              handlers.updateEducationEntry(entry.id, "school", e.target.value)
+            }
+          />
+        </fieldset>
+      ),
       subject: (
         <fieldset className="fieldset">
           <input
@@ -867,7 +882,7 @@ export default function BasicMobileForm({
   };
 
   return (
-    <div className="flex flex-col gap-4 bg-white pl-8">
+    <div className="resume-scalable flex flex-col gap-4 bg-white pl-8">
       <SortableGroup
         dndId="basic-mobile-fields"
         ids={visibleFields}

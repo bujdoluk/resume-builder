@@ -80,6 +80,7 @@ export function createResumeFormHandlers({
       ...data.education,
       {
         id: crypto.randomUUID(),
+        school: "",
         subject: "",
         location: "",
         description: "",

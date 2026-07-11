@@ -67,6 +67,7 @@ export default function ModernTemplate({
 
   const educationEntries = data.education.filter(
     (entry) =>
+      entry.school ||
       entry.subject ||
       entry.location ||
       entry.description ||
@@ -136,8 +137,11 @@ export default function ModernTemplate({
 
             return (
               <div key={entry.id}>
+                {entry.school && (
+                  <p className="font-semibold">{entry.school}</p>
+                )}
                 {entry.subject && (
-                  <p className="font-semibold">{entry.subject}</p>
+                  <p className="text-sm text-gray-600">{entry.subject}</p>
                 )}
                 {(dateRange || entry.location) && (
                   <p className="text-sm text-gray-500">
@@ -240,7 +244,7 @@ export default function ModernTemplate({
 
   // Sidebar sections render in a fixed order; everything else follows
   // sectionOrder in the main column.
-  const sidebarKeys: SectionKey[] = ["skills", "certifications", "languages"];
+  const sidebarKeys: SectionKey[] = ["skills", "languages", "certifications"];
   const mainKeys = sectionOrder.filter((key) => !sidebarKeys.includes(key));
 
   // About Me stays spatially just before Work Experience, which lives in the

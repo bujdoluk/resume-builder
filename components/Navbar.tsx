@@ -1,5 +1,6 @@
 import Link from "next/link";
 import LanguageSelect from "@/components/LanguageSelect";
+import ThemeToggle from "@/components/ThemeToggle";
 
 export default function Navbar() {
   return (
@@ -9,7 +10,8 @@ export default function Navbar() {
           QuickResumeBuilder.online
         </Link>
       </div>
-      <div className="flex-none">
+      <div className="flex flex-none items-center gap-1">
+        <ThemeToggle />
         <LanguageSelect />
       </div>
     </div>

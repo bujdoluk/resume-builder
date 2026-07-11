@@ -22,6 +22,7 @@ export interface WorkEntry {
 
 export interface EducationEntry {
   id: string;
+  school: string;
   subject: string;
   location: string;
   description: string;

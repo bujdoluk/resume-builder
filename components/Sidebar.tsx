@@ -172,7 +172,7 @@ export default function Sidebar() {
 
       {!collapsed && (
         <div className="border-base-300 overflow-y-auto border-t p-4 lg:flex-1">
-          <p className="mb-2 text-xs font-semibold text-gray-400 uppercase">
+          <p className="mb-2 text-xs font-semibold text-base-content/50 uppercase">
             {t("sidebar.colours")}
           </p>
           <div className="flex flex-col gap-2">
@@ -239,7 +239,7 @@ export default function Sidebar() {
             ))}
           </div>
 
-          <p className="mt-4 mb-2 text-xs font-semibold text-gray-400 uppercase">
+          <p className="mt-4 mb-2 text-xs font-semibold text-base-content/50 uppercase">
             {t("sidebar.typography")}
           </p>
           <select
@@ -259,7 +259,7 @@ export default function Sidebar() {
             ))}
           </select>
 
-          <p className="mt-4 mb-2 text-xs font-semibold text-gray-400 uppercase">
+          <p className="mt-4 mb-2 text-xs font-semibold text-base-content/50 uppercase">
             {t("sidebar.fontSize")}
           </p>
           <div className="flex gap-2">
@@ -283,7 +283,7 @@ export default function Sidebar() {
             ))}
           </div>
 
-          <p className="mt-4 mb-2 text-xs font-semibold text-gray-400 uppercase">
+          <p className="mt-4 mb-2 text-xs font-semibold text-base-content/50 uppercase">
             {t("sidebar.features")}
           </p>
           <div className="flex flex-col gap-2">

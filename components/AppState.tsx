@@ -31,17 +31,14 @@ export const allSections: SectionKey[] = [
   "workExperience",
   "education",
   "skills",
-  "certifications",
   "languages",
+  "certifications",
   "interests",
 ];
 
-// Certifications is opt-in: it's a valid section for any template, but
-// starts out of sectionOrder so it only appears once toggled on via the
-// sidebar's "Features" checklist.
-export const defaultSectionOrder: SectionKey[] = allSections.filter(
-  (key) => key !== "certifications",
-);
+// Every section is enabled by default, in the same order they appear in
+// the templates — Certifications sits right after Languages.
+export const defaultSectionOrder: SectionKey[] = [...allSections];
 
 // Every personal-info field is visible by default.
 const defaultVisibleFields: FieldKey[] = [...allFields];

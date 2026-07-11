@@ -2,6 +2,7 @@
 
 import { useTranslation } from "react-i18next";
 import { useAppState } from "@/components/AppState";
+import { ChevronDownIcon } from "@/components/Icons";
 import { languages } from "@/lib/i18n/languages";
 
 export default function LanguageSelect() {
@@ -25,10 +26,11 @@ export default function LanguageSelect() {
         tabIndex={0}
         role="button"
         aria-label={t("aria.selectLanguage")}
-        className="btn btn-sm btn-ghost flex items-center gap-2"
+        className="group btn btn-sm btn-ghost flex items-center gap-2"
       >
         <CurrentFlag className="h-4 w-6 shrink-0 rounded-sm" />
         <span className="hidden sm:inline">{current.name}</span>
+        <ChevronDownIcon className="h-3 w-3 shrink-0 stroke-current transition-transform duration-200 group-focus:rotate-180" />
       </div>
       <ul
         tabIndex={0}

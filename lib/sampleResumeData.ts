@@ -34,6 +34,7 @@ export const sampleResumeData: ResumeData = {
   education: [
     {
       id: "sample-edu-1",
+      school: "Parsons School of Design",
       subject: "B.A. in Graphic Design",
       dateFrom: "01-09-2013",
       dateTo: "30-06-2017",

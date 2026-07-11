@@ -110,6 +110,7 @@ export default function BasicTemplate({
 
   const educationEntries = data.education.filter(
     (entry) =>
+      entry.school ||
       entry.subject ||
       entry.location ||
       entry.description ||
@@ -211,8 +212,11 @@ export default function BasicTemplate({
                   </svg>
                 </div>
                 <div className="timeline-end timeline-box">
+                  {entry.school && (
+                    <p className="font-semibold">{entry.school}</p>
+                  )}
                   {entry.subject && (
-                    <p className="font-semibold">{entry.subject}</p>
+                    <p className="text-sm text-gray-600">{entry.subject}</p>
                   )}
                   {entry.location && (
                     <p className="text-sm text-gray-500">{entry.location}</p>
