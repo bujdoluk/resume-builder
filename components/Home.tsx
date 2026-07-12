@@ -15,6 +15,7 @@ import { useTranslation } from "react-i18next";
 import { useAppState } from "@/components/AppState";
 import { DownloadIcon, SaveIcon } from "@/components/Icons";
 import Resume from "@/components/Resume";
+import ScaleToFitWidth from "@/components/ScaleToFitWidth";
 import SaveResumeDialog, {
   type SaveResumeDialogHandle,
 } from "@/components/SaveResumeDialog";
@@ -389,15 +390,17 @@ export default function Home({
           id="pdf-area"
           className="modal-box max-h-[90vh]! w-[95vw]! max-w-[95vw]! overflow-auto! bg-transparent! p-0! shadow-none! lg:w-fit! lg:max-w-none!"
         >
-          <TemplateComponent
-            data={data}
-            sectionOrder={sectionOrder}
-            color={color}
-            font={font}
-            fontSize={fontSize}
-            visibleFields={visibleFields}
-            sectionZones={modernSectionZones}
-          />
+          <ScaleToFitWidth>
+            <TemplateComponent
+              data={data}
+              sectionOrder={sectionOrder}
+              color={color}
+              font={font}
+              fontSize={fontSize}
+              visibleFields={visibleFields}
+              sectionZones={modernSectionZones}
+            />
+          </ScaleToFitWidth>
         </div>
         <form method="dialog" className="modal-backdrop">
           <button>close</button>

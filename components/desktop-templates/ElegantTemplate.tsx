@@ -59,8 +59,8 @@ function LanguageDonut({ percent, color }: { percent: number; color: string }) {
   return (
     <ApexChart
       type="radialBar"
-      width={52}
-      height={52}
+      width={80}
+      height={80}
       series={[percent]}
       options={{
         chart: {
@@ -75,14 +75,14 @@ function LanguageDonut({ percent, color }: { percent: number; color: string }) {
         stroke: { lineCap: "round" },
         plotOptions: {
           radialBar: {
-            hollow: { size: "62%" },
+            hollow: { size: "55%" },
             track: { background: "rgba(128,128,128,0.3)" },
             dataLabels: {
               name: { show: false },
               value: {
                 show: true,
-                offsetY: 4,
-                fontSize: "8px",
+                offsetY: 5,
+                fontSize: "12px",
                 fontWeight: 600,
                 color,
                 formatter: (val) => `${Math.round(val)}%`,
