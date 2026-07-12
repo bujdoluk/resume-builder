@@ -19,14 +19,16 @@ export default function LanguageSelect() {
 
   function selectLanguage(code: string) {
     setLanguage(code);
-    // Closes the daisyUI dropdown (which stays open via :focus-within) once
-    // a choice is made, since the clicked option button would otherwise
-    // keep the dropdown's subtree focused.
+    (document.activeElement as HTMLElement | null)?.blur();
+  }
+
+  function handleKeyDown(event: React.KeyboardEvent<HTMLDivElement>) {
+    if (event.key !== "Escape") return;
     (document.activeElement as HTMLElement | null)?.blur();
   }
 
   return (
-    <div className="dropdown dropdown-end">
+    <div className="dropdown dropdown-end" onKeyDown={handleKeyDown}>
       <div
         tabIndex={0}
         role="button"

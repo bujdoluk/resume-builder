@@ -1,15 +1,10 @@
 "use client";
 
-/**
- * Shared "icon + label button that reveals a panel on click" wrapper for
- * the Navbar's editor-only feature buttons (Features/Colours/Typography/
- * Font Size) — mirrors `components/LanguageSelect.tsx`'s dropdown/trigger/
- * panel structure, but deliberately has no close-on-select logic: unlike
- * picking a language (a single terminal action), these panels hold
- * multi-toggle controls (checkboxes, swatch grids) that should stay open
- * across several interactions. daisyUI's `:focus-within` already keeps the
- * dropdown open as long as focus stays inside it.
- */
+function handleKeyDown(event: React.KeyboardEvent<HTMLDivElement>) {
+  if (event.key !== "Escape") return;
+  (document.activeElement as HTMLElement | null)?.blur();
+}
+
 export default function NavbarDropdownButton({
   icon,
   label,
@@ -28,7 +23,10 @@ export default function NavbarDropdownButton({
   children: React.ReactNode;
 }) {
   return (
-    <div className={`dropdown dropdown-${align}`}>
+    <div
+      className={`dropdown dropdown-${align}`}
+      onKeyDown={handleKeyDown}
+    >
       <div
         tabIndex={0}
         role="button"
