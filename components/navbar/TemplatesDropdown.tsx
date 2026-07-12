@@ -43,7 +43,6 @@ export default function TemplatesDropdown() {
                 sectionOrder={allSections}
               />
             </TemplateThumbnail>
-            <span className="text-sm">{t(`templates.${template.id}`)}</span>
           </button>
         ))}
       </div>
