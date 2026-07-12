@@ -26,6 +26,7 @@ import {
   type EducationEntry,
   type LanguageEntry,
   type ResumeData,
+  type SectionKey,
   type SimpleEntry,
   type WorkEntry,
 } from "@/lib/resumeData";
@@ -285,6 +286,121 @@ export default function Home({
   const TemplateComponent = templateDefinition.component;
   const MobileTemplateComponent = templateDefinition.mobileTemplateComponent;
 
+  // The mobile form and desktop canvas are both always mounted (one hidden
+  // via a CSS breakpoint, see the two top-level branches below) and tag
+  // their top-level field/section blocks with a shared
+  // `data-section-anchor` (see components/Sortable.tsx's `SortableBlock`
+  // `anchor` prop) — so every step key has two matching elements in the
+  // DOM. `offsetParent === null` is a cheap "not display:none" check that
+  // picks out whichever one is actually visible right now.
+  function scrollToSectionAnchor(anchor: string) {
+    const matches = document.querySelectorAll<HTMLElement>(
+      `[data-section-anchor="${anchor}"]`,
+    );
+    for (const element of matches) {
+      if (element.offsetParent !== null) {
+        element.scrollIntoView({ behavior: "smooth", block: "start" });
+        return;
+      }
+    }
+  }
+
+  // Whether a step's underlying content is *fully* filled in — every
+  // visible personal-info field, or every entry's every field for a
+  // section — not just started. Drives the step-primary (purple, matching
+  // the Preview button) color. Requires at least one entry to exist too,
+  // so an empty section never counts as "complete".
+  function isStepFilled(key: string): boolean {
+    if (key === "personalInfo") {
+      return (
+        visibleFields.length > 0 &&
+        visibleFields.every((field) => Boolean(data[field]))
+      );
+    }
+    switch (key as SectionKey) {
+      case "workExperience":
+        return (
+          data.workExperience.length > 0 &&
+          data.workExperience.every(
+            (entry) =>
+              entry.position &&
+              entry.location &&
+              entry.jobDescription &&
+              entry.dateFrom &&
+              entry.dateTo,
+          )
+        );
+      case "education":
+        return (
+          data.education.length > 0 &&
+          data.education.every(
+            (entry) =>
+              entry.school &&
+              entry.subject &&
+              entry.location &&
+              entry.description &&
+              entry.dateFrom &&
+              entry.dateTo,
+          )
+        );
+      case "skills":
+        return (
+          data.skills.length > 0 && data.skills.every((entry) => entry.value)
+        );
+      case "certifications":
+        return (
+          data.certifications.length > 0 &&
+          data.certifications.every((entry) => entry.name && entry.date)
+        );
+      case "languages":
+        return (
+          data.languages.length > 0 &&
+          data.languages.every((entry) => entry.language)
+        );
+      case "interests":
+        return (
+          data.interests.length > 0 &&
+          data.interests.every((entry) => entry.value)
+        );
+      default:
+        return false;
+    }
+  }
+
+  // One step per resume "part": personal info (name/contact/about me,
+  // whenever at least one such field is visible) followed by every
+  // currently-visible section in the user's own drag order — hidden
+  // sections (removed from `sectionOrder` via the Features toggle) don't
+  // get a step, since there's nothing to scroll to.
+  function renderSectionSteps() {
+    const stepKeys: string[] = [
+      ...(visibleFields.length > 0 ? ["personalInfo"] : []),
+      ...sectionOrder,
+    ];
+    if (stepKeys.length === 0) return null;
+
+    return (
+      <ul className="steps steps-vertical">
+        {stepKeys.map((key) => (
+          <li
+            key={key}
+            className={`step ${isStepFilled(key) ? "step-primary" : ""}`}
+          >
+            <button
+              type="button"
+              className="cursor-pointer text-left"
+              onClick={() => scrollToSectionAnchor(key)}
+            >
+              {key === "personalInfo"
+                ? t("resumeSteps.personalInfo")
+                : t(`sections.${key}`)}
+            </button>
+          </li>
+        ))}
+      </ul>
+    );
+  }
+
   function renderActionButtons(className: string) {
     return (
       <div className={className}>
@@ -353,7 +469,10 @@ export default function Home({
           onChangeModernSectionZones={setModernSectionZones}
           color={color}
         />
-        {renderActionButtons("flex gap-2")}
+        <div className="flex flex-col gap-3">
+          {renderActionButtons("flex gap-2")}
+          {renderSectionSteps()}
+        </div>
       </div>
 
       <div className="bg-base-200 hidden flex-1 flex-col items-center gap-6 p-4 md:flex lg:flex-row lg:items-start lg:justify-center lg:gap-8 lg:p-8">
@@ -380,9 +499,10 @@ export default function Home({
           />
         </div>
 
-        {renderActionButtons(
-          "order-first flex flex-col gap-2 lg:sticky lg:top-8 lg:order-last lg:self-start",
-        )}
+        <div className="order-first flex flex-col gap-3 lg:sticky lg:top-8 lg:order-last lg:self-start">
+          {renderActionButtons("flex flex-col gap-2")}
+          {renderSectionSteps()}
+        </div>
       </div>
 
       <dialog ref={previewRef} className="modal">

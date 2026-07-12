@@ -1403,24 +1403,26 @@ export default function Resume({
                 : undefined
             }
           >
-            <SortableGroup
-              dndId="modern-sidebar-fields"
-              ids={sidebarFieldKeys}
-              onReorder={(order) =>
-                onReorderFields([
-                  ...order,
-                  ...visibleFields.filter((key) =>
-                    modernMainFieldKeys.includes(key),
-                  ),
-                ])
-              }
-            >
-              {sidebarFieldKeys.map((key) => (
-                <SortableBlock key={key} id={key}>
-                  {fieldContent[key]}
-                </SortableBlock>
-              ))}
-            </SortableGroup>
+            <div data-section-anchor="personalInfo">
+              <SortableGroup
+                dndId="modern-sidebar-fields"
+                ids={sidebarFieldKeys}
+                onReorder={(order) =>
+                  onReorderFields([
+                    ...order,
+                    ...visibleFields.filter((key) =>
+                      modernMainFieldKeys.includes(key),
+                    ),
+                  ])
+                }
+              >
+                {sidebarFieldKeys.map((key) => (
+                  <SortableBlock key={key} id={key}>
+                    {fieldContent[key]}
+                  </SortableBlock>
+                ))}
+              </SortableGroup>
+            </div>
 
             <SortableZone
               zoneId="sidebar"
@@ -1428,7 +1430,7 @@ export default function Resume({
               className="flex min-h-8 flex-col gap-2"
             >
               {sidebarItems.map((item) => (
-                <SortableBlock key={item} id={item}>
+                <SortableBlock key={item} id={item} anchor>
                   {item === "aboutMe" ? fieldContent.aboutMe : sectionContent[item]}
                 </SortableBlock>
               ))}
@@ -1442,7 +1444,7 @@ export default function Resume({
               className="flex min-h-8 flex-col gap-2"
             >
               {mainItems.map((item) => (
-                <SortableBlock key={item} id={item}>
+                <SortableBlock key={item} id={item} anchor>
                   {item === "aboutMe" ? fieldContent.aboutMe : sectionContent[item]}
                 </SortableBlock>
               ))}
@@ -1469,25 +1471,27 @@ export default function Resume({
           style={{ fontFamily, ...fontSizeStyle }}
         >
           <div className="p-6 pl-10">
-            <SortableGroup
-              dndId="elegant-main-fields"
-              ids={mainFieldKeys}
-              onReorder={(order) =>
-                onReorderFields([
-                  ...visibleFields.filter((key) => key === "photo"),
-                  ...order,
-                  ...visibleFields.filter((key) => key === "aboutMe"),
-                ])
-              }
-            >
-              <div className="flex flex-col gap-2">
-                {mainFieldKeys.map((key) => (
-                  <SortableBlock key={key} id={key}>
-                    {fieldContent[key]}
-                  </SortableBlock>
-                ))}
-              </div>
-            </SortableGroup>
+            <div data-section-anchor="personalInfo">
+              <SortableGroup
+                dndId="elegant-main-fields"
+                ids={mainFieldKeys}
+                onReorder={(order) =>
+                  onReorderFields([
+                    ...visibleFields.filter((key) => key === "photo"),
+                    ...order,
+                    ...visibleFields.filter((key) => key === "aboutMe"),
+                  ])
+                }
+              >
+                <div className="flex flex-col gap-2">
+                  {mainFieldKeys.map((key) => (
+                    <SortableBlock key={key} id={key}>
+                      {fieldContent[key]}
+                    </SortableBlock>
+                  ))}
+                </div>
+              </SortableGroup>
+            </div>
 
             <SortableZone
               zoneId="main"
@@ -1495,7 +1499,7 @@ export default function Resume({
               className="flex min-h-8 flex-col gap-2"
             >
               {mainItems.map((item) => (
-                <SortableBlock key={item} id={item}>
+                <SortableBlock key={item} id={item} anchor>
                   {item === "aboutMe" ? fieldContent.aboutMe : sectionContent[item]}
                 </SortableBlock>
               ))}
@@ -1522,7 +1526,7 @@ export default function Resume({
               className="flex min-h-8 flex-col gap-2"
             >
               {sidebarItems.map((item) => (
-                <SortableBlock key={item} id={item}>
+                <SortableBlock key={item} id={item} anchor>
                   {item === "aboutMe" ? fieldContent.aboutMe : sectionContent[item]}
                 </SortableBlock>
               ))}
@@ -1540,18 +1544,20 @@ export default function Resume({
         style={{ fontFamily, ...fontSizeStyle }}
       >
         <div className="p-10 pl-12">
-          <SortableGroup
-            dndId="minimal-fields"
-            ids={visibleFields}
-            onReorder={onReorderFields}
-            strategy={rectSortingStrategy}
-          >
-            <div className="flex flex-col gap-2">
-              {renderFieldItems(visibleFields, fieldContent, {
-                wrapContactFields: true,
-              })}
-            </div>
-          </SortableGroup>
+          <div data-section-anchor="personalInfo">
+            <SortableGroup
+              dndId="minimal-fields"
+              ids={visibleFields}
+              onReorder={onReorderFields}
+              strategy={rectSortingStrategy}
+            >
+              <div className="flex flex-col gap-2">
+                {renderFieldItems(visibleFields, fieldContent, {
+                  wrapContactFields: true,
+                })}
+              </div>
+            </SortableGroup>
+          </div>
 
           <SortableGroup
             dndId="minimal-sections"
@@ -1559,7 +1565,7 @@ export default function Resume({
             onReorder={onReorderSections}
           >
             {sectionOrder.map((key) => (
-              <SortableBlock key={key} id={key}>
+              <SortableBlock key={key} id={key} anchor>
                 {sectionContent[key]}
               </SortableBlock>
             ))}
@@ -1575,15 +1581,17 @@ export default function Resume({
       style={{ fontFamily, ...fontSizeStyle }}
     >
       <div className="p-8 pl-10">
-        <SortableGroup
-          dndId="basic-fields"
-          ids={visibleFields}
-          onReorder={onReorderFields}
-        >
-          <div className="flex flex-col gap-2">
-            {renderFieldItems(visibleFields, fieldContent)}
-          </div>
-        </SortableGroup>
+        <div data-section-anchor="personalInfo">
+          <SortableGroup
+            dndId="basic-fields"
+            ids={visibleFields}
+            onReorder={onReorderFields}
+          >
+            <div className="flex flex-col gap-2">
+              {renderFieldItems(visibleFields, fieldContent)}
+            </div>
+          </SortableGroup>
+        </div>
 
         <SortableGroup
           dndId="basic-sections"
@@ -1591,7 +1599,7 @@ export default function Resume({
           onReorder={onReorderSections}
         >
           {sectionOrder.map((key) => (
-            <SortableBlock key={key} id={key}>
+            <SortableBlock key={key} id={key} anchor>
               {sectionContent[key]}
             </SortableBlock>
           ))}

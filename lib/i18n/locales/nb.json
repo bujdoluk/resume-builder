@@ -32,6 +32,9 @@
     "languages": "Språk",
     "interests": "Interesser"
   },
+  "resumeSteps": {
+    "personalInfo": "Personlig informasjon"
+  },
   "placeholders": {
     "uploadPhoto": "Last opp bilde",
     "yourName": "Ditt navn",

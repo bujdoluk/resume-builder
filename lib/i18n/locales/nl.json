@@ -32,6 +32,9 @@
     "languages": "Talen",
     "interests": "Interesses"
   },
+  "resumeSteps": {
+    "personalInfo": "Persoonlijke gegevens"
+  },
   "placeholders": {
     "uploadPhoto": "Foto uploaden",
     "yourName": "Uw naam",

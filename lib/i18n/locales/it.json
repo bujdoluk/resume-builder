@@ -32,6 +32,9 @@
     "languages": "Lingue",
     "interests": "Interessi"
   },
+  "resumeSteps": {
+    "personalInfo": "Informazioni personali"
+  },
   "placeholders": {
     "uploadPhoto": "Carica foto",
     "yourName": "Il tuo nome",

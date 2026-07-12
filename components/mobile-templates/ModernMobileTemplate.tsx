@@ -1058,22 +1058,24 @@ export default function ModernMobileTemplate({
               : undefined
           }
         >
-          <SortableGroup
-            dndId="modern-mobile-sidebar-fields"
-            ids={sidebarFieldKeys}
-            onReorder={(order) =>
-              onReorderFields([
-                ...order,
-                ...visibleFields.filter((key) => mainFieldKeys.includes(key)),
-              ])
-            }
-          >
-            {sidebarFieldKeys.map((key) => (
-              <SortableBlock key={key} id={key}>
-                {fieldContent[key]}
-              </SortableBlock>
-            ))}
-          </SortableGroup>
+          <div data-section-anchor="personalInfo">
+            <SortableGroup
+              dndId="modern-mobile-sidebar-fields"
+              ids={sidebarFieldKeys}
+              onReorder={(order) =>
+                onReorderFields([
+                  ...order,
+                  ...visibleFields.filter((key) => mainFieldKeys.includes(key)),
+                ])
+              }
+            >
+              {sidebarFieldKeys.map((key) => (
+                <SortableBlock key={key} id={key}>
+                  {fieldContent[key]}
+                </SortableBlock>
+              ))}
+            </SortableGroup>
+          </div>
 
           <SortableZone
             zoneId="sidebar"
@@ -1081,7 +1083,7 @@ export default function ModernMobileTemplate({
             className="flex min-h-8 flex-col gap-2"
           >
             {sidebarItems.map((item) => (
-              <SortableBlock key={item} id={item}>
+              <SortableBlock key={item} id={item} anchor>
                 {item === "aboutMe"
                   ? fieldContent.aboutMe
                   : renderSection(item, "sidebar")}
@@ -1096,7 +1098,7 @@ export default function ModernMobileTemplate({
           className="flex min-h-8 flex-col gap-2"
         >
           {mainItems.map((item) => (
-            <SortableBlock key={item} id={item}>
+            <SortableBlock key={item} id={item} anchor>
               {item === "aboutMe"
                 ? fieldContent.aboutMe
                 : renderSection(item, "main")}

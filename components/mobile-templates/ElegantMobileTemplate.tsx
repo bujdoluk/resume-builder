@@ -1041,25 +1041,27 @@ export default function ElegantMobileTemplate({
       onChange={onZonesChange}
     >
       <div className="resume-scalable flex flex-col gap-4 bg-white pl-8">
-        <SortableGroup
-          dndId="elegant-mobile-main-fields"
-          ids={mainFieldKeys}
-          onReorder={(order) =>
-            onReorderFields([
-              ...visibleFields.filter((key) => key === "photo"),
-              ...order,
-              ...visibleFields.filter((key) => key === "aboutMe"),
-            ])
-          }
-        >
-          <div className="flex flex-col gap-2">
-            {mainFieldKeys.map((key) => (
-              <SortableBlock key={key} id={key}>
-                {fieldContent[key]}
-              </SortableBlock>
-            ))}
-          </div>
-        </SortableGroup>
+        <div data-section-anchor="personalInfo">
+          <SortableGroup
+            dndId="elegant-mobile-main-fields"
+            ids={mainFieldKeys}
+            onReorder={(order) =>
+              onReorderFields([
+                ...visibleFields.filter((key) => key === "photo"),
+                ...order,
+                ...visibleFields.filter((key) => key === "aboutMe"),
+              ])
+            }
+          >
+            <div className="flex flex-col gap-2">
+              {mainFieldKeys.map((key) => (
+                <SortableBlock key={key} id={key}>
+                  {fieldContent[key]}
+                </SortableBlock>
+              ))}
+            </div>
+          </SortableGroup>
+        </div>
 
         <SortableZone
           zoneId="main"
@@ -1067,7 +1069,7 @@ export default function ElegantMobileTemplate({
           className="flex min-h-8 flex-col gap-2"
         >
           {mainItems.map((item) => (
-            <SortableBlock key={item} id={item}>
+            <SortableBlock key={item} id={item} anchor>
               {item === "aboutMe"
                 ? fieldContent.aboutMe
                 : renderSection(item, "main")}
@@ -1095,7 +1097,7 @@ export default function ElegantMobileTemplate({
             className="flex min-h-8 flex-col gap-2"
           >
             {sidebarItems.map((item) => (
-              <SortableBlock key={item} id={item}>
+              <SortableBlock key={item} id={item} anchor>
                 {item === "aboutMe"
                   ? fieldContent.aboutMe
                   : renderSection(item, "sidebar")}

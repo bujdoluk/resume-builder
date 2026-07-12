@@ -66,10 +66,17 @@ function GripIcon({ className }: { className?: string }) {
 export function SortableBlock({
   id,
   className,
+  anchor = false,
   children,
 }: {
   id: string;
   className?: string;
+  // Top-level section/field blocks are unique per page (unlike entry-level
+  // blocks, e.g. one per work-experience entry, which reuse the same id
+  // across entries) — set `anchor` there to tag the block with
+  // `data-section-anchor`, letting the Download panel's step list
+  // (components/Home.tsx) scroll straight to it.
+  anchor?: boolean;
   children: React.ReactNode;
 }) {
   const { t } = useTranslation();
@@ -87,6 +94,7 @@ export function SortableBlock({
       ref={setNodeRef}
       style={style}
       className={`group/sortable relative ${className ?? ""}`}
+      data-section-anchor={anchor ? id : undefined}
     >
       <button
         type="button"

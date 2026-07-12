@@ -32,6 +32,9 @@
     "languages": "Языки",
     "interests": "Интересы"
   },
+  "resumeSteps": {
+    "personalInfo": "Личная информация"
+  },
   "placeholders": {
     "uploadPhoto": "Загрузить фото",
     "yourName": "Ваше имя",

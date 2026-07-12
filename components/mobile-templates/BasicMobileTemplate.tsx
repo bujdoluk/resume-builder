@@ -909,15 +909,17 @@ export default function BasicMobileTemplate({
 
   return (
     <div className="resume-scalable flex flex-col gap-4 bg-white pl-8">
-      <SortableGroup
-        dndId="basic-mobile-fields"
-        ids={visibleFields}
-        onReorder={onReorderFields}
-      >
-        <div className="flex flex-col gap-4">
-          {renderFieldItems(visibleFields, fieldContent)}
-        </div>
-      </SortableGroup>
+      <div data-section-anchor="personalInfo">
+        <SortableGroup
+          dndId="basic-mobile-fields"
+          ids={visibleFields}
+          onReorder={onReorderFields}
+        >
+          <div className="flex flex-col gap-4">
+            {renderFieldItems(visibleFields, fieldContent)}
+          </div>
+        </SortableGroup>
+      </div>
 
       <SortableGroup
         dndId="basic-mobile-sections"
@@ -926,7 +928,7 @@ export default function BasicMobileTemplate({
       >
         <div className="flex flex-col gap-2">
           {sectionOrder.map((key) => (
-            <SortableBlock key={key} id={key}>
+            <SortableBlock key={key} id={key} anchor>
               {sectionContent[key]}
             </SortableBlock>
           ))}

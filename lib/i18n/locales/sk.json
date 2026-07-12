@@ -32,6 +32,9 @@
     "languages": "Jazyky",
     "interests": "Záujmy"
   },
+  "resumeSteps": {
+    "personalInfo": "Osobné údaje"
+  },
   "placeholders": {
     "uploadPhoto": "Nahrať fotku",
     "yourName": "Vaše meno",

@@ -766,19 +766,21 @@ export default function MinimalMobileTemplate({
 
   return (
     <div className="flex flex-col gap-4 pl-8">
-      <SortableGroup
-        dndId="minimal-mobile-fields"
-        ids={visibleFields}
-        onReorder={onReorderFields}
-      >
-        <div className="flex flex-col gap-4">
-          {visibleFields.map((key) => (
-            <SortableBlock key={key} id={key}>
-              {fieldContent[key]}
-            </SortableBlock>
-          ))}
-        </div>
-      </SortableGroup>
+      <div data-section-anchor="personalInfo">
+        <SortableGroup
+          dndId="minimal-mobile-fields"
+          ids={visibleFields}
+          onReorder={onReorderFields}
+        >
+          <div className="flex flex-col gap-4">
+            {visibleFields.map((key) => (
+              <SortableBlock key={key} id={key}>
+                {fieldContent[key]}
+              </SortableBlock>
+            ))}
+          </div>
+        </SortableGroup>
+      </div>
 
       <SortableGroup
         dndId="minimal-mobile-sections"
@@ -787,7 +789,7 @@ export default function MinimalMobileTemplate({
       >
         <div className="flex flex-col gap-2">
           {sectionOrder.map((key) => (
-            <SortableBlock key={key} id={key}>
+            <SortableBlock key={key} id={key} anchor>
               {sectionContent[key]}
             </SortableBlock>
           ))}
