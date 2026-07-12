@@ -1,5 +1,10 @@
 "use client";
 
+/**
+ * `/templates` route: a gallery of every available resume template, each
+ * rendered with sample data and linking to the editor pre-selected to that
+ * template.
+ */
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
 import TemplateThumbnail from "@/components/TemplateThumbnail";

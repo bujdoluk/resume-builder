@@ -1,3 +1,10 @@
+/**
+ * `createResumeFormHandlers` builds every add/update/remove function needed
+ * to edit a resume's repeatable entries (work experience, education,
+ * skills, certifications, languages, interests) plus the photo-upload
+ * handler — shared by the desktop editing canvas and the per-template
+ * mobile forms so this CRUD logic exists in exactly one place.
+ */
 import {
   languageLevels,
   type CertificationEntry,

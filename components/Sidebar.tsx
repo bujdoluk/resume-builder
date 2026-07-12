@@ -1,5 +1,12 @@
 "use client";
 
+/**
+ * Persistent editor sidebar (rendered once in the `(app)` layout, so it
+ * survives navigation between `/app`, `/templates`, and `/my-resumes`):
+ * navigation tabs, the "Features" checklist for toggling which sections and
+ * personal-info fields show, the accent color picker, typography/font
+ * select, and font-size control — all backed by the shared `AppState`.
+ */
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useTranslation } from "react-i18next";

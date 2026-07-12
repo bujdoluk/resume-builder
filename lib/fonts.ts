@@ -1,3 +1,7 @@
+/**
+ * The Sidebar's "Typography" font picker options, each mapping to a CSS
+ * variable registered by `next/font` in `app/layout.tsx`.
+ */
 export type FontKey =
   | "inter"
   | "roboto"

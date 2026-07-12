@@ -1,5 +1,13 @@
 "use client";
 
+/**
+ * Read-only Modern template: a dark/accent-colored sidebar (photo, contact,
+ * skills, certifications, languages) beside a main content column (About
+ * Me, Work Experience, Education, Interests). Used for the live editor's
+ * Preview modal and the `/templates` gallery — its editable counterpart is
+ * `components/Resume.tsx`, and the `@react-pdf/renderer` port for downloads
+ * is `components/pdf/ModernPdfTemplate.tsx`.
+ */
 import { Fragment } from "react";
 import { useTranslation } from "react-i18next";
 import { allFields, type FieldKey } from "@/lib/fields";

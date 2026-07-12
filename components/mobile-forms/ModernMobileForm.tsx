@@ -1,5 +1,11 @@
 "use client";
 
+/**
+ * Mobile-width editing form for the Modern template: mirrors Modern's dark
+ * accent-colored block (photo/contact/skills/certifications/languages)
+ * stacked above the main content area, sharing the same drag-and-drop
+ * primitives and CRUD handlers as the desktop `Resume.tsx` canvas.
+ */
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { AboutMeIcon } from "@/components/Icons";

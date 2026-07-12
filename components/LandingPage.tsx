@@ -1,5 +1,10 @@
 "use client";
 
+/**
+ * Public marketing page rendered at `/`: hero section with a "start
+ * building" CTA (which pulses periodically to draw attention) and a grid of
+ * feature highlights, followed by the shared `Footer`.
+ */
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";

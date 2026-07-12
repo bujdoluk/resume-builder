@@ -1,3 +1,9 @@
+/**
+ * The Sidebar's "Font Size" control (small/medium/large): computes a scale
+ * ratio relative to the "medium" baseline and exposes it as a CSS custom
+ * property (`--resume-font-scale`) that `app/globals.css`'s
+ * `.resume-scalable` rules read to rescale only text-size utilities.
+ */
 import type { CSSProperties } from "react";
 
 export type FontSizeKey = "small" | "medium" | "large";
@@ -21,12 +27,15 @@ const baselinePx =
   fontSizeOptions.find((option) => option.key === defaultFontSizeKey)?.px ??
   24;
 
+export function getFontScaleRatio(key: FontSizeKey): number {
+  const option = fontSizeOptions.find((candidate) => candidate.key === key);
+  return option ? option.px / baselinePx : 1;
+}
+
 // Sets --resume-font-scale on the resume's outer wrapper (paired with the
 // "resume-scalable" class, see globals.css), which rescales only text-size
 // rules — input widths, padding, and the photo box are driven by Tailwind's
 // separate --spacing namespace and stay fixed.
 export function getFontSizeStyle(key: FontSizeKey): CSSProperties {
-  const option = fontSizeOptions.find((candidate) => candidate.key === key);
-  const ratio = option ? option.px / baselinePx : 1;
-  return { "--resume-font-scale": ratio } as CSSProperties;
+  return { "--resume-font-scale": getFontScaleRatio(key) } as CSSProperties;
 }

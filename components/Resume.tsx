@@ -1,5 +1,15 @@
 "use client";
 
+/**
+ * Desktop resume editing canvas: renders the currently selected template
+ * (Basic/Modern/Minimal) as a live, directly-editable A4 page — every
+ * personal-info field, section, and entry sub-field is both an input and a
+ * `SortableBlock`, so the user drags things around on the canvas itself
+ * rather than in a separate form. Each template branch (Modern's
+ * sidebar+main grid, Minimal's centered layout, Basic's default layout)
+ * composes the same `sectionContent`/`fieldContent` maps differently to
+ * match its read-only counterpart in `components/templates/`.
+ */
 import { rectSortingStrategy } from "@dnd-kit/sortable";
 import { Fragment, useState } from "react";
 import { useTranslation } from "react-i18next";

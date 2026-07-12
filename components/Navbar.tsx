@@ -1,3 +1,7 @@
+/**
+ * Site-wide top navigation bar: the app name/home link plus the theme
+ * toggle and language selector, rendered once in the root layout.
+ */
 import Link from "next/link";
 import LanguageSelect from "@/components/LanguageSelect";
 import ThemeToggle from "@/components/ThemeToggle";

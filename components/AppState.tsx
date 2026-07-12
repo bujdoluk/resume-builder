@@ -1,5 +1,12 @@
 "use client";
 
+/**
+ * Global editor state shared across every page via React context: accent
+ * color, font, font size, section order, visible personal-info fields,
+ * selected language, and a version counter used to signal that the saved
+ * resume list changed. Mounted once in the root layout so both the
+ * persistent `Sidebar` and the `/app` editor read/write the same state.
+ */
 import {
   createContext,
   useContext,

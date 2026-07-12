@@ -1,3 +1,9 @@
+/**
+ * The Sidebar's accent-color swatch palette (rainbow hues darkened for
+ * legibility, plus black/gray) and `getContrastTextColor`, which picks
+ * black or white text to stay readable against an arbitrary user-picked
+ * background (e.g. Modern's sidebar).
+ */
 export interface AccentColor {
   name: string;
   value: string;

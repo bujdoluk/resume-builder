@@ -1,3 +1,8 @@
+/**
+ * i18next setup: loads every locale's translation JSON from `./locales/`
+ * and initializes the singleton `i18n` instance used app-wide via
+ * `react-i18next`'s `useTranslation()`.
+ */
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 import cs from "./locales/cs.json";
@@ -31,10 +36,6 @@ const resources = {
   nl: { translation: nl },
 };
 
-// Language switching is purely client-side (no URL/locale routing), so the
-// server always renders with the default language for a consistent first
-// paint; `i18n.changeLanguage` is only ever called after hydration, from
-// AppState in response to the user picking a language in the navbar.
 if (!i18n.isInitialized) {
   i18n.use(initReactI18next).init({
     resources,

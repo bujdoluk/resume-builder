@@ -1,3 +1,8 @@
+/**
+ * Scales an A4-sized template preview down to fit a fixed thumbnail width,
+ * used by the `/templates` gallery to show each template at a consistent
+ * small size regardless of its full-page dimensions.
+ */
 const A4_WIDTH_MM = 210;
 const A4_HEIGHT_MM = 297;
 const MM_TO_PX = 96 / 25.4;

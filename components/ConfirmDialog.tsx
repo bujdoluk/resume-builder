@@ -1,5 +1,11 @@
 "use client";
 
+/**
+ * Reusable confirmation modal exposed via a ref handle (`open({ message,
+ * confirmLabel })` returns a Promise<boolean>), mirroring the call shape of
+ * `window.confirm()` so callers can just `await` it instead of using a
+ * native browser dialog.
+ */
 import {
   useImperativeHandle,
   useRef,

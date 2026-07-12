@@ -1,3 +1,9 @@
+/**
+ * The 13 supported UI languages for `LanguageSelect.tsx`, each paired with
+ * its display name and a flag icon component (looked up by country code,
+ * which can differ from the language code — e.g. Swedish maps to Sweden's
+ * flag).
+ */
 import * as Flags from "country-flag-icons/react/3x2";
 
 type FlagComponent = (typeof Flags)[keyof typeof Flags];

@@ -1,3 +1,9 @@
+/**
+ * Core resume data model: every repeatable-entry shape (work experience,
+ * education, skills, certifications, languages, interests), the top-level
+ * `ResumeData` combining them with personal-info fields, section keys/
+ * labels, and the empty/default resume value.
+ */
 export interface LanguageEntry {
   id: string;
   language: string;

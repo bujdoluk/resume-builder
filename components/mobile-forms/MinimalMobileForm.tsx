@@ -1,5 +1,11 @@
 "use client";
 
+/**
+ * Mobile-width editing form for the Minimal template: icon-free, centered
+ * layout with bordered section-header dividers and left-accented entry
+ * cards, sharing the same drag-and-drop primitives and CRUD handlers as the
+ * desktop `Resume.tsx` canvas.
+ */
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import {

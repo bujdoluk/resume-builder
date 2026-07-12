@@ -1,3 +1,7 @@
+/**
+ * Next.js proxy (middleware) entry point: runs on every matched request to
+ * refresh the Supabase auth session, excluding static assets and images.
+ */
 import { type NextRequest } from "next/server";
 import { updateSession } from "@/lib/supabase/proxy";
 

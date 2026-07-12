@@ -1,5 +1,12 @@
 "use client";
 
+/**
+ * Mobile-width editing form for the Basic template: a stacked, touch-
+ * friendly counterpart to the desktop `Resume.tsx` canvas that mirrors
+ * Basic's visual language (icon + gray-label section headers, plain white
+ * background) while sharing the same drag-and-drop primitives and CRUD
+ * handlers (`Sortable.tsx`, `useResumeFormHandlers.ts`).
+ */
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import {

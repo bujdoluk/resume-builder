@@ -1,3 +1,8 @@
+/**
+ * CRUD operations against the Supabase `resumes` table: save (insert or
+ * update), list/count/get/delete/rename/duplicate a resume, plus the
+ * snake_case ↔ camelCase row mapping between the DB schema and `ResumeRow`.
+ */
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { Temporal } from "temporal-polyfill";
 import type { FieldKey } from "@/lib/fields";
@@ -143,11 +148,7 @@ export function nextCopyName(name: string): string {
   return `${base} (Copy) ${nextCount}`;
 }
 
-export async function duplicateResume(
-  supabase: SupabaseClient,
-  id: string,
-  userId: string,
-): Promise<ResumeRow> {
+export async function duplicateResume(supabase: SupabaseClient, id: string, userId: string): Promise<ResumeRow> {
   const original = await getResume(supabase, id);
   if (!original) throw new Error("Resume not found");
 

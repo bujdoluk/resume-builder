@@ -1,5 +1,13 @@
 "use client";
 
+/**
+ * Read-only Basic template: a simple, icon-and-gray-label single-column
+ * layout with a daisyUI `timeline` for Work Experience/Education. Used for
+ * the live editor's Preview modal and the `/templates` gallery — its
+ * editable counterpart is `components/Resume.tsx`, and the
+ * `@react-pdf/renderer` port for downloads is
+ * `components/pdf/BasicPdfTemplate.tsx`.
+ */
 import { Fragment } from "react";
 import { useTranslation } from "react-i18next";
 import { allFields, type FieldKey } from "@/lib/fields";

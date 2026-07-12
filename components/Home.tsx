@@ -1,5 +1,14 @@
 "use client";
 
+/**
+ * Top-level editor page component rendered by the `/app` route: owns the
+ * resume's data state, loads a saved resume by id or restores an unsaved
+ * draft from localStorage, and renders either the mobile per-template form
+ * or the desktop drag-and-drop `Resume` canvas alongside Preview/Save/
+ * Download actions. Save persists to Supabase; Download generates a PDF
+ * client-side via `@react-pdf/renderer` using the matching `pdfTemplates`
+ * entry for the current template.
+ */
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useTranslation } from "react-i18next";
@@ -19,6 +28,8 @@ import {
   type SimpleEntry,
   type WorkEntry,
 } from "@/lib/resumeData";
+import { registerPdfFonts } from "@/lib/pdf/fonts";
+import { pdfTemplates } from "@/lib/pdf/templates";
 import { createClient } from "@/lib/supabase/client";
 import { getResume, saveResume } from "@/lib/supabase/resumes";
 import { ensureUserId } from "@/lib/supabase/session";
@@ -102,7 +113,6 @@ export default function Home({
   const [justSaved, setJustSaved] = useState(false);
   const [resumeName, setResumeName] = useState("");
   const previewRef = useRef<HTMLDialogElement>(null);
-  const pdfExportRef = useRef<HTMLDivElement>(null);
   const saveDialogRef = useRef<SaveResumeDialogHandle>(null);
   const [supabase] = useState(() => createClient());
 
@@ -223,43 +233,29 @@ export default function Home({
   }
 
   async function handleDownloadPdf() {
-    const source = pdfExportRef.current;
-    if (!source || isGeneratingPdf) return;
-
+    if (isGeneratingPdf) return;
     setIsGeneratingPdf(true);
     try {
-      const [{ default: html2canvas }, { jsPDF }] = await Promise.all([
-        import("html2canvas-pro"),
-        import("jspdf"),
-      ]);
+      const { pdf } = await import("@react-pdf/renderer");
+      registerPdfFonts();
+      const PdfTemplate = pdfTemplates[templateId];
+      const blob = await pdf(
+        <PdfTemplate
+          data={data}
+          sectionOrder={sectionOrder}
+          color={color}
+          font={font}
+          fontSize={fontSize}
+          visibleFields={visibleFields}
+        />,
+      ).toBlob();
 
-      const canvas = await html2canvas(source, { scale: 2 });
-      const imgData = canvas.toDataURL("image/png");
-
-      const pdf = new jsPDF({
-        orientation: "portrait",
-        unit: "mm",
-        format: "a4",
-      });
-      const pageWidth = pdf.internal.pageSize.getWidth();
-      const pageHeight = pdf.internal.pageSize.getHeight();
-      const imgWidth = pageWidth;
-      const imgHeight = (canvas.height * imgWidth) / canvas.width;
-
-      let heightLeft = imgHeight;
-      let position = 0;
-
-      pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
-      heightLeft -= pageHeight;
-
-      while (heightLeft > 0) {
-        position = heightLeft - imgHeight;
-        pdf.addPage();
-        pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
-        heightLeft -= pageHeight;
-      }
-
-      pdf.save("resume.pdf");
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `${resumeName || "resume"}.pdf`;
+      link.click();
+      URL.revokeObjectURL(url);
     } finally {
       setIsGeneratingPdf(false);
     }
@@ -320,7 +316,6 @@ export default function Home({
 
   return (
     <>
-      {/* Mobile: plain one-column form, actions pinned at the bottom */}
       <div className="bg-base-200 flex flex-1 flex-col gap-6 p-4 md:hidden">
         <MobileFormComponent
           data={data}
@@ -340,7 +335,6 @@ export default function Home({
         {renderActionButtons("flex gap-2")}
       </div>
 
-      {/* Tablet/desktop: WYSIWYG canvas + action column (unchanged) */}
       <div className="bg-base-200 hidden flex-1 flex-col items-center gap-6 p-4 md:flex lg:flex-row lg:items-start lg:justify-center lg:gap-8 lg:p-8">
         <div className="w-full min-w-0 overflow-x-auto lg:w-auto">
           <Resume
@@ -386,21 +380,6 @@ export default function Home({
           <button>close</button>
         </form>
       </dialog>
-
-      <div
-        ref={pdfExportRef}
-        aria-hidden="true"
-        className="pointer-events-none fixed top-0 left-[-9999px]"
-      >
-        <TemplateComponent
-          data={data}
-          sectionOrder={sectionOrder}
-          color={color}
-          font={font}
-          fontSize={fontSize}
-          visibleFields={visibleFields}
-        />
-      </div>
 
       <SaveResumeDialog ref={saveDialogRef} />
     </>

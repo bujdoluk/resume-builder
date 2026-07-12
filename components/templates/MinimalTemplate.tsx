@@ -1,5 +1,12 @@
 "use client";
 
+/**
+ * Read-only Minimal template: an icon-free, centered layout with bordered
+ * section-header dividers and left-accented entry cards. Used for the live
+ * editor's Preview modal and the `/templates` gallery — its editable
+ * counterpart is `components/Resume.tsx`, and the `@react-pdf/renderer`
+ * port for downloads is `components/pdf/MinimalPdfTemplate.tsx`.
+ */
 import { Fragment } from "react";
 import { useTranslation } from "react-i18next";
 import { allFields, type FieldKey } from "@/lib/fields";

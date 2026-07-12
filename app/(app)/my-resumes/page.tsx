@@ -1,5 +1,10 @@
 "use client";
 
+/**
+ * `/my-resumes` route: lists every resume the current (anonymous) user has
+ * saved in Supabase, with actions to rename, duplicate, edit, or delete each
+ * one.
+ */
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";

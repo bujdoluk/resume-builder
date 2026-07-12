@@ -1,5 +1,9 @@
 "use client";
 
+/**
+ * Site-wide footer showing the localized copyright line with the current
+ * year.
+ */
 import { useTranslation } from "react-i18next";
 import { Temporal } from "temporal-polyfill";
 

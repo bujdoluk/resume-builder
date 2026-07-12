@@ -1,5 +1,14 @@
 "use client";
 
+/**
+ * Shared drag-and-drop primitives (built on `@dnd-kit`) used by the desktop
+ * resume canvas (`Resume.tsx`) and the per-template mobile forms: `reorderEntries`
+ * maps a dragged id order back onto entry objects, `SortableBlock`/
+ * `SortableGroup` provide the draggable-row/drag-context wrappers, and
+ * `renderFieldItems` walks a field order rendering each as a `SortableBlock`
+ * while pairing photo+name/job-title and (optionally) packing contact
+ * fields onto shared rows.
+ */
 import {
   closestCenter,
   DndContext,

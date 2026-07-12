@@ -1,3 +1,9 @@
+/**
+ * Registry of the three resume templates (Basic/Modern/Minimal), each
+ * pairing its read-only display component (`components/templates/`) with
+ * its mobile editing form (`components/mobile-forms/`) — the single source
+ * `Home.tsx` and the `/templates` gallery look up templates by id from.
+ */
 import type { ComponentType } from "react";
 import BasicMobileForm, {
   type MobileFormProps,

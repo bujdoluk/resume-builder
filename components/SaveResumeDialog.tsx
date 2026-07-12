@@ -1,5 +1,11 @@
 "use client";
 
+/**
+ * Modal for naming or renaming a resume, exposed via a ref handle
+ * (`open(initialName)` returns a Promise resolving to the entered name, or
+ * null if cancelled). Used both when first saving a resume and when
+ * renaming one from the "My Resumes" list.
+ */
 import { useImperativeHandle, useRef, useState, type Ref } from "react";
 import { useTranslation } from "react-i18next";
 

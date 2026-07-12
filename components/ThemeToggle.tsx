@@ -1,5 +1,10 @@
 "use client";
 
+/**
+ * Navbar light/dark mode switch: persists the choice to localStorage and
+ * falls back to the OS `prefers-color-scheme` on first visit, applying the
+ * theme via a `data-theme` attribute on `<html>`.
+ */
 import { useEffect, useState } from "react";
 import { MoonIcon, SunIcon } from "@/components/Icons";
 

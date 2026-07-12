@@ -1,3 +1,10 @@
+/**
+ * Every hand-drawn SVG icon used in the on-screen app UI (section headers,
+ * contact fields, sidebar navigation, theme toggle, table row actions,
+ * etc.) — each a thin wrapper around `IconBase` with its own Heroicons-style
+ * path data. See `components/pdf/PdfIcons.tsx` for the equivalent set used
+ * inside the generated PDF.
+ */
 interface IconProps {
   className?: string;
   style?: React.CSSProperties;

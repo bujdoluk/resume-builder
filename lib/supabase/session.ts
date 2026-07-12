@@ -1,3 +1,8 @@
+/**
+ * `ensureUserId` returns the current anonymous Supabase user's id, silently
+ * creating an anonymous session on first use — there's no login screen, so
+ * saved resumes are scoped to this anonymous identity via RLS.
+ */
 import type { SupabaseClient } from "@supabase/supabase-js";
 
 // "My resumes" doesn't have a login screen — a Supabase anonymous session is
