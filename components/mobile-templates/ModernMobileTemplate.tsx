@@ -8,7 +8,7 @@
  */
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import type { MobileFormProps } from "@/components/mobile-forms/BasicMobileForm";
+import type { MobileTemplateProps } from "@/components/mobile-templates/BasicMobileTemplate";
 import { AboutMeIcon } from "@/components/Icons";
 import {
   reorderEntries,
@@ -129,7 +129,7 @@ function SectionHeader({
   );
 }
 
-export default function ModernMobileForm({
+export default function ModernMobileTemplate({
   data,
   onChange,
   onWorkHistoryChange,
@@ -145,7 +145,7 @@ export default function ModernMobileForm({
   modernSectionZones,
   onChangeModernSectionZones,
   color,
-}: MobileFormProps) {
+}: MobileTemplateProps) {
   const { t } = useTranslation();
   const handlers = createResumeFormHandlers({
     data,

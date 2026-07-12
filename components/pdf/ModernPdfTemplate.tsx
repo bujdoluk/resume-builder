@@ -1,7 +1,7 @@
 /**
  * `@react-pdf/renderer` version of the Modern template, used to generate
  * the downloaded PDF — mirrors the on-screen
- * `components/templates/ModernTemplate.tsx`'s dark/accent-colored sidebar
+ * `components/desktop-templates/ModernTemplate.tsx`'s dark/accent-colored sidebar
  * (photo, contact, skills, certifications, languages) plus main column
  * (About Me, Work Experience, Education, Interests).
  */

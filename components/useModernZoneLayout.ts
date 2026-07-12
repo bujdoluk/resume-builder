@@ -2,7 +2,7 @@
 
 /**
  * Shared Modern-template zone bookkeeping used identically by the desktop
- * canvas (`Resume.tsx`) and the mobile form (`ModernMobileForm.tsx`): splits
+ * canvas (`Resume.tsx`) and the mobile template (`ModernMobileTemplate.tsx`): splits
  * `sectionOrder` into sidebar/main key lists via `splitSectionsByZone`,
  * interleaves the synthetic "aboutMe" pseudo-section into whichever zone it
  * currently occupies (it's freely draggable between zones too, not just

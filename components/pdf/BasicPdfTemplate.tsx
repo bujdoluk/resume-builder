@@ -1,7 +1,7 @@
 /**
  * `@react-pdf/renderer` version of the Basic template, used to generate the
  * downloaded PDF — must stay pixel-faithful to the on-screen
- * `components/templates/BasicTemplate.tsx` (colors, field order, and the
+ * `components/desktop-templates/BasicTemplate.tsx` (colors, field order, and the
  * daisyUI timeline's dot-rail + date-above-boxed-content layout for Work
  * Experience/Education) since users need to trust the PDF matches Preview.
  */

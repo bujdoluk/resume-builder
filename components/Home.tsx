@@ -3,7 +3,7 @@
 /**
  * Top-level editor page component rendered by the `/app` route: owns the
  * resume's data state, loads a saved resume by id or restores an unsaved
- * draft from localStorage, and renders either the mobile per-template form
+ * draft from localStorage, and renders either the mobile editing template
  * or the desktop drag-and-drop `Resume` canvas alongside Preview/Save/
  * Download actions. Save persists to Supabase; Download generates a PDF
  * client-side via `@react-pdf/renderer` using the matching `pdfTemplates`
@@ -282,7 +282,7 @@ export default function Home({
   const templateDefinition =
     templates.find((template) => template.id === templateId) ?? templates[0];
   const TemplateComponent = templateDefinition.component;
-  const MobileFormComponent = templateDefinition.mobileFormComponent;
+  const MobileTemplateComponent = templateDefinition.mobileTemplateComponent;
 
   function renderActionButtons(className: string) {
     return (
@@ -335,7 +335,7 @@ export default function Home({
   return (
     <>
       <div className="bg-base-200 flex flex-1 flex-col gap-6 p-4 md:hidden">
-        <MobileFormComponent
+        <MobileTemplateComponent
           data={data}
           onChange={handleChange}
           onWorkHistoryChange={handleWorkHistoryChange}

@@ -9,7 +9,7 @@
  */
 import { Fragment } from "react";
 import { useTranslation } from "react-i18next";
-import type { TemplateProps } from "@/components/templates/BasicTemplate";
+import type { TemplateProps } from "@/components/desktop-templates/BasicTemplate";
 import { allFields, type FieldKey } from "@/lib/fields";
 import {
   AddressIcon,
