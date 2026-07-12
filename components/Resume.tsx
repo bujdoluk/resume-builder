@@ -11,7 +11,7 @@
  * match its read-only counterpart in `components/templates/`.
  */
 import { rectSortingStrategy } from "@dnd-kit/sortable";
-import { Fragment, useState } from "react";
+import { Fragment, useState, type Dispatch, type SetStateAction } from "react";
 import { useTranslation } from "react-i18next";
 import type { FieldKey } from "@/components/AppState";
 import { AboutMeIcon } from "@/components/Icons";
@@ -20,7 +20,10 @@ import {
   reorderEntries,
   SortableBlock,
   SortableGroup,
+  SortableZone,
+  SortableZones,
 } from "@/components/Sortable";
+import { useModernZoneLayout } from "@/components/useModernZoneLayout";
 import { getContrastTextColor } from "@/lib/color";
 import { getFontSizeStyle, type FontSizeKey } from "@/lib/fontSize";
 import { fontsByKey, type FontKey } from "@/lib/fonts";
@@ -31,6 +34,7 @@ import {
   type CertificationEntry,
   type EducationEntry,
   type LanguageEntry,
+  type ModernSectionZones,
   type ResumeData,
   type SectionKey,
   type SimpleEntry,
@@ -68,15 +72,9 @@ interface ResumeProps {
   fontSize: FontSizeKey;
   visibleFields: FieldKey[];
   onReorderFields: (order: FieldKey[]) => void;
+  modernSectionZones: ModernSectionZones;
+  onChangeModernSectionZones: Dispatch<SetStateAction<ModernSectionZones>>;
 }
-
-// Sections that render in the Modern template's sidebar column instead of
-// the main column. Mirrors the grouping in components/templates/ModernTemplate.tsx.
-const modernSidebarKeys: SectionKey[] = [
-  "skills",
-  "certifications",
-  "languages",
-];
 
 // Personal-info fields that render in the Modern template's main column
 // instead of the sidebar — About Me stays spatially just before Work
@@ -164,21 +162,36 @@ function RemoveButton({
 function SectionHeader({
   icon,
   title,
-  minimal = false,
+  variant = "main",
   color,
 }: {
   icon: React.ReactNode;
   title: string;
-  minimal?: boolean;
+  variant?: "main" | "minimal" | "sidebar";
   color?: string | null;
 }) {
-  if (minimal) {
+  if (variant === "minimal") {
     return (
       <div
         className="border-primary mt-6 mb-3 border-b-2 pb-1"
         style={color ? { borderColor: color } : undefined}
       >
         <h2 className="text-sm font-bold tracking-[0.2em] uppercase">
+          {title}
+        </h2>
+      </div>
+    );
+  }
+
+  // Modern's sidebar zone drops the accent-color text (the dark block
+  // already carries its own contrast color) in favor of a muted, opacity-70
+  // look — matches components/templates/ModernTemplate.tsx's sidebar
+  // headers, so a section keeps whichever style matches its current zone.
+  if (variant === "sidebar") {
+    return (
+      <div className="mt-4 mb-2">
+        <h2 className="flex items-center gap-2 text-sm font-semibold tracking-wide uppercase opacity-70">
+          {icon}
           {title}
         </h2>
       </div>
@@ -215,6 +228,8 @@ export default function Resume({
   fontSize,
   visibleFields,
   onReorderFields,
+  modernSectionZones,
+  onChangeModernSectionZones,
 }: ResumeProps) {
   const { t } = useTranslation();
   const fontFamily = font ? fontsByKey[font].variable : undefined;
@@ -233,10 +248,13 @@ export default function Resume({
     defaultCertificationFieldOrder,
   );
 
-  // Where About Me sits among Modern's main-column sections (Work Experience,
-  // Education, Interests) — an index rather than a full merged order, so it
-  // stays correct as sections are toggled on/off without extra bookkeeping.
-  const [aboutMeMainIndex, setAboutMeMainIndex] = useState(0);
+  const { sidebarItems, mainItems, onZonesChange } = useModernZoneLayout({
+    sectionOrder,
+    onReorderSections,
+    modernSectionZones,
+    setModernSectionZones: onChangeModernSectionZones,
+    visibleFields,
+  });
 
   function handlePhotoChange(event: React.ChangeEvent<HTMLInputElement>) {
     const file = event.target.files?.[0];
@@ -637,12 +655,21 @@ export default function Resume({
       ? "border-primary/40 flex flex-col gap-2 border-l-2 pl-3"
       : "flex flex-col gap-2 rounded-lg p-4";
 
+  // Modern's sections restyle their header to match whichever zone they're
+  // currently placed in (see useModernZoneLayout's sidebarItems above) —
+  // Basic always uses "main", Minimal always uses "minimal".
+  function sectionVariant(key: SectionKey): "main" | "minimal" | "sidebar" {
+    if (templateId === "minimal") return "minimal";
+    if (templateId === "modern" && sidebarItems.includes(key)) return "sidebar";
+    return "main";
+  }
+
   const sectionContent: Record<SectionKey, React.ReactNode> = {
     workExperience: (
       <>
         <SectionHeader
           title={t("sections.workExperience")}
-          minimal={templateId === "minimal"}
+          variant={sectionVariant("workExperience")}
           color={color}
           icon={
             <svg
@@ -716,7 +743,7 @@ export default function Resume({
       <>
         <SectionHeader
           title={t("sections.education")}
-          minimal={templateId === "minimal"}
+          variant={sectionVariant("education")}
           color={color}
           icon={
             <svg
@@ -788,7 +815,7 @@ export default function Resume({
       <>
         <SectionHeader
           title={t("sections.skills")}
-          minimal={templateId === "minimal"}
+          variant={sectionVariant("skills")}
           color={color}
           icon={
             <svg
@@ -851,7 +878,7 @@ export default function Resume({
       <>
         <SectionHeader
           title={t("sections.certifications")}
-          minimal={templateId === "minimal"}
+          variant={sectionVariant("certifications")}
           color={color}
           icon={
             <svg
@@ -924,7 +951,7 @@ export default function Resume({
       <>
         <SectionHeader
           title={t("sections.languages")}
-          minimal={templateId === "minimal"}
+          variant={sectionVariant("languages")}
           color={color}
           icon={
             <svg
@@ -995,7 +1022,7 @@ export default function Resume({
       <>
         <SectionHeader
           title={t("sections.interests")}
-          minimal={templateId === "minimal"}
+          variant={sectionVariant("interests")}
           color={color}
           icon={
             <svg
@@ -1289,29 +1316,32 @@ export default function Resume({
     </fieldset>
   );
 
+  // About Me is freely draggable between Modern's sidebar and main zones
+  // too (not just sections), so its header restyles the same way sections'
+  // do — reusing the shared SectionHeader instead of a fixed ternary.
+  const aboutMeVariant: "main" | "minimal" | "sidebar" =
+    templateId === "minimal"
+      ? "minimal"
+      : templateId === "modern" && sidebarItems.includes("aboutMe")
+        ? "sidebar"
+        : "main";
+
   const aboutMe = !visibleFields.includes("aboutMe") ? null : (
     <div>
-      {templateId === "minimal" ? (
-        <h2
-          className="border-primary mt-6 mb-3 border-b-2 pb-1 text-sm font-bold tracking-[0.2em] uppercase"
-          style={color ? { borderColor: color } : undefined}
-        >
-          {t("fields.aboutMe")}
-        </h2>
-      ) : (
-        <div className="mt-4 mb-2 flex items-center gap-2">
+      <SectionHeader
+        icon={
           <AboutMeIcon
-            className="h-6 w-6 shrink-0 stroke-current text-gray-500"
-            style={color ? { color } : undefined}
+            className={
+              aboutMeVariant === "sidebar"
+                ? "h-5 w-5 shrink-0 stroke-current"
+                : "h-6 w-6 shrink-0 stroke-current"
+            }
           />
-          <h2
-            className="text-sm font-semibold tracking-wide text-gray-500 uppercase"
-            style={color ? { color } : undefined}
-          >
-            {t("fields.aboutMe")}
-          </h2>
-        </div>
-      )}
+        }
+        title={t("fields.aboutMe")}
+        variant={aboutMeVariant}
+        color={color}
+      />
       <textarea
         placeholder={t("placeholders.aboutMe")}
         className="textarea textarea-plain w-full"
@@ -1338,100 +1368,76 @@ export default function Resume({
     const sidebarFieldKeys = visibleFields.filter(
       (key) => !modernMainFieldKeys.includes(key),
     );
-    const sidebarKeys = sectionOrder.filter((key) =>
-      modernSidebarKeys.includes(key),
-    );
-    const mainSectionKeys = sectionOrder.filter(
-      (key) => !modernSidebarKeys.includes(key),
-    );
-
-    // About Me is interleaved with the main-column sections here (instead of
-    // always pinned first) so it can be dragged freely between Work Experience,
-    // Education, and Interests.
-    const aboutMeIndex = Math.min(aboutMeMainIndex, mainSectionKeys.length);
-    const mainItems: (SectionKey | "aboutMe")[] = visibleFields.includes(
-      "aboutMe",
-    )
-      ? [
-          ...mainSectionKeys.slice(0, aboutMeIndex),
-          "aboutMe",
-          ...mainSectionKeys.slice(aboutMeIndex),
-        ]
-      : mainSectionKeys;
-
-    function handleMainReorder(newOrder: (SectionKey | "aboutMe")[]) {
-      const newAboutMeIndex = newOrder.indexOf("aboutMe");
-      if (newAboutMeIndex !== -1) setAboutMeMainIndex(newAboutMeIndex);
-
-      const newMainSectionKeys = newOrder.filter(
-        (item): item is SectionKey => item !== "aboutMe",
-      );
-      onReorderSections([...sidebarKeys, ...newMainSectionKeys]);
-    }
 
     return (
-      <div
-        className="resume-scalable grid w-[280mm] min-h-[297mm] grid-cols-[90mm_1fr] bg-white shadow-xl print:shadow-none"
-        style={{ fontFamily, ...fontSizeStyle }}
+      <SortableZones
+        dndId="modern-sections"
+        zones={{ sidebar: sidebarItems, main: mainItems }}
+        onChange={onZonesChange}
       >
         <div
-          className="modern-sidebar bg-neutral text-neutral-content flex flex-col gap-2 p-6 pl-8"
-          style={
-            color
-              ? ({
-                  backgroundColor: color,
-                  color: getContrastTextColor(color),
-                  "--sidebar-fg": getContrastTextColor(color),
-                } as React.CSSProperties)
-              : undefined
-          }
+          className="resume-scalable grid w-[280mm] min-h-[297mm] grid-cols-[90mm_1fr] bg-white shadow-xl print:shadow-none"
+          style={{ fontFamily, ...fontSizeStyle }}
         >
-          <SortableGroup
-            dndId="modern-sidebar-fields"
-            ids={sidebarFieldKeys}
-            onReorder={(order) =>
-              onReorderFields([
-                ...order,
-                ...visibleFields.filter((key) =>
-                  modernMainFieldKeys.includes(key),
-                ),
-              ])
+          <div
+            className="modern-sidebar bg-neutral text-neutral-content flex flex-col gap-2 p-6 pl-8"
+            style={
+              color
+                ? ({
+                    backgroundColor: color,
+                    color: getContrastTextColor(color),
+                    "--sidebar-fg": getContrastTextColor(color),
+                  } as React.CSSProperties)
+                : undefined
             }
           >
-            {sidebarFieldKeys.map((key) => (
-              <SortableBlock key={key} id={key}>
-                {fieldContent[key]}
-              </SortableBlock>
-            ))}
-          </SortableGroup>
+            <SortableGroup
+              dndId="modern-sidebar-fields"
+              ids={sidebarFieldKeys}
+              onReorder={(order) =>
+                onReorderFields([
+                  ...order,
+                  ...visibleFields.filter((key) =>
+                    modernMainFieldKeys.includes(key),
+                  ),
+                ])
+              }
+            >
+              {sidebarFieldKeys.map((key) => (
+                <SortableBlock key={key} id={key}>
+                  {fieldContent[key]}
+                </SortableBlock>
+              ))}
+            </SortableGroup>
 
-          <SortableGroup
-            dndId="modern-sidebar-sections"
-            ids={sidebarKeys}
-            onReorder={(order) => onReorderSections([...order, ...mainSectionKeys])}
-          >
-            {sidebarKeys.map((key) => (
-              <SortableBlock key={key} id={key}>
-                {sectionContent[key]}
-              </SortableBlock>
-            ))}
-          </SortableGroup>
-        </div>
+            <SortableZone
+              zoneId="sidebar"
+              ids={sidebarItems}
+              className="flex min-h-8 flex-col gap-2"
+            >
+              {sidebarItems.map((item) => (
+                <SortableBlock key={item} id={item}>
+                  {item === "aboutMe" ? fieldContent.aboutMe : sectionContent[item]}
+                </SortableBlock>
+              ))}
+            </SortableZone>
+          </div>
 
-        <div className="p-6 pl-8">
-          <SortableGroup
-            dndId="modern-main"
-            ids={mainItems}
-            onReorder={handleMainReorder}
-          >
-            {mainItems.map((item) => (
-              <SortableBlock key={item} id={item}>
-                {item === "aboutMe" ? fieldContent.aboutMe : sectionContent[item]}
-              </SortableBlock>
-            ))}
-          </SortableGroup>
+          <div className="p-6 pl-8">
+            <SortableZone
+              zoneId="main"
+              ids={mainItems}
+              className="flex min-h-8 flex-col gap-2"
+            >
+              {mainItems.map((item) => (
+                <SortableBlock key={item} id={item}>
+                  {item === "aboutMe" ? fieldContent.aboutMe : sectionContent[item]}
+                </SortableBlock>
+              ))}
+            </SortableZone>
+          </div>
         </div>
-      </div>
+      </SortableZones>
     );
   }
 

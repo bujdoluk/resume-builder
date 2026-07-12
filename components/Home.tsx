@@ -102,6 +102,8 @@ export default function Home({
     setSectionOrder,
     visibleFields,
     setVisibleFields,
+    modernSectionZones,
+    setModernSectionZones,
     notifyResumeListChanged,
   } = useAppState();
   const [data, setData] = useState<ResumeData>(emptyResumeData);
@@ -128,6 +130,7 @@ export default function Home({
       setFontSize(row.fontSize ?? defaultFontSizeKey);
       setSectionOrder(row.sectionOrder);
       setVisibleFields(row.visibleFields);
+      setModernSectionZones(row.modernSectionZones);
       setResumeName(row.name);
     });
 
@@ -215,6 +218,7 @@ export default function Home({
         fontSize,
         sectionOrder,
         visibleFields,
+        modernSectionZones,
         data,
       });
       setResumeId(row.id);
@@ -247,6 +251,7 @@ export default function Home({
           font={font}
           fontSize={fontSize}
           visibleFields={visibleFields}
+          modernSectionZones={modernSectionZones}
         />,
       ).toBlob();
 
@@ -330,6 +335,8 @@ export default function Home({
           onReorderSections={setSectionOrder}
           visibleFields={visibleFields}
           onReorderFields={setVisibleFields}
+          modernSectionZones={modernSectionZones}
+          onChangeModernSectionZones={setModernSectionZones}
           color={color}
         />
         {renderActionButtons("flex gap-2")}
@@ -354,6 +361,8 @@ export default function Home({
             fontSize={fontSize}
             visibleFields={visibleFields}
             onReorderFields={setVisibleFields}
+            modernSectionZones={modernSectionZones}
+            onChangeModernSectionZones={setModernSectionZones}
           />
         </div>
 
@@ -374,6 +383,7 @@ export default function Home({
             font={font}
             fontSize={fontSize}
             visibleFields={visibleFields}
+            sectionZones={modernSectionZones}
           />
         </div>
         <form method="dialog" className="modal-backdrop">

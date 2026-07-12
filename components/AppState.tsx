@@ -21,7 +21,7 @@ import { defaultFontSizeKey, type FontSizeKey } from "@/lib/fontSize";
 import { allFonts, type FontKey } from "@/lib/fonts";
 import i18n from "@/lib/i18n/i18n";
 import { defaultLanguageCode } from "@/lib/i18n/languages";
-import type { SectionKey } from "@/lib/resumeData";
+import type { ModernSectionZones, SectionKey } from "@/lib/resumeData";
 
 // Typography defaults to the first font in the list rather than leaving the
 // page's plain system font in place, so the sidebar's font select always
@@ -56,6 +56,8 @@ interface AppStateValue {
   setSectionOrder: Dispatch<SetStateAction<SectionKey[]>>;
   visibleFields: FieldKey[];
   setVisibleFields: Dispatch<SetStateAction<FieldKey[]>>;
+  modernSectionZones: ModernSectionZones;
+  setModernSectionZones: Dispatch<SetStateAction<ModernSectionZones>>;
   language: string;
   setLanguage: Dispatch<SetStateAction<string>>;
   fontSize: FontSizeKey;
@@ -78,6 +80,8 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   const [visibleFields, setVisibleFields] = useState<FieldKey[]>(
     defaultVisibleFields,
   );
+  const [modernSectionZones, setModernSectionZones] =
+    useState<ModernSectionZones>({});
   const [language, setLanguage] = useState<string>(defaultLanguageCode);
   const [fontSize, setFontSize] = useState<FontSizeKey>(defaultFontSizeKey);
   const [resumeListVersion, setResumeListVersion] = useState(0);
@@ -103,6 +107,8 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
         setSectionOrder,
         visibleFields,
         setVisibleFields,
+        modernSectionZones,
+        setModernSectionZones,
         language,
         setLanguage,
         fontSize,

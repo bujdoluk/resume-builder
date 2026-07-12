@@ -9,6 +9,7 @@
  */
 import { Fragment } from "react";
 import { useTranslation } from "react-i18next";
+import type { TemplateProps } from "@/components/templates/BasicTemplate";
 import { allFields, type FieldKey } from "@/lib/fields";
 import {
   AddressIcon,
@@ -17,18 +18,9 @@ import {
   PhoneIcon,
   WebsiteIcon,
 } from "@/components/Icons";
-import { fontsByKey, type FontKey } from "@/lib/fonts";
-import { getFontSizeStyle, type FontSizeKey } from "@/lib/fontSize";
-import type { ResumeData, SectionKey } from "@/lib/resumeData";
-
-export interface TemplateProps {
-  data: ResumeData;
-  sectionOrder: SectionKey[];
-  color?: string | null;
-  font?: FontKey | null;
-  fontSize?: FontSizeKey;
-  visibleFields?: FieldKey[];
-}
+import { fontsByKey } from "@/lib/fonts";
+import { getFontSizeStyle } from "@/lib/fontSize";
+import type { SectionKey } from "@/lib/resumeData";
 
 function SectionTitle({
   children,

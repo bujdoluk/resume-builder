@@ -29,10 +29,16 @@ import { getFontSizeStyle, type FontSizeKey } from "@/lib/fontSize";
 import { fontsByKey, type FontKey } from "@/lib/fonts";
 import {
   languageLevels,
+  type ModernSectionZones,
   type ResumeData,
   type SectionKey,
 } from "@/lib/resumeData";
 
+// Canonical shared props for all 3 read-only templates — Modern and Minimal
+// import this rather than redeclaring it, mirroring how PdfTemplateProps
+// already works for the PDF templates. `sectionZones` is only meaningful
+// for Modern (which sections sit in its sidebar vs. main column); Basic and
+// Minimal ignore it, same as they already ignore parts of `color`.
 export interface TemplateProps {
   data: ResumeData;
   sectionOrder: SectionKey[];
@@ -40,6 +46,7 @@ export interface TemplateProps {
   font?: FontKey | null;
   fontSize?: FontSizeKey;
   visibleFields?: FieldKey[];
+  sectionZones?: ModernSectionZones;
 }
 
 // Renders a field order, pairing Photo with Name/Job Title (photo left,

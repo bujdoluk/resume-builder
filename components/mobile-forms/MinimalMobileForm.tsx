@@ -8,6 +8,7 @@
  */
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import type { MobileFormProps } from "@/components/mobile-forms/BasicMobileForm";
 import {
   reorderEntries,
   SortableBlock,
@@ -18,12 +19,8 @@ import { getContrastTextColor } from "@/lib/color";
 import { type FieldKey } from "@/lib/fields";
 import {
   languageLevels,
-  type CertificationEntry,
   type EducationEntry,
-  type LanguageEntry,
-  type ResumeData,
   type SectionKey,
-  type SimpleEntry,
   type WorkEntry,
 } from "@/lib/resumeData";
 
@@ -56,22 +53,6 @@ const defaultEducationFieldOrder: EducationEntryFieldKey[] = [
   "location",
   "description",
 ];
-
-export interface MobileFormProps {
-  data: ResumeData;
-  onChange: (field: keyof ResumeData, value: string) => void;
-  onWorkHistoryChange: (workExperience: WorkEntry[]) => void;
-  onEducationChange: (education: EducationEntry[]) => void;
-  onSkillsChange: (skills: SimpleEntry[]) => void;
-  onCertificationsChange: (certifications: CertificationEntry[]) => void;
-  onLanguagesChange: (languages: LanguageEntry[]) => void;
-  onInterestsChange: (interests: SimpleEntry[]) => void;
-  sectionOrder: SectionKey[];
-  onReorderSections: (order: SectionKey[]) => void;
-  visibleFields: FieldKey[];
-  onReorderFields: (order: FieldKey[]) => void;
-  color: string | null;
-}
 
 function RemoveButton({
   label,

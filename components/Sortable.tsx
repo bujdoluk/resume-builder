@@ -14,6 +14,7 @@ import {
   DndContext,
   KeyboardSensor,
   PointerSensor,
+  useDroppable,
   useSensor,
   useSensors,
   type DragEndEvent,
@@ -145,6 +146,114 @@ export function SortableGroup<T extends string>({
         {children}
       </SortableContext>
     </DndContext>
+  );
+}
+
+// Hosts ONE DndContext shared by multiple zones (e.g. Modern's sidebar and
+// main column), so an item can be dragged out of one zone's array and into
+// another's — unlike SortableGroup, whose single SortableContext can only
+// reorder within one array. Resolves everything in onDragEnd only (same
+// "no live drag-over preview" convention as SortableGroup): finds which
+// zone currently holds the dragged id (source), finds the target zone from
+// `over.id` (either a SortableZone's own droppable id — dropped on empty
+// space — or another item's id, whose zone becomes the target), then either
+// reorders within one zone or splices the item from source into target.
+export function SortableZones<Z extends string, T extends string>({
+  dndId,
+  zones,
+  onChange,
+  children,
+}: {
+  dndId: string;
+  zones: Record<Z, T[]>;
+  onChange: (next: Record<Z, T[]>) => void;
+  children: React.ReactNode;
+}) {
+  const sensors = useSensors(
+    useSensor(PointerSensor, { activationConstraint: { distance: 4 } }),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    }),
+  );
+
+  function handleDragEnd(event: DragEndEvent) {
+    const { active, over } = event;
+    if (!over) return;
+
+    const activeId = active.id as T;
+    const overId = over.id as string;
+    const zoneEntries = Object.entries(zones) as [Z, T[]][];
+
+    const sourceEntry = zoneEntries.find(([, ids]) => ids.includes(activeId));
+    if (!sourceEntry) return;
+    const [sourceZone, sourceIds] = sourceEntry;
+
+    const directZoneMatch = zoneEntries.find(([zoneId]) => zoneId === overId);
+    const overEntry = directZoneMatch
+      ? [directZoneMatch[0], zones[directZoneMatch[0]].length] as const
+      : (() => {
+          const found = zoneEntries.find(([, ids]) => ids.includes(overId as T));
+          return found ? ([found[0], found[1].indexOf(overId as T)] as const) : undefined;
+        })();
+    if (!overEntry) return;
+    const [targetZone, targetIndex] = overEntry;
+
+    if (targetZone === sourceZone) {
+      const oldIndex = sourceIds.indexOf(activeId);
+      if (oldIndex === -1 || oldIndex === targetIndex) return;
+      onChange({ ...zones, [sourceZone]: arrayMove(sourceIds, oldIndex, targetIndex) });
+      return;
+    }
+
+    const newSourceIds = sourceIds.filter((id) => id !== activeId);
+    const newTargetIds = [...zones[targetZone]];
+    newTargetIds.splice(Math.min(targetIndex, newTargetIds.length), 0, activeId);
+
+    onChange({
+      ...zones,
+      [sourceZone]: newSourceIds,
+      [targetZone]: newTargetIds,
+    });
+  }
+
+  return (
+    <DndContext
+      id={dndId}
+      sensors={sensors}
+      collisionDetection={closestCenter}
+      onDragEnd={handleDragEnd}
+    >
+      {children}
+    </DndContext>
+  );
+}
+
+// One zone within a SortableZones — needs its own droppable id (via
+// useDroppable) so dropping on empty space inside an emptied zone still
+// resolves to it, not just onto another item. `className` should keep a
+// minimum size (e.g. a min-height) even when `ids` is empty, or an emptied
+// zone can become impossible to drop into.
+export function SortableZone<T extends string>({
+  zoneId,
+  ids,
+  strategy = verticalListSortingStrategy,
+  className,
+  children,
+}: {
+  zoneId: string;
+  ids: T[];
+  strategy?: SortingStrategy;
+  className?: string;
+  children: React.ReactNode;
+}) {
+  const { setNodeRef } = useDroppable({ id: zoneId });
+
+  return (
+    <div ref={setNodeRef} className={className}>
+      <SortableContext items={ids} strategy={strategy}>
+        {children}
+      </SortableContext>
+    </div>
   );
 }
 

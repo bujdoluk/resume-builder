@@ -31,6 +31,7 @@ import {
   type CertificationEntry,
   type EducationEntry,
   type LanguageEntry,
+  type ModernSectionZones,
   type ResumeData,
   type SectionKey,
   type SimpleEntry,
@@ -67,6 +68,12 @@ const defaultEducationFieldOrder: EducationEntryFieldKey[] = [
   "description",
 ];
 
+// Canonical shared props for all 3 mobile editing forms — Modern and
+// Minimal import this rather than redeclaring it, mirroring how
+// PdfTemplateProps already works for the PDF templates.
+// `modernSectionZones`/`onChangeModernSectionZones` are only meaningful for
+// Modern (which sections sit in its sidebar vs. main column); Basic and
+// Minimal ignore them, same as they already ignore parts of `color`.
 export interface MobileFormProps {
   data: ResumeData;
   onChange: (field: keyof ResumeData, value: string) => void;
@@ -80,6 +87,10 @@ export interface MobileFormProps {
   onReorderSections: (order: SectionKey[]) => void;
   visibleFields: FieldKey[];
   onReorderFields: (order: FieldKey[]) => void;
+  modernSectionZones: ModernSectionZones;
+  onChangeModernSectionZones: React.Dispatch<
+    React.SetStateAction<ModernSectionZones>
+  >;
   color: string | null;
 }
 

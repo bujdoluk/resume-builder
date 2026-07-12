@@ -8,7 +8,7 @@ import { Temporal } from "temporal-polyfill";
 import type { FieldKey } from "@/lib/fields";
 import { defaultFontSizeKey, type FontSizeKey } from "@/lib/fontSize";
 import type { FontKey } from "@/lib/fonts";
-import type { ResumeData, SectionKey } from "@/lib/resumeData";
+import type { ModernSectionZones, ResumeData, SectionKey } from "@/lib/resumeData";
 import type { TemplateId } from "@/lib/templates";
 
 export interface ResumeRow {
@@ -20,6 +20,7 @@ export interface ResumeRow {
   fontSize: FontSizeKey | null;
   sectionOrder: SectionKey[];
   visibleFields: FieldKey[];
+  modernSectionZones: ModernSectionZones;
   data: ResumeData;
   updatedAt: string;
 }
@@ -33,6 +34,7 @@ interface ResumeTableRow {
   font_size: string | null;
   section_order: SectionKey[];
   visible_fields: FieldKey[];
+  modern_section_zones: ModernSectionZones | null;
   data: ResumeData;
   updated_at: string;
 }
@@ -47,6 +49,7 @@ function fromTableRow(row: ResumeTableRow): ResumeRow {
     fontSize: row.font_size as FontSizeKey | null,
     sectionOrder: row.section_order,
     visibleFields: row.visible_fields,
+    modernSectionZones: row.modern_section_zones ?? {},
     data: row.data,
     updatedAt: row.updated_at,
   };
@@ -62,6 +65,7 @@ export interface SaveResumeParams {
   fontSize: FontSizeKey;
   sectionOrder: SectionKey[];
   visibleFields: FieldKey[];
+  modernSectionZones: ModernSectionZones;
   data: ResumeData;
 }
 
@@ -75,6 +79,7 @@ export async function saveResume(supabase: SupabaseClient, params: SaveResumePar
     font_size: params.fontSize,
     section_order: params.sectionOrder,
     visible_fields: params.visibleFields,
+    modern_section_zones: params.modernSectionZones,
     data: params.data,
     updated_at: Temporal.Now.instant().toString(),
   };
@@ -162,6 +167,7 @@ export async function duplicateResume(supabase: SupabaseClient, id: string, user
     fontSize: original.fontSize ?? defaultFontSizeKey,
     sectionOrder: original.sectionOrder,
     visibleFields: original.visibleFields,
+    modernSectionZones: original.modernSectionZones,
     data: original.data,
   });
 }

@@ -34,8 +34,16 @@ import {
   RESUME_TEXT_COLOR,
 } from "@/lib/pdf/theme";
 import { renderPdfFieldItems } from "@/lib/pdf/renderFieldItems";
-import { languageLevels, type ResumeData, type SectionKey } from "@/lib/resumeData";
+import {
+  languageLevels,
+  type ModernSectionZones,
+  type ResumeData,
+  type SectionKey,
+} from "@/lib/resumeData";
 
+// `modernSectionZones` is only meaningful for ModernPdfTemplate (which
+// sections sit in its sidebar vs. main column); Basic and Minimal ignore
+// it, same as they already ignore parts of `color`.
 export interface PdfTemplateProps {
   data: ResumeData;
   sectionOrder: SectionKey[];
@@ -43,6 +51,7 @@ export interface PdfTemplateProps {
   font?: FontKey | null;
   fontSize?: FontSizeKey;
   visibleFields?: FieldKey[];
+  modernSectionZones?: ModernSectionZones;
 }
 
 const TIMELINE_DOT_COL_WIDTH = 16;

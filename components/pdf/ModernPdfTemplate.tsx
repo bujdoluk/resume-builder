@@ -32,7 +32,12 @@ import {
   GRAY_700,
   RESUME_TEXT_COLOR,
 } from "@/lib/pdf/theme";
-import { languageLevels, type SectionKey } from "@/lib/resumeData";
+import {
+  languageLevels,
+  resolveModernSectionZone,
+  splitSectionsByZone,
+  type SectionKey,
+} from "@/lib/resumeData";
 import type { PdfTemplateProps } from "@/components/pdf/BasicPdfTemplate";
 
 export default function ModernPdfTemplate({
@@ -42,6 +47,7 @@ export default function ModernPdfTemplate({
   font,
   fontSize,
   visibleFields,
+  modernSectionZones,
 }: PdfTemplateProps) {
   const scale = getFontScaleRatio(fontSize ?? "medium");
   const s = (px: number) => Math.round(px * scale * 10) / 10;
@@ -101,15 +107,19 @@ export default function ModernPdfTemplate({
   const languageEntries = data.languages.filter((e) => e.language);
   const interestEntries = data.interests.filter((e) => e.value);
 
-  const sidebarKeys: SectionKey[] = ["skills", "languages", "certifications"];
-  const mainKeys = sectionOrder.filter((key) => !sidebarKeys.includes(key));
+  const { sidebar: sidebarKeys, main: mainKeys } = splitSectionsByZone(
+    sectionOrder,
+    modernSectionZones ?? {},
+  );
 
-  // About Me is the only personal field that lives in the main column —
-  // everything else stays in the sidebar, in the user's actual drag order
-  // (no pairing/packing here, unlike Basic/Minimal: Modern always shows the
-  // photo centered alone with name/job title stacked below it).
+  // About Me is freely draggable between zones too (not just sections), so
+  // it's excluded from the plain field list here and placed separately
+  // below based on its own zone assignment (no pairing/packing either way,
+  // unlike Basic/Minimal: Modern always shows the photo centered alone with
+  // name/job title stacked below it).
   const fieldOrder = visibleFields ?? allFields;
   const sidebarFieldKeys = fieldOrder.filter((key) => key !== "aboutMe");
+  const aboutMeZone = resolveModernSectionZone("aboutMe", modernSectionZones ?? {});
 
   function mainSectionHeader(icon: React.ReactNode, title: string) {
     return (
@@ -129,53 +139,217 @@ export default function ModernPdfTemplate({
     );
   }
 
-  const mainSectionContent: Partial<Record<SectionKey, React.ReactNode>> = {
-    workExperience: workEntries.length > 0 && (
-      <View key="workExperience">
-        {mainSectionHeader(<WorkHistoryPdfIcon size={s(11)} color={accentColor ?? GRAY_500} />, "Work Experience")}
-        {workEntries.map((entry) => {
-          const dateRange = [entry.dateFrom, entry.dateTo].filter(Boolean).join(" – ");
+  // Renders one section in either of Modern's two zone looks — every
+  // section type supports both, so dragging it into the other zone (on the
+  // editable canvas, components/Resume.tsx) restyles the downloaded PDF to
+  // match instead of leaving it stuck with its "native" zone's appearance.
+  function renderSection(
+    key: SectionKey,
+    zone: "main" | "sidebar",
+  ): React.ReactNode {
+    switch (key) {
+      case "workExperience": {
+        if (workEntries.length === 0) return null;
+        if (zone === "sidebar") {
           return (
-            <View key={entry.id} style={styles.entry} wrap={false}>
-              {entry.position && <Text style={styles.entryTitle}>{entry.position}</Text>}
-              {(dateRange || entry.location) && (
-                <Text style={styles.entryMeta}>
-                  {[dateRange, entry.location].filter(Boolean).join(" · ")}
-                </Text>
-              )}
-              {entry.jobDescription && <Text style={styles.entryDescription}>{entry.jobDescription}</Text>}
+            <View key="workExperience">
+              {sidebarSectionHeader(<WorkHistoryPdfIcon size={s(10)} color={sidebarFg} />, "Work Experience")}
+              {workEntries.map((entry) => {
+                const dateRange = [entry.dateFrom, entry.dateTo].filter(Boolean).join(" – ");
+                return (
+                  <View key={entry.id} style={{ marginTop: 3 }} wrap={false}>
+                    <Text style={styles.sidebarBodyText}>{entry.position}</Text>
+                    {(dateRange || entry.location) && (
+                      <Text style={[styles.sidebarBodyText, { fontSize: s(7.5), opacity: 0.7 }]}>
+                        {[dateRange, entry.location].filter(Boolean).join(" · ")}
+                      </Text>
+                    )}
+                  </View>
+                );
+              })}
             </View>
           );
-        })}
-      </View>
-    ),
-    education: educationEntries.length > 0 && (
-      <View key="education">
-        {mainSectionHeader(<EducationPdfIcon size={s(11)} color={accentColor ?? GRAY_500} />, "Education")}
-        {educationEntries.map((entry) => {
-          const dateRange = [entry.dateFrom, entry.dateTo].filter(Boolean).join(" – ");
+        }
+        return (
+          <View key="workExperience">
+            {mainSectionHeader(<WorkHistoryPdfIcon size={s(11)} color={accentColor ?? GRAY_500} />, "Work Experience")}
+            {workEntries.map((entry) => {
+              const dateRange = [entry.dateFrom, entry.dateTo].filter(Boolean).join(" – ");
+              return (
+                <View key={entry.id} style={styles.entry} wrap={false}>
+                  {entry.position && <Text style={styles.entryTitle}>{entry.position}</Text>}
+                  {(dateRange || entry.location) && (
+                    <Text style={styles.entryMeta}>
+                      {[dateRange, entry.location].filter(Boolean).join(" · ")}
+                    </Text>
+                  )}
+                  {entry.jobDescription && <Text style={styles.entryDescription}>{entry.jobDescription}</Text>}
+                </View>
+              );
+            })}
+          </View>
+        );
+      }
+
+      case "education": {
+        if (educationEntries.length === 0) return null;
+        if (zone === "sidebar") {
           return (
-            <View key={entry.id} style={styles.entry} wrap={false}>
-              {entry.school && <Text style={styles.entryTitle}>{entry.school}</Text>}
-              {entry.subject && <Text style={styles.entryMetaAlt}>{entry.subject}</Text>}
-              {(dateRange || entry.location) && (
-                <Text style={styles.entryMeta}>
-                  {[dateRange, entry.location].filter(Boolean).join(" · ")}
-                </Text>
-              )}
-              {entry.description && <Text style={styles.entryDescription}>{entry.description}</Text>}
+            <View key="education">
+              {sidebarSectionHeader(<EducationPdfIcon size={s(10)} color={sidebarFg} />, "Education")}
+              {educationEntries.map((entry) => {
+                const dateRange = [entry.dateFrom, entry.dateTo].filter(Boolean).join(" – ");
+                return (
+                  <View key={entry.id} style={{ marginTop: 3 }} wrap={false}>
+                    <Text style={styles.sidebarBodyText}>{entry.school}</Text>
+                    {(entry.subject || dateRange || entry.location) && (
+                      <Text style={[styles.sidebarBodyText, { fontSize: s(7.5), opacity: 0.7 }]}>
+                        {[entry.subject, dateRange, entry.location].filter(Boolean).join(" · ")}
+                      </Text>
+                    )}
+                  </View>
+                );
+              })}
             </View>
           );
-        })}
-      </View>
-    ),
-    interests: interestEntries.length > 0 && (
-      <View key="interests">
-        {mainSectionHeader(<InterestsPdfIcon size={s(11)} color={accentColor ?? GRAY_500} />, "Interests")}
-        <Text style={styles.bodyText}>{interestEntries.map((e) => e.value).join(", ")}</Text>
-      </View>
-    ),
-  };
+        }
+        return (
+          <View key="education">
+            {mainSectionHeader(<EducationPdfIcon size={s(11)} color={accentColor ?? GRAY_500} />, "Education")}
+            {educationEntries.map((entry) => {
+              const dateRange = [entry.dateFrom, entry.dateTo].filter(Boolean).join(" – ");
+              return (
+                <View key={entry.id} style={styles.entry} wrap={false}>
+                  {entry.school && <Text style={styles.entryTitle}>{entry.school}</Text>}
+                  {entry.subject && <Text style={styles.entryMetaAlt}>{entry.subject}</Text>}
+                  {(dateRange || entry.location) && (
+                    <Text style={styles.entryMeta}>
+                      {[dateRange, entry.location].filter(Boolean).join(" · ")}
+                    </Text>
+                  )}
+                  {entry.description && <Text style={styles.entryDescription}>{entry.description}</Text>}
+                </View>
+              );
+            })}
+          </View>
+        );
+      }
+
+      case "interests": {
+        if (interestEntries.length === 0) return null;
+        if (zone === "sidebar") {
+          return (
+            <View key="interests">
+              {sidebarSectionHeader(<InterestsPdfIcon size={s(10)} color={sidebarFg} />, "Interests")}
+              <Text style={styles.sidebarBodyText}>{interestEntries.map((e) => e.value).join(", ")}</Text>
+            </View>
+          );
+        }
+        return (
+          <View key="interests">
+            {mainSectionHeader(<InterestsPdfIcon size={s(11)} color={accentColor ?? GRAY_500} />, "Interests")}
+            <Text style={styles.bodyText}>{interestEntries.map((e) => e.value).join(", ")}</Text>
+          </View>
+        );
+      }
+
+      case "skills": {
+        if (skillEntries.length === 0) return null;
+        if (zone === "main") {
+          return (
+            <View key="skills">
+              {mainSectionHeader(<SkillsPdfIcon size={s(11)} color={accentColor ?? GRAY_500} />, "Skills")}
+              <Text style={styles.bodyText}>{skillEntries.map((e) => e.value).join(", ")}</Text>
+            </View>
+          );
+        }
+        return (
+          <View key="skills">
+            {sidebarSectionHeader(<SkillsPdfIcon size={s(10)} color={sidebarFg} />, "Skills")}
+            {skillEntries.map((entry) => (
+              <Text key={entry.id} style={styles.sidebarBodyText}>
+                {entry.value}
+              </Text>
+            ))}
+          </View>
+        );
+      }
+
+      case "certifications": {
+        if (certificationEntries.length === 0) return null;
+        if (zone === "main") {
+          return (
+            <View key="certifications">
+              {mainSectionHeader(<CertificationsPdfIcon size={s(11)} color={accentColor ?? GRAY_500} />, "Certifications")}
+              {certificationEntries.map((entry) => (
+                <View key={entry.id} style={styles.entry} wrap={false}>
+                  <Text style={styles.entryTitle}>{entry.name}</Text>
+                  {entry.date && <Text style={styles.entryMeta}>{entry.date}</Text>}
+                </View>
+              ))}
+            </View>
+          );
+        }
+        return (
+          <View key="certifications">
+            {sidebarSectionHeader(<CertificationsPdfIcon size={s(10)} color={sidebarFg} />, "Certifications")}
+            {certificationEntries.map((entry) => (
+              <View key={entry.id} style={{ marginTop: 3 }}>
+                <Text style={styles.sidebarBodyText}>{entry.name}</Text>
+                {entry.date && (
+                  <Text style={[styles.sidebarBodyText, { fontSize: s(7.5), opacity: 0.7 }]}>
+                    {entry.date}
+                  </Text>
+                )}
+              </View>
+            ))}
+          </View>
+        );
+      }
+
+      case "languages": {
+        if (languageEntries.length === 0) return null;
+        if (zone === "main") {
+          return (
+            <View key="languages">
+              {mainSectionHeader(<LanguagesPdfIcon size={s(11)} color={accentColor ?? GRAY_500} />, "Languages")}
+              {languageEntries.map((entry) => (
+                <View key={entry.id} style={{ marginBottom: 4 }}>
+                  <Text style={styles.entryTitle}>{entry.language}</Text>
+                  <View style={{ marginTop: 2 }}>
+                    <StarRatingPdfIcon
+                      filled={languageLevels.indexOf(entry.level) + 1}
+                      total={languageLevels.length}
+                      size={s(8)}
+                      color={accentColor ?? GRAY_500}
+                    />
+                  </View>
+                </View>
+              ))}
+            </View>
+          );
+        }
+        return (
+          <View key="languages">
+            {sidebarSectionHeader(<LanguagesPdfIcon size={s(10)} color={sidebarFg} />, "Languages")}
+            {languageEntries.map((entry) => (
+              <View key={entry.id} style={{ marginTop: 3 }}>
+                <Text style={styles.sidebarBodyText}>{entry.language}</Text>
+                <View style={{ marginTop: 2 }}>
+                  <StarRatingPdfIcon
+                    filled={languageLevels.indexOf(entry.level) + 1}
+                    total={languageLevels.length}
+                    size={s(7)}
+                    color="#ffffff"
+                  />
+                </View>
+              </View>
+            ))}
+          </View>
+        );
+      }
+    }
+  }
 
   const fieldContent: Partial<Record<FieldKey, React.ReactNode>> = {
     photo: data.photo && isVisible("photo") && (
@@ -228,65 +402,27 @@ export default function ModernPdfTemplate({
             <View key={key}>{fieldContent[key]}</View>
           ))}
 
-          {skillEntries.length > 0 && (
+          {aboutMeZone === "sidebar" && data.aboutMe && isVisible("aboutMe") && (
             <View>
-              {sidebarSectionHeader(<SkillsPdfIcon size={s(10)} color={sidebarFg} />, "Skills")}
-              {skillEntries.map((entry) => (
-                <Text key={entry.id} style={styles.sidebarBodyText}>
-                  {entry.value}
-                </Text>
-              ))}
+              {sidebarSectionHeader(<AboutMePdfIcon size={s(10)} color={sidebarFg} />, "About Me")}
+              <Text style={styles.sidebarBodyText}>{data.aboutMe}</Text>
             </View>
           )}
 
-          {languageEntries.length > 0 && (
-            <View>
-              {sidebarSectionHeader(<LanguagesPdfIcon size={s(10)} color={sidebarFg} />, "Languages")}
-              {languageEntries.map((entry) => (
-                <View key={entry.id} style={{ marginTop: 3 }}>
-                  <Text style={styles.sidebarBodyText}>{entry.language}</Text>
-                  <View style={{ marginTop: 2 }}>
-                    <StarRatingPdfIcon
-                      filled={languageLevels.indexOf(entry.level) + 1}
-                      total={languageLevels.length}
-                      size={s(7)}
-                      color="#ffffff"
-                    />
-                  </View>
-                </View>
-              ))}
-            </View>
-          )}
-
-          {certificationEntries.length > 0 && (
-            <View>
-              {sidebarSectionHeader(
-                <CertificationsPdfIcon size={s(10)} color={sidebarFg} />,
-                "Certifications",
-              )}
-              {certificationEntries.map((entry) => (
-                <View key={entry.id} style={{ marginTop: 3 }}>
-                  <Text style={styles.sidebarBodyText}>{entry.name}</Text>
-                  {entry.date && (
-                    <Text style={[styles.sidebarBodyText, { fontSize: s(7.5), opacity: 0.7 }]}>
-                      {entry.date}
-                    </Text>
-                  )}
-                </View>
-              ))}
-            </View>
-          )}
+          {sidebarKeys.map((key) => (
+            <View key={key}>{renderSection(key, "sidebar")}</View>
+          ))}
         </View>
 
         <View style={styles.main}>
-          {data.aboutMe && isVisible("aboutMe") && (
+          {aboutMeZone === "main" && data.aboutMe && isVisible("aboutMe") && (
             <View>
               {mainSectionHeader(<AboutMePdfIcon size={s(11)} color={accentColor ?? GRAY_500} />, "About Me")}
               <Text style={styles.bodyText}>{data.aboutMe}</Text>
             </View>
           )}
           {mainKeys.map((key) => (
-            <View key={key}>{mainSectionContent[key]}</View>
+            <View key={key}>{renderSection(key, "main")}</View>
           ))}
         </View>
       </Page>

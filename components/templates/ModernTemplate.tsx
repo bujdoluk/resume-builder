@@ -10,6 +10,7 @@
  */
 import { Fragment } from "react";
 import { useTranslation } from "react-i18next";
+import type { TemplateProps } from "@/components/templates/BasicTemplate";
 import { allFields, type FieldKey } from "@/lib/fields";
 import {
   AboutMeIcon,
@@ -26,29 +27,50 @@ import {
   WorkHistoryIcon,
 } from "@/components/Icons";
 import { getContrastTextColor } from "@/lib/color";
-import { fontsByKey, type FontKey } from "@/lib/fonts";
-import { getFontSizeStyle, type FontSizeKey } from "@/lib/fontSize";
+import { fontsByKey } from "@/lib/fonts";
+import { getFontSizeStyle } from "@/lib/fontSize";
 import {
   languageLevels,
-  type ResumeData,
+  resolveModernSectionZone,
+  splitSectionsByZone,
   type SectionKey,
 } from "@/lib/resumeData";
 
-export interface TemplateProps {
-  data: ResumeData;
-  sectionOrder: SectionKey[];
+// Section header in either of Modern's two looks: accent-colored icon+text
+// (main column) or a smaller, opacity-70 icon+text with no accent color
+// (sidebar) — a section keeps whichever style matches the zone it's
+// currently placed in, so this is a real component (not per-section inline
+// markup) shared by every section's renderSection() case below.
+function SectionHeader({
+  icon,
+  title,
+  zone,
+  color,
+}: {
+  icon: React.ReactNode;
+  title: string;
+  zone: "main" | "sidebar";
   color?: string | null;
-  font?: FontKey | null;
-  fontSize?: FontSizeKey;
-  visibleFields?: FieldKey[];
+}) {
+  if (zone === "sidebar") {
+    return (
+      <h2 className="mt-4 mb-2 flex items-center gap-2 text-sm font-semibold tracking-wide uppercase opacity-70">
+        {icon}
+        {title}
+      </h2>
+    );
+  }
+  return (
+    <h2
+      className="mt-4 mb-2 flex items-center gap-2 text-sm font-semibold tracking-wide text-gray-500 uppercase"
+      style={color ? { color } : undefined}
+    >
+      {icon}
+      {title}
+    </h2>
+  );
 }
 
-/**
- * Starter scaffold for a second template. Reuses the same data-derivation
- * logic as BasicTemplate but lays it out as a two-column sidebar design —
- * swap the JSX below for your own look while keeping the same TemplateProps
- * shape so it drops straight into the templates registry.
- */
 export default function ModernTemplate({
   data,
   sectionOrder,
@@ -56,6 +78,7 @@ export default function ModernTemplate({
   font,
   fontSize,
   visibleFields,
+  sectionZones,
 }: TemplateProps) {
   const { t } = useTranslation();
   const isVisible = (key: FieldKey) =>
@@ -90,180 +113,348 @@ export default function ModernTemplate({
   const languageEntries = data.languages.filter((entry) => entry.language);
   const interestEntries = data.interests.filter((entry) => entry.value);
 
-  const mainSectionContent: Partial<Record<SectionKey, React.ReactNode>> = {
-    workExperience: workEntries.length > 0 && (
-      <>
-        <h2
-          className="mt-4 mb-2 flex items-center gap-2 text-sm font-semibold tracking-wide text-gray-500 uppercase"
-          style={color ? { color } : undefined}
-        >
-          <WorkHistoryIcon className="h-6 w-6 stroke-current" />
-          {t("sections.workExperience")}
-        </h2>
-        <div className="flex flex-col gap-3">
-          {workEntries.map((entry) => {
-            const dateRange = [entry.dateFrom, entry.dateTo]
-              .filter(Boolean)
-              .join(" – ");
+  // Renders one section in either of Modern's two zone looks — every
+  // section type supports both, so dragging it into the other zone (see
+  // components/Resume.tsx, the editable counterpart) restyles it instead of
+  // leaving it stuck with its "native" zone's appearance.
+  function renderSection(
+    key: SectionKey,
+    zone: "main" | "sidebar",
+  ): React.ReactNode {
+    const iconClassName =
+      zone === "sidebar" ? "h-5 w-5 stroke-current" : "h-6 w-6 stroke-current";
 
-            return (
-              <div key={entry.id}>
-                {entry.position && (
-                  <p className="text-lg font-semibold">{entry.position}</p>
-                )}
-                {(dateRange || entry.location) && (
-                  <p className="text-base text-gray-500">
-                    {[dateRange, entry.location].filter(Boolean).join(" · ")}
-                  </p>
-                )}
-                {entry.jobDescription && (
-                  <p className="mt-1 text-base whitespace-pre-line text-gray-700">
-                    {entry.jobDescription}
-                  </p>
-                )}
+    switch (key) {
+      case "workExperience": {
+        if (workEntries.length === 0) return null;
+        if (zone === "sidebar") {
+          return (
+            <>
+              <SectionHeader
+                icon={<WorkHistoryIcon className={iconClassName} />}
+                title={t("sections.workExperience")}
+                zone={zone}
+              />
+              <ul className="flex flex-col gap-1">
+                {workEntries.map((entry) => {
+                  const dateRange = [entry.dateFrom, entry.dateTo]
+                    .filter(Boolean)
+                    .join(" – ");
+                  return (
+                    <li key={entry.id}>
+                      {entry.position}
+                      {(dateRange || entry.location) && (
+                        <span className="block text-xs opacity-70">
+                          {[dateRange, entry.location]
+                            .filter(Boolean)
+                            .join(" · ")}
+                        </span>
+                      )}
+                    </li>
+                  );
+                })}
+              </ul>
+            </>
+          );
+        }
+        return (
+          <>
+            <SectionHeader
+              icon={<WorkHistoryIcon className={iconClassName} />}
+              title={t("sections.workExperience")}
+              zone={zone}
+              color={color}
+            />
+            <div className="flex flex-col gap-3">
+              {workEntries.map((entry) => {
+                const dateRange = [entry.dateFrom, entry.dateTo]
+                  .filter(Boolean)
+                  .join(" – ");
+
+                return (
+                  <div key={entry.id}>
+                    {entry.position && (
+                      <p className="text-lg font-semibold">
+                        {entry.position}
+                      </p>
+                    )}
+                    {(dateRange || entry.location) && (
+                      <p className="text-base text-gray-500">
+                        {[dateRange, entry.location]
+                          .filter(Boolean)
+                          .join(" · ")}
+                      </p>
+                    )}
+                    {entry.jobDescription && (
+                      <p className="mt-1 text-base whitespace-pre-line text-gray-700">
+                        {entry.jobDescription}
+                      </p>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          </>
+        );
+      }
+
+      case "education": {
+        if (educationEntries.length === 0) return null;
+        if (zone === "sidebar") {
+          return (
+            <>
+              <SectionHeader
+                icon={<EducationIcon className={iconClassName} />}
+                title={t("sections.education")}
+                zone={zone}
+              />
+              <ul className="flex flex-col gap-1">
+                {educationEntries.map((entry) => {
+                  const dateRange = [entry.dateFrom, entry.dateTo]
+                    .filter(Boolean)
+                    .join(" – ");
+                  return (
+                    <li key={entry.id}>
+                      {entry.school}
+                      {(entry.subject || dateRange || entry.location) && (
+                        <span className="block text-xs opacity-70">
+                          {[entry.subject, dateRange, entry.location]
+                            .filter(Boolean)
+                            .join(" · ")}
+                        </span>
+                      )}
+                    </li>
+                  );
+                })}
+              </ul>
+            </>
+          );
+        }
+        return (
+          <>
+            <SectionHeader
+              icon={<EducationIcon className={iconClassName} />}
+              title={t("sections.education")}
+              zone={zone}
+              color={color}
+            />
+            <div className="flex flex-col gap-3">
+              {educationEntries.map((entry) => {
+                const dateRange = [entry.dateFrom, entry.dateTo]
+                  .filter(Boolean)
+                  .join(" – ");
+
+                return (
+                  <div key={entry.id}>
+                    {entry.school && (
+                      <p className="text-lg font-semibold">{entry.school}</p>
+                    )}
+                    {entry.subject && (
+                      <p className="text-base text-gray-600">
+                        {entry.subject}
+                      </p>
+                    )}
+                    {(dateRange || entry.location) && (
+                      <p className="text-base text-gray-500">
+                        {[dateRange, entry.location]
+                          .filter(Boolean)
+                          .join(" · ")}
+                      </p>
+                    )}
+                    {entry.description && (
+                      <p className="mt-1 text-base whitespace-pre-line text-gray-700">
+                        {entry.description}
+                      </p>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          </>
+        );
+      }
+
+      case "interests": {
+        if (interestEntries.length === 0) return null;
+        return (
+          <>
+            <SectionHeader
+              icon={<InterestsIcon className={iconClassName} />}
+              title={t("sections.interests")}
+              zone={zone}
+              color={zone === "main" ? color : undefined}
+            />
+            <p className="text-gray-700">
+              {interestEntries.map((entry) => entry.value).join(", ")}
+            </p>
+          </>
+        );
+      }
+
+      case "skills": {
+        if (skillEntries.length === 0) return null;
+        if (zone === "main") {
+          return (
+            <>
+              <SectionHeader
+                icon={<SkillsIcon className={iconClassName} />}
+                title={t("sections.skills")}
+                zone={zone}
+                color={color}
+              />
+              <p className="text-gray-700">
+                {skillEntries.map((entry) => entry.value).join(", ")}
+              </p>
+            </>
+          );
+        }
+        return (
+          <>
+            <SectionHeader
+              icon={<SkillsIcon className={iconClassName} />}
+              title={t("sections.skills")}
+              zone={zone}
+            />
+            <ul className="flex flex-col gap-1">
+              {skillEntries.map((entry) => (
+                <li key={entry.id}>{entry.value}</li>
+              ))}
+            </ul>
+          </>
+        );
+      }
+
+      case "certifications": {
+        if (certificationEntries.length === 0) return null;
+        if (zone === "main") {
+          return (
+            <>
+              <SectionHeader
+                icon={<CertificationsIcon className={iconClassName} />}
+                title={t("sections.certifications")}
+                zone={zone}
+                color={color}
+              />
+              <div className="flex flex-col gap-3">
+                {certificationEntries.map((entry) => (
+                  <div key={entry.id}>
+                    <p className="text-lg font-semibold">{entry.name}</p>
+                    {entry.date && (
+                      <p className="text-base text-gray-500">{entry.date}</p>
+                    )}
+                  </div>
+                ))}
               </div>
-            );
-          })}
-        </div>
-      </>
-    ),
+            </>
+          );
+        }
+        return (
+          <>
+            <SectionHeader
+              icon={<CertificationsIcon className={iconClassName} />}
+              title={t("sections.certifications")}
+              zone={zone}
+            />
+            <ul className="flex flex-col gap-1">
+              {certificationEntries.map((entry) => (
+                <li key={entry.id}>
+                  {entry.name}
+                  {entry.date && (
+                    <span className="block text-xs opacity-70">
+                      {entry.date}
+                    </span>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </>
+        );
+      }
 
-    education: educationEntries.length > 0 && (
-      <>
-        <h2
-          className="mt-4 mb-2 flex items-center gap-2 text-sm font-semibold tracking-wide text-gray-500 uppercase"
-          style={color ? { color } : undefined}
-        >
-          <EducationIcon className="h-6 w-6 stroke-current" />
-          {t("sections.education")}
-        </h2>
-        <div className="flex flex-col gap-3">
-          {educationEntries.map((entry) => {
-            const dateRange = [entry.dateFrom, entry.dateTo]
-              .filter(Boolean)
-              .join(" – ");
-
-            return (
-              <div key={entry.id}>
-                {entry.school && (
-                  <p className="text-lg font-semibold">{entry.school}</p>
-                )}
-                {entry.subject && (
-                  <p className="text-base text-gray-600">{entry.subject}</p>
-                )}
-                {(dateRange || entry.location) && (
-                  <p className="text-base text-gray-500">
-                    {[dateRange, entry.location].filter(Boolean).join(" · ")}
-                  </p>
-                )}
-                {entry.description && (
-                  <p className="mt-1 text-base whitespace-pre-line text-gray-700">
-                    {entry.description}
-                  </p>
-                )}
+      case "languages": {
+        if (languageEntries.length === 0) return null;
+        if (zone === "main") {
+          return (
+            <>
+              <SectionHeader
+                icon={<LanguagesIcon className={iconClassName} />}
+                title={t("sections.languages")}
+                zone={zone}
+                color={color}
+              />
+              <div className="flex flex-col gap-2">
+                {languageEntries.map((entry) => {
+                  const levelIndex = languageLevels.indexOf(entry.level);
+                  return (
+                    <div key={entry.id}>
+                      <p className="text-lg font-semibold">
+                        {entry.language}
+                      </p>
+                      <div className="rating rating-sm pointer-events-none">
+                        {languageLevels.map((level, index) => (
+                          <input
+                            key={level}
+                            type="radio"
+                            aria-label={level}
+                            className="mask mask-star"
+                            defaultChecked={index === levelIndex}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
-            );
-          })}
-        </div>
-      </>
-    ),
+            </>
+          );
+        }
+        return (
+          <>
+            <SectionHeader
+              icon={<LanguagesIcon className={iconClassName} />}
+              title={t("sections.languages")}
+              zone={zone}
+            />
+            <div className="flex flex-col gap-1">
+              {languageEntries.map((entry) => {
+                const levelIndex = languageLevels.indexOf(entry.level);
 
-    interests: interestEntries.length > 0 && (
-      <>
-        <h2
-          className="mt-4 mb-2 flex items-center gap-2 text-sm font-semibold tracking-wide text-gray-500 uppercase"
-          style={color ? { color } : undefined}
-        >
-          <InterestsIcon className="h-6 w-6 stroke-current" />
-          {t("sections.interests")}
-        </h2>
-        <p className="text-gray-700">
-          {interestEntries.map((entry) => entry.value).join(", ")}
-        </p>
-      </>
-    ),
-  };
+                return (
+                  <div key={entry.id}>
+                    <p>{entry.language}</p>
+                    <div className="rating rating-xs pointer-events-none">
+                      {languageLevels.map((level, index) => (
+                        <input
+                          key={level}
+                          type="radio"
+                          aria-label={level}
+                          className="mask mask-star"
+                          defaultChecked={index === levelIndex}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </>
+        );
+      }
+    }
+  }
 
-  const sidebarSectionContent: Partial<Record<SectionKey, React.ReactNode>> = {
-    skills: skillEntries.length > 0 && (
-      <>
-        <h2 className="mt-4 mb-2 flex items-center gap-2 text-sm font-semibold tracking-wide uppercase opacity-70">
-          <SkillsIcon className="h-5 w-5 stroke-current" />
-          {t("sections.skills")}
-        </h2>
-        <ul className="flex flex-col gap-1">
-          {skillEntries.map((entry) => (
-            <li key={entry.id}>{entry.value}</li>
-          ))}
-        </ul>
-      </>
-    ),
-
-    certifications: certificationEntries.length > 0 && (
-      <>
-        <h2 className="mt-4 mb-2 flex items-center gap-2 text-sm font-semibold tracking-wide uppercase opacity-70">
-          <CertificationsIcon className="h-5 w-5 stroke-current" />
-          {t("sections.certifications")}
-        </h2>
-        <ul className="flex flex-col gap-1">
-          {certificationEntries.map((entry) => (
-            <li key={entry.id}>
-              {entry.name}
-              {entry.date && (
-                <span className="block text-xs opacity-70">{entry.date}</span>
-              )}
-            </li>
-          ))}
-        </ul>
-      </>
-    ),
-
-    languages: languageEntries.length > 0 && (
-      <>
-        <h2 className="mt-4 mb-2 flex items-center gap-2 text-sm font-semibold tracking-wide uppercase opacity-70">
-          <LanguagesIcon className="h-5 w-5 stroke-current" />
-          {t("sections.languages")}
-        </h2>
-        <div className="flex flex-col gap-1">
-          {languageEntries.map((entry) => {
-            const levelIndex = languageLevels.indexOf(entry.level);
-
-            return (
-              <div key={entry.id}>
-                <p>{entry.language}</p>
-                <div className="rating rating-xs pointer-events-none">
-                  {languageLevels.map((level, index) => (
-                    <input
-                      key={level}
-                      type="radio"
-                      aria-label={level}
-                      className="mask mask-star"
-                      defaultChecked={index === levelIndex}
-                    />
-                  ))}
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </>
-    ),
-  };
-
-  // Sidebar sections render in a fixed order; everything else follows
-  // sectionOrder in the main column.
-  const sidebarKeys: SectionKey[] = ["skills", "languages", "certifications"];
-  const mainKeys = sectionOrder.filter((key) => !sidebarKeys.includes(key));
-
-  // About Me stays spatially just before Work Experience, which lives in the
-  // main column for Modern — every other field lives in the sidebar.
-  const mainFieldKeys: FieldKey[] = ["aboutMe"];
-  const sidebarFieldKeys = fieldOrder.filter(
-    (key) => !mainFieldKeys.includes(key),
+  const { sidebar: sidebarKeys, main: mainKeys } = splitSectionsByZone(
+    sectionOrder,
+    sectionZones ?? {},
   );
-  const orderedMainFieldKeys = fieldOrder.filter((key) =>
-    mainFieldKeys.includes(key),
-  );
+
+  // About Me is freely draggable between zones too (not just sections), so
+  // it always sits with the personal-info fields — never interleaved among
+  // sections here, matching this file's existing "fields first, then
+  // sections" column layout — but which column it sits in depends on its
+  // own zone assignment rather than being fixed to "main".
+  const aboutMeZone = resolveModernSectionZone("aboutMe", sectionZones ?? {});
+  const sidebarFieldKeys = fieldOrder.filter((key) => key !== "aboutMe");
 
   const fieldContent: Partial<Record<FieldKey, React.ReactNode>> = {
     photo: data.photo && isVisible("photo") && (
@@ -326,13 +517,20 @@ export default function ModernTemplate({
 
     aboutMe: data.aboutMe && isVisible("aboutMe") && (
       <>
-        <h2
-          className="mt-4 mb-2 flex items-center gap-2 text-sm font-semibold tracking-wide text-gray-500 uppercase"
-          style={color ? { color } : undefined}
-        >
-          <AboutMeIcon className="h-6 w-6 stroke-current" />
-          {t("fields.aboutMe")}
-        </h2>
+        <SectionHeader
+          icon={
+            <AboutMeIcon
+              className={
+                aboutMeZone === "sidebar"
+                  ? "h-5 w-5 stroke-current"
+                  : "h-6 w-6 stroke-current"
+              }
+            />
+          }
+          title={t("fields.aboutMe")}
+          zone={aboutMeZone}
+          color={color}
+        />
         <p className="whitespace-pre-line text-gray-700">{data.aboutMe}</p>
       </>
     ),
@@ -359,17 +557,17 @@ export default function ModernTemplate({
           <Fragment key={key}>{fieldContent[key]}</Fragment>
         ))}
 
+        {aboutMeZone === "sidebar" && isVisible("aboutMe") && fieldContent.aboutMe}
+
         {sidebarKeys.map((key) => (
-          <Fragment key={key}>{sidebarSectionContent[key]}</Fragment>
+          <Fragment key={key}>{renderSection(key, "sidebar")}</Fragment>
         ))}
       </div>
 
       <div className="p-6">
-        {orderedMainFieldKeys.map((key) => (
-          <Fragment key={key}>{fieldContent[key]}</Fragment>
-        ))}
+        {aboutMeZone === "main" && isVisible("aboutMe") && fieldContent.aboutMe}
         {mainKeys.map((key) => (
-          <Fragment key={key}>{mainSectionContent[key]}</Fragment>
+          <Fragment key={key}>{renderSection(key, "main")}</Fragment>
         ))}
       </div>
     </div>
