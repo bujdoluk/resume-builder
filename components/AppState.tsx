@@ -1,11 +1,14 @@
 "use client";
 
 /**
- * Global editor state shared across every page via React context: accent
- * color, font, font size, section order, visible personal-info fields,
- * selected language, and a version counter used to signal that the saved
- * resume list changed. Mounted once in the root layout so both the
- * persistent `Sidebar` and the `/app` editor read/write the same state.
+ * Global editor state shared across every page via React context: the
+ * active template, accent color, font, font size, section order, visible
+ * personal-info fields, selected language, and a version counter used to
+ * signal that the saved resume list changed. Mounted once in the root
+ * layout so both the persistent `Sidebar`/Navbar and the `/app` editor
+ * read/write the same state — in particular, switching templates via the
+ * Navbar's Templates dropdown just updates `templateId` here (no
+ * navigation), so `Home.tsx`'s in-memory resume `data` is never touched.
  */
 import {
   createContext,
@@ -22,6 +25,7 @@ import { allFonts, type FontKey } from "@/lib/fonts";
 import i18n from "@/lib/i18n/i18n";
 import { defaultLanguageCode } from "@/lib/i18n/languages";
 import type { ModernSectionZones, SectionKey } from "@/lib/resumeData";
+import { defaultTemplateId, type TemplateId } from "@/lib/templates";
 
 // Typography defaults to the first font in the list rather than leaving the
 // page's plain system font in place, so the sidebar's font select always
@@ -48,6 +52,8 @@ export const defaultSectionOrder: SectionKey[] = [...allSections];
 const defaultVisibleFields: FieldKey[] = [...allFields];
 
 interface AppStateValue {
+  templateId: TemplateId;
+  setTemplateId: Dispatch<SetStateAction<TemplateId>>;
   color: string | null;
   setColor: Dispatch<SetStateAction<string | null>>;
   font: FontKey | null;
@@ -73,6 +79,7 @@ const AppStateContext = createContext<AppStateValue | null>(null);
 // checklist (sections + personal-info fields) and accent color picker work
 // on every page, not just "/".
 export function AppStateProvider({ children }: { children: ReactNode }) {
+  const [templateId, setTemplateId] = useState<TemplateId>(defaultTemplateId);
   const [color, setColor] = useState<string | null>(null);
   const [font, setFont] = useState<FontKey | null>(defaultFont);
   const [sectionOrder, setSectionOrder] =
@@ -99,6 +106,8 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   return (
     <AppStateContext.Provider
       value={{
+        templateId,
+        setTemplateId,
         color,
         setColor,
         font,

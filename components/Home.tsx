@@ -90,8 +90,9 @@ export default function Home({
 }: HomeProps) {
   const { t } = useTranslation();
   const router = useRouter();
-  const templateId = resolveTemplateId(initialTemplateId);
   const {
+    templateId,
+    setTemplateId,
     color,
     setColor,
     font,
@@ -118,6 +119,17 @@ export default function Home({
   const saveDialogRef = useRef<SaveResumeDialogHandle>(null);
   const [supabase] = useState(() => createClient());
 
+  // Applies the URL's `?template=` param whenever it changes — e.g. landing
+  // here fresh from the `/templates` gallery, or opening a saved resume via
+  // its "My Resumes" edit link (which encodes the resume's own template).
+  // Switching templates *from within* the editor (the Navbar's Templates
+  // dropdown) only ever calls `setTemplateId` directly and never touches
+  // this prop, so it doesn't fight with that.
+  useEffect(() => {
+    setTemplateId(resolveTemplateId(initialTemplateId));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialTemplateId]);
+
   useEffect(() => {
     if (!initialResumeId) return;
     let cancelled = false;
@@ -125,6 +137,7 @@ export default function Home({
     getResume(supabase, initialResumeId).then((row) => {
       if (!row || cancelled) return;
       setData(row.data);
+      setTemplateId(row.templateId);
       setColor(row.color);
       setFont(row.font);
       setFontSize(row.fontSize ?? defaultFontSizeKey);

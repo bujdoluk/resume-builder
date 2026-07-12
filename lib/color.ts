@@ -37,7 +37,7 @@ function mixChannels(hex: string, target: number, ratio: number): string {
 
 const mixWithBlack = (hex: string, ratio: number) => mixChannels(hex, 0, ratio);
 
-const DARK_RATIO = 0.4;
+const DARK_RATIO = 0.25;
 
 // Stripped down to the essentials: the darkest tone of each rainbow hue,
 // plus black and one neutral gray. No white — Sidebar.tsx appends a
