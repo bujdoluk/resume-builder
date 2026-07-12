@@ -655,12 +655,17 @@ export default function Resume({
       ? "border-primary/40 flex flex-col gap-2 border-l-2 pl-3"
       : "flex flex-col gap-2 rounded-lg p-4";
 
-  // Modern's sections restyle their header to match whichever zone they're
-  // currently placed in (see useModernZoneLayout's sidebarItems above) —
-  // Basic always uses "main", Minimal always uses "minimal".
+  // Modern and Elegant's sections restyle their header to match whichever
+  // zone they're currently placed in (see useModernZoneLayout's
+  // sidebarItems above) — Basic always uses "main", Minimal always uses
+  // "minimal".
   function sectionVariant(key: SectionKey): "main" | "minimal" | "sidebar" {
     if (templateId === "minimal") return "minimal";
-    if (templateId === "modern" && sidebarItems.includes(key)) return "sidebar";
+    if (
+      (templateId === "modern" || templateId === "elegant") &&
+      sidebarItems.includes(key)
+    )
+      return "sidebar";
     return "main";
   }
 
@@ -1085,16 +1090,22 @@ export default function Resume({
   };
 
   const avatarBgClass =
-    templateId === "modern"
+    templateId === "modern" || templateId === "elegant"
       ? "bg-white text-neutral"
       : "bg-neutral text-neutral-content";
   const avatarStyle =
-    templateId !== "modern" && color
+    templateId !== "modern" && templateId !== "elegant" && color
       ? { backgroundColor: color, color: getContrastTextColor(color) }
       : undefined;
 
   const avatar = !visibleFields.includes("photo") ? null : (
-    <div className={templateId === "modern" ? "flex justify-center" : undefined}>
+    <div
+      className={
+        templateId === "modern" || templateId === "elegant"
+          ? "flex justify-center"
+          : undefined
+      }
+    >
       <label
         className="avatar avatar-placeholder cursor-pointer items-center justify-center"
         aria-label={t("aria.uploadProfilePhoto")}
@@ -1322,7 +1333,8 @@ export default function Resume({
   const aboutMeVariant: "main" | "minimal" | "sidebar" =
     templateId === "minimal"
       ? "minimal"
-      : templateId === "modern" && sidebarItems.includes("aboutMe")
+      : (templateId === "modern" || templateId === "elegant") &&
+          sidebarItems.includes("aboutMe")
         ? "sidebar"
         : "main";
 
@@ -1430,6 +1442,86 @@ export default function Resume({
               className="flex min-h-8 flex-col gap-2"
             >
               {mainItems.map((item) => (
+                <SortableBlock key={item} id={item}>
+                  {item === "aboutMe" ? fieldContent.aboutMe : sectionContent[item]}
+                </SortableBlock>
+              ))}
+            </SortableZone>
+          </div>
+        </div>
+      </SortableZones>
+    );
+  }
+
+  if (templateId === "elegant") {
+    const mainFieldKeys = visibleFields.filter(
+      (key) => key !== "photo" && key !== "aboutMe",
+    );
+
+    return (
+      <SortableZones
+        dndId="elegant-sections"
+        zones={{ sidebar: sidebarItems, main: mainItems }}
+        onChange={onZonesChange}
+      >
+        <div
+          className="resume-scalable grid w-[280mm] min-h-[297mm] grid-cols-[1fr_105mm] bg-white shadow-xl print:shadow-none"
+          style={{ fontFamily, ...fontSizeStyle }}
+        >
+          <div className="p-6 pl-10">
+            <SortableGroup
+              dndId="elegant-main-fields"
+              ids={mainFieldKeys}
+              onReorder={(order) =>
+                onReorderFields([
+                  ...visibleFields.filter((key) => key === "photo"),
+                  ...order,
+                  ...visibleFields.filter((key) => key === "aboutMe"),
+                ])
+              }
+            >
+              <div className="flex flex-col gap-2">
+                {mainFieldKeys.map((key) => (
+                  <SortableBlock key={key} id={key}>
+                    {fieldContent[key]}
+                  </SortableBlock>
+                ))}
+              </div>
+            </SortableGroup>
+
+            <SortableZone
+              zoneId="main"
+              ids={mainItems}
+              className="flex min-h-8 flex-col gap-2"
+            >
+              {mainItems.map((item) => (
+                <SortableBlock key={item} id={item}>
+                  {item === "aboutMe" ? fieldContent.aboutMe : sectionContent[item]}
+                </SortableBlock>
+              ))}
+            </SortableZone>
+          </div>
+
+          <div
+            className="modern-sidebar bg-neutral text-neutral-content flex flex-col gap-2 p-6 pl-8"
+            style={
+              color
+                ? ({
+                    backgroundColor: color,
+                    color: getContrastTextColor(color),
+                    "--sidebar-fg": getContrastTextColor(color),
+                  } as React.CSSProperties)
+                : undefined
+            }
+          >
+            {avatar}
+
+            <SortableZone
+              zoneId="sidebar"
+              ids={sidebarItems}
+              className="flex min-h-8 flex-col gap-2"
+            >
+              {sidebarItems.map((item) => (
                 <SortableBlock key={item} id={item}>
                   {item === "aboutMe" ? fieldContent.aboutMe : sectionContent[item]}
                 </SortableBlock>

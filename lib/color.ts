@@ -19,7 +19,7 @@ const rainbowHues: AccentColor[] = [
   { name: "Violet", value: "#8b5cf6" },
 ];
 
-function mixChannels(hex: string, target: number, ratio: number): string {
+export function mixChannels(hex: string, target: number, ratio: number): string {
   const r = parseInt(hex.slice(1, 3), 16);
   const g = parseInt(hex.slice(3, 5), 16);
   const b = parseInt(hex.slice(5, 7), 16);
@@ -71,4 +71,18 @@ export function getContrastTextColor(hex: string): string {
   const b = parseInt(hex.slice(5, 7), 16);
   const brightness = (r * 299 + g * 587 + b * 114) / 1000;
   return brightness > 155 ? "#000000" : "#ffffff";
+}
+
+// A flat, renderer-independent tint for pills/badges sitting on top of an
+// arbitrary sidebar background (e.g. Elegant's skill tags) — baked into a
+// single solid hex color rather than a translucent `rgba(...)` overlay,
+// since `@react-pdf/renderer`'s PDF output and the on-screen CSS preview
+// alpha-blend translucent fills in different color spaces, which made the
+// same "18% white overlay" visibly washed-out/lighter in the downloaded PDF
+// than in the live Preview. A solid color is identical in both by
+// construction — same formula, same fixed result, no compositing involved.
+export function tintBackground(baseHex: string, contrastText: string): string {
+  return contrastText === "#ffffff"
+    ? mixChannels(baseHex, 255, 0.18)
+    : mixChannels(baseHex, 0, 0.08);
 }

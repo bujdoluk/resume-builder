@@ -18,10 +18,12 @@
     "@supabase/supabase-js": "2.110.0",
     "@vercel/analytics": "2.0.1",
     "@vercel/speed-insights": "2.0.0",
+    "apexcharts": "5.16.0",
     "country-flag-icons": "1.6.20",
     "i18next": "26.3.6",
     "next": "16.2.10",
     "react": "19.2.4",
+    "react-apexcharts": "2.1.1",
     "react-dom": "19.2.4",
     "react-i18next": "17.0.9",
     "temporal-polyfill": "1.0.1"

@@ -9,17 +9,19 @@ import type { ComponentType } from "react";
 import BasicMobileTemplate, {
   type MobileTemplateProps,
 } from "@/components/mobile-templates/BasicMobileTemplate";
+import ElegantMobileTemplate from "@/components/mobile-templates/ElegantMobileTemplate";
 import ModernMobileTemplate from "@/components/mobile-templates/ModernMobileTemplate";
 import MinimalMobileTemplate from "@/components/mobile-templates/MinimalMobileTemplate";
 import BasicTemplate, {
   type TemplateProps,
 } from "@/components/desktop-templates/BasicTemplate";
+import ElegantTemplate from "@/components/desktop-templates/ElegantTemplate";
 import MinimalTemplate from "@/components/desktop-templates/MinimalTemplate";
 import ModernTemplate from "@/components/desktop-templates/ModernTemplate";
 
 export type { TemplateProps, MobileTemplateProps };
 
-export type TemplateId = "basic" | "modern" | "minimal";
+export type TemplateId = "basic" | "modern" | "minimal" | "elegant";
 
 export interface TemplateDefinition {
   id: TemplateId;
@@ -46,6 +48,12 @@ export const templates: TemplateDefinition[] = [
     name: "Minimal",
     component: MinimalTemplate,
     mobileTemplateComponent: MinimalMobileTemplate,
+  },
+  {
+    id: "elegant",
+    name: "Elegant",
+    component: ElegantTemplate,
+    mobileTemplateComponent: ElegantMobileTemplate,
   },
 ];
 

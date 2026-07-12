@@ -189,6 +189,64 @@ export function AboutMePdfIcon({ size, color = "#000" }: PdfIconProps) {
 const STAR_PATH =
   "M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354l-4.63 2.822c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.007Z";
 
+// Proficiency donut for Elegant's languages section — react-pdf has no
+// conic-gradient/CSS custom-property support (unlike the on-screen
+// `radial-progress` daisyUI class this mirrors), so the fill is drawn as an
+// arc via `strokeDasharray` (solid for `percent`% of the circumference, then
+// empty) rotated -90deg so the arc starts at the top instead of the right.
+//
+// The track ring takes a plain solid `trackColor` (computed once via
+// `tintBackground` at the call site) rather than a translucent overlay —
+// react-pdf's SVG color parser doesn't handle CSS `rgba(...)` strings for
+// `stroke` at all (resolves to a garbage color), and even the numeric
+// `strokeOpacity` attribute risks looking washed out in some PDF viewers,
+// which alpha-composite differently than a browser does. A solid,
+// pre-mixed color sidesteps compositing entirely, so it renders identically
+// everywhere.
+export function DonutPdfIcon({
+  percent,
+  size = 24,
+  color = "#000",
+  trackColor = "#888888",
+}: {
+  percent: number;
+  size?: number;
+  color?: string;
+  trackColor?: string;
+}) {
+  // A thinner ring pushed closer to the edge of the viewBox than a "typical"
+  // donut leaves more hollow room in the middle for the percentage label,
+  // which otherwise touches the ring at small sizes.
+  const r = 10;
+  const strokeWidth = 2;
+  const circumference = 2 * Math.PI * r;
+  const filledLength = (circumference * Math.max(0, Math.min(100, percent))) / 100;
+
+  return (
+    <Svg viewBox="0 0 24 24" style={{ width: size, height: size }}>
+      <Circle
+        cx={12}
+        cy={12}
+        r={r}
+        stroke={trackColor}
+        strokeWidth={strokeWidth}
+        fill="none"
+      />
+      <Circle
+        cx={12}
+        cy={12}
+        r={r}
+        stroke={color}
+        strokeWidth={strokeWidth}
+        fill="none"
+        strokeLinecap="round"
+        strokeDasharray={`${filledLength} ${circumference}`}
+        transform="rotate(-90 12 12)"
+      />
+    </Svg>
+  );
+}
+
 export function StarRatingPdfIcon({
   filled,
   total,
