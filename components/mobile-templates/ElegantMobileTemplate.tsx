@@ -11,6 +11,7 @@
  */
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import AutoResizeTextarea from "@/components/AutoResizeTextarea";
 import type { MobileTemplateProps } from "@/components/mobile-templates/BasicMobileTemplate";
 import { AboutMeIcon } from "@/components/Icons";
 import {
@@ -227,10 +228,9 @@ export default function ElegantMobileTemplate({
       ),
       jobDescription: (
         <fieldset className="fieldset">
-          <textarea
+          <AutoResizeTextarea
             placeholder={t("placeholders.describeResponsibilities")}
             className="textarea input-plain w-full"
-            rows={4}
             value={entry.jobDescription}
             onChange={(e) =>
               handlers.updateWorkEntry(
@@ -316,10 +316,9 @@ export default function ElegantMobileTemplate({
       ),
       description: (
         <fieldset className="fieldset">
-          <textarea
+          <AutoResizeTextarea
             placeholder={t("placeholders.describeStudies")}
             className="textarea input-plain w-full"
-            rows={4}
             value={entry.description}
             onChange={(e) =>
               handlers.updateEducationEntry(
@@ -591,10 +590,9 @@ export default function ElegantMobileTemplate({
         zone={aboutMeZone}
         color={color}
       />
-      <textarea
+      <AutoResizeTextarea
         placeholder={t("placeholders.aboutMe")}
         className="textarea textarea-plain w-full"
-        rows={3}
         value={data.aboutMe}
         onChange={(e) => onChange("aboutMe", e.target.value)}
       />

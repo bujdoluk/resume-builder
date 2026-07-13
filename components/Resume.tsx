@@ -14,6 +14,7 @@ import { rectSortingStrategy } from "@dnd-kit/sortable";
 import { Fragment, useState, type Dispatch, type SetStateAction } from "react";
 import { useTranslation } from "react-i18next";
 import type { FieldKey } from "@/components/AppState";
+import AutoResizeTextarea from "@/components/AutoResizeTextarea";
 import { AboutMeIcon } from "@/components/Icons";
 import {
   renderFieldItems,
@@ -361,10 +362,9 @@ export default function Resume({
       ),
       jobDescription: (
         <fieldset className="fieldset">
-          <textarea
+          <AutoResizeTextarea
             placeholder={t("placeholders.describeResponsibilities")}
             className="textarea input-plain w-full"
-            rows={4}
             value={entry.jobDescription}
             onChange={(e) =>
               updateWorkEntry(entry.id, "jobDescription", e.target.value)
@@ -477,10 +477,9 @@ export default function Resume({
       ),
       description: (
         <fieldset className="fieldset">
-          <textarea
+          <AutoResizeTextarea
             placeholder={t("placeholders.describeStudies")}
             className="textarea input-plain w-full"
-            rows={4}
             value={entry.description}
             onChange={(e) =>
               updateEducationEntry(entry.id, "description", e.target.value)
@@ -711,7 +710,7 @@ export default function Resume({
           }
         />
 
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col">
           <SortableGroup
             dndId="work-history-entries"
             ids={data.workExperience.map((entry) => entry.id)}
@@ -795,7 +794,7 @@ export default function Resume({
           }
         />
 
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col">
           <SortableGroup
             dndId="education-entries"
             ids={data.education.map((entry) => entry.id)}
@@ -1418,10 +1417,9 @@ export default function Resume({
         variant={aboutMeVariant}
         color={color}
       />
-      <textarea
+      <AutoResizeTextarea
         placeholder={t("placeholders.aboutMe")}
         className="textarea textarea-plain w-full"
-        rows={3}
         value={data.aboutMe}
         onChange={(e) => onChange("aboutMe", e.target.value)}
       />

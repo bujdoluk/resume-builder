@@ -10,6 +10,7 @@
  */
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import AutoResizeTextarea from "@/components/AutoResizeTextarea";
 import {
   CertificationsIcon,
   EducationIcon,
@@ -212,10 +213,9 @@ export default function ClassicMobileTemplate({
       ),
       jobDescription: (
         <fieldset className="fieldset">
-          <textarea
+          <AutoResizeTextarea
             placeholder={t("placeholders.describeResponsibilities")}
             className="textarea input-plain w-full"
-            rows={4}
             value={entry.jobDescription}
             onChange={(e) =>
               handlers.updateWorkEntry(
@@ -301,10 +301,9 @@ export default function ClassicMobileTemplate({
       ),
       description: (
         <fieldset className="fieldset">
-          <textarea
+          <AutoResizeTextarea
             placeholder={t("placeholders.describeStudies")}
             className="textarea input-plain w-full"
-            rows={4}
             value={entry.description}
             onChange={(e) =>
               handlers.updateEducationEntry(
@@ -561,10 +560,9 @@ export default function ClassicMobileTemplate({
       >
         {t("fields.aboutMe")}
       </h2>
-      <textarea
+      <AutoResizeTextarea
         placeholder={t("placeholders.aboutMe")}
         className="textarea input-plain w-full"
-        rows={3}
         value={data.aboutMe}
         onChange={(e) => onChange("aboutMe", e.target.value)}
       />
