@@ -41,7 +41,8 @@
     "certificationsTooltip": "Chaque certification nécessite un nom et une date.",
     "languagesTooltip": "Chaque langue nécessite un nom.",
     "interestsTooltip": "Chaque centre d'intérêt nécessite une valeur.",
-    "allComplete": "Terminé : toutes les sections sont complètes !"
+    "allComplete": "Terminé : toutes les sections sont complètes !",
+    "completed": "Terminé"
   },
   "placeholders": {
     "uploadPhoto": "Téléverser une photo",
@@ -91,6 +92,7 @@
     "removeLanguage": "Supprimer la langue",
     "removeInterest": "Supprimer le centre d'intérêt",
     "uploadProfilePhoto": "Téléverser une photo de profil",
+    "removePhoto": "Supprimer la photo",
     "reorder": "Réorganiser",
     "selectLanguage": "Choisir la langue"
   },
@@ -104,6 +106,8 @@
   "myResumes": {
     "pageTitle": "Mes CV",
     "name": "Nom",
+    "created": "Créé",
+    "updated": "Mis à jour",
     "edit": "Modifier",
     "rename": "Renommer",
     "duplicate": "Dupliquer",

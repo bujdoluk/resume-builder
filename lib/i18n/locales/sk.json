@@ -41,7 +41,8 @@
     "certificationsTooltip": "Každý certifikát potrebuje názov a dátum.",
     "languagesTooltip": "Každý jazyk potrebuje názov.",
     "interestsTooltip": "Každý záujem potrebuje hodnotu.",
-    "allComplete": "Hotovo — všetky sekcie sú kompletné!"
+    "allComplete": "Hotovo — všetky sekcie sú kompletné!",
+    "completed": "Dokončené"
   },
   "placeholders": {
     "uploadPhoto": "Nahrať fotku",
@@ -91,6 +92,7 @@
     "removeLanguage": "Odstrániť jazyk",
     "removeInterest": "Odstrániť záujem",
     "uploadProfilePhoto": "Nahrať profilovú fotku",
+    "removePhoto": "Odstrániť fotku",
     "reorder": "Zmeniť poradie",
     "selectLanguage": "Vybrať jazyk"
   },
@@ -104,6 +106,8 @@
   "myResumes": {
     "pageTitle": "Moje životopisy",
     "name": "Názov",
+    "created": "Vytvorené",
+    "updated": "Aktualizované",
     "edit": "Upraviť",
     "rename": "Premenovať",
     "duplicate": "Duplikovať",

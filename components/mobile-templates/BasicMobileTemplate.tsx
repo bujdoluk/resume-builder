@@ -345,7 +345,7 @@ export default function BasicMobileTemplate({
 
   const avatar = !visibleFields.includes("photo") ? null : (
     <label
-      className="avatar avatar-placeholder w-fit cursor-pointer"
+      className="avatar avatar-placeholder relative w-fit cursor-pointer"
       aria-label={t("aria.uploadProfilePhoto")}
     >
       <div
@@ -384,6 +384,32 @@ export default function BasicMobileTemplate({
           </div>
         )}
       </div>
+      {data.photo && (
+        <button
+          type="button"
+          aria-label={t("aria.removePhoto")}
+          className="btn btn-circle btn-neutral btn-xs absolute top-0 right-0"
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            handlers.removePhoto();
+          }}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            className="h-3 w-3 stroke-current"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M6 18 18 6M6 6l12 12"
+            />
+          </svg>
+        </button>
+      )}
       <input
         type="file"
         accept="image/*"

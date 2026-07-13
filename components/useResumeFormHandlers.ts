@@ -52,6 +52,10 @@ export function createResumeFormHandlers({
     reader.readAsDataURL(file);
   }
 
+  function removePhoto() {
+    onChange("photo", "");
+  }
+
   function addWorkEntry() {
     onWorkHistoryChange([
       ...data.workExperience,
@@ -198,6 +202,7 @@ export function createResumeFormHandlers({
 
   return {
     handlePhotoChange,
+    removePhoto,
     addWorkEntry,
     updateWorkEntry,
     removeWorkEntry,

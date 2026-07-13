@@ -41,7 +41,8 @@
     "certificationsTooltip": "Elke certificering heeft een naam en een datum nodig.",
     "languagesTooltip": "Elke taal heeft een naam nodig.",
     "interestsTooltip": "Elke interesse heeft een waarde nodig.",
-    "allComplete": "Klaar — alle secties zijn compleet!"
+    "allComplete": "Klaar — alle secties zijn compleet!",
+    "completed": "Voltooid"
   },
   "placeholders": {
     "uploadPhoto": "Foto uploaden",
@@ -91,6 +92,7 @@
     "removeLanguage": "Taal verwijderen",
     "removeInterest": "Interesse verwijderen",
     "uploadProfilePhoto": "Profielfoto uploaden",
+    "removePhoto": "Foto verwijderen",
     "reorder": "Volgorde wijzigen",
     "selectLanguage": "Taal selecteren"
   },
@@ -104,6 +106,8 @@
   "myResumes": {
     "pageTitle": "Mijn cv's",
     "name": "Naam",
+    "created": "Aangemaakt",
+    "updated": "Bijgewerkt",
     "edit": "Bewerken",
     "rename": "Naam wijzigen",
     "duplicate": "Dupliceren",

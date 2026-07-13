@@ -41,7 +41,8 @@
     "certificationsTooltip": "Każdy certyfikat wymaga nazwy i daty.",
     "languagesTooltip": "Każdy język wymaga nazwy.",
     "interestsTooltip": "Każde zainteresowanie wymaga wartości.",
-    "allComplete": "Gotowe — wszystkie sekcje są kompletne!"
+    "allComplete": "Gotowe — wszystkie sekcje są kompletne!",
+    "completed": "Ukończono"
   },
   "placeholders": {
     "uploadPhoto": "Prześlij zdjęcie",
@@ -91,6 +92,7 @@
     "removeLanguage": "Usuń język",
     "removeInterest": "Usuń zainteresowanie",
     "uploadProfilePhoto": "Prześlij zdjęcie profilowe",
+    "removePhoto": "Usuń zdjęcie",
     "reorder": "Zmień kolejność",
     "selectLanguage": "Wybierz język"
   },
@@ -104,6 +106,8 @@
   "myResumes": {
     "pageTitle": "Moje CV",
     "name": "Nazwa",
+    "created": "Utworzono",
+    "updated": "Zaktualizowano",
     "edit": "Edytuj",
     "rename": "Zmień nazwę",
     "duplicate": "Duplikuj",

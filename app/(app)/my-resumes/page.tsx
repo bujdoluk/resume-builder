@@ -8,6 +8,7 @@
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { Temporal } from "temporal-polyfill";
 import { useAppState } from "@/components/AppState";
 import ConfirmDialog, {
   type ConfirmDialogHandle,
@@ -31,8 +32,14 @@ import {
 import { createClient } from "@/lib/supabase/client";
 import { ensureUserId } from "@/lib/supabase/session";
 
+function formatDate(iso: string, locale: string): string {
+  return Temporal.Instant.from(iso).toLocaleString(locale, {
+    dateStyle: "medium",
+  });
+}
+
 export default function MyResumesPage() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { notifyResumeListChanged } = useAppState();
   const [supabase] = useState(() => createClient());
   const [resumes, setResumes] = useState<ResumeRow[] | null>(null);
@@ -118,6 +125,8 @@ export default function MyResumesPage() {
               <thead>
                 <tr>
                   <th>{t("myResumes.name")}</th>
+                  <th>{t("myResumes.created")}</th>
+                  <th>{t("myResumes.updated")}</th>
                   <th></th>
                   <th></th>
                   <th></th>
@@ -127,7 +136,15 @@ export default function MyResumesPage() {
               <tbody>
                 {resumes.map((row) => (
                   <tr key={row.id}>
-                    <td>{row.name || t("myResumes.untitled")}</td>
+                    <td className="text-base-content/60 whitespace-nowrap">
+                      {row.name || t("myResumes.untitled")}
+                    </td>
+                    <td className="text-base-content/60 whitespace-nowrap">
+                      {formatDate(row.createdAt, i18n.language)}
+                    </td>
+                    <td className="text-base-content/60 whitespace-nowrap">
+                      {formatDate(row.updatedAt, i18n.language)}
+                    </td>
                     <td className="w-px">
                       <button
                         type="button"

@@ -41,7 +41,8 @@
     "certificationsTooltip": "Для каждого сертификата нужны название и дата.",
     "languagesTooltip": "Для каждого языка нужно название.",
     "interestsTooltip": "Для каждого интереса нужно значение.",
-    "allComplete": "Готово — все разделы заполнены полностью!"
+    "allComplete": "Готово — все разделы заполнены полностью!",
+    "completed": "Завершено"
   },
   "placeholders": {
     "uploadPhoto": "Загрузить фото",
@@ -91,6 +92,7 @@
     "removeLanguage": "Удалить язык",
     "removeInterest": "Удалить интерес",
     "uploadProfilePhoto": "Загрузить фото профиля",
+    "removePhoto": "Удалить фото",
     "reorder": "Изменить порядок",
     "selectLanguage": "Выбрать язык"
   },
@@ -104,6 +106,8 @@
   "myResumes": {
     "pageTitle": "Мои резюме",
     "name": "Название",
+    "created": "Создано",
+    "updated": "Обновлено",
     "edit": "Изменить",
     "rename": "Переименовать",
     "duplicate": "Дублировать",

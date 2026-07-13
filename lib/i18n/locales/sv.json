@@ -41,7 +41,8 @@
     "certificationsTooltip": "Varje certifiering behöver ett namn och ett datum.",
     "languagesTooltip": "Varje språk behöver ett namn.",
     "interestsTooltip": "Varje intresse behöver ett värde.",
-    "allComplete": "Klart — alla sektioner är kompletta!"
+    "allComplete": "Klart — alla sektioner är kompletta!",
+    "completed": "Slutfört"
   },
   "placeholders": {
     "uploadPhoto": "Ladda upp foto",
@@ -91,6 +92,7 @@
     "removeLanguage": "Ta bort språk",
     "removeInterest": "Ta bort intresse",
     "uploadProfilePhoto": "Ladda upp profilfoto",
+    "removePhoto": "Ta bort foto",
     "reorder": "Ändra ordning",
     "selectLanguage": "Välj språk"
   },
@@ -104,6 +106,8 @@
   "myResumes": {
     "pageTitle": "Mina CV:n",
     "name": "Namn",
+    "created": "Skapad",
+    "updated": "Uppdaterad",
     "edit": "Redigera",
     "rename": "Byt namn",
     "duplicate": "Duplicera",

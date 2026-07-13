@@ -41,7 +41,8 @@
     "certificationsTooltip": "Cada certificación necesita un nombre y una fecha.",
     "languagesTooltip": "Cada idioma necesita un nombre.",
     "interestsTooltip": "Cada interés necesita un valor.",
-    "allComplete": "¡Listo! Todas las secciones están completas."
+    "allComplete": "¡Listo! Todas las secciones están completas.",
+    "completed": "Completado"
   },
   "placeholders": {
     "uploadPhoto": "Subir foto",
@@ -91,6 +92,7 @@
     "removeLanguage": "Eliminar idioma",
     "removeInterest": "Eliminar interés",
     "uploadProfilePhoto": "Subir foto de perfil",
+    "removePhoto": "Eliminar foto",
     "reorder": "Reordenar",
     "selectLanguage": "Seleccionar idioma"
   },
@@ -104,6 +106,8 @@
   "myResumes": {
     "pageTitle": "Mis currículums",
     "name": "Nombre",
+    "created": "Creado",
+    "updated": "Actualizado",
     "edit": "Editar",
     "rename": "Cambiar nombre",
     "duplicate": "Duplicar",

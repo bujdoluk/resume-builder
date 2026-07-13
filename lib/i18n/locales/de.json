@@ -41,7 +41,8 @@
     "certificationsTooltip": "Jedes Zertifikat benötigt einen Namen und ein Datum.",
     "languagesTooltip": "Jede Sprache benötigt einen Namen.",
     "interestsTooltip": "Jedes Interesse benötigt einen Wert.",
-    "allComplete": "Fertig – alle Abschnitte sind vollständig!"
+    "allComplete": "Fertig – alle Abschnitte sind vollständig!",
+    "completed": "Abgeschlossen"
   },
   "placeholders": {
     "uploadPhoto": "Foto hochladen",
@@ -91,6 +92,7 @@
     "removeLanguage": "Sprache entfernen",
     "removeInterest": "Interesse entfernen",
     "uploadProfilePhoto": "Profilfoto hochladen",
+    "removePhoto": "Foto entfernen",
     "reorder": "Neu anordnen",
     "selectLanguage": "Sprache auswählen"
   },
@@ -104,6 +106,8 @@
   "myResumes": {
     "pageTitle": "Meine Lebensläufe",
     "name": "Name",
+    "created": "Erstellt",
+    "updated": "Aktualisiert",
     "edit": "Bearbeiten",
     "rename": "Umbenennen",
     "duplicate": "Duplizieren",

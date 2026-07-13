@@ -41,7 +41,8 @@
     "certificationsTooltip": "Hver sertifisering trenger et navn og en dato.",
     "languagesTooltip": "Hvert språk trenger et navn.",
     "interestsTooltip": "Hver interesse trenger en verdi.",
-    "allComplete": "Ferdig – alle seksjoner er fullstendige!"
+    "allComplete": "Ferdig – alle seksjoner er fullstendige!",
+    "completed": "Fullført"
   },
   "placeholders": {
     "uploadPhoto": "Last opp bilde",
@@ -91,6 +92,7 @@
     "removeLanguage": "Fjern språk",
     "removeInterest": "Fjern interesse",
     "uploadProfilePhoto": "Last opp profilbilde",
+    "removePhoto": "Fjern bilde",
     "reorder": "Endre rekkefølge",
     "selectLanguage": "Velg språk"
   },
@@ -104,6 +106,8 @@
   "myResumes": {
     "pageTitle": "Mine CV-er",
     "name": "Navn",
+    "created": "Opprettet",
+    "updated": "Oppdatert",
     "edit": "Rediger",
     "rename": "Gi nytt navn",
     "duplicate": "Dupliser",

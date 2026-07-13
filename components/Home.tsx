@@ -367,6 +367,65 @@ export default function Home({
     }
   }
 
+  // Field-level completeness for the radial-progress percentage: unlike
+  // isStepFilled's all-or-nothing step check, this grades every individual
+  // field on every entry, so partially-filled sections contribute partial
+  // credit instead of counting as fully incomplete.
+  function entryFieldStats<T>(
+    entries: T[],
+    fields: (keyof T)[],
+  ): { filled: number; total: number } {
+    if (entries.length === 0) return { filled: 0, total: fields.length };
+    let filled = 0;
+    for (const entry of entries) {
+      for (const field of fields) {
+        if (entry[field]) filled++;
+      }
+    }
+    return { filled, total: fields.length * entries.length };
+  }
+
+  function fieldCompletionStats(key: string): {
+    filled: number;
+    total: number;
+  } {
+    if (key === "personalInfo") {
+      return {
+        filled: visibleFields.filter((field) => Boolean(data[field])).length,
+        total: visibleFields.length,
+      };
+    }
+    switch (key as SectionKey) {
+      case "workExperience":
+        return entryFieldStats(data.workExperience, [
+          "position",
+          "location",
+          "jobDescription",
+          "dateFrom",
+          "dateTo",
+        ]);
+      case "education":
+        return entryFieldStats(data.education, [
+          "school",
+          "subject",
+          "location",
+          "description",
+          "dateFrom",
+          "dateTo",
+        ]);
+      case "skills":
+        return entryFieldStats(data.skills, ["value"]);
+      case "certifications":
+        return entryFieldStats(data.certifications, ["name", "date"]);
+      case "languages":
+        return entryFieldStats(data.languages, ["language"]);
+      case "interests":
+        return entryFieldStats(data.interests, ["value"]);
+      default:
+        return { filled: 0, total: 0 };
+    }
+  }
+
   // One step per resume "part": personal info (name/contact/about me,
   // whenever at least one such field is visible) followed by every
   // currently-visible section in the user's own drag order — hidden
@@ -381,52 +440,79 @@ export default function Home({
 
     const incompleteKeys = stepKeys.filter((key) => !isStepFilled(key));
 
-    return (
-      <ul className="steps steps-vertical overflow-visible!">
-        {stepKeys.map((key, index) => (
-          <li
-            key={key}
-            className={`step ${isStepFilled(key) ? "step-primary" : ""}`}
-          >
-            <div className="flex items-center gap-1.5">
-              <button
-                type="button"
-                className="cursor-pointer text-left"
-                onClick={() => scrollToSectionAnchor(key)}
-              >
-                {key === "personalInfo"
-                  ? t("resumeSteps.personalInfo")
-                  : t(`sections.${key}`)}
-              </button>
+    const fieldStats = stepKeys.map((key) => fieldCompletionStats(key));
+    const totalFields = fieldStats.reduce((sum, s) => sum + s.total, 0);
+    const filledFields = fieldStats.reduce((sum, s) => sum + s.filled, 0);
+    const sectionCompletionPercent =
+      totalFields > 0 ? Math.round((filledFields / totalFields) * 100) : 0;
 
-              {index === 0 && (
-                <div className="tooltip tooltip-primary tooltip-bottom tooltip-end">
-                  <div className="tooltip-content">
-                    <div className="flex flex-col gap-1.5 p-1 text-left text-xs">
-                      {incompleteKeys.length === 0 ? (
-                        <span>{t("resumeSteps.allComplete")}</span>
-                      ) : (
-                        incompleteKeys.map((incompleteKey) => (
-                          <p key={incompleteKey}>
-                            <span className="font-semibold">
-                              {incompleteKey === "personalInfo"
-                                ? t("resumeSteps.personalInfo")
-                                : t(`sections.${incompleteKey}`)}
-                              :
-                            </span>{" "}
-                            {t(`resumeSteps.${incompleteKey}Tooltip`)}
-                          </p>
-                        ))
-                      )}
-                    </div>
-                  </div>
-                  <InfoIcon className="h-4 w-4 shrink-0 stroke-current opacity-60" />
-                </div>
-              )}
+    return (
+      <div className="flex flex-col gap-4">
+        <ul className="steps steps-vertical overflow-visible!">
+          {stepKeys.map((key) => (
+            <li
+              key={key}
+              className={`step ${isStepFilled(key) ? "step-primary" : ""}`}
+            >
+              <div className="flex items-center gap-1.5">
+                <button
+                  type="button"
+                  className="cursor-pointer text-left font-medium"
+                  onClick={() => scrollToSectionAnchor(key)}
+                >
+                  {key === "personalInfo"
+                    ? t("resumeSteps.personalInfo")
+                    : t(`sections.${key}`)}
+                </button>
+              </div>
+            </li>
+          ))}
+        </ul>
+
+        <div className="mx-auto flex items-center gap-2">
+          <div
+            className="radial-progress text-primary"
+            style={
+              {
+                "--value": sectionCompletionPercent,
+                "--size": "4rem",
+              } as React.CSSProperties
+            }
+            role="progressbar"
+            aria-valuenow={sectionCompletionPercent}
+            aria-valuemin={0}
+            aria-valuemax={100}
+          >
+            {sectionCompletionPercent}%
+          </div>
+          <span className="text-base font-medium">
+            {t("resumeSteps.completed")}
+          </span>
+
+          <div className="tooltip tooltip-primary tooltip-bottom tooltip-end -ml-1 mt-1.5 self-start">
+            <div className="tooltip-content">
+              <div className="flex flex-col gap-1.5 p-1 text-left text-xs">
+                {incompleteKeys.length === 0 ? (
+                  <span>{t("resumeSteps.allComplete")}</span>
+                ) : (
+                  incompleteKeys.map((incompleteKey) => (
+                    <p key={incompleteKey}>
+                      <span className="font-semibold">
+                        {incompleteKey === "personalInfo"
+                          ? t("resumeSteps.personalInfo")
+                          : t(`sections.${incompleteKey}`)}
+                        :
+                      </span>{" "}
+                      {t(`resumeSteps.${incompleteKey}Tooltip`)}
+                    </p>
+                  ))
+                )}
+              </div>
             </div>
-          </li>
-        ))}
-      </ul>
+            <InfoIcon className="h-4 w-4 shrink-0 stroke-current opacity-60" />
+          </div>
+        </div>
+      </div>
     );
   }
 

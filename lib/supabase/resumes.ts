@@ -22,6 +22,7 @@ export interface ResumeRow {
   visibleFields: FieldKey[];
   modernSectionZones: ModernSectionZones;
   data: ResumeData;
+  createdAt: string;
   updatedAt: string;
 }
 
@@ -36,6 +37,7 @@ interface ResumeTableRow {
   visible_fields: FieldKey[];
   modern_section_zones: ModernSectionZones | null;
   data: ResumeData;
+  created_at: string;
   updated_at: string;
 }
 
@@ -51,6 +53,7 @@ function fromTableRow(row: ResumeTableRow): ResumeRow {
     visibleFields: row.visible_fields,
     modernSectionZones: row.modern_section_zones ?? {},
     data: row.data,
+    createdAt: row.created_at,
     updatedAt: row.updated_at,
   };
 }

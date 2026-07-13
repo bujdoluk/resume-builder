@@ -41,7 +41,8 @@
     "certificationsTooltip": "Ogni certificazione richiede un nome e una data.",
     "languagesTooltip": "Ogni lingua richiede un nome.",
     "interestsTooltip": "Ogni interesse richiede un valore.",
-    "allComplete": "Fatto: tutte le sezioni sono complete!"
+    "allComplete": "Fatto: tutte le sezioni sono complete!",
+    "completed": "Completato"
   },
   "placeholders": {
     "uploadPhoto": "Carica foto",
@@ -91,6 +92,7 @@
     "removeLanguage": "Rimuovi lingua",
     "removeInterest": "Rimuovi interesse",
     "uploadProfilePhoto": "Carica foto profilo",
+    "removePhoto": "Rimuovi foto",
     "reorder": "Riordina",
     "selectLanguage": "Seleziona lingua"
   },
@@ -104,6 +106,8 @@
   "myResumes": {
     "pageTitle": "I miei curriculum",
     "name": "Nome",
+    "created": "Creato",
+    "updated": "Aggiornato",
     "edit": "Modifica",
     "rename": "Rinomina",
     "duplicate": "Duplica",

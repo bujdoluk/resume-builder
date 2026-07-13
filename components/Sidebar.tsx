@@ -108,7 +108,7 @@ export default function Sidebar() {
             >
               <MyResumesIcon className="h-7 w-7 stroke-current" />
               {!collapsed && (
-                <span className="indicator">
+                <span className="indicator font-medium">
                   {!!resumeCount && (
                     <span className="indicator-item badge badge-primary badge-xs translate-x-6">
                       {resumeCount}

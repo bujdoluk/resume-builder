@@ -41,7 +41,8 @@
     "certificationsTooltip": "Every certification needs a name and a date.",
     "languagesTooltip": "Every language needs a name.",
     "interestsTooltip": "Every interest needs a value.",
-    "allComplete": "All set — every section is complete!"
+    "allComplete": "All set — every section is complete!",
+    "completed": "Completed"
   },
   "placeholders": {
     "uploadPhoto": "Upload photo",
@@ -91,6 +92,7 @@
     "removeLanguage": "Remove language",
     "removeInterest": "Remove interest",
     "uploadProfilePhoto": "Upload profile photo",
+    "removePhoto": "Remove photo",
     "reorder": "Reorder",
     "selectLanguage": "Select language"
   },
@@ -104,6 +106,8 @@
   "myResumes": {
     "pageTitle": "My Resumes",
     "name": "Name",
+    "created": "Created",
+    "updated": "Updated",
     "edit": "Edit",
     "rename": "Rename",
     "duplicate": "Duplicate",
