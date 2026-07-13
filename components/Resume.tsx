@@ -190,7 +190,7 @@ function SectionHeader({
   if (variant === "sidebar") {
     return (
       <div className="mt-4 mb-2">
-        <h2 className="flex items-center gap-2 text-sm font-semibold tracking-wide uppercase opacity-70">
+        <h2 className="flex items-center text-sm font-semibold tracking-wide uppercase opacity-70">
           {icon}
           {title}
         </h2>
@@ -201,7 +201,7 @@ function SectionHeader({
   return (
     <div className="mt-4 mb-2">
       <h2
-        className="flex items-center gap-2 text-sm font-semibold tracking-wide text-gray-500 uppercase"
+        className="flex items-center text-sm font-semibold tracking-wide text-gray-500 uppercase"
         style={color ? { color } : undefined}
       >
         {icon}
@@ -610,7 +610,7 @@ export default function Resume({
       level: (
         <fieldset className="fieldset">
           <div
-            className="flex items-center gap-2"
+            className="flex items-center"
             aria-label="Language proficiency level"
           >
             <span className="w-[152px] shrink-0 text-xs whitespace-nowrap text-gray-500">
@@ -656,8 +656,8 @@ export default function Resume({
 
   const entryCardClass =
     templateId === "minimal"
-      ? "border-primary/40 flex flex-col gap-2 border-l-2 pl-3"
-      : "flex flex-col gap-2 rounded-lg p-4";
+      ? "border-primary/40 flex flex-col border-l-2 pl-3"
+      : "flex flex-col  rounded-lg p-4";
 
   // Modern and Elegant's sections restyle their header to match whichever
   // zone they're currently placed in (see useModernZoneLayout's
@@ -867,7 +867,7 @@ export default function Resume({
           }
         />
 
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col">
           <SortableGroup
             dndId="skills-entries"
             ids={data.skills.map((entry) => entry.id)}
@@ -877,7 +877,7 @@ export default function Resume({
           >
             {data.skills.map((entry) => (
               <SortableBlock key={entry.id} id={entry.id}>
-                <div className="flex items-end gap-2">
+                <div className="flex items-end">
                   <fieldset className="fieldset flex-1">
                     <input
                       type="text"
@@ -931,7 +931,7 @@ export default function Resume({
           }
         />
 
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col">
           <SortableGroup
             dndId="certifications-entries"
             ids={data.certifications.map((entry) => entry.id)}
@@ -945,7 +945,7 @@ export default function Resume({
               const fields = certificationEntryFields(entry);
               return (
                 <SortableBlock key={entry.id} id={entry.id}>
-                  <div className="flex flex-col gap-2">
+                  <div className="flex flex-col">
                     <div className="flex justify-end">
                       <RemoveButton
                         label={t("aria.removeCertification")}
@@ -1004,7 +1004,7 @@ export default function Resume({
           }
         />
 
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col">
           <SortableGroup
             dndId="languages-entries"
             ids={data.languages.map((entry) => entry.id)}
@@ -1016,7 +1016,7 @@ export default function Resume({
               const fields = languageEntryFields(entry);
               return (
                 <SortableBlock key={entry.id} id={entry.id}>
-                  <div className="flex flex-col gap-2">
+                  <div className="flex flex-col">
                     <div className="flex justify-end">
                       <RemoveButton
                         label={t("aria.removeLanguage")}
@@ -1074,7 +1074,7 @@ export default function Resume({
           }
         />
 
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col">
           <SortableGroup
             dndId="interests-entries"
             ids={data.interests.map((entry) => entry.id)}
@@ -1084,7 +1084,7 @@ export default function Resume({
           >
             {data.interests.map((entry) => (
               <SortableBlock key={entry.id} id={entry.id}>
-                <div className="flex items-end gap-2">
+                <div className="flex items-end">
                   <fieldset className="fieldset flex-1">
                     <input
                       type="text"
@@ -1446,7 +1446,7 @@ export default function Resume({
           style={{ fontFamily, ...fontSizeStyle }}
         >
           <div
-            className="modern-sidebar bg-neutral text-neutral-content flex flex-col gap-2 p-6 pl-8"
+            className="modern-sidebar bg-neutral text-neutral-content flex flex-col  p-6 pl-8"
             style={
               color
                 ? ({
@@ -1481,7 +1481,7 @@ export default function Resume({
             <SortableZone
               zoneId="sidebar"
               ids={sidebarItems}
-              className="flex min-h-8 flex-col gap-2"
+              className="flex min-h-8 flex-col"
             >
               {sidebarItems.map((item) => (
                 <SortableBlock key={item} id={item} anchor>
@@ -1495,7 +1495,7 @@ export default function Resume({
             <SortableZone
               zoneId="main"
               ids={mainItems}
-              className="flex min-h-8 flex-col gap-2"
+              className="flex min-h-8 flex-col"
             >
               {mainItems.map((item) => (
                 <SortableBlock key={item} id={item} anchor>
@@ -1537,7 +1537,7 @@ export default function Resume({
                   ])
                 }
               >
-                <div className="flex flex-col gap-2">
+                <div className="flex flex-col">
                   {mainFieldKeys.map((key) => (
                     <SortableBlock key={key} id={key}>
                       {fieldContent[key]}
@@ -1550,7 +1550,7 @@ export default function Resume({
             <SortableZone
               zoneId="main"
               ids={mainItems}
-              className="flex min-h-8 flex-col gap-2"
+              className="flex min-h-8 flex-col"
             >
               {mainItems.map((item) => (
                 <SortableBlock key={item} id={item} anchor>
@@ -1561,7 +1561,7 @@ export default function Resume({
           </div>
 
           <div
-            className="modern-sidebar bg-neutral text-neutral-content flex flex-col gap-2 p-6 pl-8"
+            className="modern-sidebar bg-neutral text-neutral-content flex flex-col p-6 pl-8"
             style={
               color
                 ? ({
@@ -1577,7 +1577,7 @@ export default function Resume({
             <SortableZone
               zoneId="sidebar"
               ids={sidebarItems}
-              className="flex min-h-8 flex-col gap-2"
+              className="flex min-h-8 flex-col"
             >
               {sidebarItems.map((item) => (
                 <SortableBlock key={item} id={item} anchor>
@@ -1605,7 +1605,7 @@ export default function Resume({
               onReorder={onReorderFields}
               strategy={rectSortingStrategy}
             >
-              <div className="flex flex-col gap-2">
+              <div className="flex flex-col">
                 {renderFieldItems(visibleFields, fieldContent, {
                   wrapContactFields: true,
                 })}
@@ -1658,7 +1658,7 @@ export default function Resume({
               ])
             }
           >
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col">
               {renderFieldItems(classicHeaderFieldKeys, fieldContent)}
             </div>
           </SortableGroup>
@@ -1695,7 +1695,7 @@ export default function Resume({
             ids={visibleFields}
             onReorder={onReorderFields}
           >
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col">
               {renderFieldItems(visibleFields, fieldContent)}
             </div>
           </SortableGroup>

@@ -18,6 +18,7 @@ import { InfoIcon, SaveIcon } from "@/components/Icons";
 import PreviewModal, {
   type PreviewModalHandle,
 } from "@/components/PreviewModal";
+import PrintButton from "@/components/PrintButton";
 import Resume from "@/components/Resume";
 import SaveResumeDialog, {
   type SaveResumeDialogHandle,
@@ -514,6 +515,11 @@ export default function Home({
             </>
           )}
         </button>
+
+        <PrintButton
+          className="btn btn-outline hover:border-primary flex-1 md:flex-none md:w-48"
+          previewRef={previewRef}
+        />
 
         <DownloadButton
           className="btn btn-outline hover:border-primary flex-1 md:flex-none md:w-48"

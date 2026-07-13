@@ -158,3 +158,23 @@ body {
     animation: none;
   }
 }
+
+/* window.print() (PrintButton) prints the Preview modal's #pdf-area only —
+   everything else on the page (navbar, sidebar, action buttons, the
+   modal-box's own background/backdrop) is hidden rather than left to print
+   as-is, since only the resume template itself should end up on paper. */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  #pdf-area,
+  #pdf-area * {
+    visibility: visible;
+  }
+  #pdf-area {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+  }
+}
