@@ -712,30 +712,42 @@ export default function Resume({
         />
 
         <div className="flex flex-col gap-4">
-          {data.workExperience.map((entry) => {
-            const fields = workEntryFields(entry);
-            return (
-              <div key={entry.id} className={entryCardClass}>
-                <div className="flex justify-end">
-                  <RemoveButton
-                    label={t("aria.removeWorkExperience")}
-                    onClick={() => removeWorkEntry(entry.id)}
-                  />
-                </div>
-                <SortableGroup
-                  dndId={`work-history-fields-${entry.id}`}
-                  ids={workHistoryFieldOrder}
-                  onReorder={setWorkHistoryFieldOrder}
+          <SortableGroup
+            dndId="work-history-entries"
+            ids={data.workExperience.map((entry) => entry.id)}
+            onReorder={(order) =>
+              onWorkHistoryChange(reorderEntries(data.workExperience, order))
+            }
+          >
+            {data.workExperience.map((entry) => {
+              const fields = workEntryFields(entry);
+              return (
+                <SortableBlock
+                  key={entry.id}
+                  id={entry.id}
+                  className={entryCardClass}
                 >
-                  {workHistoryFieldOrder.map((key) => (
-                    <SortableBlock key={key} id={key}>
-                      {fields[key]}
-                    </SortableBlock>
-                  ))}
-                </SortableGroup>
-              </div>
-            );
-          })}
+                  <div className="flex justify-end">
+                    <RemoveButton
+                      label={t("aria.removeWorkExperience")}
+                      onClick={() => removeWorkEntry(entry.id)}
+                    />
+                  </div>
+                  <SortableGroup
+                    dndId={`work-history-fields-${entry.id}`}
+                    ids={workHistoryFieldOrder}
+                    onReorder={setWorkHistoryFieldOrder}
+                  >
+                    {workHistoryFieldOrder.map((key) => (
+                      <SortableBlock key={key} id={key}>
+                        {fields[key]}
+                      </SortableBlock>
+                    ))}
+                  </SortableGroup>
+                </SortableBlock>
+              );
+            })}
+          </SortableGroup>
 
           <button
             type="button"
@@ -784,30 +796,42 @@ export default function Resume({
         />
 
         <div className="flex flex-col gap-4">
-          {data.education.map((entry) => {
-            const fields = educationEntryFields(entry);
-            return (
-              <div key={entry.id} className={entryCardClass}>
-                <div className="flex justify-end">
-                  <RemoveButton
-                    label={t("aria.removeEducation")}
-                    onClick={() => removeEducationEntry(entry.id)}
-                  />
-                </div>
-                <SortableGroup
-                  dndId={`education-fields-${entry.id}`}
-                  ids={educationFieldOrder}
-                  onReorder={setEducationFieldOrder}
+          <SortableGroup
+            dndId="education-entries"
+            ids={data.education.map((entry) => entry.id)}
+            onReorder={(order) =>
+              onEducationChange(reorderEntries(data.education, order))
+            }
+          >
+            {data.education.map((entry) => {
+              const fields = educationEntryFields(entry);
+              return (
+                <SortableBlock
+                  key={entry.id}
+                  id={entry.id}
+                  className={entryCardClass}
                 >
-                  {educationFieldOrder.map((key) => (
-                    <SortableBlock key={key} id={key}>
-                      {fields[key]}
-                    </SortableBlock>
-                  ))}
-                </SortableGroup>
-              </div>
-            );
-          })}
+                  <div className="flex justify-end">
+                    <RemoveButton
+                      label={t("aria.removeEducation")}
+                      onClick={() => removeEducationEntry(entry.id)}
+                    />
+                  </div>
+                  <SortableGroup
+                    dndId={`education-fields-${entry.id}`}
+                    ids={educationFieldOrder}
+                    onReorder={setEducationFieldOrder}
+                  >
+                    {educationFieldOrder.map((key) => (
+                      <SortableBlock key={key} id={key}>
+                        {fields[key]}
+                      </SortableBlock>
+                    ))}
+                  </SortableGroup>
+                </SortableBlock>
+              );
+            })}
+          </SortableGroup>
 
           <button
             type="button"

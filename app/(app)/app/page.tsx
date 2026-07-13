@@ -3,7 +3,14 @@
  * `resumeId` query params on the server and hands them to the client-side
  * `Home` component, which owns all editor state.
  */
+import type { Metadata } from "next";
 import Home from "@/components/Home";
+
+export const metadata: Metadata = {
+  alternates: {
+    canonical: "/app",
+  },
+};
 
 interface PageProps {
   searchParams: Promise<{ template?: string; resumeId?: string }>;
