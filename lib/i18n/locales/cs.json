@@ -33,7 +33,15 @@
     "interests": "Zájmy"
   },
   "resumeSteps": {
-    "personalInfo": "Osobní údaje"
+    "personalInfo": "Osobní údaje",
+    "personalInfoTooltip": "Vyplňte všechna viditelná pole (jméno, kontaktní údaje, o mně atd.), aby byl tento krok dokončen.",
+    "workExperienceTooltip": "Každá položka pracovní zkušenosti potřebuje pozici, obě data, lokalitu a popis.",
+    "educationTooltip": "Každá položka vzdělání potřebuje školu, obor, obě data, lokalitu a popis.",
+    "skillsTooltip": "Každá dovednost potřebuje hodnotu.",
+    "certificationsTooltip": "Každý certifikát potřebuje název a datum.",
+    "languagesTooltip": "Každý jazyk potřebuje název.",
+    "interestsTooltip": "Každý zájem potřebuje hodnotu.",
+    "allComplete": "Hotovo — všechny sekce jsou kompletní!"
   },
   "placeholders": {
     "uploadPhoto": "Nahrát fotku",

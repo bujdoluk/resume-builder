@@ -13,7 +13,7 @@ import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useTranslation } from "react-i18next";
 import { useAppState } from "@/components/AppState";
-import { DownloadIcon, SaveIcon } from "@/components/Icons";
+import { DownloadIcon, InfoIcon, SaveIcon } from "@/components/Icons";
 import Resume from "@/components/Resume";
 import ScaleToFitWidth from "@/components/ScaleToFitWidth";
 import SaveResumeDialog, {
@@ -379,22 +379,51 @@ export default function Home({
     ];
     if (stepKeys.length === 0) return null;
 
+    const incompleteKeys = stepKeys.filter((key) => !isStepFilled(key));
+
     return (
-      <ul className="steps steps-vertical">
-        {stepKeys.map((key) => (
+      <ul className="steps steps-vertical overflow-visible!">
+        {stepKeys.map((key, index) => (
           <li
             key={key}
             className={`step ${isStepFilled(key) ? "step-primary" : ""}`}
           >
-            <button
-              type="button"
-              className="cursor-pointer text-left"
-              onClick={() => scrollToSectionAnchor(key)}
-            >
-              {key === "personalInfo"
-                ? t("resumeSteps.personalInfo")
-                : t(`sections.${key}`)}
-            </button>
+            <div className="flex items-center gap-1.5">
+              <button
+                type="button"
+                className="cursor-pointer text-left"
+                onClick={() => scrollToSectionAnchor(key)}
+              >
+                {key === "personalInfo"
+                  ? t("resumeSteps.personalInfo")
+                  : t(`sections.${key}`)}
+              </button>
+
+              {index === 0 && (
+                <div className="tooltip tooltip-primary tooltip-bottom tooltip-end">
+                  <div className="tooltip-content">
+                    <div className="flex flex-col gap-1.5 p-1 text-left text-xs">
+                      {incompleteKeys.length === 0 ? (
+                        <span>{t("resumeSteps.allComplete")}</span>
+                      ) : (
+                        incompleteKeys.map((incompleteKey) => (
+                          <p key={incompleteKey}>
+                            <span className="font-semibold">
+                              {incompleteKey === "personalInfo"
+                                ? t("resumeSteps.personalInfo")
+                                : t(`sections.${incompleteKey}`)}
+                              :
+                            </span>{" "}
+                            {t(`resumeSteps.${incompleteKey}Tooltip`)}
+                          </p>
+                        ))
+                      )}
+                    </div>
+                  </div>
+                  <InfoIcon className="h-4 w-4 shrink-0 stroke-current opacity-60" />
+                </div>
+              )}
+            </div>
           </li>
         ))}
       </ul>

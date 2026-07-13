@@ -33,7 +33,15 @@
     "interests": "Centres d'intérêt"
   },
   "resumeSteps": {
-    "personalInfo": "Informations personnelles"
+    "personalInfo": "Informations personnelles",
+    "personalInfoTooltip": "Remplissez tous les champs visibles (nom, coordonnées, à propos de moi, etc.) pour terminer cette étape.",
+    "workExperienceTooltip": "Chaque expérience professionnelle nécessite un poste, les deux dates, un lieu et une description.",
+    "educationTooltip": "Chaque formation nécessite un établissement, une matière, les deux dates, un lieu et une description.",
+    "skillsTooltip": "Chaque compétence nécessite une valeur.",
+    "certificationsTooltip": "Chaque certification nécessite un nom et une date.",
+    "languagesTooltip": "Chaque langue nécessite un nom.",
+    "interestsTooltip": "Chaque centre d'intérêt nécessite une valeur.",
+    "allComplete": "Terminé : toutes les sections sont complètes !"
   },
   "placeholders": {
     "uploadPhoto": "Téléverser une photo",

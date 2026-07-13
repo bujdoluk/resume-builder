@@ -33,7 +33,15 @@
     "interests": "Interesses"
   },
   "resumeSteps": {
-    "personalInfo": "Persoonlijke gegevens"
+    "personalInfo": "Persoonlijke gegevens",
+    "personalInfoTooltip": "Vul alle zichtbare velden in (naam, contactgegevens, over mij, enz.) om deze stap te voltooien.",
+    "workExperienceTooltip": "Elke werkervaring heeft een functie, beide data, een locatie en een beschrijving nodig.",
+    "educationTooltip": "Elke opleiding heeft een school, een vak, beide data, een locatie en een beschrijving nodig.",
+    "skillsTooltip": "Elke vaardigheid heeft een waarde nodig.",
+    "certificationsTooltip": "Elke certificering heeft een naam en een datum nodig.",
+    "languagesTooltip": "Elke taal heeft een naam nodig.",
+    "interestsTooltip": "Elke interesse heeft een waarde nodig.",
+    "allComplete": "Klaar — alle secties zijn compleet!"
   },
   "placeholders": {
     "uploadPhoto": "Foto uploaden",

@@ -33,7 +33,15 @@
     "interests": "Intressen"
   },
   "resumeSteps": {
-    "personalInfo": "Personlig information"
+    "personalInfo": "Personlig information",
+    "personalInfoTooltip": "Fyll i alla synliga fält (namn, kontaktuppgifter, om mig osv.) för att slutföra detta steg.",
+    "workExperienceTooltip": "Varje arbetslivserfarenhet behöver en titel, båda datumen, en plats och en beskrivning.",
+    "educationTooltip": "Varje utbildning behöver en skola, ett ämne, båda datumen, en plats och en beskrivning.",
+    "skillsTooltip": "Varje färdighet behöver ett värde.",
+    "certificationsTooltip": "Varje certifiering behöver ett namn och ett datum.",
+    "languagesTooltip": "Varje språk behöver ett namn.",
+    "interestsTooltip": "Varje intresse behöver ett värde.",
+    "allComplete": "Klart — alla sektioner är kompletta!"
   },
   "placeholders": {
     "uploadPhoto": "Ladda upp foto",

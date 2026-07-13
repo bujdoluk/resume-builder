@@ -33,7 +33,15 @@
     "interests": "Interessi"
   },
   "resumeSteps": {
-    "personalInfo": "Informazioni personali"
+    "personalInfo": "Informazioni personali",
+    "personalInfoTooltip": "Compila tutti i campi visibili (nome, contatti, chi sono, ecc.) per completare questo passaggio.",
+    "workExperienceTooltip": "Ogni esperienza lavorativa richiede una posizione, entrambe le date, una località e una descrizione.",
+    "educationTooltip": "Ogni titolo di studio richiede una scuola, una materia, entrambe le date, una località e una descrizione.",
+    "skillsTooltip": "Ogni competenza richiede un valore.",
+    "certificationsTooltip": "Ogni certificazione richiede un nome e una data.",
+    "languagesTooltip": "Ogni lingua richiede un nome.",
+    "interestsTooltip": "Ogni interesse richiede un valore.",
+    "allComplete": "Fatto: tutte le sezioni sono complete!"
   },
   "placeholders": {
     "uploadPhoto": "Carica foto",

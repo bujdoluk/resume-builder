@@ -936,15 +936,15 @@ export default function ModernMobileTemplate({
                           className="flex items-center gap-2"
                           aria-label="Language proficiency level"
                         >
-                          <span className="text-xs whitespace-nowrap opacity-70">
+                          <span className="w-[152px] shrink-0 text-xs whitespace-nowrap opacity-70">
                             {entry.level}
                           </span>
-                          <div className="rating">
+                          <div className="rating shrink-0 pl-2">
                             {languageLevels.map((level, index) => (
                               <input
                                 key={level}
                                 type="radio"
-                                name={`language-level-${entry.id}`}
+                                name={`modern-mobile-language-level-${entry.id}`}
                                 aria-label={level}
                                 className="mask mask-star"
                                 checked={index === levelIndex}

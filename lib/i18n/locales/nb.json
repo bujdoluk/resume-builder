@@ -33,7 +33,15 @@
     "interests": "Interesser"
   },
   "resumeSteps": {
-    "personalInfo": "Personlig informasjon"
+    "personalInfo": "Personlig informasjon",
+    "personalInfoTooltip": "Fyll ut alle synlige felt (navn, kontaktinformasjon, om meg osv.) for å fullføre dette trinnet.",
+    "workExperienceTooltip": "Hver arbeidserfaring trenger en stilling, begge datoene, et sted og en beskrivelse.",
+    "educationTooltip": "Hver utdanning trenger en skole, et fag, begge datoene, et sted og en beskrivelse.",
+    "skillsTooltip": "Hver ferdighet trenger en verdi.",
+    "certificationsTooltip": "Hver sertifisering trenger et navn og en dato.",
+    "languagesTooltip": "Hvert språk trenger et navn.",
+    "interestsTooltip": "Hver interesse trenger en verdi.",
+    "allComplete": "Ferdig – alle seksjoner er fullstendige!"
   },
   "placeholders": {
     "uploadPhoto": "Last opp bilde",

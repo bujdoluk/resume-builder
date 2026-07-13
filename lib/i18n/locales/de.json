@@ -33,7 +33,15 @@
     "interests": "Interessen"
   },
   "resumeSteps": {
-    "personalInfo": "Persönliche Daten"
+    "personalInfo": "Persönliche Daten",
+    "personalInfoTooltip": "Füllen Sie alle sichtbaren Felder aus (Name, Kontaktdaten, Über mich usw.), um diesen Schritt abzuschließen.",
+    "workExperienceTooltip": "Jeder Berufserfahrungseintrag benötigt eine Position, beide Daten, einen Ort und eine Beschreibung.",
+    "educationTooltip": "Jeder Ausbildungseintrag benötigt eine Schule, ein Fach, beide Daten, einen Ort und eine Beschreibung.",
+    "skillsTooltip": "Jede Fähigkeit benötigt einen Wert.",
+    "certificationsTooltip": "Jedes Zertifikat benötigt einen Namen und ein Datum.",
+    "languagesTooltip": "Jede Sprache benötigt einen Namen.",
+    "interestsTooltip": "Jedes Interesse benötigt einen Wert.",
+    "allComplete": "Fertig – alle Abschnitte sind vollständig!"
   },
   "placeholders": {
     "uploadPhoto": "Foto hochladen",

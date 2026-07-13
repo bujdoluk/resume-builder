@@ -33,7 +33,15 @@
     "interests": "Interests"
   },
   "resumeSteps": {
-    "personalInfo": "Personal Info"
+    "personalInfo": "Personal Info",
+    "personalInfoTooltip": "Fill in every visible field (name, contact details, about me, etc.) to complete this step.",
+    "workExperienceTooltip": "Every work experience entry needs a position, both dates, a location, and a description.",
+    "educationTooltip": "Every education entry needs a school, subject, both dates, a location, and a description.",
+    "skillsTooltip": "Every skill needs a value.",
+    "certificationsTooltip": "Every certification needs a name and a date.",
+    "languagesTooltip": "Every language needs a name.",
+    "interestsTooltip": "Every interest needs a value.",
+    "allComplete": "All set — every section is complete!"
   },
   "placeholders": {
     "uploadPhoto": "Upload photo",
