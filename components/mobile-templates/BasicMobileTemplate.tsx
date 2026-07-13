@@ -388,7 +388,10 @@ export default function BasicMobileTemplate({
         <button
           type="button"
           aria-label={t("aria.removePhoto")}
-          className="btn btn-circle btn-neutral btn-xs absolute top-0 right-0"
+          className="btn btn-circle btn-xs absolute top-0 right-0 bg-white text-neutral"
+          style={
+            color ? { backgroundColor: getContrastTextColor(color), color } : undefined
+          }
           onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();

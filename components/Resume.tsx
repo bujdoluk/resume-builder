@@ -1126,6 +1126,15 @@ export default function Resume({
       ? { backgroundColor: color, color: getContrastTextColor(color) }
       : undefined;
 
+  const removeButtonBgClass =
+    templateId === "modern" || templateId === "elegant" || templateId === "classic"
+      ? "bg-neutral text-neutral-content"
+      : "bg-white text-neutral";
+  const removeButtonStyle =
+    templateId !== "modern" && templateId !== "elegant" && templateId !== "classic" && color
+      ? { backgroundColor: getContrastTextColor(color), color }
+      : undefined;
+
   const avatar = !visibleFields.includes("photo") ? null : (
     <div
       className={
@@ -1172,7 +1181,8 @@ export default function Resume({
           <button
             type="button"
             aria-label={t("aria.removePhoto")}
-            className="btn btn-circle btn-neutral btn-xs absolute top-0 right-0"
+            className={`btn btn-circle btn-xs absolute top-0 right-0 ${removeButtonBgClass}`}
+            style={removeButtonStyle}
             onClick={(e) => {
               e.preventDefault();
               e.stopPropagation();
