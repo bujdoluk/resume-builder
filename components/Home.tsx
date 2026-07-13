@@ -14,8 +14,10 @@ import { useRouter } from "next/navigation";
 import { useTranslation } from "react-i18next";
 import { useAppState } from "@/components/AppState";
 import { DownloadIcon, InfoIcon, SaveIcon } from "@/components/Icons";
+import PreviewModal, {
+  type PreviewModalHandle,
+} from "@/components/PreviewModal";
 import Resume from "@/components/Resume";
-import ScaleToFitWidth from "@/components/ScaleToFitWidth";
 import SaveResumeDialog, {
   type SaveResumeDialogHandle,
 } from "@/components/SaveResumeDialog";
@@ -117,7 +119,7 @@ export default function Home({
   const [isSaving, setIsSaving] = useState(false);
   const [justSaved, setJustSaved] = useState(false);
   const [resumeName, setResumeName] = useState("");
-  const previewRef = useRef<HTMLDialogElement>(null);
+  const previewRef = useRef<PreviewModalHandle>(null);
   const saveDialogRef = useRef<SaveResumeDialogHandle>(null);
   const [supabase] = useState(() => createClient());
 
@@ -522,7 +524,7 @@ export default function Home({
         <button
           type="button"
           className="btn btn-primary btn-lg flex-1 md:flex-none md:w-48"
-          onClick={() => previewRef.current?.showModal()}
+          onClick={() => previewRef.current?.open()}
         >
           {t("buttons.preview")}
         </button>
@@ -620,27 +622,17 @@ export default function Home({
         </div>
       </div>
 
-      <dialog ref={previewRef} className="modal">
-        <div
-          id="pdf-area"
-          className="modal-box max-h-[90vh]! w-[95vw]! max-w-[95vw]! overflow-auto! bg-transparent! p-0! shadow-none! lg:w-fit! lg:max-w-none!"
-        >
-          <ScaleToFitWidth>
-            <TemplateComponent
-              data={data}
-              sectionOrder={sectionOrder}
-              color={color}
-              font={font}
-              fontSize={fontSize}
-              visibleFields={visibleFields}
-              sectionZones={modernSectionZones}
-            />
-          </ScaleToFitWidth>
-        </div>
-        <form method="dialog" className="modal-backdrop">
-          <button>close</button>
-        </form>
-      </dialog>
+      <PreviewModal
+        ref={previewRef}
+        templateComponent={TemplateComponent}
+        data={data}
+        sectionOrder={sectionOrder}
+        color={color}
+        font={font}
+        fontSize={fontSize}
+        visibleFields={visibleFields}
+        sectionZones={modernSectionZones}
+      />
 
       <SaveResumeDialog ref={saveDialogRef} />
     </>
