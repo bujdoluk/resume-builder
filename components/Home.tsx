@@ -13,7 +13,8 @@ import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useTranslation } from "react-i18next";
 import { useAppState } from "@/components/AppState";
-import { DownloadIcon, InfoIcon, SaveIcon } from "@/components/Icons";
+import DownloadButton from "@/components/DownloadButton";
+import { InfoIcon, SaveIcon } from "@/components/Icons";
 import PreviewModal, {
   type PreviewModalHandle,
 } from "@/components/PreviewModal";
@@ -32,8 +33,6 @@ import {
   type SimpleEntry,
   type WorkEntry,
 } from "@/lib/resumeData";
-import { registerPdfFonts } from "@/lib/pdf/fonts";
-import { pdfTemplates } from "@/lib/pdf/templates";
 import { createClient } from "@/lib/supabase/client";
 import { getResume, saveResume } from "@/lib/supabase/resumes";
 import { ensureUserId } from "@/lib/supabase/session";
@@ -112,7 +111,6 @@ export default function Home({
     notifyResumeListChanged,
   } = useAppState();
   const [data, setData] = useState<ResumeData>(emptyResumeData);
-  const [isGeneratingPdf, setIsGeneratingPdf] = useState(false);
   const [resumeId, setResumeId] = useState<string | null>(
     initialResumeId ?? null,
   );
@@ -250,36 +248,6 @@ export default function Home({
       alert(t("myResumes.saveFailed"));
     } finally {
       setIsSaving(false);
-    }
-  }
-
-  async function handleDownloadPdf() {
-    if (isGeneratingPdf) return;
-    setIsGeneratingPdf(true);
-    try {
-      const { pdf } = await import("@react-pdf/renderer");
-      registerPdfFonts();
-      const PdfTemplate = pdfTemplates[templateId];
-      const blob = await pdf(
-        <PdfTemplate
-          data={data}
-          sectionOrder={sectionOrder}
-          color={color}
-          font={font}
-          fontSize={fontSize}
-          visibleFields={visibleFields}
-          modernSectionZones={modernSectionZones}
-        />,
-      ).toBlob();
-
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = `${resumeName || "resume"}.pdf`;
-      link.click();
-      URL.revokeObjectURL(url);
-    } finally {
-      setIsGeneratingPdf(false);
     }
   }
 
@@ -547,21 +515,18 @@ export default function Home({
           )}
         </button>
 
-        <button
-          type="button"
+        <DownloadButton
           className="btn btn-outline hover:border-primary flex-1 md:flex-none md:w-48"
-          disabled={isGeneratingPdf}
-          onClick={handleDownloadPdf}
-        >
-          {isGeneratingPdf ? (
-            <span className="loading loading-spinner loading-sm" />
-          ) : (
-            <>
-              <DownloadIcon className="h-5 w-5 stroke-current" />
-              {t("buttons.download")}
-            </>
-          )}
-        </button>
+          templateId={templateId}
+          resumeName={resumeName}
+          data={data}
+          sectionOrder={sectionOrder}
+          color={color}
+          font={font}
+          fontSize={fontSize}
+          visibleFields={visibleFields}
+          modernSectionZones={modernSectionZones}
+        />
       </div>
     );
   }
