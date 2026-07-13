@@ -7,6 +7,7 @@ import type { ComponentType } from "react";
 import BasicPdfTemplate, {
   type PdfTemplateProps,
 } from "@/components/pdf/BasicPdfTemplate";
+import ClassicPdfTemplate from "@/components/pdf/ClassicPdfTemplate";
 import ElegantPdfTemplate from "@/components/pdf/ElegantPdfTemplate";
 import MinimalPdfTemplate from "@/components/pdf/MinimalPdfTemplate";
 import ModernPdfTemplate from "@/components/pdf/ModernPdfTemplate";
@@ -19,4 +20,5 @@ export const pdfTemplates: Record<TemplateId, ComponentType<PdfTemplateProps>> =
   modern: ModernPdfTemplate,
   minimal: MinimalPdfTemplate,
   elegant: ElegantPdfTemplate,
+  classic: ClassicPdfTemplate,
 };

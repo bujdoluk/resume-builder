@@ -1118,11 +1118,11 @@ export default function Resume({
   };
 
   const avatarBgClass =
-    templateId === "modern" || templateId === "elegant"
+    templateId === "modern" || templateId === "elegant" || templateId === "classic"
       ? "bg-white text-neutral"
       : "bg-neutral text-neutral-content";
   const avatarStyle =
-    templateId !== "modern" && templateId !== "elegant" && color
+    templateId !== "modern" && templateId !== "elegant" && templateId !== "classic" && color
       ? { backgroundColor: color, color: getContrastTextColor(color) }
       : undefined;
 
@@ -1615,6 +1615,60 @@ export default function Resume({
 
           <SortableGroup
             dndId="minimal-sections"
+            ids={sectionOrder}
+            onReorder={onReorderSections}
+          >
+            {sectionOrder.map((key) => (
+              <SortableBlock key={key} id={key} anchor>
+                {sectionContent[key]}
+              </SortableBlock>
+            ))}
+          </SortableGroup>
+        </div>
+      </div>
+    );
+  }
+
+  if (templateId === "classic") {
+    const classicHeaderFieldKeys = visibleFields.filter(
+      (key) => key !== "aboutMe",
+    );
+    const headerBgClass = color ? "" : "bg-neutral text-neutral-content";
+    const headerStyle = color
+      ? { backgroundColor: color, color: getContrastTextColor(color) }
+      : undefined;
+
+    return (
+      <div
+        className="resume-scalable w-[280mm] min-h-[297mm] bg-white shadow-xl print:shadow-none"
+        style={{ fontFamily, ...fontSizeStyle }}
+      >
+        <div
+          data-section-anchor="personalInfo"
+          className={`p-8 pl-10 ${headerBgClass}`}
+          style={headerStyle}
+        >
+          <SortableGroup
+            dndId="classic-fields"
+            ids={classicHeaderFieldKeys}
+            onReorder={(order) =>
+              onReorderFields([
+                ...order,
+                ...visibleFields.filter((key) => key === "aboutMe"),
+              ])
+            }
+          >
+            <div className="flex flex-col gap-2">
+              {renderFieldItems(classicHeaderFieldKeys, fieldContent)}
+            </div>
+          </SortableGroup>
+        </div>
+
+        <div className="p-8 pl-10">
+          {fieldContent.aboutMe}
+
+          <SortableGroup
+            dndId="classic-sections"
             ids={sectionOrder}
             onReorder={onReorderSections}
           >
