@@ -51,13 +51,23 @@ export default function LandingPage() {
       <div className="bg-base-200 flex-1">
         <div className="relative">
           <Image
+            src="/images/app_background.png"
+            alt="Resume preview picture"
+            aria-hidden="true"
+            width={1752}
+            height={1123}
+            priority
+            className="pointer-events-none absolute top-0 left-[-200] hidden h-[70vh] w-[60vw] rotate-[0deg] object-cover object-top opacity-30 select-none lg:block"
+          />
+
+          <Image
             src="/images/Resume_lp_background.png"
             alt="Resume preview picture"
             aria-hidden="true"
             width={1752}
             height={1123}
             priority
-            className="pointer-events-none absolute top-10 left-10 right-0 hidden h-[60vh] w-[45vw] rotate-[-10deg] object-cover object-top opacity-60 select-none lg:block"
+            className="pointer-events-none absolute top-10 right-[-180] hidden h-[60vh] w-[50vw] rotate-[5deg] object-cover object-top opacity-30 select-none lg:block"
           />
 
           <div className="relative mx-auto max-w-3xl px-8 py-20 text-center">
