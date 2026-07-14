@@ -11,7 +11,8 @@
       "medium": "Średni",
       "large": "Duży"
     },
-    "myResumes": "Moje CV"
+    "myResumes": "Moje CV",
+    "resumeEditor": "Edytor CV"
   },
   "fields": {
     "photo": "Zdjęcie",
@@ -107,6 +108,7 @@
   },
   "myResumes": {
     "pageTitle": "Moje CV",
+    "newResume": "+ Nowe CV",
     "name": "Nazwa",
     "created": "Utworzono",
     "updated": "Zaktualizowano",
@@ -118,6 +120,7 @@
     "untitled": "CV bez nazwy",
     "nameDialogTitle": "Nadaj nazwę swojemu CV",
     "namePlaceholder": "np. CV Frontend Developer",
+    "nameTooLong": "Nazwa CV jest za długa.",
     "confirmDelete": "Usunąć to CV? Tej czynności nie można cofnąć.",
     "saveFailed": "Nie udało się zapisać CV. Spróbuj ponownie.",
     "loadFailed": "Nie udało się wczytać zapisanych CV. Spróbuj ponownie.",

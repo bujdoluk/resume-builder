@@ -11,7 +11,8 @@
       "medium": "Mittel",
       "large": "Groß"
     },
-    "myResumes": "Meine Lebensläufe"
+    "myResumes": "Meine Lebensläufe",
+    "resumeEditor": "Lebenslauf-Editor"
   },
   "fields": {
     "photo": "Foto",
@@ -107,6 +108,7 @@
   },
   "myResumes": {
     "pageTitle": "Meine Lebensläufe",
+    "newResume": "+ Neuer Lebenslauf",
     "name": "Name",
     "created": "Erstellt",
     "updated": "Aktualisiert",
@@ -118,6 +120,7 @@
     "untitled": "Unbenannter Lebenslauf",
     "nameDialogTitle": "Benenne deinen Lebenslauf",
     "namePlaceholder": "z. B. Lebenslauf Frontend-Entwickler",
+    "nameTooLong": "Der Name des Lebenslaufs ist zu lang.",
     "confirmDelete": "Diesen Lebenslauf löschen? Dies kann nicht rückgängig gemacht werden.",
     "saveFailed": "Speichern des Lebenslaufs fehlgeschlagen. Bitte versuche es erneut.",
     "loadFailed": "Deine gespeicherten Lebensläufe konnten nicht geladen werden. Bitte versuche es erneut.",

@@ -11,7 +11,8 @@
       "medium": "Middels",
       "large": "Stor"
     },
-    "myResumes": "Mine CV-er"
+    "myResumes": "Mine CV-er",
+    "resumeEditor": "CV-redigering"
   },
   "fields": {
     "photo": "Bilde",
@@ -107,6 +108,7 @@
   },
   "myResumes": {
     "pageTitle": "Mine CV-er",
+    "newResume": "+ Ny CV",
     "name": "Navn",
     "created": "Opprettet",
     "updated": "Oppdatert",
@@ -118,6 +120,7 @@
     "untitled": "Unavngitt CV",
     "nameDialogTitle": "Gi CV-en et navn",
     "namePlaceholder": "f.eks. CV Frontend-utvikler",
+    "nameTooLong": "CV-navnet er for langt.",
     "confirmDelete": "Slette denne CV-en? Dette kan ikke angres.",
     "saveFailed": "Kunne ikke lagre CV-en. Prøv igjen.",
     "loadFailed": "Kunne ikke laste inn de lagrede CV-ene dine. Prøv igjen.",

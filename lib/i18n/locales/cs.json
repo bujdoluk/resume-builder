@@ -11,7 +11,8 @@
       "medium": "Střední",
       "large": "Velké"
     },
-    "myResumes": "Moje životopisy"
+    "myResumes": "Moje životopisy",
+    "resumeEditor": "Editor životopisu"
   },
   "fields": {
     "photo": "Fotka",
@@ -107,6 +108,7 @@
   },
   "myResumes": {
     "pageTitle": "Moje životopisy",
+    "newResume": "+ Nový životopis",
     "name": "Název",
     "created": "Vytvořeno",
     "updated": "Aktualizováno",
@@ -118,6 +120,7 @@
     "untitled": "Nepojmenovaný životopis",
     "nameDialogTitle": "Pojmenujte svůj životopis",
     "namePlaceholder": "např. Životopis Frontend vývojáře",
+    "nameTooLong": "Název životopisu je příliš dlouhý.",
     "confirmDelete": "Smazat tento životopis? Tuto akci nelze vrátit zpět.",
     "saveFailed": "Uložení životopisu se nezdařilo. Zkuste to prosím znovu.",
     "loadFailed": "Nepodařilo se načíst uložené životopisy. Zkuste to prosím znovu.",

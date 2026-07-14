@@ -11,7 +11,8 @@
       "medium": "Mediano",
       "large": "Grande"
     },
-    "myResumes": "Mis currículums"
+    "myResumes": "Mis currículums",
+    "resumeEditor": "Editor de currículum"
   },
   "fields": {
     "photo": "Foto",
@@ -107,6 +108,7 @@
   },
   "myResumes": {
     "pageTitle": "Mis currículums",
+    "newResume": "+ Nuevo currículum",
     "name": "Nombre",
     "created": "Creado",
     "updated": "Actualizado",
@@ -118,6 +120,7 @@
     "untitled": "Currículum sin título",
     "nameDialogTitle": "Ponle nombre a tu currículum",
     "namePlaceholder": "p. ej. Currículum Desarrollador Frontend",
+    "nameTooLong": "El nombre del currículum es demasiado largo.",
     "confirmDelete": "¿Eliminar este currículum? Esta acción no se puede deshacer.",
     "saveFailed": "No se pudo guardar el currículum. Inténtalo de nuevo.",
     "loadFailed": "No se pudieron cargar tus currículums guardados. Inténtalo de nuevo.",

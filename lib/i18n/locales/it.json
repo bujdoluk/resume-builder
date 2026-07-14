@@ -11,7 +11,8 @@
       "medium": "Medio",
       "large": "Grande"
     },
-    "myResumes": "I miei curriculum"
+    "myResumes": "I miei curriculum",
+    "resumeEditor": "Editor del curriculum"
   },
   "fields": {
     "photo": "Foto",
@@ -107,6 +108,7 @@
   },
   "myResumes": {
     "pageTitle": "I miei curriculum",
+    "newResume": "+ Nuovo curriculum",
     "name": "Nome",
     "created": "Creato",
     "updated": "Aggiornato",
@@ -118,6 +120,7 @@
     "untitled": "Curriculum senza titolo",
     "nameDialogTitle": "Dai un nome al tuo curriculum",
     "namePlaceholder": "es. Curriculum Sviluppatore Frontend",
+    "nameTooLong": "Il nome del curriculum è troppo lungo.",
     "confirmDelete": "Eliminare questo curriculum? Questa azione non può essere annullata.",
     "saveFailed": "Salvataggio del curriculum non riuscito. Riprova.",
     "loadFailed": "Impossibile caricare i curriculum salvati. Riprova.",

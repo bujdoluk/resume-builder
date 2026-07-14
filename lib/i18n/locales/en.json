@@ -11,7 +11,8 @@
       "medium": "Medium",
       "large": "Large"
     },
-    "myResumes": "My Resumes"
+    "myResumes": "My Resumes",
+    "resumeEditor": "Resume Editor"
   },
   "fields": {
     "photo": "Photo",
@@ -107,6 +108,7 @@
   },
   "myResumes": {
     "pageTitle": "My Resumes",
+    "newResume": "+ New Resume",
     "name": "Name",
     "created": "Created",
     "updated": "Updated",
@@ -118,6 +120,7 @@
     "untitled": "Untitled resume",
     "nameDialogTitle": "Name your resume",
     "namePlaceholder": "e.g. Frontend Developer Resume",
+    "nameTooLong": "Resume name is too long.",
     "confirmDelete": "Delete this resume? This can't be undone.",
     "saveFailed": "Failed to save resume. Please try again.",
     "loadFailed": "Could not load your saved resumes. Please try again.",

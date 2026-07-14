@@ -11,7 +11,8 @@
       "medium": "Médio",
       "large": "Grande"
     },
-    "myResumes": "Meus currículos"
+    "myResumes": "Meus currículos",
+    "resumeEditor": "Editor de currículo"
   },
   "fields": {
     "photo": "Foto",
@@ -107,6 +108,7 @@
   },
   "myResumes": {
     "pageTitle": "Meus currículos",
+    "newResume": "+ Novo currículo",
     "name": "Nome",
     "created": "Criado",
     "updated": "Atualizado",
@@ -118,6 +120,7 @@
     "untitled": "Currículo sem título",
     "nameDialogTitle": "Dê um nome ao seu currículo",
     "namePlaceholder": "ex.: Currículo Programador Frontend",
+    "nameTooLong": "O nome do currículo é demasiado longo.",
     "confirmDelete": "Eliminar este currículo? Esta ação não pode ser revertida.",
     "saveFailed": "Falha ao guardar o currículo. Tente novamente.",
     "loadFailed": "Não foi possível carregar os seus currículos guardados. Tente novamente.",

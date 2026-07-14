@@ -11,7 +11,8 @@
       "medium": "Gemiddeld",
       "large": "Groot"
     },
-    "myResumes": "Mijn cv's"
+    "myResumes": "Mijn cv's",
+    "resumeEditor": "Cv-editor"
   },
   "fields": {
     "photo": "Foto",
@@ -107,6 +108,7 @@
   },
   "myResumes": {
     "pageTitle": "Mijn cv's",
+    "newResume": "+ Nieuw cv",
     "name": "Naam",
     "created": "Aangemaakt",
     "updated": "Bijgewerkt",
@@ -118,6 +120,7 @@
     "untitled": "Naamloos cv",
     "nameDialogTitle": "Geef uw cv een naam",
     "namePlaceholder": "bijv. CV Frontend Developer",
+    "nameTooLong": "De naam van het cv is te lang.",
     "confirmDelete": "Dit cv verwijderen? Dit kan niet ongedaan worden gemaakt.",
     "saveFailed": "Opslaan van cv mislukt. Probeer het opnieuw.",
     "loadFailed": "Je opgeslagen cv's konden niet worden geladen. Probeer het opnieuw.",

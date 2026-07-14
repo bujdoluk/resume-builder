@@ -70,6 +70,8 @@ interface AppStateValue {
   setFontSize: Dispatch<SetStateAction<FontSizeKey>>;
   resumeListVersion: number;
   notifyResumeListChanged: () => void;
+  lastEditorPath: string;
+  setLastEditorPath: Dispatch<SetStateAction<string>>;
 }
 
 const AppStateContext = createContext<AppStateValue | null>(null);
@@ -94,6 +96,12 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   const [resumeListVersion, setResumeListVersion] = useState(0);
   const notifyResumeListChanged = () =>
     setResumeListVersion((version) => version + 1);
+  // The editor (Home.tsx) keeps this pointed at its own current URL
+  // (including ?resumeId=/&template= once a saved resume is loaded), so the
+  // Sidebar's "Back to editor" link — visible from /my-resumes and
+  // /templates — returns to the exact resume the user was just editing
+  // instead of always landing on a blank one.
+  const [lastEditorPath, setLastEditorPath] = useState("/app");
 
   // Language switching is client-only (no URL routing), so the server
   // always renders with the default language and this effect applies the
@@ -124,6 +132,8 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
         setFontSize,
         resumeListVersion,
         notifyResumeListChanged,
+        lastEditorPath,
+        setLastEditorPath,
       }}
     >
       {children}

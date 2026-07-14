@@ -12,7 +12,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
-import { MyResumesIcon } from "@/components/Icons";
+import { MyResumesIcon, PencilSquareIcon } from "@/components/Icons";
 import { createClient } from "@/lib/supabase/client";
 import { countResumes } from "@/lib/supabase/resumes";
 import { ensureUserId } from "@/lib/supabase/session";
@@ -20,7 +20,7 @@ import { useAppState } from "@/components/AppState";
 
 export default function Sidebar() {
   const { t } = useTranslation();
-  const { resumeListVersion } = useAppState();
+  const { resumeListVersion, lastEditorPath } = useAppState();
   const [collapsed, setCollapsed] = useState(false);
   const [supabase] = useState(() => createClient());
   const [resumeCount, setResumeCount] = useState<number | null>(null);
@@ -50,6 +50,16 @@ export default function Sidebar() {
     <div className="bg-base-100 border-base-300 flex w-full flex-col border-b lg:h-full lg:w-auto lg:border-r lg:border-b-0">
       {/* Mobile/tablet: icon-only tab bar at the top */}
       <div role="tablist" className="tabs tabs-box m-2 lg:hidden">
+        <Link
+          href={lastEditorPath}
+          role="tab"
+          className="tab"
+          aria-label={t("sidebar.resumeEditor")}
+          title={t("sidebar.resumeEditor")}
+        >
+          <PencilSquareIcon className="h-5 w-5 stroke-current" />
+        </Link>
+
         <Link
           href="/my-resumes"
           role="tab"
@@ -100,6 +110,18 @@ export default function Sidebar() {
         </button>
 
         <ul className="menu w-full flex-nowrap p-4">
+          <li>
+            <Link
+              href={lastEditorPath}
+              title={collapsed ? t("sidebar.resumeEditor") : undefined}
+              className={`flex items-center ${collapsed ? "justify-center" : ""}`}
+            >
+              <PencilSquareIcon className="h-7 w-7 stroke-current" />
+              {!collapsed && (
+                <span className="font-medium">{t("sidebar.resumeEditor")}</span>
+              )}
+            </Link>
+          </li>
           <li>
             <Link
               href="/my-resumes"

@@ -109,7 +109,12 @@ export default function MyResumesPage() {
   return (
     <div className="flex min-h-full flex-col">
       <div className="bg-base-200 flex-1 p-8">
-        <h1 className="mb-6 text-2xl font-bold">{t("myResumes.pageTitle")}</h1>
+        <div className="mb-6 flex items-center justify-between gap-4">
+          <h1 className="text-2xl font-bold">{t("myResumes.pageTitle")}</h1>
+          <Link href="/app" className="btn btn-primary">
+            {t("myResumes.newResume")}
+          </Link>
+        </div>
 
         {loadFailed && (
           <p className="text-error">{t("myResumes.loadFailed")}</p>

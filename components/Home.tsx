@@ -110,6 +110,7 @@ export default function Home({
     modernSectionZones,
     setModernSectionZones,
     notifyResumeListChanged,
+    setLastEditorPath,
   } = useAppState();
   const [data, setData] = useState<ResumeData>(emptyResumeData);
   const [resumeId, setResumeId] = useState<string | null>(
@@ -132,6 +133,17 @@ export default function Home({
     setTemplateId(resolveTemplateId(initialTemplateId));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialTemplateId]);
+
+  // Keeps the Sidebar's "Back to editor" link pointed at this exact
+  // resume/template pair, so navigating away to /my-resumes or /templates
+  // and back returns here instead of a blank editor.
+  useEffect(() => {
+    setLastEditorPath(
+      resumeId
+        ? `/app?resumeId=${resumeId}&template=${templateId}`
+        : `/app?template=${templateId}`,
+    );
+  }, [resumeId, templateId, setLastEditorPath]);
 
   useEffect(() => {
     if (!initialResumeId) return;

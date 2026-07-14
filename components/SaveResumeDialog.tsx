@@ -13,11 +13,14 @@ export interface SaveResumeDialogHandle {
   open: (initialName: string) => Promise<string | null>;
 }
 
+const MAX_NAME_LENGTH = 100;
+
 export default function SaveResumeDialog({ ref }: { ref?: Ref<SaveResumeDialogHandle> }) {
   const { t } = useTranslation();
   const dialogRef = useRef<HTMLDialogElement>(null);
   const resolveRef = useRef<((name: string | null) => void) | null>(null);
   const [name, setName] = useState("");
+  const isTooLong = name.trim().length > MAX_NAME_LENGTH;
 
   useImperativeHandle(ref, () => ({
     open(initialName) {
@@ -37,6 +40,7 @@ export default function SaveResumeDialog({ ref }: { ref?: Ref<SaveResumeDialogHa
 
   function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
+    if (isTooLong) return;
     close(name.trim() || t("myResumes.untitled"));
   }
 
@@ -48,18 +52,23 @@ export default function SaveResumeDialog({ ref }: { ref?: Ref<SaveResumeDialogHa
           <fieldset className="fieldset mt-4">
             <input
               type="text"
-              className="input input-bordered w-full"
+              className={`input input-bordered w-full ${isTooLong ? "input-error" : ""}`}
               value={name}
               onChange={(event) => setName(event.target.value)}
               placeholder={t("myResumes.namePlaceholder")}
               autoFocus
             />
+            {isTooLong && (
+              <p className="text-error mt-1 text-sm">
+                {t("myResumes.nameTooLong")}
+              </p>
+            )}
           </fieldset>
           <div className="modal-action">
             <button type="button" className="btn" onClick={() => close(null)}>
               {t("buttons.cancel")}
             </button>
-            <button type="submit" className="btn btn-primary">
+            <button type="submit" className="btn btn-primary" disabled={isTooLong}>
               {t("buttons.save")}
             </button>
           </div>
