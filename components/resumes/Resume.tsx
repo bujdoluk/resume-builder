@@ -8,7 +8,7 @@
  * rather than in a separate form. Each template branch (Modern's
  * sidebar+main grid, Minimal's centered layout, Basic's default layout)
  * composes the same `sectionContent`/`fieldContent` maps differently to
- * match its read-only counterpart in `components/desktop-templates/`.
+ * match its read-only counterpart in `components/resumes/desktop-templates/`.
  */
 import { rectSortingStrategy } from "@dnd-kit/sortable";
 import { Fragment, useState, type Dispatch, type SetStateAction } from "react";
@@ -186,7 +186,7 @@ function SectionHeader({
 
   // Modern's sidebar zone drops the accent-color text (the dark block
   // already carries its own contrast color) in favor of a muted, opacity-70
-  // look — matches components/desktop-templates/ModernTemplate.tsx's sidebar
+  // look — matches components/resumes/desktop-templates/ModernTemplate.tsx's sidebar
   // headers, so a section keeps whichever style matches its current zone.
   if (variant === "sidebar") {
     return (

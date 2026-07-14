@@ -1,10 +1,10 @@
 /**
  * Route entry for `/app`, the resume editor. Reads the `template` and
  * `resumeId` query params on the server and hands them to the client-side
- * `Home` component, which owns all editor state.
+ * `ResumeBuilder` component, which owns all editor state.
  */
 import type { Metadata } from "next";
-import Home from "@/components/Home";
+import ResumeBuilder from "@/components/resumes/ResumeBuilder";
 
 export const metadata: Metadata = {
   alternates: {
@@ -19,5 +19,7 @@ interface PageProps {
 export default async function Page({ searchParams }: PageProps) {
   const { template, resumeId } = await searchParams;
 
-  return <Home initialTemplateId={template} initialResumeId={resumeId} />;
+  return (
+    <ResumeBuilder initialTemplateId={template} initialResumeId={resumeId} />
+  );
 }

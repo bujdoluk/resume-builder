@@ -3,27 +3,29 @@
 /**
  * Top-level cover letter builder page component rendered by the
  * `/cover-letter` route: owns the cover letter's data state, loads a saved
- * one by id, and renders the editable form alongside Preview/Save/Print/
- * Download actions plus a completion-steps panel, mirroring `Home.tsx`'s
- * resume flow (`renderSectionSteps`) but simpler — one fixed template, and
- * a single, non-repeatable field per section instead of arbitrary-length
- * entries, so each step is either fully filled or not (no partial-entry
- * grading needed beyond simple field counts).
+ * one by id, and renders either the mobile editing form or the desktop
+ * editing canvas (mirroring `ResumeBuilder.tsx`'s mobile/desktop split between
+ * `MobileTemplateComponent` and `Resume.tsx`) alongside Preview/Save/Print/
+ * Download actions plus a completion-steps panel
+ * (`renderCoverLetterSteps`, mirroring `ResumeBuilder.tsx`'s `renderSectionSteps`
+ * but simpler — one fixed template, and a single, non-repeatable field per
+ * section instead of arbitrary-length entries, so each step is either
+ * fully filled or not).
  */
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useTranslation } from "react-i18next";
 import { useAppState } from "@/components/AppState";
+import DownloadButton from "@/components/DownloadButton";
 import { InfoIcon, SaveIcon } from "@/components/Icons";
+import PreviewModal, {
+  type PreviewModalHandle,
+} from "@/components/PreviewModal";
 import PrintButton from "@/components/PrintButton";
 import SaveResumeDialog, {
   type SaveResumeDialogHandle,
 } from "@/components/SaveResumeDialog";
-import CoverLetterDownloadButton from "@/components/cover-letter/CoverLetterDownloadButton";
-import CoverLetterEditor from "@/components/cover-letter/CoverLetterEditor";
-import CoverLetterPreviewModal, {
-  type PreviewModalHandle,
-} from "@/components/cover-letter/CoverLetterPreviewModal";
+import CoverLetter from "@/components/cover-letter/CoverLetter";
 import { emptyCoverLetterData, type CoverLetterData } from "@/lib/coverLetterData";
 import { isCoverLetterFieldFilled } from "@/lib/coverLetterFields";
 import {
@@ -31,6 +33,8 @@ import {
   defaultCoverLetterSectionOrder,
   type CoverLetterSectionKey,
 } from "@/lib/coverLetterSections";
+import { coverLetterTemplates } from "@/lib/coverLetterTemplates";
+import { coverLetterPdfTemplates } from "@/lib/pdf/coverLetterTemplates";
 import { createClient } from "@/lib/supabase/client";
 import { getCoverLetter, saveCoverLetter } from "@/lib/supabase/coverLetters";
 import { ensureUserId } from "@/lib/supabase/session";
@@ -50,12 +54,21 @@ export default function CoverLetterBuilder({
     fontSize,
     coverLetterFieldOrder,
     setCoverLetterFieldOrder,
+    coverLetterTemplateId,
+    coverLetterSectionZones,
+    setCoverLetterSectionZones,
     notifyCoverLetterListChanged,
   } = useAppState();
   const [data, setData] = useState<CoverLetterData>(emptyCoverLetterData);
   const [sectionOrder, setSectionOrder] = useState<CoverLetterSectionKey[]>(
     defaultCoverLetterSectionOrder,
   );
+  const templateDefinition =
+    coverLetterTemplates.find((template) => template.id === coverLetterTemplateId) ??
+    coverLetterTemplates[0];
+  const TemplateComponent = templateDefinition.component;
+  const MobileTemplateComponent = templateDefinition.mobileTemplateComponent;
+  const PdfTemplate = coverLetterPdfTemplates[coverLetterTemplateId];
   const [coverLetterId, setCoverLetterId] = useState<string | null>(
     initialCoverLetterId ?? null,
   );
@@ -85,10 +98,10 @@ export default function CoverLetterBuilder({
     setData((prev) => ({ ...prev, [field]: value }));
   }
 
-  // Each section's own SortableBlock (in CoverLetterEditor.tsx) is tagged
-  // with `data-section-anchor` via its `anchor` prop — same mechanism as
-  // Home.tsx's resume steps, just without the mobile/desktop dual-tree
-  // lookup since this page renders a single tree.
+  // Each section's own SortableBlock (in CoverLetterFormFields.tsx) is
+  // tagged with `data-section-anchor` via its `anchor` prop — same
+  // mechanism as ResumeBuilder.tsx's resume steps, just without the
+  // mobile/desktop dual-tree lookup since this page renders a single tree.
   function scrollToSectionAnchor(anchor: string) {
     document
       .querySelector<HTMLElement>(`[data-section-anchor="${anchor}"]`)
@@ -241,11 +254,83 @@ export default function CoverLetterBuilder({
     }
   }
 
+  function renderActionButtons(className: string) {
+    return (
+      <div className={className}>
+        <button
+          type="button"
+          className="btn btn-primary btn-lg flex-1 md:flex-none md:w-48"
+          onClick={() => previewRef.current?.open()}
+        >
+          {t("buttons.preview")}
+        </button>
+
+        <button
+          type="button"
+          className="btn btn-outline hover:border-primary flex-1 md:flex-none md:w-48"
+          disabled={isSaving}
+          onClick={handleSave}
+        >
+          {isSaving ? (
+            <span className="loading loading-spinner loading-sm" />
+          ) : justSaved ? (
+            t("buttons.saved")
+          ) : (
+            <>
+              <SaveIcon className="h-5 w-5 stroke-current" />
+              {t("buttons.save")}
+            </>
+          )}
+        </button>
+
+        <PrintButton
+          className="btn btn-outline hover:border-primary flex-1 md:flex-none md:w-48"
+          previewRef={previewRef}
+        />
+
+        <DownloadButton
+          className="btn btn-outline hover:border-primary flex-1 md:flex-none md:w-48"
+          fileName={name || "cover-letter"}
+          pdfTemplate={PdfTemplate}
+          pdfProps={{
+            data,
+            color,
+            font,
+            fontSize,
+            visibleFields: coverLetterFieldOrder,
+            sectionOrder,
+            sectionZones: coverLetterSectionZones,
+          }}
+        />
+      </div>
+    );
+  }
+
   return (
     <div className="flex min-h-full flex-col">
-      <div className="bg-base-200 flex flex-1 flex-col gap-6 p-4 lg:flex-row lg:items-start lg:justify-center lg:p-8">
+      <div className="bg-base-200 flex flex-1 flex-col gap-6 p-4 md:hidden">
+        <MobileTemplateComponent
+          data={data}
+          onChange={handleChange}
+          fieldOrder={coverLetterFieldOrder}
+          onReorderFields={setCoverLetterFieldOrder}
+          sectionOrder={sectionOrder}
+          onReorderSections={setSectionOrder}
+          color={color}
+          font={font}
+          fontSize={fontSize}
+          sectionZones={coverLetterSectionZones}
+          onChangeSectionZones={setCoverLetterSectionZones}
+        />
+        <div className="flex flex-col gap-3">
+          {renderActionButtons("flex gap-2")}
+          {renderCoverLetterSteps()}
+        </div>
+      </div>
+
+      <div className="bg-base-200 hidden flex-1 flex-col items-center gap-6 p-4 md:flex lg:flex-row lg:items-start lg:justify-center lg:gap-8 lg:p-8">
         <div className="w-full min-w-0 overflow-x-auto lg:w-auto">
-          <CoverLetterEditor
+          <CoverLetter
             data={data}
             onChange={handleChange}
             fieldOrder={coverLetterFieldOrder}
@@ -255,70 +340,38 @@ export default function CoverLetterBuilder({
             color={color}
             font={font}
             fontSize={fontSize}
+            templateId={coverLetterTemplateId}
+            sectionZones={coverLetterSectionZones}
+            onChangeSectionZones={setCoverLetterSectionZones}
           />
         </div>
 
-        <div className="flex flex-col gap-2 lg:sticky lg:top-8 lg:w-48">
-          <button
-            type="button"
-            className="btn btn-primary btn-lg"
-            onClick={() => previewRef.current?.open()}
-          >
-            {t("buttons.preview")}
-          </button>
-
-          <button
-            type="button"
-            className="btn btn-outline hover:border-primary"
-            disabled={isSaving}
-            onClick={handleSave}
-          >
-            {isSaving ? (
-              <span className="loading loading-spinner loading-sm" />
-            ) : justSaved ? (
-              t("buttons.saved")
-            ) : (
-              <>
-                <SaveIcon className="h-5 w-5 stroke-current" />
-                {t("buttons.save")}
-              </>
-            )}
-          </button>
-
-          <PrintButton
-            className="btn btn-outline hover:border-primary"
-            previewRef={previewRef}
-          />
-
-          <CoverLetterDownloadButton
-            className="btn btn-outline hover:border-primary"
-            fileName={name}
-            data={data}
-            color={color}
-            font={font}
-            fontSize={fontSize}
-            visibleFields={coverLetterFieldOrder}
-          />
-
+        <div className="order-first flex flex-col gap-3 lg:sticky lg:top-8 lg:order-last lg:self-start">
+          {renderActionButtons("flex flex-col gap-2")}
           {renderCoverLetterSteps()}
         </div>
-
-        <CoverLetterPreviewModal
-          ref={previewRef}
-          data={data}
-          color={color}
-          font={font}
-          fontSize={fontSize}
-          visibleFields={coverLetterFieldOrder}
-        />
-        <SaveResumeDialog
-          ref={saveDialogRef}
-          title={t("coverLetter.nameDialogTitle")}
-          placeholder={t("coverLetter.namePlaceholder")}
-          untitledFallback={t("coverLetter.untitled")}
-          tooLongMessage={t("coverLetter.nameTooLong")}
-        />
       </div>
+
+      <PreviewModal
+        ref={previewRef}
+        templateComponent={TemplateComponent}
+        templateProps={{
+          data,
+          color,
+          font,
+          fontSize,
+          visibleFields: coverLetterFieldOrder,
+          sectionOrder,
+          sectionZones: coverLetterSectionZones,
+        }}
+      />
+      <SaveResumeDialog
+        ref={saveDialogRef}
+        title={t("coverLetter.nameDialogTitle")}
+        placeholder={t("coverLetter.namePlaceholder")}
+        untitledFallback={t("coverLetter.untitled")}
+        tooLongMessage={t("coverLetter.nameTooLong")}
+      />
     </div>
   );
 }

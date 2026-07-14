@@ -75,7 +75,7 @@ export function SortableBlock({
   // blocks, e.g. one per work-experience entry, which reuse the same id
   // across entries) — set `anchor` there to tag the block with
   // `data-section-anchor`, letting the Download panel's step list
-  // (components/Home.tsx) scroll straight to it.
+  // (components/resumes/ResumeBuilder.tsx) scroll straight to it.
   anchor?: boolean;
   children: React.ReactNode;
 }) {

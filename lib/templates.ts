@@ -1,25 +1,25 @@
 /**
  * Registry of the three resume templates (Basic/Modern/Minimal), each
  * pairing its read-only desktop display component
- * (`components/desktop-templates/`) with its mobile editing template
- * (`components/mobile-templates/`) — the single source `Home.tsx` and the
+ * (`components/resumes/desktop-templates/`) with its mobile editing template
+ * (`components/resumes/mobile-templates/`) — the single source `ResumeBuilder.tsx` and the
  * `/templates` gallery look up templates by id from.
  */
 import type { ComponentType } from "react";
 import BasicMobileTemplate, {
   type MobileTemplateProps,
-} from "@/components/mobile-templates/BasicMobileTemplate";
-import ClassicMobileTemplate from "@/components/mobile-templates/ClassicMobileTemplate";
-import ElegantMobileTemplate from "@/components/mobile-templates/ElegantMobileTemplate";
-import ModernMobileTemplate from "@/components/mobile-templates/ModernMobileTemplate";
-import MinimalMobileTemplate from "@/components/mobile-templates/MinimalMobileTemplate";
+} from "@/components/resumes/mobile-templates/BasicMobileTemplate";
+import ClassicMobileTemplate from "@/components/resumes/mobile-templates/ClassicMobileTemplate";
+import ElegantMobileTemplate from "@/components/resumes/mobile-templates/ElegantMobileTemplate";
+import ModernMobileTemplate from "@/components/resumes/mobile-templates/ModernMobileTemplate";
+import MinimalMobileTemplate from "@/components/resumes/mobile-templates/MinimalMobileTemplate";
 import BasicTemplate, {
   type TemplateProps,
-} from "@/components/desktop-templates/BasicTemplate";
-import ClassicTemplate from "@/components/desktop-templates/ClassicTemplate";
-import ElegantTemplate from "@/components/desktop-templates/ElegantTemplate";
-import MinimalTemplate from "@/components/desktop-templates/MinimalTemplate";
-import ModernTemplate from "@/components/desktop-templates/ModernTemplate";
+} from "@/components/resumes/desktop-templates/BasicTemplate";
+import ClassicTemplate from "@/components/resumes/desktop-templates/ClassicTemplate";
+import ElegantTemplate from "@/components/resumes/desktop-templates/ElegantTemplate";
+import MinimalTemplate from "@/components/resumes/desktop-templates/MinimalTemplate";
+import ModernTemplate from "@/components/resumes/desktop-templates/ModernTemplate";
 
 export type { TemplateProps, MobileTemplateProps };
 

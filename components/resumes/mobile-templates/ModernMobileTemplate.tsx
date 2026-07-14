@@ -1,18 +1,15 @@
 "use client";
 
 /**
- * Mobile-width editing form for the Elegant template: mirrors Elegant's
- * plain white main area (name, job title, contact fields, then About
- * Me/sections) stacked above an accent-colored block holding only the photo
- * plus whichever sections are currently in the sidebar zone — sharing the
- * same drag-and-drop primitives, CRUD handlers, and zone bookkeeping
- * (`useModernZoneLayout`) as the desktop `Resume.tsx` canvas and Modern's
- * mobile form.
+ * Mobile-width editing form for the Modern template: mirrors Modern's dark
+ * accent-colored block (photo/contact/skills/certifications/languages)
+ * stacked above the main content area, sharing the same drag-and-drop
+ * primitives and CRUD handlers as the desktop `Resume.tsx` canvas.
  */
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import AutoResizeTextarea from "@/components/AutoResizeTextarea";
-import type { MobileTemplateProps } from "@/components/mobile-templates/BasicMobileTemplate";
+import type { MobileTemplateProps } from "@/components/resumes/mobile-templates/BasicMobileTemplate";
 import { AboutMeIcon } from "@/components/Icons";
 import {
   reorderEntries,
@@ -31,6 +28,8 @@ import {
   type SectionKey,
   type WorkEntry,
 } from "@/lib/resumeData";
+
+const mainFieldKeys: FieldKey[] = ["aboutMe"];
 
 type WorkEntryFieldKey =
   | "position"
@@ -95,7 +94,8 @@ function RemoveButton({
 
 // Sidebar-zone headers drop the accent-color text (the block already
 // carries its own contrast colour) in favor of a muted opacity-70 look — a
-// section keeps whichever style matches the zone it's currently placed in.
+// section keeps whichever style matches the zone it's currently placed in,
+// so dragging it between zones restyles its header.
 function SectionHeader({
   icon,
   title,
@@ -130,7 +130,7 @@ function SectionHeader({
   );
 }
 
-export default function ElegantMobileTemplate({
+export default function ModernMobileTemplate({
   data,
   onChange,
   onWorkHistoryChange,
@@ -409,7 +409,7 @@ export default function ElegantMobileTemplate({
       <input
         type="text"
         placeholder={t("placeholders.yourName")}
-        className="input input-plain w-full text-3xl font-bold"
+        className="input input-plain w-full text-center text-xl font-bold"
         value={data.name}
         onChange={(e) => onChange("name", e.target.value)}
       />
@@ -421,8 +421,7 @@ export default function ElegantMobileTemplate({
       <input
         type="text"
         placeholder={t("placeholders.yourJobTitle")}
-        className="input input-plain w-full text-lg font-semibold"
-        style={color ? { color } : undefined}
+        className="input input-plain w-full text-center text-sm opacity-80"
         value={data.jobTitle}
         onChange={(e) => onChange("jobTitle", e.target.value)}
       />
@@ -570,6 +569,8 @@ export default function ElegantMobileTemplate({
     </fieldset>
   );
 
+  // About Me is freely draggable between the sidebar and main zones too
+  // (not just sections), so its header restyles the same way sections' do.
   const aboutMeZone: "main" | "sidebar" = sidebarItems.includes("aboutMe")
     ? "sidebar"
     : "main";
@@ -611,6 +612,10 @@ export default function ElegantMobileTemplate({
     aboutMe,
   };
 
+  // Renders one section's editing UI for either zone — the fields
+  // themselves stay fully editable in both (this is a form, not a display
+  // template), only the header restyles to match Modern's sidebar
+  // (opacity-70, no accent color) vs. main (accent-colored) look.
   function renderSection(
     key: SectionKey,
     zone: "main" | "sidebar",
@@ -650,7 +655,7 @@ export default function ElegantMobileTemplate({
             />
             <div className="flex flex-col gap-4">
               <SortableGroup
-                dndId="elegant-work-history-entries"
+                dndId="work-history-entries"
                 ids={data.workExperience.map((entry) => entry.id)}
                 onReorder={(order) =>
                   onWorkHistoryChange(
@@ -673,7 +678,7 @@ export default function ElegantMobileTemplate({
                         />
                       </div>
                       <SortableGroup
-                        dndId={`elegant-work-fields-${entry.id}`}
+                        dndId={`work-fields-${entry.id}`}
                         ids={workFieldOrder}
                         onReorder={setWorkFieldOrder}
                       >
@@ -735,7 +740,7 @@ export default function ElegantMobileTemplate({
             />
             <div className="flex flex-col gap-4">
               <SortableGroup
-                dndId="elegant-education-entries"
+                dndId="education-entries"
                 ids={data.education.map((entry) => entry.id)}
                 onReorder={(order) =>
                   onEducationChange(reorderEntries(data.education, order))
@@ -756,7 +761,7 @@ export default function ElegantMobileTemplate({
                         />
                       </div>
                       <SortableGroup
-                        dndId={`elegant-education-fields-${entry.id}`}
+                        dndId={`education-fields-${entry.id}`}
                         ids={educationFieldOrder}
                         onReorder={setEducationFieldOrder}
                       >
@@ -806,7 +811,7 @@ export default function ElegantMobileTemplate({
             />
             <div className="flex flex-col gap-2">
               <SortableGroup
-                dndId="elegant-skills-entries"
+                dndId="skills-entries"
                 ids={data.skills.map((entry) => entry.id)}
                 onReorder={(order) =>
                   onSkillsChange(reorderEntries(data.skills, order))
@@ -869,7 +874,7 @@ export default function ElegantMobileTemplate({
             />
             <div className="flex flex-col gap-2">
               <SortableGroup
-                dndId="elegant-certifications-entries"
+                dndId="certifications-entries"
                 ids={data.certifications.map((entry) => entry.id)}
                 onReorder={(order) =>
                   onCertificationsChange(reorderEntries(data.certifications, order))
@@ -945,7 +950,7 @@ export default function ElegantMobileTemplate({
             />
             <div className="flex flex-col gap-2">
               <SortableGroup
-                dndId="elegant-languages-entries"
+                dndId="languages-entries"
                 ids={data.languages.map((entry) => entry.id)}
                 onReorder={(order) =>
                   onLanguagesChange(reorderEntries(data.languages, order))
@@ -989,7 +994,7 @@ export default function ElegantMobileTemplate({
                               <input
                                 key={level}
                                 type="radio"
-                                name={`elegant-language-level-${entry.id}`}
+                                name={`modern-mobile-language-level-${entry.id}`}
                                 aria-label={level}
                                 className="mask mask-star"
                                 checked={index === levelIndex}
@@ -1041,7 +1046,7 @@ export default function ElegantMobileTemplate({
             />
             <div className="flex flex-col gap-2">
               <SortableGroup
-                dndId="elegant-interests-entries"
+                dndId="interests-entries"
                 ids={data.interests.map((entry) => entry.id)}
                 onReorder={(order) =>
                   onInterestsChange(reorderEntries(data.interests, order))
@@ -1080,53 +1085,17 @@ export default function ElegantMobileTemplate({
     }
   }
 
-  const mainFieldKeys = visibleFields.filter(
-    (key) => key !== "photo" && key !== "aboutMe",
+  const sidebarFieldKeys = visibleFields.filter(
+    (key) => !mainFieldKeys.includes(key),
   );
 
   return (
     <SortableZones
-      dndId="elegant-mobile-sections"
+      dndId="modern-mobile-sections"
       zones={{ sidebar: sidebarItems, main: mainItems }}
       onChange={onZonesChange}
     >
-      <div className="resume-scalable flex flex-col gap-4 bg-white pl-8">
-        <div data-section-anchor="personalInfo">
-          <SortableGroup
-            dndId="elegant-mobile-main-fields"
-            ids={mainFieldKeys}
-            onReorder={(order) =>
-              onReorderFields([
-                ...visibleFields.filter((key) => key === "photo"),
-                ...order,
-                ...visibleFields.filter((key) => key === "aboutMe"),
-              ])
-            }
-          >
-            <div className="flex flex-col gap-2">
-              {mainFieldKeys.map((key) => (
-                <SortableBlock key={key} id={key}>
-                  {fieldContent[key]}
-                </SortableBlock>
-              ))}
-            </div>
-          </SortableGroup>
-        </div>
-
-        <SortableZone
-          zoneId="main"
-          ids={mainItems}
-          className="flex min-h-8 flex-col gap-2"
-        >
-          {mainItems.map((item) => (
-            <SortableBlock key={item} id={item} anchor>
-              {item === "aboutMe"
-                ? fieldContent.aboutMe
-                : renderSection(item, "main")}
-            </SortableBlock>
-          ))}
-        </SortableZone>
-
+      <div className="flex flex-col gap-4 pl-8">
         <div
           className="modern-sidebar bg-neutral text-neutral-content flex flex-col gap-2 rounded-lg p-4"
           style={
@@ -1139,7 +1108,24 @@ export default function ElegantMobileTemplate({
               : undefined
           }
         >
-          {avatar}
+          <div data-section-anchor="personalInfo">
+            <SortableGroup
+              dndId="modern-mobile-sidebar-fields"
+              ids={sidebarFieldKeys}
+              onReorder={(order) =>
+                onReorderFields([
+                  ...order,
+                  ...visibleFields.filter((key) => mainFieldKeys.includes(key)),
+                ])
+              }
+            >
+              {sidebarFieldKeys.map((key) => (
+                <SortableBlock key={key} id={key}>
+                  {fieldContent[key]}
+                </SortableBlock>
+              ))}
+            </SortableGroup>
+          </div>
 
           <SortableZone
             zoneId="sidebar"
@@ -1155,6 +1141,20 @@ export default function ElegantMobileTemplate({
             ))}
           </SortableZone>
         </div>
+
+        <SortableZone
+          zoneId="main"
+          ids={mainItems}
+          className="flex min-h-8 flex-col gap-2"
+        >
+          {mainItems.map((item) => (
+            <SortableBlock key={item} id={item} anchor>
+              {item === "aboutMe"
+                ? fieldContent.aboutMe
+                : renderSection(item, "main")}
+            </SortableBlock>
+          ))}
+        </SortableZone>
       </div>
     </SortableZones>
   );

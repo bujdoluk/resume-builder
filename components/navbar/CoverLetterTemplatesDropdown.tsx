@@ -1,13 +1,14 @@
 "use client";
 
 /**
- * Navbar button showing the cover letter's template as a thumbnail — the
- * cover letter counterpart of `TemplatesDropdown.tsx`. Only one template
- * (Basic) exists today, via `lib/coverLetterTemplates.ts`'s registry, but
- * the UI is structured the same way so future additions plug in identically
- * to the resume side.
+ * Navbar button for switching the cover letter's template — the cover
+ * letter counterpart of `TemplatesDropdown.tsx`. Picking one just updates
+ * the shared `AppState.coverLetterTemplateId` in place — no navigation, so
+ * `CoverLetterBuilder.tsx`'s in-memory cover letter `data` is completely
+ * untouched.
  */
 import { useTranslation } from "react-i18next";
+import { useAppState } from "@/components/AppState";
 import { TemplatesIcon } from "@/components/Icons";
 import TemplateThumbnail from "@/components/TemplateThumbnail";
 import NavbarDropdownButton from "@/components/navbar/NavbarDropdownButton";
@@ -16,6 +17,7 @@ import { sampleCoverLetterData } from "@/lib/sampleCoverLetterData";
 
 export default function CoverLetterTemplatesDropdown() {
   const { t } = useTranslation();
+  const { coverLetterTemplateId, setCoverLetterTemplateId } = useAppState();
 
   return (
     <NavbarDropdownButton
@@ -26,14 +28,18 @@ export default function CoverLetterTemplatesDropdown() {
     >
       <div className="flex gap-3">
         {coverLetterTemplates.map((template) => (
-          <div
+          <button
             key={template.id}
-            className="ring-primary flex flex-col items-center gap-1 rounded-md p-1 ring-2"
+            type="button"
+            onClick={() => setCoverLetterTemplateId(template.id)}
+            className={`flex flex-col items-center gap-1 rounded-md p-1 ${
+              coverLetterTemplateId === template.id ? "ring-primary ring-2" : ""
+            }`}
           >
             <TemplateThumbnail width={210}>
               <template.component data={sampleCoverLetterData} />
             </TemplateThumbnail>
-          </div>
+          </button>
         ))}
       </div>
     </NavbarDropdownButton>

@@ -1,15 +1,17 @@
 "use client";
 
 /**
- * Read-only Basic template: a simple, icon-and-gray-label single-column
- * layout with a daisyUI `timeline` for Work Experience/Education. Used for
- * the live editor's Preview modal and the `/templates` gallery — its
- * editable counterpart is `components/Resume.tsx`, and the
+ * Read-only Classic template: a copy of BasicTemplate.tsx with a colored
+ * header band (photo/name/job title/contact) at the top of the page — About
+ * Me and every section stay on the plain white body below, unchanged from
+ * Basic. Used for the live editor's Preview modal and the `/templates`
+ * gallery — its editable counterpart is `components/resumes/Resume.tsx`, and the
  * `@react-pdf/renderer` port for downloads is
- * `components/pdf/BasicPdfTemplate.tsx`.
+ * `components/pdf/ClassicPdfTemplate.tsx`.
  */
 import { Fragment } from "react";
 import { useTranslation } from "react-i18next";
+import type { TemplateProps } from "@/components/resumes/desktop-templates/BasicTemplate";
 import { allFields, type FieldKey } from "@/lib/fields";
 import {
   AboutMeIcon,
@@ -25,34 +27,15 @@ import {
   WebsiteIcon,
   WorkHistoryIcon,
 } from "@/components/Icons";
-import { getFontSizeStyle, type FontSizeKey } from "@/lib/fontSize";
-import { fontsByKey, type FontKey } from "@/lib/fonts";
-import {
-  languageLevels,
-  type ModernSectionZones,
-  type ResumeData,
-  type SectionKey,
-} from "@/lib/resumeData";
-
-// Canonical shared props for all 3 read-only templates — Modern and Minimal
-// import this rather than redeclaring it, mirroring how PdfTemplateProps
-// already works for the PDF templates. `sectionZones` is only meaningful
-// for Modern (which sections sit in its sidebar vs. main column); Basic and
-// Minimal ignore it, same as they already ignore parts of `color`.
-export interface TemplateProps {
-  data: ResumeData;
-  sectionOrder: SectionKey[];
-  color?: string | null;
-  font?: FontKey | null;
-  fontSize?: FontSizeKey;
-  visibleFields?: FieldKey[];
-  sectionZones?: ModernSectionZones;
-}
+import { getContrastTextColor } from "@/lib/color";
+import { getFontSizeStyle } from "@/lib/fontSize";
+import { fontsByKey } from "@/lib/fonts";
+import { languageLevels, type SectionKey } from "@/lib/resumeData";
 
 // Renders a field order, pairing Photo with Name/Job Title (photo left,
 // text stacked right, height-matched to the photo) whenever they
 // immediately follow it — matches the same pairing rule used in the
-// editable form (components/Resume.tsx), so drag-reordering there is
+// editable form (components/resumes/Resume.tsx), so drag-reordering there is
 // reflected consistently here.
 function renderFieldItems(
   order: FieldKey[],
@@ -99,7 +82,7 @@ function renderFieldItems(
   return nodes;
 }
 
-export default function BasicTemplate({
+export default function ClassicTemplate({
   data,
   sectionOrder,
   color,
@@ -111,8 +94,14 @@ export default function BasicTemplate({
   const isVisible = (key: FieldKey) =>
     !visibleFields || visibleFields.includes(key);
   const fieldOrder = visibleFields ?? allFields;
+  const headerFieldOrder = fieldOrder.filter((key) => key !== "aboutMe");
   const fontFamily = font ? fontsByKey[font].variable : undefined;
   const fontSizeStyle = getFontSizeStyle(fontSize ?? "medium");
+
+  const headerBgClass = color ? "" : "bg-neutral text-neutral-content";
+  const headerStyle = color
+    ? { backgroundColor: color, color: getContrastTextColor(color) }
+    : undefined;
 
   const workEntries = data.workExperience.filter(
     (entry) =>
@@ -350,7 +339,7 @@ export default function BasicTemplate({
   const fieldContent: Partial<Record<FieldKey, React.ReactNode>> = {
     photo: data.photo && isVisible("photo") && (
       <div className="avatar">
-        <div className="w-16 rounded-full">
+        <div className="w-16 rounded-full bg-white">
           {/* eslint-disable-next-line @next/next/no-img-element -- user-uploaded data URL, not an optimizable static asset */}
           <img
             src={data.photo}
@@ -368,39 +357,39 @@ export default function BasicTemplate({
     ),
 
     jobTitle: data.jobTitle && isVisible("jobTitle") && (
-      <p className="text-lg text-gray-600">{data.jobTitle}</p>
+      <p className="text-lg opacity-80">{data.jobTitle}</p>
     ),
 
     phone: data.phone && isVisible("phone") && (
-      <p className="flex items-center gap-1.5 text-sm text-gray-500">
+      <p className="flex items-center gap-1.5 text-sm opacity-80">
         <PhoneIcon className="h-4 w-4 shrink-0 stroke-current" />
         {data.phone}
       </p>
     ),
 
     email: data.email && isVisible("email") && (
-      <p className="flex items-center gap-1.5 text-sm text-gray-500">
+      <p className="flex items-center gap-1.5 text-sm opacity-80">
         <EmailIcon className="h-4 w-4 shrink-0 stroke-current" />
         {data.email}
       </p>
     ),
 
     address: data.address && isVisible("address") && (
-      <p className="flex items-center gap-1.5 text-sm text-gray-500">
+      <p className="flex items-center gap-1.5 text-sm opacity-80">
         <AddressIcon className="h-4 w-4 shrink-0 stroke-current" />
         {data.address}
       </p>
     ),
 
     website: data.website && isVisible("website") && (
-      <p className="flex items-center gap-1.5 text-sm text-gray-500">
+      <p className="flex items-center gap-1.5 text-sm opacity-80">
         <WebsiteIcon className="h-4 w-4 shrink-0 stroke-current" />
         {data.website}
       </p>
     ),
 
     linkedin: data.linkedin && isVisible("linkedin") && (
-      <p className="flex items-center gap-1.5 text-sm text-gray-500">
+      <p className="flex items-center gap-1.5 text-sm opacity-80">
         <LinkedInIcon className="h-4 w-4 shrink-0 stroke-current" />
         {data.linkedin}
       </p>
@@ -425,10 +414,15 @@ export default function BasicTemplate({
       className="resume-scalable w-[210mm] min-h-[297mm] bg-white shadow-xl print:shadow-none"
       style={{ fontFamily, ...fontSizeStyle }}
     >
+      <div
+        className={`flex flex-col gap-1 p-8 ${headerBgClass}`}
+        style={headerStyle}
+      >
+        {renderFieldItems(headerFieldOrder, fieldContent)}
+      </div>
+
       <div className="p-8">
-        <div className="flex flex-col gap-1">
-          {renderFieldItems(fieldOrder, fieldContent)}
-        </div>
+        {fieldContent.aboutMe}
 
         {sectionOrder.map((key) => (
           <Fragment key={key}>{sectionContent[key]}</Fragment>

@@ -34,7 +34,7 @@ import {
   type SectionKey,
   type WorkEntry,
 } from "@/lib/resumeData";
-import type { MobileTemplateProps } from "@/components/mobile-templates/BasicMobileTemplate";
+import type { MobileTemplateProps } from "@/components/resumes/mobile-templates/BasicMobileTemplate";
 
 type WorkEntryFieldKey =
   | "position"

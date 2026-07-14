@@ -9,7 +9,7 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import AutoResizeTextarea from "@/components/AutoResizeTextarea";
-import type { MobileTemplateProps } from "@/components/mobile-templates/BasicMobileTemplate";
+import type { MobileTemplateProps } from "@/components/resumes/mobile-templates/BasicMobileTemplate";
 import {
   reorderEntries,
   SortableBlock,

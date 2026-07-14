@@ -6,21 +6,30 @@
  * body, closing) — used for the Preview modal and the always-mounted
  * print-only copy. Supports the same color/font/font-size/field-visibility
  * customization as the resume templates (see `TemplateProps` in
- * `components/desktop-templates/BasicTemplate.tsx`), applied here via
+ * `components/resumes/desktop-templates/BasicTemplate.tsx`), applied here via
  * `accentColor` (subject line) and the shared `.resume-scalable` font-size
  * scaling mechanism.
  */
 import type { CoverLetterFieldKey } from "@/lib/coverLetterFields";
 import type { CoverLetterData } from "@/lib/coverLetterData";
+import type {
+  CoverLetterSectionKey,
+  CoverLetterSectionZones,
+} from "@/lib/coverLetterSections";
 import { getFontSizeStyle, type FontSizeKey } from "@/lib/fontSize";
 import { fontsByKey, type FontKey } from "@/lib/fonts";
 
+// `sectionOrder`/`sectionZones` are only meaningful for the Modern template
+// (which sections sit in its sidebar vs. main column) — Basic ignores
+// them, same as it already ignores parts of `color`.
 export interface CoverLetterTemplateProps {
   data: CoverLetterData;
   color?: string | null;
   font?: FontKey | null;
   fontSize?: FontSizeKey;
   visibleFields?: CoverLetterFieldKey[];
+  sectionOrder?: CoverLetterSectionKey[];
+  sectionZones?: CoverLetterSectionZones;
 }
 
 export default function CoverLetterBasicTemplate({

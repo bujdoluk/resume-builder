@@ -1,30 +1,35 @@
 "use client";
 
 /**
- * Download button: generates the resume PDF client-side via
+ * Generic download button: generates a PDF client-side via
  * `@react-pdf/renderer` (dynamically imported so its ~1MB doesn't bloat the
- * initial editor bundle) using the template matching `templateId`, then
- * triggers a browser download of the resulting blob.
+ * initial editor bundle) from whatever `pdfTemplate` component and
+ * `pdfProps` the caller supplies, then triggers a browser download of the
+ * resulting blob. Reused by both the resume editor (which looks up the
+ * right template from `pdfTemplates[templateId]`, since it has several
+ * swappable templates) and the cover letter builder (which has only one
+ * template and just passes it directly) — the generic type parameter lets
+ * each caller's own props shape (`PdfTemplateProps` vs
+ * `CoverLetterPdfTemplateProps`) flow through untouched.
  */
-import { useState } from "react";
+import { useState, type ComponentType } from "react";
 import { useTranslation } from "react-i18next";
 import { DownloadIcon } from "@/components/Icons";
 import { registerPdfFonts } from "@/lib/pdf/fonts";
-import { pdfTemplates, type PdfTemplateProps } from "@/lib/pdf/templates";
-import type { TemplateId } from "@/lib/templates";
 
-export interface DownloadButtonProps extends PdfTemplateProps {
-  templateId: TemplateId;
-  resumeName: string;
+export interface DownloadButtonProps<T extends object> {
+  pdfTemplate: ComponentType<T>;
+  pdfProps: T;
+  fileName: string;
   className?: string;
 }
 
-export default function DownloadButton({
-  templateId,
-  resumeName,
+export default function DownloadButton<T extends object>({
+  pdfTemplate: PdfTemplate,
+  pdfProps,
+  fileName,
   className,
-  ...pdfProps
-}: DownloadButtonProps) {
+}: DownloadButtonProps<T>) {
   const { t } = useTranslation();
   const [isGeneratingPdf, setIsGeneratingPdf] = useState(false);
 
@@ -34,13 +39,12 @@ export default function DownloadButton({
     try {
       const { pdf } = await import("@react-pdf/renderer");
       registerPdfFonts();
-      const PdfTemplate = pdfTemplates[templateId];
       const blob = await pdf(<PdfTemplate {...pdfProps} />).toBlob();
 
       const url = URL.createObjectURL(blob);
       const link = document.createElement("a");
       link.href = url;
-      link.download = `${resumeName || "resume"}.pdf`;
+      link.download = `${fileName}.pdf`;
       link.click();
       URL.revokeObjectURL(url);
     } finally {

@@ -1,5 +1,5 @@
 /**
- * `renderPdfFieldItems` ports `components/desktop-templates/BasicTemplate.tsx` and
+ * `renderPdfFieldItems` ports `components/resumes/desktop-templates/BasicTemplate.tsx` and
  * `MinimalTemplate.tsx`'s `renderFieldItems` (photo/name/job-title pairing,
  * plus Minimal's contact-field row-packing) to `@react-pdf/renderer`
  * primitives, so the printed PDF's field order faithfully matches whatever
@@ -26,7 +26,7 @@ export interface RenderPdfFieldItemsOptions {
   contactRowStyle?: PdfStyle;
 }
 
-// Ports components/desktop-templates/BasicTemplate.tsx and MinimalTemplate.tsx's
+// Ports components/resumes/desktop-templates/BasicTemplate.tsx and MinimalTemplate.tsx's
 // renderFieldItems (photo/name/job-title pairing, plus Minimal's
 // contact-field row-packing) to react-pdf primitives — the on-screen
 // versions render an ordered list of <div>s, this one an ordered list of

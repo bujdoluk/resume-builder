@@ -1,7 +1,7 @@
 /**
  * `@react-pdf/renderer` version of the Minimal template, used to generate
  * the downloaded PDF — mirrors the on-screen
- * `components/desktop-templates/MinimalTemplate.tsx`'s icon-free, centered layout
+ * `components/resumes/desktop-templates/MinimalTemplate.tsx`'s icon-free, centered layout
  * with bordered section-header dividers and left-accented entry cards,
  * including which elements stay fixed to daisyUI's theme purple versus
  * which respond to the user's custom accent color.

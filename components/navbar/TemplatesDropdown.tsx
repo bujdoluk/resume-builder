@@ -4,7 +4,7 @@
  * Navbar button for switching the resume's template — shown as a menu of
  * template thumbnails (like Colours' swatches), not a link to the separate
  * `/templates` gallery page. Picking one just updates the shared
- * `AppState.templateId` in place — no navigation, so `Home.tsx`'s in-memory
+ * `AppState.templateId` in place — no navigation, so `ResumeBuilder.tsx`'s in-memory
  * resume `data` is completely untouched (unlike the `/templates` gallery
  * flow, which starts a fresh blank resume under the new template).
  */

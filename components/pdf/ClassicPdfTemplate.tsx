@@ -2,7 +2,7 @@
  * `@react-pdf/renderer` version of the Classic template, used to generate
  * the downloaded PDF — a copy of BasicPdfTemplate.tsx with a colored header
  * band (photo/name/job title/contact) at the top, mirroring the on-screen
- * `components/desktop-templates/ClassicTemplate.tsx`. About Me and every
+ * `components/resumes/desktop-templates/ClassicTemplate.tsx`. About Me and every
  * section stay in the plain white body below, unchanged from Basic.
  */
 import { Document, Image, Page, StyleSheet, Text, View } from "@react-pdf/renderer";

@@ -1,7 +1,7 @@
 /**
  * `@react-pdf/renderer` version of the Modern template, used to generate
  * the downloaded PDF — mirrors the on-screen
- * `components/desktop-templates/ModernTemplate.tsx`'s dark/accent-colored sidebar
+ * `components/resumes/desktop-templates/ModernTemplate.tsx`'s dark/accent-colored sidebar
  * (photo, contact, skills, certifications, languages) plus main column
  * (About Me, Work Experience, Education, Interests).
  */
@@ -141,7 +141,7 @@ export default function ModernPdfTemplate({
 
   // Renders one section in either of Modern's two zone looks — every
   // section type supports both, so dragging it into the other zone (on the
-  // editable canvas, components/Resume.tsx) restyles the downloaded PDF to
+  // editable canvas, components/resumes/Resume.tsx) restyles the downloaded PDF to
   // match instead of leaving it stuck with its "native" zone's appearance.
   function renderSection(
     key: SectionKey,

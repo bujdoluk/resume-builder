@@ -1,15 +1,18 @@
 "use client";
 
 /**
- * Editable form for the cover letter builder, grouped into five sections
- * (sender info, recipient info, date, subject, letter) — the sections
- * themselves are draggable (via an outer `SortableGroup`), and each
- * section's own fields are independently draggable within it, mirroring how
- * the resume editor reorders both sections and fields. No visible labels
- * (placeholder text serves as the label), matching the resume editor's
- * convention. Also applies the same color/font/font-size/field-visibility
- * customization as the resume editor (`components/Resume.tsx`) via the
- * Navbar's Colours/Typography/Font Size/Features controls.
+ * The cover letter's complete visual layout — field/section markup grouped
+ * into five sections (sender info, recipient info, date, subject, letter),
+ * plus the outer sizing container (paper-width desktop canvas vs. fluid
+ * stacked mobile form) and, for the Modern template, the accent-colored
+ * sidebar + white main column split (mirroring the resume's Modern
+ * `Resume.tsx`/`ModernMobileTemplate.tsx`). This one component owns ALL of
+ * that — for every template × both view modes — the same role
+ * `components/resumes/Resume.tsx` plays for the resume (build the field/
+ * section content once, then branch the surrounding layout by
+ * `templateId`), so `CoverLetter.tsx` (desktop) and the
+ * `mobile-templates/*.tsx` files are just thin wrappers that pick
+ * `mobile`/lock in a `templateId` and forward every other prop through.
  *
  * `fieldOrder`/`onReorderFields` hold ALL 16 fields' order AND visibility in
  * one flat array (a hidden field is simply absent — same convention as the
@@ -19,24 +22,36 @@
  * `replaceSubsequence` so the other sections' relative positions (and any
  * currently-hidden fields elsewhere in the array) are left untouched. A
  * section collapses entirely once all of its own fields are hidden.
- * `sectionOrder`/`onReorderSections` (lifted up to `CoverLetterBuilder.tsx`,
- * mirroring how the resume's `sectionOrder` lives above `Resume.tsx`) work
- * the same way at the section level, and each section is tagged with
- * `anchor` so the Builder's completion-steps panel can scroll to it.
+ * `sectionOrder`/`onReorderSections` work the same way at the section
+ * level. For Modern, `sectionZones`/`onChangeSectionZones` additionally
+ * track which of the two zones (sidebar/main) each section currently sits
+ * in — mirroring the resume's `modernSectionZones` — and every section is
+ * tagged with `anchor` so the Builder's completion-steps panel can scroll
+ * to it regardless of which template/zone it's currently in.
  */
 import { useTranslation } from "react-i18next";
 import AutoResizeTextarea from "@/components/AutoResizeTextarea";
-import { SortableBlock, SortableGroup } from "@/components/Sortable";
+import {
+  SortableBlock,
+  SortableGroup,
+  SortableZone,
+  SortableZones,
+} from "@/components/Sortable";
+import { getContrastTextColor } from "@/lib/color";
 import type { CoverLetterData } from "@/lib/coverLetterData";
 import type { CoverLetterFieldKey } from "@/lib/coverLetterFields";
 import {
   coverLetterSectionFieldKeys,
+  splitCoverLetterSectionsByZone,
   type CoverLetterSectionKey,
+  type CoverLetterSectionZones,
 } from "@/lib/coverLetterSections";
+import type { CoverLetterTemplateId } from "@/lib/coverLetterTemplates";
 import { getFontSizeStyle, type FontSizeKey } from "@/lib/fontSize";
 import { fontsByKey, type FontKey } from "@/lib/fonts";
+import type { Dispatch, SetStateAction } from "react";
 
-export interface CoverLetterEditorProps {
+export interface CoverLetterFormFieldsProps {
   data: CoverLetterData;
   onChange: (field: keyof CoverLetterData, value: string) => void;
   fieldOrder: CoverLetterFieldKey[];
@@ -46,6 +61,10 @@ export interface CoverLetterEditorProps {
   color?: string | null;
   font?: FontKey | null;
   fontSize?: FontSizeKey;
+  templateId: CoverLetterTemplateId;
+  sectionZones?: CoverLetterSectionZones;
+  onChangeSectionZones?: Dispatch<SetStateAction<CoverLetterSectionZones>>;
+  mobile?: boolean;
 }
 
 const senderKeys = coverLetterSectionFieldKeys.sender;
@@ -53,10 +72,10 @@ const recipientKeys = coverLetterSectionFieldKeys.recipient;
 const letterKeys = coverLetterSectionFieldKeys.letter;
 
 // Splices a reordered subsequence (e.g. just the sender fields after a drag
-// within that section, or the visible sections after a drag of the
-// sections themselves) back into a full order, replacing each occurrence of
-// a `subsequenceKeys` member in place so every other item's position is
-// left untouched.
+// within that section, the visible sections after a drag of the sections
+// themselves, or the sidebar/main zones after a cross-zone drag) back into
+// a full order, replacing each occurrence of a `subsequenceKeys` member in
+// place so every other item's position is left untouched.
 function replaceSubsequence<T>(
   fullOrder: T[],
   subsequenceKeys: T[],
@@ -68,12 +87,13 @@ function replaceSubsequence<T>(
   );
 }
 
-// `isFirst` is passed explicitly based on the section's index in
-// `visibleSectionOrder` rather than relying on a CSS `first:` selector —
-// each section now lives in its own `SortableBlock` wrapper (for the
-// section-level drag), so every header is the first child of ITS OWN
-// parent regardless of position, and `first:mt-0` would fire for all of
-// them instead of just the topmost one.
+// `isFirst` is passed explicitly based on the section's index in whichever
+// list it's currently rendered from (the flat visible order for Basic, or
+// its own zone's item list for Modern) rather than relying on a CSS
+// `first:` selector — every section lives in its own `SortableBlock`
+// wrapper (for the section-level drag), so every header is the first child
+// of ITS OWN parent regardless of position, and `first:mt-0` would fire for
+// all of them instead of just the topmost one in each list.
 function SectionHeader({
   title,
   color,
@@ -93,7 +113,7 @@ function SectionHeader({
   );
 }
 
-export default function CoverLetterEditor({
+export default function CoverLetterFormFields({
   data,
   onChange,
   fieldOrder,
@@ -103,7 +123,11 @@ export default function CoverLetterEditor({
   color,
   font,
   fontSize,
-}: CoverLetterEditorProps) {
+  templateId,
+  sectionZones,
+  onChangeSectionZones,
+  mobile,
+}: CoverLetterFormFieldsProps) {
   const { t } = useTranslation();
 
   const fontFamily = font ? fontsByKey[font].variable : undefined;
@@ -320,8 +344,8 @@ export default function CoverLetterEditor({
   };
 
   // Fields only, no header — the header is rendered separately at map time
-  // (see below) so `isFirst` can reflect the section's actual position in
-  // `visibleSectionOrder` after a drag, not just its fixed key.
+  // so `isFirst` can reflect the section's actual position in whichever
+  // list it's currently being rendered from.
   const sectionFieldsContent: Record<CoverLetterSectionKey, React.ReactNode> = {
     sender: (
       <SortableGroup
@@ -390,9 +414,107 @@ export default function CoverLetterEditor({
     ),
   };
 
+  if (templateId === "modern") {
+    const zones = sectionZones ?? {};
+    const { sidebar: sidebarItems, main: mainItems } = splitCoverLetterSectionsByZone(
+      visibleSectionOrder,
+      zones,
+    );
+
+    function handleZonesChange(next: {
+      sidebar: CoverLetterSectionKey[];
+      main: CoverLetterSectionKey[];
+    }) {
+      onReorderSections(
+        replaceSubsequence(sectionOrder, visibleSectionOrder, [
+          ...next.sidebar,
+          ...next.main,
+        ]),
+      );
+      // Merge (don't replace) so a section keeps its remembered zone for
+      // whenever it's re-enabled via the Navbar's Features control, instead
+      // of silently snapping back to "main".
+      onChangeSectionZones?.((prev) => ({
+        ...prev,
+        ...Object.fromEntries(next.sidebar.map((key) => [key, "sidebar" as const])),
+        ...Object.fromEntries(next.main.map((key) => [key, "main" as const])),
+      }));
+    }
+
+    const sidebarStyle = color
+      ? ({
+          backgroundColor: color,
+          color: getContrastTextColor(color),
+          "--sidebar-fg": getContrastTextColor(color),
+        } as React.CSSProperties)
+      : undefined;
+
+    return (
+      <SortableZones
+        dndId="cover-letter-modern-sections"
+        zones={{ sidebar: sidebarItems, main: mainItems }}
+        onChange={handleZonesChange}
+      >
+        <div
+          className={
+            mobile
+              ? "resume-scalable flex flex-col gap-4 bg-white pl-8"
+              : "resume-scalable grid w-[280mm] grid-cols-[90mm_1fr] bg-white shadow-xl"
+          }
+          style={{ fontFamily, ...fontSizeStyle }}
+        >
+          <div
+            className={
+              mobile
+                ? "modern-sidebar bg-neutral text-neutral-content flex flex-col gap-2 rounded-lg p-4"
+                : "modern-sidebar bg-neutral text-neutral-content flex flex-col p-6 pl-8"
+            }
+            style={sidebarStyle}
+          >
+            <SortableZone
+              zoneId="sidebar"
+              ids={sidebarItems}
+              className="flex min-h-8 flex-col"
+            >
+              {sidebarItems.map((key, index) => (
+                <SortableBlock key={key} id={key} anchor>
+                  <SectionHeader title={t(sectionTitleKey[key])} isFirst={index === 0} />
+                  {sectionFieldsContent[key]}
+                </SortableBlock>
+              ))}
+            </SortableZone>
+          </div>
+
+          <div className={mobile ? undefined : "p-6 pl-8"}>
+            <SortableZone
+              zoneId="main"
+              ids={mainItems}
+              className="flex min-h-8 flex-col"
+            >
+              {mainItems.map((key, index) => (
+                <SortableBlock key={key} id={key} anchor>
+                  <SectionHeader
+                    title={t(sectionTitleKey[key])}
+                    color={color}
+                    isFirst={index === 0}
+                  />
+                  {sectionFieldsContent[key]}
+                </SortableBlock>
+              ))}
+            </SortableZone>
+          </div>
+        </div>
+      </SortableZones>
+    );
+  }
+
   return (
     <div
-      className="resume-scalable w-[280mm] bg-white p-12 shadow-xl"
+      className={
+        mobile
+          ? "resume-scalable flex flex-col gap-4 bg-white pl-8"
+          : "resume-scalable w-[280mm] bg-white p-12 shadow-xl"
+      }
       style={{ fontFamily, ...fontSizeStyle }}
     >
       <SortableGroup

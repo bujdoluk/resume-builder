@@ -27,7 +27,7 @@ export default function Sidebar() {
   const [resumeCount, setResumeCount] = useState<number | null>(null);
   const [coverLetterCount, setCoverLetterCount] = useState<number | null>(null);
 
-  // Refetch whenever resumeListVersion is bumped (Home.tsx after a save,
+  // Refetch whenever resumeListVersion is bumped (ResumeBuilder.tsx after a save,
   // the "My Resumes" page after a delete) — this sidebar stays mounted
   // across navigations, so those pages can't just rely on a remount.
   useEffect(() => {

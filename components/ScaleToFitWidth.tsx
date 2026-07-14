@@ -24,7 +24,7 @@
 import { useEffect, useRef, useState } from "react";
 
 const LG_BREAKPOINT_PX = 1024;
-// Matches the Preview modal's own `w-[95vw]` class (see components/Home.tsx).
+// Matches the Preview modal's own `w-[95vw]` class (see components/resumes/ResumeBuilder.tsx).
 const MODAL_WIDTH_RATIO = 0.95;
 
 export default function ScaleToFitWidth({

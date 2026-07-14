@@ -1,7 +1,7 @@
 /**
  * `@react-pdf/renderer` version of the Elegant template, used to generate
  * the downloaded PDF — mirrors the on-screen
- * `components/desktop-templates/ElegantTemplate.tsx`'s white main column
+ * `components/resumes/desktop-templates/ElegantTemplate.tsx`'s white main column
  * (name, contact, About Me, numbered-bullet Work Experience, Education) on
  * the left beside an accent-colored sidebar (photo, pill-style Skills,
  * Certifications, donut-style Languages, Interests) on the right.

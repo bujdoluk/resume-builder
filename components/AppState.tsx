@@ -8,7 +8,7 @@
  * layout so both the persistent `Sidebar`/Navbar and the `/app` editor
  * read/write the same state — in particular, switching templates via the
  * Navbar's Templates dropdown just updates `templateId` here (no
- * navigation), so `Home.tsx`'s in-memory resume `data` is never touched.
+ * navigation), so `ResumeBuilder.tsx`'s in-memory resume `data` is never touched.
  */
 import {
   createContext,
@@ -20,6 +20,11 @@ import {
   type SetStateAction,
 } from "react";
 import { allCoverLetterFields, type CoverLetterFieldKey } from "@/lib/coverLetterFields";
+import type { CoverLetterSectionZones } from "@/lib/coverLetterSections";
+import {
+  defaultCoverLetterTemplateId,
+  type CoverLetterTemplateId,
+} from "@/lib/coverLetterTemplates";
 import { allFields, fieldLabels, type FieldKey } from "@/lib/fields";
 import { defaultFontSizeKey, type FontSizeKey } from "@/lib/fontSize";
 import { allFonts, type FontKey } from "@/lib/fonts";
@@ -73,8 +78,15 @@ interface AppStateValue {
   // `fontSize`/`templateId` — only one editor is active at a time.
   coverLetterFieldOrder: CoverLetterFieldKey[];
   setCoverLetterFieldOrder: Dispatch<SetStateAction<CoverLetterFieldKey[]>>;
+  coverLetterTemplateId: CoverLetterTemplateId;
+  setCoverLetterTemplateId: Dispatch<SetStateAction<CoverLetterTemplateId>>;
   modernSectionZones: ModernSectionZones;
   setModernSectionZones: Dispatch<SetStateAction<ModernSectionZones>>;
+  // Cover letter counterpart of `modernSectionZones` — which of the Modern
+  // cover letter template's two zones (sidebar/main) each section renders
+  // in. Basic ignores this.
+  coverLetterSectionZones: CoverLetterSectionZones;
+  setCoverLetterSectionZones: Dispatch<SetStateAction<CoverLetterSectionZones>>;
   language: string;
   setLanguage: Dispatch<SetStateAction<string>>;
   fontSize: FontSizeKey;
@@ -105,8 +117,12 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   const [coverLetterFieldOrder, setCoverLetterFieldOrder] = useState<
     CoverLetterFieldKey[]
   >(defaultCoverLetterFieldOrder);
+  const [coverLetterTemplateId, setCoverLetterTemplateId] =
+    useState<CoverLetterTemplateId>(defaultCoverLetterTemplateId);
   const [modernSectionZones, setModernSectionZones] =
     useState<ModernSectionZones>({});
+  const [coverLetterSectionZones, setCoverLetterSectionZones] =
+    useState<CoverLetterSectionZones>({});
   const [language, setLanguage] = useState<string>(defaultLanguageCode);
   const [fontSize, setFontSize] = useState<FontSizeKey>(defaultFontSizeKey);
   const [resumeListVersion, setResumeListVersion] = useState(0);
@@ -115,7 +131,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   const [coverLetterListVersion, setCoverLetterListVersion] = useState(0);
   const notifyCoverLetterListChanged = () =>
     setCoverLetterListVersion((version) => version + 1);
-  // The editor (Home.tsx) keeps this pointed at its own current URL
+  // The editor (ResumeBuilder.tsx) keeps this pointed at its own current URL
   // (including ?resumeId=/&template= once a saved resume is loaded), so the
   // Sidebar's "Back to editor" link — visible from /my-resumes and
   // /templates — returns to the exact resume the user was just editing
@@ -145,8 +161,12 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
         setVisibleFields,
         coverLetterFieldOrder,
         setCoverLetterFieldOrder,
+        coverLetterTemplateId,
+        setCoverLetterTemplateId,
         modernSectionZones,
         setModernSectionZones,
+        coverLetterSectionZones,
+        setCoverLetterSectionZones,
         language,
         setLanguage,
         fontSize,
