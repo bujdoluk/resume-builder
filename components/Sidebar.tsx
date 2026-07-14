@@ -12,18 +12,20 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
-import { MyResumesIcon, PencilSquareIcon } from "@/components/Icons";
+import { EmailIcon, MyResumesIcon, PencilSquareIcon } from "@/components/Icons";
 import { createClient } from "@/lib/supabase/client";
+import { countCoverLetters } from "@/lib/supabase/coverLetters";
 import { countResumes } from "@/lib/supabase/resumes";
 import { ensureUserId } from "@/lib/supabase/session";
 import { useAppState } from "@/components/AppState";
 
 export default function Sidebar() {
   const { t } = useTranslation();
-  const { resumeListVersion, lastEditorPath } = useAppState();
+  const { resumeListVersion, coverLetterListVersion, lastEditorPath } = useAppState();
   const [collapsed, setCollapsed] = useState(false);
   const [supabase] = useState(() => createClient());
   const [resumeCount, setResumeCount] = useState<number | null>(null);
+  const [coverLetterCount, setCoverLetterCount] = useState<number | null>(null);
 
   // Refetch whenever resumeListVersion is bumped (Home.tsx after a save,
   // the "My Resumes" page after a delete) — this sidebar stays mounted
@@ -46,6 +48,27 @@ export default function Sidebar() {
     };
   }, [supabase, resumeListVersion]);
 
+  // Same refetch pattern as the resume count, keyed off
+  // coverLetterListVersion (CoverLetterBuilder.tsx after a save, the "My
+  // Cover Letters" page after a delete).
+  useEffect(() => {
+    let cancelled = false;
+
+    (async () => {
+      try {
+        const userId = await ensureUserId(supabase);
+        const count = await countCoverLetters(supabase, userId);
+        if (!cancelled) setCoverLetterCount(count);
+      } catch (error) {
+        console.error(error);
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [supabase, coverLetterListVersion]);
+
   return (
     <div className="bg-base-100 border-base-300 flex w-full flex-col border-b lg:h-full lg:w-auto lg:border-r lg:border-b-0">
       {/* Mobile/tablet: icon-only tab bar at the top */}
@@ -54,8 +77,8 @@ export default function Sidebar() {
           href={lastEditorPath}
           role="tab"
           className="tab"
-          aria-label={t("sidebar.resumeEditor")}
-          title={t("sidebar.resumeEditor")}
+          aria-label={t("sidebar.resumeBuilder")}
+          title={t("sidebar.resumeBuilder")}
         >
           <PencilSquareIcon className="h-5 w-5 stroke-current" />
         </Link>
@@ -71,6 +94,33 @@ export default function Sidebar() {
             {!!resumeCount && (
               <span className="indicator-item badge badge-primary badge-xs">
                 {resumeCount}
+              </span>
+            )}
+            <MyResumesIcon className="h-5 w-5 stroke-current" />
+          </span>
+        </Link>
+
+        <Link
+          href="/cover-letter"
+          role="tab"
+          className="tab"
+          aria-label={t("sidebar.coverLetterBuilder")}
+          title={t("sidebar.coverLetterBuilder")}
+        >
+          <EmailIcon className="h-5 w-5 stroke-current" />
+        </Link>
+
+        <Link
+          href="/my-cover-letters"
+          role="tab"
+          className="tab"
+          aria-label={t("sidebar.myCoverLetters")}
+          title={t("sidebar.myCoverLetters")}
+        >
+          <span className="indicator">
+            {!!coverLetterCount && (
+              <span className="indicator-item badge badge-primary badge-xs">
+                {coverLetterCount}
               </span>
             )}
             <MyResumesIcon className="h-5 w-5 stroke-current" />
@@ -113,12 +163,12 @@ export default function Sidebar() {
           <li>
             <Link
               href={lastEditorPath}
-              title={collapsed ? t("sidebar.resumeEditor") : undefined}
+              title={collapsed ? t("sidebar.resumeBuilder") : undefined}
               className={`flex items-center ${collapsed ? "justify-center" : ""}`}
             >
               <PencilSquareIcon className="h-7 w-7 stroke-current" />
               {!collapsed && (
-                <span className="font-medium">{t("sidebar.resumeEditor")}</span>
+                <span className="font-medium">{t("sidebar.resumeBuilder")}</span>
               )}
             </Link>
           </li>
@@ -137,6 +187,39 @@ export default function Sidebar() {
                     </span>
                   )}
                   {t("sidebar.myResumes")}
+                </span>
+              )}
+            </Link>
+          </li>
+          <li>
+            <Link
+              href="/cover-letter"
+              title={collapsed ? t("sidebar.coverLetterBuilder") : undefined}
+              className={`flex items-center ${collapsed ? "justify-center" : ""}`}
+            >
+              <EmailIcon className="h-7 w-7 stroke-current" />
+              {!collapsed && (
+                <span className="font-medium">
+                  {t("sidebar.coverLetterBuilder")}
+                </span>
+              )}
+            </Link>
+          </li>
+          <li>
+            <Link
+              href="/my-cover-letters"
+              title={collapsed ? t("sidebar.myCoverLetters") : undefined}
+              className={`flex items-center ${collapsed ? "justify-center" : ""}`}
+            >
+              <MyResumesIcon className="h-7 w-7 stroke-current" />
+              {!collapsed && (
+                <span className="indicator font-medium">
+                  {!!coverLetterCount && (
+                    <span className="indicator-item badge badge-primary badge-xs translate-x-6">
+                      {coverLetterCount}
+                    </span>
+                  )}
+                  {t("sidebar.myCoverLetters")}
                 </span>
               )}
             </Link>

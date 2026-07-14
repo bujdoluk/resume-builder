@@ -19,6 +19,7 @@ import {
   type ReactNode,
   type SetStateAction,
 } from "react";
+import { allCoverLetterFields, type CoverLetterFieldKey } from "@/lib/coverLetterFields";
 import { allFields, fieldLabels, type FieldKey } from "@/lib/fields";
 import { defaultFontSizeKey, type FontSizeKey } from "@/lib/fontSize";
 import { allFonts, type FontKey } from "@/lib/fonts";
@@ -50,6 +51,9 @@ export const allSections: SectionKey[] = [
 export const defaultSectionOrder: SectionKey[] = [...allSections];
 
 const defaultVisibleFields: FieldKey[] = [...allFields];
+const defaultCoverLetterFieldOrder: CoverLetterFieldKey[] = [
+  ...allCoverLetterFields,
+];
 
 interface AppStateValue {
   templateId: TemplateId;
@@ -62,6 +66,13 @@ interface AppStateValue {
   setSectionOrder: Dispatch<SetStateAction<SectionKey[]>>;
   visibleFields: FieldKey[];
   setVisibleFields: Dispatch<SetStateAction<FieldKey[]>>;
+  // Combines order + visibility for the cover letter's fields, same
+  // convention as the resume's `visibleFields` (a hidden field is simply
+  // absent from the array; re-showing one appends it at the end rather than
+  // restoring its old position). Shared globally like `color`/`font`/
+  // `fontSize`/`templateId` — only one editor is active at a time.
+  coverLetterFieldOrder: CoverLetterFieldKey[];
+  setCoverLetterFieldOrder: Dispatch<SetStateAction<CoverLetterFieldKey[]>>;
   modernSectionZones: ModernSectionZones;
   setModernSectionZones: Dispatch<SetStateAction<ModernSectionZones>>;
   language: string;
@@ -70,6 +81,8 @@ interface AppStateValue {
   setFontSize: Dispatch<SetStateAction<FontSizeKey>>;
   resumeListVersion: number;
   notifyResumeListChanged: () => void;
+  coverLetterListVersion: number;
+  notifyCoverLetterListChanged: () => void;
   lastEditorPath: string;
   setLastEditorPath: Dispatch<SetStateAction<string>>;
 }
@@ -89,6 +102,9 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   const [visibleFields, setVisibleFields] = useState<FieldKey[]>(
     defaultVisibleFields,
   );
+  const [coverLetterFieldOrder, setCoverLetterFieldOrder] = useState<
+    CoverLetterFieldKey[]
+  >(defaultCoverLetterFieldOrder);
   const [modernSectionZones, setModernSectionZones] =
     useState<ModernSectionZones>({});
   const [language, setLanguage] = useState<string>(defaultLanguageCode);
@@ -96,6 +112,9 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   const [resumeListVersion, setResumeListVersion] = useState(0);
   const notifyResumeListChanged = () =>
     setResumeListVersion((version) => version + 1);
+  const [coverLetterListVersion, setCoverLetterListVersion] = useState(0);
+  const notifyCoverLetterListChanged = () =>
+    setCoverLetterListVersion((version) => version + 1);
   // The editor (Home.tsx) keeps this pointed at its own current URL
   // (including ?resumeId=/&template= once a saved resume is loaded), so the
   // Sidebar's "Back to editor" link — visible from /my-resumes and
@@ -124,6 +143,8 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
         setSectionOrder,
         visibleFields,
         setVisibleFields,
+        coverLetterFieldOrder,
+        setCoverLetterFieldOrder,
         modernSectionZones,
         setModernSectionZones,
         language,
@@ -132,6 +153,8 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
         setFontSize,
         resumeListVersion,
         notifyResumeListChanged,
+        coverLetterListVersion,
+        notifyCoverLetterListChanged,
         lastEditorPath,
         setLastEditorPath,
       }}
