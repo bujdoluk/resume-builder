@@ -684,7 +684,7 @@ export default function Resume({
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
-              className="h-6 w-6 stroke-current"
+              className="h-6 w-6 stroke-current mr-2"
             >
               <rect
                 x="3"
@@ -770,7 +770,7 @@ export default function Resume({
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
-              className="h-6 w-6 stroke-current"
+              className="h-6 w-6 stroke-current mr-2"
             >
               <path
                 strokeLinecap="round"
@@ -854,7 +854,7 @@ export default function Resume({
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
-              className="h-6 w-6 stroke-current"
+              className="h-6 w-6 stroke-current mr-2"
             >
               <path
                 strokeLinecap="round"
@@ -917,7 +917,7 @@ export default function Resume({
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
-              className="h-6 w-6 stroke-current"
+              className="h-6 w-6 stroke-current mr-2"
             >
               <circle cx="12" cy="8" r="5" strokeWidth="1.5" />
               <path
@@ -990,7 +990,7 @@ export default function Resume({
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
-              className="h-6 w-6 stroke-current"
+              className="h-6 w-6 stroke-current mr-2"
             >
               <circle cx="12" cy="12" r="9" strokeWidth="1.5" />
               <path
@@ -1061,7 +1061,7 @@ export default function Resume({
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
-              className="h-6 w-6 stroke-current"
+              className="h-6 w-6 stroke-current mr-2"
             >
               <path
                 strokeLinecap="round"
@@ -1408,8 +1408,8 @@ export default function Resume({
           <AboutMeIcon
             className={
               aboutMeVariant === "sidebar"
-                ? "h-5 w-5 shrink-0 stroke-current"
-                : "h-6 w-6 shrink-0 stroke-current"
+                ? "h-5 w-5 shrink-0 stroke-current mr-2"
+                : "h-6 w-6 shrink-0 stroke-current mr-2"
             }
           />
         }
