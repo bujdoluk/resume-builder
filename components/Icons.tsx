@@ -301,6 +301,27 @@ export function MyResumesIcon(props: IconProps) {
   );
 }
 
+export function MyCoverLettersIcon(props: IconProps) {
+  return (
+    <IconBase {...props}>
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="1.5"
+        d="M4.5 3h9A1.5 1.5 0 0 1 15 4.5v6a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 3 10.5v-6A1.5 1.5 0 0 1 4.5 3Z"
+      />
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M3 4.5l6 3.75 6-3.75" />
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="1.5"
+        d="M9 7.5h9a1.5 1.5 0 0 1 1.5 1.5v6a1.5 1.5 0 0 1-1.5 1.5H9a1.5 1.5 0 0 1-1.5-1.5v-6A1.5 1.5 0 0 1 9 7.5Z"
+      />
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M7.5 9l6 3.75 6-3.75" />
+    </IconBase>
+  );
+}
+
 export function SunIcon(props: IconProps) {
   return (
     <IconBase {...props}>

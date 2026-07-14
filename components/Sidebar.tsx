@@ -12,7 +12,12 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
-import { EmailIcon, MyResumesIcon, PencilSquareIcon } from "@/components/Icons";
+import {
+  EmailIcon,
+  MyCoverLettersIcon,
+  MyResumesIcon,
+  PencilSquareIcon,
+} from "@/components/Icons";
 import { createClient } from "@/lib/supabase/client";
 import { countCoverLetters } from "@/lib/supabase/coverLetters";
 import { countResumes } from "@/lib/supabase/resumes";
@@ -123,7 +128,7 @@ export default function Sidebar() {
                 {coverLetterCount}
               </span>
             )}
-            <MyResumesIcon className="h-5 w-5 stroke-current" />
+            <MyCoverLettersIcon className="h-5 w-5 stroke-current" />
           </span>
         </Link>
       </div>
@@ -211,7 +216,7 @@ export default function Sidebar() {
               title={collapsed ? t("sidebar.myCoverLetters") : undefined}
               className={`flex items-center ${collapsed ? "justify-center" : ""}`}
             >
-              <MyResumesIcon className="h-7 w-7 stroke-current" />
+              <MyCoverLettersIcon className="h-7 w-7 stroke-current" />
               {!collapsed && (
                 <span className="indicator font-medium">
                   {!!coverLetterCount && (
