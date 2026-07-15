@@ -217,8 +217,12 @@
     "ctaStart": "Lebenslauf erstellen",
     "features": {
       "templates": {
-        "title": "3 professionelle Vorlagen",
-        "description": "Basic, Modern und Minimal – wähle den Stil, der zu dir passt."
+        "title": "5 professionelle Vorlagen",
+        "description": "Basic, Modern, Minimal, Elegant und Classic – wähle den Stil, der zu dir passt."
+      },
+      "coverLetter": {
+        "title": "Passende Anschreiben",
+        "description": "Erstelle ein abgestimmtes Anschreiben zu deinem Lebenslauf, mit eigenen Vorlagen und Live-Anpassung."
       },
       "customization": {
         "title": "Volle Anpassbarkeit",
@@ -228,13 +232,17 @@
         "title": "PDF-Export mit einem Klick",
         "description": "Lade ein druckfertiges PDF herunter, sobald du zufrieden bist."
       },
+      "email": {
+        "title": "Direkt per E-Mail versenden",
+        "description": "Sende dein fertiges PDF direkt an eine E-Mail-Adresse – kein Download nötig."
+      },
       "languages": {
         "title": "13 Sprachen",
         "description": "Der gesamte Builder wird sofort übersetzt, nicht nur dein Lebenslauftext."
       },
       "saveResumes": {
         "title": "Speichern & später weitermachen",
-        "description": "Behalte mehrere Lebensläufe gespeichert und bearbeite sie jederzeit."
+        "description": "Behalte mehrere Lebensläufe und Anschreiben gespeichert und bearbeite sie jederzeit."
       }
     },
     "testimonialsTitle": "Beliebt bei Jobsuchenden weltweit",
@@ -260,6 +268,11 @@
         "role": "Frischer Absolvent"
       }
     }
+  },
+  "blog": {
+    "navLabel": "Blog",
+    "pageTitle": "Blog",
+    "comingSoon": "Demnächst verfügbar — schauen Sie bald wieder vorbei für Lebenslauf-Tipps, Jobsuche-Ratschläge und Karriereratgeber."
   },
   "footer": {
     "copyright": "© {{year}} QuickResumeBuilder.com"

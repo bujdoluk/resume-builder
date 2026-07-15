@@ -217,8 +217,12 @@
     "ctaStart": "Vytvoriť životopis",
     "features": {
       "templates": {
-        "title": "3 profesionálne šablóny",
-        "description": "Basic, Modern a Minimal – vyberte štýl, ktorý vám sedí."
+        "title": "5 profesionálnych šablón",
+        "description": "Basic, Modern, Minimal, Elegant a Classic – vyberte štýl, ktorý vám sedí."
+      },
+      "coverLetter": {
+        "title": "Zodpovedajúce motivačné listy",
+        "description": "Vytvorte motivačný list zodpovedajúci vášmu životopisu, s vlastnými šablónami a úpravou naživo."
       },
       "customization": {
         "title": "Plná prispôsobiteľnosť",
@@ -228,13 +232,17 @@
         "title": "Export do PDF jedným kliknutím",
         "description": "Stiahnite si PDF pripravené na tlač, hneď ako budete spokojní."
       },
+      "email": {
+        "title": "Odoslať priamo e-mailom",
+        "description": "Odošlite hotové PDF priamo na e-mailovú adresu – bez nutnosti sťahovania."
+      },
       "languages": {
         "title": "13 jazykov",
         "description": "Celý editor sa okamžite preloží, nielen text vášho životopisu."
       },
       "saveResumes": {
         "title": "Uložte a vráťte sa neskôr",
-        "description": "Uchovávajte viac životopisov a kedykoľvek ich upravte."
+        "description": "Uchovávajte viac životopisov a motivačných listov a kedykoľvek ich upravte."
       }
     },
     "testimonialsTitle": "Obľúbené medzi uchádzačmi o prácu na celom svete",
@@ -260,6 +268,11 @@
         "role": "Čerstvý absolvent"
       }
     }
+  },
+  "blog": {
+    "navLabel": "Blog",
+    "pageTitle": "Blog",
+    "comingSoon": "Už čoskoro — sledujte tipy na životopis, rady na hľadanie práce a kariérne návody."
   },
   "footer": {
     "copyright": "© {{year}} QuickResumeBuilder.com"

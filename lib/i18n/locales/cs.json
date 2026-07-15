@@ -217,8 +217,12 @@
     "ctaStart": "Vytvořit životopis",
     "features": {
       "templates": {
-        "title": "3 profesionální šablony",
-        "description": "Basic, Modern a Minimal – vyberte styl, který vám sedí."
+        "title": "5 profesionálních šablon",
+        "description": "Basic, Modern, Minimal, Elegant a Classic – vyberte styl, který vám sedí."
+      },
+      "coverLetter": {
+        "title": "Odpovídající motivační dopisy",
+        "description": "Vytvořte motivační dopis odpovídající vašemu životopisu, s vlastními šablonami a živým přizpůsobením."
       },
       "customization": {
         "title": "Plná přizpůsobitelnost",
@@ -228,13 +232,17 @@
         "title": "Export do PDF jedním kliknutím",
         "description": "Stáhněte si PDF připravené k tisku, jakmile budete spokojeni."
       },
+      "email": {
+        "title": "Odeslat přímo e-mailem",
+        "description": "Odešlete hotové PDF přímo na e-mailovou adresu – bez nutnosti stahování."
+      },
       "languages": {
         "title": "13 jazyků",
         "description": "Celý editor se okamžitě přeloží, nejen text vašeho životopisu."
       },
       "saveResumes": {
         "title": "Uložte si a vraťte se později",
-        "description": "Uchovávejte více životopisů a kdykoli je upravte."
+        "description": "Uchovávejte více životopisů a motivačních dopisů a kdykoli je upravte."
       }
     },
     "testimonialsTitle": "Oblíbené uchazeči o práci po celém světě",
@@ -260,6 +268,11 @@
         "role": "Čerstvý absolvent"
       }
     }
+  },
+  "blog": {
+    "navLabel": "Blog",
+    "pageTitle": "Blog",
+    "comingSoon": "Již brzy — sledujte tipy na životopis, rady pro hledání práce a kariérní průvodce."
   },
   "footer": {
     "copyright": "© {{year}} QuickResumeBuilder.com"

@@ -217,8 +217,12 @@
     "ctaStart": "Create Resume",
     "features": {
       "templates": {
-        "title": "3 professional templates",
-        "description": "Basic, Modern, and Minimal — pick the look that fits you."
+        "title": "5 professional templates",
+        "description": "Basic, Modern, Minimal, Elegant, and Classic — pick the look that fits you."
+      },
+      "coverLetter": {
+        "title": "Matching cover letters",
+        "description": "Build a coordinated cover letter alongside your resume, with its own templates and live customization."
       },
       "customization": {
         "title": "Full customization",
@@ -228,13 +232,17 @@
         "title": "One-click PDF export",
         "description": "Download a print-ready PDF whenever you're happy with it."
       },
+      "email": {
+        "title": "Email it directly",
+        "description": "Send your finished PDF straight to any email address — no download required."
+      },
       "languages": {
         "title": "13 languages",
         "description": "The whole builder translates instantly, not just your resume text."
       },
       "saveResumes": {
         "title": "Save & come back later",
-        "description": "Keep multiple resumes saved and edit them anytime."
+        "description": "Keep multiple resumes and cover letters saved, and edit them anytime."
       }
     },
     "testimonialsTitle": "Loved by job seekers everywhere",
@@ -260,6 +268,11 @@
         "role": "Recent Graduate"
       }
     }
+  },
+  "blog": {
+    "navLabel": "Blog",
+    "pageTitle": "Blog",
+    "comingSoon": "Coming soon — check back for resume tips, job search advice, and career guides."
   },
   "footer": {
     "copyright": "© {{year}} QuickResumeBuilder.com"

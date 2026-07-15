@@ -217,8 +217,12 @@
     "ctaStart": "Crear currículum",
     "features": {
       "templates": {
-        "title": "3 plantillas profesionales",
-        "description": "Basic, Modern y Minimal: elige el estilo que más te guste."
+        "title": "5 plantillas profesionales",
+        "description": "Basic, Modern, Minimal, Elegant y Classic: elige el estilo que más te guste."
+      },
+      "coverLetter": {
+        "title": "Cartas de presentación a juego",
+        "description": "Crea una carta de presentación a juego con tu currículum, con sus propias plantillas y personalización en vivo."
       },
       "customization": {
         "title": "Personalización completa",
@@ -228,13 +232,17 @@
         "title": "Exportación a PDF con un clic",
         "description": "Descarga un PDF listo para imprimir en cuanto estés conforme."
       },
+      "email": {
+        "title": "Envíalo directamente por correo",
+        "description": "Envía tu PDF terminado directamente a una dirección de correo electrónico, sin necesidad de descargarlo."
+      },
       "languages": {
         "title": "13 idiomas",
         "description": "Todo el creador se traduce al instante, no solo el texto de tu currículum."
       },
       "saveResumes": {
         "title": "Guarda y continúa más tarde",
-        "description": "Guarda varios currículums y edítalos cuando quieras."
+        "description": "Guarda varios currículums y cartas de presentación, y edítalos cuando quieras."
       }
     },
     "testimonialsTitle": "Adorado por buscadores de empleo en todo el mundo",
@@ -260,6 +268,11 @@
         "role": "Recién graduado"
       }
     }
+  },
+  "blog": {
+    "navLabel": "Blog",
+    "pageTitle": "Blog",
+    "comingSoon": "Muy pronto — vuelve para ver consejos de currículum, asesoramiento de búsqueda de empleo y guías profesionales."
   },
   "footer": {
     "copyright": "© {{year}} QuickResumeBuilder.com"

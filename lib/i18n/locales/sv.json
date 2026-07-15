@@ -217,8 +217,12 @@
     "ctaStart": "Skapa CV",
     "features": {
       "templates": {
-        "title": "3 professionella mallar",
-        "description": "Basic, Modern och Minimal – välj den stil som passar dig."
+        "title": "5 professionella mallar",
+        "description": "Basic, Modern, Minimal, Elegant och Classic – välj den stil som passar dig."
+      },
+      "coverLetter": {
+        "title": "Matchande personliga brev",
+        "description": "Skapa ett matchande personligt brev till ditt CV, med egna mallar och live-anpassning."
       },
       "customization": {
         "title": "Full anpassning",
@@ -228,13 +232,17 @@
         "title": "PDF-export med ett klick",
         "description": "Ladda ner en utskriftsklar PDF så snart du är nöjd."
       },
+      "email": {
+        "title": "Skicka direkt via e-post",
+        "description": "Skicka din färdiga PDF direkt till en e-postadress – ingen nedladdning krävs."
+      },
       "languages": {
         "title": "13 språk",
         "description": "Hela byggverktyget översätts direkt, inte bara texten i ditt CV."
       },
       "saveResumes": {
         "title": "Spara och fortsätt senare",
-        "description": "Spara flera CV och redigera dem när du vill."
+        "description": "Spara flera CV och personliga brev, och redigera dem när du vill."
       }
     },
     "testimonialsTitle": "Älskad av jobbsökare överallt",
@@ -260,6 +268,11 @@
         "role": "Nyexaminerad"
       }
     }
+  },
+  "blog": {
+    "navLabel": "Blogg",
+    "pageTitle": "Blogg",
+    "comingSoon": "Kommer snart — kom tillbaka för CV-tips, jobbsökarråd och karriärguider."
   },
   "footer": {
     "copyright": "© {{year}} QuickResumeBuilder.com"

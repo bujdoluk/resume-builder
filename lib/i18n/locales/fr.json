@@ -217,8 +217,12 @@
     "ctaStart": "Créer un CV",
     "features": {
       "templates": {
-        "title": "3 modèles professionnels",
-        "description": "Basic, Modern et Minimal : choisissez le style qui vous convient."
+        "title": "5 modèles professionnels",
+        "description": "Basic, Modern, Minimal, Elegant et Classic : choisissez le style qui vous convient."
+      },
+      "coverLetter": {
+        "title": "Lettres de motivation assorties",
+        "description": "Créez une lettre de motivation assortie à votre CV, avec ses propres modèles et personnalisation en direct."
       },
       "customization": {
         "title": "Personnalisation complète",
@@ -228,13 +232,17 @@
         "title": "Export PDF en un clic",
         "description": "Téléchargez un PDF prêt à imprimer dès que vous êtes satisfait."
       },
+      "email": {
+        "title": "Envoyez-le directement par e-mail",
+        "description": "Envoyez votre PDF terminé directement à une adresse e-mail, sans téléchargement nécessaire."
+      },
       "languages": {
         "title": "13 langues",
         "description": "Tout le créateur se traduit instantanément, pas seulement le texte de votre CV."
       },
       "saveResumes": {
         "title": "Enregistrez et reprenez plus tard",
-        "description": "Conservez plusieurs CV enregistrés et modifiez-les à tout moment."
+        "description": "Conservez plusieurs CV et lettres de motivation enregistrés, et modifiez-les à tout moment."
       }
     },
     "testimonialsTitle": "Adoré par les chercheurs d'emploi du monde entier",
@@ -260,6 +268,11 @@
         "role": "Jeune diplômé"
       }
     }
+  },
+  "blog": {
+    "navLabel": "Blog",
+    "pageTitle": "Blog",
+    "comingSoon": "Bientôt disponible — revenez pour des conseils de CV, des astuces de recherche d'emploi et des guides de carrière."
   },
   "footer": {
     "copyright": "© {{year}} QuickResumeBuilder.com"

@@ -217,8 +217,12 @@
     "ctaStart": "Crea curriculum",
     "features": {
       "templates": {
-        "title": "3 modelli professionali",
-        "description": "Basic, Modern e Minimal: scegli lo stile più adatto a te."
+        "title": "5 modelli professionali",
+        "description": "Basic, Modern, Minimal, Elegant e Classic: scegli lo stile più adatto a te."
+      },
+      "coverLetter": {
+        "title": "Lettere di presentazione abbinate",
+        "description": "Crea una lettera di presentazione abbinata al tuo curriculum, con modelli propri e personalizzazione dal vivo."
       },
       "customization": {
         "title": "Personalizzazione completa",
@@ -228,13 +232,17 @@
         "title": "Esportazione PDF con un clic",
         "description": "Scarica un PDF pronto per la stampa non appena sei soddisfatto."
       },
+      "email": {
+        "title": "Invialo direttamente via email",
+        "description": "Invia il tuo PDF finito direttamente a un indirizzo email, senza bisogno di scaricarlo."
+      },
       "languages": {
         "title": "13 lingue",
         "description": "L'intero editor si traduce all'istante, non solo il testo del curriculum."
       },
       "saveResumes": {
         "title": "Salva e continua più tardi",
-        "description": "Conserva più curriculum salvati e modificali quando vuoi."
+        "description": "Conserva più curriculum e lettere di presentazione salvati e modificali quando vuoi."
       }
     },
     "testimonialsTitle": "Amato dai candidati di tutto il mondo",
@@ -260,6 +268,11 @@
         "role": "Neolaureato"
       }
     }
+  },
+  "blog": {
+    "navLabel": "Blog",
+    "pageTitle": "Blog",
+    "comingSoon": "Prossimamente — torna presto per consigli sul curriculum, suggerimenti per la ricerca di lavoro e guide di carriera."
   },
   "footer": {
     "copyright": "© {{year}} QuickResumeBuilder.com"

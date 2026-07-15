@@ -217,8 +217,12 @@
     "ctaStart": "Criar currículo",
     "features": {
       "templates": {
-        "title": "3 modelos profissionais",
-        "description": "Basic, Modern e Minimal – escolha o estilo que mais lhe convém."
+        "title": "5 modelos profissionais",
+        "description": "Basic, Modern, Minimal, Elegant e Classic – escolha o estilo que mais lhe convém."
+      },
+      "coverLetter": {
+        "title": "Cartas de apresentação a condizer",
+        "description": "Crie uma carta de apresentação a condizer com o seu currículo, com os seus próprios modelos e personalização em tempo real."
       },
       "customization": {
         "title": "Personalização completa",
@@ -228,13 +232,17 @@
         "title": "Exportação para PDF num clique",
         "description": "Descarregue um PDF pronto a imprimir assim que estiver satisfeito."
       },
+      "email": {
+        "title": "Envie diretamente por e-mail",
+        "description": "Envie o seu PDF finalizado diretamente para um endereço de e-mail – sem necessidade de download."
+      },
       "languages": {
         "title": "13 idiomas",
         "description": "Todo o criador é traduzido instantaneamente, não só o texto do seu currículo."
       },
       "saveResumes": {
         "title": "Guarde e continue mais tarde",
-        "description": "Mantenha vários currículos guardados e edite-os quando quiser."
+        "description": "Mantenha vários currículos e cartas de apresentação guardados, e edite-os quando quiser."
       }
     },
     "testimonialsTitle": "Adorado por candidatos a emprego em todo o mundo",
@@ -260,6 +268,11 @@
         "role": "Recém-formado"
       }
     }
+  },
+  "blog": {
+    "navLabel": "Blog",
+    "pageTitle": "Blog",
+    "comingSoon": "Brevemente — volte para dicas de currículo, conselhos de procura de emprego e guias de carreira."
   },
   "footer": {
     "copyright": "© {{year}} QuickResumeBuilder.com"

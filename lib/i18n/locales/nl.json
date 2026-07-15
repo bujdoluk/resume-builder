@@ -217,8 +217,12 @@
     "ctaStart": "Cv maken",
     "features": {
       "templates": {
-        "title": "3 professionele sjablonen",
-        "description": "Basic, Modern en Minimal – kies de stijl die bij je past."
+        "title": "5 professionele sjablonen",
+        "description": "Basic, Modern, Minimal, Elegant en Classic – kies de stijl die bij je past."
+      },
+      "coverLetter": {
+        "title": "Bijpassende motivatiebrieven",
+        "description": "Maak een bijpassende motivatiebrief naast je cv, met eigen sjablonen en live aanpassing."
       },
       "customization": {
         "title": "Volledig aanpasbaar",
@@ -228,13 +232,17 @@
         "title": "PDF-export met één klik",
         "description": "Download een afdrukklare pdf zodra je tevreden bent."
       },
+      "email": {
+        "title": "Direct e-mailen",
+        "description": "Stuur je afgeronde pdf rechtstreeks naar een e-mailadres – geen download nodig."
+      },
       "languages": {
         "title": "13 talen",
         "description": "De hele builder wordt direct vertaald, niet alleen de tekst van je cv."
       },
       "saveResumes": {
         "title": "Opslaan en later verdergaan",
-        "description": "Bewaar meerdere cv's en bewerk ze wanneer je wilt."
+        "description": "Bewaar meerdere cv's en motivatiebrieven, en bewerk ze wanneer je wilt."
       }
     },
     "testimonialsTitle": "Geliefd door werkzoekenden overal",
@@ -260,6 +268,11 @@
         "role": "Recent afgestudeerde"
       }
     }
+  },
+  "blog": {
+    "navLabel": "Blog",
+    "pageTitle": "Blog",
+    "comingSoon": "Binnenkort beschikbaar — kom terug voor cv-tips, sollicitatieadvies en carrièregidsen."
   },
   "footer": {
     "copyright": "© {{year}} QuickResumeBuilder.com"

@@ -217,8 +217,12 @@
     "ctaStart": "Opprett CV",
     "features": {
       "templates": {
-        "title": "3 profesjonelle maler",
-        "description": "Basic, Modern og Minimal – velg stilen som passer deg."
+        "title": "5 profesjonelle maler",
+        "description": "Basic, Modern, Minimal, Elegant og Classic – velg stilen som passer deg."
+      },
+      "coverLetter": {
+        "title": "Matchende søknadsbrev",
+        "description": "Lag et matchende søknadsbrev til CV-en din, med egne maler og live tilpasning."
       },
       "customization": {
         "title": "Full tilpasning",
@@ -228,13 +232,17 @@
         "title": "PDF-eksport med ett klikk",
         "description": "Last ned en utskriftsklar PDF så snart du er fornøyd."
       },
+      "email": {
+        "title": "Send det direkte på e-post",
+        "description": "Send den ferdige PDF-en direkte til en e-postadresse – ingen nedlasting nødvendig."
+      },
       "languages": {
         "title": "13 språk",
         "description": "Hele byggeverktøyet oversettes umiddelbart, ikke bare CV-teksten din."
       },
       "saveResumes": {
         "title": "Lagre og fortsett senere",
-        "description": "Behold flere lagrede CV-er og rediger dem når som helst."
+        "description": "Behold flere lagrede CV-er og søknadsbrev, og rediger dem når som helst."
       }
     },
     "testimonialsTitle": "Elsket av jobbsøkere overalt",
@@ -260,6 +268,11 @@
         "role": "Nyutdannet"
       }
     }
+  },
+  "blog": {
+    "navLabel": "Blogg",
+    "pageTitle": "Blogg",
+    "comingSoon": "Kommer snart — se innom for CV-tips, jobbsøkerråd og karriereguider."
   },
   "footer": {
     "copyright": "© {{year}} QuickResumeBuilder.com"

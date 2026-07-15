@@ -217,8 +217,12 @@
     "ctaStart": "Utwórz CV",
     "features": {
       "templates": {
-        "title": "3 profesjonalne szablony",
-        "description": "Basic, Modern i Minimal – wybierz styl, który Ci odpowiada."
+        "title": "5 profesjonalnych szablonów",
+        "description": "Basic, Modern, Minimal, Elegant i Classic – wybierz styl, który Ci odpowiada."
+      },
+      "coverLetter": {
+        "title": "Dopasowane listy motywacyjne",
+        "description": "Stwórz spójny list motywacyjny do swojego CV, z własnymi szablonami i personalizacją na żywo."
       },
       "customization": {
         "title": "Pełna personalizacja",
@@ -228,13 +232,17 @@
         "title": "Eksport do PDF jednym kliknięciem",
         "description": "Pobierz gotowy do druku PDF, gdy tylko będziesz zadowolony."
       },
+      "email": {
+        "title": "Wyślij bezpośrednio e-mailem",
+        "description": "Wyślij gotowe PDF prosto na adres e-mail – bez pobierania pliku."
+      },
       "languages": {
         "title": "13 języków",
         "description": "Cały kreator tłumaczy się natychmiast, nie tylko tekst Twojego CV."
       },
       "saveResumes": {
         "title": "Zapisz i wróć później",
-        "description": "Przechowuj wiele zapisanych CV i edytuj je w dowolnym momencie."
+        "description": "Przechowuj wiele zapisanych CV i listów motywacyjnych, i edytuj je w dowolnym momencie."
       }
     },
     "testimonialsTitle": "Uwielbiane przez osoby szukające pracy na całym świecie",
@@ -260,6 +268,11 @@
         "role": "Świeżo upieczony absolwent"
       }
     }
+  },
+  "blog": {
+    "navLabel": "Blog",
+    "pageTitle": "Blog",
+    "comingSoon": "Już wkrótce — zajrzyj po wskazówki dotyczące CV, porady dotyczące szukania pracy i poradniki kariery."
   },
   "footer": {
     "copyright": "© {{year}} QuickResumeBuilder.com"

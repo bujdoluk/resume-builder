@@ -16,15 +16,19 @@ import Footer from "@/components/Footer";
 import {
   CustomizationIcon,
   DownloadIcon,
+  EmailIcon,
   LanguagesIcon,
+  MyCoverLettersIcon,
   MyResumesIcon,
   TemplatesIcon,
 } from "@/components/Icons";
 
 const features = [
   { key: "templates", icon: TemplatesIcon },
+  { key: "coverLetter", icon: MyCoverLettersIcon },
   { key: "customization", icon: CustomizationIcon },
   { key: "pdf", icon: DownloadIcon },
+  { key: "email", icon: EmailIcon },
   { key: "languages", icon: LanguagesIcon },
   { key: "saveResumes", icon: MyResumesIcon },
 ] as const;

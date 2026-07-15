@@ -13,6 +13,7 @@
  */
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useTranslation } from "react-i18next";
 import ColoursDropdown from "@/components/navbar/ColoursDropdown";
 import CoverLetterFeaturesDropdown from "@/components/navbar/CoverLetterFeaturesDropdown";
 import CoverLetterTemplatesDropdown from "@/components/navbar/CoverLetterTemplatesDropdown";
@@ -24,6 +25,7 @@ import LanguageSelect from "@/components/LanguageSelect";
 import ThemeToggle from "@/components/ThemeToggle";
 
 export default function Navbar() {
+  const { t } = useTranslation();
   const pathname = usePathname();
   const isEditorRoute = pathname === "/app";
   const isCoverLetterRoute = pathname === "/cover-letter";
@@ -83,6 +85,9 @@ export default function Navbar() {
       )}
 
       <div className="order-2 flex flex-1 shrink-0 items-center justify-end gap-1 md:order-none">
+        <Link href="/blog" className="link link-hover mr-2">
+          {t("blog.navLabel")}
+        </Link>
         <ThemeToggle />
         <LanguageSelect />
       </div>

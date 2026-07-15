@@ -8,22 +8,27 @@ A free, in-browser resume and cover letter builder built with Next.js. Fill in y
 - **Five templates** — Basic, Modern, Minimal, Elegant, and Classic, switchable from the templates gallery (`/templates`).
 - **Live drag-and-drop editing** — reorder fields, sections, and repeatable entries (work experience, education, skills, etc.) directly on the resume canvas, with a separate touch-friendly editing form on mobile widths (powered by [dnd-kit](https://dndkit.com/)).
 - **Completion tracking** — a step list scrolls you to each section and a radial progress indicator shows what percentage of your resume (personal info + every section's fields) is filled in.
-- **Save & manage resumes** — save multiple resumes to a Supabase-backed anonymous account (no login screen) and rename, duplicate, edit, or delete them from `/my-resumes`.
+- **Save & manage resumes** — save multiple resumes to a Supabase-backed anonymous account (no login screen) and rename, duplicate, edit, or delete them from `/my-resumes`, which paginates (10 per page) and lets you sort by name, created date, or updated date.
 
 ### Cover Letter Builder
 - **Two templates** — Basic (a plain single-column letter) and Modern (an accent-colored sidebar, defaulting to sender info, beside a white main column — sections are draggable between the two zones, mirroring the resume's Modern template).
 - **Five draggable sections** — sender info, recipient info, date, subject, and letter body, each independently reorderable and with its own draggable fields, on both desktop and a separate mobile editing form.
 - **Completion tracking** — the same step-list-plus-progress pattern as the resume builder, scoped to the cover letter's sections.
-- **Save & manage cover letters** — save multiple cover letters and rename, duplicate, edit, or delete them from `/my-cover-letters`.
+- **Save & manage cover letters** — save multiple cover letters and rename, duplicate, edit, or delete them from `/my-cover-letters`, with the same pagination and sorting as `/my-resumes`.
 
 ### Shared across both builders
 - **Customization navbar** — accent colours, typography (font family), font size (small/medium/large), and which fields/sections are visible.
 - **PDF export** — download the finished document as a PDF, print it, or open a full-page preview first.
+- **Email export** — send the finished PDF straight to any email address via [Resend](https://resend.com), as an alternative to downloading it (see `RESEND_API_KEY`/`RESEND_FROM_EMAIL` in Getting Started below).
 - **13 languages** — the entire UI (not just your content) can be translated on the fly via a language switcher in the navbar, powered by [i18next](https://www.i18next.com/)/react-i18next.
+
+### Marketing site
+- **Landing page** (`/`) — hero section, a highlight grid of the features above, and a daisyUI carousel of user testimonials (3 visible at once on desktop, Prev/Next buttons scroll by one card).
+- **Blog** (`/blog`) — placeholder page linked from the navbar, ready for future posts.
 
 ## Getting Started
 
-Copy the environment template and fill in your Supabase project's credentials:
+Copy the environment template and fill in your Supabase project's credentials, plus a [Resend](https://resend.com) API key if you want the Email export feature to actually send mail (`RESEND_FROM_EMAIL` falls back to Resend's shared sandbox address until you verify your own domain):
 
 ```bash
 cp .env.example .env.local
@@ -39,14 +44,14 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 ## Project Structure
 
-- `app/` — Next.js App Router pages: `/` (marketing landing page), `/app` (resume editor), `/templates` (template gallery), `/my-resumes` (saved resumes list), `/cover-letter` (cover letter editor), `/my-cover-letters` (saved cover letters list).
+- `app/` — Next.js App Router pages: `/` (marketing landing page), `/blog` (placeholder blog page), `/app` (resume editor), `/templates` (template gallery), `/my-resumes` (saved resumes list), `/cover-letter` (cover letter editor), `/my-cover-letters` (saved cover letters list), `/api/send-email` (route handler behind the Email export button, relays a client-generated PDF through Resend).
 - `components/`
   - `resumes/` — `ResumeBuilder.tsx` (page orchestration: state, persistence, mobile/desktop switching), `Resume.tsx` (the desktop drag-and-drop editing canvas), `desktop-templates/`/`mobile-templates/` (per-template read-only and mobile-editing-form components).
   - `cover-letter/` — similar shape to `resumes/`: `CoverLetterBuilder.tsx` (page orchestration), `CoverLetter.tsx` (thin desktop wrapper), `desktop-templates/`/`mobile-templates/` (per-template read-only and mobile-editing-form components, including `CoverLetterModernMobileTemplate.tsx`'s stacked colored-block layout). `CoverLetterFormFields.tsx` owns the actual field/section markup and layout for every template × both view modes in one place (a level of sharing the resume side doesn't attempt, since each resume mobile template still defines its own fields independently) — `CoverLetter.tsx` and the mobile templates are just thin wrappers that lock in `mobile`/a `templateId` and forward the rest.
-  - `pdf/` — per-template `@react-pdf/renderer` components, used by the shared, generic `DownloadButton.tsx` (accepts any PDF template component + its props).
+  - `pdf/` — per-template `@react-pdf/renderer` components, used by the shared, generic `DownloadButton.tsx` and `EmailButton.tsx` (both accept any PDF template component + its props; `EmailButton.tsx` generates the same client-side PDF and posts it to `/api/send-email`).
   - `navbar/` — the Templates/Features/Colours/Typography/Font Size dropdowns shown on both editors.
-  - Shared UI: `PreviewModal.tsx` and `DownloadButton.tsx` (generic, accept any template component + props), `Sidebar.tsx`, `Sortable.tsx` (drag-and-drop primitives, including the `SortableZones`/`SortableZone` pair both Modern templates use for sidebar/main dragging), `PrintButton.tsx`, `SaveResumeDialog.tsx`, and other primitives reused by both builders.
-- `lib/` — resume data types (`resumeData.ts`) and cover letter data types (`coverLetterData.ts`), template registries (`templates.ts`, `coverLetterTemplates.ts`) and their PDF counterparts (`lib/pdf/templates.ts`, `lib/pdf/coverLetterTemplates.ts`), font/colour/font-size options, the i18n setup (`lib/i18n/`), Supabase helpers (`lib/supabase/`), and PDF rendering helpers (`lib/pdf/`).
+  - Shared UI: `PreviewModal.tsx`, `DownloadButton.tsx`/`EmailButton.tsx` (generic, accept any template component + props), `Sidebar.tsx`, `Sortable.tsx` (drag-and-drop primitives, including the `SortableZones`/`SortableZone` pair both Modern templates use for sidebar/main dragging), `PrintButton.tsx`, `SaveResumeDialog.tsx`, `SortableColumnHeader.tsx`/`TableFillerRows.tsx` (the sortable-column headers and height-matching filler rows shared by `/my-resumes` and `/my-cover-letters`' paginated tables), `BlogPageContent.tsx`, and other primitives reused by both builders.
+- `lib/` — resume data types (`resumeData.ts`) and cover letter data types (`coverLetterData.ts`), template registries (`templates.ts`, `coverLetterTemplates.ts`) and their PDF counterparts (`lib/pdf/templates.ts`, `lib/pdf/coverLetterTemplates.ts`), font/colour/font-size options, the i18n setup (`lib/i18n/`), Supabase helpers (`lib/supabase/`, including pagination/sorting params on `listResumes`/`listCoverLetters`), and PDF rendering helpers (`lib/pdf/`).
 
 ## Available Scripts
 
