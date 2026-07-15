@@ -7,7 +7,7 @@
  */
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { useTranslation } from "react-i18next";
+import { Trans, useTranslation } from "react-i18next";
 import { Temporal } from "temporal-polyfill";
 import { useAppState } from "@/components/AppState";
 import ConfirmDialog, {
@@ -167,7 +167,11 @@ export default function MyResumesPage() {
             {selectedIds.size > 0 && (
               <>
                 <span className="text-base-content/60 text-sm">
-                  {t("myResumes.selectedCount", { count: selectedIds.size })}
+                  <Trans
+                    i18nKey="myResumes.selectedCount"
+                    count={selectedIds.size}
+                    components={{ bold: <span className="text-base font-bold" /> }}
+                  />
                 </span>
                 <button
                   type="button"

@@ -137,7 +137,7 @@
     "saveFailed": "Uloženie životopisu zlyhalo. Skúste to znova.",
     "loadFailed": "Nepodarilo sa načítať uložené životopisy. Skúste to znova.",
     "duplicateFailed": "Duplikovanie životopisu zlyhalo. Skúste to znova.",
-    "selectedCount": "{{count}} vybraných",
+    "selectedCount": "<bold>{{count}}</bold> vybraných",
     "deleteSelected": "Odstrániť vybrané",
     "confirmBulkDelete": "Odstrániť {{count}} vybraných životopisov? Túto akciu nemožno vrátiť späť."
   },
@@ -207,7 +207,7 @@
     "confirmDelete": "Odstrániť tento motivačný list? Túto akciu nemožno vrátiť späť.",
     "loadFailed": "Nepodarilo sa načítať uložené motivačné listy. Skúste to znova.",
     "duplicateFailed": "Duplikovanie motivačného listu zlyhalo. Skúste to znova.",
-    "selectedCount": "{{count}} vybraných",
+    "selectedCount": "<bold>{{count}}</bold> vybraných",
     "deleteSelected": "Odstrániť vybrané",
     "confirmBulkDelete": "Odstrániť {{count}} vybraných motivačných listov? Túto akciu nemožno vrátiť späť."
   },

@@ -137,7 +137,7 @@
     "saveFailed": "No se pudo guardar el currículum. Inténtalo de nuevo.",
     "loadFailed": "No se pudieron cargar tus currículums guardados. Inténtalo de nuevo.",
     "duplicateFailed": "No se pudo duplicar el currículum. Inténtalo de nuevo.",
-    "selectedCount": "{{count}} seleccionados",
+    "selectedCount": "<bold>{{count}}</bold> seleccionados",
     "deleteSelected": "Eliminar seleccionados",
     "confirmBulkDelete": "¿Eliminar {{count}} currículums seleccionados? Esta acción no se puede deshacer."
   },
@@ -207,7 +207,7 @@
     "confirmDelete": "¿Eliminar esta carta de presentación? Esta acción no se puede deshacer.",
     "loadFailed": "No se pudieron cargar tus cartas de presentación guardadas. Inténtalo de nuevo.",
     "duplicateFailed": "No se pudo duplicar la carta de presentación. Inténtalo de nuevo.",
-    "selectedCount": "{{count}} seleccionados",
+    "selectedCount": "<bold>{{count}}</bold> seleccionados",
     "deleteSelected": "Eliminar seleccionados",
     "confirmBulkDelete": "¿Eliminar {{count}} cartas de presentación seleccionadas? Esta acción no se puede deshacer."
   },

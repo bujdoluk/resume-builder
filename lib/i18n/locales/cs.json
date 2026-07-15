@@ -137,7 +137,7 @@
     "saveFailed": "Uložení životopisu se nezdařilo. Zkuste to prosím znovu.",
     "loadFailed": "Nepodařilo se načíst uložené životopisy. Zkuste to prosím znovu.",
     "duplicateFailed": "Duplikování životopisu se nezdařilo. Zkuste to prosím znovu.",
-    "selectedCount": "{{count}} vybráno",
+    "selectedCount": "<bold>{{count}}</bold> vybráno",
     "deleteSelected": "Smazat vybrané",
     "confirmBulkDelete": "Smazat {{count}} vybraných životopisů? Tuto akci nelze vrátit zpět."
   },
@@ -207,7 +207,7 @@
     "confirmDelete": "Smazat tento motivační dopis? Tuto akci nelze vrátit zpět.",
     "loadFailed": "Nepodařilo se načíst uložené motivační dopisy. Zkuste to prosím znovu.",
     "duplicateFailed": "Duplikování motivačního dopisu se nezdařilo. Zkuste to prosím znovu.",
-    "selectedCount": "{{count}} vybráno",
+    "selectedCount": "<bold>{{count}}</bold> vybráno",
     "deleteSelected": "Smazat vybrané",
     "confirmBulkDelete": "Smazat {{count}} vybraných motivačních dopisů? Tuto akci nelze vrátit zpět."
   },

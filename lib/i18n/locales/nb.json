@@ -137,7 +137,7 @@
     "saveFailed": "Kunne ikke lagre CV-en. Prøv igjen.",
     "loadFailed": "Kunne ikke laste inn de lagrede CV-ene dine. Prøv igjen.",
     "duplicateFailed": "Kunne ikke duplisere CV-en. Prøv igjen.",
-    "selectedCount": "{{count}} valgt",
+    "selectedCount": "<bold>{{count}}</bold> valgt",
     "deleteSelected": "Slett valgte",
     "confirmBulkDelete": "Slette {{count}} valgte CV-er? Dette kan ikke angres."
   },
@@ -207,7 +207,7 @@
     "confirmDelete": "Slette dette søknadsbrevet? Dette kan ikke angres.",
     "loadFailed": "Kunne ikke laste inn de lagrede søknadsbrevene dine. Prøv igjen.",
     "duplicateFailed": "Kunne ikke duplisere søknadsbrevet. Prøv igjen.",
-    "selectedCount": "{{count}} valgt",
+    "selectedCount": "<bold>{{count}}</bold> valgt",
     "deleteSelected": "Slett valgte",
     "confirmBulkDelete": "Slette {{count}} valgte søknadsbrev? Dette kan ikke angres."
   },

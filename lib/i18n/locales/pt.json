@@ -137,7 +137,7 @@
     "saveFailed": "Falha ao guardar o currículo. Tente novamente.",
     "loadFailed": "Não foi possível carregar os seus currículos guardados. Tente novamente.",
     "duplicateFailed": "Falha ao duplicar o currículo. Tente novamente.",
-    "selectedCount": "{{count}} selecionado(s)",
+    "selectedCount": "<bold>{{count}}</bold> selecionado(s)",
     "deleteSelected": "Eliminar selecionados",
     "confirmBulkDelete": "Eliminar {{count}} currículos selecionados? Esta ação não pode ser revertida."
   },
@@ -207,7 +207,7 @@
     "confirmDelete": "Eliminar esta carta de apresentação? Esta ação não pode ser revertida.",
     "loadFailed": "Não foi possível carregar as suas cartas de apresentação guardadas. Tente novamente.",
     "duplicateFailed": "Falha ao duplicar a carta de apresentação. Tente novamente.",
-    "selectedCount": "{{count}} selecionado(s)",
+    "selectedCount": "<bold>{{count}}</bold> selecionado(s)",
     "deleteSelected": "Eliminar selecionados",
     "confirmBulkDelete": "Eliminar {{count}} cartas de apresentação selecionadas? Esta ação não pode ser revertida."
   },

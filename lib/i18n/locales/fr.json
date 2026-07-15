@@ -137,7 +137,7 @@
     "saveFailed": "Échec de l'enregistrement du CV. Veuillez réessayer.",
     "loadFailed": "Impossible de charger vos CV enregistrés. Veuillez réessayer.",
     "duplicateFailed": "Échec de la duplication du CV. Veuillez réessayer.",
-    "selectedCount": "{{count}} sélectionné(s)",
+    "selectedCount": "<bold>{{count}}</bold> sélectionné(s)",
     "deleteSelected": "Supprimer la sélection",
     "confirmBulkDelete": "Supprimer {{count}} CV sélectionnés ? Cette action est irréversible."
   },
@@ -207,7 +207,7 @@
     "confirmDelete": "Supprimer cette lettre de motivation ? Cette action est irréversible.",
     "loadFailed": "Impossible de charger vos lettres de motivation enregistrées. Veuillez réessayer.",
     "duplicateFailed": "Échec de la duplication de la lettre de motivation. Veuillez réessayer.",
-    "selectedCount": "{{count}} sélectionné(s)",
+    "selectedCount": "<bold>{{count}}</bold> sélectionné(s)",
     "deleteSelected": "Supprimer la sélection",
     "confirmBulkDelete": "Supprimer {{count}} lettres de motivation sélectionnées ? Cette action est irréversible."
   },

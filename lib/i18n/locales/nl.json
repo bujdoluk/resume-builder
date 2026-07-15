@@ -137,7 +137,7 @@
     "saveFailed": "Opslaan van cv mislukt. Probeer het opnieuw.",
     "loadFailed": "Je opgeslagen cv's konden niet worden geladen. Probeer het opnieuw.",
     "duplicateFailed": "Dupliceren van cv mislukt. Probeer het opnieuw.",
-    "selectedCount": "{{count}} geselecteerd",
+    "selectedCount": "<bold>{{count}}</bold> geselecteerd",
     "deleteSelected": "Selectie verwijderen",
     "confirmBulkDelete": "{{count}} geselecteerde cv's verwijderen? Dit kan niet ongedaan worden gemaakt."
   },
@@ -207,7 +207,7 @@
     "confirmDelete": "Deze motivatiebrief verwijderen? Dit kan niet ongedaan worden gemaakt.",
     "loadFailed": "Je opgeslagen motivatiebrieven konden niet worden geladen. Probeer het opnieuw.",
     "duplicateFailed": "Dupliceren van motivatiebrief mislukt. Probeer het opnieuw.",
-    "selectedCount": "{{count}} geselecteerd",
+    "selectedCount": "<bold>{{count}}</bold> geselecteerd",
     "deleteSelected": "Selectie verwijderen",
     "confirmBulkDelete": "{{count}} geselecteerde motivatiebrieven verwijderen? Dit kan niet ongedaan worden gemaakt."
   },

@@ -137,7 +137,7 @@
     "saveFailed": "Speichern des Lebenslaufs fehlgeschlagen. Bitte versuche es erneut.",
     "loadFailed": "Deine gespeicherten Lebensläufe konnten nicht geladen werden. Bitte versuche es erneut.",
     "duplicateFailed": "Duplizieren des Lebenslaufs fehlgeschlagen. Bitte versuche es erneut.",
-    "selectedCount": "{{count}} ausgewählt",
+    "selectedCount": "<bold>{{count}}</bold> ausgewählt",
     "deleteSelected": "Auswahl löschen",
     "confirmBulkDelete": "{{count}} ausgewählte Lebensläufe löschen? Dies kann nicht rückgängig gemacht werden."
   },
@@ -207,7 +207,7 @@
     "confirmDelete": "Dieses Anschreiben löschen? Dies kann nicht rückgängig gemacht werden.",
     "loadFailed": "Deine gespeicherten Anschreiben konnten nicht geladen werden. Bitte versuche es erneut.",
     "duplicateFailed": "Duplizieren des Anschreibens fehlgeschlagen. Bitte versuche es erneut.",
-    "selectedCount": "{{count}} ausgewählt",
+    "selectedCount": "<bold>{{count}}</bold> ausgewählt",
     "deleteSelected": "Auswahl löschen",
     "confirmBulkDelete": "{{count}} ausgewählte Anschreiben löschen? Dies kann nicht rückgängig gemacht werden."
   },

@@ -137,7 +137,7 @@
     "saveFailed": "Nie udało się zapisać CV. Spróbuj ponownie.",
     "loadFailed": "Nie udało się wczytać zapisanych CV. Spróbuj ponownie.",
     "duplicateFailed": "Nie udało się zduplikować CV. Spróbuj ponownie.",
-    "selectedCount": "Wybrano: {{count}}",
+    "selectedCount": "Wybrano: <bold>{{count}}</bold>",
     "deleteSelected": "Usuń zaznaczone",
     "confirmBulkDelete": "Usunąć {{count}} wybranych CV? Tej czynności nie można cofnąć."
   },
@@ -207,7 +207,7 @@
     "confirmDelete": "Usunąć ten list motywacyjny? Tej czynności nie można cofnąć.",
     "loadFailed": "Nie udało się wczytać zapisanych listów motywacyjnych. Spróbuj ponownie.",
     "duplicateFailed": "Nie udało się zduplikować listu motywacyjnego. Spróbuj ponownie.",
-    "selectedCount": "Wybrano: {{count}}",
+    "selectedCount": "Wybrano: <bold>{{count}}</bold>",
     "deleteSelected": "Usuń zaznaczone",
     "confirmBulkDelete": "Usunąć {{count}} wybranych listów motywacyjnych? Tej czynności nie można cofnąć."
   },

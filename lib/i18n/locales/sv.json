@@ -137,7 +137,7 @@
     "saveFailed": "Det gick inte att spara CV:t. Försök igen.",
     "loadFailed": "Det gick inte att läsa in dina sparade CV. Försök igen.",
     "duplicateFailed": "Det gick inte att duplicera CV:t. Försök igen.",
-    "selectedCount": "{{count}} markerade",
+    "selectedCount": "<bold>{{count}}</bold> markerade",
     "deleteSelected": "Ta bort markerade",
     "confirmBulkDelete": "Ta bort {{count}} markerade CV? Detta kan inte ångras."
   },
@@ -207,7 +207,7 @@
     "confirmDelete": "Ta bort detta personliga brev? Detta kan inte ångras.",
     "loadFailed": "Det gick inte att läsa in dina sparade personliga brev. Försök igen.",
     "duplicateFailed": "Det gick inte att duplicera det personliga brevet. Försök igen.",
-    "selectedCount": "{{count}} markerade",
+    "selectedCount": "<bold>{{count}}</bold> markerade",
     "deleteSelected": "Ta bort markerade",
     "confirmBulkDelete": "Ta bort {{count}} markerade personliga brev? Detta kan inte ångras."
   },
