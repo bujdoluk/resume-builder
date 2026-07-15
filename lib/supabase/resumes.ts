@@ -157,6 +157,11 @@ export async function deleteResume(supabase: SupabaseClient, id: string): Promis
   if (error) throw error;
 }
 
+export async function deleteResumes(supabase: SupabaseClient, ids: string[]): Promise<void> {
+  const { error } = await supabase.from("resumes").delete().in("id", ids);
+  if (error) throw error;
+}
+
 export async function renameResume(supabase: SupabaseClient, id: string, name: string): Promise<void> {
   const { error } = await supabase
     .from("resumes")

@@ -75,7 +75,7 @@ export default function LandingPage() {
             width={1752}
             height={1123}
             priority
-            className="pointer-events-none absolute top-0 left-[-200] hidden h-[70vh] w-[60vw] rotate-[0deg] object-cover object-top opacity-30 select-none lg:block"
+            className="pointer-events-none absolute top-0 left-[-180] hidden h-[80vh] w-[60vw] rotate-[0deg] object-cover object-top opacity-30 select-none lg:block"
           />
 
           <Image
@@ -85,7 +85,7 @@ export default function LandingPage() {
             width={1752}
             height={1123}
             priority
-            className="pointer-events-none absolute top-10 right-[-180] hidden h-[60vh] w-[50vw] rotate-[5deg] object-cover object-top opacity-30 select-none lg:block"
+            className="pointer-events-none absolute top-10 right-[-180] hidden h-[100vh] w-[50vw] rotate-[5deg] object-cover object-top opacity-30 select-none lg:block"
           />
 
           <div className="relative mx-auto max-w-3xl px-8 py-20 text-center">

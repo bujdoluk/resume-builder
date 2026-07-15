@@ -106,7 +106,9 @@
     "sortByCreated": "Ordina per data di creazione",
     "sortByUpdated": "Ordina per data di aggiornamento",
     "previousTestimonial": "Testimonianza precedente",
-    "nextTestimonial": "Testimonianza successiva"
+    "nextTestimonial": "Testimonianza successiva",
+    "selectAll": "Seleziona tutto",
+    "selectRow": "Seleziona {{name}}"
   },
   "templates": {
     "basic": "Base",
@@ -134,7 +136,10 @@
     "confirmDelete": "Eliminare questo curriculum? Questa azione non può essere annullata.",
     "saveFailed": "Salvataggio del curriculum non riuscito. Riprova.",
     "loadFailed": "Impossibile caricare i curriculum salvati. Riprova.",
-    "duplicateFailed": "Duplicazione del curriculum non riuscita. Riprova."
+    "duplicateFailed": "Duplicazione del curriculum non riuscita. Riprova.",
+    "selectedCount": "{{count}} selezionati",
+    "deleteSelected": "Elimina selezionati",
+    "confirmBulkDelete": "Eliminare {{count}} curriculum selezionati? Questa azione non può essere annullata."
   },
   "coverLetter": {
     "sectionSender": "I tuoi dati",
@@ -201,7 +206,10 @@
     "empty": "Non hai ancora salvato nessuna lettera di presentazione.",
     "confirmDelete": "Eliminare questa lettera di presentazione? Questa azione non può essere annullata.",
     "loadFailed": "Impossibile caricare le lettere di presentazione salvate. Riprova.",
-    "duplicateFailed": "Duplicazione della lettera di presentazione non riuscita. Riprova."
+    "duplicateFailed": "Duplicazione della lettera di presentazione non riuscita. Riprova.",
+    "selectedCount": "{{count}} selezionati",
+    "deleteSelected": "Elimina selezionati",
+    "confirmBulkDelete": "Eliminare {{count}} lettere di presentazione selezionate? Questa azione non può essere annullata."
   },
   "emailDialog": {
     "title": "Invia questo documento via email",

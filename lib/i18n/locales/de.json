@@ -106,7 +106,9 @@
     "sortByCreated": "Nach Erstellungsdatum sortieren",
     "sortByUpdated": "Nach Aktualisierungsdatum sortieren",
     "previousTestimonial": "Vorheriges Testimonial",
-    "nextTestimonial": "Nächstes Testimonial"
+    "nextTestimonial": "Nächstes Testimonial",
+    "selectAll": "Alle auswählen",
+    "selectRow": "{{name}} auswählen"
   },
   "templates": {
     "basic": "Einfach",
@@ -134,7 +136,10 @@
     "confirmDelete": "Diesen Lebenslauf löschen? Dies kann nicht rückgängig gemacht werden.",
     "saveFailed": "Speichern des Lebenslaufs fehlgeschlagen. Bitte versuche es erneut.",
     "loadFailed": "Deine gespeicherten Lebensläufe konnten nicht geladen werden. Bitte versuche es erneut.",
-    "duplicateFailed": "Duplizieren des Lebenslaufs fehlgeschlagen. Bitte versuche es erneut."
+    "duplicateFailed": "Duplizieren des Lebenslaufs fehlgeschlagen. Bitte versuche es erneut.",
+    "selectedCount": "{{count}} ausgewählt",
+    "deleteSelected": "Auswahl löschen",
+    "confirmBulkDelete": "{{count}} ausgewählte Lebensläufe löschen? Dies kann nicht rückgängig gemacht werden."
   },
   "coverLetter": {
     "sectionSender": "Ihre Angaben",
@@ -201,7 +206,10 @@
     "empty": "Du hast noch kein Anschreiben gespeichert.",
     "confirmDelete": "Dieses Anschreiben löschen? Dies kann nicht rückgängig gemacht werden.",
     "loadFailed": "Deine gespeicherten Anschreiben konnten nicht geladen werden. Bitte versuche es erneut.",
-    "duplicateFailed": "Duplizieren des Anschreibens fehlgeschlagen. Bitte versuche es erneut."
+    "duplicateFailed": "Duplizieren des Anschreibens fehlgeschlagen. Bitte versuche es erneut.",
+    "selectedCount": "{{count}} ausgewählt",
+    "deleteSelected": "Auswahl löschen",
+    "confirmBulkDelete": "{{count}} ausgewählte Anschreiben löschen? Dies kann nicht rückgängig gemacht werden."
   },
   "emailDialog": {
     "title": "Dieses Dokument per E-Mail senden",

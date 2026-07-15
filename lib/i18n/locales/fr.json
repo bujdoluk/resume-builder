@@ -106,7 +106,9 @@
     "sortByCreated": "Trier par date de création",
     "sortByUpdated": "Trier par date de mise à jour",
     "previousTestimonial": "Témoignage précédent",
-    "nextTestimonial": "Témoignage suivant"
+    "nextTestimonial": "Témoignage suivant",
+    "selectAll": "Tout sélectionner",
+    "selectRow": "Sélectionner {{name}}"
   },
   "templates": {
     "basic": "Basique",
@@ -134,7 +136,10 @@
     "confirmDelete": "Supprimer ce CV ? Cette action est irréversible.",
     "saveFailed": "Échec de l'enregistrement du CV. Veuillez réessayer.",
     "loadFailed": "Impossible de charger vos CV enregistrés. Veuillez réessayer.",
-    "duplicateFailed": "Échec de la duplication du CV. Veuillez réessayer."
+    "duplicateFailed": "Échec de la duplication du CV. Veuillez réessayer.",
+    "selectedCount": "{{count}} sélectionné(s)",
+    "deleteSelected": "Supprimer la sélection",
+    "confirmBulkDelete": "Supprimer {{count}} CV sélectionnés ? Cette action est irréversible."
   },
   "coverLetter": {
     "sectionSender": "Vos informations",
@@ -201,7 +206,10 @@
     "empty": "Vous n'avez encore enregistré aucune lettre de motivation.",
     "confirmDelete": "Supprimer cette lettre de motivation ? Cette action est irréversible.",
     "loadFailed": "Impossible de charger vos lettres de motivation enregistrées. Veuillez réessayer.",
-    "duplicateFailed": "Échec de la duplication de la lettre de motivation. Veuillez réessayer."
+    "duplicateFailed": "Échec de la duplication de la lettre de motivation. Veuillez réessayer.",
+    "selectedCount": "{{count}} sélectionné(s)",
+    "deleteSelected": "Supprimer la sélection",
+    "confirmBulkDelete": "Supprimer {{count}} lettres de motivation sélectionnées ? Cette action est irréversible."
   },
   "emailDialog": {
     "title": "Envoyer ce document par e-mail",

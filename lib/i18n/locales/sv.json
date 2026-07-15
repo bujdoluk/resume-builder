@@ -106,7 +106,9 @@
     "sortByCreated": "Sortera efter skapandedatum",
     "sortByUpdated": "Sortera efter uppdateringsdatum",
     "previousTestimonial": "Föregående omdöme",
-    "nextTestimonial": "Nästa omdöme"
+    "nextTestimonial": "Nästa omdöme",
+    "selectAll": "Markera alla",
+    "selectRow": "Markera {{name}}"
   },
   "templates": {
     "basic": "Enkel",
@@ -134,7 +136,10 @@
     "confirmDelete": "Ta bort detta CV? Detta kan inte ångras.",
     "saveFailed": "Det gick inte att spara CV:t. Försök igen.",
     "loadFailed": "Det gick inte att läsa in dina sparade CV. Försök igen.",
-    "duplicateFailed": "Det gick inte att duplicera CV:t. Försök igen."
+    "duplicateFailed": "Det gick inte att duplicera CV:t. Försök igen.",
+    "selectedCount": "{{count}} markerade",
+    "deleteSelected": "Ta bort markerade",
+    "confirmBulkDelete": "Ta bort {{count}} markerade CV? Detta kan inte ångras."
   },
   "coverLetter": {
     "sectionSender": "Dina uppgifter",
@@ -201,7 +206,10 @@
     "empty": "Du har inte sparat något personligt brev än.",
     "confirmDelete": "Ta bort detta personliga brev? Detta kan inte ångras.",
     "loadFailed": "Det gick inte att läsa in dina sparade personliga brev. Försök igen.",
-    "duplicateFailed": "Det gick inte att duplicera det personliga brevet. Försök igen."
+    "duplicateFailed": "Det gick inte att duplicera det personliga brevet. Försök igen.",
+    "selectedCount": "{{count}} markerade",
+    "deleteSelected": "Ta bort markerade",
+    "confirmBulkDelete": "Ta bort {{count}} markerade personliga brev? Detta kan inte ångras."
   },
   "emailDialog": {
     "title": "Mejla det här dokumentet",

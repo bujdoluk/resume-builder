@@ -106,7 +106,9 @@
     "sortByCreated": "Sorteren op aanmaakdatum",
     "sortByUpdated": "Sorteren op wijzigingsdatum",
     "previousTestimonial": "Vorige testimonial",
-    "nextTestimonial": "Volgende testimonial"
+    "nextTestimonial": "Volgende testimonial",
+    "selectAll": "Alles selecteren",
+    "selectRow": "{{name}} selecteren"
   },
   "templates": {
     "basic": "Basis",
@@ -134,7 +136,10 @@
     "confirmDelete": "Dit cv verwijderen? Dit kan niet ongedaan worden gemaakt.",
     "saveFailed": "Opslaan van cv mislukt. Probeer het opnieuw.",
     "loadFailed": "Je opgeslagen cv's konden niet worden geladen. Probeer het opnieuw.",
-    "duplicateFailed": "Dupliceren van cv mislukt. Probeer het opnieuw."
+    "duplicateFailed": "Dupliceren van cv mislukt. Probeer het opnieuw.",
+    "selectedCount": "{{count}} geselecteerd",
+    "deleteSelected": "Selectie verwijderen",
+    "confirmBulkDelete": "{{count}} geselecteerde cv's verwijderen? Dit kan niet ongedaan worden gemaakt."
   },
   "coverLetter": {
     "sectionSender": "Uw gegevens",
@@ -201,7 +206,10 @@
     "empty": "Je hebt nog geen motivatiebrief opgeslagen.",
     "confirmDelete": "Deze motivatiebrief verwijderen? Dit kan niet ongedaan worden gemaakt.",
     "loadFailed": "Je opgeslagen motivatiebrieven konden niet worden geladen. Probeer het opnieuw.",
-    "duplicateFailed": "Dupliceren van motivatiebrief mislukt. Probeer het opnieuw."
+    "duplicateFailed": "Dupliceren van motivatiebrief mislukt. Probeer het opnieuw.",
+    "selectedCount": "{{count}} geselecteerd",
+    "deleteSelected": "Selectie verwijderen",
+    "confirmBulkDelete": "{{count}} geselecteerde motivatiebrieven verwijderen? Dit kan niet ongedaan worden gemaakt."
   },
   "emailDialog": {
     "title": "Dit document e-mailen",

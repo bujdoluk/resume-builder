@@ -106,7 +106,9 @@
     "sortByCreated": "Sorter etter opprettelsesdato",
     "sortByUpdated": "Sorter etter oppdateringsdato",
     "previousTestimonial": "Forrige omtale",
-    "nextTestimonial": "Neste omtale"
+    "nextTestimonial": "Neste omtale",
+    "selectAll": "Velg alle",
+    "selectRow": "Velg {{name}}"
   },
   "templates": {
     "basic": "Enkel",
@@ -134,7 +136,10 @@
     "confirmDelete": "Slette denne CV-en? Dette kan ikke angres.",
     "saveFailed": "Kunne ikke lagre CV-en. Prøv igjen.",
     "loadFailed": "Kunne ikke laste inn de lagrede CV-ene dine. Prøv igjen.",
-    "duplicateFailed": "Kunne ikke duplisere CV-en. Prøv igjen."
+    "duplicateFailed": "Kunne ikke duplisere CV-en. Prøv igjen.",
+    "selectedCount": "{{count}} valgt",
+    "deleteSelected": "Slett valgte",
+    "confirmBulkDelete": "Slette {{count}} valgte CV-er? Dette kan ikke angres."
   },
   "coverLetter": {
     "sectionSender": "Dine opplysninger",
@@ -201,7 +206,10 @@
     "empty": "Du har ikke lagret noen søknadsbrev ennå.",
     "confirmDelete": "Slette dette søknadsbrevet? Dette kan ikke angres.",
     "loadFailed": "Kunne ikke laste inn de lagrede søknadsbrevene dine. Prøv igjen.",
-    "duplicateFailed": "Kunne ikke duplisere søknadsbrevet. Prøv igjen."
+    "duplicateFailed": "Kunne ikke duplisere søknadsbrevet. Prøv igjen.",
+    "selectedCount": "{{count}} valgt",
+    "deleteSelected": "Slett valgte",
+    "confirmBulkDelete": "Slette {{count}} valgte søknadsbrev? Dette kan ikke angres."
   },
   "emailDialog": {
     "title": "Send dette dokumentet på e-post",

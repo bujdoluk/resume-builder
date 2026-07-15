@@ -124,6 +124,11 @@ export async function deleteCoverLetter(supabase: SupabaseClient, id: string): P
   if (error) throw error;
 }
 
+export async function deleteCoverLetters(supabase: SupabaseClient, ids: string[]): Promise<void> {
+  const { error } = await supabase.from("cover_letters").delete().in("id", ids);
+  if (error) throw error;
+}
+
 export async function renameCoverLetter(supabase: SupabaseClient, id: string, name: string): Promise<void> {
   const { error } = await supabase
     .from("cover_letters")

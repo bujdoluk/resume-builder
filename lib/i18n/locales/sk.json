@@ -106,7 +106,9 @@
     "sortByCreated": "Zoradiť podľa dátumu vytvorenia",
     "sortByUpdated": "Zoradiť podľa dátumu aktualizácie",
     "previousTestimonial": "Predchádzajúca referencia",
-    "nextTestimonial": "Ďalšia referencia"
+    "nextTestimonial": "Ďalšia referencia",
+    "selectAll": "Vybrať všetko",
+    "selectRow": "Vybrať {{name}}"
   },
   "templates": {
     "basic": "Základný",
@@ -134,7 +136,10 @@
     "confirmDelete": "Odstrániť tento životopis? Túto akciu nemožno vrátiť späť.",
     "saveFailed": "Uloženie životopisu zlyhalo. Skúste to znova.",
     "loadFailed": "Nepodarilo sa načítať uložené životopisy. Skúste to znova.",
-    "duplicateFailed": "Duplikovanie životopisu zlyhalo. Skúste to znova."
+    "duplicateFailed": "Duplikovanie životopisu zlyhalo. Skúste to znova.",
+    "selectedCount": "{{count}} vybraných",
+    "deleteSelected": "Odstrániť vybrané",
+    "confirmBulkDelete": "Odstrániť {{count}} vybraných životopisov? Túto akciu nemožno vrátiť späť."
   },
   "coverLetter": {
     "sectionSender": "Vaše údaje",
@@ -201,7 +206,10 @@
     "empty": "Zatiaľ ste neuložili žiadny motivačný list.",
     "confirmDelete": "Odstrániť tento motivačný list? Túto akciu nemožno vrátiť späť.",
     "loadFailed": "Nepodarilo sa načítať uložené motivačné listy. Skúste to znova.",
-    "duplicateFailed": "Duplikovanie motivačného listu zlyhalo. Skúste to znova."
+    "duplicateFailed": "Duplikovanie motivačného listu zlyhalo. Skúste to znova.",
+    "selectedCount": "{{count}} vybraných",
+    "deleteSelected": "Odstrániť vybrané",
+    "confirmBulkDelete": "Odstrániť {{count}} vybraných motivačných listov? Túto akciu nemožno vrátiť späť."
   },
   "emailDialog": {
     "title": "Odoslať tento dokument e-mailom",

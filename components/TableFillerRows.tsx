@@ -7,10 +7,12 @@
  */
 export default function TableFillerRows({
   count,
+  checkboxColumn = false,
   textColumns,
   actionColumns,
 }: {
   count: number;
+  checkboxColumn?: boolean;
   textColumns: number;
   actionColumns: number;
 }) {
@@ -20,6 +22,15 @@ export default function TableFillerRows({
     <>
       {Array.from({ length: count }, (_, rowIndex) => (
         <tr key={`filler-${rowIndex}`} aria-hidden="true">
+          {checkboxColumn && (
+            <td className="w-px">
+              <input
+                type="checkbox"
+                className="checkbox checkbox-sm invisible"
+                disabled
+              />
+            </td>
+          )}
           {Array.from({ length: textColumns }, (_, columnIndex) => (
             <td key={`text-${columnIndex}`} className="whitespace-nowrap">
               &nbsp;

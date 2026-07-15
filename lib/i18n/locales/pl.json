@@ -106,7 +106,9 @@
     "sortByCreated": "Sortuj według daty utworzenia",
     "sortByUpdated": "Sortuj według daty aktualizacji",
     "previousTestimonial": "Poprzednia opinia",
-    "nextTestimonial": "Następna opinia"
+    "nextTestimonial": "Następna opinia",
+    "selectAll": "Zaznacz wszystko",
+    "selectRow": "Zaznacz {{name}}"
   },
   "templates": {
     "basic": "Podstawowy",
@@ -134,7 +136,10 @@
     "confirmDelete": "Usunąć to CV? Tej czynności nie można cofnąć.",
     "saveFailed": "Nie udało się zapisać CV. Spróbuj ponownie.",
     "loadFailed": "Nie udało się wczytać zapisanych CV. Spróbuj ponownie.",
-    "duplicateFailed": "Nie udało się zduplikować CV. Spróbuj ponownie."
+    "duplicateFailed": "Nie udało się zduplikować CV. Spróbuj ponownie.",
+    "selectedCount": "Wybrano: {{count}}",
+    "deleteSelected": "Usuń zaznaczone",
+    "confirmBulkDelete": "Usunąć {{count}} wybranych CV? Tej czynności nie można cofnąć."
   },
   "coverLetter": {
     "sectionSender": "Twoje dane",
@@ -201,7 +206,10 @@
     "empty": "Nie zapisałeś jeszcze żadnego listu motywacyjnego.",
     "confirmDelete": "Usunąć ten list motywacyjny? Tej czynności nie można cofnąć.",
     "loadFailed": "Nie udało się wczytać zapisanych listów motywacyjnych. Spróbuj ponownie.",
-    "duplicateFailed": "Nie udało się zduplikować listu motywacyjnego. Spróbuj ponownie."
+    "duplicateFailed": "Nie udało się zduplikować listu motywacyjnego. Spróbuj ponownie.",
+    "selectedCount": "Wybrano: {{count}}",
+    "deleteSelected": "Usuń zaznaczone",
+    "confirmBulkDelete": "Usunąć {{count}} wybranych listów motywacyjnych? Tej czynności nie można cofnąć."
   },
   "emailDialog": {
     "title": "Wyślij ten dokument e-mailem",

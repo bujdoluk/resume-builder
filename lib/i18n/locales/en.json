@@ -106,7 +106,9 @@
     "sortByCreated": "Sort by created date",
     "sortByUpdated": "Sort by updated date",
     "previousTestimonial": "Previous testimonial",
-    "nextTestimonial": "Next testimonial"
+    "nextTestimonial": "Next testimonial",
+    "selectAll": "Select all",
+    "selectRow": "Select {{name}}"
   },
   "templates": {
     "basic": "Basic",
@@ -134,7 +136,10 @@
     "confirmDelete": "Delete this resume? This can't be undone.",
     "saveFailed": "Failed to save resume. Please try again.",
     "loadFailed": "Could not load your saved resumes. Please try again.",
-    "duplicateFailed": "Failed to duplicate resume. Please try again."
+    "duplicateFailed": "Failed to duplicate resume. Please try again.",
+    "selectedCount": "{{count}} selected",
+    "deleteSelected": "Delete Selected",
+    "confirmBulkDelete": "Delete {{count}} selected resumes? This can't be undone."
   },
   "coverLetter": {
     "sectionSender": "Your Information",
@@ -201,7 +206,10 @@
     "empty": "You haven't saved any cover letters yet.",
     "confirmDelete": "Delete this cover letter? This can't be undone.",
     "loadFailed": "Could not load your saved cover letters. Please try again.",
-    "duplicateFailed": "Failed to duplicate cover letter. Please try again."
+    "duplicateFailed": "Failed to duplicate cover letter. Please try again.",
+    "selectedCount": "{{count}} selected",
+    "deleteSelected": "Delete Selected",
+    "confirmBulkDelete": "Delete {{count}} selected cover letters? This can't be undone."
   },
   "emailDialog": {
     "title": "Email this document",

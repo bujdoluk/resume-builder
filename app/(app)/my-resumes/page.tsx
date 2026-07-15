@@ -27,6 +27,7 @@ import TableFillerRows from "@/components/TableFillerRows";
 import {
   countResumes,
   deleteResume,
+  deleteResumes,
   duplicateResume,
   listResumes,
   renameResume,
@@ -56,6 +57,7 @@ export default function MyResumesPage() {
     column: "updated_at",
     ascending: true,
   });
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const confirmDialogRef = useRef<ConfirmDialogHandle>(null);
   const renameDialogRef = useRef<SaveResumeDialogHandle>(null);
   const requestIdRef = useRef(0);
@@ -74,10 +76,40 @@ export default function MyResumesPage() {
       setTotalCount(count);
       setPage(pageNumber);
       setSort(sortOverride);
+      setSelectedIds(new Set());
     } catch (error) {
       console.error(error);
       if (requestId === requestIdRef.current) setLoadFailed(true);
     }
+  }
+
+  function toggleSelect(id: string) {
+    setSelectedIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  }
+
+  function toggleSelectAll() {
+    setSelectedIds((prev) => {
+      if (resumes && resumes.every((row) => prev.has(row.id))) return new Set();
+      return new Set(resumes?.map((row) => row.id));
+    });
+  }
+
+  async function handleBulkDelete() {
+    const confirmed = await confirmDialogRef.current?.open({
+      message: t("myResumes.confirmBulkDelete", { count: selectedIds.size }),
+      confirmLabel: t("myResumes.deleteSelected"),
+    });
+    if (!confirmed) return;
+    await deleteResumes(supabase, Array.from(selectedIds));
+    notifyResumeListChanged();
+    const remainingOnPage = (resumes?.length ?? 0) - selectedIds.size;
+    const targetPage = remainingOnPage <= 0 && page > 1 ? page - 1 : page;
+    await loadPage(targetPage);
   }
 
   function handleSort(column: ResumeSort["column"]) {
@@ -131,9 +163,26 @@ export default function MyResumesPage() {
       <div className="bg-base-200 flex flex-1 flex-col p-6">
         <div className="mb-6 flex items-center justify-between gap-4">
           <h1 className="text-2xl font-bold">{t("myResumes.pageTitle")}</h1>
-          <Link href="/app" className="btn btn-primary">
-            {t("myResumes.newResume")}
-          </Link>
+          <div className="flex items-center gap-2">
+            {selectedIds.size > 0 && (
+              <>
+                <span className="text-base-content/60 text-sm">
+                  {t("myResumes.selectedCount", { count: selectedIds.size })}
+                </span>
+                <button
+                  type="button"
+                  className="btn btn-error btn-sm"
+                  onClick={handleBulkDelete}
+                >
+                  <TrashIcon className="h-4 w-4 stroke-current" />
+                  {t("myResumes.deleteSelected")}
+                </button>
+              </>
+            )}
+            <Link href="/app" className="btn btn-primary">
+              {t("myResumes.newResume")}
+            </Link>
+          </div>
         </div>
 
         {loadFailed && (
@@ -149,6 +198,15 @@ export default function MyResumesPage() {
             <table className="table">
               <thead>
                 <tr>
+                  <th className="w-px">
+                    <input
+                      type="checkbox"
+                      className="checkbox checkbox-sm"
+                      aria-label={t("aria.selectAll")}
+                      checked={resumes.every((row) => selectedIds.has(row.id))}
+                      onChange={toggleSelectAll}
+                    />
+                  </th>
                   <th className="min-w-40">
                     <SortableColumnHeader
                       label={t("myResumes.name")}
@@ -185,6 +243,17 @@ export default function MyResumesPage() {
               <tbody>
                 {resumes.map((row) => (
                   <tr key={row.id}>
+                    <td className="w-px">
+                      <input
+                        type="checkbox"
+                        className="checkbox checkbox-sm"
+                        aria-label={t("aria.selectRow", {
+                          name: row.name || t("myResumes.untitled"),
+                        })}
+                        checked={selectedIds.has(row.id)}
+                        onChange={() => toggleSelect(row.id)}
+                      />
+                    </td>
                     <td className="text-base-content/60 whitespace-nowrap">
                       {row.name || t("myResumes.untitled")}
                     </td>
@@ -243,6 +312,7 @@ export default function MyResumesPage() {
                 {totalPages > 1 && (
                   <TableFillerRows
                     count={RESUMES_PAGE_SIZE - resumes.length}
+                    checkboxColumn
                     textColumns={3}
                     actionColumns={4}
                   />

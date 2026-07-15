@@ -50,7 +50,7 @@ export default function PreviewModal<T extends object>({
   return (
     <>
       <dialog ref={dialogRef} className="modal">
-        <div className="modal-box max-h-[90vh]! w-[95vw]! max-w-[95vw]! overflow-auto! bg-transparent! p-0! shadow-none! lg:w-fit! lg:max-w-none!">
+        <div className="modal-box max-h-[90vh]! w-[95vw]! max-w-[95vw]! overflow-auto! rounded-none! rounded-tr-2xl! rounded-br-2xl! bg-transparent! p-0! shadow-none! lg:w-fit! lg:max-w-none!">
           <ScaleToFitWidth>
             <TemplateComponent {...templateProps} />
           </ScaleToFitWidth>
