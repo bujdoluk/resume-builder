@@ -86,7 +86,7 @@ export async function countCoverLetters(supabase: SupabaseClient, userId: string
   return count ?? 0;
 }
 
-export const COVER_LETTERS_PAGE_SIZE = 10;
+export const COVER_LETTERS_PAGE_SIZE = 12;
 
 export interface CoverLetterSort {
   column: "name" | "created_at" | "updated_at";

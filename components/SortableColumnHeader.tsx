@@ -37,7 +37,7 @@ export default function SortableColumnHeader<T extends string>({
     >
       {label}
       <ChevronDownIcon
-        className={`h-4 w-4 stroke-current text-black transition-transform ${
+        className={`h-4 w-4 stroke-current text-base-content transition-transform ${
           isAscending ? "rotate-180" : ""
         }`}
       />

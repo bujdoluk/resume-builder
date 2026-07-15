@@ -25,6 +25,7 @@ import SaveResumeDialog, {
   type SaveResumeDialogHandle,
 } from "@/components/SaveResumeDialog";
 import SortableColumnHeader from "@/components/SortableColumnHeader";
+import TableFillerRows from "@/components/TableFillerRows";
 import {
   COVER_LETTERS_PAGE_SIZE,
   countCoverLetters,
@@ -129,7 +130,7 @@ export default function MyCoverLettersPage() {
 
   return (
     <div className="flex min-h-full flex-col">
-      <div className="bg-base-200 flex flex-1 flex-col p-8">
+      <div className="bg-base-200 flex flex-1 flex-col p-6">
         <div className="mb-6 flex items-center justify-between gap-4">
           <h1 className="text-2xl font-bold">{t("myCoverLetters.pageTitle")}</h1>
           <Link href="/cover-letter" className="btn btn-primary">
@@ -150,7 +151,7 @@ export default function MyCoverLettersPage() {
             <table className="table">
               <thead>
                 <tr>
-                  <th>
+                  <th className="min-w-40">
                     <SortableColumnHeader
                       label={t("myCoverLetters.name")}
                       column="name"
@@ -159,7 +160,7 @@ export default function MyCoverLettersPage() {
                       ariaLabel={t("aria.sortByName")}
                     />
                   </th>
-                  <th>
+                  <th className="min-w-32">
                     <SortableColumnHeader
                       label={t("myCoverLetters.created")}
                       column="created_at"
@@ -168,7 +169,7 @@ export default function MyCoverLettersPage() {
                       ariaLabel={t("aria.sortByCreated")}
                     />
                   </th>
-                  <th>
+                  <th className="min-w-32">
                     <SortableColumnHeader
                       label={t("myCoverLetters.updated")}
                       column="updated_at"
@@ -241,6 +242,13 @@ export default function MyCoverLettersPage() {
                     </td>
                   </tr>
                 ))}
+                {totalPages > 1 && (
+                  <TableFillerRows
+                    count={COVER_LETTERS_PAGE_SIZE - coverLetters.length}
+                    textColumns={3}
+                    actionColumns={4}
+                  />
+                )}
               </tbody>
             </table>
           </div>

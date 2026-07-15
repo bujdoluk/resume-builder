@@ -23,6 +23,7 @@ import SaveResumeDialog, {
   type SaveResumeDialogHandle,
 } from "@/components/SaveResumeDialog";
 import SortableColumnHeader from "@/components/SortableColumnHeader";
+import TableFillerRows from "@/components/TableFillerRows";
 import {
   countResumes,
   deleteResume,
@@ -127,7 +128,7 @@ export default function MyResumesPage() {
 
   return (
     <div className="flex min-h-full flex-col">
-      <div className="bg-base-200 flex flex-1 flex-col p-8">
+      <div className="bg-base-200 flex flex-1 flex-col p-6">
         <div className="mb-6 flex items-center justify-between gap-4">
           <h1 className="text-2xl font-bold">{t("myResumes.pageTitle")}</h1>
           <Link href="/app" className="btn btn-primary">
@@ -148,7 +149,7 @@ export default function MyResumesPage() {
             <table className="table">
               <thead>
                 <tr>
-                  <th>
+                  <th className="min-w-40">
                     <SortableColumnHeader
                       label={t("myResumes.name")}
                       column="name"
@@ -157,7 +158,7 @@ export default function MyResumesPage() {
                       ariaLabel={t("aria.sortByName")}
                     />
                   </th>
-                  <th>
+                  <th className="min-w-32">
                     <SortableColumnHeader
                       label={t("myResumes.created")}
                       column="created_at"
@@ -166,7 +167,7 @@ export default function MyResumesPage() {
                       ariaLabel={t("aria.sortByCreated")}
                     />
                   </th>
-                  <th>
+                  <th className="min-w-32">
                     <SortableColumnHeader
                       label={t("myResumes.updated")}
                       column="updated_at"
@@ -239,6 +240,13 @@ export default function MyResumesPage() {
                     </td>
                   </tr>
                 ))}
+                {totalPages > 1 && (
+                  <TableFillerRows
+                    count={RESUMES_PAGE_SIZE - resumes.length}
+                    textColumns={3}
+                    actionColumns={4}
+                  />
+                )}
               </tbody>
             </table>
           </div>

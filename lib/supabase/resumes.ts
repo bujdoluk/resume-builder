@@ -111,7 +111,7 @@ export async function countResumes(supabase: SupabaseClient, userId: string): Pr
   return count ?? 0;
 }
 
-export const RESUMES_PAGE_SIZE = 10;
+export const RESUMES_PAGE_SIZE = 12;
 
 export interface ResumeSort {
   column: "name" | "created_at" | "updated_at";
