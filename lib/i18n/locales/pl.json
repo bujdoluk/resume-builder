@@ -83,6 +83,7 @@
     "preview": "Podgląd",
     "download": "Pobierz",
     "print": "Drukuj",
+    "email": "E-mail",
     "save": "Zapisz",
     "saved": "Zapisano",
     "cancel": "Anuluj",
@@ -98,7 +99,10 @@
     "uploadProfilePhoto": "Prześlij zdjęcie profilowe",
     "removePhoto": "Usuń zdjęcie",
     "reorder": "Zmień kolejność",
-    "selectLanguage": "Wybierz język"
+    "selectLanguage": "Wybierz język",
+    "previousPage": "Poprzednia strona",
+    "nextPage": "Następna strona",
+    "sortByName": "Sortuj według nazwy"
   },
   "templates": {
     "basic": "Podstawowy",
@@ -195,6 +199,14 @@
     "loadFailed": "Nie udało się wczytać zapisanych listów motywacyjnych. Spróbuj ponownie.",
     "duplicateFailed": "Nie udało się zduplikować listu motywacyjnego. Spróbuj ponownie."
   },
+  "emailDialog": {
+    "title": "Wyślij ten dokument e-mailem",
+    "description": "Wpisz adres e-mail, na który wysłać kopię PDF.",
+    "placeholder": "imie@przyklad.com",
+    "send": "Wyślij",
+    "sent": "E-mail wysłany!",
+    "sendFailed": "Nie udało się wysłać e-maila. Spróbuj ponownie."
+  },
   "landing": {
     "heroTitle": "Stwórz profesjonalne CV w kilka minut",
     "heroSubtitle": "Za darmo, bez rejestracji. Wybierz szablon, uzupełnij swoje dane i pobierz gotowe PDF prosto z przeglądarki.",
@@ -223,6 +235,6 @@
     }
   },
   "footer": {
-    "copyright": "© {{year}} QuickResumeBuilder.online"
+    "copyright": "© {{year}} QuickResumeBuilder.com"
   }
 }

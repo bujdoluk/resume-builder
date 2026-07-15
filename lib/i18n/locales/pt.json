@@ -83,6 +83,7 @@
     "preview": "Pré-visualizar",
     "download": "Transferir",
     "print": "Imprimir",
+    "email": "E-mail",
     "save": "Guardar",
     "saved": "Guardado",
     "cancel": "Cancelar",
@@ -98,7 +99,10 @@
     "uploadProfilePhoto": "Carregar foto de perfil",
     "removePhoto": "Remover foto",
     "reorder": "Reordenar",
-    "selectLanguage": "Selecionar idioma"
+    "selectLanguage": "Selecionar idioma",
+    "previousPage": "Página anterior",
+    "nextPage": "Próxima página",
+    "sortByName": "Ordenar por nome"
   },
   "templates": {
     "basic": "Básico",
@@ -195,6 +199,14 @@
     "loadFailed": "Não foi possível carregar as suas cartas de apresentação guardadas. Tente novamente.",
     "duplicateFailed": "Falha ao duplicar a carta de apresentação. Tente novamente."
   },
+  "emailDialog": {
+    "title": "Enviar este documento por e-mail",
+    "description": "Digite um endereço de e-mail para enviar uma cópia em PDF.",
+    "placeholder": "nome@exemplo.com",
+    "send": "Enviar",
+    "sent": "E-mail enviado!",
+    "sendFailed": "Falha ao enviar o e-mail. Tente novamente."
+  },
   "landing": {
     "heroTitle": "Crie um currículo profissional em minutos",
     "heroSubtitle": "Grátis, sem necessidade de registo. Escolha um modelo, preencha os seus dados e descarregue um PDF pronto diretamente do seu navegador.",
@@ -223,6 +235,6 @@
     }
   },
   "footer": {
-    "copyright": "© {{year}} QuickResumeBuilder.online"
+    "copyright": "© {{year}} QuickResumeBuilder.com"
   }
 }

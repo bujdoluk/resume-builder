@@ -83,6 +83,7 @@
     "preview": "Náhled",
     "download": "Stáhnout",
     "print": "Tisk",
+    "email": "E-mail",
     "save": "Uložit",
     "saved": "Uloženo",
     "cancel": "Zrušit",
@@ -98,7 +99,10 @@
     "uploadProfilePhoto": "Nahrát profilovou fotku",
     "removePhoto": "Odstranit fotku",
     "reorder": "Přeuspořádat",
-    "selectLanguage": "Vybrat jazyk"
+    "selectLanguage": "Vybrat jazyk",
+    "previousPage": "Předchozí stránka",
+    "nextPage": "Další stránka",
+    "sortByName": "Seřadit podle názvu"
   },
   "templates": {
     "basic": "Základní",
@@ -195,6 +199,14 @@
     "loadFailed": "Nepodařilo se načíst uložené motivační dopisy. Zkuste to prosím znovu.",
     "duplicateFailed": "Duplikování motivačního dopisu se nezdařilo. Zkuste to prosím znovu."
   },
+  "emailDialog": {
+    "title": "Odeslat tento dokument e-mailem",
+    "description": "Zadejte e-mailovou adresu, na kterou chcete odeslat PDF kopii.",
+    "placeholder": "jan@example.com",
+    "send": "Odeslat",
+    "sent": "E-mail byl odeslán!",
+    "sendFailed": "Odeslání e-mailu se nezdařilo. Zkuste to prosím znovu."
+  },
   "landing": {
     "heroTitle": "Vytvořte si profesionální životopis za pár minut",
     "heroSubtitle": "Zdarma, bez registrace. Vyberte šablonu, vyplňte své údaje a stáhněte si hotové PDF přímo z prohlížeče.",
@@ -223,6 +235,6 @@
     }
   },
   "footer": {
-    "copyright": "© {{year}} QuickResumeBuilder.online"
+    "copyright": "© {{year}} QuickResumeBuilder.com"
   }
 }

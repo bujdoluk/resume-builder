@@ -83,6 +83,7 @@
     "preview": "Aperçu",
     "download": "Télécharger",
     "print": "Imprimer",
+    "email": "E-mail",
     "save": "Enregistrer",
     "saved": "Enregistré",
     "cancel": "Annuler",
@@ -98,7 +99,10 @@
     "uploadProfilePhoto": "Téléverser une photo de profil",
     "removePhoto": "Supprimer la photo",
     "reorder": "Réorganiser",
-    "selectLanguage": "Choisir la langue"
+    "selectLanguage": "Choisir la langue",
+    "previousPage": "Page précédente",
+    "nextPage": "Page suivante",
+    "sortByName": "Trier par nom"
   },
   "templates": {
     "basic": "Basique",
@@ -195,6 +199,14 @@
     "loadFailed": "Impossible de charger vos lettres de motivation enregistrées. Veuillez réessayer.",
     "duplicateFailed": "Échec de la duplication de la lettre de motivation. Veuillez réessayer."
   },
+  "emailDialog": {
+    "title": "Envoyer ce document par e-mail",
+    "description": "Saisissez une adresse e-mail pour recevoir une copie PDF.",
+    "placeholder": "nom@exemple.com",
+    "send": "Envoyer",
+    "sent": "E-mail envoyé !",
+    "sendFailed": "Échec de l'envoi de l'e-mail. Veuillez réessayer."
+  },
   "landing": {
     "heroTitle": "Créez un CV professionnel en quelques minutes",
     "heroSubtitle": "Gratuit, sans inscription. Choisissez un modèle, renseignez vos informations et téléchargez un PDF prêt à l'emploi directement depuis votre navigateur.",
@@ -223,6 +235,6 @@
     }
   },
   "footer": {
-    "copyright": "© {{year}} QuickResumeBuilder.online"
+    "copyright": "© {{year}} QuickResumeBuilder.com"
   }
 }

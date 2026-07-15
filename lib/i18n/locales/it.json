@@ -83,6 +83,7 @@
     "preview": "Anteprima",
     "download": "Scarica",
     "print": "Stampa",
+    "email": "Email",
     "save": "Salva",
     "saved": "Salvato",
     "cancel": "Annulla",
@@ -98,7 +99,10 @@
     "uploadProfilePhoto": "Carica foto profilo",
     "removePhoto": "Rimuovi foto",
     "reorder": "Riordina",
-    "selectLanguage": "Seleziona lingua"
+    "selectLanguage": "Seleziona lingua",
+    "previousPage": "Pagina precedente",
+    "nextPage": "Pagina successiva",
+    "sortByName": "Ordina per nome"
   },
   "templates": {
     "basic": "Base",
@@ -195,6 +199,14 @@
     "loadFailed": "Impossibile caricare le lettere di presentazione salvate. Riprova.",
     "duplicateFailed": "Duplicazione della lettera di presentazione non riuscita. Riprova."
   },
+  "emailDialog": {
+    "title": "Invia questo documento via email",
+    "description": "Inserisci un indirizzo email a cui inviare una copia in PDF.",
+    "placeholder": "nome@esempio.com",
+    "send": "Invia",
+    "sent": "Email inviata!",
+    "sendFailed": "Invio dell'email non riuscito. Riprova."
+  },
   "landing": {
     "heroTitle": "Crea un curriculum professionale in pochi minuti",
     "heroSubtitle": "Gratuito, senza registrazione. Scegli un modello, inserisci i tuoi dati e scarica un PDF pronto direttamente dal browser.",
@@ -223,6 +235,6 @@
     }
   },
   "footer": {
-    "copyright": "© {{year}} QuickResumeBuilder.online"
+    "copyright": "© {{year}} QuickResumeBuilder.com"
   }
 }

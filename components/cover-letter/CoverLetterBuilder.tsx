@@ -17,6 +17,7 @@ import { useRouter } from "next/navigation";
 import { useTranslation } from "react-i18next";
 import { useAppState } from "@/components/AppState";
 import DownloadButton from "@/components/DownloadButton";
+import EmailButton from "@/components/EmailButton";
 import { InfoIcon, SaveIcon } from "@/components/Icons";
 import PreviewModal, {
   type PreviewModalHandle,
@@ -286,6 +287,21 @@ export default function CoverLetterBuilder({
         <PrintButton
           className="btn btn-outline hover:border-primary flex-1 md:flex-none md:w-48"
           previewRef={previewRef}
+        />
+
+        <EmailButton
+          className="btn btn-outline hover:border-primary flex-1 md:flex-none md:w-48"
+          fileName={name || "cover-letter"}
+          pdfTemplate={PdfTemplate}
+          pdfProps={{
+            data,
+            color,
+            font,
+            fontSize,
+            visibleFields: coverLetterFieldOrder,
+            sectionOrder,
+            sectionZones: coverLetterSectionZones,
+          }}
         />
 
         <DownloadButton

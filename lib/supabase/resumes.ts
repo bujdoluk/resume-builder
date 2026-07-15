@@ -111,12 +111,31 @@ export async function countResumes(supabase: SupabaseClient, userId: string): Pr
   return count ?? 0;
 }
 
-export async function listResumes(supabase: SupabaseClient, userId: string): Promise<ResumeRow[]> {
+export const RESUMES_PAGE_SIZE = 10;
+
+export interface ResumeSort {
+  column: "name" | "updated_at";
+  ascending: boolean;
+}
+
+const DEFAULT_RESUME_SORT: ResumeSort = { column: "updated_at", ascending: false };
+
+export async function listResumes(
+  supabase: SupabaseClient,
+  userId: string,
+  page = 1,
+  pageSize = RESUMES_PAGE_SIZE,
+  sort: ResumeSort = DEFAULT_RESUME_SORT,
+): Promise<ResumeRow[]> {
+  const from = (page - 1) * pageSize;
+  const to = from + pageSize - 1;
+
   const { data, error } = await supabase
     .from("resumes")
     .select()
     .eq("user_id", userId)
-    .order("updated_at", { ascending: false });
+    .order(sort.column, { ascending: sort.ascending })
+    .range(from, to);
 
   if (error) throw error;
   return (data as ResumeTableRow[]).map(fromTableRow);

@@ -83,6 +83,7 @@
     "preview": "Voorbeeld",
     "download": "Downloaden",
     "print": "Afdrukken",
+    "email": "E-mail",
     "save": "Opslaan",
     "saved": "Opgeslagen",
     "cancel": "Annuleren",
@@ -98,7 +99,10 @@
     "uploadProfilePhoto": "Profielfoto uploaden",
     "removePhoto": "Foto verwijderen",
     "reorder": "Volgorde wijzigen",
-    "selectLanguage": "Taal selecteren"
+    "selectLanguage": "Taal selecteren",
+    "previousPage": "Vorige pagina",
+    "nextPage": "Volgende pagina",
+    "sortByName": "Sorteren op naam"
   },
   "templates": {
     "basic": "Basis",
@@ -195,6 +199,14 @@
     "loadFailed": "Je opgeslagen motivatiebrieven konden niet worden geladen. Probeer het opnieuw.",
     "duplicateFailed": "Dupliceren van motivatiebrief mislukt. Probeer het opnieuw."
   },
+  "emailDialog": {
+    "title": "Dit document e-mailen",
+    "description": "Voer een e-mailadres in om een PDF-kopie naartoe te sturen.",
+    "placeholder": "naam@voorbeeld.com",
+    "send": "Verzenden",
+    "sent": "E-mail verzonden!",
+    "sendFailed": "Verzenden van e-mail mislukt. Probeer het opnieuw."
+  },
   "landing": {
     "heroTitle": "Maak in enkele minuten een professioneel cv",
     "heroSubtitle": "Gratis, geen registratie nodig. Kies een sjabloon, vul je gegevens in en download een kant-en-klare pdf rechtstreeks vanuit je browser.",
@@ -223,6 +235,6 @@
     }
   },
   "footer": {
-    "copyright": "© {{year}} QuickResumeBuilder.online"
+    "copyright": "© {{year}} QuickResumeBuilder.com"
   }
 }

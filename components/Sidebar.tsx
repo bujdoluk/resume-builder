@@ -183,16 +183,16 @@ export default function Sidebar() {
               title={collapsed ? t("sidebar.myResumes") : undefined}
               className={`flex items-center ${collapsed ? "justify-center" : ""}`}
             >
-              <MyResumesIcon className="h-7 w-7 stroke-current" />
+              <span className="indicator">
+                {!!resumeCount && (
+                  <span className="indicator-item badge badge-primary badge-xs">
+                    {resumeCount}
+                  </span>
+                )}
+                <MyResumesIcon className="h-7 w-7 stroke-current" />
+              </span>
               {!collapsed && (
-                <span className="indicator font-medium">
-                  {!!resumeCount && (
-                    <span className="indicator-item badge badge-primary badge-xs translate-x-6">
-                      {resumeCount}
-                    </span>
-                  )}
-                  {t("sidebar.myResumes")}
-                </span>
+                <span className="font-medium">{t("sidebar.myResumes")}</span>
               )}
             </Link>
           </li>
@@ -216,16 +216,16 @@ export default function Sidebar() {
               title={collapsed ? t("sidebar.myCoverLetters") : undefined}
               className={`flex items-center ${collapsed ? "justify-center" : ""}`}
             >
-              <MyCoverLettersIcon className="h-7 w-7 stroke-current" />
+              <span className="indicator">
+                {!!coverLetterCount && (
+                  <span className="indicator-item badge badge-primary badge-xs">
+                    {coverLetterCount}
+                  </span>
+                )}
+                <MyCoverLettersIcon className="h-7 w-7 stroke-current" />
+              </span>
               {!collapsed && (
-                <span className="indicator font-medium">
-                  {!!coverLetterCount && (
-                    <span className="indicator-item badge badge-primary badge-xs translate-x-6">
-                      {coverLetterCount}
-                    </span>
-                  )}
-                  {t("sidebar.myCoverLetters")}
-                </span>
+                <span className="font-medium">{t("sidebar.myCoverLetters")}</span>
               )}
             </Link>
           </li>

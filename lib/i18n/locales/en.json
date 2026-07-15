@@ -83,6 +83,7 @@
     "preview": "Preview",
     "download": "Download",
     "print": "Print",
+    "email": "Email",
     "save": "Save",
     "saved": "Saved",
     "cancel": "Cancel",
@@ -98,7 +99,10 @@
     "uploadProfilePhoto": "Upload profile photo",
     "removePhoto": "Remove photo",
     "reorder": "Reorder",
-    "selectLanguage": "Select language"
+    "selectLanguage": "Select language",
+    "previousPage": "Previous page",
+    "nextPage": "Next page",
+    "sortByName": "Sort by name"
   },
   "templates": {
     "basic": "Basic",
@@ -195,6 +199,14 @@
     "loadFailed": "Could not load your saved cover letters. Please try again.",
     "duplicateFailed": "Failed to duplicate cover letter. Please try again."
   },
+  "emailDialog": {
+    "title": "Email this document",
+    "description": "Enter an email address to send a PDF copy to.",
+    "placeholder": "name@example.com",
+    "send": "Send",
+    "sent": "Email sent!",
+    "sendFailed": "Failed to send email. Please try again."
+  },
   "landing": {
     "heroTitle": "Build a professional resume in minutes",
     "heroSubtitle": "Free, no sign-up required. Pick a template, fill in your details, and download a polished PDF straight from your browser.",
@@ -223,6 +235,6 @@
     }
   },
   "footer": {
-    "copyright": "© {{year}} QuickResumeBuilder.online"
+    "copyright": "© {{year}} QuickResumeBuilder.com"
   }
 }

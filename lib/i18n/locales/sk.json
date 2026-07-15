@@ -83,6 +83,7 @@
     "preview": "Náhľad",
     "download": "Stiahnuť",
     "print": "Tlačiť",
+    "email": "E-mail",
     "save": "Uložiť",
     "saved": "Uložené",
     "cancel": "Zrušiť",
@@ -98,7 +99,10 @@
     "uploadProfilePhoto": "Nahrať profilovú fotku",
     "removePhoto": "Odstrániť fotku",
     "reorder": "Zmeniť poradie",
-    "selectLanguage": "Vybrať jazyk"
+    "selectLanguage": "Vybrať jazyk",
+    "previousPage": "Predchádzajúca strana",
+    "nextPage": "Ďalšia strana",
+    "sortByName": "Zoradiť podľa názvu"
   },
   "templates": {
     "basic": "Základný",
@@ -195,6 +199,14 @@
     "loadFailed": "Nepodarilo sa načítať uložené motivačné listy. Skúste to znova.",
     "duplicateFailed": "Duplikovanie motivačného listu zlyhalo. Skúste to znova."
   },
+  "emailDialog": {
+    "title": "Odoslať tento dokument e-mailom",
+    "description": "Zadajte e-mailovú adresu, na ktorú chcete odoslať kópiu PDF.",
+    "placeholder": "meno@priklad.com",
+    "send": "Odoslať",
+    "sent": "E-mail bol odoslaný!",
+    "sendFailed": "Odoslanie e-mailu zlyhalo. Skúste to znova."
+  },
   "landing": {
     "heroTitle": "Vytvorte si profesionálny životopis za pár minút",
     "heroSubtitle": "Zadarmo, bez registrácie. Vyberte šablónu, vyplňte svoje údaje a stiahnite si hotové PDF priamo z prehliadača.",
@@ -223,6 +235,6 @@
     }
   },
   "footer": {
-    "copyright": "© {{year}} QuickResumeBuilder.online"
+    "copyright": "© {{year}} QuickResumeBuilder.com"
   }
 }

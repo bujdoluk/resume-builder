@@ -83,6 +83,7 @@
     "preview": "Förhandsgranska",
     "download": "Ladda ner",
     "print": "Skriv ut",
+    "email": "E-post",
     "save": "Spara",
     "saved": "Sparat",
     "cancel": "Avbryt",
@@ -98,7 +99,10 @@
     "uploadProfilePhoto": "Ladda upp profilfoto",
     "removePhoto": "Ta bort foto",
     "reorder": "Ändra ordning",
-    "selectLanguage": "Välj språk"
+    "selectLanguage": "Välj språk",
+    "previousPage": "Föregående sida",
+    "nextPage": "Nästa sida",
+    "sortByName": "Sortera efter namn"
   },
   "templates": {
     "basic": "Enkel",
@@ -195,6 +199,14 @@
     "loadFailed": "Det gick inte att läsa in dina sparade personliga brev. Försök igen.",
     "duplicateFailed": "Det gick inte att duplicera det personliga brevet. Försök igen."
   },
+  "emailDialog": {
+    "title": "Mejla det här dokumentet",
+    "description": "Ange en e-postadress att skicka en PDF-kopia till.",
+    "placeholder": "namn@exempel.com",
+    "send": "Skicka",
+    "sent": "E-post skickat!",
+    "sendFailed": "Det gick inte att skicka e-post. Försök igen."
+  },
   "landing": {
     "heroTitle": "Skapa ett professionellt CV på några minuter",
     "heroSubtitle": "Gratis, ingen registrering krävs. Välj en mall, fyll i dina uppgifter och ladda ner en färdig PDF direkt från din webbläsare.",
@@ -223,6 +235,6 @@
     }
   },
   "footer": {
-    "copyright": "© {{year}} QuickResumeBuilder.online"
+    "copyright": "© {{year}} QuickResumeBuilder.com"
   }
 }

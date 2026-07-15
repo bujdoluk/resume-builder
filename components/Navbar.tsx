@@ -58,7 +58,7 @@ export default function Navbar() {
           order). */}
       <div className="order-1 flex flex-1 items-center md:order-none">
         <Link href="/" className="text-lg font-semibold whitespace-nowrap">
-          QuickResumeBuilder.online
+          QuickResumeBuilder.com
         </Link>
       </div>
 

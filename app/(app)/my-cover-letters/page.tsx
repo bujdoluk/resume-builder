@@ -25,6 +25,8 @@ import SaveResumeDialog, {
   type SaveResumeDialogHandle,
 } from "@/components/SaveResumeDialog";
 import {
+  COVER_LETTERS_PAGE_SIZE,
+  countCoverLetters,
   deleteCoverLetter,
   duplicateCoverLetter,
   listCoverLetters,
@@ -47,8 +49,22 @@ export default function MyCoverLettersPage() {
   const [coverLetters, setCoverLetters] = useState<CoverLetterRow[] | null>(null);
   const [loadFailed, setLoadFailed] = useState(false);
   const [duplicatingId, setDuplicatingId] = useState<string | null>(null);
+  const [page, setPage] = useState(1);
+  const [totalCount, setTotalCount] = useState(0);
   const confirmDialogRef = useRef<ConfirmDialogHandle>(null);
   const renameDialogRef = useRef<SaveResumeDialogHandle>(null);
+  const totalPages = Math.max(1, Math.ceil(totalCount / COVER_LETTERS_PAGE_SIZE));
+
+  async function loadPage(pageNumber: number) {
+    const userId = await ensureUserId(supabase);
+    const [rows, count] = await Promise.all([
+      listCoverLetters(supabase, userId, pageNumber),
+      countCoverLetters(supabase, userId),
+    ]);
+    setCoverLetters(rows);
+    setTotalCount(count);
+    setPage(pageNumber);
+  }
 
   useEffect(() => {
     let cancelled = false;
@@ -56,8 +72,15 @@ export default function MyCoverLettersPage() {
     (async () => {
       try {
         const userId = await ensureUserId(supabase);
-        const rows = await listCoverLetters(supabase, userId);
-        if (!cancelled) setCoverLetters(rows);
+        const [rows, count] = await Promise.all([
+          listCoverLetters(supabase, userId, 1),
+          countCoverLetters(supabase, userId),
+        ]);
+        if (!cancelled) {
+          setCoverLetters(rows);
+          setTotalCount(count);
+          setPage(1);
+        }
       } catch (error) {
         console.error(error);
         if (!cancelled) setLoadFailed(true);
@@ -76,30 +99,25 @@ export default function MyCoverLettersPage() {
     });
     if (!confirmed) return;
     await deleteCoverLetter(supabase, id);
-    setCoverLetters((prev) => prev?.filter((row) => row.id !== id) ?? null);
     notifyCoverLetterListChanged();
+    const isLastRowOnPage = coverLetters?.length === 1 && page > 1;
+    await loadPage(isLastRowOnPage ? page - 1 : page);
   }
 
   async function handleRename(row: CoverLetterRow) {
     const newName = await renameDialogRef.current?.open(row.name);
     if (!newName) return;
     await renameCoverLetter(supabase, row.id, newName);
-    setCoverLetters(
-      (prev) =>
-        prev?.map((entry) =>
-          entry.id === row.id ? { ...entry, name: newName } : entry,
-        ) ?? null,
-    );
+    await loadPage(page);
   }
 
   async function handleDuplicate(id: string) {
     if (duplicatingId) return;
     setDuplicatingId(id);
     try {
-      const userId = await ensureUserId(supabase);
-      const copy = await duplicateCoverLetter(supabase, id, userId);
-      setCoverLetters((prev) => (prev ? [copy, ...prev] : [copy]));
+      await duplicateCoverLetter(supabase, id, await ensureUserId(supabase));
       notifyCoverLetterListChanged();
+      await loadPage(1);
     } catch (error) {
       console.error(error);
       alert(t("myCoverLetters.duplicateFailed"));
@@ -110,7 +128,7 @@ export default function MyCoverLettersPage() {
 
   return (
     <div className="flex min-h-full flex-col">
-      <div className="bg-base-200 flex-1 p-8">
+      <div className="bg-base-200 flex flex-1 flex-col p-8">
         <div className="mb-6 flex items-center justify-between gap-4">
           <h1 className="text-2xl font-bold">{t("myCoverLetters.pageTitle")}</h1>
           <Link href="/cover-letter" className="btn btn-primary">
@@ -200,6 +218,41 @@ export default function MyCoverLettersPage() {
                 ))}
               </tbody>
             </table>
+          </div>
+        )}
+
+        {!loadFailed && coverLetters && coverLetters.length > 0 && (
+          <div className="join mt-auto flex justify-center pt-6">
+            <button
+              type="button"
+              className="join-item btn"
+              aria-label={t("aria.previousPage")}
+              disabled={page === 1}
+              onClick={() => loadPage(page - 1)}
+            >
+              «
+            </button>
+            {Array.from({ length: totalPages }, (_, index) => index + 1).map(
+              (pageNumber) => (
+                <button
+                  key={pageNumber}
+                  type="button"
+                  className={`join-item btn ${pageNumber === page ? "btn-primary" : ""}`}
+                  onClick={() => loadPage(pageNumber)}
+                >
+                  {pageNumber}
+                </button>
+              ),
+            )}
+            <button
+              type="button"
+              className="join-item btn"
+              aria-label={t("aria.nextPage")}
+              disabled={page === totalPages}
+              onClick={() => loadPage(page + 1)}
+            >
+              »
+            </button>
           </div>
         )}
       </div>

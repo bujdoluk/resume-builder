@@ -86,12 +86,23 @@ export async function countCoverLetters(supabase: SupabaseClient, userId: string
   return count ?? 0;
 }
 
-export async function listCoverLetters(supabase: SupabaseClient, userId: string): Promise<CoverLetterRow[]> {
+export const COVER_LETTERS_PAGE_SIZE = 10;
+
+export async function listCoverLetters(
+  supabase: SupabaseClient,
+  userId: string,
+  page = 1,
+  pageSize = COVER_LETTERS_PAGE_SIZE,
+): Promise<CoverLetterRow[]> {
+  const from = (page - 1) * pageSize;
+  const to = from + pageSize - 1;
+
   const { data, error } = await supabase
     .from("cover_letters")
     .select()
     .eq("user_id", userId)
-    .order("updated_at", { ascending: false });
+    .order("updated_at", { ascending: false })
+    .range(from, to);
 
   if (error) throw error;
   return (data as CoverLetterTableRow[]).map(fromTableRow);

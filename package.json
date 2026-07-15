@@ -1,5 +1,5 @@
 {
-  "name": "quickresumebuilder.online",
+  "name": "quickresumebuilder.com",
   "version": "0.1.0",
   "private": true,
   "license": "MIT",
@@ -26,6 +26,7 @@
     "react-apexcharts": "2.1.1",
     "react-dom": "19.2.4",
     "react-i18next": "17.0.9",
+    "resend": "6.17.2",
     "temporal-polyfill": "1.0.1"
   },
   "devDependencies": {

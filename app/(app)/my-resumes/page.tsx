@@ -14,20 +14,25 @@ import ConfirmDialog, {
   type ConfirmDialogHandle,
 } from "@/components/ConfirmDialog";
 import {
+  ChevronDownIcon,
   DuplicateIcon,
   PencilIcon,
   PencilSquareIcon,
+  SortIcon,
   TrashIcon,
 } from "@/components/Icons";
 import SaveResumeDialog, {
   type SaveResumeDialogHandle,
 } from "@/components/SaveResumeDialog";
 import {
+  countResumes,
   deleteResume,
   duplicateResume,
   listResumes,
   renameResume,
+  RESUMES_PAGE_SIZE,
   type ResumeRow,
+  type ResumeSort,
 } from "@/lib/supabase/resumes";
 import { createClient } from "@/lib/supabase/client";
 import { ensureUserId } from "@/lib/supabase/session";
@@ -45,8 +50,32 @@ export default function MyResumesPage() {
   const [resumes, setResumes] = useState<ResumeRow[] | null>(null);
   const [loadFailed, setLoadFailed] = useState(false);
   const [duplicatingId, setDuplicatingId] = useState<string | null>(null);
+  const [page, setPage] = useState(1);
+  const [totalCount, setTotalCount] = useState(0);
+  const [sort, setSort] = useState<ResumeSort>({
+    column: "updated_at",
+    ascending: false,
+  });
   const confirmDialogRef = useRef<ConfirmDialogHandle>(null);
   const renameDialogRef = useRef<SaveResumeDialogHandle>(null);
+  const totalPages = Math.max(1, Math.ceil(totalCount / RESUMES_PAGE_SIZE));
+
+  async function loadPage(pageNumber: number, sortOverride: ResumeSort = sort) {
+    const userId = await ensureUserId(supabase);
+    const [rows, count] = await Promise.all([
+      listResumes(supabase, userId, pageNumber, RESUMES_PAGE_SIZE, sortOverride),
+      countResumes(supabase, userId),
+    ]);
+    setResumes(rows);
+    setTotalCount(count);
+    setPage(pageNumber);
+    setSort(sortOverride);
+  }
+
+  function handleSortByName() {
+    const ascending = sort.column === "name" ? !sort.ascending : true;
+    loadPage(1, { column: "name", ascending });
+  }
 
   useEffect(() => {
     let cancelled = false;
@@ -54,8 +83,15 @@ export default function MyResumesPage() {
     (async () => {
       try {
         const userId = await ensureUserId(supabase);
-        const rows = await listResumes(supabase, userId);
-        if (!cancelled) setResumes(rows);
+        const [rows, count] = await Promise.all([
+          listResumes(supabase, userId, 1),
+          countResumes(supabase, userId),
+        ]);
+        if (!cancelled) {
+          setResumes(rows);
+          setTotalCount(count);
+          setPage(1);
+        }
       } catch (error) {
         console.error(error);
         if (!cancelled) setLoadFailed(true);
@@ -74,30 +110,25 @@ export default function MyResumesPage() {
     });
     if (!confirmed) return;
     await deleteResume(supabase, id);
-    setResumes((prev) => prev?.filter((row) => row.id !== id) ?? null);
     notifyResumeListChanged();
+    const isLastRowOnPage = resumes?.length === 1 && page > 1;
+    await loadPage(isLastRowOnPage ? page - 1 : page);
   }
 
   async function handleRename(row: ResumeRow) {
     const newName = await renameDialogRef.current?.open(row.name);
     if (!newName) return;
     await renameResume(supabase, row.id, newName);
-    setResumes(
-      (prev) =>
-        prev?.map((entry) =>
-          entry.id === row.id ? { ...entry, name: newName } : entry,
-        ) ?? null,
-    );
+    await loadPage(page);
   }
 
   async function handleDuplicate(id: string) {
     if (duplicatingId) return;
     setDuplicatingId(id);
     try {
-      const userId = await ensureUserId(supabase);
-      const copy = await duplicateResume(supabase, id, userId);
-      setResumes((prev) => (prev ? [copy, ...prev] : [copy]));
+      await duplicateResume(supabase, id, await ensureUserId(supabase));
       notifyResumeListChanged();
+      await loadPage(1);
     } catch (error) {
       console.error(error);
       alert(t("myResumes.duplicateFailed"));
@@ -108,7 +139,7 @@ export default function MyResumesPage() {
 
   return (
     <div className="flex min-h-full flex-col">
-      <div className="bg-base-200 flex-1 p-8">
+      <div className="bg-base-200 flex flex-1 flex-col p-8">
         <div className="mb-6 flex items-center justify-between gap-4">
           <h1 className="text-2xl font-bold">{t("myResumes.pageTitle")}</h1>
           <Link href="/app" className="btn btn-primary">
@@ -129,7 +160,25 @@ export default function MyResumesPage() {
             <table className="table">
               <thead>
                 <tr>
-                  <th>{t("myResumes.name")}</th>
+                  <th>
+                    <button
+                      type="button"
+                      className="inline-flex items-center gap-1"
+                      aria-label={t("aria.sortByName")}
+                      onClick={handleSortByName}
+                    >
+                      {t("myResumes.name")}
+                      {sort.column === "name" ? (
+                        <ChevronDownIcon
+                          className={`h-3.5 w-3.5 stroke-current transition-transform ${
+                            sort.ascending ? "rotate-180" : ""
+                          }`}
+                        />
+                      ) : (
+                        <SortIcon className="h-3.5 w-3.5 stroke-current opacity-40" />
+                      )}
+                    </button>
+                  </th>
                   <th>{t("myResumes.created")}</th>
                   <th>{t("myResumes.updated")}</th>
                   <th></th>
@@ -198,6 +247,41 @@ export default function MyResumesPage() {
                 ))}
               </tbody>
             </table>
+          </div>
+        )}
+
+        {!loadFailed && resumes && resumes.length > 0 && (
+          <div className="join mt-auto flex justify-center pt-6">
+            <button
+              type="button"
+              className="join-item btn"
+              aria-label={t("aria.previousPage")}
+              disabled={page === 1}
+              onClick={() => loadPage(page - 1)}
+            >
+              «
+            </button>
+            {Array.from({ length: totalPages }, (_, index) => index + 1).map(
+              (pageNumber) => (
+                <button
+                  key={pageNumber}
+                  type="button"
+                  className={`join-item btn ${pageNumber === page ? "btn-primary" : ""}`}
+                  onClick={() => loadPage(pageNumber)}
+                >
+                  {pageNumber}
+                </button>
+              ),
+            )}
+            <button
+              type="button"
+              className="join-item btn"
+              aria-label={t("aria.nextPage")}
+              disabled={page === totalPages}
+              onClick={() => loadPage(page + 1)}
+            >
+              »
+            </button>
           </div>
         )}
       </div>

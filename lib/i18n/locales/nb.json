@@ -83,6 +83,7 @@
     "preview": "Forhåndsvisning",
     "download": "Last ned",
     "print": "Skriv ut",
+    "email": "E-post",
     "save": "Lagre",
     "saved": "Lagret",
     "cancel": "Avbryt",
@@ -98,7 +99,10 @@
     "uploadProfilePhoto": "Last opp profilbilde",
     "removePhoto": "Fjern bilde",
     "reorder": "Endre rekkefølge",
-    "selectLanguage": "Velg språk"
+    "selectLanguage": "Velg språk",
+    "previousPage": "Forrige side",
+    "nextPage": "Neste side",
+    "sortByName": "Sorter etter navn"
   },
   "templates": {
     "basic": "Enkel",
@@ -195,6 +199,14 @@
     "loadFailed": "Kunne ikke laste inn de lagrede søknadsbrevene dine. Prøv igjen.",
     "duplicateFailed": "Kunne ikke duplisere søknadsbrevet. Prøv igjen."
   },
+  "emailDialog": {
+    "title": "Send dette dokumentet på e-post",
+    "description": "Skriv inn en e-postadresse for å sende en PDF-kopi til.",
+    "placeholder": "navn@eksempel.com",
+    "send": "Send",
+    "sent": "E-post sendt!",
+    "sendFailed": "Kunne ikke sende e-post. Prøv igjen."
+  },
   "landing": {
     "heroTitle": "Lag en profesjonell CV på få minutter",
     "heroSubtitle": "Gratis, ingen registrering nødvendig. Velg en mal, fyll inn opplysningene dine, og last ned en ferdig PDF rett fra nettleseren.",
@@ -223,6 +235,6 @@
     }
   },
   "footer": {
-    "copyright": "© {{year}} QuickResumeBuilder.online"
+    "copyright": "© {{year}} QuickResumeBuilder.com"
   }
 }

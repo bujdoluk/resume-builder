@@ -83,6 +83,7 @@
     "preview": "Vorschau",
     "download": "Herunterladen",
     "print": "Drucken",
+    "email": "E-Mail",
     "save": "Speichern",
     "saved": "Gespeichert",
     "cancel": "Abbrechen",
@@ -98,7 +99,10 @@
     "uploadProfilePhoto": "Profilfoto hochladen",
     "removePhoto": "Foto entfernen",
     "reorder": "Neu anordnen",
-    "selectLanguage": "Sprache auswählen"
+    "selectLanguage": "Sprache auswählen",
+    "previousPage": "Vorherige Seite",
+    "nextPage": "Nächste Seite",
+    "sortByName": "Nach Name sortieren"
   },
   "templates": {
     "basic": "Einfach",
@@ -195,6 +199,14 @@
     "loadFailed": "Deine gespeicherten Anschreiben konnten nicht geladen werden. Bitte versuche es erneut.",
     "duplicateFailed": "Duplizieren des Anschreibens fehlgeschlagen. Bitte versuche es erneut."
   },
+  "emailDialog": {
+    "title": "Dieses Dokument per E-Mail senden",
+    "description": "Geben Sie eine E-Mail-Adresse ein, an die eine PDF-Kopie gesendet werden soll.",
+    "placeholder": "name@beispiel.de",
+    "send": "Senden",
+    "sent": "E-Mail gesendet!",
+    "sendFailed": "E-Mail konnte nicht gesendet werden. Bitte versuchen Sie es erneut."
+  },
   "landing": {
     "heroTitle": "Erstelle in wenigen Minuten einen professionellen Lebenslauf",
     "heroSubtitle": "Kostenlos, keine Registrierung nötig. Wähle eine Vorlage, trage deine Daten ein und lade ein fertiges PDF direkt aus deinem Browser herunter.",
@@ -223,6 +235,6 @@
     }
   },
   "footer": {
-    "copyright": "© {{year}} QuickResumeBuilder.online"
+    "copyright": "© {{year}} QuickResumeBuilder.com"
   }
 }
