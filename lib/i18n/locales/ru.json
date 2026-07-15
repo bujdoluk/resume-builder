@@ -102,7 +102,9 @@
     "selectLanguage": "Выбрать язык",
     "previousPage": "Предыдущая страница",
     "nextPage": "Следующая страница",
-    "sortByName": "Сортировать по имени"
+    "sortByName": "Сортировать по имени",
+    "sortByCreated": "Сортировать по дате создания",
+    "sortByUpdated": "Сортировать по дате обновления"
   },
   "templates": {
     "basic": "Базовый",

@@ -24,6 +24,7 @@ import {
 import SaveResumeDialog, {
   type SaveResumeDialogHandle,
 } from "@/components/SaveResumeDialog";
+import SortableColumnHeader from "@/components/SortableColumnHeader";
 import {
   COVER_LETTERS_PAGE_SIZE,
   countCoverLetters,
@@ -32,6 +33,7 @@ import {
   listCoverLetters,
   renameCoverLetter,
   type CoverLetterRow,
+  type CoverLetterSort,
 } from "@/lib/supabase/coverLetters";
 import { createClient } from "@/lib/supabase/client";
 import { ensureUserId } from "@/lib/supabase/session";
@@ -51,45 +53,44 @@ export default function MyCoverLettersPage() {
   const [duplicatingId, setDuplicatingId] = useState<string | null>(null);
   const [page, setPage] = useState(1);
   const [totalCount, setTotalCount] = useState(0);
+  const [sort, setSort] = useState<CoverLetterSort>({
+    column: "updated_at",
+    ascending: true,
+  });
   const confirmDialogRef = useRef<ConfirmDialogHandle>(null);
   const renameDialogRef = useRef<SaveResumeDialogHandle>(null);
+  const requestIdRef = useRef(0);
   const totalPages = Math.max(1, Math.ceil(totalCount / COVER_LETTERS_PAGE_SIZE));
 
-  async function loadPage(pageNumber: number) {
-    const userId = await ensureUserId(supabase);
-    const [rows, count] = await Promise.all([
-      listCoverLetters(supabase, userId, pageNumber),
-      countCoverLetters(supabase, userId),
-    ]);
-    setCoverLetters(rows);
-    setTotalCount(count);
-    setPage(pageNumber);
+  async function loadPage(pageNumber: number, sortOverride: CoverLetterSort = sort) {
+    const requestId = ++requestIdRef.current;
+    try {
+      const userId = await ensureUserId(supabase);
+      const [rows, count] = await Promise.all([
+        listCoverLetters(supabase, userId, pageNumber, COVER_LETTERS_PAGE_SIZE, sortOverride),
+        countCoverLetters(supabase, userId),
+      ]);
+      if (requestId !== requestIdRef.current) return;
+      setCoverLetters(rows);
+      setTotalCount(count);
+      setPage(pageNumber);
+      setSort(sortOverride);
+    } catch (error) {
+      console.error(error);
+      if (requestId === requestIdRef.current) setLoadFailed(true);
+    }
+  }
+
+  function handleSort(column: CoverLetterSort["column"]) {
+    const ascending = sort.column === column ? !sort.ascending : true;
+    loadPage(1, { column, ascending });
   }
 
   useEffect(() => {
-    let cancelled = false;
-
     (async () => {
-      try {
-        const userId = await ensureUserId(supabase);
-        const [rows, count] = await Promise.all([
-          listCoverLetters(supabase, userId, 1),
-          countCoverLetters(supabase, userId),
-        ]);
-        if (!cancelled) {
-          setCoverLetters(rows);
-          setTotalCount(count);
-          setPage(1);
-        }
-      } catch (error) {
-        console.error(error);
-        if (!cancelled) setLoadFailed(true);
-      }
+      await loadPage(1);
     })();
-
-    return () => {
-      cancelled = true;
-    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [supabase]);
 
   async function handleDelete(id: string) {
@@ -149,9 +150,33 @@ export default function MyCoverLettersPage() {
             <table className="table">
               <thead>
                 <tr>
-                  <th>{t("myCoverLetters.name")}</th>
-                  <th>{t("myCoverLetters.created")}</th>
-                  <th>{t("myCoverLetters.updated")}</th>
+                  <th>
+                    <SortableColumnHeader
+                      label={t("myCoverLetters.name")}
+                      column="name"
+                      sort={sort}
+                      onSort={handleSort}
+                      ariaLabel={t("aria.sortByName")}
+                    />
+                  </th>
+                  <th>
+                    <SortableColumnHeader
+                      label={t("myCoverLetters.created")}
+                      column="created_at"
+                      sort={sort}
+                      onSort={handleSort}
+                      ariaLabel={t("aria.sortByCreated")}
+                    />
+                  </th>
+                  <th>
+                    <SortableColumnHeader
+                      label={t("myCoverLetters.updated")}
+                      column="updated_at"
+                      sort={sort}
+                      onSort={handleSort}
+                      ariaLabel={t("aria.sortByUpdated")}
+                    />
+                  </th>
                   <th></th>
                   <th></th>
                   <th></th>

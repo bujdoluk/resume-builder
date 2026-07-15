@@ -102,7 +102,9 @@
     "selectLanguage": "Vybrať jazyk",
     "previousPage": "Predchádzajúca strana",
     "nextPage": "Ďalšia strana",
-    "sortByName": "Zoradiť podľa názvu"
+    "sortByName": "Zoradiť podľa názvu",
+    "sortByCreated": "Zoradiť podľa dátumu vytvorenia",
+    "sortByUpdated": "Zoradiť podľa dátumu aktualizácie"
   },
   "templates": {
     "basic": "Základný",

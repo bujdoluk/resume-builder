@@ -102,7 +102,9 @@
     "selectLanguage": "Sprache auswählen",
     "previousPage": "Vorherige Seite",
     "nextPage": "Nächste Seite",
-    "sortByName": "Nach Name sortieren"
+    "sortByName": "Nach Name sortieren",
+    "sortByCreated": "Nach Erstellungsdatum sortieren",
+    "sortByUpdated": "Nach Aktualisierungsdatum sortieren"
   },
   "templates": {
     "basic": "Einfach",

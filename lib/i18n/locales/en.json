@@ -102,7 +102,9 @@
     "selectLanguage": "Select language",
     "previousPage": "Previous page",
     "nextPage": "Next page",
-    "sortByName": "Sort by name"
+    "sortByName": "Sort by name",
+    "sortByCreated": "Sort by created date",
+    "sortByUpdated": "Sort by updated date"
   },
   "templates": {
     "basic": "Basic",

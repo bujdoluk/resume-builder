@@ -88,11 +88,22 @@ export async function countCoverLetters(supabase: SupabaseClient, userId: string
 
 export const COVER_LETTERS_PAGE_SIZE = 10;
 
+export interface CoverLetterSort {
+  column: "name" | "created_at" | "updated_at";
+  ascending: boolean;
+}
+
+const DEFAULT_COVER_LETTER_SORT: CoverLetterSort = {
+  column: "updated_at",
+  ascending: true,
+};
+
 export async function listCoverLetters(
   supabase: SupabaseClient,
   userId: string,
   page = 1,
   pageSize = COVER_LETTERS_PAGE_SIZE,
+  sort: CoverLetterSort = DEFAULT_COVER_LETTER_SORT,
 ): Promise<CoverLetterRow[]> {
   const from = (page - 1) * pageSize;
   const to = from + pageSize - 1;
@@ -101,7 +112,7 @@ export async function listCoverLetters(
     .from("cover_letters")
     .select()
     .eq("user_id", userId)
-    .order("updated_at", { ascending: false })
+    .order(sort.column, { ascending: sort.ascending })
     .range(from, to);
 
   if (error) throw error;

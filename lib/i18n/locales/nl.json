@@ -102,7 +102,9 @@
     "selectLanguage": "Taal selecteren",
     "previousPage": "Vorige pagina",
     "nextPage": "Volgende pagina",
-    "sortByName": "Sorteren op naam"
+    "sortByName": "Sorteren op naam",
+    "sortByCreated": "Sorteren op aanmaakdatum",
+    "sortByUpdated": "Sorteren op wijzigingsdatum"
   },
   "templates": {
     "basic": "Basis",

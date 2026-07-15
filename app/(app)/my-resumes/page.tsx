@@ -14,16 +14,15 @@ import ConfirmDialog, {
   type ConfirmDialogHandle,
 } from "@/components/ConfirmDialog";
 import {
-  ChevronDownIcon,
   DuplicateIcon,
   PencilIcon,
   PencilSquareIcon,
-  SortIcon,
   TrashIcon,
 } from "@/components/Icons";
 import SaveResumeDialog, {
   type SaveResumeDialogHandle,
 } from "@/components/SaveResumeDialog";
+import SortableColumnHeader from "@/components/SortableColumnHeader";
 import {
   countResumes,
   deleteResume,
@@ -54,53 +53,42 @@ export default function MyResumesPage() {
   const [totalCount, setTotalCount] = useState(0);
   const [sort, setSort] = useState<ResumeSort>({
     column: "updated_at",
-    ascending: false,
+    ascending: true,
   });
   const confirmDialogRef = useRef<ConfirmDialogHandle>(null);
   const renameDialogRef = useRef<SaveResumeDialogHandle>(null);
+  const requestIdRef = useRef(0);
   const totalPages = Math.max(1, Math.ceil(totalCount / RESUMES_PAGE_SIZE));
 
   async function loadPage(pageNumber: number, sortOverride: ResumeSort = sort) {
-    const userId = await ensureUserId(supabase);
-    const [rows, count] = await Promise.all([
-      listResumes(supabase, userId, pageNumber, RESUMES_PAGE_SIZE, sortOverride),
-      countResumes(supabase, userId),
-    ]);
-    setResumes(rows);
-    setTotalCount(count);
-    setPage(pageNumber);
-    setSort(sortOverride);
+    const requestId = ++requestIdRef.current;
+    try {
+      const userId = await ensureUserId(supabase);
+      const [rows, count] = await Promise.all([
+        listResumes(supabase, userId, pageNumber, RESUMES_PAGE_SIZE, sortOverride),
+        countResumes(supabase, userId),
+      ]);
+      if (requestId !== requestIdRef.current) return;
+      setResumes(rows);
+      setTotalCount(count);
+      setPage(pageNumber);
+      setSort(sortOverride);
+    } catch (error) {
+      console.error(error);
+      if (requestId === requestIdRef.current) setLoadFailed(true);
+    }
   }
 
-  function handleSortByName() {
-    const ascending = sort.column === "name" ? !sort.ascending : true;
-    loadPage(1, { column: "name", ascending });
+  function handleSort(column: ResumeSort["column"]) {
+    const ascending = sort.column === column ? !sort.ascending : true;
+    loadPage(1, { column, ascending });
   }
 
   useEffect(() => {
-    let cancelled = false;
-
     (async () => {
-      try {
-        const userId = await ensureUserId(supabase);
-        const [rows, count] = await Promise.all([
-          listResumes(supabase, userId, 1),
-          countResumes(supabase, userId),
-        ]);
-        if (!cancelled) {
-          setResumes(rows);
-          setTotalCount(count);
-          setPage(1);
-        }
-      } catch (error) {
-        console.error(error);
-        if (!cancelled) setLoadFailed(true);
-      }
+      await loadPage(1);
     })();
-
-    return () => {
-      cancelled = true;
-    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [supabase]);
 
   async function handleDelete(id: string) {
@@ -161,26 +149,32 @@ export default function MyResumesPage() {
               <thead>
                 <tr>
                   <th>
-                    <button
-                      type="button"
-                      className="inline-flex items-center gap-1"
-                      aria-label={t("aria.sortByName")}
-                      onClick={handleSortByName}
-                    >
-                      {t("myResumes.name")}
-                      {sort.column === "name" ? (
-                        <ChevronDownIcon
-                          className={`h-3.5 w-3.5 stroke-current transition-transform ${
-                            sort.ascending ? "rotate-180" : ""
-                          }`}
-                        />
-                      ) : (
-                        <SortIcon className="h-3.5 w-3.5 stroke-current opacity-40" />
-                      )}
-                    </button>
+                    <SortableColumnHeader
+                      label={t("myResumes.name")}
+                      column="name"
+                      sort={sort}
+                      onSort={handleSort}
+                      ariaLabel={t("aria.sortByName")}
+                    />
                   </th>
-                  <th>{t("myResumes.created")}</th>
-                  <th>{t("myResumes.updated")}</th>
+                  <th>
+                    <SortableColumnHeader
+                      label={t("myResumes.created")}
+                      column="created_at"
+                      sort={sort}
+                      onSort={handleSort}
+                      ariaLabel={t("aria.sortByCreated")}
+                    />
+                  </th>
+                  <th>
+                    <SortableColumnHeader
+                      label={t("myResumes.updated")}
+                      column="updated_at"
+                      sort={sort}
+                      onSort={handleSort}
+                      ariaLabel={t("aria.sortByUpdated")}
+                    />
+                  </th>
                   <th></th>
                   <th></th>
                   <th></th>

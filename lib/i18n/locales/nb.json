@@ -102,7 +102,9 @@
     "selectLanguage": "Velg språk",
     "previousPage": "Forrige side",
     "nextPage": "Neste side",
-    "sortByName": "Sorter etter navn"
+    "sortByName": "Sorter etter navn",
+    "sortByCreated": "Sorter etter opprettelsesdato",
+    "sortByUpdated": "Sorter etter oppdateringsdato"
   },
   "templates": {
     "basic": "Enkel",

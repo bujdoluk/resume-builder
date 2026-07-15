@@ -114,11 +114,11 @@ export async function countResumes(supabase: SupabaseClient, userId: string): Pr
 export const RESUMES_PAGE_SIZE = 10;
 
 export interface ResumeSort {
-  column: "name" | "updated_at";
+  column: "name" | "created_at" | "updated_at";
   ascending: boolean;
 }
 
-const DEFAULT_RESUME_SORT: ResumeSort = { column: "updated_at", ascending: false };
+const DEFAULT_RESUME_SORT: ResumeSort = { column: "updated_at", ascending: true };
 
 export async function listResumes(
   supabase: SupabaseClient,
