@@ -104,7 +104,9 @@
     "nextPage": "Próxima página",
     "sortByName": "Ordenar por nome",
     "sortByCreated": "Ordenar por data de criação",
-    "sortByUpdated": "Ordenar por data de atualização"
+    "sortByUpdated": "Ordenar por data de atualização",
+    "previousTestimonial": "Depoimento anterior",
+    "nextTestimonial": "Próximo depoimento"
   },
   "templates": {
     "basic": "Básico",
@@ -233,6 +235,29 @@
       "saveResumes": {
         "title": "Guarde e continue mais tarde",
         "description": "Mantenha vários currículos guardados e edite-os quando quiser."
+      }
+    },
+    "testimonialsTitle": "Adorado por candidatos a emprego em todo o mundo",
+    "testimonials": {
+      "sarah": {
+        "quote": "Esta ferramenta ajudou-me a criar um currículo profissional em minutos — consegui três entrevistas numa semana!",
+        "name": "Sarah T.",
+        "role": "Gerente de marketing"
+      },
+      "james": {
+        "quote": "Os modelos são lindamente desenhados e incrivelmente fáceis de personalizar.",
+        "name": "James K.",
+        "role": "Engenheiro de software"
+      },
+      "elena": {
+        "quote": "Adoro poder mudar de idioma instantaneamente — toda a minha família usa agora.",
+        "name": "Elena R.",
+        "role": "Designer de produto"
+      },
+      "noah": {
+        "quote": "Finalmente um criador de currículos que não exige conta só para experimentar.",
+        "name": "Noah B.",
+        "role": "Recém-formado"
       }
     }
   },

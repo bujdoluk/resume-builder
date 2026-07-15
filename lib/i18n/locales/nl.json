@@ -104,7 +104,9 @@
     "nextPage": "Volgende pagina",
     "sortByName": "Sorteren op naam",
     "sortByCreated": "Sorteren op aanmaakdatum",
-    "sortByUpdated": "Sorteren op wijzigingsdatum"
+    "sortByUpdated": "Sorteren op wijzigingsdatum",
+    "previousTestimonial": "Vorige testimonial",
+    "nextTestimonial": "Volgende testimonial"
   },
   "templates": {
     "basic": "Basis",
@@ -233,6 +235,29 @@
       "saveResumes": {
         "title": "Opslaan en later verdergaan",
         "description": "Bewaar meerdere cv's en bewerk ze wanneer je wilt."
+      }
+    },
+    "testimonialsTitle": "Geliefd door werkzoekenden overal",
+    "testimonials": {
+      "sarah": {
+        "quote": "Deze tool hielp me in enkele minuten een professioneel cv te maken — ik kreeg binnen een week drie sollicitatiegesprekken!",
+        "name": "Sarah T.",
+        "role": "Marketingmanager"
+      },
+      "james": {
+        "quote": "De sjablonen zijn prachtig ontworpen en ongelooflijk eenvoudig aan te passen.",
+        "name": "James K.",
+        "role": "Software-engineer"
+      },
+      "elena": {
+        "quote": "Ik vind het geweldig dat ik direct van taal kan wisselen — mijn hele familie gebruikt het nu.",
+        "name": "Elena R.",
+        "role": "Product designer"
+      },
+      "noah": {
+        "quote": "Eindelijk een cv-builder die geen account vereist om het uit te proberen.",
+        "name": "Noah B.",
+        "role": "Recent afgestudeerde"
       }
     }
   },

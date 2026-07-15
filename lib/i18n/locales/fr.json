@@ -104,7 +104,9 @@
     "nextPage": "Page suivante",
     "sortByName": "Trier par nom",
     "sortByCreated": "Trier par date de création",
-    "sortByUpdated": "Trier par date de mise à jour"
+    "sortByUpdated": "Trier par date de mise à jour",
+    "previousTestimonial": "Témoignage précédent",
+    "nextTestimonial": "Témoignage suivant"
   },
   "templates": {
     "basic": "Basique",
@@ -233,6 +235,29 @@
       "saveResumes": {
         "title": "Enregistrez et reprenez plus tard",
         "description": "Conservez plusieurs CV enregistrés et modifiez-les à tout moment."
+      }
+    },
+    "testimonialsTitle": "Adoré par les chercheurs d'emploi du monde entier",
+    "testimonials": {
+      "sarah": {
+        "quote": "Cet outil m'a aidé à créer un CV professionnel en quelques minutes — j'ai décroché trois entretiens en une semaine !",
+        "name": "Sarah T.",
+        "role": "Responsable marketing"
+      },
+      "james": {
+        "quote": "Les modèles sont magnifiquement conçus et incroyablement faciles à personnaliser.",
+        "name": "James K.",
+        "role": "Ingénieur logiciel"
+      },
+      "elena": {
+        "quote": "J'adore pouvoir changer de langue instantanément — toute ma famille l'utilise maintenant.",
+        "name": "Elena R.",
+        "role": "Designer produit"
+      },
+      "noah": {
+        "quote": "Enfin un créateur de CV qui ne nécessite pas de compte juste pour l'essayer.",
+        "name": "Noah B.",
+        "role": "Jeune diplômé"
       }
     }
   },

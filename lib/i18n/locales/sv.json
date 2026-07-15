@@ -104,7 +104,9 @@
     "nextPage": "Nästa sida",
     "sortByName": "Sortera efter namn",
     "sortByCreated": "Sortera efter skapandedatum",
-    "sortByUpdated": "Sortera efter uppdateringsdatum"
+    "sortByUpdated": "Sortera efter uppdateringsdatum",
+    "previousTestimonial": "Föregående omdöme",
+    "nextTestimonial": "Nästa omdöme"
   },
   "templates": {
     "basic": "Enkel",
@@ -233,6 +235,29 @@
       "saveResumes": {
         "title": "Spara och fortsätt senare",
         "description": "Spara flera CV och redigera dem när du vill."
+      }
+    },
+    "testimonialsTitle": "Älskad av jobbsökare överallt",
+    "testimonials": {
+      "sarah": {
+        "quote": "Det här verktyget hjälpte mig att bygga ett professionellt CV på några minuter — jag fick tre intervjuer inom en vecka!",
+        "name": "Sarah T.",
+        "role": "Marknadschef"
+      },
+      "james": {
+        "quote": "Mallarna är vackert designade och otroligt enkla att anpassa.",
+        "name": "James K.",
+        "role": "Mjukvaruingenjör"
+      },
+      "elena": {
+        "quote": "Jag älskar att jag kan byta språk direkt — hela min familj använder det nu.",
+        "name": "Elena R.",
+        "role": "Produktdesigner"
+      },
+      "noah": {
+        "quote": "Äntligen en CV-byggare som inte kräver ett konto bara för att testa den.",
+        "name": "Noah B.",
+        "role": "Nyexaminerad"
       }
     }
   },

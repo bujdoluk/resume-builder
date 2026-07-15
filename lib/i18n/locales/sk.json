@@ -104,7 +104,9 @@
     "nextPage": "Ďalšia strana",
     "sortByName": "Zoradiť podľa názvu",
     "sortByCreated": "Zoradiť podľa dátumu vytvorenia",
-    "sortByUpdated": "Zoradiť podľa dátumu aktualizácie"
+    "sortByUpdated": "Zoradiť podľa dátumu aktualizácie",
+    "previousTestimonial": "Predchádzajúca referencia",
+    "nextTestimonial": "Ďalšia referencia"
   },
   "templates": {
     "basic": "Základný",
@@ -233,6 +235,29 @@
       "saveResumes": {
         "title": "Uložte a vráťte sa neskôr",
         "description": "Uchovávajte viac životopisov a kedykoľvek ich upravte."
+      }
+    },
+    "testimonialsTitle": "Obľúbené medzi uchádzačmi o prácu na celom svete",
+    "testimonials": {
+      "sarah": {
+        "quote": "Tento nástroj mi pomohol vytvoriť profesionálny životopis za pár minút — do týždňa som mala tri pohovory!",
+        "name": "Sarah T.",
+        "role": "Marketingová manažérka"
+      },
+      "james": {
+        "quote": "Šablóny sú krásne navrhnuté a neuveriteľne jednoduché na úpravu.",
+        "name": "James K.",
+        "role": "Softvérový inžinier"
+      },
+      "elena": {
+        "quote": "Páči sa mi, že môžem okamžite prepínať jazyky — teraz to používa celá moja rodina.",
+        "name": "Elena R.",
+        "role": "Produktová dizajnérka"
+      },
+      "noah": {
+        "quote": "Konečne tvorca životopisov, ktorý nevyžaduje účet len na vyskúšanie.",
+        "name": "Noah B.",
+        "role": "Čerstvý absolvent"
       }
     }
   },

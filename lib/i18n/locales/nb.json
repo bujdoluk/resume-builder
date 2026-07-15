@@ -104,7 +104,9 @@
     "nextPage": "Neste side",
     "sortByName": "Sorter etter navn",
     "sortByCreated": "Sorter etter opprettelsesdato",
-    "sortByUpdated": "Sorter etter oppdateringsdato"
+    "sortByUpdated": "Sorter etter oppdateringsdato",
+    "previousTestimonial": "Forrige omtale",
+    "nextTestimonial": "Neste omtale"
   },
   "templates": {
     "basic": "Enkel",
@@ -233,6 +235,29 @@
       "saveResumes": {
         "title": "Lagre og fortsett senere",
         "description": "Behold flere lagrede CV-er og rediger dem når som helst."
+      }
+    },
+    "testimonialsTitle": "Elsket av jobbsøkere overalt",
+    "testimonials": {
+      "sarah": {
+        "quote": "Dette verktøyet hjalp meg med å lage en profesjonell CV på minutter — jeg fikk tre intervjuer på en uke!",
+        "name": "Sarah T.",
+        "role": "Markedssjef"
+      },
+      "james": {
+        "quote": "Malene er vakkert designet og utrolig enkle å tilpasse.",
+        "name": "James K.",
+        "role": "Programvareingeniør"
+      },
+      "elena": {
+        "quote": "Jeg elsker at jeg kan bytte språk umiddelbart — hele familien min bruker det nå.",
+        "name": "Elena R.",
+        "role": "Produktdesigner"
+      },
+      "noah": {
+        "quote": "Endelig en CV-bygger som ikke krever konto bare for å prøve den.",
+        "name": "Noah B.",
+        "role": "Nyutdannet"
       }
     }
   },

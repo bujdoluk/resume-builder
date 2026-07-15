@@ -104,7 +104,9 @@
     "nextPage": "Next page",
     "sortByName": "Sort by name",
     "sortByCreated": "Sort by created date",
-    "sortByUpdated": "Sort by updated date"
+    "sortByUpdated": "Sort by updated date",
+    "previousTestimonial": "Previous testimonial",
+    "nextTestimonial": "Next testimonial"
   },
   "templates": {
     "basic": "Basic",
@@ -233,6 +235,29 @@
       "saveResumes": {
         "title": "Save & come back later",
         "description": "Keep multiple resumes saved and edit them anytime."
+      }
+    },
+    "testimonialsTitle": "Loved by job seekers everywhere",
+    "testimonials": {
+      "sarah": {
+        "quote": "This tool helped me build a professional resume in minutes — I landed three interviews within a week!",
+        "name": "Sarah T.",
+        "role": "Marketing Manager"
+      },
+      "james": {
+        "quote": "The templates are beautifully designed and incredibly easy to customize.",
+        "name": "James K.",
+        "role": "Software Engineer"
+      },
+      "elena": {
+        "quote": "I love that I can switch languages instantly — my whole family uses it now.",
+        "name": "Elena R.",
+        "role": "Product Designer"
+      },
+      "noah": {
+        "quote": "Finally a resume builder that doesn't require an account just to try it out.",
+        "name": "Noah B.",
+        "role": "Recent Graduate"
       }
     }
   },

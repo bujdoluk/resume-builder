@@ -104,7 +104,9 @@
     "nextPage": "Pagina successiva",
     "sortByName": "Ordina per nome",
     "sortByCreated": "Ordina per data di creazione",
-    "sortByUpdated": "Ordina per data di aggiornamento"
+    "sortByUpdated": "Ordina per data di aggiornamento",
+    "previousTestimonial": "Testimonianza precedente",
+    "nextTestimonial": "Testimonianza successiva"
   },
   "templates": {
     "basic": "Base",
@@ -233,6 +235,29 @@
       "saveResumes": {
         "title": "Salva e continua più tardi",
         "description": "Conserva più curriculum salvati e modificali quando vuoi."
+      }
+    },
+    "testimonialsTitle": "Amato dai candidati di tutto il mondo",
+    "testimonials": {
+      "sarah": {
+        "quote": "Questo strumento mi ha aiutato a creare un curriculum professionale in pochi minuti — ho ottenuto tre colloqui in una settimana!",
+        "name": "Sarah T.",
+        "role": "Responsabile marketing"
+      },
+      "james": {
+        "quote": "I modelli sono splendidamente progettati e incredibilmente facili da personalizzare.",
+        "name": "James K.",
+        "role": "Ingegnere del software"
+      },
+      "elena": {
+        "quote": "Adoro poter cambiare lingua all'istante — ora lo usa tutta la mia famiglia.",
+        "name": "Elena R.",
+        "role": "Product designer"
+      },
+      "noah": {
+        "quote": "Finalmente un creatore di curriculum che non richiede un account solo per provarlo.",
+        "name": "Noah B.",
+        "role": "Neolaureato"
       }
     }
   },

@@ -104,7 +104,9 @@
     "nextPage": "Nächste Seite",
     "sortByName": "Nach Name sortieren",
     "sortByCreated": "Nach Erstellungsdatum sortieren",
-    "sortByUpdated": "Nach Aktualisierungsdatum sortieren"
+    "sortByUpdated": "Nach Aktualisierungsdatum sortieren",
+    "previousTestimonial": "Vorheriges Testimonial",
+    "nextTestimonial": "Nächstes Testimonial"
   },
   "templates": {
     "basic": "Einfach",
@@ -233,6 +235,29 @@
       "saveResumes": {
         "title": "Speichern & später weitermachen",
         "description": "Behalte mehrere Lebensläufe gespeichert und bearbeite sie jederzeit."
+      }
+    },
+    "testimonialsTitle": "Beliebt bei Jobsuchenden weltweit",
+    "testimonials": {
+      "sarah": {
+        "quote": "Dieses Tool hat mir geholfen, in wenigen Minuten einen professionellen Lebenslauf zu erstellen — ich hatte innerhalb einer Woche drei Vorstellungsgespräche!",
+        "name": "Sarah T.",
+        "role": "Marketingmanagerin"
+      },
+      "james": {
+        "quote": "Die Vorlagen sind wunderschön gestaltet und unglaublich einfach anzupassen.",
+        "name": "James K.",
+        "role": "Softwareentwickler"
+      },
+      "elena": {
+        "quote": "Ich liebe es, dass ich sofort die Sprache wechseln kann — meine ganze Familie nutzt es jetzt.",
+        "name": "Elena R.",
+        "role": "Produktdesignerin"
+      },
+      "noah": {
+        "quote": "Endlich ein Lebenslauf-Ersteller, der kein Konto erfordert, nur um ihn auszuprobieren.",
+        "name": "Noah B.",
+        "role": "Frischer Absolvent"
       }
     }
   },
