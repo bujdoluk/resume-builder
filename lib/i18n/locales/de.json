@@ -69,7 +69,8 @@
     "describeStudies": "Beschreiben Sie Ihr Studium, Ihre Abschlussarbeit, Auszeichnungen...",
     "yourSkill": "Ihre Fähigkeit",
     "certificationName": "Name des Zertifikats",
-    "date": "Datum",
+    "certificationDateFrom": "Datum erhalten (z. B. 01-06-2020)",
+    "certificationDateTo": "Ablaufdatum (optional)",
     "yourLanguage": "Ihre Sprache",
     "yourInterest": "Ihr Interesse"
   },

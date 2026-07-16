@@ -108,7 +108,7 @@ export default function ModernTemplate({
 
   const skillEntries = data.skills.filter((entry) => entry.value);
   const certificationEntries = data.certifications.filter(
-    (entry) => entry.name || entry.date,
+    (entry) => entry.name || entry.dateFrom || entry.dateTo,
   );
   const languageEntries = data.languages.filter((entry) => entry.language);
   const interestEntries = data.interests.filter((entry) => entry.value);
@@ -302,9 +302,11 @@ export default function ModernTemplate({
                 zone={zone}
                 color={color}
               />
-              <p className="text-gray-700">
-                {skillEntries.map((entry) => entry.value).join(", ")}
-              </p>
+              <ul className="flex flex-col gap-1 text-gray-700">
+                {skillEntries.map((entry) => (
+                  <li key={entry.id}>{entry.value}</li>
+                ))}
+              </ul>
             </>
           );
         }
@@ -336,14 +338,19 @@ export default function ModernTemplate({
                 color={color}
               />
               <div className="flex flex-col gap-3">
-                {certificationEntries.map((entry) => (
-                  <div key={entry.id}>
-                    <p className="text-lg font-semibold">{entry.name}</p>
-                    {entry.date && (
-                      <p className="text-base text-gray-500">{entry.date}</p>
-                    )}
-                  </div>
-                ))}
+                {certificationEntries.map((entry) => {
+                  const dateRange = [entry.dateFrom, entry.dateTo]
+                    .filter(Boolean)
+                    .join(" – ");
+                  return (
+                    <div key={entry.id}>
+                      {dateRange && (
+                        <p className="text-base text-gray-500">{dateRange}</p>
+                      )}
+                      <p className="text-lg font-semibold">{entry.name}</p>
+                    </div>
+                  );
+                })}
               </div>
             </>
           );
@@ -356,16 +363,21 @@ export default function ModernTemplate({
               zone={zone}
             />
             <ul className="flex flex-col gap-1">
-              {certificationEntries.map((entry) => (
-                <li key={entry.id}>
-                  {entry.name}
-                  {entry.date && (
-                    <span className="block text-xs opacity-70">
-                      {entry.date}
-                    </span>
-                  )}
-                </li>
-              ))}
+              {certificationEntries.map((entry) => {
+                const dateRange = [entry.dateFrom, entry.dateTo]
+                  .filter(Boolean)
+                  .join(" – ");
+                return (
+                  <li key={entry.id}>
+                    {dateRange && (
+                      <span className="block text-xs opacity-70">
+                        {dateRange}
+                      </span>
+                    )}
+                    {entry.name}
+                  </li>
+                );
+              })}
             </ul>
           </>
         );

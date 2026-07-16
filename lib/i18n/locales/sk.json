@@ -69,7 +69,8 @@
     "describeStudies": "Opíšte svoje štúdium, záverečnú prácu, ocenenia...",
     "yourSkill": "Vaša zručnosť",
     "certificationName": "Názov certifikátu",
-    "date": "Dátum",
+    "certificationDateFrom": "Dátum získania (napr. 01-06-2020)",
+    "certificationDateTo": "Dátum platnosti do (voliteľné)",
     "yourLanguage": "Váš jazyk",
     "yourInterest": "Váš záujem"
   },

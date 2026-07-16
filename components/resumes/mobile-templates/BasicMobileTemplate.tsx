@@ -789,33 +789,48 @@ export default function BasicMobileTemplate({
           >
             {data.certifications.map((entry) => (
               <SortableBlock key={entry.id} id={entry.id}>
-                <div className="flex items-end gap-2">
-                  <fieldset className="fieldset flex-1">
-                    <input
-                      type="text"
-                      placeholder={t("placeholders.certificationName")}
-                      className="input w-full"
-                      value={entry.name}
-                      onChange={(e) =>
-                        handlers.updateCertification(entry.id, "name", e.target.value)
-                      }
+                <div className="flex flex-col gap-2">
+                  <div className="flex gap-2">
+                    <fieldset className="fieldset flex-1">
+                      <input
+                        type="text"
+                        placeholder={t("placeholders.certificationDateFrom")}
+                        className="input w-full"
+                        value={entry.dateFrom}
+                        onChange={(e) =>
+                          handlers.updateCertification(entry.id, "dateFrom", e.target.value)
+                        }
+                      />
+                    </fieldset>
+                    <fieldset className="fieldset flex-1">
+                      <input
+                        type="text"
+                        placeholder={t("placeholders.certificationDateTo")}
+                        className="input w-full"
+                        value={entry.dateTo}
+                        onChange={(e) =>
+                          handlers.updateCertification(entry.id, "dateTo", e.target.value)
+                        }
+                      />
+                    </fieldset>
+                  </div>
+                  <div className="flex items-end gap-2">
+                    <fieldset className="fieldset flex-1">
+                      <input
+                        type="text"
+                        placeholder={t("placeholders.certificationName")}
+                        className="input w-full"
+                        value={entry.name}
+                        onChange={(e) =>
+                          handlers.updateCertification(entry.id, "name", e.target.value)
+                        }
+                      />
+                    </fieldset>
+                    <RemoveButton
+                      label={t("aria.removeCertification")}
+                      onClick={() => handlers.removeCertification(entry.id)}
                     />
-                  </fieldset>
-                  <fieldset className="fieldset flex-1">
-                    <input
-                      type="text"
-                      placeholder={t("placeholders.date")}
-                      className="input w-full"
-                      value={entry.date}
-                      onChange={(e) =>
-                        handlers.updateCertification(entry.id, "date", e.target.value)
-                      }
-                    />
-                  </fieldset>
-                  <RemoveButton
-                    label={t("aria.removeCertification")}
-                    onClick={() => handlers.removeCertification(entry.id)}
-                  />
+                  </div>
                 </div>
               </SortableBlock>
             ))}

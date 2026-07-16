@@ -69,7 +69,8 @@
     "describeStudies": "Describe your studies, thesis, honours...",
     "yourSkill": "Your skill",
     "certificationName": "Certification name",
-    "date": "Date",
+    "certificationDateFrom": "Date obtained (e.g. 01-06-2020)",
+    "certificationDateTo": "Expiry date (optional)",
     "yourLanguage": "Your language",
     "yourInterest": "Your interest"
   },

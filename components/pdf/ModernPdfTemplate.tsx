@@ -103,7 +103,9 @@ export default function ModernPdfTemplate({
     (e) => e.school || e.subject || e.location || e.description || e.dateFrom || e.dateTo,
   );
   const skillEntries = data.skills.filter((e) => e.value);
-  const certificationEntries = data.certifications.filter((e) => e.name || e.date);
+  const certificationEntries = data.certifications.filter(
+    (e) => e.name || e.dateFrom || e.dateTo,
+  );
   const languageEntries = data.languages.filter((e) => e.language);
   const interestEntries = data.interests.filter((e) => e.value);
 
@@ -259,7 +261,11 @@ export default function ModernPdfTemplate({
           return (
             <View key="skills">
               {mainSectionHeader(<SkillsPdfIcon size={s(11)} color={accentColor ?? GRAY_500} />, "Skills")}
-              <Text style={styles.bodyText}>{skillEntries.map((e) => e.value).join(", ")}</Text>
+              {skillEntries.map((entry) => (
+                <Text key={entry.id} style={[styles.bodyText, { marginBottom: 2 }]}>
+                  {entry.value}
+                </Text>
+              ))}
             </View>
           );
         }
@@ -281,28 +287,34 @@ export default function ModernPdfTemplate({
           return (
             <View key="certifications">
               {mainSectionHeader(<CertificationsPdfIcon size={s(11)} color={accentColor ?? GRAY_500} />, "Certifications")}
-              {certificationEntries.map((entry) => (
-                <View key={entry.id} style={styles.entry} wrap={false}>
-                  <Text style={styles.entryTitle}>{entry.name}</Text>
-                  {entry.date && <Text style={styles.entryMeta}>{entry.date}</Text>}
-                </View>
-              ))}
+              {certificationEntries.map((entry) => {
+                const dateRange = [entry.dateFrom, entry.dateTo].filter(Boolean).join(" – ");
+                return (
+                  <View key={entry.id} style={styles.entry} wrap={false}>
+                    {dateRange && <Text style={styles.entryMeta}>{dateRange}</Text>}
+                    <Text style={styles.entryTitle}>{entry.name}</Text>
+                  </View>
+                );
+              })}
             </View>
           );
         }
         return (
           <View key="certifications">
             {sidebarSectionHeader(<CertificationsPdfIcon size={s(10)} color={sidebarFg} />, "Certifications")}
-            {certificationEntries.map((entry) => (
-              <View key={entry.id} style={{ marginTop: 3 }}>
-                <Text style={styles.sidebarBodyText}>{entry.name}</Text>
-                {entry.date && (
-                  <Text style={[styles.sidebarBodyText, { fontSize: s(7.5), opacity: 0.7 }]}>
-                    {entry.date}
-                  </Text>
-                )}
-              </View>
-            ))}
+            {certificationEntries.map((entry) => {
+              const dateRange = [entry.dateFrom, entry.dateTo].filter(Boolean).join(" – ");
+              return (
+                <View key={entry.id} style={{ marginTop: 3 }}>
+                  {dateRange && (
+                    <Text style={[styles.sidebarBodyText, { fontSize: s(7.5), opacity: 0.7 }]}>
+                      {dateRange}
+                    </Text>
+                  )}
+                  <Text style={styles.sidebarBodyText}>{entry.name}</Text>
+                </View>
+              );
+            })}
           </View>
         );
       }

@@ -69,7 +69,8 @@
     "describeStudies": "Opisz swoje studia, pracę dyplomową, wyróżnienia...",
     "yourSkill": "Twoja umiejętność",
     "certificationName": "Nazwa certyfikatu",
-    "date": "Data",
+    "certificationDateFrom": "Data uzyskania (np. 01-06-2020)",
+    "certificationDateTo": "Data ważności (opcjonalnie)",
     "yourLanguage": "Twój język",
     "yourInterest": "Twoje zainteresowanie"
   },

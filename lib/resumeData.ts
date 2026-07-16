@@ -44,7 +44,8 @@ export interface SimpleEntry {
 export interface CertificationEntry {
   id: string;
   name: string;
-  date: string;
+  dateFrom: string;
+  dateTo: string;
 }
 
 export type SectionKey =

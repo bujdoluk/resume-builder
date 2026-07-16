@@ -136,13 +136,13 @@ export function createResumeFormHandlers({
   function addCertification() {
     onCertificationsChange([
       ...data.certifications,
-      { id: crypto.randomUUID(), name: "", date: "" },
+      { id: crypto.randomUUID(), name: "", dateFrom: "", dateTo: "" },
     ]);
   }
 
   function updateCertification(
     id: string,
-    field: "name" | "date",
+    field: Exclude<keyof CertificationEntry, "id">,
     value: string,
   ) {
     onCertificationsChange(

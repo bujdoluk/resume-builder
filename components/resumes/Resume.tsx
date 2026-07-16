@@ -123,10 +123,11 @@ const defaultLanguageFieldOrder: LanguageEntryFieldKey[] = [
   "level",
 ];
 
-type CertificationEntryFieldKey = "name" | "date";
+type CertificationEntryFieldKey = "dateFrom" | "dateTo" | "name";
 const defaultCertificationFieldOrder: CertificationEntryFieldKey[] = [
+  "dateFrom",
+  "dateTo",
   "name",
-  "date",
 ];
 
 function RemoveButton({
@@ -509,13 +510,13 @@ export default function Resume({
   function addCertification() {
     onCertificationsChange([
       ...data.certifications,
-      { id: crypto.randomUUID(), name: "", date: "" },
+      { id: crypto.randomUUID(), name: "", dateFrom: "", dateTo: "" },
     ]);
   }
 
   function updateCertification(
     id: string,
-    field: "name" | "date",
+    field: Exclude<keyof CertificationEntry, "id">,
     value: string,
   ) {
     onCertificationsChange(
@@ -548,15 +549,28 @@ export default function Resume({
           />
         </fieldset>
       ),
-      date: (
+      dateFrom: (
         <fieldset className="fieldset">
           <input
             type="text"
-            placeholder={t("placeholders.date")}
+            placeholder={t("placeholders.certificationDateFrom")}
             className="input w-full"
-            value={entry.date}
+            value={entry.dateFrom}
             onChange={(e) =>
-              updateCertification(entry.id, "date", e.target.value)
+              updateCertification(entry.id, "dateFrom", e.target.value)
+            }
+          />
+        </fieldset>
+      ),
+      dateTo: (
+        <fieldset className="fieldset">
+          <input
+            type="text"
+            placeholder={t("placeholders.certificationDateTo")}
+            className="input w-full"
+            value={entry.dateTo}
+            onChange={(e) =>
+              updateCertification(entry.id, "dateTo", e.target.value)
             }
           />
         </fieldset>

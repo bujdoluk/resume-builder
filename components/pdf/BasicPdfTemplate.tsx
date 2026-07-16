@@ -154,7 +154,9 @@ export default function BasicPdfTemplate({
     (e) => e.school || e.subject || e.location || e.description || e.dateFrom || e.dateTo,
   );
   const skillEntries = data.skills.filter((e) => e.value);
-  const certificationEntries = data.certifications.filter((e) => e.name || e.date);
+  const certificationEntries = data.certifications.filter(
+    (e) => e.name || e.dateFrom || e.dateTo,
+  );
   const languageEntries = data.languages.filter((e) => e.language);
   const interestEntries = data.interests.filter((e) => e.value);
 
@@ -245,7 +247,11 @@ export default function BasicPdfTemplate({
           <SkillsPdfIcon size={s(11)} color={accentColor ?? GRAY_500} />,
           "Skills",
         )}
-        <Text style={styles.bodyText}>{skillEntries.map((e) => e.value).join(", ")}</Text>
+        {skillEntries.map((entry) => (
+          <Text key={entry.id} style={[styles.bodyText, { marginBottom: 2 }]}>
+            {entry.value}
+          </Text>
+        ))}
       </View>
     ),
 
@@ -255,12 +261,19 @@ export default function BasicPdfTemplate({
           <CertificationsPdfIcon size={s(11)} color={accentColor ?? GRAY_500} />,
           "Certifications",
         )}
-        {certificationEntries.map((entry) => (
-          <Text key={entry.id} style={[styles.bodyText, { marginBottom: 2 }]}>
-            <Text style={{ fontWeight: "bold" }}>{entry.name}</Text>
-            {entry.date && <Text style={{ color: GRAY_500 }}> {"·"} {entry.date}</Text>}
-          </Text>
-        ))}
+        {certificationEntries.map((entry) => {
+          const dateRange = [entry.dateFrom, entry.dateTo].filter(Boolean).join(" – ");
+          return (
+            <View key={entry.id} style={{ marginBottom: 4 }}>
+              {dateRange && (
+                <Text style={[styles.bodyText, { fontSize: s(9), color: GRAY_500 }]}>
+                  {dateRange}
+                </Text>
+              )}
+              <Text style={[styles.bodyText, { fontWeight: "bold" }]}>{entry.name}</Text>
+            </View>
+          );
+        })}
       </View>
     ),
 

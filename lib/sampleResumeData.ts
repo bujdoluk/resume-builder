@@ -56,7 +56,8 @@ export const sampleResumeData: ResumeData = {
     {
       id: "sample-cert-1",
       name: "Certified UX Professional",
-      date: "2022",
+      dateFrom: "2022",
+      dateTo: "",
     },
   ],
   languages: [

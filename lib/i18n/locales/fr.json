@@ -69,7 +69,8 @@
     "describeStudies": "Décrivez vos études, votre mémoire, vos distinctions...",
     "yourSkill": "Votre compétence",
     "certificationName": "Nom de la certification",
-    "date": "Date",
+    "certificationDateFrom": "Date d'obtention (ex. 01-06-2020)",
+    "certificationDateTo": "Date d'expiration (facultatif)",
     "yourLanguage": "Votre langue",
     "yourInterest": "Votre centre d'intérêt"
   },

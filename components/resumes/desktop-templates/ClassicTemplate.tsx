@@ -124,7 +124,7 @@ export default function ClassicTemplate({
 
   const skillEntries = data.skills.filter((entry) => entry.value);
   const certificationEntries = data.certifications.filter(
-    (entry) => entry.name || entry.date,
+    (entry) => entry.name || entry.dateFrom || entry.dateTo,
   );
   const languageEntries = data.languages.filter((entry) => entry.language);
   const interestEntries = data.interests.filter((entry) => entry.value);
@@ -249,9 +249,11 @@ export default function ClassicTemplate({
           {t("sections.skills")}
         </h2>
 
-        <p className="text-gray-700">
-          {skillEntries.map((entry) => entry.value).join(", ")}
-        </p>
+        <ul className="flex flex-col gap-1 text-gray-700">
+          {skillEntries.map((entry) => (
+            <li key={entry.id}>{entry.value}</li>
+          ))}
+        </ul>
       </>
     ),
 
@@ -265,15 +267,20 @@ export default function ClassicTemplate({
           {t("sections.certifications")}
         </h2>
 
-        <div className="space-y-1">
-          {certificationEntries.map((entry) => (
-            <p key={entry.id} className="text-gray-700">
-              <span className="font-semibold">{entry.name}</span>
-              {entry.date && (
-                <span className="text-sm text-gray-500"> · {entry.date}</span>
-              )}
-            </p>
-          ))}
+        <div className="space-y-2">
+          {certificationEntries.map((entry) => {
+            const dateRange = [entry.dateFrom, entry.dateTo]
+              .filter(Boolean)
+              .join(" – ");
+            return (
+              <div key={entry.id}>
+                {dateRange && (
+                  <p className="text-sm text-gray-500">{dateRange}</p>
+                )}
+                <p className="font-semibold text-gray-700">{entry.name}</p>
+              </div>
+            );
+          })}
         </div>
       </>
     ),

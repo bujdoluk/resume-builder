@@ -69,7 +69,8 @@
     "describeStudies": "Beschrijf uw studie, scriptie, onderscheidingen...",
     "yourSkill": "Uw vaardigheid",
     "certificationName": "Naam van certificering",
-    "date": "Datum",
+    "certificationDateFrom": "Behaald op (bijv. 01-06-2020)",
+    "certificationDateTo": "Vervaldatum (optioneel)",
     "yourLanguage": "Uw taal",
     "yourInterest": "Uw interesse"
   },

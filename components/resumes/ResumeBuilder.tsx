@@ -336,7 +336,7 @@ export default function ResumeBuilder({
       case "certifications":
         return (
           data.certifications.length > 0 &&
-          data.certifications.every((entry) => entry.name && entry.date)
+          data.certifications.every((entry) => entry.name && entry.dateFrom)
         );
       case "languages":
         return (
@@ -402,7 +402,7 @@ export default function ResumeBuilder({
       case "skills":
         return entryFieldStats(data.skills, ["value"]);
       case "certifications":
-        return entryFieldStats(data.certifications, ["name", "date"]);
+        return entryFieldStats(data.certifications, ["name", "dateFrom", "dateTo"]);
       case "languages":
         return entryFieldStats(data.languages, ["language"]);
       case "interests":

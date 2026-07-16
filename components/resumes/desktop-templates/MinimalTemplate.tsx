@@ -168,7 +168,7 @@ export default function MinimalTemplate({
 
   const skillEntries = data.skills.filter((entry) => entry.value);
   const certificationEntries = data.certifications.filter(
-    (entry) => entry.name || entry.date,
+    (entry) => entry.name || entry.dateFrom || entry.dateTo,
   );
   const languageEntries = data.languages.filter((entry) => entry.language);
   const interestEntries = data.interests.filter((entry) => entry.value);
@@ -258,24 +258,31 @@ export default function MinimalTemplate({
     skills: skillEntries.length > 0 && (
       <>
         <SectionTitle color={color}>{t("sections.skills")}</SectionTitle>
-        <p className="text-gray-700">
-          {skillEntries.map((entry) => entry.value).join(" · ")}
-        </p>
+        <ul className="flex flex-col gap-1 text-gray-700">
+          {skillEntries.map((entry) => (
+            <li key={entry.id}>{entry.value}</li>
+          ))}
+        </ul>
       </>
     ),
 
     certifications: certificationEntries.length > 0 && (
       <>
         <SectionTitle color={color}>{t("sections.certifications")}</SectionTitle>
-        <div className="flex flex-col gap-1">
-          {certificationEntries.map((entry) => (
-            <p key={entry.id} className="text-gray-700">
-              <span className="font-semibold">{entry.name}</span>
-              {entry.date && (
-                <span className="text-sm text-gray-500"> — {entry.date}</span>
-              )}
-            </p>
-          ))}
+        <div className="flex flex-col gap-2">
+          {certificationEntries.map((entry) => {
+            const dateRange = [entry.dateFrom, entry.dateTo]
+              .filter(Boolean)
+              .join(" – ");
+            return (
+              <div key={entry.id}>
+                {dateRange && (
+                  <p className="text-sm text-gray-500">{dateRange}</p>
+                )}
+                <p className="font-semibold text-gray-700">{entry.name}</p>
+              </div>
+            );
+          })}
         </div>
       </>
     ),

@@ -32,10 +32,9 @@ import {
   WebsiteIcon,
   WorkHistoryIcon,
 } from "@/components/Icons";
-import { getContrastTextColor, tintBackground } from "@/lib/color";
+import { getContrastTextColor } from "@/lib/color";
 import { fontsByKey } from "@/lib/fonts";
 import { getFontSizeStyle } from "@/lib/fontSize";
-import { DAISYUI_NEUTRAL } from "@/lib/pdf/theme";
 import {
   languageLevels,
   resolveModernSectionZone,
@@ -220,9 +219,7 @@ export default function ElegantTemplate({
   );
   const fontFamily = font ? fontsByKey[font].variable : undefined;
   const fontSizeStyle = getFontSizeStyle(fontSize ?? "medium");
-  const sidebarBg = color ?? DAISYUI_NEUTRAL;
   const sidebarFg = color ? getContrastTextColor(color) : "#ffffff";
-  const pillBg = tintBackground(sidebarBg, sidebarFg);
 
   const workEntries = data.workExperience.filter(
     (entry) =>
@@ -245,7 +242,7 @@ export default function ElegantTemplate({
 
   const skillEntries = data.skills.filter((entry) => entry.value);
   const certificationEntries = data.certifications.filter(
-    (entry) => entry.name || entry.date,
+    (entry) => entry.name || entry.dateFrom || entry.dateTo,
   );
   const languageEntries = data.languages.filter((entry) => entry.language);
   const interestEntries = data.interests.filter((entry) => entry.value);
@@ -415,17 +412,11 @@ export default function ElegantTemplate({
                 title={t("sections.skills")}
                 zone={zone}
               />
-              <div className="flex flex-wrap gap-1.5">
+              <ul className="flex flex-col gap-1">
                 {skillEntries.map((entry) => (
-                  <span
-                    key={entry.id}
-                    className="rounded-full px-2.5 py-1 text-xs font-medium"
-                    style={{ backgroundColor: pillBg }}
-                  >
-                    {entry.value}
-                  </span>
+                  <li key={entry.id}>{entry.value}</li>
                 ))}
-              </div>
+              </ul>
             </>
           );
         }
@@ -437,9 +428,11 @@ export default function ElegantTemplate({
               zone={zone}
               color={color}
             />
-            <p className="text-gray-700">
-              {skillEntries.map((entry) => entry.value).join(", ")}
-            </p>
+            <ul className="flex flex-col gap-1 text-gray-700">
+              {skillEntries.map((entry) => (
+                <li key={entry.id}>{entry.value}</li>
+              ))}
+            </ul>
           </>
         );
       }
@@ -456,14 +449,19 @@ export default function ElegantTemplate({
                 color={color}
               />
               <div className="flex flex-col gap-3">
-                {certificationEntries.map((entry) => (
-                  <div key={entry.id}>
-                    <p className="text-lg font-semibold">{entry.name}</p>
-                    {entry.date && (
-                      <p className="text-base text-gray-500">{entry.date}</p>
-                    )}
-                  </div>
-                ))}
+                {certificationEntries.map((entry) => {
+                  const dateRange = [entry.dateFrom, entry.dateTo]
+                    .filter(Boolean)
+                    .join(" – ");
+                  return (
+                    <div key={entry.id}>
+                      {dateRange && (
+                        <p className="text-base text-gray-500">{dateRange}</p>
+                      )}
+                      <p className="text-lg font-semibold">{entry.name}</p>
+                    </div>
+                  );
+                })}
               </div>
             </>
           );
@@ -476,16 +474,21 @@ export default function ElegantTemplate({
               zone={zone}
             />
             <ul className="flex flex-col gap-1">
-              {certificationEntries.map((entry) => (
-                <li key={entry.id}>
-                  {entry.name}
-                  {entry.date && (
-                    <span className="block text-xs opacity-70">
-                      {entry.date}
-                    </span>
-                  )}
-                </li>
-              ))}
+              {certificationEntries.map((entry) => {
+                const dateRange = [entry.dateFrom, entry.dateTo]
+                  .filter(Boolean)
+                  .join(" – ");
+                return (
+                  <li key={entry.id}>
+                    {dateRange && (
+                      <span className="block text-xs opacity-70">
+                        {dateRange}
+                      </span>
+                    )}
+                    {entry.name}
+                  </li>
+                );
+              })}
             </ul>
           </>
         );

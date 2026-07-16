@@ -69,7 +69,8 @@
     "describeStudies": "Опишите свою учёбу, дипломную работу, награды...",
     "yourSkill": "Ваш навык",
     "certificationName": "Название сертификата",
-    "date": "Дата",
+    "certificationDateFrom": "Дата получения (напр. 01-06-2020)",
+    "certificationDateTo": "Дата истечения (необязательно)",
     "yourLanguage": "Ваш язык",
     "yourInterest": "Ваш интерес"
   },

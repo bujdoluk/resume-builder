@@ -69,7 +69,8 @@
     "describeStudies": "Beskriv utdanningen din, oppgaven, utmerkelser...",
     "yourSkill": "Din ferdighet",
     "certificationName": "Navn på sertifisering",
-    "date": "Dato",
+    "certificationDateFrom": "Dato oppnådd (f.eks. 01-06-2020)",
+    "certificationDateTo": "Utløpsdato (valgfritt)",
     "yourLanguage": "Ditt språk",
     "yourInterest": "Din interesse"
   },

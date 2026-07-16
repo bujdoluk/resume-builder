@@ -103,9 +103,6 @@ export default function ElegantPdfTemplate({
     numberedIndex: { fontSize: s(9.5), color: GRAY_700 },
     numberedText: { fontSize: s(9.5), color: GRAY_700, flex: 1, lineHeight: 1.4 },
     bodyText: { fontSize: s(10), color: GRAY_700 },
-    pillRow: { flexDirection: "row", flexWrap: "wrap", gap: 5, marginTop: 2 },
-    pill: { backgroundColor: pillBg, borderRadius: 10, paddingVertical: 3, paddingHorizontal: 8 },
-    pillText: { fontSize: s(8), fontWeight: "medium" },
     languageRow: { flexDirection: "row", alignItems: "center", gap: 8, marginTop: 4 },
     donutWrap: { position: "relative", alignItems: "center", justifyContent: "center" },
     donutLabelWrap: {
@@ -127,7 +124,9 @@ export default function ElegantPdfTemplate({
     (e) => e.school || e.subject || e.location || e.description || e.dateFrom || e.dateTo,
   );
   const skillEntries = data.skills.filter((e) => e.value);
-  const certificationEntries = data.certifications.filter((e) => e.name || e.date);
+  const certificationEntries = data.certifications.filter(
+    (e) => e.name || e.dateFrom || e.dateTo,
+  );
   const languageEntries = data.languages.filter((e) => e.language);
   const interestEntries = data.interests.filter((e) => e.value);
 
@@ -271,20 +270,22 @@ export default function ElegantPdfTemplate({
           return (
             <View key="skills">
               {sidebarSectionHeader(<SkillsPdfIcon size={s(10)} color={sidebarFg} />, "Skills")}
-              <View style={styles.pillRow}>
-                {skillEntries.map((entry) => (
-                  <View key={entry.id} style={styles.pill}>
-                    <Text style={styles.pillText}>{entry.value}</Text>
-                  </View>
-                ))}
-              </View>
+              {skillEntries.map((entry) => (
+                <Text key={entry.id} style={styles.sidebarBodyText}>
+                  {entry.value}
+                </Text>
+              ))}
             </View>
           );
         }
         return (
           <View key="skills">
             {mainSectionHeader(<SkillsPdfIcon size={s(11)} color={accentColor ?? GRAY_500} />, "Skills")}
-            <Text style={styles.bodyText}>{skillEntries.map((e) => e.value).join(", ")}</Text>
+            {skillEntries.map((entry) => (
+              <Text key={entry.id} style={[styles.bodyText, { marginBottom: 2 }]}>
+                {entry.value}
+              </Text>
+            ))}
           </View>
         );
       }
@@ -295,28 +296,34 @@ export default function ElegantPdfTemplate({
           return (
             <View key="certifications">
               {mainSectionHeader(<CertificationsPdfIcon size={s(11)} color={accentColor ?? GRAY_500} />, "Certifications")}
-              {certificationEntries.map((entry) => (
-                <View key={entry.id} style={styles.entry} wrap={false}>
-                  <Text style={styles.entryTitle}>{entry.name}</Text>
-                  {entry.date && <Text style={styles.entryMeta}>{entry.date}</Text>}
-                </View>
-              ))}
+              {certificationEntries.map((entry) => {
+                const dateRange = [entry.dateFrom, entry.dateTo].filter(Boolean).join(" – ");
+                return (
+                  <View key={entry.id} style={styles.entry} wrap={false}>
+                    {dateRange && <Text style={styles.entryMeta}>{dateRange}</Text>}
+                    <Text style={styles.entryTitle}>{entry.name}</Text>
+                  </View>
+                );
+              })}
             </View>
           );
         }
         return (
           <View key="certifications">
             {sidebarSectionHeader(<CertificationsPdfIcon size={s(10)} color={sidebarFg} />, "Certifications")}
-            {certificationEntries.map((entry) => (
-              <View key={entry.id} style={{ marginTop: 3 }}>
-                <Text style={styles.sidebarBodyText}>{entry.name}</Text>
-                {entry.date && (
-                  <Text style={[styles.sidebarBodyText, { fontSize: s(7.5), opacity: 0.7 }]}>
-                    {entry.date}
-                  </Text>
-                )}
-              </View>
-            ))}
+            {certificationEntries.map((entry) => {
+              const dateRange = [entry.dateFrom, entry.dateTo].filter(Boolean).join(" – ");
+              return (
+                <View key={entry.id} style={{ marginTop: 3 }}>
+                  {dateRange && (
+                    <Text style={[styles.sidebarBodyText, { fontSize: s(7.5), opacity: 0.7 }]}>
+                      {dateRange}
+                    </Text>
+                  )}
+                  <Text style={styles.sidebarBodyText}>{entry.name}</Text>
+                </View>
+              );
+            })}
           </View>
         );
       }

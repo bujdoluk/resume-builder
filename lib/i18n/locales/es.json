@@ -69,7 +69,8 @@
     "describeStudies": "Describe tus estudios, tesis, distinciones...",
     "yourSkill": "Tu habilidad",
     "certificationName": "Nombre de la certificación",
-    "date": "Fecha",
+    "certificationDateFrom": "Fecha de obtención (ej. 01-06-2020)",
+    "certificationDateTo": "Fecha de caducidad (opcional)",
     "yourLanguage": "Tu idioma",
     "yourInterest": "Tu interés"
   },

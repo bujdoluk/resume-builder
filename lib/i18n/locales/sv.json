@@ -69,7 +69,8 @@
     "describeStudies": "Beskriv dina studier, examensarbete, utmärkelser...",
     "yourSkill": "Din färdighet",
     "certificationName": "Certifieringens namn",
-    "date": "Datum",
+    "certificationDateFrom": "Datum erhållet (t.ex. 01-06-2020)",
+    "certificationDateTo": "Utgångsdatum (valfritt)",
     "yourLanguage": "Ditt språk",
     "yourInterest": "Ditt intresse"
   },
