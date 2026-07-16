@@ -35,10 +35,32 @@
       "Bash(xargs grep -l \"\\\\.text-sm\")",
       "Bash(curl -s \"http://localhost:3000/_next/static/chunks/%5Broot-of-the-server%5D__1gke8nv._.css\" -o /tmp/app.css)",
       "Bash(node verify-fontsize2.mjs)",
-      "Bash(node verify-download-noflash.mjs)"
+      "Bash(node verify-download-noflash.mjs)",
+      "Bash(node check-classic-icons3.js)",
+      "Bash(node check-classic-icons4.js)",
+      "Bash(rm -f \"C:\\\\Users\\\\lukas\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\d--Projekty-resume-builder\\\\3ad409a9-f7ed-4743-b3cf-a5633d47085b\\\\scratchpad\\\\check-classic-icons\"*.js \"C:\\\\Users\\\\lukas\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\d--Projekty-resume-builder\\\\3ad409a9-f7ed-4743-b3cf-a5633d47085b\\\\scratchpad\"*.png)",
+      "Bash(node check-purple.js)",
+      "Bash(node debug-colours.js)",
+      "Bash(rm -f \"C:\\\\Users\\\\lukas\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\d--Projekty-resume-builder\\\\3ad409a9-f7ed-4743-b3cf-a5633d47085b\\\\scratchpad\\\\check-purple.js\" \"C:\\\\Users\\\\lukas\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\d--Projekty-resume-builder\\\\3ad409a9-f7ed-4743-b3cf-a5633d47085b\\\\scratchpad\\\\debug-colours.js\" \"C:\\\\Users\\\\lukas\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\d--Projekty-resume-builder\\\\3ad409a9-f7ed-4743-b3cf-a5633d47085b\\\\scratchpad\"*.png)",
+      "Bash(node check-violet.js)",
+      "Bash(node check-violet2.js)",
+      "Bash(node check-violet3.js)",
+      "Bash(curl -s http://localhost:3000/_next/static/css/)",
+      "Bash(node check-css.js)",
+      "Bash(node check-css2.js)",
+      "Bash(echo \"---exit: $?---\")",
+      "Bash(curl -sI \"http://localhost:3000/_next/static/chunks/%5Broot-of-the-server%5D__1gke8nv._.css\")",
+      "Bash(rm -f \"C:\\\\Users\\\\lukas\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\d--Projekty-resume-builder\\\\3ad409a9-f7ed-4743-b3cf-a5633d47085b\\\\scratchpad\\\\check-violet\"*.js \"C:\\\\Users\\\\lukas\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\d--Projekty-resume-builder\\\\3ad409a9-f7ed-4743-b3cf-a5633d47085b\\\\scratchpad\\\\check-css\"*.js \"C:\\\\Users\\\\lukas\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\d--Projekty-resume-builder\\\\3ad409a9-f7ed-4743-b3cf-a5633d47085b\\\\scratchpad\"*.png)",
+      "Bash(curl -s \"http://localhost:3000/_next/static/chunks/%5Broot-of-the-server%5D__1gke8nv._.css\" -o \"C:/Projekty_tmp_bundle.css\")",
+      "Read(//c//**)",
+      "Bash(curl -s \"http://localhost:3000/_next/static/chunks/%5Broot-of-the-server%5D__1gke8nv._.css\" -o \"C:\\\\Users\\\\lukas\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\d--Projekty-resume-builder\\\\3ad409a9-f7ed-4743-b3cf-a5633d47085b\\\\scratchpad\\\\bundle.css\")",
+      "Bash(node check-stars.js)",
+      "Bash(rm -f \"C:\\\\Users\\\\lukas\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\d--Projekty-resume-builder\\\\3ad409a9-f7ed-4743-b3cf-a5633d47085b\\\\scratchpad\\\\check-stars.js\" \"C:\\\\Users\\\\lukas\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\d--Projekty-resume-builder\\\\3ad409a9-f7ed-4743-b3cf-a5633d47085b\\\\scratchpad\\\\bundle.css\" \"C:\\\\Users\\\\lukas\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\d--Projekty-resume-builder\\\\3ad409a9-f7ed-4743-b3cf-a5633d47085b\\\\scratchpad\"*.png)"
     ],
     "additionalDirectories": [
-      "C:\\Users\\lukas\\AppData\\Local\\npm-cache\\_npx\\e41f203b7505f1fb"
+      "C:\\Users\\lukas\\AppData\\Local\\npm-cache\\_npx\\e41f203b7505f1fb",
+      "C:\\Users\\lukas\\AppData\\Local\\Temp\\claude\\d--Projekty-resume-builder\\3ad409a9-f7ed-4743-b3cf-a5633d47085b\\scratchpad",
+      "C:\\Users\\lukas\\AppData\\Local\\Temp\\claude\\d--Projekty-resume-builder\\3ad409a9-f7ed-4743-b3cf-a5633d47085b"
     ]
   }
 }

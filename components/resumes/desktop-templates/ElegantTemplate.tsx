@@ -309,7 +309,7 @@ export default function ElegantTemplate({
                       </p>
                     )}
                     {(dateRange || entry.location) && (
-                      <p className="text-base text-gray-500">
+                      <p className="text-sm text-gray-500">
                         {[dateRange, entry.location]
                           .filter(Boolean)
                           .join(" · ")}
@@ -383,7 +383,7 @@ export default function ElegantTemplate({
                       </p>
                     )}
                     {(dateRange || entry.location) && (
-                      <p className="text-base text-gray-500">
+                      <p className="text-sm text-gray-500">
                         {[dateRange, entry.location]
                           .filter(Boolean)
                           .join(" · ")}
@@ -456,7 +456,7 @@ export default function ElegantTemplate({
                   return (
                     <div key={entry.id}>
                       {dateRange && (
-                        <p className="text-base text-gray-500">{dateRange}</p>
+                        <p className="text-sm text-gray-500">{dateRange}</p>
                       )}
                       <p className="text-lg font-semibold">{entry.name}</p>
                     </div>

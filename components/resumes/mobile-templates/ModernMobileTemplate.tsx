@@ -1012,6 +1012,7 @@ export default function ModernMobileTemplate({
                                 name={`modern-mobile-language-level-${entry.id}`}
                                 aria-label={level}
                                 className="mask mask-star"
+                                style={color ? { backgroundColor: color } : undefined}
                                 checked={index === levelIndex}
                                 onChange={() =>
                                   handlers.updateLanguage(entry.id, "level", level)

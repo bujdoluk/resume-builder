@@ -152,7 +152,11 @@ export default function ClassicMobileTemplate({
 
   const headerBgClass = color ? "" : "bg-neutral text-neutral-content";
   const headerStyle = color
-    ? { backgroundColor: color, color: getContrastTextColor(color) }
+    ? ({
+        backgroundColor: color,
+        color: getContrastTextColor(color),
+        "--header-fg": getContrastTextColor(color),
+      } as React.CSSProperties)
     : undefined;
 
   function workEntryFields(
@@ -870,6 +874,7 @@ export default function ClassicMobileTemplate({
                             name={`classic-mobile-language-level-${entry.id}`}
                             aria-label={level}
                             className="mask mask-star"
+                            style={color ? { backgroundColor: color } : undefined}
                             checked={index === levelIndex}
                             onChange={() =>
                               handlers.updateLanguage(entry.id, "level", level)
@@ -945,7 +950,7 @@ export default function ClassicMobileTemplate({
     <div className="resume-scalable flex flex-col gap-4 bg-white">
       <div
         data-section-anchor="personalInfo"
-        className={`flex flex-col gap-4 p-4 pl-8 ${headerBgClass}`}
+        className={`classic-header flex flex-col gap-4 p-4 pl-8 ${headerBgClass}`}
         style={headerStyle}
       >
         <SortableGroup

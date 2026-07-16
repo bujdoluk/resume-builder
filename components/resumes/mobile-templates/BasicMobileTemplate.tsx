@@ -902,6 +902,7 @@ export default function BasicMobileTemplate({
                             name={`basic-mobile-language-level-${entry.id}`}
                             aria-label={level}
                             className="mask mask-star"
+                            style={color ? { backgroundColor: color } : undefined}
                             checked={index === levelIndex}
                             onChange={() =>
                               handlers.updateLanguage(entry.id, "level", level)

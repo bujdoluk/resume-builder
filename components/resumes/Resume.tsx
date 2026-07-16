@@ -637,6 +637,7 @@ export default function Resume({
                   name={`canvas-language-level-${entry.id}`}
                   aria-label={level}
                   className="mask mask-star"
+                  style={color ? { backgroundColor: color } : undefined}
                   checked={index === levelIndex}
                   onChange={() => updateLanguage(entry.id, "level", level)}
                 />
@@ -1657,7 +1658,11 @@ export default function Resume({
     );
     const headerBgClass = color ? "" : "bg-neutral text-neutral-content";
     const headerStyle = color
-      ? { backgroundColor: color, color: getContrastTextColor(color) }
+      ? ({
+          backgroundColor: color,
+          color: getContrastTextColor(color),
+          "--header-fg": getContrastTextColor(color),
+        } as React.CSSProperties)
       : undefined;
 
     return (
@@ -1667,7 +1672,7 @@ export default function Resume({
       >
         <div
           data-section-anchor="personalInfo"
-          className={`p-8 pl-10 ${headerBgClass}`}
+          className={`classic-header p-8 pl-10 ${headerBgClass}`}
           style={headerStyle}
         >
           <SortableGroup

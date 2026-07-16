@@ -193,7 +193,7 @@ export default function MinimalTemplate({
                     <p className="text-lg font-semibold">{entry.position}</p>
                   )}
                   {dateRange && (
-                    <p className="text-base whitespace-nowrap text-gray-500">
+                    <p className="text-sm whitespace-nowrap text-gray-500">
                       {dateRange}
                     </p>
                   )}
@@ -235,7 +235,7 @@ export default function MinimalTemplate({
                     <p className="text-base text-gray-600">{entry.subject}</p>
                   )}
                   {dateRange && (
-                    <p className="text-base whitespace-nowrap text-gray-500">
+                    <p className="text-sm whitespace-nowrap text-gray-500">
                       {dateRange}
                     </p>
                   )}
@@ -277,7 +277,7 @@ export default function MinimalTemplate({
             return (
               <div key={entry.id}>
                 {dateRange && (
-                  <p className="text-sm text-gray-500">{dateRange}</p>
+                  <p className="text-xs text-gray-500">{dateRange}</p>
                 )}
                 <p className="font-semibold text-gray-700">{entry.name}</p>
               </div>

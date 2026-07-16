@@ -137,6 +137,37 @@ body {
   opacity: 0.7;
 }
 
+/* Language proficiency's rating stars are tinted with the accent color via
+   an inline `style={{ backgroundColor: color }}` (see Resume.tsx and the
+   desktop/mobile templates) so they read as themed rather than daisyUI's
+   flat default gray. When the Languages section is dragged into this same
+   dark sidebar, that accent tint can match (or nearly match) the sidebar's
+   own background, so force the readable --sidebar-fg here too — same
+   reasoning as the icons/placeholders above. */
+.modern-sidebar .rating * {
+  background-color: var(--sidebar-fg) !important;
+}
+
+/* Classic template's header band is always colored (a custom accent, or the
+   default dark daisyUI "neutral"), so its contact-field icons have the same
+   text-gray-500-vs-colored-background contrast problem as the Modern/Elegant
+   sidebar above — same fix, same reasoning, just scoped to the header. */
+.classic-header {
+  --header-fg: #fff;
+}
+
+.classic-header .input::placeholder,
+.classic-header .textarea::placeholder,
+.classic-header .input input::placeholder {
+  color: var(--header-fg) !important;
+  opacity: 0.6;
+}
+
+.classic-header .text-gray-500 {
+  color: var(--header-fg) !important;
+  opacity: 0.7;
+}
+
 @keyframes cta-attention {
   0%,
   100% {

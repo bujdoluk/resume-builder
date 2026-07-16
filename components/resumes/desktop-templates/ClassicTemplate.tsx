@@ -149,7 +149,7 @@ export default function ClassicTemplate({
             return (
               <li key={entry.id}>
                 {index > 0 && <hr />}
-                <div className="timeline-start text-base text-gray-500">
+                <div className="timeline-start text-sm text-gray-500">
                   {dateRange}
                 </div>
                 <div className="timeline-middle">
@@ -202,7 +202,7 @@ export default function ClassicTemplate({
             return (
               <li key={entry.id}>
                 {index > 0 && <hr />}
-                <div className="timeline-start text-base text-gray-500">
+                <div className="timeline-start text-sm text-gray-500">
                   {dateRange}
                 </div>
                 <div className="timeline-middle">
@@ -275,7 +275,7 @@ export default function ClassicTemplate({
             return (
               <div key={entry.id}>
                 {dateRange && (
-                  <p className="text-sm text-gray-500">{dateRange}</p>
+                  <p className="text-xs text-gray-500">{dateRange}</p>
                 )}
                 <p className="font-semibold text-gray-700">{entry.name}</p>
               </div>
@@ -314,6 +314,7 @@ export default function ClassicTemplate({
                         type="radio"
                         aria-label={level}
                         className="mask mask-star"
+                        style={color ? { backgroundColor: color } : undefined}
                         defaultChecked={index === levelIndex}
                       />
                     ))}

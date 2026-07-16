@@ -179,7 +179,7 @@ export default function ModernTemplate({
                       </p>
                     )}
                     {(dateRange || entry.location) && (
-                      <p className="text-base text-gray-500">
+                      <p className="text-sm text-gray-500">
                         {[dateRange, entry.location]
                           .filter(Boolean)
                           .join(" · ")}
@@ -255,7 +255,7 @@ export default function ModernTemplate({
                       </p>
                     )}
                     {(dateRange || entry.location) && (
-                      <p className="text-base text-gray-500">
+                      <p className="text-sm text-gray-500">
                         {[dateRange, entry.location]
                           .filter(Boolean)
                           .join(" · ")}
@@ -345,7 +345,7 @@ export default function ModernTemplate({
                   return (
                     <div key={entry.id}>
                       {dateRange && (
-                        <p className="text-base text-gray-500">{dateRange}</p>
+                        <p className="text-sm text-gray-500">{dateRange}</p>
                       )}
                       <p className="text-lg font-semibold">{entry.name}</p>
                     </div>
@@ -409,6 +409,7 @@ export default function ModernTemplate({
                             type="radio"
                             aria-label={level}
                             className="mask mask-star"
+                            style={color ? { backgroundColor: color } : undefined}
                             defaultChecked={index === levelIndex}
                           />
                         ))}
@@ -441,6 +442,7 @@ export default function ModernTemplate({
                           type="radio"
                           aria-label={level}
                           className="mask mask-star"
+                          style={color ? { backgroundColor: color } : undefined}
                           defaultChecked={index === levelIndex}
                         />
                       ))}
