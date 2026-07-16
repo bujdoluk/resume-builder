@@ -80,7 +80,7 @@ export default function ElegantPdfTemplate({
       alignSelf: "center",
       marginBottom: 10,
     },
-    name: { fontSize: s(18), fontWeight: "bold" },
+    name: { fontSize: s(22), fontWeight: "bold" },
     jobTitle: { fontSize: s(11), fontWeight: "bold", color: accentColor ?? GRAY_600, marginTop: 2, marginBottom: 8 },
     contactRow: { flexDirection: "row", flexWrap: "wrap", columnGap: 14, rowGap: 3, marginBottom: 4 },
     contactItem: { flexDirection: "row", alignItems: "center", gap: 4, fontSize: s(8.5), color: GRAY_500 },

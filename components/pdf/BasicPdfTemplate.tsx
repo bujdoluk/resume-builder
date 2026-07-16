@@ -77,7 +77,7 @@ export default function BasicPdfTemplate({
       fontSize: s(10),
       color: RESUME_TEXT_COLOR,
     },
-    name: { fontSize: s(22), fontWeight: "bold" },
+    name: { fontSize: s(26), fontWeight: "bold" },
     jobTitle: { fontSize: s(13), color: GRAY_600, marginTop: 2 },
     contactRow: {
       flexDirection: "row",

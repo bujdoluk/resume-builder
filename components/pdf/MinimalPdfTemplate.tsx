@@ -45,7 +45,7 @@ export default function MinimalPdfTemplate({
     page: { fontFamily, padding: 40, fontSize: s(10), color: RESUME_TEXT_COLOR },
     header: { alignItems: "center", textAlign: "center", marginBottom: 6 },
     photo: { width: 64, height: 64, borderRadius: 32, objectFit: "cover", marginBottom: 8 },
-    name: { fontSize: s(22), fontWeight: "bold", letterSpacing: 1 },
+    name: { fontSize: s(26), fontWeight: "bold", letterSpacing: 1 },
     // Mirrors the on-screen Minimal template exactly: the job title always
     // stays daisyUI's fixed theme purple — unlike the section title border
     // below, it never picks up the user's custom accent color.

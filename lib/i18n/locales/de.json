@@ -8,7 +8,9 @@
     "fontSize": "Schriftgröße",
     "fontSizeOptions": {
       "small": "Klein",
+      "smallMedium": "Klein-Mittel",
       "medium": "Mittel",
+      "mediumLarge": "Mittel-Groß",
       "large": "Groß"
     },
     "myResumes": "Meine Lebensläufe",

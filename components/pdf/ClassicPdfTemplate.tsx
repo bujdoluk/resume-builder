@@ -71,7 +71,7 @@ export default function ClassicPdfTemplate({
       padding: 32,
     },
     body: { padding: 32 },
-    name: { fontSize: s(22), fontWeight: "bold" },
+    name: { fontSize: s(26), fontWeight: "bold" },
     jobTitle: { fontSize: s(13), opacity: 0.8, marginTop: 2 },
     contactRow: {
       flexDirection: "row",

@@ -8,7 +8,9 @@
     "fontSize": "Rozmiar czcionki",
     "fontSizeOptions": {
       "small": "Mały",
+      "smallMedium": "Mały-średni",
       "medium": "Średni",
+      "mediumLarge": "Średni-duży",
       "large": "Duży"
     },
     "myResumes": "Moje CV",

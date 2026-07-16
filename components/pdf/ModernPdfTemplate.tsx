@@ -74,7 +74,7 @@ export default function ModernPdfTemplate({
       alignSelf: "center",
       marginBottom: 10,
     },
-    sidebarName: { fontSize: s(15), fontWeight: "bold", textAlign: "center" },
+    sidebarName: { fontSize: s(18), fontWeight: "bold", textAlign: "center" },
     sidebarJobTitle: { fontSize: s(9), opacity: 0.8, textAlign: "center", marginTop: 2, marginBottom: 10 },
     sidebarContactRow: { flexDirection: "row", alignItems: "center", gap: 5, fontSize: s(8), opacity: 0.8, marginTop: 4 },
     sidebarSectionHeader: { flexDirection: "row", alignItems: "center", gap: 5, marginTop: 12, marginBottom: 5, opacity: 0.7 },

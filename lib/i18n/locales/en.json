@@ -8,7 +8,9 @@
     "fontSize": "Font Size",
     "fontSizeOptions": {
       "small": "Small",
+      "smallMedium": "Small-Medium",
       "medium": "Medium",
+      "mediumLarge": "Medium-Large",
       "large": "Large"
     },
     "myResumes": "My Resumes",

@@ -1,23 +1,26 @@
 /**
- * The Sidebar's "Font Size" control (small/medium/large): computes a scale
- * ratio relative to the "medium" baseline and exposes it as a CSS custom
- * property (`--resume-font-scale`) that `app/globals.css`'s
- * `.resume-scalable` rules read to rescale only text-size utilities.
+ * The Sidebar's "Font Size" control (small/small-medium/medium/medium-large/
+ * large): computes a scale ratio relative to the "medium" baseline and
+ * exposes it as a CSS custom property (`--resume-font-scale`) that
+ * `app/globals.css`'s `.resume-scalable` rules read to rescale only
+ * text-size utilities.
  */
 import type { CSSProperties } from "react";
 
-export type FontSizeKey = "small" | "medium" | "large";
+export type FontSizeKey = "small" | "smallMedium" | "medium" | "mediumLarge" | "large";
 
 export interface FontSizeOption {
   key: FontSizeKey;
   px: number;
 }
 
-// First iteration: three fixed sizes. "medium" (24px) is the baseline that
-// matches the resume's existing, unscaled look.
+// Five fixed sizes, evenly spaced by 4px. "medium" (24px) is the baseline
+// that matches the resume's existing, unscaled look.
 export const fontSizeOptions: FontSizeOption[] = [
   { key: "small", px: 16 },
+  { key: "smallMedium", px: 20 },
   { key: "medium", px: 24 },
+  { key: "mediumLarge", px: 28 },
   { key: "large", px: 32 },
 ];
 

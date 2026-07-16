@@ -8,7 +8,9 @@
     "fontSize": "Textstorlek",
     "fontSizeOptions": {
       "small": "Liten",
+      "smallMedium": "Liten-medel",
       "medium": "Medel",
+      "mediumLarge": "Medel-stor",
       "large": "Stor"
     },
     "myResumes": "Mina CV:n",

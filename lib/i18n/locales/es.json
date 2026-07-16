@@ -8,7 +8,9 @@
     "fontSize": "Tamaño de texto",
     "fontSizeOptions": {
       "small": "Pequeño",
+      "smallMedium": "Pequeño-mediano",
       "medium": "Mediano",
+      "mediumLarge": "Mediano-grande",
       "large": "Grande"
     },
     "myResumes": "Mis currículums",

@@ -8,7 +8,9 @@
     "fontSize": "Velikost písma",
     "fontSizeOptions": {
       "small": "Malé",
+      "smallMedium": "Malé-střední",
       "medium": "Střední",
+      "mediumLarge": "Střední-velké",
       "large": "Velké"
     },
     "myResumes": "Moje životopisy",

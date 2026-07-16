@@ -8,7 +8,9 @@
     "fontSize": "Tekststørrelse",
     "fontSizeOptions": {
       "small": "Liten",
+      "smallMedium": "Liten-middels",
       "medium": "Middels",
+      "mediumLarge": "Middels-stor",
       "large": "Stor"
     },
     "myResumes": "Mine CV-er",

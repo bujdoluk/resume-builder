@@ -18,7 +18,7 @@ export default function FontSizeDropdown() {
     <NavbarDropdownButton
       icon={<span className="text-base font-semibold">A</span>}
       label={t("sidebar.fontSize")}
-      panelClassName="w-56"
+      panelClassName="w-80"
       align="start"
     >
       <div className="flex gap-2">
@@ -29,7 +29,7 @@ export default function FontSizeDropdown() {
             aria-label={t(`sidebar.fontSizeOptions.${option.key}`)}
             title={t(`sidebar.fontSizeOptions.${option.key}`)}
             onClick={() => setFontSize(option.key)}
-            className={`bg-base-200 flex h-11 flex-1 items-center justify-center rounded-md border border-black/10 font-semibold ${
+            className={`bg-base-200 flex h-12 flex-1 items-center justify-center rounded-md border border-black/10 font-semibold ${
               fontSize === option.key ? "ring-primary ring-2 ring-offset-1" : ""
             }`}
           >

@@ -571,7 +571,7 @@ export default function ElegantTemplate({
 
   const fieldContent: Partial<Record<FieldKey, React.ReactNode>> = {
     name: isVisible("name") && (
-      <h1 className="text-3xl font-bold">
+      <h1 className="text-4xl font-bold">
         {data.name || t("placeholders.yourName")}
       </h1>
     ),
