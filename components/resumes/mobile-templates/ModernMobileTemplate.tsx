@@ -975,33 +975,27 @@ export default function ModernMobileTemplate({
                   const levelIndex = languageLevels.indexOf(entry.level);
                   return (
                     <SortableBlock key={entry.id} id={entry.id}>
-                      <div className="flex flex-col gap-2 rounded-lg p-4">
-                        <div className="flex items-end gap-2">
-                          <fieldset className="fieldset flex-1">
-                            <input
-                              type="text"
-                              placeholder={t("placeholders.yourLanguage")}
-                              className="input w-full text-sm"
-                              value={entry.language}
-                              onChange={(e) =>
-                                handlers.updateLanguage(
-                                  entry.id,
-                                  "language",
-                                  e.target.value,
-                                )
-                              }
-                            />
-                          </fieldset>
-                          <RemoveButton
-                            label={t("aria.removeLanguage")}
-                            onClick={() => handlers.removeLanguage(entry.id)}
+                      <div className="flex items-center gap-2 rounded-lg p-4">
+                        <fieldset className="fieldset min-w-0 flex-1">
+                          <input
+                            type="text"
+                            placeholder={t("placeholders.yourLanguage")}
+                            className="input w-full text-sm"
+                            value={entry.language}
+                            onChange={(e) =>
+                              handlers.updateLanguage(
+                                entry.id,
+                                "language",
+                                e.target.value,
+                              )
+                            }
                           />
-                        </div>
+                        </fieldset>
                         <div
-                          className="flex items-center gap-2"
+                          className="flex shrink-0 items-center gap-2"
                           aria-label="Language proficiency level"
                         >
-                          <span className="w-[152px] shrink-0 text-xs whitespace-nowrap opacity-70">
+                          <span className="shrink-0 text-xs whitespace-nowrap opacity-70">
                             {entry.level}
                           </span>
                           <div className="rating shrink-0 pl-2">
@@ -1021,6 +1015,10 @@ export default function ModernMobileTemplate({
                             ))}
                           </div>
                         </div>
+                        <RemoveButton
+                          label={t("aria.removeLanguage")}
+                          onClick={() => handlers.removeLanguage(entry.id)}
+                        />
                       </div>
                     </SortableBlock>
                   );

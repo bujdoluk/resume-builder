@@ -608,11 +608,11 @@ export default function Resume({
 
     return {
       language: (
-        <fieldset className="fieldset">
+        <fieldset className="fieldset min-w-0">
           <input
             type="text"
             placeholder={t("placeholders.yourLanguage")}
-            className="input w-full"
+            className="input w-full min-w-0"
             value={entry.language}
             onChange={(e) =>
               updateLanguage(entry.id, "language", e.target.value)
@@ -621,30 +621,28 @@ export default function Resume({
         </fieldset>
       ),
       level: (
-        <fieldset className="fieldset">
-          <div
-            className="flex items-center"
-            aria-label="Language proficiency level"
-          >
-            <span className="w-[152px] shrink-0 text-xs whitespace-nowrap text-gray-500">
-              {entry.level}
-            </span>
-            <div className="rating shrink-0 pl-2">
-              {languageLevels.map((level, index) => (
-                <input
-                  key={level}
-                  type="radio"
-                  name={`canvas-language-level-${entry.id}`}
-                  aria-label={level}
-                  className="mask mask-star"
-                  style={color ? { backgroundColor: color } : undefined}
-                  checked={index === levelIndex}
-                  onChange={() => updateLanguage(entry.id, "level", level)}
-                />
-              ))}
-            </div>
+        <div
+          className="flex items-center py-1"
+          aria-label="Language proficiency level"
+        >
+          <span className="shrink-0 text-xs whitespace-nowrap text-gray-500">
+            {entry.level}
+          </span>
+          <div className="rating shrink-0 pl-2">
+            {languageLevels.map((level, index) => (
+              <input
+                key={level}
+                type="radio"
+                name={`canvas-language-level-${entry.id}`}
+                aria-label={level}
+                className="mask mask-star"
+                style={color ? { backgroundColor: color } : undefined}
+                checked={index === levelIndex}
+                onChange={() => updateLanguage(entry.id, "level", level)}
+              />
+            ))}
           </div>
-        </fieldset>
+        </div>
       ),
     };
   }
@@ -1042,11 +1040,17 @@ export default function Resume({
                       ids={languageFieldOrder}
                       onReorder={setLanguageFieldOrder}
                     >
-                      {languageFieldOrder.map((key) => (
-                        <SortableBlock key={key} id={key}>
-                          {fields[key]}
-                        </SortableBlock>
-                      ))}
+                      <div className="flex items-center gap-2">
+                        {languageFieldOrder.map((key) => (
+                          <SortableBlock
+                            key={key}
+                            id={key}
+                            className={key === "language" ? "min-w-0 flex-1" : "shrink-0"}
+                          >
+                            {fields[key]}
+                          </SortableBlock>
+                        ))}
+                      </div>
                     </SortableGroup>
                   </div>
                 </SortableBlock>

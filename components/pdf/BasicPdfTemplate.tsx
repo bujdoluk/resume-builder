@@ -290,12 +290,12 @@ export default function BasicPdfTemplate({
           >
             <Text style={[styles.bodyText, { fontWeight: "bold" }]}>{entry.language}</Text>
             <View style={{ flexDirection: "row", alignItems: "center", gap: 5 }}>
-              <Text style={{ fontSize: s(9), color: GRAY_500 }}>{entry.level}</Text>
+              <Text style={{ fontSize: s(10), color: GRAY_500 }}>{entry.level}</Text>
               <StarRatingPdfIcon
                 filled={languageLevels.indexOf(entry.level) + 1}
                 total={languageLevels.length}
-                size={s(8)}
-                color={DAISYUI_BASE_CONTENT}
+                size={s(10)}
+                color={accentColor ?? DAISYUI_BASE_CONTENT}
               />
             </View>
           </View>
