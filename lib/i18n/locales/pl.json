@@ -308,7 +308,7 @@
     "backToHome": "Powrót do strony głównej",
     "confirmEmailSent": "Wysłaliśmy link potwierdzający na Twój e-mail. Kliknij go, aby dokończyć tworzenie konta.",
     "errors": {
-      "invalidCredentials": "Nieprawidłowy e-mail lub hasło.",
+      "invalidCredentials": "Nieprawidłowy e-mail lub hasło. Nie masz konta? Zarejestruj się poniżej.",
       "emailInUse": "Konto z tym adresem e-mail już istnieje. Spróbuj się zalogować.",
       "weakPassword": "Hasło musi mieć co najmniej 6 znaków.",
       "generic": "Coś poszło nie tak. Spróbuj ponownie.",

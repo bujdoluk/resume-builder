@@ -308,7 +308,7 @@
     "backToHome": "Tillbaka till startsidan",
     "confirmEmailSent": "Vi har skickat en bekräftelselänk till din e-post. Klicka på den för att slutföra kontoskapandet.",
     "errors": {
-      "invalidCredentials": "Fel e-post eller lösenord.",
+      "invalidCredentials": "Fel e-post eller lösenord. Ny här? Registrera dig nedan.",
       "emailInUse": "Det finns redan ett konto med den här e-postadressen. Prova att logga in istället.",
       "weakPassword": "Lösenordet måste vara minst 6 tecken långt.",
       "generic": "Något gick fel. Försök igen.",

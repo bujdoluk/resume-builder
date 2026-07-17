@@ -308,7 +308,7 @@
     "backToHome": "Tilbake til forsiden",
     "confirmEmailSent": "Vi har sendt deg en bekreftelseslenke på e-post. Klikk på den for å fullføre opprettelsen av kontoen.",
     "errors": {
-      "invalidCredentials": "Feil e-post eller passord.",
+      "invalidCredentials": "Feil e-post eller passord. Ny her? Registrer deg nedenfor.",
       "emailInUse": "Det finnes allerede en konto med denne e-postadressen. Prøv å logge inn i stedet.",
       "weakPassword": "Passordet må være minst 6 tegn langt.",
       "generic": "Noe gikk galt. Prøv igjen.",

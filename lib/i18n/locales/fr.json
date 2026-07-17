@@ -308,7 +308,7 @@
     "backToHome": "Retour à l'accueil",
     "confirmEmailSent": "Nous avons envoyé un lien de confirmation à votre adresse e-mail. Cliquez dessus pour terminer la création de votre compte.",
     "errors": {
-      "invalidCredentials": "E-mail ou mot de passe incorrect.",
+      "invalidCredentials": "E-mail ou mot de passe incorrect. Nouveau ici ? Inscrivez-vous ci-dessous.",
       "emailInUse": "Un compte avec cet e-mail existe déjà. Essayez plutôt de vous connecter.",
       "weakPassword": "Le mot de passe doit contenir au moins 6 caractères.",
       "generic": "Une erreur est survenue. Veuillez réessayer.",

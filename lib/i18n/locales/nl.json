@@ -308,7 +308,7 @@
     "backToHome": "Terug naar home",
     "confirmEmailSent": "We hebben een bevestigingslink naar je e-mail gestuurd. Klik erop om je account aan te maken.",
     "errors": {
-      "invalidCredentials": "Onjuiste e-mail of wachtwoord.",
+      "invalidCredentials": "Onjuiste e-mail of wachtwoord. Nog geen account? Registreer je hieronder.",
       "emailInUse": "Er bestaat al een account met dit e-mailadres. Probeer in te loggen.",
       "weakPassword": "Het wachtwoord moet minstens 6 tekens lang zijn.",
       "generic": "Er is iets misgegaan. Probeer het opnieuw.",

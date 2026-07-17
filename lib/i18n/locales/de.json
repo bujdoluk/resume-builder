@@ -308,7 +308,7 @@
     "backToHome": "Zurück zur Startseite",
     "confirmEmailSent": "Wir haben dir einen Bestätigungslink per E-Mail geschickt. Klicke darauf, um die Kontoerstellung abzuschließen.",
     "errors": {
-      "invalidCredentials": "Falsche E-Mail-Adresse oder falsches Passwort.",
+      "invalidCredentials": "Falsche E-Mail-Adresse oder falsches Passwort. Noch kein Konto? Registriere dich unten.",
       "emailInUse": "Ein Konto mit dieser E-Mail-Adresse existiert bereits. Versuche es stattdessen mit der Anmeldung.",
       "weakPassword": "Das Passwort muss mindestens 6 Zeichen lang sein.",
       "generic": "Etwas ist schiefgelaufen. Bitte versuche es erneut.",

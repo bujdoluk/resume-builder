@@ -308,7 +308,7 @@
     "backToHome": "Torna alla home",
     "confirmEmailSent": "Ti abbiamo inviato un link di conferma via email. Cliccalo per completare la creazione dell'account.",
     "errors": {
-      "invalidCredentials": "Email o password non corretti.",
+      "invalidCredentials": "Email o password non corretti. Non hai un account? Registrati qui sotto.",
       "emailInUse": "Esiste già un account con questa email. Prova invece ad accedere.",
       "weakPassword": "La password deve contenere almeno 6 caratteri.",
       "generic": "Qualcosa è andato storto. Riprova.",

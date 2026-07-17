@@ -308,7 +308,7 @@
     "backToHome": "Späť na domovskú stránku",
     "confirmEmailSent": "Na váš e-mail sme odoslali potvrdzovací odkaz. Kliknutím naň dokončíte vytvorenie účtu.",
     "errors": {
-      "invalidCredentials": "Nesprávny e-mail alebo heslo.",
+      "invalidCredentials": "Nesprávny e-mail alebo heslo. Nemáte účet? Zaregistrujte sa nižšie.",
       "emailInUse": "Účet s týmto e-mailom už existuje. Skúste sa radšej prihlásiť.",
       "weakPassword": "Heslo musí mať aspoň 6 znakov.",
       "generic": "Niečo sa pokazilo. Skúste to znova.",
