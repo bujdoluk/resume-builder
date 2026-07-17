@@ -111,7 +111,8 @@
     "previousTestimonial": "Depoimento anterior",
     "nextTestimonial": "Próximo depoimento",
     "selectAll": "Selecionar tudo",
-    "selectRow": "Selecionar {{name}}"
+    "selectRow": "Selecionar {{name}}",
+    "accountMenu": "Menu da conta"
   },
   "templates": {
     "basic": "Básico",
@@ -287,5 +288,31 @@
   },
   "footer": {
     "copyright": "© {{year}} QuickResumeBuilder.com"
+  },
+  "auth": {
+    "navLogin": "Iniciar sessão",
+    "navLogout": "Terminar sessão",
+    "loginTitle": "Bem-vindo de volta",
+    "signupTitle": "Crie a sua conta",
+    "loginSubtitle": "Inicie sessão para aceder aos seus currículos e cartas de apresentação guardados.",
+    "signupSubtitle": "Guarde o seu progresso e continue onde ficou em qualquer dispositivo.",
+    "emailLabel": "E-mail",
+    "passwordLabel": "Palavra-passe",
+    "loginSubmit": "Iniciar sessão",
+    "signupSubmit": "Criar conta",
+    "submitting": "Aguarde, por favor…",
+    "googleContinue": "Continuar com o Google",
+    "orDivider": "ou",
+    "switchToSignup": "Ainda não tem conta? <switchLink>Registe-se</switchLink>",
+    "switchToLogin": "Já tem conta? <switchLink>Inicie sessão</switchLink>",
+    "backToHome": "Voltar ao início",
+    "confirmEmailSent": "Enviámos-lhe um link de confirmação para o seu e-mail. Clique nele para concluir a criação da conta.",
+    "errors": {
+      "invalidCredentials": "E-mail ou palavra-passe incorretos.",
+      "emailInUse": "Já existe uma conta com este e-mail. Experimente iniciar sessão.",
+      "weakPassword": "A palavra-passe deve ter pelo menos 6 caracteres.",
+      "generic": "Ocorreu um erro. Tente novamente.",
+      "oauth": "Não foi possível iniciar sessão com o Google. Tente novamente."
+    }
   }
 }

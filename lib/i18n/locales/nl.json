@@ -111,7 +111,8 @@
     "previousTestimonial": "Vorige testimonial",
     "nextTestimonial": "Volgende testimonial",
     "selectAll": "Alles selecteren",
-    "selectRow": "{{name}} selecteren"
+    "selectRow": "{{name}} selecteren",
+    "accountMenu": "Accountmenu"
   },
   "templates": {
     "basic": "Basis",
@@ -287,5 +288,31 @@
   },
   "footer": {
     "copyright": "© {{year}} QuickResumeBuilder.com"
+  },
+  "auth": {
+    "navLogin": "Inloggen",
+    "navLogout": "Uitloggen",
+    "loginTitle": "Welkom terug",
+    "signupTitle": "Maak je account aan",
+    "loginSubtitle": "Log in om toegang te krijgen tot je opgeslagen cv's en motivatiebrieven.",
+    "signupSubtitle": "Sla je voortgang op en ga op elk apparaat verder waar je gebleven was.",
+    "emailLabel": "E-mail",
+    "passwordLabel": "Wachtwoord",
+    "loginSubmit": "Inloggen",
+    "signupSubmit": "Account aanmaken",
+    "submitting": "Even geduld…",
+    "googleContinue": "Doorgaan met Google",
+    "orDivider": "of",
+    "switchToSignup": "Heb je nog geen account? <switchLink>Registreren</switchLink>",
+    "switchToLogin": "Heb je al een account? <switchLink>Inloggen</switchLink>",
+    "backToHome": "Terug naar home",
+    "confirmEmailSent": "We hebben een bevestigingslink naar je e-mail gestuurd. Klik erop om je account aan te maken.",
+    "errors": {
+      "invalidCredentials": "Onjuiste e-mail of wachtwoord.",
+      "emailInUse": "Er bestaat al een account met dit e-mailadres. Probeer in te loggen.",
+      "weakPassword": "Het wachtwoord moet minstens 6 tekens lang zijn.",
+      "generic": "Er is iets misgegaan. Probeer het opnieuw.",
+      "oauth": "Inloggen met Google is mislukt. Probeer het opnieuw."
+    }
   }
 }

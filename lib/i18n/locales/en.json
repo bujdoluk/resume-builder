@@ -111,7 +111,8 @@
     "previousTestimonial": "Previous testimonial",
     "nextTestimonial": "Next testimonial",
     "selectAll": "Select all",
-    "selectRow": "Select {{name}}"
+    "selectRow": "Select {{name}}",
+    "accountMenu": "Account menu"
   },
   "templates": {
     "basic": "Basic",
@@ -287,5 +288,31 @@
   },
   "footer": {
     "copyright": "© {{year}} QuickResumeBuilder.com"
+  },
+  "auth": {
+    "navLogin": "Log In",
+    "navLogout": "Log out",
+    "loginTitle": "Welcome back",
+    "signupTitle": "Create your account",
+    "loginSubtitle": "Log in to access your saved resumes and cover letters.",
+    "signupSubtitle": "Save your progress and pick up where you left off on any device.",
+    "emailLabel": "Email",
+    "passwordLabel": "Password",
+    "loginSubmit": "Log in",
+    "signupSubmit": "Create account",
+    "submitting": "Please wait…",
+    "googleContinue": "Continue with Google",
+    "orDivider": "or",
+    "switchToSignup": "Don't have an account? <switchLink>Sign up</switchLink>",
+    "switchToLogin": "Already have an account? <switchLink>Log in</switchLink>",
+    "backToHome": "Back to home",
+    "confirmEmailSent": "We've sent a confirmation link to your email. Click it to finish creating your account.",
+    "errors": {
+      "invalidCredentials": "Incorrect email or password.",
+      "emailInUse": "An account with this email already exists. Try logging in instead.",
+      "weakPassword": "Password must be at least 6 characters.",
+      "generic": "Something went wrong. Please try again.",
+      "oauth": "Google sign-in failed. Please try again."
+    }
   }
 }

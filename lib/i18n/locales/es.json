@@ -111,7 +111,8 @@
     "previousTestimonial": "Testimonio anterior",
     "nextTestimonial": "Siguiente testimonio",
     "selectAll": "Seleccionar todo",
-    "selectRow": "Seleccionar {{name}}"
+    "selectRow": "Seleccionar {{name}}",
+    "accountMenu": "Menú de cuenta"
   },
   "templates": {
     "basic": "Básico",
@@ -287,5 +288,31 @@
   },
   "footer": {
     "copyright": "© {{year}} QuickResumeBuilder.com"
+  },
+  "auth": {
+    "navLogin": "Iniciar sesión",
+    "navLogout": "Cerrar sesión",
+    "loginTitle": "Bienvenido de nuevo",
+    "signupTitle": "Crea tu cuenta",
+    "loginSubtitle": "Inicia sesión para acceder a tus currículums y cartas de presentación guardados.",
+    "signupSubtitle": "Guarda tu progreso y continúa donde lo dejaste en cualquier dispositivo.",
+    "emailLabel": "Correo electrónico",
+    "passwordLabel": "Contraseña",
+    "loginSubmit": "Iniciar sesión",
+    "signupSubmit": "Crear cuenta",
+    "submitting": "Espera, por favor…",
+    "googleContinue": "Continuar con Google",
+    "orDivider": "o",
+    "switchToSignup": "¿No tienes cuenta? <switchLink>Regístrate</switchLink>",
+    "switchToLogin": "¿Ya tienes cuenta? <switchLink>Inicia sesión</switchLink>",
+    "backToHome": "Volver al inicio",
+    "confirmEmailSent": "Te hemos enviado un enlace de confirmación a tu correo electrónico. Haz clic en él para terminar de crear tu cuenta.",
+    "errors": {
+      "invalidCredentials": "Correo electrónico o contraseña incorrectos.",
+      "emailInUse": "Ya existe una cuenta con este correo electrónico. Prueba a iniciar sesión.",
+      "weakPassword": "La contraseña debe tener al menos 6 caracteres.",
+      "generic": "Algo salió mal. Inténtalo de nuevo.",
+      "oauth": "No se pudo iniciar sesión con Google. Inténtalo de nuevo."
+    }
   }
 }

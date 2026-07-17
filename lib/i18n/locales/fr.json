@@ -111,7 +111,8 @@
     "previousTestimonial": "Témoignage précédent",
     "nextTestimonial": "Témoignage suivant",
     "selectAll": "Tout sélectionner",
-    "selectRow": "Sélectionner {{name}}"
+    "selectRow": "Sélectionner {{name}}",
+    "accountMenu": "Menu du compte"
   },
   "templates": {
     "basic": "Basique",
@@ -287,5 +288,31 @@
   },
   "footer": {
     "copyright": "© {{year}} QuickResumeBuilder.com"
+  },
+  "auth": {
+    "navLogin": "Se connecter",
+    "navLogout": "Se déconnecter",
+    "loginTitle": "Content de vous revoir",
+    "signupTitle": "Créez votre compte",
+    "loginSubtitle": "Connectez-vous pour accéder à vos CV et lettres de motivation enregistrés.",
+    "signupSubtitle": "Enregistrez votre progression et reprenez où vous en étiez sur n'importe quel appareil.",
+    "emailLabel": "E-mail",
+    "passwordLabel": "Mot de passe",
+    "loginSubmit": "Se connecter",
+    "signupSubmit": "Créer un compte",
+    "submitting": "Veuillez patienter…",
+    "googleContinue": "Continuer avec Google",
+    "orDivider": "ou",
+    "switchToSignup": "Vous n'avez pas de compte ? <switchLink>Inscrivez-vous</switchLink>",
+    "switchToLogin": "Vous avez déjà un compte ? <switchLink>Connectez-vous</switchLink>",
+    "backToHome": "Retour à l'accueil",
+    "confirmEmailSent": "Nous avons envoyé un lien de confirmation à votre adresse e-mail. Cliquez dessus pour terminer la création de votre compte.",
+    "errors": {
+      "invalidCredentials": "E-mail ou mot de passe incorrect.",
+      "emailInUse": "Un compte avec cet e-mail existe déjà. Essayez plutôt de vous connecter.",
+      "weakPassword": "Le mot de passe doit contenir au moins 6 caractères.",
+      "generic": "Une erreur est survenue. Veuillez réessayer.",
+      "oauth": "La connexion avec Google a échoué. Veuillez réessayer."
+    }
   }
 }

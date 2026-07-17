@@ -111,7 +111,8 @@
     "previousTestimonial": "Forrige omtale",
     "nextTestimonial": "Neste omtale",
     "selectAll": "Velg alle",
-    "selectRow": "Velg {{name}}"
+    "selectRow": "Velg {{name}}",
+    "accountMenu": "Kontomeny"
   },
   "templates": {
     "basic": "Enkel",
@@ -287,5 +288,31 @@
   },
   "footer": {
     "copyright": "© {{year}} QuickResumeBuilder.com"
+  },
+  "auth": {
+    "navLogin": "Logg inn",
+    "navLogout": "Logg ut",
+    "loginTitle": "Velkommen tilbake",
+    "signupTitle": "Opprett kontoen din",
+    "loginSubtitle": "Logg inn for å få tilgang til lagrede CV-er og søknadsbrev.",
+    "signupSubtitle": "Lagre fremgangen din og fortsett der du slapp, på hvilken som helst enhet.",
+    "emailLabel": "E-post",
+    "passwordLabel": "Passord",
+    "loginSubmit": "Logg inn",
+    "signupSubmit": "Opprett konto",
+    "submitting": "Vennligst vent…",
+    "googleContinue": "Fortsett med Google",
+    "orDivider": "eller",
+    "switchToSignup": "Har du ikke en konto? <switchLink>Registrer deg</switchLink>",
+    "switchToLogin": "Har du allerede en konto? <switchLink>Logg inn</switchLink>",
+    "backToHome": "Tilbake til forsiden",
+    "confirmEmailSent": "Vi har sendt deg en bekreftelseslenke på e-post. Klikk på den for å fullføre opprettelsen av kontoen.",
+    "errors": {
+      "invalidCredentials": "Feil e-post eller passord.",
+      "emailInUse": "Det finnes allerede en konto med denne e-postadressen. Prøv å logge inn i stedet.",
+      "weakPassword": "Passordet må være minst 6 tegn langt.",
+      "generic": "Noe gikk galt. Prøv igjen.",
+      "oauth": "Innlogging med Google mislyktes. Prøv igjen."
+    }
   }
 }

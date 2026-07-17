@@ -111,7 +111,8 @@
     "previousTestimonial": "Предыдущий отзыв",
     "nextTestimonial": "Следующий отзыв",
     "selectAll": "Выбрать всё",
-    "selectRow": "Выбрать {{name}}"
+    "selectRow": "Выбрать {{name}}",
+    "accountMenu": "Меню аккаунта"
   },
   "templates": {
     "basic": "Базовый",
@@ -287,5 +288,31 @@
   },
   "footer": {
     "copyright": "© {{year}} QuickResumeBuilder.com"
+  },
+  "auth": {
+    "navLogin": "Войти",
+    "navLogout": "Выйти",
+    "loginTitle": "С возвращением",
+    "signupTitle": "Создайте аккаунт",
+    "loginSubtitle": "Войдите, чтобы получить доступ к сохранённым резюме и сопроводительным письмам.",
+    "signupSubtitle": "Сохраняйте прогресс и продолжайте с любого устройства.",
+    "emailLabel": "Email",
+    "passwordLabel": "Пароль",
+    "loginSubmit": "Войти",
+    "signupSubmit": "Создать аккаунт",
+    "submitting": "Пожалуйста, подождите…",
+    "googleContinue": "Продолжить через Google",
+    "orDivider": "или",
+    "switchToSignup": "Нет аккаунта? <switchLink>Зарегистрируйтесь</switchLink>",
+    "switchToLogin": "Уже есть аккаунт? <switchLink>Войдите</switchLink>",
+    "backToHome": "На главную",
+    "confirmEmailSent": "Мы отправили ссылку для подтверждения на вашу почту. Перейдите по ней, чтобы завершить создание аккаунта.",
+    "errors": {
+      "invalidCredentials": "Неверный email или пароль.",
+      "emailInUse": "Аккаунт с таким email уже существует. Попробуйте войти.",
+      "weakPassword": "Пароль должен содержать не менее 6 символов.",
+      "generic": "Что-то пошло не так. Попробуйте ещё раз.",
+      "oauth": "Не удалось войти через Google. Попробуйте ещё раз."
+    }
   }
 }

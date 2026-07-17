@@ -111,7 +111,8 @@
     "previousTestimonial": "Poprzednia opinia",
     "nextTestimonial": "Następna opinia",
     "selectAll": "Zaznacz wszystko",
-    "selectRow": "Zaznacz {{name}}"
+    "selectRow": "Zaznacz {{name}}",
+    "accountMenu": "Menu konta"
   },
   "templates": {
     "basic": "Podstawowy",
@@ -287,5 +288,31 @@
   },
   "footer": {
     "copyright": "© {{year}} QuickResumeBuilder.com"
+  },
+  "auth": {
+    "navLogin": "Zaloguj się",
+    "navLogout": "Wyloguj się",
+    "loginTitle": "Witaj ponownie",
+    "signupTitle": "Utwórz konto",
+    "loginSubtitle": "Zaloguj się, aby uzyskać dostęp do zapisanych CV i listów motywacyjnych.",
+    "signupSubtitle": "Zapisz swój postęp i kontynuuj tam, gdzie skończyłeś, na dowolnym urządzeniu.",
+    "emailLabel": "E-mail",
+    "passwordLabel": "Hasło",
+    "loginSubmit": "Zaloguj się",
+    "signupSubmit": "Utwórz konto",
+    "submitting": "Proszę czekać…",
+    "googleContinue": "Kontynuuj z Google",
+    "orDivider": "lub",
+    "switchToSignup": "Nie masz konta? <switchLink>Zarejestruj się</switchLink>",
+    "switchToLogin": "Masz już konto? <switchLink>Zaloguj się</switchLink>",
+    "backToHome": "Powrót do strony głównej",
+    "confirmEmailSent": "Wysłaliśmy link potwierdzający na Twój e-mail. Kliknij go, aby dokończyć tworzenie konta.",
+    "errors": {
+      "invalidCredentials": "Nieprawidłowy e-mail lub hasło.",
+      "emailInUse": "Konto z tym adresem e-mail już istnieje. Spróbuj się zalogować.",
+      "weakPassword": "Hasło musi mieć co najmniej 6 znaków.",
+      "generic": "Coś poszło nie tak. Spróbuj ponownie.",
+      "oauth": "Logowanie przez Google nie powiodło się. Spróbuj ponownie."
+    }
   }
 }

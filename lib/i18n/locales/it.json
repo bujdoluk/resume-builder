@@ -111,7 +111,8 @@
     "previousTestimonial": "Testimonianza precedente",
     "nextTestimonial": "Testimonianza successiva",
     "selectAll": "Seleziona tutto",
-    "selectRow": "Seleziona {{name}}"
+    "selectRow": "Seleziona {{name}}",
+    "accountMenu": "Menu account"
   },
   "templates": {
     "basic": "Base",
@@ -287,5 +288,31 @@
   },
   "footer": {
     "copyright": "© {{year}} QuickResumeBuilder.com"
+  },
+  "auth": {
+    "navLogin": "Accedi",
+    "navLogout": "Esci",
+    "loginTitle": "Bentornato",
+    "signupTitle": "Crea il tuo account",
+    "loginSubtitle": "Accedi per visualizzare i tuoi curriculum e le lettere di presentazione salvati.",
+    "signupSubtitle": "Salva i tuoi progressi e riprendi da dove hai lasciato su qualsiasi dispositivo.",
+    "emailLabel": "Email",
+    "passwordLabel": "Password",
+    "loginSubmit": "Accedi",
+    "signupSubmit": "Crea account",
+    "submitting": "Attendere prego…",
+    "googleContinue": "Continua con Google",
+    "orDivider": "oppure",
+    "switchToSignup": "Non hai un account? <switchLink>Registrati</switchLink>",
+    "switchToLogin": "Hai già un account? <switchLink>Accedi</switchLink>",
+    "backToHome": "Torna alla home",
+    "confirmEmailSent": "Ti abbiamo inviato un link di conferma via email. Cliccalo per completare la creazione dell'account.",
+    "errors": {
+      "invalidCredentials": "Email o password non corretti.",
+      "emailInUse": "Esiste già un account con questa email. Prova invece ad accedere.",
+      "weakPassword": "La password deve contenere almeno 6 caratteri.",
+      "generic": "Qualcosa è andato storto. Riprova.",
+      "oauth": "Accesso con Google non riuscito. Riprova."
+    }
   }
 }

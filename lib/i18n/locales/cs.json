@@ -111,7 +111,8 @@
     "previousTestimonial": "Předchozí reference",
     "nextTestimonial": "Další reference",
     "selectAll": "Vybrat vše",
-    "selectRow": "Vybrat {{name}}"
+    "selectRow": "Vybrat {{name}}",
+    "accountMenu": "Nabídka účtu"
   },
   "templates": {
     "basic": "Základní",
@@ -287,5 +288,31 @@
   },
   "footer": {
     "copyright": "© {{year}} QuickResumeBuilder.com"
+  },
+  "auth": {
+    "navLogin": "Přihlásit se",
+    "navLogout": "Odhlásit se",
+    "loginTitle": "Vítejte zpět",
+    "signupTitle": "Vytvořte si účet",
+    "loginSubtitle": "Přihlaste se a získejte přístup ke svým uloženým životopisům a motivačním dopisům.",
+    "signupSubtitle": "Uložte si postup a pokračujte tam, kde jste skončili, na jakémkoli zařízení.",
+    "emailLabel": "E-mail",
+    "passwordLabel": "Heslo",
+    "loginSubmit": "Přihlásit se",
+    "signupSubmit": "Vytvořit účet",
+    "submitting": "Čekejte prosím…",
+    "googleContinue": "Pokračovat přes Google",
+    "orDivider": "nebo",
+    "switchToSignup": "Nemáte účet? <switchLink>Zaregistrujte se</switchLink>",
+    "switchToLogin": "Už máte účet? <switchLink>Přihlaste se</switchLink>",
+    "backToHome": "Zpět na hlavní stránku",
+    "confirmEmailSent": "Na váš e-mail jsme odeslali potvrzovací odkaz. Kliknutím na něj dokončíte vytvoření účtu.",
+    "errors": {
+      "invalidCredentials": "Nesprávný e-mail nebo heslo.",
+      "emailInUse": "Účet s tímto e-mailem už existuje. Zkuste se raději přihlásit.",
+      "weakPassword": "Heslo musí mít alespoň 6 znaků.",
+      "generic": "Něco se pokazilo. Zkuste to znovu.",
+      "oauth": "Přihlášení přes Google se nezdařilo. Zkuste to znovu."
+    }
   }
 }

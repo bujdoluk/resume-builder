@@ -111,7 +111,8 @@
     "previousTestimonial": "Vorheriges Testimonial",
     "nextTestimonial": "Nächstes Testimonial",
     "selectAll": "Alle auswählen",
-    "selectRow": "{{name}} auswählen"
+    "selectRow": "{{name}} auswählen",
+    "accountMenu": "Kontomenü"
   },
   "templates": {
     "basic": "Einfach",
@@ -287,5 +288,31 @@
   },
   "footer": {
     "copyright": "© {{year}} QuickResumeBuilder.com"
+  },
+  "auth": {
+    "navLogin": "Anmelden",
+    "navLogout": "Abmelden",
+    "loginTitle": "Willkommen zurück",
+    "signupTitle": "Konto erstellen",
+    "loginSubtitle": "Melde dich an, um auf deine gespeicherten Lebensläufe und Anschreiben zuzugreifen.",
+    "signupSubtitle": "Speichere deinen Fortschritt und mach auf jedem Gerät weiter, wo du aufgehört hast.",
+    "emailLabel": "E-Mail",
+    "passwordLabel": "Passwort",
+    "loginSubmit": "Anmelden",
+    "signupSubmit": "Konto erstellen",
+    "submitting": "Bitte warten…",
+    "googleContinue": "Mit Google fortfahren",
+    "orDivider": "oder",
+    "switchToSignup": "Noch kein Konto? <switchLink>Registrieren</switchLink>",
+    "switchToLogin": "Schon ein Konto? <switchLink>Anmelden</switchLink>",
+    "backToHome": "Zurück zur Startseite",
+    "confirmEmailSent": "Wir haben dir einen Bestätigungslink per E-Mail geschickt. Klicke darauf, um die Kontoerstellung abzuschließen.",
+    "errors": {
+      "invalidCredentials": "Falsche E-Mail-Adresse oder falsches Passwort.",
+      "emailInUse": "Ein Konto mit dieser E-Mail-Adresse existiert bereits. Versuche es stattdessen mit der Anmeldung.",
+      "weakPassword": "Das Passwort muss mindestens 6 Zeichen lang sein.",
+      "generic": "Etwas ist schiefgelaufen. Bitte versuche es erneut.",
+      "oauth": "Die Anmeldung mit Google ist fehlgeschlagen. Bitte versuche es erneut."
+    }
   }
 }

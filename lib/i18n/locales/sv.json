@@ -111,7 +111,8 @@
     "previousTestimonial": "Föregående omdöme",
     "nextTestimonial": "Nästa omdöme",
     "selectAll": "Markera alla",
-    "selectRow": "Markera {{name}}"
+    "selectRow": "Markera {{name}}",
+    "accountMenu": "Kontomeny"
   },
   "templates": {
     "basic": "Enkel",
@@ -287,5 +288,31 @@
   },
   "footer": {
     "copyright": "© {{year}} QuickResumeBuilder.com"
+  },
+  "auth": {
+    "navLogin": "Logga in",
+    "navLogout": "Logga ut",
+    "loginTitle": "Välkommen tillbaka",
+    "signupTitle": "Skapa ditt konto",
+    "loginSubtitle": "Logga in för att komma åt dina sparade CV:n och personliga brev.",
+    "signupSubtitle": "Spara ditt förlopp och fortsätt där du slutade på vilken enhet som helst.",
+    "emailLabel": "E-post",
+    "passwordLabel": "Lösenord",
+    "loginSubmit": "Logga in",
+    "signupSubmit": "Skapa konto",
+    "submitting": "Vänligen vänta…",
+    "googleContinue": "Fortsätt med Google",
+    "orDivider": "eller",
+    "switchToSignup": "Har du inget konto? <switchLink>Registrera dig</switchLink>",
+    "switchToLogin": "Har du redan ett konto? <switchLink>Logga in</switchLink>",
+    "backToHome": "Tillbaka till startsidan",
+    "confirmEmailSent": "Vi har skickat en bekräftelselänk till din e-post. Klicka på den för att slutföra kontoskapandet.",
+    "errors": {
+      "invalidCredentials": "Fel e-post eller lösenord.",
+      "emailInUse": "Det finns redan ett konto med den här e-postadressen. Prova att logga in istället.",
+      "weakPassword": "Lösenordet måste vara minst 6 tecken långt.",
+      "generic": "Något gick fel. Försök igen.",
+      "oauth": "Inloggning med Google misslyckades. Försök igen."
+    }
   }
 }
