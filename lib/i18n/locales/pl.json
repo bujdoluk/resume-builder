@@ -112,7 +112,9 @@
     "nextTestimonial": "Następna opinia",
     "selectAll": "Zaznacz wszystko",
     "selectRow": "Zaznacz {{name}}",
-    "accountMenu": "Menu konta"
+    "accountMenu": "Menu konta",
+    "showPassword": "Pokaż hasło",
+    "hidePassword": "Ukryj hasło"
   },
   "templates": {
     "basic": "Podstawowy",
@@ -292,7 +294,7 @@
   "auth": {
     "navLogin": "Zaloguj się",
     "navLogout": "Wyloguj się",
-    "loginTitle": "Witaj ponownie",
+    "loginTitle": "Zaloguj się",
     "signupTitle": "Utwórz konto",
     "loginSubtitle": "Zaloguj się, aby uzyskać dostęp do zapisanych CV i listów motywacyjnych.",
     "signupSubtitle": "Zapisz swój postęp i kontynuuj tam, gdzie skończyłeś, na dowolnym urządzeniu.",

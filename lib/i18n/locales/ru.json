@@ -112,7 +112,9 @@
     "nextTestimonial": "Следующий отзыв",
     "selectAll": "Выбрать всё",
     "selectRow": "Выбрать {{name}}",
-    "accountMenu": "Меню аккаунта"
+    "accountMenu": "Меню аккаунта",
+    "showPassword": "Показать пароль",
+    "hidePassword": "Скрыть пароль"
   },
   "templates": {
     "basic": "Базовый",
@@ -292,7 +294,7 @@
   "auth": {
     "navLogin": "Войти",
     "navLogout": "Выйти",
-    "loginTitle": "С возвращением",
+    "loginTitle": "Войти",
     "signupTitle": "Создайте аккаунт",
     "loginSubtitle": "Войдите, чтобы получить доступ к сохранённым резюме и сопроводительным письмам.",
     "signupSubtitle": "Сохраняйте прогресс и продолжайте с любого устройства.",

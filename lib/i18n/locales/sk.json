@@ -112,7 +112,9 @@
     "nextTestimonial": "Ďalšia referencia",
     "selectAll": "Vybrať všetko",
     "selectRow": "Vybrať {{name}}",
-    "accountMenu": "Ponuka účtu"
+    "accountMenu": "Ponuka účtu",
+    "showPassword": "Zobraziť heslo",
+    "hidePassword": "Skryť heslo"
   },
   "templates": {
     "basic": "Základný",
@@ -292,7 +294,7 @@
   "auth": {
     "navLogin": "Prihlásiť sa",
     "navLogout": "Odhlásiť sa",
-    "loginTitle": "Vitajte späť",
+    "loginTitle": "Prihlásiť sa",
     "signupTitle": "Vytvorte si účet",
     "loginSubtitle": "Prihláste sa a získajte prístup k svojim uloženým životopisom a motivačným listom.",
     "signupSubtitle": "Uložte si postup a pokračujte tam, kde ste skončili, na akomkoľvek zariadení.",

@@ -112,7 +112,9 @@
     "nextTestimonial": "Neste omtale",
     "selectAll": "Velg alle",
     "selectRow": "Velg {{name}}",
-    "accountMenu": "Kontomeny"
+    "accountMenu": "Kontomeny",
+    "showPassword": "Vis passord",
+    "hidePassword": "Skjul passord"
   },
   "templates": {
     "basic": "Enkel",
@@ -292,7 +294,7 @@
   "auth": {
     "navLogin": "Logg inn",
     "navLogout": "Logg ut",
-    "loginTitle": "Velkommen tilbake",
+    "loginTitle": "Logg inn",
     "signupTitle": "Opprett kontoen din",
     "loginSubtitle": "Logg inn for å få tilgang til lagrede CV-er og søknadsbrev.",
     "signupSubtitle": "Lagre fremgangen din og fortsett der du slapp, på hvilken som helst enhet.",

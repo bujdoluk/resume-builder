@@ -112,7 +112,9 @@
     "nextTestimonial": "Testimonianza successiva",
     "selectAll": "Seleziona tutto",
     "selectRow": "Seleziona {{name}}",
-    "accountMenu": "Menu account"
+    "accountMenu": "Menu account",
+    "showPassword": "Mostra password",
+    "hidePassword": "Nascondi password"
   },
   "templates": {
     "basic": "Base",
@@ -292,7 +294,7 @@
   "auth": {
     "navLogin": "Accedi",
     "navLogout": "Esci",
-    "loginTitle": "Bentornato",
+    "loginTitle": "Accedi",
     "signupTitle": "Crea il tuo account",
     "loginSubtitle": "Accedi per visualizzare i tuoi curriculum e le lettere di presentazione salvati.",
     "signupSubtitle": "Salva i tuoi progressi e riprendi da dove hai lasciato su qualsiasi dispositivo.",

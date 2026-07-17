@@ -134,7 +134,11 @@
       "Bash(nslookup -type=TXT send.lukasbujdos.com)",
       "Bash(nslookup -type=MX send.lukasbujdos.com)",
       "Bash(node check-error-msg.js)",
-      "Bash(cd \"C:\\\\Users\\\\lukas\\\\AppData\\\\Local\\\\npm-cache\\\\_npx\\\\e41f203b7505f1fb\" && rm -f check-error-msg.js *.png)"
+      "Bash(cd \"C:\\\\Users\\\\lukas\\\\AppData\\\\Local\\\\npm-cache\\\\_npx\\\\e41f203b7505f1fb\" && rm -f check-error-msg.js *.png)",
+      "Bash(node check-password-toggle.js)",
+      "Bash(cd \"C:\\\\Users\\\\lukas\\\\AppData\\\\Local\\\\npm-cache\\\\_npx\\\\e41f203b7505f1fb\" && rm -f check-password-toggle.js *.png)",
+      "Bash(node check-title.js)",
+      "Bash(cd \"C:\\\\Users\\\\lukas\\\\AppData\\\\Local\\\\npm-cache\\\\_npx\\\\e41f203b7505f1fb\" && rm -f check-title.js *.png)"
     ],
     "additionalDirectories": [
       "C:\\Users\\lukas\\AppData\\Local\\npm-cache\\_npx\\e41f203b7505f1fb",

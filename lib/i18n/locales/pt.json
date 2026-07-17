@@ -112,7 +112,9 @@
     "nextTestimonial": "Próximo depoimento",
     "selectAll": "Selecionar tudo",
     "selectRow": "Selecionar {{name}}",
-    "accountMenu": "Menu da conta"
+    "accountMenu": "Menu da conta",
+    "showPassword": "Mostrar palavra-passe",
+    "hidePassword": "Ocultar palavra-passe"
   },
   "templates": {
     "basic": "Básico",
@@ -292,7 +294,7 @@
   "auth": {
     "navLogin": "Iniciar sessão",
     "navLogout": "Terminar sessão",
-    "loginTitle": "Bem-vindo de volta",
+    "loginTitle": "Iniciar sessão",
     "signupTitle": "Crie a sua conta",
     "loginSubtitle": "Inicie sessão para aceder aos seus currículos e cartas de apresentação guardados.",
     "signupSubtitle": "Guarde o seu progresso e continue onde ficou em qualquer dispositivo.",

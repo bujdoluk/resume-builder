@@ -112,7 +112,9 @@
     "nextTestimonial": "Témoignage suivant",
     "selectAll": "Tout sélectionner",
     "selectRow": "Sélectionner {{name}}",
-    "accountMenu": "Menu du compte"
+    "accountMenu": "Menu du compte",
+    "showPassword": "Afficher le mot de passe",
+    "hidePassword": "Masquer le mot de passe"
   },
   "templates": {
     "basic": "Basique",
@@ -292,7 +294,7 @@
   "auth": {
     "navLogin": "Se connecter",
     "navLogout": "Se déconnecter",
-    "loginTitle": "Content de vous revoir",
+    "loginTitle": "Se connecter",
     "signupTitle": "Créez votre compte",
     "loginSubtitle": "Connectez-vous pour accéder à vos CV et lettres de motivation enregistrés.",
     "signupSubtitle": "Enregistrez votre progression et reprenez où vous en étiez sur n'importe quel appareil.",

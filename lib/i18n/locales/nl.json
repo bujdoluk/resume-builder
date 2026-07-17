@@ -112,7 +112,9 @@
     "nextTestimonial": "Volgende testimonial",
     "selectAll": "Alles selecteren",
     "selectRow": "{{name}} selecteren",
-    "accountMenu": "Accountmenu"
+    "accountMenu": "Accountmenu",
+    "showPassword": "Wachtwoord tonen",
+    "hidePassword": "Wachtwoord verbergen"
   },
   "templates": {
     "basic": "Basis",
@@ -292,7 +294,7 @@
   "auth": {
     "navLogin": "Inloggen",
     "navLogout": "Uitloggen",
-    "loginTitle": "Welkom terug",
+    "loginTitle": "Inloggen",
     "signupTitle": "Maak je account aan",
     "loginSubtitle": "Log in om toegang te krijgen tot je opgeslagen cv's en motivatiebrieven.",
     "signupSubtitle": "Sla je voortgang op en ga op elk apparaat verder waar je gebleven was.",

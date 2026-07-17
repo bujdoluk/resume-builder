@@ -112,7 +112,9 @@
     "nextTestimonial": "Next testimonial",
     "selectAll": "Select all",
     "selectRow": "Select {{name}}",
-    "accountMenu": "Account menu"
+    "accountMenu": "Account menu",
+    "showPassword": "Show password",
+    "hidePassword": "Hide password"
   },
   "templates": {
     "basic": "Basic",
@@ -292,7 +294,7 @@
   "auth": {
     "navLogin": "Log In",
     "navLogout": "Log out",
-    "loginTitle": "Welcome back",
+    "loginTitle": "Log In",
     "signupTitle": "Create your account",
     "loginSubtitle": "Log in to access your saved resumes and cover letters.",
     "signupSubtitle": "Save your progress and pick up where you left off on any device.",

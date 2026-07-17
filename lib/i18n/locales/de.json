@@ -112,7 +112,9 @@
     "nextTestimonial": "Nächstes Testimonial",
     "selectAll": "Alle auswählen",
     "selectRow": "{{name}} auswählen",
-    "accountMenu": "Kontomenü"
+    "accountMenu": "Kontomenü",
+    "showPassword": "Passwort anzeigen",
+    "hidePassword": "Passwort verbergen"
   },
   "templates": {
     "basic": "Einfach",
@@ -292,7 +294,7 @@
   "auth": {
     "navLogin": "Anmelden",
     "navLogout": "Abmelden",
-    "loginTitle": "Willkommen zurück",
+    "loginTitle": "Anmelden",
     "signupTitle": "Konto erstellen",
     "loginSubtitle": "Melde dich an, um auf deine gespeicherten Lebensläufe und Anschreiben zuzugreifen.",
     "signupSubtitle": "Speichere deinen Fortschritt und mach auf jedem Gerät weiter, wo du aufgehört hast.",

@@ -112,7 +112,9 @@
     "nextTestimonial": "Nästa omdöme",
     "selectAll": "Markera alla",
     "selectRow": "Markera {{name}}",
-    "accountMenu": "Kontomeny"
+    "accountMenu": "Kontomeny",
+    "showPassword": "Visa lösenord",
+    "hidePassword": "Dölj lösenord"
   },
   "templates": {
     "basic": "Enkel",
@@ -292,7 +294,7 @@
   "auth": {
     "navLogin": "Logga in",
     "navLogout": "Logga ut",
-    "loginTitle": "Välkommen tillbaka",
+    "loginTitle": "Logga in",
     "signupTitle": "Skapa ditt konto",
     "loginSubtitle": "Logga in för att komma åt dina sparade CV:n och personliga brev.",
     "signupSubtitle": "Spara ditt förlopp och fortsätt där du slutade på vilken enhet som helst.",

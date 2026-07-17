@@ -14,6 +14,7 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
+import { EyeIcon, EyeSlashIcon } from "@/components/Icons";
 import { AuthActionError, continueWithGoogle, logIn, signUp } from "@/lib/supabase/auth";
 import { createClient } from "@/lib/supabase/client";
 
@@ -29,6 +30,7 @@ function LoginForm() {
   const [mode, setMode] = useState<Mode>("login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [googleSubmitting, setGoogleSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(searchParams.get("error") === "oauth" ? t("auth.errors.oauth") : null);
@@ -81,7 +83,7 @@ function LoginForm() {
     <div className="bg-base-200 flex flex-1 items-center justify-center p-6">
       <div className="card bg-base-100 border-base-300 w-full max-w-sm border shadow-sm">
         <div className="card-body">
-          <h1 className="text-xl font-bold">
+          <h1 className="text-center text-xl font-bold">
             {mode === "login" ? t("auth.loginTitle") : t("auth.signupTitle")}
           </h1>
           <p className="text-base-content/70 text-sm">
@@ -108,15 +110,29 @@ function LoginForm() {
                 </fieldset>
                 <fieldset className="fieldset">
                   <legend className="fieldset-legend">{t("auth.passwordLabel")}</legend>
-                  <input
-                    type="password"
-                    className="input input-bordered w-full"
-                    value={password}
-                    onChange={(event) => setPassword(event.target.value)}
-                    autoComplete={mode === "login" ? "current-password" : "new-password"}
-                    minLength={mode === "signup" ? 6 : undefined}
-                    required
-                  />
+                  <div className="relative">
+                    <input
+                      type={showPassword ? "text" : "password"}
+                      className="input input-bordered w-full pr-10"
+                      value={password}
+                      onChange={(event) => setPassword(event.target.value)}
+                      autoComplete={mode === "login" ? "current-password" : "new-password"}
+                      minLength={mode === "signup" ? 6 : undefined}
+                      required
+                    />
+                    <button
+                      type="button"
+                      className="text-base-content/50 hover:text-base-content absolute inset-y-0 right-2 flex items-center"
+                      aria-label={showPassword ? t("aria.hidePassword") : t("aria.showPassword")}
+                      onClick={() => setShowPassword((value) => !value)}
+                    >
+                      {showPassword ? (
+                        <EyeSlashIcon className="h-4 w-4 stroke-current" />
+                      ) : (
+                        <EyeIcon className="h-4 w-4 stroke-current" />
+                      )}
+                    </button>
+                  </div>
                 </fieldset>
 
                 {error && <p className="text-error text-sm">{error}</p>}
