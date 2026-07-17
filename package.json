@@ -27,6 +27,7 @@
     "react-dom": "19.2.4",
     "react-i18next": "17.0.9",
     "resend": "6.17.2",
+    "stripe": "22.3.2",
     "temporal-polyfill": "1.0.1"
   },
   "devDependencies": {

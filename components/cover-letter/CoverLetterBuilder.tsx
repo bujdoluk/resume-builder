@@ -16,6 +16,7 @@ import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useTranslation } from "react-i18next";
 import { useAppState } from "@/components/AppState";
+import ConfirmDialog, { type ConfirmDialogHandle } from "@/components/ConfirmDialog";
 import DownloadButton from "@/components/DownloadButton";
 import EmailButton from "@/components/EmailButton";
 import { InfoIcon, SaveIcon } from "@/components/Icons";
@@ -37,8 +38,9 @@ import {
 import { coverLetterTemplates } from "@/lib/coverLetterTemplates";
 import { coverLetterPdfTemplates } from "@/lib/pdf/coverLetterTemplates";
 import { createClient } from "@/lib/supabase/client";
-import { getCoverLetter, saveCoverLetter } from "@/lib/supabase/coverLetters";
+import { countCoverLetters, getCoverLetter, saveCoverLetter } from "@/lib/supabase/coverLetters";
 import { ensureUserId } from "@/lib/supabase/session";
+import { FREE_TIER_LIMITS, getSubscription, isPaidPlan } from "@/lib/supabase/subscriptions";
 
 interface CoverLetterBuilderProps {
   initialCoverLetterId?: string;
@@ -78,6 +80,7 @@ export default function CoverLetterBuilder({
   const [justSaved, setJustSaved] = useState(false);
   const previewRef = useRef<PreviewModalHandle>(null);
   const saveDialogRef = useRef<SaveResumeDialogHandle>(null);
+  const upgradeDialogRef = useRef<ConfirmDialogHandle>(null);
   const [supabase] = useState(() => createClient());
 
   useEffect(() => {
@@ -232,9 +235,25 @@ export default function CoverLetterBuilder({
       nameToSave = chosenName;
     }
 
-    setIsSaving(true);
     try {
       const userId = await ensureUserId(supabase);
+
+      if (!coverLetterId) {
+        const [subscription, existingCount] = await Promise.all([
+          getSubscription(supabase, userId),
+          countCoverLetters(supabase, userId),
+        ]);
+        if (!isPaidPlan(subscription.plan) && existingCount >= FREE_TIER_LIMITS.coverLetters) {
+          const viewPlans = await upgradeDialogRef.current?.open({
+            message: t("pricing.coverLetterLimitReached", { limit: FREE_TIER_LIMITS.coverLetters }),
+            confirmLabel: t("pricing.viewPlans"),
+          });
+          if (viewPlans) router.push("/#pricing");
+          return;
+        }
+      }
+
+      setIsSaving(true);
       const row = await saveCoverLetter(supabase, {
         id: coverLetterId,
         userId,
@@ -388,6 +407,7 @@ export default function CoverLetterBuilder({
         untitledFallback={t("coverLetter.untitled")}
         tooLongMessage={t("coverLetter.nameTooLong")}
       />
+      <ConfirmDialog ref={upgradeDialogRef} />
     </div>
   );
 }

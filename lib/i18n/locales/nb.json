@@ -328,5 +328,58 @@
       "generic": "Noe gikk galt. Prøv igjen.",
       "oauth": "Innlogging med Google mislyktes. Prøv igjen."
     }
+  },
+  "pricing": {
+    "title": "Enkle, gjennomsiktige priser",
+    "subtitle": "Start gratis. Oppgrader når som helst for ubegrensede lagrede CV-er og søknadsbrev.",
+    "free": {
+      "name": "Gratis",
+      "price": "0 kr",
+      "cta": "Kom i gang",
+      "features": [
+        "Alle 5 CV-maler og 2 søknadsbrevmaler",
+        "Full tilpasning — farger, skrifttyper, størrelser",
+        "PDF- og e-posteksport",
+        "13 språk",
+        "Opptil 2 lagrede CV-er og 2 søknadsbrev"
+      ]
+    },
+    "pro": {
+      "name": "Pro",
+      "price": "$19,99",
+      "period": "/mnd",
+      "cta": "Oppgrader til Pro",
+      "features": [
+        "Alt i Gratis",
+        "Ubegrenset lagrede CV-er",
+        "Ubegrenset lagrede søknadsbrev"
+      ]
+    },
+    "annual": {
+      "name": "Årlig",
+      "price": "$167,99",
+      "period": "/år",
+      "badge": "Spar 30 %",
+      "cta": "Oppgrader til Årlig",
+      "features": [
+        "Alt i Pro",
+        "Fakturert én gang i året"
+      ]
+    },
+    "resumeLimitReached": "Du har nådd Gratis-grensen på {{limit}} lagrede CV-er. Oppgrader til Pro for ubegrensede CV-er.",
+    "coverLetterLimitReached": "Du har nådd Gratis-grensen på {{limit}} lagrede søknadsbrev. Oppgrader til Pro for ubegrensede søknadsbrev.",
+    "viewPlans": "Se planer"
+  },
+  "account": {
+    "myAccount": "Min konto",
+    "title": "Min konto",
+    "currentPlan": "Nåværende plan",
+    "viewPlans": "Se planer",
+    "renewsOn": "Fornyes {{date}}",
+    "endsOn": "Planen din avsluttes {{date}}. Deretter flyttes du til Gratis-planen.",
+    "cancelSubscription": "Avbryt abonnement",
+    "resumeSubscription": "Gjenoppta abonnement",
+    "confirmCancel": "Er du sikker på at du vil avbryte abonnementet? Du beholder tilgangen ut inneværende faktureringsperiode.",
+    "actionFailed": "Noe gikk galt. Prøv igjen."
   }
 }

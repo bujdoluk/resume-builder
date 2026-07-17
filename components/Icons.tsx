@@ -516,3 +516,16 @@ export function EyeSlashIcon(props: IconProps) {
     </IconBase>
   );
 }
+
+export function CheckIcon(props: IconProps) {
+  return (
+    <IconBase {...props}>
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
+        d="m4.5 12.75 6 6 9-13.5"
+      />
+    </IconBase>
+  );
+}

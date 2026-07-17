@@ -328,5 +328,58 @@
       "generic": "Coś poszło nie tak. Spróbuj ponownie.",
       "oauth": "Logowanie przez Google nie powiodło się. Spróbuj ponownie."
     }
+  },
+  "pricing": {
+    "title": "Proste, przejrzyste ceny",
+    "subtitle": "Zacznij za darmo. Uaktualnij w dowolnym momencie, aby zapisywać nieograniczoną liczbę CV i listów motywacyjnych.",
+    "free": {
+      "name": "Darmowy",
+      "price": "0 zł",
+      "cta": "Zacznij",
+      "features": [
+        "Wszystkie 5 szablonów CV i 2 szablony listu motywacyjnego",
+        "Pełna personalizacja — kolory, czcionki, rozmiary",
+        "Eksport do PDF i e-mailem",
+        "13 języków",
+        "Do 2 zapisanych CV i 2 listów motywacyjnych"
+      ]
+    },
+    "pro": {
+      "name": "Pro",
+      "price": "19,99 zł",
+      "period": "/mies.",
+      "cta": "Przejdź na Pro",
+      "features": [
+        "Wszystko z planu Darmowego",
+        "Nieograniczona liczba zapisanych CV",
+        "Nieograniczona liczba zapisanych listów motywacyjnych"
+      ]
+    },
+    "annual": {
+      "name": "Roczny",
+      "price": "167,99 zł",
+      "period": "/rok",
+      "badge": "Oszczędź 30%",
+      "cta": "Przejdź na Roczny",
+      "features": [
+        "Wszystko z planu Pro",
+        "Rozliczenie raz w roku"
+      ]
+    },
+    "resumeLimitReached": "Osiągnięto limit {{limit}} zapisanych CV w planie Darmowym. Przejdź na Pro, aby zapisywać nieograniczoną liczbę CV.",
+    "coverLetterLimitReached": "Osiągnięto limit {{limit}} zapisanych listów motywacyjnych w planie Darmowym. Przejdź na Pro, aby zapisywać ich nieograniczoną liczbę.",
+    "viewPlans": "Zobacz plany"
+  },
+  "account": {
+    "myAccount": "Moje konto",
+    "title": "Moje konto",
+    "currentPlan": "Obecny plan",
+    "viewPlans": "Zobacz plany",
+    "renewsOn": "Odnowienie {{date}}",
+    "endsOn": "Twój plan kończy się {{date}}. Następnie przejdziesz na plan Darmowy.",
+    "cancelSubscription": "Anuluj subskrypcję",
+    "resumeSubscription": "Wznów subskrypcję",
+    "confirmCancel": "Czy na pewno chcesz anulować subskrypcję? Zachowasz dostęp do końca bieżącego okresu rozliczeniowego.",
+    "actionFailed": "Coś poszło nie tak. Spróbuj ponownie."
   }
 }

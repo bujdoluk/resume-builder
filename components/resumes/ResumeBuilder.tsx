@@ -14,6 +14,7 @@ import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useTranslation } from "react-i18next";
 import { useAppState } from "@/components/AppState";
+import ConfirmDialog, { type ConfirmDialogHandle } from "@/components/ConfirmDialog";
 import DownloadButton from "@/components/DownloadButton";
 import EmailButton from "@/components/EmailButton";
 import { InfoIcon, SaveIcon } from "@/components/Icons";
@@ -38,8 +39,9 @@ import {
 } from "@/lib/resumeData";
 import { pdfTemplates } from "@/lib/pdf/templates";
 import { createClient } from "@/lib/supabase/client";
-import { getResume, saveResume } from "@/lib/supabase/resumes";
+import { countResumes, getResume, saveResume } from "@/lib/supabase/resumes";
 import { ensureUserId } from "@/lib/supabase/session";
+import { FREE_TIER_LIMITS, getSubscription, isPaidPlan } from "@/lib/supabase/subscriptions";
 import {
   defaultTemplateId,
   templates,
@@ -124,6 +126,7 @@ export default function ResumeBuilder({
   const [resumeName, setResumeName] = useState("");
   const previewRef = useRef<PreviewModalHandle>(null);
   const saveDialogRef = useRef<SaveResumeDialogHandle>(null);
+  const upgradeDialogRef = useRef<ConfirmDialogHandle>(null);
   const [supabase] = useState(() => createClient());
 
   // Applies the URL's `?template=` param whenever it changes — e.g. landing
@@ -236,9 +239,25 @@ export default function ResumeBuilder({
       nameToSave = chosenName;
     }
 
-    setIsSaving(true);
     try {
       const userId = await ensureUserId(supabase);
+
+      if (!resumeId) {
+        const [subscription, existingCount] = await Promise.all([
+          getSubscription(supabase, userId),
+          countResumes(supabase, userId),
+        ]);
+        if (!isPaidPlan(subscription.plan) && existingCount >= FREE_TIER_LIMITS.resumes) {
+          const viewPlans = await upgradeDialogRef.current?.open({
+            message: t("pricing.resumeLimitReached", { limit: FREE_TIER_LIMITS.resumes }),
+            confirmLabel: t("pricing.viewPlans"),
+          });
+          if (viewPlans) router.push("/#pricing");
+          return;
+        }
+      }
+
+      setIsSaving(true);
       const row = await saveResume(supabase, {
         id: resumeId,
         userId,
@@ -640,6 +659,7 @@ export default function ResumeBuilder({
       />
 
       <SaveResumeDialog ref={saveDialogRef} />
+      <ConfirmDialog ref={upgradeDialogRef} />
     </>
   );
 }

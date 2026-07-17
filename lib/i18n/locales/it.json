@@ -328,5 +328,58 @@
       "generic": "Qualcosa è andato storto. Riprova.",
       "oauth": "Accesso con Google non riuscito. Riprova."
     }
+  },
+  "pricing": {
+    "title": "Prezzi semplici e trasparenti",
+    "subtitle": "Inizia gratis. Passa a un piano superiore in qualsiasi momento per curriculum e lettere di presentazione illimitati.",
+    "free": {
+      "name": "Gratis",
+      "price": "0 $",
+      "cta": "Inizia",
+      "features": [
+        "Tutti i 5 modelli di curriculum e 2 di lettera di presentazione",
+        "Personalizzazione completa — colori, font, dimensioni",
+        "Esportazione PDF ed email",
+        "13 lingue",
+        "Fino a 2 curriculum e 2 lettere di presentazione salvati"
+      ]
+    },
+    "pro": {
+      "name": "Pro",
+      "price": "19,99 $",
+      "period": "/mese",
+      "cta": "Passa a Pro",
+      "features": [
+        "Tutto di Gratis",
+        "Curriculum salvati illimitati",
+        "Lettere di presentazione salvate illimitate"
+      ]
+    },
+    "annual": {
+      "name": "Annuale",
+      "price": "167,99 $",
+      "period": "/anno",
+      "badge": "Risparmia il 30%",
+      "cta": "Passa ad Annuale",
+      "features": [
+        "Tutto di Pro",
+        "Fatturato una volta all'anno"
+      ]
+    },
+    "resumeLimitReached": "Hai raggiunto il limite del piano Gratis di {{limit}} curriculum salvati. Passa a Pro per curriculum illimitati.",
+    "coverLetterLimitReached": "Hai raggiunto il limite del piano Gratis di {{limit}} lettere di presentazione salvate. Passa a Pro per lettere illimitate.",
+    "viewPlans": "Vedi i piani"
+  },
+  "account": {
+    "myAccount": "Il mio account",
+    "title": "Il mio account",
+    "currentPlan": "Piano attuale",
+    "viewPlans": "Vedi i piani",
+    "renewsOn": "Si rinnova il {{date}}",
+    "endsOn": "Il tuo piano termina il {{date}}. Dopo passerai al piano Gratis.",
+    "cancelSubscription": "Annulla abbonamento",
+    "resumeSubscription": "Riprendi abbonamento",
+    "confirmCancel": "Sei sicuro di voler annullare l'abbonamento? Manterrai l'accesso fino alla fine del periodo di fatturazione attuale.",
+    "actionFailed": "Qualcosa è andato storto. Riprova."
   }
 }

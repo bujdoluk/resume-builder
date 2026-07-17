@@ -328,5 +328,58 @@
       "generic": "Etwas ist schiefgelaufen. Bitte versuche es erneut.",
       "oauth": "Die Anmeldung mit Google ist fehlgeschlagen. Bitte versuche es erneut."
     }
+  },
+  "pricing": {
+    "title": "Einfache, transparente Preise",
+    "subtitle": "Kostenlos starten. Jederzeit upgraden für unbegrenzt gespeicherte Lebensläufe und Anschreiben.",
+    "free": {
+      "name": "Kostenlos",
+      "price": "0 €",
+      "cta": "Loslegen",
+      "features": [
+        "Alle 5 Lebenslauf- und 2 Anschreiben-Vorlagen",
+        "Volle Anpassung — Farben, Schriften, Größen",
+        "PDF- & E-Mail-Export",
+        "13 Sprachen",
+        "Bis zu 2 gespeicherte Lebensläufe & 2 Anschreiben"
+      ]
+    },
+    "pro": {
+      "name": "Pro",
+      "price": "19,99 $",
+      "period": "/Monat",
+      "cta": "Auf Pro upgraden",
+      "features": [
+        "Alles aus Kostenlos",
+        "Unbegrenzt gespeicherte Lebensläufe",
+        "Unbegrenzt gespeicherte Anschreiben"
+      ]
+    },
+    "annual": {
+      "name": "Jährlich",
+      "price": "167,99 $",
+      "period": "/Jahr",
+      "badge": "30 % sparen",
+      "cta": "Auf Jährlich upgraden",
+      "features": [
+        "Alles aus Pro",
+        "Einmal jährlich abgerechnet"
+      ]
+    },
+    "resumeLimitReached": "Du hast dein Kostenlos-Limit von {{limit}} gespeicherten Lebensläufen erreicht. Upgrade auf Pro für unbegrenzt viele Lebensläufe.",
+    "coverLetterLimitReached": "Du hast dein Kostenlos-Limit von {{limit}} gespeicherten Anschreiben erreicht. Upgrade auf Pro für unbegrenzt viele Anschreiben.",
+    "viewPlans": "Pläne ansehen"
+  },
+  "account": {
+    "myAccount": "Mein Konto",
+    "title": "Mein Konto",
+    "currentPlan": "Aktueller Plan",
+    "viewPlans": "Pläne ansehen",
+    "renewsOn": "Verlängert sich am {{date}}",
+    "endsOn": "Dein Plan endet am {{date}}. Danach wechselst du zum kostenlosen Plan.",
+    "cancelSubscription": "Abo kündigen",
+    "resumeSubscription": "Abo fortsetzen",
+    "confirmCancel": "Möchtest du dein Abo wirklich kündigen? Du behältst den Zugriff bis zum Ende des aktuellen Abrechnungszeitraums.",
+    "actionFailed": "Etwas ist schiefgelaufen. Bitte versuche es erneut."
   }
 }

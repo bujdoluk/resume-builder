@@ -328,5 +328,58 @@
       "generic": "Något gick fel. Försök igen.",
       "oauth": "Inloggning med Google misslyckades. Försök igen."
     }
+  },
+  "pricing": {
+    "title": "Enkla, transparenta priser",
+    "subtitle": "Börja gratis. Uppgradera när som helst för obegränsat sparade CV:n och personliga brev.",
+    "free": {
+      "name": "Gratis",
+      "price": "0 kr",
+      "cta": "Kom igång",
+      "features": [
+        "Alla 5 CV-mallar och 2 mallar för personligt brev",
+        "Full anpassning — färger, typsnitt, storlekar",
+        "PDF- och e-postexport",
+        "13 språk",
+        "Upp till 2 sparade CV:n och 2 personliga brev"
+      ]
+    },
+    "pro": {
+      "name": "Pro",
+      "price": "$19,99",
+      "period": "/mån",
+      "cta": "Uppgradera till Pro",
+      "features": [
+        "Allt i Gratis",
+        "Obegränsat sparade CV:n",
+        "Obegränsat sparade personliga brev"
+      ]
+    },
+    "annual": {
+      "name": "Årlig",
+      "price": "$167,99",
+      "period": "/år",
+      "badge": "Spara 30 %",
+      "cta": "Uppgradera till Årlig",
+      "features": [
+        "Allt i Pro",
+        "Faktureras en gång om året"
+      ]
+    },
+    "resumeLimitReached": "Du har nått gränsen på {{limit}} sparade CV:n i Gratis-planen. Uppgradera till Pro för obegränsat antal CV:n.",
+    "coverLetterLimitReached": "Du har nått gränsen på {{limit}} sparade personliga brev i Gratis-planen. Uppgradera till Pro för obegränsat antal brev.",
+    "viewPlans": "Visa planer"
+  },
+  "account": {
+    "myAccount": "Mitt konto",
+    "title": "Mitt konto",
+    "currentPlan": "Nuvarande plan",
+    "viewPlans": "Visa planer",
+    "renewsOn": "Förnyas {{date}}",
+    "endsOn": "Din plan slutar {{date}}. Därefter flyttas du till Gratis-planen.",
+    "cancelSubscription": "Avsluta prenumeration",
+    "resumeSubscription": "Återuppta prenumeration",
+    "confirmCancel": "Är du säker på att du vill avsluta din prenumeration? Du behåller åtkomsten till slutet av den nuvarande faktureringsperioden.",
+    "actionFailed": "Något gick fel. Försök igen."
   }
 }

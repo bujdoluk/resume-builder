@@ -3,16 +3,19 @@
 /**
  * Public marketing page rendered at `/`: hero section with a "start
  * building" CTA (which pulses periodically to draw attention), a grid of
- * feature highlights, and a daisyUI `carousel` of user testimonials
- * (scroll-snap driven by Prev/Next buttons that scroll the carousel by one
- * card's width — the snap points then settle on the nearest card),
- * followed by the shared `Footer`.
+ * feature highlights, the `PricingSection` (Free/Pro/Annual, `id="pricing"`
+ * — also linked to from the save-limit upgrade dialogs in
+ * ResumeBuilder.tsx/CoverLetterBuilder.tsx via `/#pricing`), and a daisyUI
+ * `carousel` of user testimonials (scroll-snap driven by Prev/Next buttons
+ * that scroll the carousel by one card's width — the snap points then
+ * settle on the nearest card), followed by the shared `Footer`.
  */
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import Footer from "@/components/Footer";
+import PricingSection from "@/components/PricingSection";
 import {
   CustomizationIcon,
   DownloadIcon,
@@ -125,6 +128,8 @@ export default function LandingPage() {
           ))}
         </div>
       </div>
+
+      <PricingSection />
 
       <div className="py-20">
         <h2 className="mx-auto max-w-3xl px-8 text-center text-2xl font-bold sm:text-3xl">

@@ -328,5 +328,58 @@
       "generic": "Algo salió mal. Inténtalo de nuevo.",
       "oauth": "No se pudo iniciar sesión con Google. Inténtalo de nuevo."
     }
+  },
+  "pricing": {
+    "title": "Precios simples y transparentes",
+    "subtitle": "Empieza gratis. Mejora en cualquier momento para guardar currículums y cartas de presentación ilimitados.",
+    "free": {
+      "name": "Gratis",
+      "price": "0 $",
+      "cta": "Empezar",
+      "features": [
+        "Las 5 plantillas de currículum y 2 de carta de presentación",
+        "Personalización completa — colores, fuentes, tamaños",
+        "Exportación a PDF y por correo",
+        "13 idiomas",
+        "Hasta 2 currículums y 2 cartas de presentación guardados"
+      ]
+    },
+    "pro": {
+      "name": "Pro",
+      "price": "19,99 $",
+      "period": "/mes",
+      "cta": "Mejorar a Pro",
+      "features": [
+        "Todo lo de Gratis",
+        "Currículums guardados ilimitados",
+        "Cartas de presentación guardadas ilimitadas"
+      ]
+    },
+    "annual": {
+      "name": "Anual",
+      "price": "167,99 $",
+      "period": "/año",
+      "badge": "Ahorra 30 %",
+      "cta": "Mejorar a Anual",
+      "features": [
+        "Todo lo de Pro",
+        "Facturado una vez al año"
+      ]
+    },
+    "resumeLimitReached": "Has alcanzado el límite del plan Gratis de {{limit}} currículums guardados. Mejora a Pro para currículums ilimitados.",
+    "coverLetterLimitReached": "Has alcanzado el límite del plan Gratis de {{limit}} cartas de presentación guardadas. Mejora a Pro para cartas ilimitadas.",
+    "viewPlans": "Ver planes"
+  },
+  "account": {
+    "myAccount": "Mi cuenta",
+    "title": "Mi cuenta",
+    "currentPlan": "Plan actual",
+    "viewPlans": "Ver planes",
+    "renewsOn": "Se renueva el {{date}}",
+    "endsOn": "Tu plan termina el {{date}}. Después pasarás al plan Gratis.",
+    "cancelSubscription": "Cancelar suscripción",
+    "resumeSubscription": "Reanudar suscripción",
+    "confirmCancel": "¿Seguro que quieres cancelar tu suscripción? Mantendrás el acceso hasta el final del periodo de facturación actual.",
+    "actionFailed": "Algo salió mal. Inténtalo de nuevo."
   }
 }

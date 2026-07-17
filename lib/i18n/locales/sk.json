@@ -328,5 +328,58 @@
       "generic": "Niečo sa pokazilo. Skúste to znova.",
       "oauth": "Prihlásenie cez Google zlyhalo. Skúste to znova."
     }
+  },
+  "pricing": {
+    "title": "Jednoduché, transparentné ceny",
+    "subtitle": "Začnite zadarmo. Kedykoľvek prejdite na neobmedzené ukladanie životopisov a motivačných listov.",
+    "free": {
+      "name": "Zadarmo",
+      "price": "0 $",
+      "cta": "Začať",
+      "features": [
+        "Všetkých 5 šablón životopisu a 2 šablóny motivačného listu",
+        "Plná úprava — farby, písma, veľkosti",
+        "Export do PDF a e-mailom",
+        "13 jazykov",
+        "Až 2 uložené životopisy a 2 motivačné listy"
+      ]
+    },
+    "pro": {
+      "name": "Pro",
+      "price": "19,99 $",
+      "period": "/mes.",
+      "cta": "Prejsť na Pro",
+      "features": [
+        "Všetko z verzie Zadarmo",
+        "Neobmedzené uložené životopisy",
+        "Neobmedzené uložené motivačné listy"
+      ]
+    },
+    "annual": {
+      "name": "Ročný",
+      "price": "167,99 $",
+      "period": "/rok",
+      "badge": "Ušetríte 30 %",
+      "cta": "Prejsť na Ročný",
+      "features": [
+        "Všetko z verzie Pro",
+        "Platba raz ročne"
+      ]
+    },
+    "resumeLimitReached": "Dosiahli ste limit bezplatného plánu {{limit}} uložených životopisov. Prejdite na Pro pre neobmedzený počet životopisov.",
+    "coverLetterLimitReached": "Dosiahli ste limit bezplatného plánu {{limit}} uložených motivačných listov. Prejdite na Pro pre neobmedzený počet listov.",
+    "viewPlans": "Zobraziť plány"
+  },
+  "account": {
+    "myAccount": "Môj účet",
+    "title": "Môj účet",
+    "currentPlan": "Aktuálny plán",
+    "viewPlans": "Zobraziť plány",
+    "renewsOn": "Obnoví sa {{date}}",
+    "endsOn": "Váš plán skončí {{date}}. Potom prejdete na bezplatný plán.",
+    "cancelSubscription": "Zrušiť predplatné",
+    "resumeSubscription": "Obnoviť predplatné",
+    "confirmCancel": "Naozaj chcete zrušiť predplatné? Prístup si zachováte do konca aktuálneho fakturačného obdobia.",
+    "actionFailed": "Niečo sa pokazilo. Skúste to znova."
   }
 }

@@ -328,5 +328,58 @@
       "generic": "Er is iets misgegaan. Probeer het opnieuw.",
       "oauth": "Inloggen met Google is mislukt. Probeer het opnieuw."
     }
+  },
+  "pricing": {
+    "title": "Eenvoudige, transparante prijzen",
+    "subtitle": "Begin gratis. Upgrade op elk moment voor onbeperkt opgeslagen cv's en motivatiebrieven.",
+    "free": {
+      "name": "Gratis",
+      "price": "€0",
+      "cta": "Aan de slag",
+      "features": [
+        "Alle 5 cv-sjablonen en 2 motivatiebriefsjablonen",
+        "Volledige aanpassing — kleuren, lettertypes, formaten",
+        "PDF- en e-mailexport",
+        "13 talen",
+        "Tot 2 opgeslagen cv's en 2 motivatiebrieven"
+      ]
+    },
+    "pro": {
+      "name": "Pro",
+      "price": "$19,99",
+      "period": "/mnd",
+      "cta": "Upgraden naar Pro",
+      "features": [
+        "Alles uit Gratis",
+        "Onbeperkt opgeslagen cv's",
+        "Onbeperkt opgeslagen motivatiebrieven"
+      ]
+    },
+    "annual": {
+      "name": "Jaarlijks",
+      "price": "$167,99",
+      "period": "/jaar",
+      "badge": "Bespaar 30%",
+      "cta": "Upgraden naar Jaarlijks",
+      "features": [
+        "Alles uit Pro",
+        "Eén keer per jaar gefactureerd"
+      ]
+    },
+    "resumeLimitReached": "Je hebt de Gratis-limiet van {{limit}} opgeslagen cv's bereikt. Upgrade naar Pro voor onbeperkte cv's.",
+    "coverLetterLimitReached": "Je hebt de Gratis-limiet van {{limit}} opgeslagen motivatiebrieven bereikt. Upgrade naar Pro voor onbeperkte motivatiebrieven.",
+    "viewPlans": "Bekijk plannen"
+  },
+  "account": {
+    "myAccount": "Mijn account",
+    "title": "Mijn account",
+    "currentPlan": "Huidig abonnement",
+    "viewPlans": "Bekijk abonnementen",
+    "renewsOn": "Wordt verlengd op {{date}}",
+    "endsOn": "Je abonnement eindigt op {{date}}. Daarna ga je over naar het Gratis-abonnement.",
+    "cancelSubscription": "Abonnement opzeggen",
+    "resumeSubscription": "Abonnement hervatten",
+    "confirmCancel": "Weet je zeker dat je je abonnement wilt opzeggen? Je behoudt toegang tot het einde van de huidige factureringsperiode.",
+    "actionFailed": "Er is iets misgegaan. Probeer het opnieuw."
   }
 }

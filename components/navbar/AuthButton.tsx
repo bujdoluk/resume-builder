@@ -67,8 +67,13 @@ export default function AuthButton() {
       </div>
       <ul
         tabIndex={0}
-        className="dropdown-content menu bg-base-100 rounded-box z-10 mt-2 w-40 gap-0.5 p-2 shadow"
+        className="dropdown-content menu bg-base-100 rounded-box z-10 mt-2 w-48 gap-0.5 p-2 shadow"
       >
+        <li>
+          <Link href="/account" onClick={() => (document.activeElement as HTMLElement | null)?.blur()}>
+            {t("account.myAccount")}
+          </Link>
+        </li>
         <li>
           <button type="button" onClick={handleLogOut}>
             {t("auth.navLogout")}
