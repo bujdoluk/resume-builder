@@ -161,7 +161,8 @@
       "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:3000/account)",
       "Bash(curl -s -I http://localhost:3000/account)",
       "Bash(node check-account-page.js)",
-      "Bash(cd \"C:\\\\Users\\\\lukas\\\\AppData\\\\Local\\\\npm-cache\\\\_npx\\\\e41f203b7505f1fb\" && rm -f check-account-page.js *.png)"
+      "Bash(cd \"C:\\\\Users\\\\lukas\\\\AppData\\\\Local\\\\npm-cache\\\\_npx\\\\e41f203b7505f1fb\" && rm -f check-account-page.js *.png)",
+      "Bash(STRIPE_SECRET_KEY= STRIPE_WEBHOOK_SECRET= STRIPE_PRICE_ID_MONTHLY= STRIPE_PRICE_ID_ANNUAL= SUPABASE_SERVICE_ROLE_KEY= npx next build)"
     ],
     "additionalDirectories": [
       "C:\\Users\\lukas\\AppData\\Local\\npm-cache\\_npx\\e41f203b7505f1fb",

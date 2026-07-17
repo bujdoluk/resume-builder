@@ -12,7 +12,7 @@
  * Stripe state directly so the UI can update immediately without waiting
  * on that round-trip.
  */
-import { stripe } from "@/lib/stripe";
+import { getStripe } from "@/lib/stripe";
 import { createClient } from "@/lib/supabase/server";
 
 export async function POST(request: Request) {
@@ -40,7 +40,7 @@ export async function POST(request: Request) {
     return Response.json({ error: "No subscription found." }, { status: 404 });
   }
 
-  const subscription = await stripe.subscriptions.update(subscriptionRow.stripe_subscription_id, {
+  const subscription = await getStripe().subscriptions.update(subscriptionRow.stripe_subscription_id, {
     cancel_at_period_end: action === "cancel",
   });
 

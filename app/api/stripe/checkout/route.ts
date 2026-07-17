@@ -10,7 +10,7 @@
  * (app/api/stripe/webhook/route.ts) to pick up once checkout actually
  * completes — that's the only place subscription state gets persisted.
  */
-import { stripe } from "@/lib/stripe";
+import { getStripe } from "@/lib/stripe";
 import { createClient } from "@/lib/supabase/server";
 
 const PRICE_IDS: Record<string, string | undefined> = {
@@ -35,7 +35,7 @@ export async function POST(request: Request) {
   }
 
   const { origin } = new URL(request.url);
-  const session = await stripe.checkout.sessions.create({
+  const session = await getStripe().checkout.sessions.create({
     mode: "subscription",
     line_items: [{ price: priceId, quantity: 1 }],
     customer_email: user.email,

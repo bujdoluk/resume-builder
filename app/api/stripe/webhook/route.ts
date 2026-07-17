@@ -13,7 +13,7 @@
  * API version.
  */
 import type Stripe from "stripe";
-import { stripe } from "@/lib/stripe";
+import { getStripe } from "@/lib/stripe";
 import { createServiceRoleClient } from "@/lib/supabase/serviceRole";
 
 function planFromPriceId(priceId: string | undefined): "pro" | "annual" {
@@ -54,6 +54,7 @@ function periodEndFromSubscription(subscription: Stripe.Subscription): string | 
 export async function POST(request: Request) {
   const body = await request.text();
   const signature = request.headers.get("stripe-signature");
+  const stripe = getStripe();
 
   let event: Stripe.Event;
   try {
