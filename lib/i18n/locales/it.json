@@ -309,10 +309,22 @@
     "switchToLogin": "Hai già un account? <switchLink>Accedi</switchLink>",
     "backToHome": "Torna alla home",
     "confirmEmailSent": "Ti abbiamo inviato un link di conferma via email. Cliccalo per completare la creazione dell'account.",
+    "forgotPassword": "Password dimenticata?",
+    "resetTitle": "Reimposta la tua password",
+    "resetSubtitle": "Inserisci la tua email e ti invieremo un link per reimpostare la password.",
+    "resetSubmit": "Invia link di reimpostazione",
+    "resetLinkSent": "Ti abbiamo inviato un link via email per reimpostare la password. Cliccalo per scegliere una nuova password.",
+    "backToLogin": "Torna al login",
+    "newPasswordTitle": "Scegli una nuova password",
+    "newPasswordSubtitle": "Inserisci una nuova password per il tuo account.",
+    "newPasswordLabel": "Nuova password",
+    "confirmPasswordLabel": "Conferma password",
+    "newPasswordSubmit": "Aggiorna password",
     "errors": {
       "invalidCredentials": "Email o password non corretti. Non hai un account? Registrati qui sotto.",
       "emailInUse": "Esiste già un account con questa email. Prova invece ad accedere.",
       "weakPassword": "La password deve contenere almeno 6 caratteri.",
+      "passwordMismatch": "Le password non corrispondono.",
       "generic": "Qualcosa è andato storto. Riprova.",
       "oauth": "Accesso con Google non riuscito. Riprova."
     }

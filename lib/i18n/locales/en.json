@@ -309,10 +309,22 @@
     "switchToLogin": "Already have an account? <switchLink>Log in</switchLink>",
     "backToHome": "Back to home",
     "confirmEmailSent": "We've sent a confirmation link to your email. Click it to finish creating your account.",
+    "forgotPassword": "Forgot password?",
+    "resetTitle": "Reset your password",
+    "resetSubtitle": "Enter your email and we'll send you a link to reset your password.",
+    "resetSubmit": "Send reset link",
+    "resetLinkSent": "We've sent a password reset link to your email. Click it to choose a new password.",
+    "backToLogin": "Back to log in",
+    "newPasswordTitle": "Choose a new password",
+    "newPasswordSubtitle": "Enter a new password for your account.",
+    "newPasswordLabel": "New password",
+    "confirmPasswordLabel": "Confirm password",
+    "newPasswordSubmit": "Update password",
     "errors": {
       "invalidCredentials": "Incorrect email or password. New here? Sign up below instead.",
       "emailInUse": "An account with this email already exists. Try logging in instead.",
       "weakPassword": "Password must be at least 6 characters.",
+      "passwordMismatch": "Passwords don't match.",
       "generic": "Something went wrong. Please try again.",
       "oauth": "Google sign-in failed. Please try again."
     }

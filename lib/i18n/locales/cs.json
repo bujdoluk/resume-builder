@@ -309,10 +309,22 @@
     "switchToLogin": "Už máte účet? <switchLink>Přihlaste se</switchLink>",
     "backToHome": "Zpět na hlavní stránku",
     "confirmEmailSent": "Na váš e-mail jsme odeslali potvrzovací odkaz. Kliknutím na něj dokončíte vytvoření účtu.",
+    "forgotPassword": "Zapomenuté heslo?",
+    "resetTitle": "Obnovení hesla",
+    "resetSubtitle": "Zadejte svůj e-mail a my vám pošleme odkaz na obnovení hesla.",
+    "resetSubmit": "Odeslat odkaz na obnovení",
+    "resetLinkSent": "Na váš e-mail jsme odeslali odkaz na obnovení hesla. Kliknutím na něj zvolíte nové heslo.",
+    "backToLogin": "Zpět na přihlášení",
+    "newPasswordTitle": "Zvolte nové heslo",
+    "newPasswordSubtitle": "Zadejte nové heslo pro svůj účet.",
+    "newPasswordLabel": "Nové heslo",
+    "confirmPasswordLabel": "Potvrzení hesla",
+    "newPasswordSubmit": "Aktualizovat heslo",
     "errors": {
       "invalidCredentials": "Nesprávný e-mail nebo heslo. Nemáte účet? Zaregistrujte se níže.",
       "emailInUse": "Účet s tímto e-mailem už existuje. Zkuste se raději přihlásit.",
       "weakPassword": "Heslo musí mít alespoň 6 znaků.",
+      "passwordMismatch": "Hesla se neshodují.",
       "generic": "Něco se pokazilo. Zkuste to znovu.",
       "oauth": "Přihlášení přes Google se nezdařilo. Zkuste to znovu."
     }

@@ -309,10 +309,22 @@
     "switchToLogin": "Har du redan ett konto? <switchLink>Logga in</switchLink>",
     "backToHome": "Tillbaka till startsidan",
     "confirmEmailSent": "Vi har skickat en bekräftelselänk till din e-post. Klicka på den för att slutföra kontoskapandet.",
+    "forgotPassword": "Glömt lösenordet?",
+    "resetTitle": "Återställ ditt lösenord",
+    "resetSubtitle": "Ange din e-post så skickar vi en länk för att återställa ditt lösenord.",
+    "resetSubmit": "Skicka återställningslänk",
+    "resetLinkSent": "Vi har skickat en länk till din e-post för att återställa lösenordet. Klicka på den för att välja ett nytt lösenord.",
+    "backToLogin": "Tillbaka till inloggning",
+    "newPasswordTitle": "Välj ett nytt lösenord",
+    "newPasswordSubtitle": "Ange ett nytt lösenord för ditt konto.",
+    "newPasswordLabel": "Nytt lösenord",
+    "confirmPasswordLabel": "Bekräfta lösenord",
+    "newPasswordSubmit": "Uppdatera lösenord",
     "errors": {
       "invalidCredentials": "Fel e-post eller lösenord. Ny här? Registrera dig nedan.",
       "emailInUse": "Det finns redan ett konto med den här e-postadressen. Prova att logga in istället.",
       "weakPassword": "Lösenordet måste vara minst 6 tecken långt.",
+      "passwordMismatch": "Lösenorden matchar inte.",
       "generic": "Något gick fel. Försök igen.",
       "oauth": "Inloggning med Google misslyckades. Försök igen."
     }

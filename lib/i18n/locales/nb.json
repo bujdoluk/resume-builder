@@ -309,10 +309,22 @@
     "switchToLogin": "Har du allerede en konto? <switchLink>Logg inn</switchLink>",
     "backToHome": "Tilbake til forsiden",
     "confirmEmailSent": "Vi har sendt deg en bekreftelseslenke på e-post. Klikk på den for å fullføre opprettelsen av kontoen.",
+    "forgotPassword": "Glemt passord?",
+    "resetTitle": "Tilbakestill passordet ditt",
+    "resetSubtitle": "Skriv inn e-posten din, så sender vi deg en lenke for å tilbakestille passordet.",
+    "resetSubmit": "Send tilbakestillingslenke",
+    "resetLinkSent": "Vi har sendt deg en lenke på e-post for å tilbakestille passordet. Klikk på den for å velge et nytt passord.",
+    "backToLogin": "Tilbake til innlogging",
+    "newPasswordTitle": "Velg et nytt passord",
+    "newPasswordSubtitle": "Skriv inn et nytt passord for kontoen din.",
+    "newPasswordLabel": "Nytt passord",
+    "confirmPasswordLabel": "Bekreft passord",
+    "newPasswordSubmit": "Oppdater passord",
     "errors": {
       "invalidCredentials": "Feil e-post eller passord. Ny her? Registrer deg nedenfor.",
       "emailInUse": "Det finnes allerede en konto med denne e-postadressen. Prøv å logge inn i stedet.",
       "weakPassword": "Passordet må være minst 6 tegn langt.",
+      "passwordMismatch": "Passordene stemmer ikke overens.",
       "generic": "Noe gikk galt. Prøv igjen.",
       "oauth": "Innlogging med Google mislyktes. Prøv igjen."
     }

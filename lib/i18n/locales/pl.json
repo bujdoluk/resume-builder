@@ -309,10 +309,22 @@
     "switchToLogin": "Masz już konto? <switchLink>Zaloguj się</switchLink>",
     "backToHome": "Powrót do strony głównej",
     "confirmEmailSent": "Wysłaliśmy link potwierdzający na Twój e-mail. Kliknij go, aby dokończyć tworzenie konta.",
+    "forgotPassword": "Nie pamiętasz hasła?",
+    "resetTitle": "Zresetuj hasło",
+    "resetSubtitle": "Podaj swój e-mail, a wyślemy Ci link do zresetowania hasła.",
+    "resetSubmit": "Wyślij link resetujący",
+    "resetLinkSent": "Wysłaliśmy link do zresetowania hasła na Twój e-mail. Kliknij go, aby wybrać nowe hasło.",
+    "backToLogin": "Powrót do logowania",
+    "newPasswordTitle": "Wybierz nowe hasło",
+    "newPasswordSubtitle": "Podaj nowe hasło dla swojego konta.",
+    "newPasswordLabel": "Nowe hasło",
+    "confirmPasswordLabel": "Potwierdź hasło",
+    "newPasswordSubmit": "Zaktualizuj hasło",
     "errors": {
       "invalidCredentials": "Nieprawidłowy e-mail lub hasło. Nie masz konta? Zarejestruj się poniżej.",
       "emailInUse": "Konto z tym adresem e-mail już istnieje. Spróbuj się zalogować.",
       "weakPassword": "Hasło musi mieć co najmniej 6 znaków.",
+      "passwordMismatch": "Hasła się nie zgadzają.",
       "generic": "Coś poszło nie tak. Spróbuj ponownie.",
       "oauth": "Logowanie przez Google nie powiodło się. Spróbuj ponownie."
     }

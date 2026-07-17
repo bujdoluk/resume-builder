@@ -94,6 +94,29 @@ export async function continueWithGoogle(supabase: SupabaseClient, redirectTo: s
   if (error) throw new AuthActionError("oauth", error);
 }
 
+// Emails a recovery link to `email`; clicking it lands back on `redirectTo`
+// (routed through app/auth/callback/route.ts, same as every other auth
+// redirect here) with a session already established, ready for
+// `updatePassword` below. Supabase intentionally returns success here
+// regardless of whether the email has an account, to avoid leaking which
+// emails are registered — so this never surfaces an "account not found"
+// error, matching the same reasoning as the login error message.
+export async function resetPassword(
+  supabase: SupabaseClient,
+  email: string,
+  redirectTo: string,
+): Promise<void> {
+  const { error } = await supabase.auth.resetPasswordForEmail(email, { redirectTo });
+  if (error) throw new AuthActionError("generic", error);
+}
+
+// Sets a new password on whichever session is currently active — normally
+// the recovery session created by clicking the reset-password email link.
+export async function updatePassword(supabase: SupabaseClient, password: string): Promise<void> {
+  const { error } = await supabase.auth.updateUser({ password });
+  if (error) throw mapSignUpError(error);
+}
+
 export async function logOut(supabase: SupabaseClient): Promise<void> {
   await supabase.auth.signOut();
 }

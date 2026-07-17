@@ -309,10 +309,22 @@
     "switchToLogin": "Vous avez déjà un compte ? <switchLink>Connectez-vous</switchLink>",
     "backToHome": "Retour à l'accueil",
     "confirmEmailSent": "Nous avons envoyé un lien de confirmation à votre adresse e-mail. Cliquez dessus pour terminer la création de votre compte.",
+    "forgotPassword": "Mot de passe oublié ?",
+    "resetTitle": "Réinitialisez votre mot de passe",
+    "resetSubtitle": "Saisissez votre e-mail et nous vous enverrons un lien pour réinitialiser votre mot de passe.",
+    "resetSubmit": "Envoyer le lien de réinitialisation",
+    "resetLinkSent": "Nous vous avons envoyé un lien de réinitialisation par e-mail. Cliquez dessus pour choisir un nouveau mot de passe.",
+    "backToLogin": "Retour à la connexion",
+    "newPasswordTitle": "Choisissez un nouveau mot de passe",
+    "newPasswordSubtitle": "Saisissez un nouveau mot de passe pour votre compte.",
+    "newPasswordLabel": "Nouveau mot de passe",
+    "confirmPasswordLabel": "Confirmer le mot de passe",
+    "newPasswordSubmit": "Mettre à jour le mot de passe",
     "errors": {
       "invalidCredentials": "E-mail ou mot de passe incorrect. Nouveau ici ? Inscrivez-vous ci-dessous.",
       "emailInUse": "Un compte avec cet e-mail existe déjà. Essayez plutôt de vous connecter.",
       "weakPassword": "Le mot de passe doit contenir au moins 6 caractères.",
+      "passwordMismatch": "Les mots de passe ne correspondent pas.",
       "generic": "Une erreur est survenue. Veuillez réessayer.",
       "oauth": "La connexion avec Google a échoué. Veuillez réessayer."
     }

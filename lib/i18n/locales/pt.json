@@ -309,10 +309,22 @@
     "switchToLogin": "Já tem conta? <switchLink>Inicie sessão</switchLink>",
     "backToHome": "Voltar ao início",
     "confirmEmailSent": "Enviámos-lhe um link de confirmação para o seu e-mail. Clique nele para concluir a criação da conta.",
+    "forgotPassword": "Esqueceu-se da palavra-passe?",
+    "resetTitle": "Reponha a sua palavra-passe",
+    "resetSubtitle": "Introduza o seu e-mail e enviaremos um link para repor a palavra-passe.",
+    "resetSubmit": "Enviar link de reposição",
+    "resetLinkSent": "Enviámos-lhe um link para o seu e-mail para repor a palavra-passe. Clique nele para escolher uma nova palavra-passe.",
+    "backToLogin": "Voltar ao início de sessão",
+    "newPasswordTitle": "Escolha uma nova palavra-passe",
+    "newPasswordSubtitle": "Introduza uma nova palavra-passe para a sua conta.",
+    "newPasswordLabel": "Nova palavra-passe",
+    "confirmPasswordLabel": "Confirmar palavra-passe",
+    "newPasswordSubmit": "Atualizar palavra-passe",
     "errors": {
       "invalidCredentials": "E-mail ou palavra-passe incorretos. Ainda não tem conta? Registe-se abaixo.",
       "emailInUse": "Já existe uma conta com este e-mail. Experimente iniciar sessão.",
       "weakPassword": "A palavra-passe deve ter pelo menos 6 caracteres.",
+      "passwordMismatch": "As palavras-passe não coincidem.",
       "generic": "Ocorreu um erro. Tente novamente.",
       "oauth": "Não foi possível iniciar sessão com o Google. Tente novamente."
     }

@@ -15,10 +15,10 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { EyeIcon, EyeSlashIcon } from "@/components/Icons";
-import { AuthActionError, continueWithGoogle, logIn, signUp } from "@/lib/supabase/auth";
+import { AuthActionError, continueWithGoogle, logIn, resetPassword, signUp } from "@/lib/supabase/auth";
 import { createClient } from "@/lib/supabase/client";
 
-type Mode = "login" | "signup";
+type Mode = "login" | "signup" | "reset";
 
 function LoginForm() {
   const { t } = useTranslation();
@@ -35,11 +35,13 @@ function LoginForm() {
   const [googleSubmitting, setGoogleSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(searchParams.get("error") === "oauth" ? t("auth.errors.oauth") : null);
   const [confirmEmailSent, setConfirmEmailSent] = useState(false);
+  const [resetLinkSent, setResetLinkSent] = useState(false);
 
   function switchMode(nextMode: Mode) {
     setMode(nextMode);
     setError(null);
     setConfirmEmailSent(false);
+    setResetLinkSent(false);
   }
 
   async function handleSubmit(event: React.FormEvent) {
@@ -67,6 +69,22 @@ function LoginForm() {
     }
   }
 
+  async function handleResetSubmit(event: React.FormEvent) {
+    event.preventDefault();
+    setError(null);
+    setSubmitting(true);
+    try {
+      const redirectTo = `${window.location.origin}/auth/callback?next=${encodeURIComponent("/reset-password")}`;
+      await resetPassword(supabase, email, redirectTo);
+      setResetLinkSent(true);
+    } catch (thrown) {
+      const code = thrown instanceof AuthActionError ? thrown.code : "generic";
+      setError(t(`auth.errors.${code}`));
+    } finally {
+      setSubmitting(false);
+    }
+  }
+
   async function handleGoogle() {
     setError(null);
     setGoogleSubmitting(true);
@@ -84,13 +102,47 @@ function LoginForm() {
       <div className="card bg-base-100 border-base-300 w-full max-w-sm border shadow-sm">
         <div className="card-body">
           <h1 className="text-center text-xl font-bold">
-            {mode === "login" ? t("auth.loginTitle") : t("auth.signupTitle")}
+            {mode === "login" && t("auth.loginTitle")}
+            {mode === "signup" && t("auth.signupTitle")}
+            {mode === "reset" && t("auth.resetTitle")}
           </h1>
           <p className="text-base-content/70 text-sm">
-            {mode === "login" ? t("auth.loginSubtitle") : t("auth.signupSubtitle")}
+            {mode === "login" && t("auth.loginSubtitle")}
+            {mode === "signup" && t("auth.signupSubtitle")}
+            {mode === "reset" && t("auth.resetSubtitle")}
           </p>
 
-          {confirmEmailSent ? (
+          {mode === "reset" ? (
+            resetLinkSent ? (
+              <div className="alert alert-success mt-4">
+                <span>{t("auth.resetLinkSent")}</span>
+              </div>
+            ) : (
+              <form onSubmit={handleResetSubmit} className="mt-4 flex flex-col gap-3">
+                <fieldset className="fieldset">
+                  <legend className="fieldset-legend">{t("auth.emailLabel")}</legend>
+                  <input
+                    type="email"
+                    className="input input-bordered w-full"
+                    value={email}
+                    onChange={(event) => setEmail(event.target.value)}
+                    autoComplete="email"
+                    required
+                  />
+                </fieldset>
+
+                {error && <p className="text-error text-sm">{error}</p>}
+
+                <button type="submit" className="btn btn-primary mt-1" disabled={submitting}>
+                  {submitting ? (
+                    <span className="loading loading-spinner loading-xs" />
+                  ) : (
+                    t("auth.resetSubmit")
+                  )}
+                </button>
+              </form>
+            )
+          ) : confirmEmailSent ? (
             <div className="alert alert-success mt-4">
               <span>{t("auth.confirmEmailSent")}</span>
             </div>
@@ -135,6 +187,16 @@ function LoginForm() {
                   </div>
                 </fieldset>
 
+                {mode === "login" && (
+                  <button
+                    type="button"
+                    className="link link-hover text-base-content/60 -mt-2 self-end text-xs"
+                    onClick={() => switchMode("reset")}
+                  >
+                    {t("auth.forgotPassword")}
+                  </button>
+                )}
+
                 {error && <p className="text-error text-sm">{error}</p>}
 
                 <button
@@ -173,18 +235,28 @@ function LoginForm() {
           )}
 
           <p className="mt-4 text-center text-sm">
-            <Trans
-              i18nKey={mode === "login" ? "auth.switchToSignup" : "auth.switchToLogin"}
-              components={{
-                switchLink: (
-                  <button
-                    type="button"
-                    className="link link-primary font-medium"
-                    onClick={() => switchMode(mode === "login" ? "signup" : "login")}
-                  />
-                ),
-              }}
-            />
+            {mode === "reset" ? (
+              <button
+                type="button"
+                className="link link-primary font-medium"
+                onClick={() => switchMode("login")}
+              >
+                {t("auth.backToLogin")}
+              </button>
+            ) : (
+              <Trans
+                i18nKey={mode === "login" ? "auth.switchToSignup" : "auth.switchToLogin"}
+                components={{
+                  switchLink: (
+                    <button
+                      type="button"
+                      className="link link-primary font-medium"
+                      onClick={() => switchMode(mode === "login" ? "signup" : "login")}
+                    />
+                  ),
+                }}
+              />
+            )}
           </p>
 
           <Link href="/" className="link link-hover text-base-content/60 mt-2 text-center text-sm">

@@ -138,7 +138,11 @@
       "Bash(node check-password-toggle.js)",
       "Bash(cd \"C:\\\\Users\\\\lukas\\\\AppData\\\\Local\\\\npm-cache\\\\_npx\\\\e41f203b7505f1fb\" && rm -f check-password-toggle.js *.png)",
       "Bash(node check-title.js)",
-      "Bash(cd \"C:\\\\Users\\\\lukas\\\\AppData\\\\Local\\\\npm-cache\\\\_npx\\\\e41f203b7505f1fb\" && rm -f check-title.js *.png)"
+      "Bash(cd \"C:\\\\Users\\\\lukas\\\\AppData\\\\Local\\\\npm-cache\\\\_npx\\\\e41f203b7505f1fb\" && rm -f check-title.js *.png)",
+      "Bash(node \"C:\\\\Users\\\\lukas\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\d--Projekty-resume-builder\\\\01195db0-934c-40eb-b550-2136f9dc5402\\\\scratchpad\\\\add-reset-translations.js\")",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:3000/reset-password)",
+      "Bash(node check-reset-flow.js)",
+      "Bash(cd \"C:\\\\Users\\\\lukas\\\\AppData\\\\Local\\\\npm-cache\\\\_npx\\\\e41f203b7505f1fb\" && rm -f check-reset-flow.js *.png)"
     ],
     "additionalDirectories": [
       "C:\\Users\\lukas\\AppData\\Local\\npm-cache\\_npx\\e41f203b7505f1fb",

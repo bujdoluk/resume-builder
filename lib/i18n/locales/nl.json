@@ -309,10 +309,22 @@
     "switchToLogin": "Heb je al een account? <switchLink>Inloggen</switchLink>",
     "backToHome": "Terug naar home",
     "confirmEmailSent": "We hebben een bevestigingslink naar je e-mail gestuurd. Klik erop om je account aan te maken.",
+    "forgotPassword": "Wachtwoord vergeten?",
+    "resetTitle": "Wachtwoord opnieuw instellen",
+    "resetSubtitle": "Vul je e-mailadres in en we sturen je een link om je wachtwoord opnieuw in te stellen.",
+    "resetSubmit": "Verstuur resetlink",
+    "resetLinkSent": "We hebben een link naar je e-mail gestuurd om je wachtwoord opnieuw in te stellen. Klik erop om een nieuw wachtwoord te kiezen.",
+    "backToLogin": "Terug naar inloggen",
+    "newPasswordTitle": "Kies een nieuw wachtwoord",
+    "newPasswordSubtitle": "Vul een nieuw wachtwoord in voor je account.",
+    "newPasswordLabel": "Nieuw wachtwoord",
+    "confirmPasswordLabel": "Bevestig wachtwoord",
+    "newPasswordSubmit": "Wachtwoord bijwerken",
     "errors": {
       "invalidCredentials": "Onjuiste e-mail of wachtwoord. Nog geen account? Registreer je hieronder.",
       "emailInUse": "Er bestaat al een account met dit e-mailadres. Probeer in te loggen.",
       "weakPassword": "Het wachtwoord moet minstens 6 tekens lang zijn.",
+      "passwordMismatch": "Wachtwoorden komen niet overeen.",
       "generic": "Er is iets misgegaan. Probeer het opnieuw.",
       "oauth": "Inloggen met Google is mislukt. Probeer het opnieuw."
     }

@@ -309,10 +309,22 @@
     "switchToLogin": "¿Ya tienes cuenta? <switchLink>Inicia sesión</switchLink>",
     "backToHome": "Volver al inicio",
     "confirmEmailSent": "Te hemos enviado un enlace de confirmación a tu correo electrónico. Haz clic en él para terminar de crear tu cuenta.",
+    "forgotPassword": "¿Olvidaste tu contraseña?",
+    "resetTitle": "Restablece tu contraseña",
+    "resetSubtitle": "Introduce tu correo electrónico y te enviaremos un enlace para restablecer tu contraseña.",
+    "resetSubmit": "Enviar enlace de restablecimiento",
+    "resetLinkSent": "Te hemos enviado un enlace para restablecer tu contraseña a tu correo electrónico. Haz clic en él para elegir una nueva contraseña.",
+    "backToLogin": "Volver a iniciar sesión",
+    "newPasswordTitle": "Elige una nueva contraseña",
+    "newPasswordSubtitle": "Introduce una nueva contraseña para tu cuenta.",
+    "newPasswordLabel": "Nueva contraseña",
+    "confirmPasswordLabel": "Confirmar contraseña",
+    "newPasswordSubmit": "Actualizar contraseña",
     "errors": {
       "invalidCredentials": "Correo electrónico o contraseña incorrectos. ¿Eres nuevo? Regístrate abajo.",
       "emailInUse": "Ya existe una cuenta con este correo electrónico. Prueba a iniciar sesión.",
       "weakPassword": "La contraseña debe tener al menos 6 caracteres.",
+      "passwordMismatch": "Las contraseñas no coinciden.",
       "generic": "Algo salió mal. Inténtalo de nuevo.",
       "oauth": "No se pudo iniciar sesión con Google. Inténtalo de nuevo."
     }

@@ -309,10 +309,22 @@
     "switchToLogin": "Schon ein Konto? <switchLink>Anmelden</switchLink>",
     "backToHome": "Zurück zur Startseite",
     "confirmEmailSent": "Wir haben dir einen Bestätigungslink per E-Mail geschickt. Klicke darauf, um die Kontoerstellung abzuschließen.",
+    "forgotPassword": "Passwort vergessen?",
+    "resetTitle": "Passwort zurücksetzen",
+    "resetSubtitle": "Gib deine E-Mail-Adresse ein und wir senden dir einen Link zum Zurücksetzen deines Passworts.",
+    "resetSubmit": "Link zum Zurücksetzen senden",
+    "resetLinkSent": "Wir haben dir einen Link zum Zurücksetzen deines Passworts per E-Mail geschickt. Klicke darauf, um ein neues Passwort zu wählen.",
+    "backToLogin": "Zurück zur Anmeldung",
+    "newPasswordTitle": "Neues Passwort wählen",
+    "newPasswordSubtitle": "Gib ein neues Passwort für dein Konto ein.",
+    "newPasswordLabel": "Neues Passwort",
+    "confirmPasswordLabel": "Passwort bestätigen",
+    "newPasswordSubmit": "Passwort aktualisieren",
     "errors": {
       "invalidCredentials": "Falsche E-Mail-Adresse oder falsches Passwort. Noch kein Konto? Registriere dich unten.",
       "emailInUse": "Ein Konto mit dieser E-Mail-Adresse existiert bereits. Versuche es stattdessen mit der Anmeldung.",
       "weakPassword": "Das Passwort muss mindestens 6 Zeichen lang sein.",
+      "passwordMismatch": "Die Passwörter stimmen nicht überein.",
       "generic": "Etwas ist schiefgelaufen. Bitte versuche es erneut.",
       "oauth": "Die Anmeldung mit Google ist fehlgeschlagen. Bitte versuche es erneut."
     }
