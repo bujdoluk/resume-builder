@@ -49,7 +49,8 @@ function LoginForm() {
         await logIn(supabase, email, password);
         router.push(next);
       } else {
-        const loggedIn = await signUp(supabase, email, password);
+        const redirectTo = `${window.location.origin}/auth/callback?next=${encodeURIComponent(next)}`;
+        const loggedIn = await signUp(supabase, email, password, redirectTo);
         if (loggedIn) {
           router.push(next);
         } else {

@@ -1,6 +1,13 @@
 /**
  * Email/password + Google login and signup, on top of the silent anonymous
- * session `ensureUserId` creates. Email/password signup converts the
+ * session `ensureUserId` creates. `signUp`/`continueWithGoogle` both take an
+ * explicit `redirectTo` (the caller's own origin) rather than relying on
+ * Supabase's dashboard-configured Site URL default — otherwise confirmation
+ * emails/OAuth redirects sent from production would point at whatever Site
+ * URL happens to be set in the dashboard (e.g. still `localhost:3000` from
+ * initial local dev), which is broken for every real visitor.
+ *
+ * Email/password signup converts the
  * current anonymous user in place (via `updateUser`) when there is one, so
  * resumes/cover letters already saved under the anonymous id stay attached
  * — and if that email already belongs to an existing account, `updateUser`
@@ -60,14 +67,19 @@ export async function logIn(supabase: SupabaseClient, email: string, password: s
   if (error) throw mapSignInError(error);
 }
 
-export async function signUp(supabase: SupabaseClient, email: string, password: string): Promise<boolean> {
+export async function signUp(
+  supabase: SupabaseClient,
+  email: string,
+  password: string,
+  redirectTo: string,
+): Promise<boolean> {
   const {
     data: { session: existingSession },
   } = await supabase.auth.getSession();
 
   const { error } = existingSession?.user?.is_anonymous
-    ? await supabase.auth.updateUser({ email, password })
-    : await supabase.auth.signUp({ email, password });
+    ? await supabase.auth.updateUser({ email, password }, { emailRedirectTo: redirectTo })
+    : await supabase.auth.signUp({ email, password, options: { emailRedirectTo: redirectTo } });
 
   if (error) throw mapSignUpError(error);
 
