@@ -229,6 +229,14 @@ export default function ResumeBuilder({
     setData((prev) => ({ ...prev, interests }));
   }
 
+  function handleNewResume() {
+    setData(emptyResumeData);
+    setResumeId(null);
+    setResumeName("");
+    clearDraft();
+    router.replace(`/app?template=${templateId}`);
+  }
+
   async function handleSave() {
     if (isSaving) return;
 
@@ -524,6 +532,14 @@ export default function ResumeBuilder({
   function renderActionButtons(className: string) {
     return (
       <div className={className}>
+        <button
+          type="button"
+          className="btn btn-outline hover:border-primary flex-1 md:flex-none md:w-48"
+          onClick={handleNewResume}
+        >
+          {t("myResumes.newResume")}
+        </button>
+
         <button
           type="button"
           className="btn btn-primary btn-lg flex-1 md:flex-none md:w-48"
