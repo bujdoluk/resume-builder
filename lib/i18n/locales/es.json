@@ -375,11 +375,12 @@
     "title": "Mi cuenta",
     "currentPlan": "Plan actual",
     "viewPlans": "Ver planes",
-    "renewsOn": "Se renueva el {{date}}",
-    "endsOn": "Tu plan termina el {{date}}. Después pasarás al plan Gratis.",
+    "renewsOnLabel": "Se renueva el",
+    "endsOnLabel": "Termina el",
     "cancelSubscription": "Cancelar suscripción",
     "resumeSubscription": "Reanudar suscripción",
     "confirmCancel": "¿Seguro que quieres cancelar tu suscripción? Mantendrás el acceso hasta el final del periodo de facturación actual.",
-    "actionFailed": "Algo salió mal. Inténtalo de nuevo."
+    "actionFailed": "Algo salió mal. Inténtalo de nuevo.",
+    "goBack": "Volver"
   }
 }

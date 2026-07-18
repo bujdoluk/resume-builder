@@ -375,11 +375,12 @@
     "title": "Můj účet",
     "currentPlan": "Aktuální plán",
     "viewPlans": "Zobrazit plány",
-    "renewsOn": "Obnoví se {{date}}",
-    "endsOn": "Váš plán skončí {{date}}. Poté přejdete na bezplatný plán.",
+    "renewsOnLabel": "Obnoví se",
+    "endsOnLabel": "Skončí",
     "cancelSubscription": "Zrušit předplatné",
     "resumeSubscription": "Obnovit předplatné",
     "confirmCancel": "Opravdu chcete zrušit předplatné? Přístup si zachováte do konce aktuálního fakturačního období.",
-    "actionFailed": "Něco se pokazilo. Zkuste to znovu."
+    "actionFailed": "Něco se pokazilo. Zkuste to znovu.",
+    "goBack": "Zpět"
   }
 }

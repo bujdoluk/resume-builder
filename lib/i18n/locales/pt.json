@@ -375,11 +375,12 @@
     "title": "A minha conta",
     "currentPlan": "Plano atual",
     "viewPlans": "Ver planos",
-    "renewsOn": "Renova a {{date}}",
-    "endsOn": "O seu plano termina a {{date}}. Depois disso, passará para o plano Grátis.",
+    "renewsOnLabel": "Renova a",
+    "endsOnLabel": "Termina a",
     "cancelSubscription": "Cancelar subscrição",
     "resumeSubscription": "Retomar subscrição",
     "confirmCancel": "Tem a certeza de que pretende cancelar a subscrição? Manterá o acesso até ao final do período de faturação atual.",
-    "actionFailed": "Ocorreu um erro. Tente novamente."
+    "actionFailed": "Ocorreu um erro. Tente novamente.",
+    "goBack": "Voltar"
   }
 }

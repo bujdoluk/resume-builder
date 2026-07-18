@@ -375,11 +375,12 @@
     "title": "Mon compte",
     "currentPlan": "Forfait actuel",
     "viewPlans": "Voir les forfaits",
-    "renewsOn": "Se renouvelle le {{date}}",
-    "endsOn": "Votre forfait se termine le {{date}}. Vous passerez ensuite au forfait Gratuit.",
+    "renewsOnLabel": "Se renouvelle le",
+    "endsOnLabel": "Se termine le",
     "cancelSubscription": "Annuler l'abonnement",
     "resumeSubscription": "Reprendre l'abonnement",
     "confirmCancel": "Voulez-vous vraiment annuler votre abonnement ? Vous conserverez l'accès jusqu'à la fin de la période de facturation en cours.",
-    "actionFailed": "Une erreur est survenue. Veuillez réessayer."
+    "actionFailed": "Une erreur est survenue. Veuillez réessayer.",
+    "goBack": "Retour"
   }
 }

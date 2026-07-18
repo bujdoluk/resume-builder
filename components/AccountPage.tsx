@@ -16,6 +16,7 @@ import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Temporal } from "temporal-polyfill";
 import ConfirmDialog, { type ConfirmDialogHandle } from "@/components/ConfirmDialog";
+import { ArrowLeftIcon } from "@/components/Icons";
 import { createClient } from "@/lib/supabase/client";
 import { getSubscription, type Subscription } from "@/lib/supabase/subscriptions";
 
@@ -99,64 +100,77 @@ export default function AccountPage() {
 
   return (
     <div className="bg-base-200 flex flex-1 items-center justify-center p-6">
-      <div className="card bg-base-100 border-base-300 w-full max-w-sm border shadow-sm">
+      <div className="card bg-base-100 border-base-300 w-full max-w-xl border shadow-sm">
         <div className="card-body">
-          <h1 className="text-center text-xl font-bold">{t("account.title")}</h1>
+          <h1 className="text-center text-2xl font-bold">{t("account.title")}</h1>
           <p className="text-base-content/70 text-center text-sm">{email}</p>
 
-          <div className="bg-base-200 mt-4 rounded-lg p-4">
-            <p className="text-base-content/60 text-xs tracking-wide uppercase">
-              {t("account.currentPlan")}
-            </p>
-            <p className="text-lg font-bold">{planName}</p>
+          <div className="divide-base-300 bg-base-200 mt-6 divide-y rounded-lg px-4">
+            <div className="flex items-center justify-between py-3">
+              <span className="text-base-content/60 text-sm">{t("account.currentPlan")}</span>
+              <span
+                className={`badge badge-lg font-semibold ${
+                  subscription.plan === "free" ? "badge-ghost" : "badge-primary"
+                }`}
+              >
+                {planName}
+              </span>
+            </div>
 
-            {subscription.plan === "free" ? (
-              <Link href="/#pricing" className="btn btn-primary btn-sm mt-3">
-                {t("account.viewPlans")}
-              </Link>
-            ) : subscription.cancelAtPeriodEnd ? (
-              <>
-                <p className="text-warning mt-2 text-sm">
-                  {t("account.endsOn", { date: periodEndDate })}
-                </p>
-                <button
-                  type="button"
-                  className="btn btn-outline btn-sm mt-3"
-                  disabled={actionLoading}
-                  onClick={handleResume}
+            {subscription.plan !== "free" && periodEndDate && (
+              <div className="flex items-center justify-between py-3">
+                <span className="text-base-content/60 text-sm">
+                  {subscription.cancelAtPeriodEnd ? t("account.endsOnLabel") : t("account.renewsOnLabel")}
+                </span>
+                <span
+                  className={`text-sm font-medium ${subscription.cancelAtPeriodEnd ? "text-warning" : ""}`}
                 >
-                  {actionLoading ? (
-                    <span className="loading loading-spinner loading-xs" />
-                  ) : (
-                    t("account.resumeSubscription")
-                  )}
-                </button>
-              </>
-            ) : (
-              <>
-                {periodEndDate && (
-                  <p className="text-base-content/70 mt-2 text-sm">
-                    {t("account.renewsOn", { date: periodEndDate })}
-                  </p>
-                )}
-                <button
-                  type="button"
-                  className="btn btn-outline btn-error btn-sm mt-3"
-                  disabled={actionLoading}
-                  onClick={handleCancel}
-                >
-                  {actionLoading ? (
-                    <span className="loading loading-spinner loading-xs" />
-                  ) : (
-                    t("account.cancelSubscription")
-                  )}
-                </button>
-              </>
+                  {periodEndDate}
+                </span>
+              </div>
             )}
           </div>
 
-          <Link href="/" className="link link-hover text-base-content/60 mt-4 text-center text-sm">
-            {t("auth.backToHome")}
+          <div className="mt-4 flex justify-end">
+            {subscription.plan === "free" ? (
+              <Link href="/#pricing" className="btn btn-primary btn-sm">
+                {t("account.viewPlans")}
+              </Link>
+            ) : subscription.cancelAtPeriodEnd ? (
+              <button
+                type="button"
+                className="btn btn-outline btn-sm"
+                disabled={actionLoading}
+                onClick={handleResume}
+              >
+                {actionLoading ? (
+                  <span className="loading loading-spinner loading-xs" />
+                ) : (
+                  t("account.resumeSubscription")
+                )}
+              </button>
+            ) : (
+              <button
+                type="button"
+                className="btn btn-outline btn-error btn-sm"
+                disabled={actionLoading}
+                onClick={handleCancel}
+              >
+                {actionLoading ? (
+                  <span className="loading loading-spinner loading-xs" />
+                ) : (
+                  t("account.cancelSubscription")
+                )}
+              </button>
+            )}
+          </div>
+
+          <Link
+            href="/"
+            className="link link-hover text-base-content/60 mt-4 flex items-center justify-center gap-1 text-center text-sm"
+          >
+            <ArrowLeftIcon className="h-4 w-4 stroke-current" />
+            {t("account.goBack")}
           </Link>
         </div>
       </div>

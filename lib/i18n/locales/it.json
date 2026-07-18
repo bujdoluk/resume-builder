@@ -375,11 +375,12 @@
     "title": "Il mio account",
     "currentPlan": "Piano attuale",
     "viewPlans": "Vedi i piani",
-    "renewsOn": "Si rinnova il {{date}}",
-    "endsOn": "Il tuo piano termina il {{date}}. Dopo passerai al piano Gratis.",
+    "renewsOnLabel": "Si rinnova il",
+    "endsOnLabel": "Termina il",
     "cancelSubscription": "Annulla abbonamento",
     "resumeSubscription": "Riprendi abbonamento",
     "confirmCancel": "Sei sicuro di voler annullare l'abbonamento? Manterrai l'accesso fino alla fine del periodo di fatturazione attuale.",
-    "actionFailed": "Qualcosa è andato storto. Riprova."
+    "actionFailed": "Qualcosa è andato storto. Riprova.",
+    "goBack": "Indietro"
   }
 }

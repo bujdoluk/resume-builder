@@ -375,11 +375,12 @@
     "title": "Moje konto",
     "currentPlan": "Obecny plan",
     "viewPlans": "Zobacz plany",
-    "renewsOn": "Odnowienie {{date}}",
-    "endsOn": "Twój plan kończy się {{date}}. Następnie przejdziesz na plan Darmowy.",
+    "renewsOnLabel": "Odnowienie",
+    "endsOnLabel": "Koniec",
     "cancelSubscription": "Anuluj subskrypcję",
     "resumeSubscription": "Wznów subskrypcję",
     "confirmCancel": "Czy na pewno chcesz anulować subskrypcję? Zachowasz dostęp do końca bieżącego okresu rozliczeniowego.",
-    "actionFailed": "Coś poszło nie tak. Spróbuj ponownie."
+    "actionFailed": "Coś poszło nie tak. Spróbuj ponownie.",
+    "goBack": "Wstecz"
   }
 }

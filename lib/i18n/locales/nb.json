@@ -375,11 +375,12 @@
     "title": "Min konto",
     "currentPlan": "Nåværende plan",
     "viewPlans": "Se planer",
-    "renewsOn": "Fornyes {{date}}",
-    "endsOn": "Planen din avsluttes {{date}}. Deretter flyttes du til Gratis-planen.",
+    "renewsOnLabel": "Fornyes",
+    "endsOnLabel": "Avsluttes",
     "cancelSubscription": "Avbryt abonnement",
     "resumeSubscription": "Gjenoppta abonnement",
     "confirmCancel": "Er du sikker på at du vil avbryte abonnementet? Du beholder tilgangen ut inneværende faktureringsperiode.",
-    "actionFailed": "Noe gikk galt. Prøv igjen."
+    "actionFailed": "Noe gikk galt. Prøv igjen.",
+    "goBack": "Tilbake"
   }
 }

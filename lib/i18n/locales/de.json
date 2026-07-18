@@ -375,11 +375,12 @@
     "title": "Mein Konto",
     "currentPlan": "Aktueller Plan",
     "viewPlans": "Pläne ansehen",
-    "renewsOn": "Verlängert sich am {{date}}",
-    "endsOn": "Dein Plan endet am {{date}}. Danach wechselst du zum kostenlosen Plan.",
+    "renewsOnLabel": "Verlängert sich am",
+    "endsOnLabel": "Endet am",
     "cancelSubscription": "Abo kündigen",
     "resumeSubscription": "Abo fortsetzen",
     "confirmCancel": "Möchtest du dein Abo wirklich kündigen? Du behältst den Zugriff bis zum Ende des aktuellen Abrechnungszeitraums.",
-    "actionFailed": "Etwas ist schiefgelaufen. Bitte versuche es erneut."
+    "actionFailed": "Etwas ist schiefgelaufen. Bitte versuche es erneut.",
+    "goBack": "Zurück"
   }
 }

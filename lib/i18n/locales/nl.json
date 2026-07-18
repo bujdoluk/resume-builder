@@ -375,11 +375,12 @@
     "title": "Mijn account",
     "currentPlan": "Huidig abonnement",
     "viewPlans": "Bekijk abonnementen",
-    "renewsOn": "Wordt verlengd op {{date}}",
-    "endsOn": "Je abonnement eindigt op {{date}}. Daarna ga je over naar het Gratis-abonnement.",
+    "renewsOnLabel": "Wordt verlengd op",
+    "endsOnLabel": "Eindigt op",
     "cancelSubscription": "Abonnement opzeggen",
     "resumeSubscription": "Abonnement hervatten",
     "confirmCancel": "Weet je zeker dat je je abonnement wilt opzeggen? Je behoudt toegang tot het einde van de huidige factureringsperiode.",
-    "actionFailed": "Er is iets misgegaan. Probeer het opnieuw."
+    "actionFailed": "Er is iets misgegaan. Probeer het opnieuw.",
+    "goBack": "Terug"
   }
 }

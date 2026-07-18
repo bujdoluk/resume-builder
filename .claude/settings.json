@@ -168,7 +168,12 @@
       "Bash(curl -s -o /dev/null -w \"HTTP %{http_code}, time=%{time_total}s\\\\n\" https://embed.tawk.to/6a5b20607db6ee1d420ea261/1jtpvcuiq)",
       "Bash(curl -sv https://embed.tawk.to/6a5b20607db6ee1d420ea261/1jtpvcuiq)",
       "Bash(node check-tawk3.js)",
-      "Bash(cd \"C:\\\\Users\\\\lukas\\\\AppData\\\\Local\\\\npm-cache\\\\_npx\\\\e41f203b7505f1fb\" && rm -f check-tawk2.js check-tawk3.js *.png)"
+      "Bash(cd \"C:\\\\Users\\\\lukas\\\\AppData\\\\Local\\\\npm-cache\\\\_npx\\\\e41f203b7505f1fb\" && rm -f check-tawk2.js check-tawk3.js *.png)",
+      "Bash(node check-account-redesign.js)",
+      "Bash(node check-mockup.js)",
+      "Bash(curl -s \"http://localhost:3000/_next/static/chunks/%5Broot-of-the-server%5D__1gke8nv._.css\" -o \"C:\\\\Users\\\\lukas\\\\AppData\\\\Local\\\\npm-cache\\\\_npx\\\\e41f203b7505f1fb\\\\app.css\")",
+      "Bash(rm -f check-mockup.js account-mockup.png app.css)",
+      "Bash(rm -f \"C:\\\\Users\\\\lukas\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\d--Projekty-resume-builder\\\\01195db0-934c-40eb-b550-2136f9dc5402\\\\scratchpad\\\\account-mockup.html\")"
     ],
     "additionalDirectories": [
       "C:\\Users\\lukas\\AppData\\Local\\npm-cache\\_npx\\e41f203b7505f1fb",
