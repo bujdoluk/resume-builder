@@ -331,7 +331,6 @@
     "orDivider": "of",
     "switchToSignup": "Heb je nog geen account? <switchLink>Registreren</switchLink>",
     "switchToLogin": "Heb je al een account? <switchLink>Inloggen</switchLink>",
-    "backToHome": "Terug naar home",
     "confirmEmailSent": "We hebben een bevestigingslink naar je e-mail gestuurd. Klik erop om je account aan te maken.",
     "forgotPassword": "Wachtwoord vergeten?",
     "resetTitle": "Wachtwoord opnieuw instellen",
@@ -351,7 +350,8 @@
       "passwordMismatch": "Wachtwoorden komen niet overeen.",
       "generic": "Er is iets misgegaan. Probeer het opnieuw.",
       "oauth": "Inloggen met Google is mislukt. Probeer het opnieuw."
-    }
+    },
+    "rememberMe": "Onthoud mij"
   },
   "pricing": {
     "title": "Eenvoudige, transparante prijzen",

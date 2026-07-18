@@ -331,7 +331,6 @@
     "orDivider": "o",
     "switchToSignup": "¿No tienes cuenta? <switchLink>Regístrate</switchLink>",
     "switchToLogin": "¿Ya tienes cuenta? <switchLink>Inicia sesión</switchLink>",
-    "backToHome": "Volver al inicio",
     "confirmEmailSent": "Te hemos enviado un enlace de confirmación a tu correo electrónico. Haz clic en él para terminar de crear tu cuenta.",
     "forgotPassword": "¿Olvidaste tu contraseña?",
     "resetTitle": "Restablece tu contraseña",
@@ -351,7 +350,8 @@
       "passwordMismatch": "Las contraseñas no coinciden.",
       "generic": "Algo salió mal. Inténtalo de nuevo.",
       "oauth": "No se pudo iniciar sesión con Google. Inténtalo de nuevo."
-    }
+    },
+    "rememberMe": "Recordarme"
   },
   "pricing": {
     "title": "Precios simples y transparentes",

@@ -331,7 +331,6 @@
     "orDivider": "eller",
     "switchToSignup": "Har du ikke en konto? <switchLink>Registrer deg</switchLink>",
     "switchToLogin": "Har du allerede en konto? <switchLink>Logg inn</switchLink>",
-    "backToHome": "Tilbake til forsiden",
     "confirmEmailSent": "Vi har sendt deg en bekreftelseslenke på e-post. Klikk på den for å fullføre opprettelsen av kontoen.",
     "forgotPassword": "Glemt passord?",
     "resetTitle": "Tilbakestill passordet ditt",
@@ -351,7 +350,8 @@
       "passwordMismatch": "Passordene stemmer ikke overens.",
       "generic": "Noe gikk galt. Prøv igjen.",
       "oauth": "Innlogging med Google mislyktes. Prøv igjen."
-    }
+    },
+    "rememberMe": "Husk meg"
   },
   "pricing": {
     "title": "Enkle, gjennomsiktige priser",

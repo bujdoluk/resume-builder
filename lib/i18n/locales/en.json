@@ -331,7 +331,6 @@
     "orDivider": "or",
     "switchToSignup": "Don't have an account? <switchLink>Sign up</switchLink>",
     "switchToLogin": "Already have an account? <switchLink>Log in</switchLink>",
-    "backToHome": "Back to home",
     "confirmEmailSent": "We've sent a confirmation link to your email. Click it to finish creating your account.",
     "forgotPassword": "Forgot password?",
     "resetTitle": "Reset your password",
@@ -351,7 +350,8 @@
       "passwordMismatch": "Passwords don't match.",
       "generic": "Something went wrong. Please try again.",
       "oauth": "Google sign-in failed. Please try again."
-    }
+    },
+    "rememberMe": "Remember me"
   },
   "pricing": {
     "title": "Simple, transparent pricing",

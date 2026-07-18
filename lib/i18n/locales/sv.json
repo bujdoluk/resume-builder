@@ -331,7 +331,6 @@
     "orDivider": "eller",
     "switchToSignup": "Har du inget konto? <switchLink>Registrera dig</switchLink>",
     "switchToLogin": "Har du redan ett konto? <switchLink>Logga in</switchLink>",
-    "backToHome": "Tillbaka till startsidan",
     "confirmEmailSent": "Vi har skickat en bekräftelselänk till din e-post. Klicka på den för att slutföra kontoskapandet.",
     "forgotPassword": "Glömt lösenordet?",
     "resetTitle": "Återställ ditt lösenord",
@@ -351,7 +350,8 @@
       "passwordMismatch": "Lösenorden matchar inte.",
       "generic": "Något gick fel. Försök igen.",
       "oauth": "Inloggning med Google misslyckades. Försök igen."
-    }
+    },
+    "rememberMe": "Kom ihåg mig"
   },
   "pricing": {
     "title": "Enkla, transparenta priser",

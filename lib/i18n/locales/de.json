@@ -331,7 +331,6 @@
     "orDivider": "oder",
     "switchToSignup": "Noch kein Konto? <switchLink>Registrieren</switchLink>",
     "switchToLogin": "Schon ein Konto? <switchLink>Anmelden</switchLink>",
-    "backToHome": "Zurück zur Startseite",
     "confirmEmailSent": "Wir haben dir einen Bestätigungslink per E-Mail geschickt. Klicke darauf, um die Kontoerstellung abzuschließen.",
     "forgotPassword": "Passwort vergessen?",
     "resetTitle": "Passwort zurücksetzen",
@@ -351,7 +350,8 @@
       "passwordMismatch": "Die Passwörter stimmen nicht überein.",
       "generic": "Etwas ist schiefgelaufen. Bitte versuche es erneut.",
       "oauth": "Die Anmeldung mit Google ist fehlgeschlagen. Bitte versuche es erneut."
-    }
+    },
+    "rememberMe": "Angemeldet bleiben"
   },
   "pricing": {
     "title": "Einfache, transparente Preise",

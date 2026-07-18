@@ -331,7 +331,6 @@
     "orDivider": "lub",
     "switchToSignup": "Nie masz konta? <switchLink>Zarejestruj się</switchLink>",
     "switchToLogin": "Masz już konto? <switchLink>Zaloguj się</switchLink>",
-    "backToHome": "Powrót do strony głównej",
     "confirmEmailSent": "Wysłaliśmy link potwierdzający na Twój e-mail. Kliknij go, aby dokończyć tworzenie konta.",
     "forgotPassword": "Nie pamiętasz hasła?",
     "resetTitle": "Zresetuj hasło",
@@ -351,7 +350,8 @@
       "passwordMismatch": "Hasła się nie zgadzają.",
       "generic": "Coś poszło nie tak. Spróbuj ponownie.",
       "oauth": "Logowanie przez Google nie powiodło się. Spróbuj ponownie."
-    }
+    },
+    "rememberMe": "Zapamiętaj mnie"
   },
   "pricing": {
     "title": "Proste, przejrzyste ceny",

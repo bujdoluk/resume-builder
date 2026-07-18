@@ -331,7 +331,6 @@
     "orDivider": "ou",
     "switchToSignup": "Vous n'avez pas de compte ? <switchLink>Inscrivez-vous</switchLink>",
     "switchToLogin": "Vous avez déjà un compte ? <switchLink>Connectez-vous</switchLink>",
-    "backToHome": "Retour à l'accueil",
     "confirmEmailSent": "Nous avons envoyé un lien de confirmation à votre adresse e-mail. Cliquez dessus pour terminer la création de votre compte.",
     "forgotPassword": "Mot de passe oublié ?",
     "resetTitle": "Réinitialisez votre mot de passe",
@@ -351,7 +350,8 @@
       "passwordMismatch": "Les mots de passe ne correspondent pas.",
       "generic": "Une erreur est survenue. Veuillez réessayer.",
       "oauth": "La connexion avec Google a échoué. Veuillez réessayer."
-    }
+    },
+    "rememberMe": "Se souvenir de moi"
   },
   "pricing": {
     "title": "Des tarifs simples et transparents",

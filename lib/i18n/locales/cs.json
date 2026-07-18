@@ -331,7 +331,6 @@
     "orDivider": "nebo",
     "switchToSignup": "Nemáte účet? <switchLink>Zaregistrujte se</switchLink>",
     "switchToLogin": "Už máte účet? <switchLink>Přihlaste se</switchLink>",
-    "backToHome": "Zpět na hlavní stránku",
     "confirmEmailSent": "Na váš e-mail jsme odeslali potvrzovací odkaz. Kliknutím na něj dokončíte vytvoření účtu.",
     "forgotPassword": "Zapomenuté heslo?",
     "resetTitle": "Obnovení hesla",
@@ -351,7 +350,8 @@
       "passwordMismatch": "Hesla se neshodují.",
       "generic": "Něco se pokazilo. Zkuste to znovu.",
       "oauth": "Přihlášení přes Google se nezdařilo. Zkuste to znovu."
-    }
+    },
+    "rememberMe": "Zapamatovat si mě"
   },
   "pricing": {
     "title": "Jednoduché, transparentní ceny",

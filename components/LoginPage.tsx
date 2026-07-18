@@ -10,13 +10,13 @@
  * attached. Logging into an existing separate account does not carry those
  * over — that's a genuinely different user id.
  */
-import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
-import { EyeIcon, EyeSlashIcon } from "@/components/Icons";
+import { ArrowLeftIcon, EyeIcon, EyeSlashIcon } from "@/components/Icons";
 import { AuthActionError, continueWithGoogle, logIn, resetPassword, signUp } from "@/lib/supabase/auth";
 import { createClient } from "@/lib/supabase/client";
+import { forgetSessionOnBrowserClose } from "@/lib/supabase/rememberMe";
 
 type Mode = "login" | "signup" | "reset";
 
@@ -31,6 +31,7 @@ function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [rememberMe, setRememberMe] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [googleSubmitting, setGoogleSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(searchParams.get("error") === "oauth" ? t("auth.errors.oauth") : null);
@@ -51,6 +52,7 @@ function LoginForm() {
     try {
       if (mode === "login") {
         await logIn(supabase, email, password);
+        if (!rememberMe) forgetSessionOnBrowserClose();
         router.push(next);
       } else {
         const redirectTo = `${window.location.origin}/auth/callback?next=${encodeURIComponent(next)}`;
@@ -188,13 +190,24 @@ function LoginForm() {
                 </fieldset>
 
                 {mode === "login" && (
-                  <button
-                    type="button"
-                    className="link link-hover text-base-content/60 -mt-2 self-end text-xs"
-                    onClick={() => switchMode("reset")}
-                  >
-                    {t("auth.forgotPassword")}
-                  </button>
+                  <div className="-mt-2 flex items-center justify-between">
+                    <label className="label cursor-pointer gap-2 p-0 text-xs">
+                      <input
+                        type="checkbox"
+                        className="checkbox checkbox-xs"
+                        checked={rememberMe}
+                        onChange={(event) => setRememberMe(event.target.checked)}
+                      />
+                      {t("auth.rememberMe")}
+                    </label>
+                    <button
+                      type="button"
+                      className="link link-hover text-base-content/60 text-xs"
+                      onClick={() => switchMode("reset")}
+                    >
+                      {t("auth.forgotPassword")}
+                    </button>
+                  </div>
                 )}
 
                 {error && <p className="text-error text-sm">{error}</p>}
@@ -259,9 +272,14 @@ function LoginForm() {
             )}
           </p>
 
-          <Link href="/" className="link link-hover text-base-content/60 mt-2 text-center text-sm">
-            {t("auth.backToHome")}
-          </Link>
+          <button
+            type="button"
+            onClick={() => router.back()}
+            className="link link-hover text-base-content/60 mt-2 flex items-center justify-center gap-1 text-center text-sm"
+          >
+            <ArrowLeftIcon className="h-4 w-4 stroke-current" />
+            {t("account.goBack")}
+          </button>
         </div>
       </div>
     </div>
