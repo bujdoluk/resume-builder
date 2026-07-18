@@ -351,7 +351,8 @@
       "generic": "Něco se pokazilo. Zkuste to znovu.",
       "oauth": "Přihlášení přes Google se nezdařilo. Zkuste to znovu."
     },
-    "rememberMe": "Zapamatovat si mě"
+    "rememberMe": "Zapamatovat si mě",
+    "captchaRequired": "Dokončete prosím ověření CAPTCHA."
   },
   "pricing": {
     "title": "Jednoduché, transparentní ceny",

@@ -351,7 +351,8 @@
       "generic": "Er is iets misgegaan. Probeer het opnieuw.",
       "oauth": "Inloggen met Google is mislukt. Probeer het opnieuw."
     },
-    "rememberMe": "Onthoud mij"
+    "rememberMe": "Onthoud mij",
+    "captchaRequired": "Voltooi de CAPTCHA-verificatie."
   },
   "pricing": {
     "title": "Eenvoudige, transparante prijzen",

@@ -351,7 +351,8 @@
       "generic": "Noe gikk galt. Prøv igjen.",
       "oauth": "Innlogging med Google mislyktes. Prøv igjen."
     },
-    "rememberMe": "Husk meg"
+    "rememberMe": "Husk meg",
+    "captchaRequired": "Fullfør CAPTCHA-verifiseringen."
   },
   "pricing": {
     "title": "Enkle, gjennomsiktige priser",

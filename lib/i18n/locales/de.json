@@ -351,7 +351,8 @@
       "generic": "Etwas ist schiefgelaufen. Bitte versuche es erneut.",
       "oauth": "Die Anmeldung mit Google ist fehlgeschlagen. Bitte versuche es erneut."
     },
-    "rememberMe": "Angemeldet bleiben"
+    "rememberMe": "Angemeldet bleiben",
+    "captchaRequired": "Bitte schließen Sie die CAPTCHA-Überprüfung ab."
   },
   "pricing": {
     "title": "Einfache, transparente Preise",

@@ -351,7 +351,8 @@
       "generic": "Something went wrong. Please try again.",
       "oauth": "Google sign-in failed. Please try again."
     },
-    "rememberMe": "Remember me"
+    "rememberMe": "Remember me",
+    "captchaRequired": "Please complete the CAPTCHA verification."
   },
   "pricing": {
     "title": "Simple, transparent pricing",

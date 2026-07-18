@@ -351,7 +351,8 @@
       "generic": "Niečo sa pokazilo. Skúste to znova.",
       "oauth": "Prihlásenie cez Google zlyhalo. Skúste to znova."
     },
-    "rememberMe": "Zapamätať si ma"
+    "rememberMe": "Zapamätať si ma",
+    "captchaRequired": "Dokončite overenie CAPTCHA."
   },
   "pricing": {
     "title": "Jednoduché, transparentné ceny",

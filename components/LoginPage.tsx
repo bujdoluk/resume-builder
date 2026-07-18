@@ -11,14 +11,24 @@
  * over — that's a genuinely different user id.
  */
 import { useRouter, useSearchParams } from "next/navigation";
-import { Suspense, useState } from "react";
+import { Suspense, useRef, useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
+import HCaptcha from "@hcaptcha/react-hcaptcha";
 import { ArrowLeftIcon, EyeIcon, EyeSlashIcon } from "@/components/Icons";
 import { AuthActionError, continueWithGoogle, logIn, resetPassword, signUp } from "@/lib/supabase/auth";
 import { createClient } from "@/lib/supabase/client";
 import { forgetSessionOnBrowserClose } from "@/lib/supabase/rememberMe";
 
 type Mode = "login" | "signup" | "reset";
+
+// Unset until you sign up at hCaptcha and add NEXT_PUBLIC_HCAPTCHA_SITE_KEY
+// (see .env.example) — the widget and its "please verify" validation are
+// both skipped entirely in that case, so local dev works before it's
+// configured. Doesn't affect Supabase actually enforcing CAPTCHA — that's
+// controlled separately in the Supabase Dashboard (Authentication → Attack
+// Protection); until it's turned on there, a captchaToken is accepted but
+// not required server-side.
+const HCAPTCHA_SITE_KEY = process.env.NEXT_PUBLIC_HCAPTCHA_SITE_KEY;
 
 function LoginForm() {
   const { t } = useTranslation();
@@ -37,26 +47,41 @@ function LoginForm() {
   const [error, setError] = useState<string | null>(searchParams.get("error") === "oauth" ? t("auth.errors.oauth") : null);
   const [confirmEmailSent, setConfirmEmailSent] = useState(false);
   const [resetLinkSent, setResetLinkSent] = useState(false);
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
+  const hcaptchaRef = useRef<HCaptcha>(null);
 
   function switchMode(nextMode: Mode) {
     setMode(nextMode);
     setError(null);
     setConfirmEmailSent(false);
     setResetLinkSent(false);
+    // Switching to/from reset mode unmounts one HCaptcha widget instance and
+    // mounts a different one — any token already solved for the old one
+    // doesn't carry over.
+    setCaptchaToken(null);
+  }
+
+  function resetCaptcha() {
+    hcaptchaRef.current?.resetCaptcha();
+    setCaptchaToken(null);
   }
 
   async function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
     setError(null);
+    if (HCAPTCHA_SITE_KEY && !captchaToken) {
+      setError(t("auth.captchaRequired"));
+      return;
+    }
     setSubmitting(true);
     try {
       if (mode === "login") {
-        await logIn(supabase, email, password);
+        await logIn(supabase, email, password, captchaToken ?? undefined);
         if (!rememberMe) forgetSessionOnBrowserClose();
         router.push(next);
       } else {
         const redirectTo = `${window.location.origin}/auth/callback?next=${encodeURIComponent(next)}`;
-        const loggedIn = await signUp(supabase, email, password, redirectTo);
+        const loggedIn = await signUp(supabase, email, password, redirectTo, captchaToken ?? undefined);
         if (loggedIn) {
           router.push(next);
         } else {
@@ -68,22 +93,28 @@ function LoginForm() {
       setError(t(`auth.errors.${code}`));
     } finally {
       setSubmitting(false);
+      resetCaptcha();
     }
   }
 
   async function handleResetSubmit(event: React.FormEvent) {
     event.preventDefault();
     setError(null);
+    if (HCAPTCHA_SITE_KEY && !captchaToken) {
+      setError(t("auth.captchaRequired"));
+      return;
+    }
     setSubmitting(true);
     try {
       const redirectTo = `${window.location.origin}/auth/callback?next=${encodeURIComponent("/reset-password")}`;
-      await resetPassword(supabase, email, redirectTo);
+      await resetPassword(supabase, email, redirectTo, captchaToken ?? undefined);
       setResetLinkSent(true);
     } catch (thrown) {
       const code = thrown instanceof AuthActionError ? thrown.code : "generic";
       setError(t(`auth.errors.${code}`));
     } finally {
       setSubmitting(false);
+      resetCaptcha();
     }
   }
 
@@ -132,6 +163,15 @@ function LoginForm() {
                     required
                   />
                 </fieldset>
+
+                {HCAPTCHA_SITE_KEY && (
+                  <HCaptcha
+                    ref={hcaptchaRef}
+                    sitekey={HCAPTCHA_SITE_KEY}
+                    onVerify={setCaptchaToken}
+                    onExpire={() => setCaptchaToken(null)}
+                  />
+                )}
 
                 {error && <p className="text-error text-sm">{error}</p>}
 
@@ -208,6 +248,15 @@ function LoginForm() {
                       {t("auth.forgotPassword")}
                     </button>
                   </div>
+                )}
+
+                {HCAPTCHA_SITE_KEY && (
+                  <HCaptcha
+                    ref={hcaptchaRef}
+                    sitekey={HCAPTCHA_SITE_KEY}
+                    onVerify={setCaptchaToken}
+                    onExpire={() => setCaptchaToken(null)}
+                  />
                 )}
 
                 {error && <p className="text-error text-sm">{error}</p>}

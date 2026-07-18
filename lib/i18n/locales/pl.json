@@ -351,7 +351,8 @@
       "generic": "Coś poszło nie tak. Spróbuj ponownie.",
       "oauth": "Logowanie przez Google nie powiodło się. Spróbuj ponownie."
     },
-    "rememberMe": "Zapamiętaj mnie"
+    "rememberMe": "Zapamiętaj mnie",
+    "captchaRequired": "Ukończ weryfikację CAPTCHA."
   },
   "pricing": {
     "title": "Proste, przejrzyste ceny",

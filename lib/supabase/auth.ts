@@ -26,6 +26,16 @@
  * genuinely different user id from the anonymous session — its data can't
  * carry over, since Supabase has no server-side merge for that and this
  * project has no service-role key to do it manually.
+ *
+ * `logIn`/`signUp`/`resetPassword` take an optional `captchaToken` (from
+ * components/LoginPage.tsx's hCaptcha widget), forwarded to Supabase for
+ * server-side verification once CAPTCHA protection is turned on in the
+ * Supabase Dashboard (Authentication → Attack Protection) — until then
+ * it's harmlessly ignored. The anonymous-conversion `updateUser` path
+ * inside `signUp` never takes one: it operates on an already-authenticated
+ * session, and Supabase's `updateUser` endpoint doesn't accept a
+ * captchaToken at all (only the public, unauthenticated auth endpoints —
+ * signup, sign-in, password reset — are gated by CAPTCHA).
  */
 import type { AuthError, SupabaseClient } from "@supabase/supabase-js";
 
@@ -62,8 +72,13 @@ function mapSignUpError(error: AuthError): AuthActionError {
   return new AuthActionError("generic", error);
 }
 
-export async function logIn(supabase: SupabaseClient, email: string, password: string): Promise<void> {
-  const { error } = await supabase.auth.signInWithPassword({ email, password });
+export async function logIn(
+  supabase: SupabaseClient,
+  email: string,
+  password: string,
+  captchaToken?: string,
+): Promise<void> {
+  const { error } = await supabase.auth.signInWithPassword({ email, password, options: { captchaToken } });
   if (error) throw mapSignInError(error);
 }
 
@@ -72,6 +87,7 @@ export async function signUp(
   email: string,
   password: string,
   redirectTo: string,
+  captchaToken?: string,
 ): Promise<boolean> {
   const {
     data: { session: existingSession },
@@ -79,7 +95,11 @@ export async function signUp(
 
   const { error } = existingSession?.user?.is_anonymous
     ? await supabase.auth.updateUser({ email, password }, { emailRedirectTo: redirectTo })
-    : await supabase.auth.signUp({ email, password, options: { emailRedirectTo: redirectTo } });
+    : await supabase.auth.signUp({
+        email,
+        password,
+        options: { emailRedirectTo: redirectTo, captchaToken },
+      });
 
   if (error) throw mapSignUpError(error);
 
@@ -105,8 +125,9 @@ export async function resetPassword(
   supabase: SupabaseClient,
   email: string,
   redirectTo: string,
+  captchaToken?: string,
 ): Promise<void> {
-  const { error } = await supabase.auth.resetPasswordForEmail(email, { redirectTo });
+  const { error } = await supabase.auth.resetPasswordForEmail(email, { redirectTo, captchaToken });
   if (error) throw new AuthActionError("generic", error);
 }
 
