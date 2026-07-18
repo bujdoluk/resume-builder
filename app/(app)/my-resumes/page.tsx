@@ -6,6 +6,7 @@
  * one.
  */
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { Temporal } from "temporal-polyfill";
@@ -37,6 +38,7 @@ import {
 } from "@/lib/supabase/resumes";
 import { createClient } from "@/lib/supabase/client";
 import { ensureUserId } from "@/lib/supabase/session";
+import { FREE_TIER_LIMITS, getSubscription, isPaidPlan } from "@/lib/supabase/subscriptions";
 
 function formatDate(iso: string, locale: string): string {
   return Temporal.Instant.from(iso).toLocaleString(locale, {
@@ -46,6 +48,7 @@ function formatDate(iso: string, locale: string): string {
 
 export default function MyResumesPage() {
   const { t, i18n } = useTranslation();
+  const router = useRouter();
   const { notifyResumeListChanged } = useAppState();
   const [supabase] = useState(() => createClient());
   const [resumes, setResumes] = useState<ResumeRow[] | null>(null);
@@ -147,7 +150,20 @@ export default function MyResumesPage() {
     if (duplicatingId) return;
     setDuplicatingId(id);
     try {
-      await duplicateResume(supabase, id, await ensureUserId(supabase));
+      const userId = await ensureUserId(supabase);
+      const [subscription, existingCount] = await Promise.all([
+        getSubscription(supabase, userId),
+        countResumes(supabase, userId),
+      ]);
+      if (!isPaidPlan(subscription.plan) && existingCount >= FREE_TIER_LIMITS.resumes) {
+        const viewPlans = await confirmDialogRef.current?.open({
+          message: t("pricing.resumeLimitReached", { limit: FREE_TIER_LIMITS.resumes }),
+          confirmLabel: t("pricing.viewPlans"),
+        });
+        if (viewPlans) router.push("/#pricing");
+        return;
+      }
+      await duplicateResume(supabase, id, userId);
       notifyResumeListChanged();
       await loadPage(1);
     } catch (error) {

@@ -207,7 +207,9 @@
       "Bash(node \"C:\\\\Users\\\\lukas\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\d--Projekty-resume-builder\\\\01195db0-934c-40eb-b550-2136f9dc5402\\\\scratchpad\\\\update-blog-i18n.js\")",
       "Bash(echo \"TSC_EXIT=$?\")",
       "Bash(curl -s -o /dev/null -w \"landing: %{http_code}\\\\n\" http://localhost:3000/)",
-      "Bash(curl -s -w \"\\\\nblog: %{http_code}\\\\n\" http://localhost:3000/blog)"
+      "Bash(curl -s -w \"\\\\nblog: %{http_code}\\\\n\" http://localhost:3000/blog)",
+      "Bash(node \"C:\\\\Users\\\\lukas\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\d--Projekty-resume-builder\\\\01195db0-934c-40eb-b550-2136f9dc5402\\\\scratchpad\\\\test-duplicate-limit.js\")",
+      "Bash(taskkill //F //PID 2568)"
     ],
     "additionalDirectories": [
       "C:\\Users\\lukas\\AppData\\Local\\npm-cache\\_npx\\e41f203b7505f1fb",

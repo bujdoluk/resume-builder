@@ -8,6 +8,7 @@
  * cover letter has no per-item template/color/font to display.
  */
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { Temporal } from "temporal-polyfill";
@@ -39,6 +40,7 @@ import {
 } from "@/lib/supabase/coverLetters";
 import { createClient } from "@/lib/supabase/client";
 import { ensureUserId } from "@/lib/supabase/session";
+import { FREE_TIER_LIMITS, getSubscription, isPaidPlan } from "@/lib/supabase/subscriptions";
 
 function formatDate(iso: string, locale: string): string {
   return Temporal.Instant.from(iso).toLocaleString(locale, {
@@ -48,6 +50,7 @@ function formatDate(iso: string, locale: string): string {
 
 export default function MyCoverLettersPage() {
   const { t, i18n } = useTranslation();
+  const router = useRouter();
   const { notifyCoverLetterListChanged } = useAppState();
   const [supabase] = useState(() => createClient());
   const [coverLetters, setCoverLetters] = useState<CoverLetterRow[] | null>(null);
@@ -151,7 +154,20 @@ export default function MyCoverLettersPage() {
     if (duplicatingId) return;
     setDuplicatingId(id);
     try {
-      await duplicateCoverLetter(supabase, id, await ensureUserId(supabase));
+      const userId = await ensureUserId(supabase);
+      const [subscription, existingCount] = await Promise.all([
+        getSubscription(supabase, userId),
+        countCoverLetters(supabase, userId),
+      ]);
+      if (!isPaidPlan(subscription.plan) && existingCount >= FREE_TIER_LIMITS.coverLetters) {
+        const viewPlans = await confirmDialogRef.current?.open({
+          message: t("pricing.coverLetterLimitReached", { limit: FREE_TIER_LIMITS.coverLetters }),
+          confirmLabel: t("pricing.viewPlans"),
+        });
+        if (viewPlans) router.push("/#pricing");
+        return;
+      }
+      await duplicateCoverLetter(supabase, id, userId);
       notifyCoverLetterListChanged();
       await loadPage(1);
     } catch (error) {
