@@ -162,7 +162,13 @@
       "Bash(curl -s -I http://localhost:3000/account)",
       "Bash(node check-account-page.js)",
       "Bash(cd \"C:\\\\Users\\\\lukas\\\\AppData\\\\Local\\\\npm-cache\\\\_npx\\\\e41f203b7505f1fb\" && rm -f check-account-page.js *.png)",
-      "Bash(STRIPE_SECRET_KEY= STRIPE_WEBHOOK_SECRET= STRIPE_PRICE_ID_MONTHLY= STRIPE_PRICE_ID_ANNUAL= SUPABASE_SERVICE_ROLE_KEY= npx next build)"
+      "Bash(STRIPE_SECRET_KEY= STRIPE_WEBHOOK_SECRET= STRIPE_PRICE_ID_MONTHLY= STRIPE_PRICE_ID_ANNUAL= SUPABASE_SERVICE_ROLE_KEY= npx next build)",
+      "Bash(node check-tawk.js)",
+      "Bash(node check-tawk2.js)",
+      "Bash(curl -s -o /dev/null -w \"HTTP %{http_code}, time=%{time_total}s\\\\n\" https://embed.tawk.to/6a5b20607db6ee1d420ea261/1jtpvcuiq)",
+      "Bash(curl -sv https://embed.tawk.to/6a5b20607db6ee1d420ea261/1jtpvcuiq)",
+      "Bash(node check-tawk3.js)",
+      "Bash(cd \"C:\\\\Users\\\\lukas\\\\AppData\\\\Local\\\\npm-cache\\\\_npx\\\\e41f203b7505f1fb\" && rm -f check-tawk2.js check-tawk3.js *.png)"
     ],
     "additionalDirectories": [
       "C:\\Users\\lukas\\AppData\\Local\\npm-cache\\_npx\\e41f203b7505f1fb",

@@ -22,6 +22,7 @@ import {
 } from "next/font/google";
 import { AppStateProvider } from "@/components/AppState";
 import Navbar from "@/components/Navbar";
+import TawkChat from "@/components/TawkChat";
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/next"
 import { SpeedInsights } from '@vercel/speed-insights/next';
@@ -151,6 +152,7 @@ export default function RootLayout({
           <div className="flex flex-1 flex-col">{children}</div>
           <Analytics />
           <SpeedInsights />
+          <TawkChat />
         </AppStateProvider>
       </body>
     </html>
