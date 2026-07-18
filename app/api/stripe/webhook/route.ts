@@ -13,6 +13,7 @@
  * API version.
  */
 import type Stripe from "stripe";
+import { sendWelcomeEmail } from "@/lib/email/sendWelcomeEmail";
 import { getStripe } from "@/lib/stripe";
 import { createServiceRoleClient } from "@/lib/supabase/serviceRole";
 
@@ -77,16 +78,33 @@ export async function POST(request: Request) {
           ? await stripe.subscriptions.retrieve(subscriptionId)
           : null;
         const priceId = subscription?.items.data[0]?.price.id;
+        const plan = planFromPriceId(priceId);
+
+        // Checked before upserting: a row already existing here means this
+        // user has subscribed before (even if later canceled) — a
+        // resubscribe or plan switch, not their first-ever subscription.
+        const precheckClient = createServiceRoleClient();
+        const { data: existingRow } = await precheckClient
+          .from("subscriptions")
+          .select("id")
+          .eq("user_id", userId)
+          .maybeSingle();
 
         await upsertSubscription({
           userId,
           stripeCustomerId: session.customer,
           stripeSubscriptionId: subscriptionId,
-          plan: planFromPriceId(priceId),
+          plan,
           status: subscription?.status ?? "active",
           currentPeriodEnd: subscription ? periodEndFromSubscription(subscription) : null,
           cancelAtPeriodEnd: subscription?.cancel_at_period_end ?? false,
         });
+
+        const email = session.customer_details?.email ?? session.customer_email;
+        if (!existingRow && email) {
+          const { origin } = new URL(request.url);
+          await sendWelcomeEmail(email, plan, origin);
+        }
         break;
       }
 

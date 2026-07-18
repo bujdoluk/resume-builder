@@ -214,7 +214,9 @@
       "Bash(node \"C:\\\\Users\\\\lukas\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\d--Projekty-resume-builder\\\\01195db0-934c-40eb-b550-2136f9dc5402\\\\scratchpad\\\\cleanup_test_resumes.js\")",
       "Bash(node /tmp/cleanup_test_resumes.js)",
       "Bash(node \"C:\\\\Users\\\\lukas\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\d--Projekty-resume-builder\\\\01195db0-934c-40eb-b550-2136f9dc5402\\\\scratchpad\\\\test-new-gating.js\")",
-      "Bash(node \"C:\\\\Users\\\\lukas\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\d--Projekty-resume-builder\\\\01195db0-934c-40eb-b550-2136f9dc5402\\\\scratchpad\\\\test-new-gating2.js\")"
+      "Bash(node \"C:\\\\Users\\\\lukas\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\d--Projekty-resume-builder\\\\01195db0-934c-40eb-b550-2136f9dc5402\\\\scratchpad\\\\test-new-gating2.js\")",
+      "Bash(curl -s -w \"\\\\nstatus=%{http_code}\\\\n\" -X POST http://localhost:3000/api/send-email -H \"Content-Type: application/json\" -d '{\"to\":\"not-an-email\",\"fileName\":\"resume\",\"pdfBase64\":\"abc\"}')",
+      "Bash(curl -s -w \"\\\\nstatus=%{http_code}\\\\n\" -X POST http://localhost:3000/api/send-email -H \"Content-Type: application/json\" -d '{\"to\":\"test@example.com\"}')"
     ],
     "additionalDirectories": [
       "C:\\Users\\lukas\\AppData\\Local\\npm-cache\\_npx\\e41f203b7505f1fb",

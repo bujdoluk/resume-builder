@@ -2,19 +2,14 @@
  * Emails a generated resume/cover-letter PDF to an address the visitor
  * types in. The PDF itself is generated client-side (same
  * `@react-pdf/renderer` path as `DownloadButton`) and posted here as base64
- * so this route only has to hand it to Resend as an attachment.
+ * so this route only has to hand it to Resend as an attachment. The actual
+ * send lives in lib/email/sendPdfEmail.ts, alongside this app's other
+ * transactional email (lib/email/sendWelcomeEmail.ts).
  */
-import { Resend } from "resend";
+import { sendPdfEmail } from "@/lib/email/sendPdfEmail";
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const MAX_PDF_BYTES = 10 * 1024 * 1024;
-
-function escapeHtml(value: string): string {
-  return value
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;");
-}
 
 export async function POST(request: Request) {
   const { to, fileName, pdfBase64 } = await request.json();
@@ -36,22 +31,9 @@ export async function POST(request: Request) {
       ? fileName.trim().replace(/[/\\]/g, "-")
       : "document";
 
-  const resend = new Resend(process.env.RESEND_API_KEY);
-  try {
-    const { error } = await resend.emails.send({
-      from: process.env.RESEND_FROM_EMAIL ?? "QuickResumeBuilder.online <onboarding@quickresumebuilder.online>",
-      to: to.trim(),
-      subject: `Your ${safeFileName}.pdf from QuickResumeBuilder.online`,
-      text: `Thanks for using QuickResumeBuilder.online!\n\nYour ${safeFileName}.pdf is attached to this email. We hope it helps you land your next opportunity.\n\nGood luck with your application!\n— The QuickResumeBuilder.online team`,
-      html: `<p>Thanks for using <strong>QuickResumeBuilder.online</strong>!</p><p>Your <strong>${escapeHtml(safeFileName)}.pdf</strong> is attached to this email. We hope it helps you land your next opportunity.</p><p>Good luck with your application!<br>— The QuickResumeBuilder.online team</p>`,
-      attachments: [{ filename: `${safeFileName}.pdf`, content: pdfBuffer }],
-    });
-
-    if (error) {
-      return Response.json({ error: error.message }, { status: 502 });
-    }
-    return Response.json({ ok: true });
-  } catch {
-    return Response.json({ error: "Failed to send email." }, { status: 502 });
+  const { error } = await sendPdfEmail({ to: to.trim(), fileName: safeFileName, pdfBuffer });
+  if (error) {
+    return Response.json({ error }, { status: 502 });
   }
+  return Response.json({ ok: true });
 }
