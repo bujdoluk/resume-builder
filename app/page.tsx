@@ -6,7 +6,7 @@
 import type { Metadata } from "next";
 import LandingPage from "@/components/LandingPage";
 
-const title = "QuickResumeBuilder.com — Free Online Resume Builder";
+const title = "QuickResumeBuilder.online — Free Online Resume Builder";
 const description =
   "Build a professional resume in minutes for free. Pick a template, customize colors, fonts, and font size, then download a polished PDF straight from your browser — no sign-up required.";
 
@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     title,
     description,
     url: "/",
-    siteName: "QuickResumeBuilder.com",
+    siteName: "QuickResumeBuilder.online",
     type: "website",
   },
   twitter: {
@@ -33,8 +33,8 @@ export const metadata: Metadata = {
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "WebApplication",
-  name: "QuickResumeBuilder.com",
-  url: "https://www.lukasbujdos.com/",
+  name: "QuickResumeBuilder.online",
+  url: "https://www.quickresumebuilder.online/",
   description,
   applicationCategory: "BusinessApplication",
   operatingSystem: "Any",

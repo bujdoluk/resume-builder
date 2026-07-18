@@ -7,8 +7,8 @@
 import type { Metadata } from "next";
 import AccountPage from "@/components/AccountPage";
 
-const title = "My Account — QuickResumeBuilder.com";
-const description = "View and manage your QuickResumeBuilder.com subscription.";
+const title = "My Account — QuickResumeBuilder.online";
+const description = "View and manage your QuickResumeBuilder.online subscription.";
 
 export const metadata: Metadata = {
   title,
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     title,
     description,
     url: "/account",
-    siteName: "QuickResumeBuilder.com",
+    siteName: "QuickResumeBuilder.online",
     type: "website",
   },
   twitter: {

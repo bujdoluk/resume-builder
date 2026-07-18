@@ -118,10 +118,10 @@ const fontVariables = [
 ].join(" ");
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://www.lukasbujdos.com"),
+  metadataBase: new URL("https://www.quickresumebuilder.online"),
   title: {
-    default: "QuickResumeBuilder.com — Free Online Resume Builder",
-    template: "%s | QuickResumeBuilder.com",
+    default: "QuickResumeBuilder.online — Free Online Resume Builder",
+    template: "%s | QuickResumeBuilder.online",
   },
   description:
     "Build a professional resume in minutes for free. Pick a template, customize colors and fonts, and download a polished PDF — no sign-up required.",
@@ -130,7 +130,7 @@ export const metadata: Metadata = {
     follow: true,
   },
   openGraph: {
-    siteName: "QuickResumeBuilder.com",
+    siteName: "QuickResumeBuilder.online",
     type: "website",
     locale: "en_US",
   },

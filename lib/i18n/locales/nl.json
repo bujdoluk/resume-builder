@@ -286,10 +286,34 @@
   "blog": {
     "navLabel": "Blog",
     "pageTitle": "Blog",
-    "comingSoon": "Binnenkort beschikbaar — kom terug voor cv-tips, sollicitatieadvies en carrièregidsen."
+    "comingSoon": "Binnenkort beschikbaar — kom terug voor cv-tips, sollicitatieadvies en carrièregidsen.",
+    "backToBlog": "Terug naar de blog",
+    "addPost": "Blogpost toevoegen",
+    "categories": {
+      "resumeTips": "Cv-tips",
+      "coverLetters": "Motivatiebrieven",
+      "interviewPrep": "Sollicitatiegesprek",
+      "careerAdvice": "Carrièreadvies",
+      "jobSearch": "Vacatures zoeken"
+    },
+    "dialog": {
+      "title": "Blogpost toevoegen",
+      "titleLabel": "Titel",
+      "subtitleLabel": "Ondertitel",
+      "contentLabel": "Inhoud",
+      "contentHint": "Scheid alinea's met een lege regel.",
+      "categoryLabel": "Categorie",
+      "dateLabel": "Datum",
+      "authorNameLabel": "Naam van de auteur",
+      "authorAvatarUrlLabel": "Avatar-URL van de auteur (optioneel)",
+      "readTimeLabel": "Leestijd",
+      "readTimePlaceholder": "5 min leestijd",
+      "publish": "Publiceren",
+      "submitError": "Er is iets misgegaan. Probeer het opnieuw."
+    }
   },
   "footer": {
-    "copyright": "© {{year}} QuickResumeBuilder.com"
+    "copyright": "© {{year}} QuickResumeBuilder.online"
   },
   "auth": {
     "navLogin": "Inloggen",

@@ -286,10 +286,34 @@
   "blog": {
     "navLabel": "Blog",
     "pageTitle": "Blog",
-    "comingSoon": "Już wkrótce — zajrzyj po wskazówki dotyczące CV, porady dotyczące szukania pracy i poradniki kariery."
+    "comingSoon": "Już wkrótce — zajrzyj po wskazówki dotyczące CV, porady dotyczące szukania pracy i poradniki kariery.",
+    "backToBlog": "Powrót do bloga",
+    "addPost": "Dodaj wpis",
+    "categories": {
+      "resumeTips": "Porady dotyczące CV",
+      "coverLetters": "Listy motywacyjne",
+      "interviewPrep": "Przygotowanie do rozmowy",
+      "careerAdvice": "Porady zawodowe",
+      "jobSearch": "Szukanie pracy"
+    },
+    "dialog": {
+      "title": "Dodaj wpis na blogu",
+      "titleLabel": "Tytuł",
+      "subtitleLabel": "Podtytuł",
+      "contentLabel": "Treść",
+      "contentHint": "Oddziel akapity pustą linią.",
+      "categoryLabel": "Kategoria",
+      "dateLabel": "Data",
+      "authorNameLabel": "Imię autora",
+      "authorAvatarUrlLabel": "URL awatara autora (opcjonalne)",
+      "readTimeLabel": "Czas czytania",
+      "readTimePlaceholder": "5 min czytania",
+      "publish": "Opublikuj",
+      "submitError": "Coś poszło nie tak. Spróbuj ponownie."
+    }
   },
   "footer": {
-    "copyright": "© {{year}} QuickResumeBuilder.com"
+    "copyright": "© {{year}} QuickResumeBuilder.online"
   },
   "auth": {
     "navLogin": "Zaloguj się",

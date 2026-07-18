@@ -6,7 +6,7 @@
 import type { Metadata } from "next";
 import LoginPage from "@/components/LoginPage";
 
-const title = "Log in — QuickResumeBuilder.com";
+const title = "Log in — QuickResumeBuilder.online";
 const description = "Log in or create an account to save your resumes and cover letters.";
 
 export const metadata: Metadata = {
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     title,
     description,
     url: "/login",
-    siteName: "QuickResumeBuilder.com",
+    siteName: "QuickResumeBuilder.online",
     type: "website",
   },
   twitter: {

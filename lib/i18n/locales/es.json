@@ -286,10 +286,34 @@
   "blog": {
     "navLabel": "Blog",
     "pageTitle": "Blog",
-    "comingSoon": "Muy pronto — vuelve para ver consejos de currículum, asesoramiento de búsqueda de empleo y guías profesionales."
+    "comingSoon": "Muy pronto — vuelve para ver consejos de currículum, asesoramiento de búsqueda de empleo y guías profesionales.",
+    "backToBlog": "Volver al blog",
+    "addPost": "Añadir entrada",
+    "categories": {
+      "resumeTips": "Consejos para el currículum",
+      "coverLetters": "Cartas de presentación",
+      "interviewPrep": "Preparación de entrevistas",
+      "careerAdvice": "Consejos de carrera",
+      "jobSearch": "Búsqueda de empleo"
+    },
+    "dialog": {
+      "title": "Añadir entrada de blog",
+      "titleLabel": "Título",
+      "subtitleLabel": "Subtítulo",
+      "contentLabel": "Contenido",
+      "contentHint": "Separa los párrafos con una línea en blanco.",
+      "categoryLabel": "Categoría",
+      "dateLabel": "Fecha",
+      "authorNameLabel": "Nombre del autor",
+      "authorAvatarUrlLabel": "URL del avatar del autor (opcional)",
+      "readTimeLabel": "Tiempo de lectura",
+      "readTimePlaceholder": "5 min de lectura",
+      "publish": "Publicar",
+      "submitError": "Algo salió mal. Inténtalo de nuevo."
+    }
   },
   "footer": {
-    "copyright": "© {{year}} QuickResumeBuilder.com"
+    "copyright": "© {{year}} QuickResumeBuilder.online"
   },
   "auth": {
     "navLogin": "Iniciar sesión",

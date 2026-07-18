@@ -36,7 +36,7 @@ export default function Navbar() {
     <div className="navbar border-base-300 bg-base-100 flex-wrap gap-2 border-b px-4">
       <div className="order-1 flex flex-1 items-center md:order-none">
         <Link href="/" className="text-lg font-semibold whitespace-nowrap">
-          QuickResumeBuilder.com
+          QuickResumeBuilder.online
         </Link>
       </div>
 

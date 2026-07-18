@@ -286,10 +286,34 @@
   "blog": {
     "navLabel": "Blogg",
     "pageTitle": "Blogg",
-    "comingSoon": "Kommer snart — se innom for CV-tips, jobbsøkerråd og karriereguider."
+    "comingSoon": "Kommer snart — se innom for CV-tips, jobbsøkerråd og karriereguider.",
+    "backToBlog": "Tilbake til bloggen",
+    "addPost": "Legg til blogginnlegg",
+    "categories": {
+      "resumeTips": "CV-tips",
+      "coverLetters": "Søknadsbrev",
+      "interviewPrep": "Intervjuforberedelse",
+      "careerAdvice": "Karriereråd",
+      "jobSearch": "Jobbsøking"
+    },
+    "dialog": {
+      "title": "Legg til blogginnlegg",
+      "titleLabel": "Tittel",
+      "subtitleLabel": "Undertittel",
+      "contentLabel": "Innhold",
+      "contentHint": "Skill avsnitt med en tom linje.",
+      "categoryLabel": "Kategori",
+      "dateLabel": "Dato",
+      "authorNameLabel": "Forfatterens navn",
+      "authorAvatarUrlLabel": "Forfatterens avatar-URL (valgfritt)",
+      "readTimeLabel": "Lesetid",
+      "readTimePlaceholder": "5 min lesing",
+      "publish": "Publiser",
+      "submitError": "Noe gikk galt. Prøv igjen."
+    }
   },
   "footer": {
-    "copyright": "© {{year}} QuickResumeBuilder.com"
+    "copyright": "© {{year}} QuickResumeBuilder.online"
   },
   "auth": {
     "navLogin": "Logg inn",

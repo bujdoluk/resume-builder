@@ -286,10 +286,34 @@
   "blog": {
     "navLabel": "Блог",
     "pageTitle": "Блог",
-    "comingSoon": "Скоро — заходите за советами по резюме, поиску работы и карьере."
+    "comingSoon": "Скоро — заходите за советами по резюме, поиску работы и карьере.",
+    "backToBlog": "Назад к блогу",
+    "addPost": "Добавить статью",
+    "categories": {
+      "resumeTips": "Советы по резюме",
+      "coverLetters": "Сопроводительные письма",
+      "interviewPrep": "Подготовка к собеседованию",
+      "careerAdvice": "Карьерные советы",
+      "jobSearch": "Поиск работы"
+    },
+    "dialog": {
+      "title": "Добавить статью блога",
+      "titleLabel": "Заголовок",
+      "subtitleLabel": "Подзаголовок",
+      "contentLabel": "Содержание",
+      "contentHint": "Разделяйте абзацы пустой строкой.",
+      "categoryLabel": "Категория",
+      "dateLabel": "Дата",
+      "authorNameLabel": "Имя автора",
+      "authorAvatarUrlLabel": "URL аватара автора (необязательно)",
+      "readTimeLabel": "Время чтения",
+      "readTimePlaceholder": "5 мин чтения",
+      "publish": "Опубликовать",
+      "submitError": "Что-то пошло не так. Попробуйте ещё раз."
+    }
   },
   "footer": {
-    "copyright": "© {{year}} QuickResumeBuilder.com"
+    "copyright": "© {{year}} QuickResumeBuilder.online"
   },
   "auth": {
     "navLogin": "Войти",

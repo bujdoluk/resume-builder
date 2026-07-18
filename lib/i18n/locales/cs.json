@@ -286,10 +286,34 @@
   "blog": {
     "navLabel": "Blog",
     "pageTitle": "Blog",
-    "comingSoon": "Již brzy — sledujte tipy na životopis, rady pro hledání práce a kariérní průvodce."
+    "comingSoon": "Již brzy — sledujte tipy na životopis, rady pro hledání práce a kariérní průvodce.",
+    "backToBlog": "Zpět na blog",
+    "addPost": "Přidat článek",
+    "categories": {
+      "resumeTips": "Tipy na životopis",
+      "coverLetters": "Motivační dopisy",
+      "interviewPrep": "Příprava na pohovor",
+      "careerAdvice": "Kariérní rady",
+      "jobSearch": "Hledání práce"
+    },
+    "dialog": {
+      "title": "Přidat článek na blog",
+      "titleLabel": "Nadpis",
+      "subtitleLabel": "Podnadpis",
+      "contentLabel": "Obsah",
+      "contentHint": "Oddělte odstavce prázdným řádkem.",
+      "categoryLabel": "Kategorie",
+      "dateLabel": "Datum",
+      "authorNameLabel": "Jméno autora",
+      "authorAvatarUrlLabel": "URL avatara autora (volitelné)",
+      "readTimeLabel": "Doba čtení",
+      "readTimePlaceholder": "5 min čtení",
+      "publish": "Publikovat",
+      "submitError": "Něco se pokazilo. Zkuste to prosím znovu."
+    }
   },
   "footer": {
-    "copyright": "© {{year}} QuickResumeBuilder.com"
+    "copyright": "© {{year}} QuickResumeBuilder.online"
   },
   "auth": {
     "navLogin": "Přihlásit se",

@@ -39,11 +39,11 @@ export async function POST(request: Request) {
   const resend = new Resend(process.env.RESEND_API_KEY);
   try {
     const { error } = await resend.emails.send({
-      from: process.env.RESEND_FROM_EMAIL ?? "QuickResumeBuilder.com <onboarding@lukasbujdos.com>",
+      from: process.env.RESEND_FROM_EMAIL ?? "QuickResumeBuilder.online <onboarding@quickresumebuilder.online>",
       to: to.trim(),
-      subject: `Your ${safeFileName}.pdf from QuickResumeBuilder.com`,
-      text: `Thanks for using QuickResumeBuilder.com!\n\nYour ${safeFileName}.pdf is attached to this email. We hope it helps you land your next opportunity.\n\nGood luck with your application!\n— The QuickResumeBuilder.com team`,
-      html: `<p>Thanks for using <strong>QuickResumeBuilder.com</strong>!</p><p>Your <strong>${escapeHtml(safeFileName)}.pdf</strong> is attached to this email. We hope it helps you land your next opportunity.</p><p>Good luck with your application!<br>— The QuickResumeBuilder.com team</p>`,
+      subject: `Your ${safeFileName}.pdf from QuickResumeBuilder.online`,
+      text: `Thanks for using QuickResumeBuilder.online!\n\nYour ${safeFileName}.pdf is attached to this email. We hope it helps you land your next opportunity.\n\nGood luck with your application!\n— The QuickResumeBuilder.online team`,
+      html: `<p>Thanks for using <strong>QuickResumeBuilder.online</strong>!</p><p>Your <strong>${escapeHtml(safeFileName)}.pdf</strong> is attached to this email. We hope it helps you land your next opportunity.</p><p>Good luck with your application!<br>— The QuickResumeBuilder.online team</p>`,
       attachments: [{ filename: `${safeFileName}.pdf`, content: pdfBuffer }],
     });
 

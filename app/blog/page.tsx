@@ -1,13 +1,16 @@
 /**
- * `/blog` route: public placeholder page for the future blog — no posts
- * yet, just a "coming soon" notice, linked from the navbar.
+ * `/blog` route: public blog index, linked from the navbar. Posts are
+ * fetched from the `blog_posts` table (admin-authored via the "Add Blog"
+ * form on the client, see components/AddBlogPostDialog.tsx).
  */
 import type { Metadata } from "next";
 import Footer from "@/components/Footer";
 import BlogPageContent from "@/components/BlogPageContent";
+import { createClient } from "@/lib/supabase/server";
+import { getBlogPosts } from "@/lib/supabase/blogPosts";
 
-const title = "Blog — QuickResumeBuilder.com";
-const description = "Resume tips, job search advice, and career guides — coming soon.";
+const title = "Blog — QuickResumeBuilder.online";
+const description = "Resume tips, job search advice, and career guides.";
 
 export const metadata: Metadata = {
   title,
@@ -19,7 +22,7 @@ export const metadata: Metadata = {
     title,
     description,
     url: "/blog",
-    siteName: "QuickResumeBuilder.com",
+    siteName: "QuickResumeBuilder.online",
     type: "website",
   },
   twitter: {
@@ -29,10 +32,13 @@ export const metadata: Metadata = {
   },
 };
 
-export default function Page() {
+export default async function Page() {
+  const supabase = await createClient();
+  const posts = await getBlogPosts(supabase);
+
   return (
     <div className="flex min-h-full flex-col">
-      <BlogPageContent />
+      <BlogPageContent posts={posts} />
       <Footer />
     </div>
   );

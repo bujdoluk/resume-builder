@@ -1,4 +1,4 @@
-# QuickResumeBuilder.com
+# QuickResumeBuilder.online
 
 A free, in-browser resume and cover letter builder built with Next.js. Fill in your details, see a live preview, and export straight to PDF — no account or sign-up required, though logging in lets you sync your saved resumes and cover letters across devices.
 
