@@ -332,28 +332,25 @@
   "pricing": {
     "title": "Enkle, gjennomsiktige priser",
     "subtitle": "Start gratis. Oppgrader når som helst for ubegrensede lagrede CV-er og søknadsbrev.",
+    "featureRows": [
+      "Alle 5 CV-maler og 2 søknadsbrevmaler",
+      "Full tilpasning — farger, skrifttyper, størrelser",
+      "PDF- og e-posteksport",
+      "13 språk"
+    ],
+    "savedItemsLabel": "Lagrede CV-er og søknadsbrev",
     "free": {
       "name": "Gratis",
       "price": "0 kr",
       "cta": "Kom i gang",
-      "features": [
-        "Alle 5 CV-maler og 2 søknadsbrevmaler",
-        "Full tilpasning — farger, skrifttyper, størrelser",
-        "PDF- og e-posteksport",
-        "13 språk",
-        "Opptil 2 lagrede CV-er og 2 søknadsbrev"
-      ]
+      "savedItemsValue": "Opptil 2 av hver"
     },
     "pro": {
       "name": "Pro",
       "price": "$19,99",
       "period": "/mnd",
       "cta": "Oppgrader til Pro",
-      "features": [
-        "Alt i Gratis",
-        "Ubegrenset lagrede CV-er",
-        "Ubegrenset lagrede søknadsbrev"
-      ]
+      "savedItemsValue": "Ubegrenset"
     },
     "annual": {
       "name": "Årlig",
@@ -361,10 +358,7 @@
       "period": "/år",
       "badge": "Spar 30 %",
       "cta": "Oppgrader til Årlig",
-      "features": [
-        "Alt i Pro",
-        "Fakturert én gang i året"
-      ]
+      "savedItemsValue": "Ubegrenset"
     },
     "resumeLimitReached": "Du har nådd Gratis-grensen på {{limit}} lagrede CV-er. Oppgrader til Pro for ubegrensede CV-er.",
     "coverLetterLimitReached": "Du har nådd Gratis-grensen på {{limit}} lagrede søknadsbrev. Oppgrader til Pro for ubegrensede søknadsbrev.",

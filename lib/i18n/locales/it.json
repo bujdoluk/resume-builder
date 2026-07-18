@@ -332,28 +332,25 @@
   "pricing": {
     "title": "Prezzi semplici e trasparenti",
     "subtitle": "Inizia gratis. Passa a un piano superiore in qualsiasi momento per curriculum e lettere di presentazione illimitati.",
+    "featureRows": [
+      "Tutti i 5 modelli di curriculum e 2 di lettera di presentazione",
+      "Personalizzazione completa — colori, font, dimensioni",
+      "Esportazione PDF ed email",
+      "13 lingue"
+    ],
+    "savedItemsLabel": "Curriculum e lettere di presentazione salvati",
     "free": {
       "name": "Gratis",
       "price": "0 $",
       "cta": "Inizia",
-      "features": [
-        "Tutti i 5 modelli di curriculum e 2 di lettera di presentazione",
-        "Personalizzazione completa — colori, font, dimensioni",
-        "Esportazione PDF ed email",
-        "13 lingue",
-        "Fino a 2 curriculum e 2 lettere di presentazione salvati"
-      ]
+      "savedItemsValue": "Fino a 2 per tipo"
     },
     "pro": {
       "name": "Pro",
       "price": "19,99 $",
       "period": "/mese",
       "cta": "Passa a Pro",
-      "features": [
-        "Tutto di Gratis",
-        "Curriculum salvati illimitati",
-        "Lettere di presentazione salvate illimitate"
-      ]
+      "savedItemsValue": "Illimitato"
     },
     "annual": {
       "name": "Annuale",
@@ -361,10 +358,7 @@
       "period": "/anno",
       "badge": "Risparmia il 30%",
       "cta": "Passa ad Annuale",
-      "features": [
-        "Tutto di Pro",
-        "Fatturato una volta all'anno"
-      ]
+      "savedItemsValue": "Illimitato"
     },
     "resumeLimitReached": "Hai raggiunto il limite del piano Gratis di {{limit}} curriculum salvati. Passa a Pro per curriculum illimitati.",
     "coverLetterLimitReached": "Hai raggiunto il limite del piano Gratis di {{limit}} lettere di presentazione salvate. Passa a Pro per lettere illimitate.",

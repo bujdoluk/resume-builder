@@ -3,11 +3,25 @@
 /**
  * Landing page pricing section (`id="pricing"`, linked from the upgrade
  * dialogs in ResumeBuilder.tsx/CoverLetterBuilder.tsx via `/#pricing`):
- * three tiers — Free (no checkout, just links straight into the app) and
- * Pro/Annual, which POST to /api/stripe/checkout and redirect to Stripe's
- * hosted Checkout page. Logged-out/anonymous visitors are routed to
- * /login first, since Checkout needs a real account to attach the
- * subscription to.
+ * a feature-comparison table — one row per feature, one column per plan —
+ * rather than three independent bullet lists, so every plan's full feature
+ * set is visible and matching features line up across plans instead of
+ * only listing each plan's differences from the one before it. Free (no
+ * checkout, just links straight into the app) and Pro/Annual, which POST
+ * to /api/stripe/checkout and redirect to Stripe's hosted Checkout page.
+ * Logged-out/anonymous visitors are routed to /login first, since
+ * Checkout needs a real account to attach the subscription to.
+ *
+ * The outer `#pricing` div deliberately carries no `mx-auto`/`max-w-*` of
+ * its own (padding/centering live on inner divs instead) — this is a
+ * direct child of LandingPage.tsx's `flex flex-col` root, and a flex item
+ * with `mx-auto` opts out of the default stretch-to-container-width
+ * behavior, sizing to its content instead (here, the comparison table's
+ * intrinsic width) regardless of the viewport. That silently broke mobile
+ * layout: the whole section — table included — rendered at the table's
+ * full content width and got clipped by the root's `overflow-x-hidden`
+ * instead of scrolling. Matches the same outer-padding/inner-centering
+ * split already used by the hero and testimonials sections below.
  */
 import Link from "next/link";
 import { useState } from "react";
@@ -51,101 +65,110 @@ export default function PricingSection() {
     }
   }
 
-  const freeFeatures = t("pricing.free.features", { returnObjects: true }) as string[];
-  const proFeatures = t("pricing.pro.features", { returnObjects: true }) as string[];
-  const annualFeatures = t("pricing.annual.features", { returnObjects: true }) as string[];
+  const featureRows = t("pricing.featureRows", { returnObjects: true }) as string[];
 
   return (
-    <div id="pricing" className="mx-auto max-w-5xl px-8 py-20">
-      <h2 className="text-center text-2xl font-bold sm:text-3xl">{t("pricing.title")}</h2>
-      <p className="text-base-content/70 mx-auto mt-3 max-w-xl text-center">
+    <div id="pricing" className="py-20">
+      <h2 className="mx-auto max-w-3xl px-8 text-center text-2xl font-bold sm:text-3xl">
+        {t("pricing.title")}
+      </h2>
+      <p className="text-base-content/70 mx-auto mt-3 max-w-xl px-8 text-center">
         {t("pricing.subtitle")}
       </p>
 
-      <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-3">
-        <div className="card bg-base-100 border-base-300 border">
-          <div className="card-body">
-            <h3 className="text-lg font-bold">{t("pricing.free.name")}</h3>
-            <p className="text-3xl font-bold">{t("pricing.free.price")}</p>
-            <ul className="mt-4 flex flex-col gap-2 text-sm">
-              {freeFeatures.map((feature) => (
-                <li key={feature} className="flex items-start gap-2">
-                  <CheckIcon className="text-success mt-0.5 h-4 w-4 shrink-0 stroke-current" />
-                  {feature}
-                </li>
+      <div className="mx-auto mt-10 max-w-6xl px-8">
+        <div className="bg-base-100 border-base-300 overflow-x-auto rounded-lg border">
+          <table className="table table-fixed min-w-[640px]">
+            <thead>
+              <tr>
+                <th className="w-[39%]"></th>
+                <th className="w-[20%] text-center">
+                  <div className="flex flex-col items-center gap-2 py-2">
+                    <span className="text-base font-bold">{t("pricing.free.name")}</span>
+                    <span className="text-2xl font-bold">{t("pricing.free.price")}</span>
+                    <Link href="/app" className="btn btn-outline btn-sm mt-1">
+                      {t("pricing.free.cta")}
+                    </Link>
+                  </div>
+                </th>
+                <th className="bg-primary/5 border-primary w-[21%] rounded-t-lg border-t-2 border-x-2 border-b-0 text-center">
+                  <div className="flex flex-col items-center gap-2 py-2">
+                    <span className="text-base font-bold">{t("pricing.pro.name")}</span>
+                    <span className="text-2xl font-bold">
+                      {t("pricing.pro.price")}
+                      <span className="text-base-content/60 text-sm font-normal">
+                        {t("pricing.pro.period")}
+                      </span>
+                    </span>
+                    <button
+                      type="button"
+                      className="btn btn-primary btn-sm mt-1"
+                      disabled={loadingPlan !== null}
+                      onClick={() => handleUpgrade("monthly")}
+                    >
+                      {loadingPlan === "monthly" ? (
+                        <span className="loading loading-spinner loading-xs" />
+                      ) : (
+                        t("pricing.pro.cta")
+                      )}
+                    </button>
+                  </div>
+                </th>
+                <th className="w-[20%] text-center">
+                  <div className="flex flex-col items-center gap-2 py-2">
+                    <div className="flex items-center gap-2">
+                      <span className="text-base font-bold">{t("pricing.annual.name")}</span>
+                      <span className="badge badge-success badge-sm">
+                        {t("pricing.annual.badge")}
+                      </span>
+                    </div>
+                    <span className="text-2xl font-bold">
+                      {t("pricing.annual.price")}
+                      <span className="text-base-content/60 text-sm font-normal">
+                        {t("pricing.annual.period")}
+                      </span>
+                    </span>
+                    <button
+                      type="button"
+                      className="btn btn-outline btn-sm mt-1"
+                      disabled={loadingPlan !== null}
+                      onClick={() => handleUpgrade("annual")}
+                    >
+                      {loadingPlan === "annual" ? (
+                        <span className="loading loading-spinner loading-xs" />
+                      ) : (
+                        t("pricing.annual.cta")
+                      )}
+                    </button>
+                  </div>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {featureRows.map((feature) => (
+                <tr key={feature}>
+                  <td className="text-sm">{feature}</td>
+                  <td className="text-center">
+                    <CheckIcon className="text-success mx-auto h-4 w-4 stroke-current" />
+                  </td>
+                  <td className="bg-primary/5 border-primary border-x-2 border-b-0 text-center">
+                    <CheckIcon className="text-success mx-auto h-4 w-4 stroke-current" />
+                  </td>
+                  <td className="text-center">
+                    <CheckIcon className="text-success mx-auto h-4 w-4 stroke-current" />
+                  </td>
+                </tr>
               ))}
-            </ul>
-            <Link href="/app" className="btn btn-outline mt-6">
-              {t("pricing.free.cta")}
-            </Link>
-          </div>
-        </div>
-
-        <div className="card bg-base-100 border-primary border-2">
-          <div className="card-body">
-            <h3 className="text-lg font-bold">{t("pricing.pro.name")}</h3>
-            <p className="text-3xl font-bold">
-              {t("pricing.pro.price")}
-              <span className="text-base-content/60 text-base font-normal">
-                {t("pricing.pro.period")}
-              </span>
-            </p>
-            <ul className="mt-4 flex flex-col gap-2 text-sm">
-              {proFeatures.map((feature) => (
-                <li key={feature} className="flex items-start gap-2">
-                  <CheckIcon className="text-success mt-0.5 h-4 w-4 shrink-0 stroke-current" />
-                  {feature}
-                </li>
-              ))}
-            </ul>
-            <button
-              type="button"
-              className="btn btn-primary mt-6"
-              disabled={loadingPlan !== null}
-              onClick={() => handleUpgrade("monthly")}
-            >
-              {loadingPlan === "monthly" ? (
-                <span className="loading loading-spinner loading-sm" />
-              ) : (
-                t("pricing.pro.cta")
-              )}
-            </button>
-          </div>
-        </div>
-
-        <div className="card bg-base-100 border-base-300 border">
-          <div className="card-body">
-            <div className="flex items-center gap-2">
-              <h3 className="text-lg font-bold">{t("pricing.annual.name")}</h3>
-              <span className="badge badge-success badge-sm">{t("pricing.annual.badge")}</span>
-            </div>
-            <p className="text-3xl font-bold">
-              {t("pricing.annual.price")}
-              <span className="text-base-content/60 text-base font-normal">
-                {t("pricing.annual.period")}
-              </span>
-            </p>
-            <ul className="mt-4 flex flex-col gap-2 text-sm">
-              {annualFeatures.map((feature) => (
-                <li key={feature} className="flex items-start gap-2">
-                  <CheckIcon className="text-success mt-0.5 h-4 w-4 shrink-0 stroke-current" />
-                  {feature}
-                </li>
-              ))}
-            </ul>
-            <button
-              type="button"
-              className="btn btn-outline mt-6"
-              disabled={loadingPlan !== null}
-              onClick={() => handleUpgrade("annual")}
-            >
-              {loadingPlan === "annual" ? (
-                <span className="loading loading-spinner loading-sm" />
-              ) : (
-                t("pricing.annual.cta")
-              )}
-            </button>
-          </div>
+              <tr>
+                <td className="text-sm">{t("pricing.savedItemsLabel")}</td>
+                <td className="text-center text-sm">{t("pricing.free.savedItemsValue")}</td>
+                <td className="bg-primary/5 border-primary rounded-b-lg border-x-2 border-b-2 text-center text-sm font-semibold">
+                  {t("pricing.pro.savedItemsValue")}
+                </td>
+                <td className="text-center text-sm">{t("pricing.annual.savedItemsValue")}</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>

@@ -332,28 +332,25 @@
   "pricing": {
     "title": "Jednoduché, transparentní ceny",
     "subtitle": "Začněte zdarma. Kdykoli přejděte na neomezené ukládání životopisů a motivačních dopisů.",
+    "featureRows": [
+      "Všech 5 šablon životopisu a 2 šablony motivačního dopisu",
+      "Plná úprava — barvy, písma, velikosti",
+      "Export do PDF a e-mailem",
+      "13 jazyků"
+    ],
+    "savedItemsLabel": "Uložené životopisy a motivační dopisy",
     "free": {
       "name": "Zdarma",
       "price": "0 Kč",
       "cta": "Začít",
-      "features": [
-        "Všech 5 šablon životopisu a 2 šablony motivačního dopisu",
-        "Plná úprava — barvy, písma, velikosti",
-        "Export do PDF a e-mailem",
-        "13 jazyků",
-        "Až 2 uložené životopisy a 2 motivační dopisy"
-      ]
+      "savedItemsValue": "Až 2 od každého"
     },
     "pro": {
       "name": "Pro",
       "price": "19,99 $",
       "period": "/měs.",
       "cta": "Přejít na Pro",
-      "features": [
-        "Vše z verze Zdarma",
-        "Neomezené uložené životopisy",
-        "Neomezené uložené motivační dopisy"
-      ]
+      "savedItemsValue": "Neomezeně"
     },
     "annual": {
       "name": "Roční",
@@ -361,10 +358,7 @@
       "period": "/rok",
       "badge": "Ušetříte 30 %",
       "cta": "Přejít na Roční",
-      "features": [
-        "Vše z verze Pro",
-        "Platba jednou ročně"
-      ]
+      "savedItemsValue": "Neomezeně"
     },
     "resumeLimitReached": "Dosáhli jste limitu bezplatného plánu {{limit}} uložených životopisů. Přejděte na Pro pro neomezený počet životopisů.",
     "coverLetterLimitReached": "Dosáhli jste limitu bezplatného plánu {{limit}} uložených motivačních dopisů. Přejděte na Pro pro neomezený počet motivačních dopisů.",

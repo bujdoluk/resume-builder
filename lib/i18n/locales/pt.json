@@ -332,28 +332,25 @@
   "pricing": {
     "title": "Preços simples e transparentes",
     "subtitle": "Comece de graça. Faça upgrade a qualquer momento para currículos e cartas de apresentação ilimitados.",
+    "featureRows": [
+      "Os 5 modelos de currículo e 2 de carta de apresentação",
+      "Personalização completa — cores, tipos de letra, tamanhos",
+      "Exportação para PDF e por e-mail",
+      "13 idiomas"
+    ],
+    "savedItemsLabel": "Currículos e cartas de apresentação guardados",
     "free": {
       "name": "Grátis",
       "price": "0 €",
       "cta": "Começar",
-      "features": [
-        "Os 5 modelos de currículo e 2 de carta de apresentação",
-        "Personalização completa — cores, tipos de letra, tamanhos",
-        "Exportação para PDF e por e-mail",
-        "13 idiomas",
-        "Até 2 currículos guardados e 2 cartas de apresentação"
-      ]
+      "savedItemsValue": "Até 2 de cada"
     },
     "pro": {
       "name": "Pro",
       "price": "19,99 $",
       "period": "/mês",
       "cta": "Upgrade para Pro",
-      "features": [
-        "Tudo o que está incluído no Grátis",
-        "Currículos guardados ilimitados",
-        "Cartas de apresentação guardadas ilimitadas"
-      ]
+      "savedItemsValue": "Ilimitado"
     },
     "annual": {
       "name": "Anual",
@@ -361,10 +358,7 @@
       "period": "/ano",
       "badge": "Poupe 30%",
       "cta": "Upgrade para Anual",
-      "features": [
-        "Tudo o que está incluído no Pro",
-        "Faturado uma vez por ano"
-      ]
+      "savedItemsValue": "Ilimitado"
     },
     "resumeLimitReached": "Atingiu o limite do plano Grátis de {{limit}} currículos guardados. Faça upgrade para Pro para currículos ilimitados.",
     "coverLetterLimitReached": "Atingiu o limite do plano Grátis de {{limit}} cartas de apresentação guardadas. Faça upgrade para Pro para cartas ilimitadas.",

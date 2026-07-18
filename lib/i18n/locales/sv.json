@@ -332,28 +332,25 @@
   "pricing": {
     "title": "Enkla, transparenta priser",
     "subtitle": "Börja gratis. Uppgradera när som helst för obegränsat sparade CV:n och personliga brev.",
+    "featureRows": [
+      "Alla 5 CV-mallar och 2 mallar för personligt brev",
+      "Full anpassning — färger, typsnitt, storlekar",
+      "PDF- och e-postexport",
+      "13 språk"
+    ],
+    "savedItemsLabel": "Sparade CV:n och personliga brev",
     "free": {
       "name": "Gratis",
       "price": "0 kr",
       "cta": "Kom igång",
-      "features": [
-        "Alla 5 CV-mallar och 2 mallar för personligt brev",
-        "Full anpassning — färger, typsnitt, storlekar",
-        "PDF- och e-postexport",
-        "13 språk",
-        "Upp till 2 sparade CV:n och 2 personliga brev"
-      ]
+      "savedItemsValue": "Upp till 2 av varje"
     },
     "pro": {
       "name": "Pro",
       "price": "$19,99",
       "period": "/mån",
       "cta": "Uppgradera till Pro",
-      "features": [
-        "Allt i Gratis",
-        "Obegränsat sparade CV:n",
-        "Obegränsat sparade personliga brev"
-      ]
+      "savedItemsValue": "Obegränsat"
     },
     "annual": {
       "name": "Årlig",
@@ -361,10 +358,7 @@
       "period": "/år",
       "badge": "Spara 30 %",
       "cta": "Uppgradera till Årlig",
-      "features": [
-        "Allt i Pro",
-        "Faktureras en gång om året"
-      ]
+      "savedItemsValue": "Obegränsat"
     },
     "resumeLimitReached": "Du har nått gränsen på {{limit}} sparade CV:n i Gratis-planen. Uppgradera till Pro för obegränsat antal CV:n.",
     "coverLetterLimitReached": "Du har nått gränsen på {{limit}} sparade personliga brev i Gratis-planen. Uppgradera till Pro för obegränsat antal brev.",

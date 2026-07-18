@@ -165,13 +165,14 @@ export default function AccountPage() {
             )}
           </div>
 
-          <Link
-            href="/"
+          <button
+            type="button"
+            onClick={() => router.back()}
             className="link link-hover text-base-content/60 mt-4 flex items-center justify-center gap-1 text-center text-sm"
           >
             <ArrowLeftIcon className="h-4 w-4 stroke-current" />
             {t("account.goBack")}
-          </Link>
+          </button>
         </div>
       </div>
 

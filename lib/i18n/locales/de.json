@@ -332,28 +332,25 @@
   "pricing": {
     "title": "Einfache, transparente Preise",
     "subtitle": "Kostenlos starten. Jederzeit upgraden für unbegrenzt gespeicherte Lebensläufe und Anschreiben.",
+    "featureRows": [
+      "Alle 5 Lebenslauf- und 2 Anschreiben-Vorlagen",
+      "Volle Anpassung — Farben, Schriften, Größen",
+      "PDF- & E-Mail-Export",
+      "13 Sprachen"
+    ],
+    "savedItemsLabel": "Gespeicherte Lebensläufe & Anschreiben",
     "free": {
       "name": "Kostenlos",
       "price": "0 €",
       "cta": "Loslegen",
-      "features": [
-        "Alle 5 Lebenslauf- und 2 Anschreiben-Vorlagen",
-        "Volle Anpassung — Farben, Schriften, Größen",
-        "PDF- & E-Mail-Export",
-        "13 Sprachen",
-        "Bis zu 2 gespeicherte Lebensläufe & 2 Anschreiben"
-      ]
+      "savedItemsValue": "Bis zu 2 pro Typ"
     },
     "pro": {
       "name": "Pro",
       "price": "19,99 $",
       "period": "/Monat",
       "cta": "Auf Pro upgraden",
-      "features": [
-        "Alles aus Kostenlos",
-        "Unbegrenzt gespeicherte Lebensläufe",
-        "Unbegrenzt gespeicherte Anschreiben"
-      ]
+      "savedItemsValue": "Unbegrenzt"
     },
     "annual": {
       "name": "Jährlich",
@@ -361,10 +358,7 @@
       "period": "/Jahr",
       "badge": "30 % sparen",
       "cta": "Auf Jährlich upgraden",
-      "features": [
-        "Alles aus Pro",
-        "Einmal jährlich abgerechnet"
-      ]
+      "savedItemsValue": "Unbegrenzt"
     },
     "resumeLimitReached": "Du hast dein Kostenlos-Limit von {{limit}} gespeicherten Lebensläufen erreicht. Upgrade auf Pro für unbegrenzt viele Lebensläufe.",
     "coverLetterLimitReached": "Du hast dein Kostenlos-Limit von {{limit}} gespeicherten Anschreiben erreicht. Upgrade auf Pro für unbegrenzt viele Anschreiben.",

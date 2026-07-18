@@ -332,28 +332,25 @@
   "pricing": {
     "title": "Des tarifs simples et transparents",
     "subtitle": "Commencez gratuitement. Passez à un forfait supérieur à tout moment pour des CV et lettres de motivation illimités.",
+    "featureRows": [
+      "Les 5 modèles de CV et 2 modèles de lettre de motivation",
+      "Personnalisation complète — couleurs, polices, tailles",
+      "Export PDF et par e-mail",
+      "13 langues"
+    ],
+    "savedItemsLabel": "CV et lettres de motivation enregistrés",
     "free": {
       "name": "Gratuit",
       "price": "0 $",
       "cta": "Commencer",
-      "features": [
-        "Les 5 modèles de CV et 2 modèles de lettre de motivation",
-        "Personnalisation complète — couleurs, polices, tailles",
-        "Export PDF et par e-mail",
-        "13 langues",
-        "Jusqu'à 2 CV et 2 lettres de motivation enregistrés"
-      ]
+      "savedItemsValue": "Jusqu'à 2 de chaque"
     },
     "pro": {
       "name": "Pro",
       "price": "19,99 $",
       "period": "/mois",
       "cta": "Passer à Pro",
-      "features": [
-        "Tout ce qui est inclus dans Gratuit",
-        "CV enregistrés illimités",
-        "Lettres de motivation enregistrées illimitées"
-      ]
+      "savedItemsValue": "Illimité"
     },
     "annual": {
       "name": "Annuel",
@@ -361,10 +358,7 @@
       "period": "/an",
       "badge": "Économisez 30 %",
       "cta": "Passer à Annuel",
-      "features": [
-        "Tout ce qui est inclus dans Pro",
-        "Facturé une fois par an"
-      ]
+      "savedItemsValue": "Illimité"
     },
     "resumeLimitReached": "Vous avez atteint la limite du forfait Gratuit de {{limit}} CV enregistrés. Passez à Pro pour des CV illimités.",
     "coverLetterLimitReached": "Vous avez atteint la limite du forfait Gratuit de {{limit}} lettres de motivation enregistrées. Passez à Pro pour des lettres illimitées.",

@@ -332,28 +332,25 @@
   "pricing": {
     "title": "Precios simples y transparentes",
     "subtitle": "Empieza gratis. Mejora en cualquier momento para guardar currículums y cartas de presentación ilimitados.",
+    "featureRows": [
+      "Las 5 plantillas de currículum y 2 de carta de presentación",
+      "Personalización completa — colores, fuentes, tamaños",
+      "Exportación a PDF y por correo",
+      "13 idiomas"
+    ],
+    "savedItemsLabel": "Currículums y cartas de presentación guardados",
     "free": {
       "name": "Gratis",
       "price": "0 $",
       "cta": "Empezar",
-      "features": [
-        "Las 5 plantillas de currículum y 2 de carta de presentación",
-        "Personalización completa — colores, fuentes, tamaños",
-        "Exportación a PDF y por correo",
-        "13 idiomas",
-        "Hasta 2 currículums y 2 cartas de presentación guardados"
-      ]
+      "savedItemsValue": "Hasta 2 de cada uno"
     },
     "pro": {
       "name": "Pro",
       "price": "19,99 $",
       "period": "/mes",
       "cta": "Mejorar a Pro",
-      "features": [
-        "Todo lo de Gratis",
-        "Currículums guardados ilimitados",
-        "Cartas de presentación guardadas ilimitadas"
-      ]
+      "savedItemsValue": "Ilimitado"
     },
     "annual": {
       "name": "Anual",
@@ -361,10 +358,7 @@
       "period": "/año",
       "badge": "Ahorra 30 %",
       "cta": "Mejorar a Anual",
-      "features": [
-        "Todo lo de Pro",
-        "Facturado una vez al año"
-      ]
+      "savedItemsValue": "Ilimitado"
     },
     "resumeLimitReached": "Has alcanzado el límite del plan Gratis de {{limit}} currículums guardados. Mejora a Pro para currículums ilimitados.",
     "coverLetterLimitReached": "Has alcanzado el límite del plan Gratis de {{limit}} cartas de presentación guardadas. Mejora a Pro para cartas ilimitadas.",

@@ -332,28 +332,25 @@
   "pricing": {
     "title": "Eenvoudige, transparante prijzen",
     "subtitle": "Begin gratis. Upgrade op elk moment voor onbeperkt opgeslagen cv's en motivatiebrieven.",
+    "featureRows": [
+      "Alle 5 cv-sjablonen en 2 motivatiebriefsjablonen",
+      "Volledige aanpassing — kleuren, lettertypes, formaten",
+      "PDF- en e-mailexport",
+      "13 talen"
+    ],
+    "savedItemsLabel": "Opgeslagen cv's en motivatiebrieven",
     "free": {
       "name": "Gratis",
       "price": "€0",
       "cta": "Aan de slag",
-      "features": [
-        "Alle 5 cv-sjablonen en 2 motivatiebriefsjablonen",
-        "Volledige aanpassing — kleuren, lettertypes, formaten",
-        "PDF- en e-mailexport",
-        "13 talen",
-        "Tot 2 opgeslagen cv's en 2 motivatiebrieven"
-      ]
+      "savedItemsValue": "Tot 2 van elk"
     },
     "pro": {
       "name": "Pro",
       "price": "$19,99",
       "period": "/mnd",
       "cta": "Upgraden naar Pro",
-      "features": [
-        "Alles uit Gratis",
-        "Onbeperkt opgeslagen cv's",
-        "Onbeperkt opgeslagen motivatiebrieven"
-      ]
+      "savedItemsValue": "Onbeperkt"
     },
     "annual": {
       "name": "Jaarlijks",
@@ -361,10 +358,7 @@
       "period": "/jaar",
       "badge": "Bespaar 30%",
       "cta": "Upgraden naar Jaarlijks",
-      "features": [
-        "Alles uit Pro",
-        "Eén keer per jaar gefactureerd"
-      ]
+      "savedItemsValue": "Onbeperkt"
     },
     "resumeLimitReached": "Je hebt de Gratis-limiet van {{limit}} opgeslagen cv's bereikt. Upgrade naar Pro voor onbeperkte cv's.",
     "coverLetterLimitReached": "Je hebt de Gratis-limiet van {{limit}} opgeslagen motivatiebrieven bereikt. Upgrade naar Pro voor onbeperkte motivatiebrieven.",

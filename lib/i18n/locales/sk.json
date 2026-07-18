@@ -332,28 +332,25 @@
   "pricing": {
     "title": "Jednoduché, transparentné ceny",
     "subtitle": "Začnite zadarmo. Kedykoľvek prejdite na neobmedzené ukladanie životopisov a motivačných listov.",
+    "featureRows": [
+      "Všetkých 5 šablón životopisu a 2 šablóny motivačného listu",
+      "Plná úprava — farby, písma, veľkosti",
+      "Export do PDF a e-mailom",
+      "13 jazykov"
+    ],
+    "savedItemsLabel": "Uložené životopisy a motivačné listy",
     "free": {
       "name": "Zadarmo",
       "price": "0 $",
       "cta": "Začať",
-      "features": [
-        "Všetkých 5 šablón životopisu a 2 šablóny motivačného listu",
-        "Plná úprava — farby, písma, veľkosti",
-        "Export do PDF a e-mailom",
-        "13 jazykov",
-        "Až 2 uložené životopisy a 2 motivačné listy"
-      ]
+      "savedItemsValue": "Až 2 od každého"
     },
     "pro": {
       "name": "Pro",
       "price": "19,99 $",
       "period": "/mes.",
       "cta": "Prejsť na Pro",
-      "features": [
-        "Všetko z verzie Zadarmo",
-        "Neobmedzené uložené životopisy",
-        "Neobmedzené uložené motivačné listy"
-      ]
+      "savedItemsValue": "Neobmedzene"
     },
     "annual": {
       "name": "Ročný",
@@ -361,10 +358,7 @@
       "period": "/rok",
       "badge": "Ušetríte 30 %",
       "cta": "Prejsť na Ročný",
-      "features": [
-        "Všetko z verzie Pro",
-        "Platba raz ročne"
-      ]
+      "savedItemsValue": "Neobmedzene"
     },
     "resumeLimitReached": "Dosiahli ste limit bezplatného plánu {{limit}} uložených životopisov. Prejdite na Pro pre neobmedzený počet životopisov.",
     "coverLetterLimitReached": "Dosiahli ste limit bezplatného plánu {{limit}} uložených motivačných listov. Prejdite na Pro pre neobmedzený počet listov.",

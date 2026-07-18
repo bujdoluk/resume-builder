@@ -332,28 +332,25 @@
   "pricing": {
     "title": "Simple, transparent pricing",
     "subtitle": "Start for free. Upgrade any time for unlimited saved resumes and cover letters.",
+    "featureRows": [
+      "All 5 resume templates & 2 cover letter templates",
+      "Full customization — colours, fonts, sizes",
+      "PDF & email export",
+      "13 languages"
+    ],
+    "savedItemsLabel": "Saved resumes & cover letters",
     "free": {
       "name": "Free",
       "price": "$0",
       "cta": "Get Started",
-      "features": [
-        "All 5 resume templates & 2 cover letter templates",
-        "Full customization — colours, fonts, sizes",
-        "PDF & email export",
-        "13 languages",
-        "Up to 2 saved resumes & 2 saved cover letters"
-      ]
+      "savedItemsValue": "Up to 2 each"
     },
     "pro": {
       "name": "Pro",
       "price": "$19.99",
       "period": "/mo",
       "cta": "Upgrade to Pro",
-      "features": [
-        "Everything in Free",
-        "Unlimited saved resumes",
-        "Unlimited saved cover letters"
-      ]
+      "savedItemsValue": "Unlimited"
     },
     "annual": {
       "name": "Annual",
@@ -361,10 +358,7 @@
       "period": "/yr",
       "badge": "Save 30%",
       "cta": "Upgrade to Annual",
-      "features": [
-        "Everything in Pro",
-        "Billed once a year"
-      ]
+      "savedItemsValue": "Unlimited"
     },
     "resumeLimitReached": "You've reached your Free plan limit of {{limit}} saved resumes. Upgrade to Pro for unlimited resumes.",
     "coverLetterLimitReached": "You've reached your Free plan limit of {{limit}} saved cover letters. Upgrade to Pro for unlimited cover letters.",
