@@ -229,7 +229,21 @@ export default function ResumeBuilder({
     setData((prev) => ({ ...prev, interests }));
   }
 
-  function handleNewResume() {
+  async function handleNewResume() {
+    const userId = await ensureUserId(supabase);
+    const [subscription, existingCount] = await Promise.all([
+      getSubscription(supabase, userId),
+      countResumes(supabase, userId),
+    ]);
+    if (!isPaidPlan(subscription.plan) && existingCount >= FREE_TIER_LIMITS.resumes) {
+      const viewPlans = await upgradeDialogRef.current?.open({
+        message: t("pricing.resumeLimitReached", { limit: FREE_TIER_LIMITS.resumes }),
+        confirmLabel: t("pricing.viewPlans"),
+      });
+      if (viewPlans) router.push("/#pricing");
+      return;
+    }
+
     setData(emptyResumeData);
     setResumeId(null);
     setResumeName("");

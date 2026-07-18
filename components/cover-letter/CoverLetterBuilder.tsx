@@ -225,6 +225,28 @@ export default function CoverLetterBuilder({
     );
   }
 
+  async function handleNewCoverLetter() {
+    const userId = await ensureUserId(supabase);
+    const [subscription, existingCount] = await Promise.all([
+      getSubscription(supabase, userId),
+      countCoverLetters(supabase, userId),
+    ]);
+    if (!isPaidPlan(subscription.plan) && existingCount >= FREE_TIER_LIMITS.coverLetters) {
+      const viewPlans = await upgradeDialogRef.current?.open({
+        message: t("pricing.coverLetterLimitReached", { limit: FREE_TIER_LIMITS.coverLetters }),
+        confirmLabel: t("pricing.viewPlans"),
+      });
+      if (viewPlans) router.push("/#pricing");
+      return;
+    }
+
+    setData(emptyCoverLetterData);
+    setSectionOrder(defaultCoverLetterSectionOrder);
+    setCoverLetterId(null);
+    setName("");
+    router.replace("/cover-letter");
+  }
+
   async function handleSave() {
     if (isSaving) return;
 
@@ -277,6 +299,14 @@ export default function CoverLetterBuilder({
   function renderActionButtons(className: string) {
     return (
       <div className={className}>
+        <button
+          type="button"
+          className="btn btn-outline hover:border-primary flex-1 md:flex-none md:w-48"
+          onClick={handleNewCoverLetter}
+        >
+          {t("myCoverLetters.newCoverLetter")}
+        </button>
+
         <button
           type="button"
           className="btn btn-primary btn-lg flex-1 md:flex-none md:w-48"
