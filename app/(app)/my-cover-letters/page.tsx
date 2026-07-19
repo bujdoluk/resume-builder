@@ -11,6 +11,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
+import * as Sentry from "@sentry/nextjs";
 import { Temporal } from "temporal-polyfill";
 import { useAppState } from "@/components/AppState";
 import ConfirmDialog, {
@@ -84,6 +85,7 @@ export default function MyCoverLettersPage() {
       setSelectedIds(new Set());
     } catch (error) {
       console.error(error);
+      Sentry.captureException(error);
       if (requestId === requestIdRef.current) setLoadFailed(true);
     }
   }
@@ -172,6 +174,7 @@ export default function MyCoverLettersPage() {
       await loadPage(1);
     } catch (error) {
       console.error(error);
+      Sentry.captureException(error);
       alert(t("myCoverLetters.duplicateFailed"));
     } finally {
       setDuplicatingId(null);

@@ -240,7 +240,9 @@
       "Bash(taskkill //F //T //PID 18344)",
       "Bash(tasklist //FI \"PID eq 19080\")",
       "Bash(taskkill //F //PID 19080)",
-      "PowerShell(Stop-Process -Id 19080 -Force -ErrorAction SilentlyContinue)"
+      "PowerShell(Stop-Process -Id 19080 -Force -ErrorAction SilentlyContinue)",
+      "Bash(taskkill //F //PID 17540)",
+      "Bash(taskkill //F //PID 18476)"
     ],
     "additionalDirectories": [
       "C:\\Users\\lukas\\AppData\\Local\\npm-cache\\_npx\\e41f203b7505f1fb",

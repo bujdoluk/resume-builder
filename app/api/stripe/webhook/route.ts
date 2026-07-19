@@ -13,6 +13,7 @@
  * API version.
  */
 import type Stripe from "stripe";
+import * as Sentry from "@sentry/nextjs";
 import { sendWelcomeEmail } from "@/lib/email/sendWelcomeEmail";
 import { getStripe } from "@/lib/stripe";
 import { createServiceRoleClient } from "@/lib/supabase/serviceRole";
@@ -62,6 +63,7 @@ export async function POST(request: Request) {
     event = stripe.webhooks.constructEvent(body, signature!, process.env.STRIPE_WEBHOOK_SECRET!);
   } catch (error) {
     console.error("Stripe webhook signature verification failed:", error);
+    Sentry.captureException(error);
     return new Response("Invalid signature", { status: 400 });
   }
 
@@ -134,6 +136,7 @@ export async function POST(request: Request) {
     }
   } catch (error) {
     console.error(`Failed to process Stripe webhook event ${event.type}:`, error);
+    Sentry.captureException(error, { tags: { stripeEventType: event.type } });
     return new Response("Webhook handler error", { status: 500 });
   }
 

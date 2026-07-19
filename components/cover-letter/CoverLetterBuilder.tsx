@@ -15,6 +15,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useTranslation } from "react-i18next";
+import * as Sentry from "@sentry/nextjs";
 import { useAppState } from "@/components/AppState";
 import ConfirmDialog, { type ConfirmDialogHandle } from "@/components/ConfirmDialog";
 import DownloadButton from "@/components/DownloadButton";
@@ -290,6 +291,7 @@ export default function CoverLetterBuilder({
       setTimeout(() => setJustSaved(false), 1500);
     } catch (error) {
       console.error(error);
+      Sentry.captureException(error);
       alert(t("coverLetter.saveFailed"));
     } finally {
       setIsSaving(false);

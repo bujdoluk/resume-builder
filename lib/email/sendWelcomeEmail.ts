@@ -5,6 +5,7 @@
  * check there), so this fires once per user, never on renewals, plan
  * switches, or resubscribes after a cancellation.
  */
+import * as Sentry from "@sentry/nextjs";
 import { EMAIL_FROM, getResend } from "@/lib/email/resend";
 
 export type SubscriptionPlan = "pro" | "annual";
@@ -27,5 +28,6 @@ export async function sendWelcomeEmail(
     // Best-effort — a failed welcome email shouldn't fail the whole webhook
     // (the subscription itself is already upserted by the time this runs).
     console.error("Failed to send welcome email:", error);
+    Sentry.captureException(error, { tags: { plan } });
   }
 }

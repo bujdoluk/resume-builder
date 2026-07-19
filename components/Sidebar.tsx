@@ -12,6 +12,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
+import * as Sentry from "@sentry/nextjs";
 import {
   EmailIcon,
   MyCoverLettersIcon,
@@ -45,6 +46,7 @@ export default function Sidebar() {
         if (!cancelled) setResumeCount(count);
       } catch (error) {
         console.error(error);
+        Sentry.captureException(error);
       }
     })();
 
@@ -66,6 +68,7 @@ export default function Sidebar() {
         if (!cancelled) setCoverLetterCount(count);
       } catch (error) {
         console.error(error);
+        Sentry.captureException(error);
       }
     })();
 
