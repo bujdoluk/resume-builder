@@ -25,9 +25,29 @@ import {
   useEffect,
   useRef,
   useState,
+  useSyncExternalStore,
   type ReactNode,
 } from "react";
 import { useTranslation } from "react-i18next";
+
+// Whether this render is happening in a real browser after hydration, as
+// opposed to on the server (or the client's pre-hydration pass, which must
+// match the server exactly). `useSyncExternalStore` is the API React
+// provides for values that are allowed to legitimately differ between
+// server and client snapshots — it swaps in the real answer right after
+// hydration without going through a setState-in-effect, which is what a
+// plain useState+useEffect "mounted" flag would need to do instead.
+function subscribeNever() {
+  return () => {};
+}
+
+function useHasMounted(): boolean {
+  return useSyncExternalStore(
+    subscribeNever,
+    () => true,
+    () => false,
+  );
+}
 
 export interface ConsentChoices {
   analytics: boolean;
@@ -86,7 +106,14 @@ export function CookieConsentProvider({ children }: { children: ReactNode }) {
   const [preferencesOpen, setPreferencesOpen] = useState(false);
   const [draft, setDraft] = useState<ConsentChoices>(DEFAULT_CHOICES);
   const dialogRef = useRef<HTMLDialogElement>(null);
+  const mounted = useHasMounted();
 
+  // One-time hydration of interactive state from localStorage — genuinely
+  // needs an effect (no synchronous access during SSR), and unlike the
+  // "mounted" derived fact above, `consent`/`hasDecided` are further
+  // mutated locally afterward by user clicks (acceptAll/rejectAll/commit),
+  // not just mirrored from the external source — the same tradeoff
+  // ResumeBuilder.tsx's own localStorage-restore effect makes.
   useEffect(() => {
     const stored = loadStoredConsent();
     if (stored) {
@@ -127,7 +154,7 @@ export function CookieConsentProvider({ children }: { children: ReactNode }) {
     >
       {children}
 
-      {!hasDecided && (
+      {mounted && !hasDecided && (
         <div className="fixed inset-x-0 bottom-0 z-50 p-4">
           <div className="card bg-base-100 border-base-300 mx-auto max-w-2xl border shadow-lg">
             <div className="card-body gap-3 p-5">
@@ -149,81 +176,83 @@ export function CookieConsentProvider({ children }: { children: ReactNode }) {
         </div>
       )}
 
-      <dialog
-        ref={dialogRef}
-        className="modal"
-        onClose={() => setPreferencesOpen(false)}
-      >
-        <div className="modal-box">
-          <h3 className="text-lg font-bold">{t("cookieConsent.customize")}</h3>
+      {mounted && (
+        <dialog
+          ref={dialogRef}
+          className="modal"
+          onClose={() => setPreferencesOpen(false)}
+        >
+          <div className="modal-box">
+            <h3 className="text-lg font-bold">{t("cookieConsent.customize")}</h3>
 
-          <div className="divide-base-300 mt-4 divide-y">
-            <div className="flex items-start justify-between gap-4 py-3">
-              <div>
-                <p className="font-medium">{t("cookieConsent.necessaryTitle")}</p>
-                <p className="text-base-content/60 text-sm">
-                  {t("cookieConsent.necessaryDescription")}
-                </p>
+            <div className="divide-base-300 mt-4 divide-y">
+              <div className="flex items-start justify-between gap-4 py-3">
+                <div>
+                  <p className="font-medium">{t("cookieConsent.necessaryTitle")}</p>
+                  <p className="text-base-content/60 text-sm">
+                    {t("cookieConsent.necessaryDescription")}
+                  </p>
+                </div>
+                <input
+                  type="checkbox"
+                  className="toggle toggle-sm mt-1 shrink-0"
+                  checked
+                  disabled
+                  aria-label={t("cookieConsent.necessaryTitle")}
+                />
               </div>
-              <input
-                type="checkbox"
-                className="toggle toggle-sm mt-1 shrink-0"
-                checked
-                disabled
-                aria-label={t("cookieConsent.necessaryTitle")}
-              />
+
+              <div className="flex items-start justify-between gap-4 py-3">
+                <div>
+                  <p className="font-medium">{t("cookieConsent.analyticsTitle")}</p>
+                  <p className="text-base-content/60 text-sm">
+                    {t("cookieConsent.analyticsDescription")}
+                  </p>
+                </div>
+                <input
+                  type="checkbox"
+                  className="toggle toggle-sm toggle-primary mt-1 shrink-0"
+                  checked={draft.analytics}
+                  onChange={(event) => setDraft((prev) => ({ ...prev, analytics: event.target.checked }))}
+                  aria-label={t("cookieConsent.analyticsTitle")}
+                />
+              </div>
+
+              <div className="flex items-start justify-between gap-4 py-3">
+                <div>
+                  <p className="font-medium">{t("cookieConsent.supportChatTitle")}</p>
+                  <p className="text-base-content/60 text-sm">
+                    {t("cookieConsent.supportChatDescription")}
+                  </p>
+                </div>
+                <input
+                  type="checkbox"
+                  className="toggle toggle-sm toggle-primary mt-1 shrink-0"
+                  checked={draft.supportChat}
+                  onChange={(event) => setDraft((prev) => ({ ...prev, supportChat: event.target.checked }))}
+                  aria-label={t("cookieConsent.supportChatTitle")}
+                />
+              </div>
             </div>
 
-            <div className="flex items-start justify-between gap-4 py-3">
-              <div>
-                <p className="font-medium">{t("cookieConsent.analyticsTitle")}</p>
-                <p className="text-base-content/60 text-sm">
-                  {t("cookieConsent.analyticsDescription")}
-                </p>
-              </div>
-              <input
-                type="checkbox"
-                className="toggle toggle-sm toggle-primary mt-1 shrink-0"
-                checked={draft.analytics}
-                onChange={(event) => setDraft((prev) => ({ ...prev, analytics: event.target.checked }))}
-                aria-label={t("cookieConsent.analyticsTitle")}
-              />
-            </div>
-
-            <div className="flex items-start justify-between gap-4 py-3">
-              <div>
-                <p className="font-medium">{t("cookieConsent.supportChatTitle")}</p>
-                <p className="text-base-content/60 text-sm">
-                  {t("cookieConsent.supportChatDescription")}
-                </p>
-              </div>
-              <input
-                type="checkbox"
-                className="toggle toggle-sm toggle-primary mt-1 shrink-0"
-                checked={draft.supportChat}
-                onChange={(event) => setDraft((prev) => ({ ...prev, supportChat: event.target.checked }))}
-                aria-label={t("cookieConsent.supportChatTitle")}
-              />
+            <div className="modal-action">
+              <button type="button" className="btn btn-sm" onClick={() => setPreferencesOpen(false)}>
+                {t("buttons.cancel")}
+              </button>
+              <button
+                type="button"
+                className="btn btn-primary btn-sm"
+                onClick={() => commit(draft)}
+              >
+                {t("cookieConsent.save")}
+              </button>
             </div>
           </div>
-
-          <div className="modal-action">
-            <button type="button" className="btn btn-sm" onClick={() => setPreferencesOpen(false)}>
-              {t("buttons.cancel")}
-            </button>
-            <button
-              type="button"
-              className="btn btn-primary btn-sm"
-              onClick={() => commit(draft)}
-            >
-              {t("cookieConsent.save")}
-            </button>
-          </div>
-        </div>
-        <form method="dialog" className="modal-backdrop">
-          <button onClick={() => setPreferencesOpen(false)}>close</button>
-        </form>
-      </dialog>
+          <form method="dialog" className="modal-backdrop">
+            <button onClick={() => setPreferencesOpen(false)}>close</button>
+          </form>
+        </dialog>
+      )}
     </CookieConsentContext.Provider>
   );
 }

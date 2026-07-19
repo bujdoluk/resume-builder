@@ -23,6 +23,7 @@ import {
 import { AppStateProvider } from "@/components/AppState";
 import ConsentedAnalytics from "@/components/ConsentedAnalytics";
 import { CookieConsentProvider } from "@/components/CookieConsent";
+import InvisibleCaptcha from "@/components/InvisibleCaptcha";
 import Navbar from "@/components/Navbar";
 import TawkChat from "@/components/TawkChat";
 import "./globals.css";
@@ -149,6 +150,7 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col">
         <CookieConsentProvider>
           <AppStateProvider>
+            <InvisibleCaptcha />
             <Navbar />
             <div className="flex flex-1 flex-col">{children}</div>
             <ConsentedAnalytics />

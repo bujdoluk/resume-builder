@@ -220,13 +220,31 @@
       "Bash(node \"C:\\\\Users\\\\lukas\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\d--Projekty-resume-builder\\\\01195db0-934c-40eb-b550-2136f9dc5402\\\\scratchpad\\\\add-cookie-consent-i18n.js\")",
       "Bash(node \"C:\\\\Users\\\\lukas\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\d--Projekty-resume-builder\\\\01195db0-934c-40eb-b550-2136f9dc5402\\\\scratchpad\\\\test_cookie_consent.js\")",
       "Bash(curl -s -o /dev/null -w \"blog status: %{http_code}\\\\n\" http://localhost:3000/blog)",
-      "Bash(node \"C:\\\\Users\\\\lukas\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\d--Projekty-resume-builder\\\\01195db0-934c-40eb-b550-2136f9dc5402\\\\scratchpad\\\\test_footer_link2.js\")"
+      "Bash(node \"C:\\\\Users\\\\lukas\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\d--Projekty-resume-builder\\\\01195db0-934c-40eb-b550-2136f9dc5402\\\\scratchpad\\\\test_footer_link2.js\")",
+      "Bash(taskkill //F //PID 9952)",
+      "Bash(taskkill //F //PID 10572)",
+      "Bash(node \"C:\\\\Users\\\\lukas\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\d--Projekty-resume-builder\\\\01195db0-934c-40eb-b550-2136f9dc5402\\\\scratchpad\\\\..\")",
+      "Bash(node /tmp/test_invisible_captcha.js)",
+      "Bash(curl -s -o /dev/null -w \"status: %{http_code}\\\\n\" --max-time 20 http://localhost:3000/app)",
+      "Bash(echo \"exit code: $?\")",
+      "Bash(tasklist //FI \"PID eq 10572\")",
+      "PowerShell(Get-Process -Id 10572 -ErrorAction SilentlyContinue)",
+      "PowerShell(Stop-Process -Id 10572 -Force -ErrorAction SilentlyContinue)",
+      "Bash(sed -i 's/localhost:3000/localhost:3005/g' \"C:\\\\Users\\\\lukas\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\d--Projekty-resume-builder\\\\01195db0-934c-40eb-b550-2136f9dc5402\\\\scratchpad\\\\test_invisible_captcha.js\")",
+      "Bash(sed -i 's/localhost:3000/localhost:3005/g' /tmp/test_invisible_captcha.js)",
+      "Bash(sed -i 's/waitUntil: \"networkidle\"/waitUntil: \"load\", timeout: 60000/' /tmp/test_invisible_captcha.js *)",
+      "Bash(sed -i 's/\\(e\\) => e.toLowerCase\\(\\).includes\\(\"captcha\"\\)/\\(\\) => true/' /tmp/test_invisible_captcha.js)",
+      "Bash(sed -i 's/if \\(msg.type\\(\\) === \"error\"\\) errors.push\\(msg.text\\(\\)\\);/errors.push\\(`[${msg.type\\(\\)}] ${msg.text\\(\\)}`\\);/' /tmp/test_invisible_captcha.js)",
+      "Bash(taskkill //F //PID 19860)",
+      "Bash(taskkill //F //PID 18344)",
+      "Bash(taskkill //F //T //PID 18344)"
     ],
     "additionalDirectories": [
       "C:\\Users\\lukas\\AppData\\Local\\npm-cache\\_npx\\e41f203b7505f1fb",
       "C:\\Users\\lukas\\AppData\\Local\\Temp\\claude\\d--Projekty-resume-builder\\3ad409a9-f7ed-4743-b3cf-a5633d47085b\\scratchpad",
       "C:\\Users\\lukas\\AppData\\Local\\Temp\\claude\\d--Projekty-resume-builder\\3ad409a9-f7ed-4743-b3cf-a5633d47085b",
-      "D:\\Projekty\\resume-builder"
+      "D:\\Projekty\\resume-builder",
+      "\\tmp"
     ]
   }
 }
