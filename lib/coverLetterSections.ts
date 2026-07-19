@@ -24,6 +24,19 @@ export const defaultCoverLetterSectionOrder: CoverLetterSectionKey[] = [
   "letter",
 ];
 
+// i18n key for each section's step title, used by the completion-steps
+// checklist (`components/CompletionSteps.tsx`) — shared between
+// `CoverLetterBuilder.tsx`'s own inline rendering and `Sidebar.tsx`'s
+// (which shows the same checklist under the "My Cover Letters" link once
+// `AppState.coverLetterStepsSummary` is populated), so both stay in sync.
+export const coverLetterSectionStepTitleKey: Record<CoverLetterSectionKey, string> = {
+  sender: "coverLetter.sectionSender",
+  recipient: "coverLetter.sectionRecipient",
+  date: "coverLetter.sectionDate",
+  subject: "coverLetter.sectionSubject",
+  letter: "coverLetter.sectionLetter",
+};
+
 export const coverLetterSectionFieldKeys: Record<
   CoverLetterSectionKey,
   CoverLetterFieldKey[]

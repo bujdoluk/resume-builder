@@ -8,17 +8,36 @@
  * editing canvas. The Templates link and the Features/Colours/Typography/
  * Font Size controls that used to live here have moved to the Navbar (see
  * `components/navbar/`), shown only on `/app`.
+ *
+ * At the `lg` breakpoint (where this sidebar shows full labels, not just
+ * icons), it also renders whichever builder's completion-steps checklist is
+ * currently active, below the nav links — fed by
+ * `AppState.resumeStepsSummary`/`coverLetterStepsSummary`, which
+ * `ResumeBuilder.tsx`/`CoverLetterBuilder.tsx` publish while mounted (and
+ * clear on unmount). Both summaries share one fixed slot (only one is ever
+ * non-null at a time, since only one builder is ever mounted) rather than
+ * each getting its own spot next to its own nav link — that would shift the
+ * links below it up/down every time the checklist appeared, disappeared, or
+ * changed length while editing. Below `lg`, the builders render the same
+ * checklist inline themselves instead (this sidebar collapses to icon-only
+ * tabs there, with no room for it).
  */
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
 import * as Sentry from "@sentry/nextjs";
+import CompletionSteps from "@/components/CompletionSteps";
 import {
   EmailIcon,
   MyCoverLettersIcon,
   MyResumesIcon,
   PencilSquareIcon,
 } from "@/components/Icons";
+import {
+  coverLetterSectionStepTitleKey,
+  type CoverLetterSectionKey,
+} from "@/lib/coverLetterSections";
+import { scrollToSectionAnchor } from "@/lib/scrollToSectionAnchor";
 import { createClient } from "@/lib/supabase/client";
 import { countCoverLetters } from "@/lib/supabase/coverLetters";
 import { countResumes } from "@/lib/supabase/resumes";
@@ -27,7 +46,13 @@ import { useAppState } from "@/components/AppState";
 
 export default function Sidebar() {
   const { t } = useTranslation();
-  const { resumeListVersion, coverLetterListVersion, lastEditorPath } = useAppState();
+  const {
+    resumeListVersion,
+    coverLetterListVersion,
+    lastEditorPath,
+    resumeStepsSummary,
+    coverLetterStepsSummary,
+  } = useAppState();
   const [collapsed, setCollapsed] = useState(false);
   const [supabase] = useState(() => createClient());
   const [resumeCount, setResumeCount] = useState<number | null>(null);
@@ -233,6 +258,47 @@ export default function Sidebar() {
             </Link>
           </li>
         </ul>
+
+        {/* One fixed slot for whichever builder is currently mounted, so
+            the nav links above never shift position as steps appear,
+            disappear, or change length while editing — only ever one of
+            these two summaries is non-null at a time, since only one
+            builder is ever mounted. */}
+        {!collapsed && (resumeStepsSummary || coverLetterStepsSummary) && (
+          <div className="border-t-base-300 mt-2 border-t px-4 pt-4">
+            {resumeStepsSummary ? (
+              <CompletionSteps
+                stepKeys={resumeStepsSummary.stepKeys}
+                incompleteKeys={resumeStepsSummary.incompleteKeys}
+                completionPercent={resumeStepsSummary.completionPercent}
+                titleKey={(key) =>
+                  key === "personalInfo" ? "resumeSteps.personalInfo" : `sections.${key}`
+                }
+                tooltipKey={(key) => `resumeSteps.${key}Tooltip`}
+                completedLabelKey="resumeSteps.completed"
+                allCompleteLabelKey="resumeSteps.allComplete"
+                onStepClick={scrollToSectionAnchor}
+                tooltipAlign="start"
+              />
+            ) : (
+              coverLetterStepsSummary && (
+                <CompletionSteps
+                  stepKeys={coverLetterStepsSummary.stepKeys}
+                  incompleteKeys={coverLetterStepsSummary.incompleteKeys}
+                  completionPercent={coverLetterStepsSummary.completionPercent}
+                  titleKey={(key) =>
+                    coverLetterSectionStepTitleKey[key as CoverLetterSectionKey]
+                  }
+                  tooltipKey={(key) => `coverLetterSteps.${key}Tooltip`}
+                  completedLabelKey="coverLetterSteps.completed"
+                  allCompleteLabelKey="coverLetterSteps.allComplete"
+                  onStepClick={scrollToSectionAnchor}
+                  tooltipAlign="start"
+                />
+              )
+            )}
+          </div>
+        )}
       </div>
     </div>
   );

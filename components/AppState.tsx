@@ -20,7 +20,10 @@ import {
   type SetStateAction,
 } from "react";
 import { allCoverLetterFields, type CoverLetterFieldKey } from "@/lib/coverLetterFields";
-import type { CoverLetterSectionZones } from "@/lib/coverLetterSections";
+import type {
+  CoverLetterSectionKey,
+  CoverLetterSectionZones,
+} from "@/lib/coverLetterSections";
 import {
   defaultCoverLetterTemplateId,
   type CoverLetterTemplateId,
@@ -60,6 +63,26 @@ const defaultCoverLetterFieldOrder: CoverLetterFieldKey[] = [
   ...allCoverLetterFields,
 ];
 
+// Live snapshots of each builder's completion-steps checklist, published by
+// `ResumeBuilder.tsx`/`CoverLetterBuilder.tsx` (while mounted) and consumed
+// by `Sidebar.tsx` to show the same checklist under "My Resumes"/"My Cover
+// Letters" respectively — `null` whenever the corresponding editor isn't
+// mounted, so the sidebar shows nothing extra on any other page.
+export interface ResumeStepsSummary {
+  // Resume steps include the synthetic "personalInfo" key alongside
+  // `SectionKey`s (see `ResumeBuilder.tsx`), so this stays a plain string
+  // rather than `SectionKey[]`.
+  stepKeys: string[];
+  incompleteKeys: string[];
+  completionPercent: number;
+}
+
+export interface CoverLetterStepsSummary {
+  stepKeys: CoverLetterSectionKey[];
+  incompleteKeys: CoverLetterSectionKey[];
+  completionPercent: number;
+}
+
 interface AppStateValue {
   templateId: TemplateId;
   setTemplateId: Dispatch<SetStateAction<TemplateId>>;
@@ -97,6 +120,10 @@ interface AppStateValue {
   notifyCoverLetterListChanged: () => void;
   lastEditorPath: string;
   setLastEditorPath: Dispatch<SetStateAction<string>>;
+  resumeStepsSummary: ResumeStepsSummary | null;
+  setResumeStepsSummary: Dispatch<SetStateAction<ResumeStepsSummary | null>>;
+  coverLetterStepsSummary: CoverLetterStepsSummary | null;
+  setCoverLetterStepsSummary: Dispatch<SetStateAction<CoverLetterStepsSummary | null>>;
 }
 
 const AppStateContext = createContext<AppStateValue | null>(null);
@@ -137,6 +164,10 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   // /templates — returns to the exact resume the user was just editing
   // instead of always landing on a blank one.
   const [lastEditorPath, setLastEditorPath] = useState("/app");
+  const [resumeStepsSummary, setResumeStepsSummary] =
+    useState<ResumeStepsSummary | null>(null);
+  const [coverLetterStepsSummary, setCoverLetterStepsSummary] =
+    useState<CoverLetterStepsSummary | null>(null);
 
   // Language switching is client-only (no URL routing), so the server
   // always renders with the default language and this effect applies the
@@ -177,6 +208,10 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
         notifyCoverLetterListChanged,
         lastEditorPath,
         setLastEditorPath,
+        resumeStepsSummary,
+        setResumeStepsSummary,
+        coverLetterStepsSummary,
+        setCoverLetterStepsSummary,
       }}
     >
       {children}

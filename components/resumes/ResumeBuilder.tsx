@@ -15,11 +15,12 @@ import { useRouter } from "next/navigation";
 import { useTranslation } from "react-i18next";
 import * as Sentry from "@sentry/nextjs";
 import { useAppState } from "@/components/AppState";
+import CompletionSteps from "@/components/CompletionSteps";
 import ConfirmDialog, { type ConfirmDialogHandle } from "@/components/ConfirmDialog";
 import DownloadButton from "@/components/DownloadButton";
 import EmailButton from "@/components/EmailButton";
 import ExportFormatMenu from "@/components/ExportFormatMenu";
-import { InfoIcon, SaveIcon } from "@/components/Icons";
+import { SaveIcon } from "@/components/Icons";
 import PreviewModal, {
   type PreviewModalHandle,
 } from "@/components/PreviewModal";
@@ -41,6 +42,7 @@ import {
   type WorkEntry,
 } from "@/lib/resumeData";
 import { pdfTemplates } from "@/lib/pdf/templates";
+import { scrollToSectionAnchor } from "@/lib/scrollToSectionAnchor";
 import { createClient } from "@/lib/supabase/client";
 import { countResumes, getResume, saveResume } from "@/lib/supabase/resumes";
 import { ensureUserId } from "@/lib/supabase/session";
@@ -118,6 +120,7 @@ export default function ResumeBuilder({
     setVisibleFields,
     modernSectionZones,
     setModernSectionZones,
+    setResumeStepsSummary,
     notifyResumeListChanged,
     setLastEditorPath,
   } = useAppState();
@@ -332,25 +335,6 @@ export default function ResumeBuilder({
   const TemplateComponent = templateDefinition.component;
   const MobileTemplateComponent = templateDefinition.mobileTemplateComponent;
 
-  // The mobile form and desktop canvas are both always mounted (one hidden
-  // via a CSS breakpoint, see the two top-level branches below) and tag
-  // their top-level field/section blocks with a shared
-  // `data-section-anchor` (see components/Sortable.tsx's `SortableBlock`
-  // `anchor` prop) — so every step key has two matching elements in the
-  // DOM. `offsetParent === null` is a cheap "not display:none" check that
-  // picks out whichever one is actually visible right now.
-  function scrollToSectionAnchor(anchor: string) {
-    const matches = document.querySelectorAll<HTMLElement>(
-      `[data-section-anchor="${anchor}"]`,
-    );
-    for (const element of matches) {
-      if (element.offsetParent !== null) {
-        element.scrollIntoView({ behavior: "smooth", block: "start" });
-        return;
-      }
-    }
-  }
-
   // Whether a step's underlying content is *fully* filled in — every
   // visible personal-info field, or every entry's every field for a
   // section — not just started. Drives the step-primary (purple, matching
@@ -476,88 +460,59 @@ export default function ResumeBuilder({
   // whenever at least one such field is visible) followed by every
   // currently-visible section in the user's own drag order — hidden
   // sections (removed from `sectionOrder` via the Features toggle) don't
-  // get a step, since there's nothing to scroll to.
-  function renderSectionSteps() {
-    const stepKeys: string[] = [
-      ...(visibleFields.length > 0 ? ["personalInfo"] : []),
-      ...sectionOrder,
-    ];
-    if (stepKeys.length === 0) return null;
+  // get a step, since there's nothing to scroll to. Recomputed every render
+  // (cheap) and both rendered inline below *and* published to
+  // `AppState.resumeStepsSummary` (see the effect below) so `Sidebar.tsx`
+  // can show the identical checklist under "My Resumes" once the `lg`
+  // breakpoint takes over from this inline copy.
+  const stepKeys: string[] = [
+    ...(visibleFields.length > 0 ? ["personalInfo"] : []),
+    ...sectionOrder,
+  ];
+  const incompleteKeys = stepKeys.filter((key) => !isStepFilled(key));
+  const stepFieldStats = stepKeys.map((key) => fieldCompletionStats(key));
+  const totalStepFields = stepFieldStats.reduce((sum, s) => sum + s.total, 0);
+  const filledStepFields = stepFieldStats.reduce((sum, s) => sum + s.filled, 0);
+  const sectionCompletionPercent =
+    totalStepFields > 0 ? Math.round((filledStepFields / totalStepFields) * 100) : 0;
 
-    const incompleteKeys = stepKeys.filter((key) => !isStepFilled(key));
+  // Publishes the current steps snapshot to shared state so Sidebar.tsx can
+  // render it too, and clears it on unmount so the sidebar shows nothing
+  // extra once the user navigates away from this editor.
+  //
+  // Deliberately depends on `data`/`sectionOrder`/`visibleFields` (the
+  // actual inputs) rather than `stepKeys`/`incompleteKeys` themselves:
+  // those are new array literals every render, so depending on them
+  // directly would make the effect's deps look "changed" on the very
+  // re-render its own `setResumeStepsSummary` call causes (this component
+  // reads other fields from the same AppState context it just wrote to) —
+  // an infinite update loop, not just a wasted render (see
+  // CoverLetterBuilder.tsx's identical effect for the same reasoning).
+  useEffect(() => {
+    setResumeStepsSummary(
+      stepKeys.length === 0
+        ? null
+        : { stepKeys, incompleteKeys, completionPercent: sectionCompletionPercent },
+    );
+    return () => setResumeStepsSummary(null);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data, sectionOrder, visibleFields, setResumeStepsSummary]);
 
-    const fieldStats = stepKeys.map((key) => fieldCompletionStats(key));
-    const totalFields = fieldStats.reduce((sum, s) => sum + s.total, 0);
-    const filledFields = fieldStats.reduce((sum, s) => sum + s.filled, 0);
-    const sectionCompletionPercent =
-      totalFields > 0 ? Math.round((filledFields / totalFields) * 100) : 0;
-
+  function renderInlineSteps() {
+    // Hidden at `lg`+, where Sidebar.tsx takes over showing this same
+    // checklist under "My Resumes" instead.
     return (
-      <div className="flex flex-col gap-4">
-        <ul className="steps steps-vertical overflow-visible!">
-          {stepKeys.map((key) => (
-            <li
-              key={key}
-              className={`step ${isStepFilled(key) ? "step-primary" : ""}`}
-            >
-              <div className="flex items-center gap-1.5">
-                <button
-                  type="button"
-                  className="cursor-pointer text-left font-medium"
-                  onClick={() => scrollToSectionAnchor(key)}
-                >
-                  {key === "personalInfo"
-                    ? t("resumeSteps.personalInfo")
-                    : t(`sections.${key}`)}
-                </button>
-              </div>
-            </li>
-          ))}
-        </ul>
-
-        <div className="mx-auto flex items-center gap-2">
-          <div
-            className="radial-progress text-primary"
-            style={
-              {
-                "--value": sectionCompletionPercent,
-                "--size": "4rem",
-              } as React.CSSProperties
-            }
-            role="progressbar"
-            aria-valuenow={sectionCompletionPercent}
-            aria-valuemin={0}
-            aria-valuemax={100}
-          >
-            {sectionCompletionPercent}%
-          </div>
-          <span className="text-base font-medium">
-            {t("resumeSteps.completed")}
-          </span>
-
-          <div className="tooltip tooltip-primary tooltip-bottom tooltip-end -ml-1 mt-1.5 self-start">
-            <div className="tooltip-content">
-              <div className="flex flex-col gap-1.5 p-1 text-left text-xs">
-                {incompleteKeys.length === 0 ? (
-                  <span>{t("resumeSteps.allComplete")}</span>
-                ) : (
-                  incompleteKeys.map((incompleteKey) => (
-                    <p key={incompleteKey}>
-                      <span className="font-semibold">
-                        {incompleteKey === "personalInfo"
-                          ? t("resumeSteps.personalInfo")
-                          : t(`sections.${incompleteKey}`)}
-                        :
-                      </span>{" "}
-                      {t(`resumeSteps.${incompleteKey}Tooltip`)}
-                    </p>
-                  ))
-                )}
-              </div>
-            </div>
-            <InfoIcon className="h-4 w-4 shrink-0 stroke-current opacity-60" />
-          </div>
-        </div>
+      <div className="lg:hidden">
+        <CompletionSteps
+          stepKeys={stepKeys}
+          incompleteKeys={incompleteKeys}
+          completionPercent={sectionCompletionPercent}
+          titleKey={(key) => (key === "personalInfo" ? "resumeSteps.personalInfo" : `sections.${key}`)}
+          tooltipKey={(key) => `resumeSteps.${key}Tooltip`}
+          completedLabelKey="resumeSteps.completed"
+          allCompleteLabelKey="resumeSteps.allComplete"
+          onStepClick={scrollToSectionAnchor}
+        />
       </div>
     );
   }
@@ -671,7 +626,7 @@ export default function ResumeBuilder({
         />
         <div className="flex flex-col gap-3">
           {renderActionButtons("flex gap-2")}
-          {renderSectionSteps()}
+          {renderInlineSteps()}
         </div>
       </div>
 
@@ -701,7 +656,7 @@ export default function ResumeBuilder({
 
         <div className="order-first flex flex-col gap-3 lg:sticky lg:top-8 lg:order-last lg:self-start">
           {renderActionButtons("flex flex-col gap-2")}
-          {renderSectionSteps()}
+          {renderInlineSteps()}
         </div>
       </div>
 

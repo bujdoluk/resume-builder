@@ -6,22 +6,26 @@
  * one by id, and renders either the mobile editing form or the desktop
  * editing canvas (mirroring `ResumeBuilder.tsx`'s mobile/desktop split between
  * `MobileTemplateComponent` and `Resume.tsx`) alongside Preview/Save/Print/
- * Download actions plus a completion-steps panel
- * (`renderCoverLetterSteps`, mirroring `ResumeBuilder.tsx`'s `renderSectionSteps`
- * but simpler — one fixed template, and a single, non-repeatable field per
- * section instead of arbitrary-length entries, so each step is either
- * fully filled or not).
+ * Download actions plus a completion-steps checklist (`renderInlineSteps`,
+ * mirroring `ResumeBuilder.tsx`'s `renderSectionSteps` but simpler — one
+ * fixed template, and a single, non-repeatable field per section instead of
+ * arbitrary-length entries, so each step is either fully filled or not).
+ * Below the `lg` breakpoint the checklist renders inline; at `lg`+,
+ * `Sidebar.tsx` renders the same checklist itself (fed via
+ * `AppState.coverLetterStepsSummary`, published by the effect below) under
+ * its "My Cover Letters" link instead.
  */
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useTranslation } from "react-i18next";
 import * as Sentry from "@sentry/nextjs";
 import { useAppState } from "@/components/AppState";
+import CompletionSteps from "@/components/CompletionSteps";
 import ConfirmDialog, { type ConfirmDialogHandle } from "@/components/ConfirmDialog";
 import DownloadButton from "@/components/DownloadButton";
 import EmailButton from "@/components/EmailButton";
 import ExportFormatMenu from "@/components/ExportFormatMenu";
-import { InfoIcon, SaveIcon } from "@/components/Icons";
+import { SaveIcon } from "@/components/Icons";
 import PreviewModal, {
   type PreviewModalHandle,
 } from "@/components/PreviewModal";
@@ -34,12 +38,14 @@ import { emptyCoverLetterData, type CoverLetterData } from "@/lib/coverLetterDat
 import { isCoverLetterFieldFilled } from "@/lib/coverLetterFields";
 import {
   coverLetterSectionFieldKeys,
+  coverLetterSectionStepTitleKey,
   defaultCoverLetterSectionOrder,
   type CoverLetterSectionKey,
 } from "@/lib/coverLetterSections";
 import { coverLetterTemplates } from "@/lib/coverLetterTemplates";
 import type { ExportFormat } from "@/lib/exportFormat";
 import { coverLetterPdfTemplates } from "@/lib/pdf/coverLetterTemplates";
+import { scrollToSectionAnchor } from "@/lib/scrollToSectionAnchor";
 import { createClient } from "@/lib/supabase/client";
 import { countCoverLetters, getCoverLetter, saveCoverLetter } from "@/lib/supabase/coverLetters";
 import { ensureUserId } from "@/lib/supabase/session";
@@ -64,6 +70,7 @@ export default function CoverLetterBuilder({
     coverLetterTemplateId,
     coverLetterSectionZones,
     setCoverLetterSectionZones,
+    setCoverLetterStepsSummary,
     notifyCoverLetterListChanged,
   } = useAppState();
   const [data, setData] = useState<CoverLetterData>(emptyCoverLetterData);
@@ -130,16 +137,6 @@ export default function CoverLetterBuilder({
     setData((prev) => ({ ...prev, [field]: value }));
   }
 
-  // Each section's own SortableBlock (in CoverLetterFormFields.tsx) is
-  // tagged with `data-section-anchor` via its `anchor` prop — same
-  // mechanism as ResumeBuilder.tsx's resume steps, just without the
-  // mobile/desktop dual-tree lookup since this page renders a single tree.
-  function scrollToSectionAnchor(anchor: string) {
-    document
-      .querySelector<HTMLElement>(`[data-section-anchor="${anchor}"]`)
-      ?.scrollIntoView({ behavior: "smooth", block: "start" });
-  }
-
   // {filled, total} counts only the section's fields that are currently
   // visible (present in `coverLetterFieldOrder`) — a field hidden via the
   // Navbar's Features control doesn't count toward either number.
@@ -163,92 +160,55 @@ export default function CoverLetterBuilder({
     return stats.total > 0 && stats.filled === stats.total;
   }
 
-  const sectionStepTitleKey: Record<CoverLetterSectionKey, string> = {
-    sender: "coverLetter.sectionSender",
-    recipient: "coverLetter.sectionRecipient",
-    date: "coverLetter.sectionDate",
-    subject: "coverLetter.sectionSubject",
-    letter: "coverLetter.sectionLetter",
-  };
+  // A section with none of its own fields currently visible has nothing to
+  // fill in or scroll to, so it doesn't get a step — mirrors how it also
+  // collapses entirely out of the editor itself. Recomputed every render
+  // (cheap — a handful of sections) and both rendered inline below *and*
+  // published to `AppState.coverLetterStepsSummary` (see the effect below)
+  // so `Sidebar.tsx` can show the identical checklist under "My Cover
+  // Letters" once the `lg` breakpoint takes over from this inline copy.
+  const stepKeys = sectionOrder.filter((key) => fieldCompletionStats(key).total > 0);
+  const incompleteKeys = stepKeys.filter((key) => !isStepFilled(key));
+  const stepStats = stepKeys.map((key) => fieldCompletionStats(key));
+  const totalStepFields = stepStats.reduce((sum, s) => sum + s.total, 0);
+  const filledStepFields = stepStats.reduce((sum, s) => sum + s.filled, 0);
+  const completionPercent =
+    totalStepFields > 0 ? Math.round((filledStepFields / totalStepFields) * 100) : 0;
 
-  function renderCoverLetterSteps() {
-    // A section with none of its own fields currently visible has nothing
-    // to fill in or scroll to, so it doesn't get a step — mirrors how it
-    // also collapses entirely out of the editor itself.
-    const stepKeys = sectionOrder.filter(
-      (key) => fieldCompletionStats(key).total > 0,
+  // Publishes the current steps snapshot to shared state so Sidebar.tsx can
+  // render it too, and clears it on unmount so the sidebar shows nothing
+  // extra once the user navigates away from this editor.
+  //
+  // Deliberately depends on `data`/`sectionOrder`/`coverLetterFieldOrder`
+  // (the actual inputs) rather than `stepKeys`/`incompleteKeys` themselves:
+  // those are new array literals every render, so depending on them
+  // directly would make the effect's deps look "changed" on the very
+  // re-render its own `setCoverLetterStepsSummary` call causes (this
+  // component reads `coverLetterFieldOrder` from the same AppState context
+  // it just wrote to) — an infinite update loop, not just a wasted render.
+  useEffect(() => {
+    setCoverLetterStepsSummary(
+      stepKeys.length === 0 ? null : { stepKeys, incompleteKeys, completionPercent },
     );
-    if (stepKeys.length === 0) return null;
+    return () => setCoverLetterStepsSummary(null);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data, sectionOrder, coverLetterFieldOrder, setCoverLetterStepsSummary]);
 
-    const incompleteKeys = stepKeys.filter((key) => !isStepFilled(key));
-
-    const stats = stepKeys.map((key) => fieldCompletionStats(key));
-    const totalFields = stats.reduce((sum, s) => sum + s.total, 0);
-    const filledFields = stats.reduce((sum, s) => sum + s.filled, 0);
-    const completionPercent =
-      totalFields > 0 ? Math.round((filledFields / totalFields) * 100) : 0;
-
+  function renderInlineSteps() {
+    // Hidden at `lg`+, where Sidebar.tsx takes over showing this same
+    // checklist under "My Cover Letters" instead.
     return (
-      <div className="flex flex-col gap-4">
-        <ul className="steps steps-vertical overflow-visible!">
-          {stepKeys.map((key) => (
-            <li
-              key={key}
-              className={`step ${isStepFilled(key) ? "step-primary" : ""}`}
-            >
-              <div className="flex items-center gap-1.5">
-                <button
-                  type="button"
-                  className="cursor-pointer text-left font-medium"
-                  onClick={() => scrollToSectionAnchor(key)}
-                >
-                  {t(sectionStepTitleKey[key])}
-                </button>
-              </div>
-            </li>
-          ))}
-        </ul>
-
-        <div className="mx-auto flex items-center gap-2">
-          <div
-            className="radial-progress text-primary"
-            style={
-              {
-                "--value": completionPercent,
-                "--size": "4rem",
-              } as React.CSSProperties
-            }
-            role="progressbar"
-            aria-valuenow={completionPercent}
-            aria-valuemin={0}
-            aria-valuemax={100}
-          >
-            {completionPercent}%
-          </div>
-          <span className="text-base font-medium">
-            {t("coverLetterSteps.completed")}
-          </span>
-
-          <div className="tooltip tooltip-primary tooltip-bottom tooltip-end -ml-1 mt-1.5 self-start">
-            <div className="tooltip-content">
-              <div className="flex flex-col gap-1.5 p-1 text-left text-xs">
-                {incompleteKeys.length === 0 ? (
-                  <span>{t("coverLetterSteps.allComplete")}</span>
-                ) : (
-                  incompleteKeys.map((incompleteKey) => (
-                    <p key={incompleteKey}>
-                      <span className="font-semibold">
-                        {t(sectionStepTitleKey[incompleteKey])}:
-                      </span>{" "}
-                      {t(`coverLetterSteps.${incompleteKey}Tooltip`)}
-                    </p>
-                  ))
-                )}
-              </div>
-            </div>
-            <InfoIcon className="h-4 w-4 shrink-0 stroke-current opacity-60" />
-          </div>
-        </div>
+      <div className="lg:hidden">
+        <CompletionSteps
+          stepKeys={stepKeys}
+          incompleteKeys={incompleteKeys}
+          completionPercent={completionPercent}
+          titleKey={(key) => coverLetterSectionStepTitleKey[key as CoverLetterSectionKey]}
+          tooltipKey={(key) => `coverLetterSteps.${key}Tooltip`}
+          completedLabelKey="coverLetterSteps.completed"
+          allCompleteLabelKey="coverLetterSteps.allComplete"
+          onStepClick={scrollToSectionAnchor}
+        />
       </div>
     );
   }
@@ -430,7 +390,7 @@ export default function CoverLetterBuilder({
         />
         <div className="flex flex-col gap-3">
           {renderActionButtons("flex gap-2")}
-          {renderCoverLetterSteps()}
+          {renderInlineSteps()}
         </div>
       </div>
 
@@ -454,7 +414,7 @@ export default function CoverLetterBuilder({
 
         <div className="order-first flex flex-col gap-3 lg:sticky lg:top-8 lg:order-last lg:self-start">
           {renderActionButtons("flex flex-col gap-2")}
-          {renderCoverLetterSteps()}
+          {renderInlineSteps()}
         </div>
       </div>
 
