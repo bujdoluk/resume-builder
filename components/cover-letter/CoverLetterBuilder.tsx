@@ -20,6 +20,7 @@ import { useAppState } from "@/components/AppState";
 import ConfirmDialog, { type ConfirmDialogHandle } from "@/components/ConfirmDialog";
 import DownloadButton from "@/components/DownloadButton";
 import EmailButton from "@/components/EmailButton";
+import ExportFormatMenu from "@/components/ExportFormatMenu";
 import { InfoIcon, SaveIcon } from "@/components/Icons";
 import PreviewModal, {
   type PreviewModalHandle,
@@ -37,11 +38,13 @@ import {
   type CoverLetterSectionKey,
 } from "@/lib/coverLetterSections";
 import { coverLetterTemplates } from "@/lib/coverLetterTemplates";
+import type { ExportFormat } from "@/lib/exportFormat";
 import { coverLetterPdfTemplates } from "@/lib/pdf/coverLetterTemplates";
 import { createClient } from "@/lib/supabase/client";
 import { countCoverLetters, getCoverLetter, saveCoverLetter } from "@/lib/supabase/coverLetters";
 import { ensureUserId } from "@/lib/supabase/session";
 import { FREE_TIER_LIMITS, getSubscription, isPaidPlan } from "@/lib/supabase/subscriptions";
+import { generateCoverLetterText } from "@/lib/text/coverLetterText";
 
 interface CoverLetterBuilderProps {
   initialCoverLetterId?: string;
@@ -79,10 +82,16 @@ export default function CoverLetterBuilder({
   const [name, setName] = useState("");
   const [isSaving, setIsSaving] = useState(false);
   const [justSaved, setJustSaved] = useState(false);
+  const [exportFormat, setExportFormat] = useState<ExportFormat>("pdf");
   const previewRef = useRef<PreviewModalHandle>(null);
   const saveDialogRef = useRef<SaveResumeDialogHandle>(null);
   const upgradeDialogRef = useRef<ConfirmDialogHandle>(null);
   const [supabase] = useState(() => createClient());
+  const exportText = generateCoverLetterText({
+    data,
+    sectionOrder,
+    visibleFields: coverLetterFieldOrder,
+  });
 
   useEffect(() => {
     if (!initialCoverLetterId) return;
@@ -340,9 +349,17 @@ export default function CoverLetterBuilder({
           previewRef={previewRef}
         />
 
+        <ExportFormatMenu
+          format={exportFormat}
+          onChange={setExportFormat}
+          className="btn btn-outline hover:border-primary flex-1 md:flex-none md:w-48"
+        />
+
         <EmailButton
           className="btn btn-outline hover:border-primary flex-1 md:flex-none md:w-48"
           fileName={name || "cover-letter"}
+          format={exportFormat}
+          textContent={exportText}
           pdfTemplate={PdfTemplate}
           pdfProps={{
             data,
@@ -358,6 +375,8 @@ export default function CoverLetterBuilder({
         <DownloadButton
           className="btn btn-outline hover:border-primary flex-1 md:flex-none md:w-48"
           fileName={name || "cover-letter"}
+          format={exportFormat}
+          textContent={exportText}
           pdfTemplate={PdfTemplate}
           pdfProps={{
             data,

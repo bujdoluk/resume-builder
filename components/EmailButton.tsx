@@ -1,21 +1,24 @@
 "use client";
 
 /**
- * Generic email button: opens a dialog asking for a recipient address,
- * then generates the same client-side PDF as `DownloadButton` (from
- * whatever `pdfTemplate`/`pdfProps` the caller supplies) and posts it as
- * base64 to `/api/send-email`, which relays it through Resend as an
- * attachment. Reused by both the resume editor and the cover letter
- * builder, same as `DownloadButton`.
+ * Generic email button: opens a dialog asking for a recipient address, then
+ * generates either the same client-side PDF as `DownloadButton` or the
+ * caller-supplied plain-text content — depending on `format` — and posts it
+ * to `/api/send-email`, which relays it through Resend as an attachment.
+ * Reused by both the resume editor and the cover letter builder, same as
+ * `DownloadButton`.
  */
 import { useRef, useState, type ComponentType } from "react";
 import { useTranslation } from "react-i18next";
 import { EmailIcon } from "@/components/Icons";
+import type { ExportFormat } from "@/lib/exportFormat";
 import { registerPdfFonts } from "@/lib/pdf/fonts";
 
 export interface EmailButtonProps<T extends object> {
   pdfTemplate: ComponentType<T>;
   pdfProps: T;
+  format: ExportFormat;
+  textContent: string;
   fileName: string;
   className?: string;
 }
@@ -31,6 +34,8 @@ async function blobToBase64(blob: Blob): Promise<string> {
 export default function EmailButton<T extends object>({
   pdfTemplate: PdfTemplate,
   pdfProps,
+  format,
+  textContent,
   fileName,
   className,
 }: EmailButtonProps<T>) {
@@ -57,20 +62,26 @@ export default function EmailButton<T extends object>({
     setIsSending(true);
     setError(null);
     try {
-      const { pdf } = await import("@react-pdf/renderer");
-      registerPdfFonts();
-      const blob = await pdf(<PdfTemplate {...pdfProps} />).toBlob();
-      const pdfBase64 = await blobToBase64(blob);
+      const body: Record<string, string> = { to, fileName, format };
+
+      if (format === "txt") {
+        body.textContent = textContent;
+      } else {
+        const { pdf } = await import("@react-pdf/renderer");
+        registerPdfFonts();
+        const blob = await pdf(<PdfTemplate {...pdfProps} />).toBlob();
+        body.pdfBase64 = await blobToBase64(blob);
+      }
 
       const response = await fetch("/api/send-email", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ to, fileName, pdfBase64 }),
+        body: JSON.stringify(body),
       });
 
       if (!response.ok) {
-        const body = await response.json().catch(() => null);
-        throw new Error(body?.error || t("emailDialog.sendFailed"));
+        const responseBody = await response.json().catch(() => null);
+        throw new Error(responseBody?.error || t("emailDialog.sendFailed"));
       }
 
       setSent(true);

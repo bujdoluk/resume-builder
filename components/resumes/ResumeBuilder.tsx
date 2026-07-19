@@ -18,6 +18,7 @@ import { useAppState } from "@/components/AppState";
 import ConfirmDialog, { type ConfirmDialogHandle } from "@/components/ConfirmDialog";
 import DownloadButton from "@/components/DownloadButton";
 import EmailButton from "@/components/EmailButton";
+import ExportFormatMenu from "@/components/ExportFormatMenu";
 import { InfoIcon, SaveIcon } from "@/components/Icons";
 import PreviewModal, {
   type PreviewModalHandle,
@@ -27,6 +28,7 @@ import Resume from "@/components/resumes/Resume";
 import SaveResumeDialog, {
   type SaveResumeDialogHandle,
 } from "@/components/SaveResumeDialog";
+import type { ExportFormat } from "@/lib/exportFormat";
 import { defaultFontSizeKey } from "@/lib/fontSize";
 import {
   emptyResumeData,
@@ -48,6 +50,7 @@ import {
   templates,
   type TemplateId,
 } from "@/lib/templates";
+import { generateResumeText } from "@/lib/text/resumeText";
 
 function resolveTemplateId(id: string | undefined): TemplateId {
   return templates.some((template) => template.id === id)
@@ -125,10 +128,12 @@ export default function ResumeBuilder({
   const [isSaving, setIsSaving] = useState(false);
   const [justSaved, setJustSaved] = useState(false);
   const [resumeName, setResumeName] = useState("");
+  const [exportFormat, setExportFormat] = useState<ExportFormat>("pdf");
   const previewRef = useRef<PreviewModalHandle>(null);
   const saveDialogRef = useRef<SaveResumeDialogHandle>(null);
   const upgradeDialogRef = useRef<ConfirmDialogHandle>(null);
   const [supabase] = useState(() => createClient());
+  const exportText = generateResumeText({ data, sectionOrder, visibleFields });
 
   // Applies the URL's `?template=` param whenever it changes — e.g. landing
   // here fresh from the `/templates` gallery, or opening a saved resume via
@@ -587,9 +592,17 @@ export default function ResumeBuilder({
           previewRef={previewRef}
         />
 
+        <ExportFormatMenu
+          format={exportFormat}
+          onChange={setExportFormat}
+          className="btn btn-outline hover:border-primary flex-1 md:flex-none md:w-48"
+        />
+
         <EmailButton
           className="btn btn-outline hover:border-primary flex-1 md:flex-none md:w-48"
           fileName={resumeName || "resume"}
+          format={exportFormat}
+          textContent={exportText}
           pdfTemplate={pdfTemplates[templateId]}
           pdfProps={{
             data,
@@ -605,6 +618,8 @@ export default function ResumeBuilder({
         <DownloadButton
           className="btn btn-outline hover:border-primary flex-1 md:flex-none md:w-48"
           fileName={resumeName || "resume"}
+          format={exportFormat}
+          textContent={exportText}
           pdfTemplate={pdfTemplates[templateId]}
           pdfProps={{
             data,

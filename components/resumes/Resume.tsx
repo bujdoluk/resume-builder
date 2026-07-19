@@ -27,6 +27,7 @@ import {
 import { useModernZoneLayout } from "@/components/useModernZoneLayout";
 import { getContrastTextColor } from "@/lib/color";
 import { getFontSizeStyle, type FontSizeKey } from "@/lib/fontSize";
+import { generateId } from "@/lib/generateId";
 import { fontsByKey, type FontKey } from "@/lib/fonts";
 import {
   emptyResumeData,
@@ -279,7 +280,7 @@ export default function Resume({
     onWorkHistoryChange([
       ...data.workExperience,
       {
-        id: crypto.randomUUID(),
+        id: generateId(),
         position: "",
         dateFrom: "",
         dateTo: "",
@@ -380,7 +381,7 @@ export default function Resume({
     onEducationChange([
       ...data.education,
       {
-        id: crypto.randomUUID(),
+        id: generateId(),
         school: "",
         subject: "",
         location: "",
@@ -492,7 +493,7 @@ export default function Resume({
   }
 
   function addSkill() {
-    onSkillsChange([...data.skills, { id: crypto.randomUUID(), value: "" }]);
+    onSkillsChange([...data.skills, { id: generateId(), value: "" }]);
   }
 
   function updateSkill(id: string, value: string) {
@@ -510,7 +511,7 @@ export default function Resume({
   function addCertification() {
     onCertificationsChange([
       ...data.certifications,
-      { id: crypto.randomUUID(), name: "", dateFrom: "", dateTo: "" },
+      { id: generateId(), name: "", dateFrom: "", dateTo: "" },
     ]);
   }
 
@@ -581,7 +582,7 @@ export default function Resume({
   function addLanguage() {
     onLanguagesChange([
       ...data.languages,
-      { id: crypto.randomUUID(), language: "", level: languageLevels[0] },
+      { id: generateId(), language: "", level: languageLevels[0] },
     ]);
   }
 
@@ -650,7 +651,7 @@ export default function Resume({
   function addInterest() {
     onInterestsChange([
       ...data.interests,
-      { id: crypto.randomUUID(), value: "" },
+      { id: generateId(), value: "" },
     ]);
   }
 

@@ -5,6 +5,7 @@
  * handler — shared by the desktop editing canvas and the per-template
  * mobile forms so this CRUD logic exists in exactly one place.
  */
+import { generateId } from "@/lib/generateId";
 import {
   languageLevels,
   type CertificationEntry,
@@ -60,7 +61,7 @@ export function createResumeFormHandlers({
     onWorkHistoryChange([
       ...data.workExperience,
       {
-        id: crypto.randomUUID(),
+        id: generateId(),
         position: "",
         dateFrom: "",
         dateTo: "",
@@ -90,7 +91,7 @@ export function createResumeFormHandlers({
     onEducationChange([
       ...data.education,
       {
-        id: crypto.randomUUID(),
+        id: generateId(),
         school: "",
         subject: "",
         location: "",
@@ -118,7 +119,7 @@ export function createResumeFormHandlers({
   }
 
   function addSkill() {
-    onSkillsChange([...data.skills, { id: crypto.randomUUID(), value: "" }]);
+    onSkillsChange([...data.skills, { id: generateId(), value: "" }]);
   }
 
   function updateSkill(id: string, value: string) {
@@ -136,7 +137,7 @@ export function createResumeFormHandlers({
   function addCertification() {
     onCertificationsChange([
       ...data.certifications,
-      { id: crypto.randomUUID(), name: "", dateFrom: "", dateTo: "" },
+      { id: generateId(), name: "", dateFrom: "", dateTo: "" },
     ]);
   }
 
@@ -161,7 +162,7 @@ export function createResumeFormHandlers({
   function addLanguage() {
     onLanguagesChange([
       ...data.languages,
-      { id: crypto.randomUUID(), language: "", level: languageLevels[0] },
+      { id: generateId(), language: "", level: languageLevels[0] },
     ]);
   }
 
@@ -184,7 +185,7 @@ export function createResumeFormHandlers({
   function addInterest() {
     onInterestsChange([
       ...data.interests,
-      { id: crypto.randomUUID(), value: "" },
+      { id: generateId(), value: "" },
     ]);
   }
 
