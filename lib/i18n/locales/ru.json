@@ -86,6 +86,7 @@
     "preview": "Предпросмотр",
     "download": "Скачать",
     "formatPdf": "PDF",
+    "formatDocx": "Word (.docx)",
     "formatTxt": "Обычный текст (.txt)",
     "print": "Печать",
     "email": "Эл. почта",

@@ -1,66 +1,27 @@
 /**
  * Plain-text (.txt) rendering of a resume, used by `DownloadButton`/
- * `EmailButton` as the non-PDF export format. Mirrors
- * `components/pdf/BasicPdfTemplate.tsx`'s field/section visibility and
- * non-empty filtering exactly (same `fieldOrder = visibleFields ?? allFields`
- * fallback, same per-entry "is this entry actually filled in" predicates,
- * same hardcoded-English section titles from `sectionLabels`) so the
- * downloaded/emailed text always matches what Preview/the PDF actually show
- * — just without layout, since there's no such thing as layout in a .txt
- * file.
+ * `EmailButton` as the non-PDF export format. Field/entry filtering comes
+ * from `lib/resumeContent.ts` (shared with `lib/docx/resumeDocx.ts`) so
+ * `.txt`/`.docx`/Preview all agree on what counts as "filled in" — this
+ * file only owns how that content is laid out as plain lines of text.
  */
-import { allFields, fieldLabels, type FieldKey } from "@/lib/fields";
+import { fieldLabels, type FieldKey } from "@/lib/fields";
 import {
-  sectionLabels,
-  type CertificationEntry,
-  type EducationEntry,
-  type LanguageEntry,
-  type ResumeData,
-  type SectionKey,
-  type SimpleEntry,
-  type WorkEntry,
-} from "@/lib/resumeData";
+  contactFieldKeys,
+  dateRange,
+  filledCertificationEntries,
+  filledEducationEntries,
+  filledLanguageEntries,
+  filledSimpleEntries,
+  filledWorkEntries,
+  resolveFieldOrder,
+} from "@/lib/resumeContent";
+import { sectionLabels, type ResumeData, type SectionKey } from "@/lib/resumeData";
 
 export interface GenerateResumeTextParams {
   data: ResumeData;
   sectionOrder: SectionKey[];
   visibleFields?: FieldKey[];
-}
-
-const contactFieldKeys: FieldKey[] = [
-  "phone",
-  "email",
-  "address",
-  "website",
-  "linkedin",
-];
-
-function dateRange(from: string, to: string): string {
-  return [from, to].filter(Boolean).join(" – ");
-}
-
-function filledWorkEntries(data: ResumeData): WorkEntry[] {
-  return data.workExperience.filter(
-    (e) => e.position || e.location || e.jobDescription || e.dateFrom || e.dateTo,
-  );
-}
-
-function filledEducationEntries(data: ResumeData): EducationEntry[] {
-  return data.education.filter(
-    (e) => e.school || e.subject || e.location || e.description || e.dateFrom || e.dateTo,
-  );
-}
-
-function filledSimpleEntries(entries: SimpleEntry[]): SimpleEntry[] {
-  return entries.filter((e) => e.value);
-}
-
-function filledCertificationEntries(data: ResumeData): CertificationEntry[] {
-  return data.certifications.filter((e) => e.name || e.dateFrom || e.dateTo);
-}
-
-function filledLanguageEntries(data: ResumeData): LanguageEntry[] {
-  return data.languages.filter((e) => e.language);
 }
 
 function renderSectionLines(key: SectionKey, data: ResumeData): string[] {
@@ -113,7 +74,7 @@ export function generateResumeText({
   sectionOrder,
   visibleFields,
 }: GenerateResumeTextParams): string {
-  const order = visibleFields ?? allFields;
+  const order = resolveFieldOrder(visibleFields);
   const isVisible = (key: FieldKey) => order.includes(key);
 
   const lines: string[] = [];

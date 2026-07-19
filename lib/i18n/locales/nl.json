@@ -86,6 +86,7 @@
     "preview": "Voorbeeld",
     "download": "Downloaden",
     "formatPdf": "PDF",
+    "formatDocx": "Word (.docx)",
     "formatTxt": "Platte tekst (.txt)",
     "print": "Afdrukken",
     "email": "E-mail",

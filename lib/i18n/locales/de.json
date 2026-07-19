@@ -86,6 +86,7 @@
     "preview": "Vorschau",
     "download": "Herunterladen",
     "formatPdf": "PDF",
+    "formatDocx": "Word (.docx)",
     "formatTxt": "Nur Text (.txt)",
     "print": "Drucken",
     "email": "E-Mail",

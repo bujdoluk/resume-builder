@@ -86,6 +86,7 @@
     "preview": "Náhľad",
     "download": "Stiahnuť",
     "formatPdf": "PDF",
+    "formatDocx": "Word (.docx)",
     "formatTxt": "Obyčajný text (.txt)",
     "print": "Tlačiť",
     "email": "E-mail",

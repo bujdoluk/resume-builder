@@ -2,11 +2,12 @@
 
 /**
  * Generic email button: opens a dialog asking for a recipient address, then
- * generates either the same client-side PDF as `DownloadButton` or the
- * caller-supplied plain-text content — depending on `format` — and posts it
- * to `/api/send-email`, which relays it through Resend as an attachment.
+ * generates the same client-side PDF/Word/plain-text content as
+ * `DownloadButton` — depending on `format` — and posts it to
+ * `/api/send-email`, which relays it through Resend as an attachment.
  * Reused by both the resume editor and the cover letter builder, same as
- * `DownloadButton`.
+ * `DownloadButton` (see that file for why `buildDocxBlob` is a plain async
+ * function rather than a `docx`-typed prop).
  */
 import { useRef, useState, type ComponentType } from "react";
 import { useTranslation } from "react-i18next";
@@ -19,6 +20,7 @@ export interface EmailButtonProps<T extends object> {
   pdfProps: T;
   format: ExportFormat;
   textContent: string;
+  buildDocxBlob: () => Promise<Blob>;
   fileName: string;
   className?: string;
 }
@@ -36,6 +38,7 @@ export default function EmailButton<T extends object>({
   pdfProps,
   format,
   textContent,
+  buildDocxBlob,
   fileName,
   className,
 }: EmailButtonProps<T>) {
@@ -66,6 +69,8 @@ export default function EmailButton<T extends object>({
 
       if (format === "txt") {
         body.textContent = textContent;
+      } else if (format === "docx") {
+        body.docxBase64 = await blobToBase64(await buildDocxBlob());
       } else {
         const { pdf } = await import("@react-pdf/renderer");
         registerPdfFonts();

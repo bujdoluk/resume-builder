@@ -93,6 +93,24 @@ export default function CoverLetterBuilder({
     visibleFields: coverLetterFieldOrder,
   });
 
+  // `docx` is dynamically imported here (inside this closure), rather than
+  // statically at the top of this file, so it stays out of the initial
+  // editor bundle — only loaded once the user actually picks "Word (.docx)"
+  // and clicks Download/Email.
+  async function buildCoverLetterDocxBlob(): Promise<Blob> {
+    const [{ generateCoverLetterDocx }, { Packer }] = await Promise.all([
+      import("@/lib/docx/coverLetterDocx"),
+      import("docx"),
+    ]);
+    return Packer.toBlob(
+      generateCoverLetterDocx({
+        data,
+        sectionOrder,
+        visibleFields: coverLetterFieldOrder,
+      }),
+    );
+  }
+
   useEffect(() => {
     if (!initialCoverLetterId) return;
     let cancelled = false;
@@ -360,6 +378,7 @@ export default function CoverLetterBuilder({
           fileName={name || "cover-letter"}
           format={exportFormat}
           textContent={exportText}
+          buildDocxBlob={buildCoverLetterDocxBlob}
           pdfTemplate={PdfTemplate}
           pdfProps={{
             data,
@@ -377,6 +396,7 @@ export default function CoverLetterBuilder({
           fileName={name || "cover-letter"}
           format={exportFormat}
           textContent={exportText}
+          buildDocxBlob={buildCoverLetterDocxBlob}
           pdfTemplate={PdfTemplate}
           pdfProps={{
             data,

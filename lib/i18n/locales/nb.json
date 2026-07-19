@@ -86,6 +86,7 @@
     "preview": "Forhåndsvisning",
     "download": "Last ned",
     "formatPdf": "PDF",
+    "formatDocx": "Word (.docx)",
     "formatTxt": "Ren tekst (.txt)",
     "print": "Skriv ut",
     "email": "E-post",

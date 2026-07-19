@@ -135,6 +135,18 @@ export default function ResumeBuilder({
   const [supabase] = useState(() => createClient());
   const exportText = generateResumeText({ data, sectionOrder, visibleFields });
 
+  // `docx` is dynamically imported here (inside this closure), rather than
+  // statically at the top of this file, so it stays out of the initial
+  // editor bundle — only loaded once the user actually picks "Word (.docx)"
+  // and clicks Download/Email.
+  async function buildResumeDocxBlob(): Promise<Blob> {
+    const [{ generateResumeDocx }, { Packer }] = await Promise.all([
+      import("@/lib/docx/resumeDocx"),
+      import("docx"),
+    ]);
+    return Packer.toBlob(generateResumeDocx({ data, sectionOrder, visibleFields }));
+  }
+
   // Applies the URL's `?template=` param whenever it changes — e.g. landing
   // here fresh from the `/templates` gallery, or opening a saved resume via
   // its "My Resumes" edit link (which encodes the resume's own template).
@@ -603,6 +615,7 @@ export default function ResumeBuilder({
           fileName={resumeName || "resume"}
           format={exportFormat}
           textContent={exportText}
+          buildDocxBlob={buildResumeDocxBlob}
           pdfTemplate={pdfTemplates[templateId]}
           pdfProps={{
             data,
@@ -620,6 +633,7 @@ export default function ResumeBuilder({
           fileName={resumeName || "resume"}
           format={exportFormat}
           textContent={exportText}
+          buildDocxBlob={buildResumeDocxBlob}
           pdfTemplate={pdfTemplates[templateId]}
           pdfProps={{
             data,

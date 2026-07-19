@@ -86,6 +86,7 @@
     "preview": "Náhled",
     "download": "Stáhnout",
     "formatPdf": "PDF",
+    "formatDocx": "Word (.docx)",
     "formatTxt": "Prostý text (.txt)",
     "print": "Tisk",
     "email": "E-mail",
