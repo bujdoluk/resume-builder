@@ -401,5 +401,20 @@
     "confirmCancel": "Tem a certeza de que pretende cancelar a subscrição? Manterá o acesso até ao final do período de faturação atual.",
     "actionFailed": "Ocorreu um erro. Tente novamente.",
     "goBack": "Voltar"
+  },
+  "cookieConsent": {
+    "title": "Usamos cookies",
+    "description": "Usamos cookies para manter você conectado, proteger o site contra bots e, com a sua permissão, entender como o site é utilizado e oferecer suporte por chat ao vivo.",
+    "acceptAll": "Aceitar tudo",
+    "rejectAll": "Rejeitar tudo",
+    "customize": "Personalizar",
+    "save": "Guardar preferências",
+    "necessaryTitle": "Necessários",
+    "necessaryDescription": "Necessários para manter você conectado e proteger os formulários de login contra bots. Sempre ativos.",
+    "analyticsTitle": "Análise",
+    "analyticsDescription": "Dados anónimos de utilização e desempenho através do Vercel Analytics e Speed Insights, para nos ajudar a melhorar o site.",
+    "supportChatTitle": "Chat de suporte",
+    "supportChatDescription": "Carrega o widget de chat ao vivo do Tawk.to para que a nossa equipa de suporte possa ajudá-lo diretamente. Define cookies de terceiros.",
+    "preferencesLink": "Preferências de cookies"
   }
 }

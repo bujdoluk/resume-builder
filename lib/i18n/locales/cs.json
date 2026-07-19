@@ -401,5 +401,20 @@
     "confirmCancel": "Opravdu chcete zrušit předplatné? Přístup si zachováte do konce aktuálního fakturačního období.",
     "actionFailed": "Něco se pokazilo. Zkuste to znovu.",
     "goBack": "Zpět"
+  },
+  "cookieConsent": {
+    "title": "Používáme cookies",
+    "description": "Cookies používáme, abychom vás udrželi přihlášené, chránili web před roboty a se svolením i pochopili, jak web používáte, a nabídli živý chat podpory.",
+    "acceptAll": "Přijmout vše",
+    "rejectAll": "Odmítnout vše",
+    "customize": "Přizpůsobit",
+    "save": "Uložit předvolby",
+    "necessaryTitle": "Nezbytné",
+    "necessaryDescription": "Nutné pro přihlášení a ochranu přihlašovacích formulářů před roboty. Vždy zapnuto.",
+    "analyticsTitle": "Analytika",
+    "analyticsDescription": "Anonymní data o používání a výkonu přes Vercel Analytics a Speed Insights, které nám pomáhají web vylepšovat.",
+    "supportChatTitle": "Chat podpory",
+    "supportChatDescription": "Načte živý chat Tawk.to, aby vám náš tým podpory mohl pomoci přímo. Nastavuje cookies třetích stran.",
+    "preferencesLink": "Nastavení cookies"
   }
 }

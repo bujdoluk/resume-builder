@@ -216,7 +216,11 @@
       "Bash(node \"C:\\\\Users\\\\lukas\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\d--Projekty-resume-builder\\\\01195db0-934c-40eb-b550-2136f9dc5402\\\\scratchpad\\\\test-new-gating.js\")",
       "Bash(node \"C:\\\\Users\\\\lukas\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\d--Projekty-resume-builder\\\\01195db0-934c-40eb-b550-2136f9dc5402\\\\scratchpad\\\\test-new-gating2.js\")",
       "Bash(curl -s -w \"\\\\nstatus=%{http_code}\\\\n\" -X POST http://localhost:3000/api/send-email -H \"Content-Type: application/json\" -d '{\"to\":\"not-an-email\",\"fileName\":\"resume\",\"pdfBase64\":\"abc\"}')",
-      "Bash(curl -s -w \"\\\\nstatus=%{http_code}\\\\n\" -X POST http://localhost:3000/api/send-email -H \"Content-Type: application/json\" -d '{\"to\":\"test@example.com\"}')"
+      "Bash(curl -s -w \"\\\\nstatus=%{http_code}\\\\n\" -X POST http://localhost:3000/api/send-email -H \"Content-Type: application/json\" -d '{\"to\":\"test@example.com\"}')",
+      "Bash(node \"C:\\\\Users\\\\lukas\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\d--Projekty-resume-builder\\\\01195db0-934c-40eb-b550-2136f9dc5402\\\\scratchpad\\\\add-cookie-consent-i18n.js\")",
+      "Bash(node \"C:\\\\Users\\\\lukas\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\d--Projekty-resume-builder\\\\01195db0-934c-40eb-b550-2136f9dc5402\\\\scratchpad\\\\test_cookie_consent.js\")",
+      "Bash(curl -s -o /dev/null -w \"blog status: %{http_code}\\\\n\" http://localhost:3000/blog)",
+      "Bash(node \"C:\\\\Users\\\\lukas\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\d--Projekty-resume-builder\\\\01195db0-934c-40eb-b550-2136f9dc5402\\\\scratchpad\\\\test_footer_link2.js\")"
     ],
     "additionalDirectories": [
       "C:\\Users\\lukas\\AppData\\Local\\npm-cache\\_npx\\e41f203b7505f1fb",

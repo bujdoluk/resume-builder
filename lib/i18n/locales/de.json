@@ -401,5 +401,20 @@
     "confirmCancel": "Möchtest du dein Abo wirklich kündigen? Du behältst den Zugriff bis zum Ende des aktuellen Abrechnungszeitraums.",
     "actionFailed": "Etwas ist schiefgelaufen. Bitte versuche es erneut.",
     "goBack": "Zurück"
+  },
+  "cookieConsent": {
+    "title": "Wir verwenden Cookies",
+    "description": "Wir verwenden Cookies, um Sie angemeldet zu halten, die Seite vor Bots zu schützen und – mit Ihrer Erlaubnis – zu verstehen, wie die Seite genutzt wird, und Live-Chat-Support anzubieten.",
+    "acceptAll": "Alle akzeptieren",
+    "rejectAll": "Alle ablehnen",
+    "customize": "Anpassen",
+    "save": "Einstellungen speichern",
+    "necessaryTitle": "Notwendig",
+    "necessaryDescription": "Erforderlich, um Sie angemeldet zu halten und Login-Formulare vor Bots zu schützen. Immer aktiv.",
+    "analyticsTitle": "Analyse",
+    "analyticsDescription": "Anonyme Nutzungs- und Leistungsdaten über Vercel Analytics und Speed Insights, damit wir die Seite verbessern können.",
+    "supportChatTitle": "Support-Chat",
+    "supportChatDescription": "Lädt das Tawk.to-Live-Chat-Widget, damit unser Support-Team Ihnen direkt helfen kann. Setzt Cookies von Drittanbietern.",
+    "preferencesLink": "Cookie-Einstellungen"
   }
 }

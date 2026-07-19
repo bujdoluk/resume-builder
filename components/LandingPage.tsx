@@ -131,7 +131,7 @@ export default function LandingPage() {
 
       <PricingSection />
 
-      <div className="py-20">
+      <div className="bg-base-300 py-20">
         <h2 className="mx-auto max-w-3xl px-8 text-center text-2xl font-bold sm:text-3xl">
           {t("landing.testimonialsTitle")}
         </h2>

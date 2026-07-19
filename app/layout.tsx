@@ -21,11 +21,11 @@ import {
   Space_Mono,
 } from "next/font/google";
 import { AppStateProvider } from "@/components/AppState";
+import ConsentedAnalytics from "@/components/ConsentedAnalytics";
+import { CookieConsentProvider } from "@/components/CookieConsent";
 import Navbar from "@/components/Navbar";
 import TawkChat from "@/components/TawkChat";
 import "./globals.css";
-import { Analytics } from "@vercel/analytics/next"
-import { SpeedInsights } from '@vercel/speed-insights/next';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -147,13 +147,14 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${fontVariables} h-full antialiased`}>
       <body className="min-h-full flex flex-col">
-        <AppStateProvider>
-          <Navbar />
-          <div className="flex flex-1 flex-col">{children}</div>
-          <Analytics />
-          <SpeedInsights />
-          <TawkChat />
-        </AppStateProvider>
+        <CookieConsentProvider>
+          <AppStateProvider>
+            <Navbar />
+            <div className="flex flex-1 flex-col">{children}</div>
+            <ConsentedAnalytics />
+            <TawkChat />
+          </AppStateProvider>
+        </CookieConsentProvider>
       </body>
     </html>
   );

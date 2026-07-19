@@ -401,5 +401,20 @@
     "confirmCancel": "Er du sikker på at du vil avbryte abonnementet? Du beholder tilgangen ut inneværende faktureringsperiode.",
     "actionFailed": "Noe gikk galt. Prøv igjen.",
     "goBack": "Tilbake"
+  },
+  "cookieConsent": {
+    "title": "Vi bruker informasjonskapsler",
+    "description": "Vi bruker informasjonskapsler for å holde deg innlogget, beskytte nettstedet mot roboter og, med din tillatelse, forstå hvordan nettstedet brukes og tilby live chat-support.",
+    "acceptAll": "Godta alle",
+    "rejectAll": "Avvis alle",
+    "customize": "Tilpass",
+    "save": "Lagre preferanser",
+    "necessaryTitle": "Nødvendig",
+    "necessaryDescription": "Nødvendig for å holde deg innlogget og beskytte innloggingsskjemaer mot roboter. Alltid på.",
+    "analyticsTitle": "Analyse",
+    "analyticsDescription": "Anonym bruks- og ytelsesdata via Vercel Analytics og Speed Insights, for å hjelpe oss å forbedre nettstedet.",
+    "supportChatTitle": "Support-chat",
+    "supportChatDescription": "Laster inn Tawk.to sin live chat-widget slik at supportteamet vårt kan hjelpe deg direkte. Setter tredjeparts informasjonskapsler.",
+    "preferencesLink": "Informasjonskapsler"
   }
 }

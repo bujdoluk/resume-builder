@@ -1,16 +1,23 @@
+"use client";
+
 /**
  * Embeds the Tawk.to live chat widget site-wide (mounted once in the root
  * layout, alongside Analytics/SpeedInsights). Uses `next/script`'s default
  * `afterInteractive` strategy so it loads without blocking the initial
  * page render. Renders nothing if the property/widget id env vars aren't
- * set, so local dev works without a Tawk.to account.
+ * set (so local dev works without a Tawk.to account) or until the
+ * "supportChat" cookie consent category is accepted (see
+ * components/CookieConsent.tsx) — this sets third-party cookies, so it
+ * can't load before then.
  */
 import Script from "next/script";
+import { useCookieConsent } from "@/components/CookieConsent";
 
 export default function TawkChat() {
+  const { consent } = useCookieConsent();
   const propertyId = process.env.NEXT_PUBLIC_TAWKTO_PROPERTY_ID;
   const widgetId = process.env.NEXT_PUBLIC_TAWKTO_WIDGET_ID;
-  if (!propertyId || !widgetId) return null;
+  if (!propertyId || !widgetId || !consent.supportChat) return null;
 
   return (
     <Script id="tawk-to" strategy="afterInteractive">

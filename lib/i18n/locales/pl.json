@@ -401,5 +401,20 @@
     "confirmCancel": "Czy na pewno chcesz anulować subskrypcję? Zachowasz dostęp do końca bieżącego okresu rozliczeniowego.",
     "actionFailed": "Coś poszło nie tak. Spróbuj ponownie.",
     "goBack": "Wstecz"
+  },
+  "cookieConsent": {
+    "title": "Używamy plików cookie",
+    "description": "Używamy plików cookie, aby utrzymać Cię zalogowanego, chronić witrynę przed botami oraz — za Twoją zgodą — rozumieć, jak witryna jest używana, i oferować czat wsparcia na żywo.",
+    "acceptAll": "Zaakceptuj wszystkie",
+    "rejectAll": "Odrzuć wszystkie",
+    "customize": "Dostosuj",
+    "save": "Zapisz preferencje",
+    "necessaryTitle": "Niezbędne",
+    "necessaryDescription": "Niezbędne, aby utrzymać Cię zalogowanego i chronić formularze logowania przed botami. Zawsze włączone.",
+    "analyticsTitle": "Analityka",
+    "analyticsDescription": "Anonimowe dane o użytkowaniu i wydajności za pośrednictwem Vercel Analytics i Speed Insights, pomagające nam ulepszać witrynę.",
+    "supportChatTitle": "Czat wsparcia",
+    "supportChatDescription": "Ładuje widżet czatu na żywo Tawk.to, aby nasz zespół wsparcia mógł pomóc Ci bezpośrednio. Ustawia pliki cookie stron trzecich.",
+    "preferencesLink": "Preferencje cookie"
   }
 }

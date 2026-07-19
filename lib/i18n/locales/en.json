@@ -401,5 +401,20 @@
     "confirmCancel": "Are you sure you want to cancel your subscription? You'll keep access until the end of your current billing period.",
     "actionFailed": "Something went wrong. Please try again.",
     "goBack": "Go back"
+  },
+  "cookieConsent": {
+    "title": "We use cookies",
+    "description": "We use cookies to keep you logged in, protect the site from bots, and — with your permission — understand how the site is used and offer live chat support.",
+    "acceptAll": "Accept All",
+    "rejectAll": "Reject All",
+    "customize": "Customize",
+    "save": "Save Preferences",
+    "necessaryTitle": "Necessary",
+    "necessaryDescription": "Required to keep you logged in and protect login forms from bots. Always on.",
+    "analyticsTitle": "Analytics",
+    "analyticsDescription": "Anonymous usage and performance data via Vercel Analytics and Speed Insights, to help us improve the site.",
+    "supportChatTitle": "Support Chat",
+    "supportChatDescription": "Loads the Tawk.to live chat widget so our support team can help you directly. Sets third-party cookies.",
+    "preferencesLink": "Cookie Preferences"
   }
 }

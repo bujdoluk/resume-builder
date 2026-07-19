@@ -401,5 +401,20 @@
     "confirmCancel": "Sei sicuro di voler annullare l'abbonamento? Manterrai l'accesso fino alla fine del periodo di fatturazione attuale.",
     "actionFailed": "Qualcosa è andato storto. Riprova.",
     "goBack": "Indietro"
+  },
+  "cookieConsent": {
+    "title": "Utilizziamo i cookie",
+    "description": "Utilizziamo i cookie per mantenerti connesso, proteggere il sito dai bot e, con il tuo consenso, capire come viene utilizzato il sito e offrire assistenza via chat dal vivo.",
+    "acceptAll": "Accetta tutto",
+    "rejectAll": "Rifiuta tutto",
+    "customize": "Personalizza",
+    "save": "Salva preferenze",
+    "necessaryTitle": "Necessari",
+    "necessaryDescription": "Necessari per mantenerti connesso e proteggere i moduli di accesso dai bot. Sempre attivi.",
+    "analyticsTitle": "Analitici",
+    "analyticsDescription": "Dati anonimi di utilizzo e prestazioni tramite Vercel Analytics e Speed Insights, per aiutarci a migliorare il sito.",
+    "supportChatTitle": "Chat di assistenza",
+    "supportChatDescription": "Carica il widget di chat dal vivo Tawk.to in modo che il nostro team di assistenza possa aiutarti direttamente. Imposta cookie di terze parti.",
+    "preferencesLink": "Preferenze cookie"
   }
 }

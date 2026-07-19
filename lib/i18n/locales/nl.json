@@ -401,5 +401,20 @@
     "confirmCancel": "Weet je zeker dat je je abonnement wilt opzeggen? Je behoudt toegang tot het einde van de huidige factureringsperiode.",
     "actionFailed": "Er is iets misgegaan. Probeer het opnieuw.",
     "goBack": "Terug"
+  },
+  "cookieConsent": {
+    "title": "Wij gebruiken cookies",
+    "description": "We gebruiken cookies om je ingelogd te houden, de site te beschermen tegen bots en, met jouw toestemming, te begrijpen hoe de site wordt gebruikt en live chatondersteuning aan te bieden.",
+    "acceptAll": "Alles accepteren",
+    "rejectAll": "Alles weigeren",
+    "customize": "Aanpassen",
+    "save": "Voorkeuren opslaan",
+    "necessaryTitle": "Noodzakelijk",
+    "necessaryDescription": "Nodig om je ingelogd te houden en inlogformulieren te beschermen tegen bots. Altijd actief.",
+    "analyticsTitle": "Analyse",
+    "analyticsDescription": "Anonieme gebruiks- en prestatiegegevens via Vercel Analytics en Speed Insights, om ons te helpen de site te verbeteren.",
+    "supportChatTitle": "Support chat",
+    "supportChatDescription": "Laadt de Tawk.to live-chatwidget zodat ons supportteam je direct kan helpen. Plaatst cookies van derden.",
+    "preferencesLink": "Cookievoorkeuren"
   }
 }
