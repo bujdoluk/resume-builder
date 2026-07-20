@@ -10,11 +10,11 @@
  */
 import type { Metadata } from "next";
 import Footer from "@/components/Footer";
+import { SUPPORT_EMAIL } from "@/lib/supportEmail";
 
 const title = "Terms of Service — QuickResumeBuilder.online";
 const description = "The terms that govern your use of QuickResumeBuilder.online.";
 const lastUpdated = "20 July 2026";
-const contactEmail = "support@quickresumebuilder.online";
 
 export const metadata: Metadata = {
   title,
@@ -115,8 +115,8 @@ export default function Page() {
         <h2 className="mt-8 mb-3 text-xl font-bold">9. Termination</h2>
         <p>
           You can stop using the service, or delete your account, at any time by contacting us at{" "}
-          <a href={`mailto:${contactEmail}`} className="link">
-            {contactEmail}
+          <a href={`mailto:${SUPPORT_EMAIL}`} className="link">
+            {SUPPORT_EMAIL}
           </a>
           . We may suspend or terminate accounts that violate these terms.
         </p>
@@ -136,8 +136,8 @@ export default function Page() {
         <h2 className="mt-8 mb-3 text-xl font-bold">12. Contact</h2>
         <p>
           Questions about these terms? Email us at{" "}
-          <a href={`mailto:${contactEmail}`} className="link">
-            {contactEmail}
+          <a href={`mailto:${SUPPORT_EMAIL}`} className="link">
+            {SUPPORT_EMAIL}
           </a>
           .
         </p>

@@ -14,11 +14,11 @@
  */
 import type { Metadata } from "next";
 import Footer from "@/components/Footer";
+import { SUPPORT_EMAIL } from "@/lib/supportEmail";
 
 const title = "Privacy Policy — QuickResumeBuilder.online";
 const description = "How QuickResumeBuilder.online collects, uses, and protects your information.";
 const lastUpdated = "20 July 2026";
-const contactEmail = "support@quickresumebuilder.online";
 
 export const metadata: Metadata = {
   title,
@@ -155,8 +155,8 @@ export default function Page() {
           permanently delete your account (which also cancels any active subscription), yourself at
           any time from your <a href="/account" className="link">account page</a>. For anything
           those tools don&rsquo;t cover, contact us at{" "}
-          <a href={`mailto:${contactEmail}`} className="link">
-            {contactEmail}
+          <a href={`mailto:${SUPPORT_EMAIL}`} className="link">
+            {SUPPORT_EMAIL}
           </a>{" "}
           and we&rsquo;ll act on your request.
         </p>
@@ -173,8 +173,8 @@ export default function Page() {
         <h2 className="mt-8 mb-3 text-xl font-bold">9. Contact</h2>
         <p>
           Questions about this policy? Email us at{" "}
-          <a href={`mailto:${contactEmail}`} className="link">
-            {contactEmail}
+          <a href={`mailto:${SUPPORT_EMAIL}`} className="link">
+            {SUPPORT_EMAIL}
           </a>
           .
         </p>

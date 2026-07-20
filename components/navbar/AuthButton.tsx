@@ -8,12 +8,13 @@
  * needing a full page reload. Logging out sends the visitor back to the
  * landing page.
  *
- * The "Support" item opens the existing Tawk.to chat widget
- * (components/TawkChat.tsx) rather than linking anywhere — it's hidden
- * entirely when Tawk.to isn't configured. If the visitor hasn't opted into
- * support-chat cookies yet (see components/CookieConsent.tsx), the widget
- * simply isn't loaded, so this is a no-op rather than redirecting them
- * anywhere — deliberately not forcing cookie preferences open from here.
+ * The "Support" item tries to open the existing Tawk.to chat widget
+ * (components/TawkChat.tsx) first; if that's not available — Tawk.to isn't
+ * configured, or the visitor hasn't opted into support-chat cookies yet
+ * (see components/CookieConsent.tsx), so `window.Tawk_API` doesn't exist —
+ * it falls back to a mailto: link instead of doing nothing or redirecting
+ * to cookie preferences. Always shown, since the mailto fallback works
+ * regardless of whether Tawk.to is configured.
  */
 import { useEffect, useState } from "react";
 import Link from "next/link";
@@ -22,11 +23,8 @@ import { useTranslation } from "react-i18next";
 import { ChevronDownIcon, LoginIcon } from "@/components/Icons";
 import { logOut } from "@/lib/supabase/auth";
 import { createClient } from "@/lib/supabase/client";
+import { SUPPORT_EMAIL } from "@/lib/supportEmail";
 import { openSupportChat } from "@/lib/tawkChat";
-
-const TAWKTO_CONFIGURED = Boolean(
-  process.env.NEXT_PUBLIC_TAWKTO_PROPERTY_ID && process.env.NEXT_PUBLIC_TAWKTO_WIDGET_ID,
-);
 
 export default function AuthButton() {
   const { t } = useTranslation();
@@ -59,7 +57,9 @@ export default function AuthButton() {
 
   function handleSupportClick() {
     (document.activeElement as HTMLElement | null)?.blur();
-    openSupportChat();
+    if (!openSupportChat()) {
+      window.location.href = `mailto:${SUPPORT_EMAIL}`;
+    }
   }
 
   if (!email) {
@@ -96,13 +96,11 @@ export default function AuthButton() {
             {t("account.billing")}
           </Link>
         </li>
-        {TAWKTO_CONFIGURED && (
-          <li>
-            <button type="button" onClick={handleSupportClick}>
-              {t("account.support")}
-            </button>
-          </li>
-        )}
+        <li>
+          <button type="button" onClick={handleSupportClick}>
+            {t("account.support")}
+          </button>
+        </li>
         <li>
           <button type="button" onClick={handleLogOut}>
             {t("auth.navLogout")}
