@@ -10,15 +10,15 @@
  *
  * The "Support" item opens the existing Tawk.to chat widget
  * (components/TawkChat.tsx) rather than linking anywhere — it's hidden
- * entirely when Tawk.to isn't configured, and if the visitor hasn't opted
- * into support-chat cookies yet, it opens cookie preferences first so they
- * can enable it (see components/CookieConsent.tsx).
+ * entirely when Tawk.to isn't configured. If the visitor hasn't opted into
+ * support-chat cookies yet (see components/CookieConsent.tsx), the widget
+ * simply isn't loaded, so this is a no-op rather than redirecting them
+ * anywhere — deliberately not forcing cookie preferences open from here.
  */
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useTranslation } from "react-i18next";
-import { useCookieConsent } from "@/components/CookieConsent";
 import { ChevronDownIcon, LoginIcon } from "@/components/Icons";
 import { logOut } from "@/lib/supabase/auth";
 import { createClient } from "@/lib/supabase/client";
@@ -31,7 +31,6 @@ const TAWKTO_CONFIGURED = Boolean(
 export default function AuthButton() {
   const { t } = useTranslation();
   const router = useRouter();
-  const { consent, openPreferences } = useCookieConsent();
   const [supabase] = useState(() => createClient());
   const [email, setEmail] = useState<string | null>(null);
 
@@ -60,11 +59,7 @@ export default function AuthButton() {
 
   function handleSupportClick() {
     (document.activeElement as HTMLElement | null)?.blur();
-    if (consent.supportChat) {
-      openSupportChat();
-    } else {
-      openPreferences();
-    }
+    openSupportChat();
   }
 
   if (!email) {
