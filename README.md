@@ -21,7 +21,7 @@ A free, in-browser resume and cover letter builder built with Next.js. Fill in y
 ### Shared across both builders
 - **Customization navbar** — accent colours, typography (font family), font size (small/medium/large), and which fields/sections are visible.
 - **Export to PDF, Word, or plain text** — a format picker next to Download/Email lets you choose `.pdf`, `.docx`, or `.txt` before downloading (handy for ATS systems that parse plain text more reliably than PDF); print or open a full-page preview first, too.
-- **Email export** — send the finished document, in whichever format is currently selected, straight to any email address via [Resend](https://resend.com), as an alternative to downloading it (see `RESEND_API_KEY`/`RESEND_FROM_EMAIL` in Getting Started below).
+- **Email export** — send the finished document, in whichever format is currently selected, straight to any email address via [Resend](https://resend.com), as an alternative to downloading it (see `RESEND_API_KEY`/`RESEND_FROM_EMAIL` in Getting Started below). Guarded by the same invisible hCaptcha widget used for silent anonymous sessions, verified server-side (see Bot protection below), so the route can't be used to spam arbitrary addresses.
 - **13 languages** — the entire UI (not just your content) can be translated on the fly via a language switcher in the navbar, powered by [i18next](https://www.i18next.com/)/react-i18next.
 
 ### Accounts & Authentication
@@ -95,9 +95,10 @@ Sign up free at [tawk.to](https://www.tawk.to), create a property, and grab the 
 
 ### Bot protection (hCaptcha)
 
-1. Sign up at [hCaptcha](https://www.hcaptcha.com), create a site, add your domain(s) (and `localhost` for local dev) to its domain allowlist, and grab the **Site Key**.
-2. Set it as `NEXT_PUBLIC_HCAPTCHA_SITE_KEY` — the widget on `/login` (login, signup, and password-reset forms) only renders/is required once this is set, so local dev works fine before you get to this step.
-3. In **Supabase Dashboard → Authentication → Attack Protection**, enable CAPTCHA protection, select hCaptcha, and paste in the **Secret Key** from the same hCaptcha site (a different key from the Site Key above — this one only ever lives in Supabase's own config, never in this codebase). Without this step, the app sends a captcha token on every auth request but Supabase won't actually require or verify it yet.
+1. Sign up at [hCaptcha](https://www.hcaptcha.com), create a site, add your domain(s) (and `localhost` for local dev) to its domain allowlist, and grab the **Site Key** and **Secret Key**.
+2. Set the Site Key as `NEXT_PUBLIC_HCAPTCHA_SITE_KEY` — the widget on `/login` (login, signup, and password-reset forms), the invisible widget used for silent anonymous sessions, and the one guarding `/api/send-email` all only render/are required once this is set, so local dev works fine before you get to this step.
+3. In **Supabase Dashboard → Authentication → Attack Protection**, enable CAPTCHA protection, select hCaptcha, and paste in the same **Secret Key** (this copy of it only ever lives in Supabase's own config, never in this codebase). Without this step, the app sends a captcha token on every auth request but Supabase won't actually require or verify it yet.
+4. Also set the Secret Key as `HCAPTCHA_SECRET_KEY` in `.env.local` — unlike the auth flows above, `/api/send-email` never touches Supabase Auth, so this route verifies the token itself directly against hCaptcha's API (`lib/hcaptcha.ts`) rather than relying on Supabase to do it. Without this step, the route accepts email-send requests with no captcha check at all.
 
 ## Project Structure
 
@@ -115,6 +116,7 @@ Sign up free at [tawk.to](https://www.tawk.to), create a property, and grab the 
   - `client.ts`/`server.ts`/`proxy.ts` — browser/server/middleware Supabase client factories.
   - `serviceRole.ts` — the RLS-bypassing client, used only by the Stripe webhook to write subscription state.
   - `session.ts` — `ensureUserId`, the silent anonymous-session helper used throughout the app.
+  - `invisibleCaptcha.ts` — bridges the invisible hCaptcha widget (`components/InvisibleCaptcha.tsx`) to `ensureUserId` and `EmailButton.tsx`, its two independent consumers; queues concurrent token requests since the widget only supports one `.execute()` at a time. `lib/hcaptcha.ts` (server-side) verifies the tokens `/api/send-email` receives.
   - `auth.ts` — login/signup/Google/password-reset actions, each explicitly passing a `redirectTo` derived from the caller's own origin rather than relying on Supabase's dashboard-configured Site URL default (see the file's top comment for why), plus an optional `captchaToken` forwarded to Supabase once hCaptcha is configured (see Bot protection above).
   - `rememberMe.ts` — `forgetSessionOnBrowserClose`, the "Remember me" cookie downgrade (see Accounts & Authentication above).
   - `resumes.ts`/`coverLetters.ts` — pagination/sorting/CRUD helpers, including `listResumes`/`listCoverLetters`.

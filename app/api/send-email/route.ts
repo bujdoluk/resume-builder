@@ -7,7 +7,14 @@
  * actual sends live in lib/email/sendPdfEmail.ts, lib/email/sendDocxEmail.ts,
  * and lib/email/sendTextEmail.ts, alongside this app's other transactional
  * email (lib/email/sendWelcomeEmail.ts).
+ *
+ * Guarded by the same invisible hCaptcha widget used for silent anonymous
+ * sign-in (see lib/supabase/invisibleCaptcha.ts) — without it, this route
+ * would let anyone spam arbitrary addresses through this app's Resend
+ * account. See lib/hcaptcha.ts for why this route verifies the token
+ * itself rather than relying on Supabase.
  */
+import { verifyCaptchaToken } from "@/lib/hcaptcha";
 import { sendDocxEmail } from "@/lib/email/sendDocxEmail";
 import { sendPdfEmail } from "@/lib/email/sendPdfEmail";
 import { sendTextEmail } from "@/lib/email/sendTextEmail";
@@ -18,7 +25,12 @@ const MAX_ATTACHMENT_BYTES = 10 * 1024 * 1024;
 const MAX_TEXT_LENGTH = 500_000;
 
 export async function POST(request: Request) {
-  const { to, fileName, format, pdfBase64, docxBase64, textContent } = await request.json();
+  const { to, fileName, format, pdfBase64, docxBase64, textContent, captchaToken } =
+    await request.json();
+
+  if (!(await verifyCaptchaToken(captchaToken))) {
+    return Response.json({ error: "Captcha verification failed." }, { status: 400 });
+  }
 
   if (typeof to !== "string" || !EMAIL_PATTERN.test(to.trim())) {
     return Response.json({ error: "Invalid email address." }, { status: 400 });

@@ -14,6 +14,7 @@ import { useTranslation } from "react-i18next";
 import { EmailIcon } from "@/components/Icons";
 import type { ExportFormat } from "@/lib/exportFormat";
 import { registerPdfFonts } from "@/lib/pdf/fonts";
+import { getAnonymousCaptchaToken } from "@/lib/supabase/invisibleCaptcha";
 
 export interface EmailButtonProps<T extends object> {
   pdfTemplate: ComponentType<T>;
@@ -65,7 +66,9 @@ export default function EmailButton<T extends object>({
     setIsSending(true);
     setError(null);
     try {
+      const captchaToken = await getAnonymousCaptchaToken();
       const body: Record<string, string> = { to, fileName, format };
+      if (captchaToken) body.captchaToken = captchaToken;
 
       if (format === "txt") {
         body.textContent = textContent;
