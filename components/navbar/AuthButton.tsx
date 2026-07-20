@@ -7,18 +7,31 @@
  * immediately after the login page or a Google redirect completes, without
  * needing a full page reload. Logging out sends the visitor back to the
  * landing page.
+ *
+ * The "Support" item opens the existing Tawk.to chat widget
+ * (components/TawkChat.tsx) rather than linking anywhere — it's hidden
+ * entirely when Tawk.to isn't configured, and if the visitor hasn't opted
+ * into support-chat cookies yet, it opens cookie preferences first so they
+ * can enable it (see components/CookieConsent.tsx).
  */
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useTranslation } from "react-i18next";
+import { useCookieConsent } from "@/components/CookieConsent";
 import { ChevronDownIcon, LoginIcon } from "@/components/Icons";
 import { logOut } from "@/lib/supabase/auth";
 import { createClient } from "@/lib/supabase/client";
+import { openSupportChat } from "@/lib/tawkChat";
+
+const TAWKTO_CONFIGURED = Boolean(
+  process.env.NEXT_PUBLIC_TAWKTO_PROPERTY_ID && process.env.NEXT_PUBLIC_TAWKTO_WIDGET_ID,
+);
 
 export default function AuthButton() {
   const { t } = useTranslation();
   const router = useRouter();
+  const { consent, openPreferences } = useCookieConsent();
   const [supabase] = useState(() => createClient());
   const [email, setEmail] = useState<string | null>(null);
 
@@ -43,6 +56,15 @@ export default function AuthButton() {
     (document.activeElement as HTMLElement | null)?.blur();
     await logOut(supabase);
     router.push("/");
+  }
+
+  function handleSupportClick() {
+    (document.activeElement as HTMLElement | null)?.blur();
+    if (consent.supportChat) {
+      openSupportChat();
+    } else {
+      openPreferences();
+    }
   }
 
   if (!email) {
@@ -79,6 +101,13 @@ export default function AuthButton() {
             {t("account.billing")}
           </Link>
         </li>
+        {TAWKTO_CONFIGURED && (
+          <li>
+            <button type="button" onClick={handleSupportClick}>
+              {t("account.support")}
+            </button>
+          </li>
+        )}
         <li>
           <button type="button" onClick={handleLogOut}>
             {t("auth.navLogout")}

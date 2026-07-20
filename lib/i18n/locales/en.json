@@ -399,6 +399,7 @@
   "account": {
     "myAccount": "My Account",
     "billing": "Billing",
+    "support": "Support",
     "title": "My Account",
     "memberSince": "Member since",
     "currentPlan": "Current Plan",
