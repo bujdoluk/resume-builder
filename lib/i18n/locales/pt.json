@@ -400,6 +400,8 @@
     "myAccount": "A minha conta",
     "billing": "Faturação",
     "support": "Suporte",
+    "supportDescription": "Tem alguma questão ou precisa de ajuda? Contacte-nos quando quiser.",
+    "startChat": "Iniciar chat ao vivo",
     "title": "A minha conta",
     "memberSince": "Membro desde",
     "currentPlan": "Plano atual",

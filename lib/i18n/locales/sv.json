@@ -400,6 +400,8 @@
     "myAccount": "Mitt konto",
     "billing": "Fakturering",
     "support": "Support",
+    "supportDescription": "Har du en fråga eller behöver du hjälp? Kontakta oss när som helst.",
+    "startChat": "Starta livechatt",
     "title": "Mitt konto",
     "memberSince": "Medlem sedan",
     "currentPlan": "Nuvarande plan",

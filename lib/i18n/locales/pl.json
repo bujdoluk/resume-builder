@@ -400,6 +400,8 @@
     "myAccount": "Moje konto",
     "billing": "Płatności",
     "support": "Pomoc",
+    "supportDescription": "Masz pytanie lub potrzebujesz pomocy? Skontaktuj się z nami w dowolnym momencie.",
+    "startChat": "Rozpocznij czat na żywo",
     "title": "Moje konto",
     "memberSince": "Użytkownik od",
     "currentPlan": "Obecny plan",

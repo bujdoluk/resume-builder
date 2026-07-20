@@ -400,6 +400,8 @@
     "myAccount": "My Account",
     "billing": "Billing",
     "support": "Support",
+    "supportDescription": "Have a question or need help? Reach out to us anytime.",
+    "startChat": "Start Live Chat",
     "title": "My Account",
     "memberSince": "Member since",
     "currentPlan": "Current Plan",

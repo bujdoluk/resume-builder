@@ -400,6 +400,8 @@
     "myAccount": "Môj účet",
     "billing": "Fakturácia",
     "support": "Podpora",
+    "supportDescription": "Máte otázku alebo potrebujete pomoc? Kedykoľvek nás kontaktujte.",
+    "startChat": "Spustiť živý chat",
     "title": "Môj účet",
     "memberSince": "Členom od",
     "currentPlan": "Aktuálny plán",

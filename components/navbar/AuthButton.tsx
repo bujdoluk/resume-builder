@@ -8,13 +8,9 @@
  * needing a full page reload. Logging out sends the visitor back to the
  * landing page.
  *
- * The "Support" item tries to open the existing Tawk.to chat widget
- * (components/TawkChat.tsx) first; if that's not available — Tawk.to isn't
- * configured, or the visitor hasn't opted into support-chat cookies yet
- * (see components/CookieConsent.tsx), so `window.Tawk_API` doesn't exist —
- * it falls back to a mailto: link instead of doing nothing or redirecting
- * to cookie preferences. Always shown, since the mailto fallback works
- * regardless of whether Tawk.to is configured.
+ * "Support" links to /support (components/SupportPage.tsx), which shows the
+ * support email plainly plus a live-chat entry point — a real page rather
+ * than an immediate click action, matching "My Account"/"Billing".
  */
 import { useEffect, useState } from "react";
 import Link from "next/link";
@@ -23,8 +19,6 @@ import { useTranslation } from "react-i18next";
 import { ChevronDownIcon, LoginIcon } from "@/components/Icons";
 import { logOut } from "@/lib/supabase/auth";
 import { createClient } from "@/lib/supabase/client";
-import { SUPPORT_EMAIL } from "@/lib/supportEmail";
-import { openSupportChat } from "@/lib/tawkChat";
 
 export default function AuthButton() {
   const { t } = useTranslation();
@@ -53,13 +47,6 @@ export default function AuthButton() {
     (document.activeElement as HTMLElement | null)?.blur();
     await logOut(supabase);
     router.push("/");
-  }
-
-  function handleSupportClick() {
-    (document.activeElement as HTMLElement | null)?.blur();
-    if (!openSupportChat()) {
-      window.location.href = `mailto:${SUPPORT_EMAIL}`;
-    }
   }
 
   if (!email) {
@@ -97,9 +84,9 @@ export default function AuthButton() {
           </Link>
         </li>
         <li>
-          <button type="button" onClick={handleSupportClick}>
+          <Link href="/support" onClick={() => (document.activeElement as HTMLElement | null)?.blur()}>
             {t("account.support")}
-          </button>
+          </Link>
         </li>
         <li>
           <button type="button" onClick={handleLogOut}>
