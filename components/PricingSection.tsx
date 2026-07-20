@@ -77,7 +77,7 @@ export default function PricingSection() {
       </p>
 
       <div className="mx-auto mt-10 max-w-6xl px-8">
-        <div className="bg-gray-50 border-base-300 overflow-x-auto rounded-lg border">
+        <div className="bg-base-200 border-base-300 overflow-x-auto rounded-lg border">
           <table className="table table-fixed min-w-[640px]">
             <thead>
               <tr>
