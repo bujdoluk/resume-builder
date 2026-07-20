@@ -11,6 +11,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: "/",
       disallow: "/my-resumes",
     },
-    sitemap: "https://www.lukasbujdos.com/sitemap.xml",
+    sitemap: "https://www.quickresumebuilder.online/sitemap.xml",
   };
 }
