@@ -398,7 +398,9 @@
   },
   "account": {
     "myAccount": "Mon compte",
+    "billing": "Facturation",
     "title": "Mon compte",
+    "memberSince": "Membre depuis",
     "currentPlan": "Forfait actuel",
     "viewPlans": "Voir les forfaits",
     "renewsOnLabel": "Se renouvelle le",

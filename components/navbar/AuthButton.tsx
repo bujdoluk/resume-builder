@@ -75,6 +75,11 @@ export default function AuthButton() {
           </Link>
         </li>
         <li>
+          <Link href="/billing" onClick={() => (document.activeElement as HTMLElement | null)?.blur()}>
+            {t("account.billing")}
+          </Link>
+        </li>
+        <li>
           <button type="button" onClick={handleLogOut}>
             {t("auth.navLogout")}
           </button>

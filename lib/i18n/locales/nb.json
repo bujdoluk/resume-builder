@@ -398,7 +398,9 @@
   },
   "account": {
     "myAccount": "Min konto",
+    "billing": "Fakturering",
     "title": "Min konto",
+    "memberSince": "Medlem siden",
     "currentPlan": "Nåværende plan",
     "viewPlans": "Se planer",
     "renewsOnLabel": "Fornyes",

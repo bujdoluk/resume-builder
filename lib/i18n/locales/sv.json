@@ -398,7 +398,9 @@
   },
   "account": {
     "myAccount": "Mitt konto",
+    "billing": "Fakturering",
     "title": "Mitt konto",
+    "memberSince": "Medlem sedan",
     "currentPlan": "Nuvarande plan",
     "viewPlans": "Visa planer",
     "renewsOnLabel": "Förnyas",

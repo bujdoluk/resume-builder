@@ -398,7 +398,9 @@
   },
   "account": {
     "myAccount": "Мой аккаунт",
+    "billing": "Оплата",
     "title": "Мой аккаунт",
+    "memberSince": "Участник с",
     "currentPlan": "Текущий тариф",
     "viewPlans": "Посмотреть тарифы",
     "renewsOnLabel": "Продление",

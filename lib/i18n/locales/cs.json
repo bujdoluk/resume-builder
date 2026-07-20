@@ -398,7 +398,9 @@
   },
   "account": {
     "myAccount": "Můj účet",
+    "billing": "Fakturace",
     "title": "Můj účet",
+    "memberSince": "Členem od",
     "currentPlan": "Aktuální plán",
     "viewPlans": "Zobrazit plány",
     "renewsOnLabel": "Obnoví se",

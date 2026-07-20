@@ -398,7 +398,9 @@
   },
   "account": {
     "myAccount": "Moje konto",
+    "billing": "Płatności",
     "title": "Moje konto",
+    "memberSince": "Użytkownik od",
     "currentPlan": "Obecny plan",
     "viewPlans": "Zobacz plany",
     "renewsOnLabel": "Odnowienie",

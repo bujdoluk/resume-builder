@@ -398,7 +398,9 @@
   },
   "account": {
     "myAccount": "Mijn account",
+    "billing": "Facturering",
     "title": "Mijn account",
+    "memberSince": "Lid sinds",
     "currentPlan": "Huidig abonnement",
     "viewPlans": "Bekijk abonnementen",
     "renewsOnLabel": "Wordt verlengd op",
