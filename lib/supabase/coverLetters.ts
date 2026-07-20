@@ -76,6 +76,20 @@ export async function getCoverLetter(
   return data ? fromTableRow(data as CoverLetterTableRow) : null;
 }
 
+export async function listAllCoverLetters(
+  supabase: SupabaseClient,
+  userId: string,
+): Promise<CoverLetterRow[]> {
+  const { data, error } = await supabase
+    .from("cover_letters")
+    .select()
+    .eq("user_id", userId)
+    .order("created_at", { ascending: true });
+
+  if (error) throw error;
+  return (data as CoverLetterTableRow[]).map(fromTableRow);
+}
+
 export async function countCoverLetters(supabase: SupabaseClient, userId: string): Promise<number> {
   const { count, error } = await supabase
     .from("cover_letters")

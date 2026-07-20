@@ -407,6 +407,11 @@
     "resumeSubscription": "Reanudar suscripción",
     "confirmCancel": "¿Seguro que quieres cancelar tu suscripción? Mantendrás el acceso hasta el final del periodo de facturación actual.",
     "actionFailed": "Algo salió mal. Inténtalo de nuevo.",
+    "dangerZone": "Zona de peligro",
+    "exportData": "Exportar mis datos",
+    "deleteAccount": "Eliminar mi cuenta",
+    "confirmDelete": "Esto eliminará permanentemente tu cuenta, todos los currículums y cartas de presentación guardados, y cancelará cualquier suscripción activa. Esta acción no se puede deshacer.",
+    "deleteFailed": "No se pudo eliminar tu cuenta. Inténtalo de nuevo o contacta con soporte.",
     "goBack": "Volver"
   },
   "cookieConsent": {

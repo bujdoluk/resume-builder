@@ -407,6 +407,11 @@
     "resumeSubscription": "Reprendre l'abonnement",
     "confirmCancel": "Voulez-vous vraiment annuler votre abonnement ? Vous conserverez l'accès jusqu'à la fin de la période de facturation en cours.",
     "actionFailed": "Une erreur est survenue. Veuillez réessayer.",
+    "dangerZone": "Zone de danger",
+    "exportData": "Exporter mes données",
+    "deleteAccount": "Supprimer mon compte",
+    "confirmDelete": "Cette action supprimera définitivement votre compte, tous vos CV et lettres de motivation enregistrés, et annulera tout abonnement actif. Cette action est irréversible.",
+    "deleteFailed": "Impossible de supprimer votre compte. Veuillez réessayer ou contacter le support.",
     "goBack": "Retour"
   },
   "cookieConsent": {

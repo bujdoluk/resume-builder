@@ -407,6 +407,11 @@
     "resumeSubscription": "Obnovit předplatné",
     "confirmCancel": "Opravdu chcete zrušit předplatné? Přístup si zachováte do konce aktuálního fakturačního období.",
     "actionFailed": "Něco se pokazilo. Zkuste to znovu.",
+    "dangerZone": "Nebezpečná zóna",
+    "exportData": "Exportovat má data",
+    "deleteAccount": "Smazat můj účet",
+    "confirmDelete": "Tímto trvale odstraníte svůj účet, všechny uložené životopisy a motivační dopisy a zrušíte veškeré aktivní předplatné. Tuto akci nelze vrátit zpět.",
+    "deleteFailed": "Smazání účtu se nezdařilo. Zkuste to prosím znovu nebo kontaktujte podporu.",
     "goBack": "Zpět"
   },
   "cookieConsent": {

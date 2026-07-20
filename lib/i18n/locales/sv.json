@@ -407,6 +407,11 @@
     "resumeSubscription": "Återuppta prenumeration",
     "confirmCancel": "Är du säker på att du vill avsluta din prenumeration? Du behåller åtkomsten till slutet av den nuvarande faktureringsperioden.",
     "actionFailed": "Något gick fel. Försök igen.",
+    "dangerZone": "Farozon",
+    "exportData": "Exportera mina uppgifter",
+    "deleteAccount": "Radera mitt konto",
+    "confirmDelete": "Detta kommer permanent att radera ditt konto, alla sparade CV:n och personliga brev, och avsluta eventuella aktiva prenumerationer. Detta kan inte ångras.",
+    "deleteFailed": "Det gick inte att radera ditt konto. Försök igen eller kontakta supporten.",
     "goBack": "Tillbaka"
   },
   "cookieConsent": {

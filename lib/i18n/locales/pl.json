@@ -407,6 +407,11 @@
     "resumeSubscription": "Wznów subskrypcję",
     "confirmCancel": "Czy na pewno chcesz anulować subskrypcję? Zachowasz dostęp do końca bieżącego okresu rozliczeniowego.",
     "actionFailed": "Coś poszło nie tak. Spróbuj ponownie.",
+    "dangerZone": "Strefa zagrożenia",
+    "exportData": "Wyeksportuj moje dane",
+    "deleteAccount": "Usuń moje konto",
+    "confirmDelete": "Spowoduje to trwałe usunięcie Twojego konta, wszystkich zapisanych CV i listów motywacyjnych oraz anulowanie każdej aktywnej subskrypcji. Tej czynności nie można odwrócić.",
+    "deleteFailed": "Nie udało się usunąć konta. Spróbuj ponownie lub skontaktuj się z pomocą techniczną.",
     "goBack": "Wstecz"
   },
   "cookieConsent": {

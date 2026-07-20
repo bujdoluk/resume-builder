@@ -407,6 +407,11 @@
     "resumeSubscription": "Riprendi abbonamento",
     "confirmCancel": "Sei sicuro di voler annullare l'abbonamento? Manterrai l'accesso fino alla fine del periodo di fatturazione attuale.",
     "actionFailed": "Qualcosa è andato storto. Riprova.",
+    "dangerZone": "Zona pericolosa",
+    "exportData": "Esporta i miei dati",
+    "deleteAccount": "Elimina il mio account",
+    "confirmDelete": "Questa azione eliminerà definitivamente il tuo account, tutti i curriculum e le lettere di presentazione salvati e annullerà qualsiasi abbonamento attivo. Non può essere annullata.",
+    "deleteFailed": "Impossibile eliminare il tuo account. Riprova o contatta l'assistenza.",
     "goBack": "Indietro"
   },
   "cookieConsent": {

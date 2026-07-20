@@ -407,6 +407,11 @@
     "resumeSubscription": "Gjenoppta abonnement",
     "confirmCancel": "Er du sikker på at du vil avbryte abonnementet? Du beholder tilgangen ut inneværende faktureringsperiode.",
     "actionFailed": "Noe gikk galt. Prøv igjen.",
+    "dangerZone": "Faresone",
+    "exportData": "Eksporter mine data",
+    "deleteAccount": "Slett kontoen min",
+    "confirmDelete": "Dette vil permanent slette kontoen din, alle lagrede CV-er og søknadsbrev, og kansellere eventuelle aktive abonnementer. Dette kan ikke reverseres.",
+    "deleteFailed": "Kunne ikke slette kontoen din. Prøv igjen eller kontakt support.",
     "goBack": "Tilbake"
   },
   "cookieConsent": {

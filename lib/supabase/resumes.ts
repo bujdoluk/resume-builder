@@ -141,6 +141,17 @@ export async function listResumes(
   return (data as ResumeTableRow[]).map(fromTableRow);
 }
 
+export async function listAllResumes(supabase: SupabaseClient, userId: string): Promise<ResumeRow[]> {
+  const { data, error } = await supabase
+    .from("resumes")
+    .select()
+    .eq("user_id", userId)
+    .order("created_at", { ascending: true });
+
+  if (error) throw error;
+  return (data as ResumeTableRow[]).map(fromTableRow);
+}
+
 export async function getResume(supabase: SupabaseClient, id: string): Promise<ResumeRow | null> {
   const { data, error } = await supabase
     .from("resumes")

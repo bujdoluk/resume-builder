@@ -31,7 +31,9 @@ export default function AccountPage() {
   const [email, setEmail] = useState<string | null>(null);
   const [subscription, setSubscription] = useState<Subscription | null>(null);
   const [actionLoading, setActionLoading] = useState(false);
+  const [exportLoading, setExportLoading] = useState(false);
   const cancelDialogRef = useRef<ConfirmDialogHandle>(null);
+  const deleteDialogRef = useRef<ConfirmDialogHandle>(null);
 
   useEffect(() => {
     supabase.auth.getSession().then(async ({ data: { session } }) => {
@@ -81,6 +83,46 @@ export default function AccountPage() {
     } catch {
       alert(t("account.actionFailed"));
     } finally {
+      setActionLoading(false);
+    }
+  }
+
+  async function handleExport() {
+    setExportLoading(true);
+    try {
+      const response = await fetch("/api/account/export");
+      if (!response.ok) throw new Error("Request failed");
+      const data = await response.json();
+
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `quickresumebuilder-data-${Temporal.Now.plainDateISO().toString()}.json`;
+      link.click();
+      URL.revokeObjectURL(url);
+    } catch {
+      alert(t("account.actionFailed"));
+    } finally {
+      setExportLoading(false);
+    }
+  }
+
+  async function handleDelete() {
+    const confirmed = await deleteDialogRef.current?.open({
+      message: t("account.confirmDelete"),
+      confirmLabel: t("account.deleteAccount"),
+    });
+    if (!confirmed) return;
+
+    setActionLoading(true);
+    try {
+      const response = await fetch("/api/account/delete", { method: "POST" });
+      if (!response.ok) throw new Error("Request failed");
+      await supabase.auth.signOut();
+      router.push("/");
+    } catch {
+      alert(t("account.deleteFailed"));
       setActionLoading(false);
     }
   }
@@ -165,6 +207,32 @@ export default function AccountPage() {
             )}
           </div>
 
+          <div className="divider" />
+
+          <h2 className="text-error text-sm font-semibold">{t("account.dangerZone")}</h2>
+          <div className="mt-2 flex flex-col gap-2 sm:flex-row sm:justify-between">
+            <button
+              type="button"
+              className="btn btn-outline btn-sm"
+              disabled={exportLoading || actionLoading}
+              onClick={handleExport}
+            >
+              {exportLoading ? (
+                <span className="loading loading-spinner loading-xs" />
+              ) : (
+                t("account.exportData")
+              )}
+            </button>
+            <button
+              type="button"
+              className="btn btn-outline btn-error btn-sm"
+              disabled={actionLoading || exportLoading}
+              onClick={handleDelete}
+            >
+              {t("account.deleteAccount")}
+            </button>
+          </div>
+
           <button
             type="button"
             onClick={() => router.back()}
@@ -177,6 +245,7 @@ export default function AccountPage() {
       </div>
 
       <ConfirmDialog ref={cancelDialogRef} />
+      <ConfirmDialog ref={deleteDialogRef} />
     </div>
   );
 }

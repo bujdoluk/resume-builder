@@ -407,6 +407,11 @@
     "resumeSubscription": "Abo fortsetzen",
     "confirmCancel": "Möchtest du dein Abo wirklich kündigen? Du behältst den Zugriff bis zum Ende des aktuellen Abrechnungszeitraums.",
     "actionFailed": "Etwas ist schiefgelaufen. Bitte versuche es erneut.",
+    "dangerZone": "Gefahrenzone",
+    "exportData": "Meine Daten exportieren",
+    "deleteAccount": "Mein Konto löschen",
+    "confirmDelete": "Dadurch werden Ihr Konto, alle gespeicherten Lebensläufe und Anschreiben dauerhaft gelöscht und ein aktives Abonnement gekündigt. Dies kann nicht rückgängig gemacht werden.",
+    "deleteFailed": "Ihr Konto konnte nicht gelöscht werden. Bitte versuchen Sie es erneut oder kontaktieren Sie den Support.",
     "goBack": "Zurück"
   },
   "cookieConsent": {

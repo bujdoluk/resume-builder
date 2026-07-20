@@ -407,6 +407,11 @@
     "resumeSubscription": "Obnoviť predplatné",
     "confirmCancel": "Naozaj chcete zrušiť predplatné? Prístup si zachováte do konca aktuálneho fakturačného obdobia.",
     "actionFailed": "Niečo sa pokazilo. Skúste to znova.",
+    "dangerZone": "Nebezpečná zóna",
+    "exportData": "Exportovať moje údaje",
+    "deleteAccount": "Odstrániť môj účet",
+    "confirmDelete": "Týmto trvalo odstránite svoj účet, všetky uložené životopisy a motivačné listy a zrušíte akékoľvek aktívne predplatné. Túto akciu nie je možné vrátiť späť.",
+    "deleteFailed": "Odstránenie účtu sa nepodarilo. Skúste to znova alebo kontaktujte podporu.",
     "goBack": "Späť"
   },
   "cookieConsent": {

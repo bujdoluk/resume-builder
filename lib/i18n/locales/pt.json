@@ -407,6 +407,11 @@
     "resumeSubscription": "Retomar subscrição",
     "confirmCancel": "Tem a certeza de que pretende cancelar a subscrição? Manterá o acesso até ao final do período de faturação atual.",
     "actionFailed": "Ocorreu um erro. Tente novamente.",
+    "dangerZone": "Zona de perigo",
+    "exportData": "Exportar os meus dados",
+    "deleteAccount": "Eliminar a minha conta",
+    "confirmDelete": "Isto irá eliminar permanentemente a sua conta, todos os currículos e cartas de apresentação guardados, e cancelar qualquer subscrição ativa. Esta ação não pode ser anulada.",
+    "deleteFailed": "Não foi possível eliminar a sua conta. Tente novamente ou contacte o suporte.",
     "goBack": "Voltar"
   },
   "cookieConsent": {

@@ -407,6 +407,11 @@
     "resumeSubscription": "Abonnement hervatten",
     "confirmCancel": "Weet je zeker dat je je abonnement wilt opzeggen? Je behoudt toegang tot het einde van de huidige factureringsperiode.",
     "actionFailed": "Er is iets misgegaan. Probeer het opnieuw.",
+    "dangerZone": "Gevarenzone",
+    "exportData": "Mijn gegevens exporteren",
+    "deleteAccount": "Mijn account verwijderen",
+    "confirmDelete": "Dit verwijdert je account, alle opgeslagen cv's en motivatiebrieven permanent en zegt elk actief abonnement op. Dit kan niet ongedaan worden gemaakt.",
+    "deleteFailed": "Het is niet gelukt om je account te verwijderen. Probeer het opnieuw of neem contact op met support.",
     "goBack": "Terug"
   },
   "cookieConsent": {

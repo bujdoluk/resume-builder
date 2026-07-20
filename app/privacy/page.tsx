@@ -151,7 +151,10 @@ export default function Page() {
         <h2 className="mt-8 mb-3 text-xl font-bold">6. Your rights</h2>
         <p>
           Depending on where you live, you may have the right to access, correct, export, or delete
-          your personal information. To exercise any of these rights, contact us at{" "}
+          your personal information. You can export a copy of everything tied to your account, or
+          permanently delete your account (which also cancels any active subscription), yourself at
+          any time from your <a href="/account" className="link">account page</a>. For anything
+          those tools don&rsquo;t cover, contact us at{" "}
           <a href={`mailto:${contactEmail}`} className="link">
             {contactEmail}
           </a>{" "}
