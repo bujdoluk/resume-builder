@@ -317,7 +317,9 @@
     }
   },
   "footer": {
-    "copyright": "© {{year}} QuickResumeBuilder.online"
+    "copyright": "© {{year}} QuickResumeBuilder.online",
+    "privacyPolicy": "Personvernerklæring",
+    "termsOfService": "Bruksvilkår"
   },
   "auth": {
     "navLogin": "Logg inn",
@@ -356,7 +358,8 @@
       "oauth": "Innlogging med Google mislyktes. Prøv igjen."
     },
     "rememberMe": "Husk meg",
-    "captchaRequired": "Fullfør CAPTCHA-verifiseringen."
+    "captchaRequired": "Fullfør CAPTCHA-verifiseringen.",
+    "signupAgreement": "Ved å registrere deg godtar du våre <termsLink>bruksvilkår</termsLink> og vår <privacyLink>personvernerklæring</privacyLink>."
   },
   "pricing": {
     "title": "Enkle, gjennomsiktige priser",
@@ -409,6 +412,7 @@
   "cookieConsent": {
     "title": "Vi bruker informasjonskapsler",
     "description": "Vi bruker informasjonskapsler for å holde deg innlogget, beskytte nettstedet mot roboter og, med din tillatelse, forstå hvordan nettstedet brukes og tilby live chat-support.",
+    "privacyNotice": "Les vår <privacyLink>personvernerklæring</privacyLink> for å lære mer om hvordan vi behandler dine data.",
     "acceptAll": "Godta alle",
     "rejectAll": "Avvis alle",
     "customize": "Tilpass",

@@ -28,7 +28,8 @@ import {
   useSyncExternalStore,
   type ReactNode,
 } from "react";
-import { useTranslation } from "react-i18next";
+import Link from "next/link";
+import { Trans, useTranslation } from "react-i18next";
 
 // Whether this render is happening in a real browser after hydration, as
 // opposed to on the server (or the client's pre-hydration pass, which must
@@ -160,6 +161,12 @@ export function CookieConsentProvider({ children }: { children: ReactNode }) {
             <div className="card-body gap-3 p-5">
               <h2 className="text-base font-bold">{t("cookieConsent.title")}</h2>
               <p className="text-base-content/70 text-sm">{t("cookieConsent.description")}</p>
+              <p className="text-base-content/70 text-sm">
+                <Trans
+                  i18nKey="cookieConsent.privacyNotice"
+                  components={{ privacyLink: <Link href="/privacy" className="link" /> }}
+                />
+              </p>
               <div className="mt-1 flex flex-wrap justify-end gap-2">
                 <button type="button" className="btn btn-outline btn-sm" onClick={rejectAll}>
                   {t("cookieConsent.rejectAll")}

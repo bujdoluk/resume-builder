@@ -317,7 +317,9 @@
     }
   },
   "footer": {
-    "copyright": "© {{year}} QuickResumeBuilder.online"
+    "copyright": "© {{year}} QuickResumeBuilder.online",
+    "privacyPolicy": "Privacy Policy",
+    "termsOfService": "Terms of Service"
   },
   "auth": {
     "navLogin": "Log In",
@@ -356,7 +358,8 @@
       "oauth": "Google sign-in failed. Please try again."
     },
     "rememberMe": "Remember me",
-    "captchaRequired": "Please complete the CAPTCHA verification."
+    "captchaRequired": "Please complete the CAPTCHA verification.",
+    "signupAgreement": "By signing up, you agree to our <termsLink>Terms of Service</termsLink> and <privacyLink>Privacy Policy</privacyLink>."
   },
   "pricing": {
     "title": "Simple, transparent pricing",
@@ -409,6 +412,7 @@
   "cookieConsent": {
     "title": "We use cookies",
     "description": "We use cookies to keep you logged in, protect the site from bots, and — with your permission — understand how the site is used and offer live chat support.",
+    "privacyNotice": "Read our <privacyLink>Privacy Policy</privacyLink> to learn more about how we handle your data.",
     "acceptAll": "Accept All",
     "rejectAll": "Reject All",
     "customize": "Customize",

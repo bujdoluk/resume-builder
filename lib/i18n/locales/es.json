@@ -317,7 +317,9 @@
     }
   },
   "footer": {
-    "copyright": "© {{year}} QuickResumeBuilder.online"
+    "copyright": "© {{year}} QuickResumeBuilder.online",
+    "privacyPolicy": "Política de privacidad",
+    "termsOfService": "Términos de servicio"
   },
   "auth": {
     "navLogin": "Iniciar sesión",
@@ -356,7 +358,8 @@
       "oauth": "No se pudo iniciar sesión con Google. Inténtalo de nuevo."
     },
     "rememberMe": "Recordarme",
-    "captchaRequired": "Completa la verificación CAPTCHA."
+    "captchaRequired": "Completa la verificación CAPTCHA.",
+    "signupAgreement": "Al registrarte, aceptas nuestros <termsLink>Términos de servicio</termsLink> y nuestra <privacyLink>Política de privacidad</privacyLink>."
   },
   "pricing": {
     "title": "Precios simples y transparentes",
@@ -409,6 +412,7 @@
   "cookieConsent": {
     "title": "Usamos cookies",
     "description": "Usamos cookies para mantenerte conectado, proteger el sitio de bots y, con tu permiso, entender cómo se usa el sitio y ofrecer chat de soporte en vivo.",
+    "privacyNotice": "Lee nuestra <privacyLink>Política de privacidad</privacyLink> para saber más sobre cómo tratamos tus datos.",
     "acceptAll": "Aceptar todo",
     "rejectAll": "Rechazar todo",
     "customize": "Personalizar",

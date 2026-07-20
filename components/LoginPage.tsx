@@ -10,6 +10,7 @@
  * attached. Logging into an existing separate account does not carry those
  * over — that's a genuinely different user id.
  */
+import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useRef, useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
@@ -293,6 +294,18 @@ function LoginForm() {
                 )}
                 {t("auth.googleContinue")}
               </button>
+
+              {mode === "signup" && (
+                <p className="text-base-content/60 mt-3 text-center text-xs">
+                  <Trans
+                    i18nKey="auth.signupAgreement"
+                    components={{
+                      termsLink: <Link href="/terms" className="link" />,
+                      privacyLink: <Link href="/privacy" className="link" />,
+                    }}
+                  />
+                </p>
+              )}
             </>
           )}
 

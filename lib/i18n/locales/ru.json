@@ -317,7 +317,9 @@
     }
   },
   "footer": {
-    "copyright": "© {{year}} QuickResumeBuilder.online"
+    "copyright": "© {{year}} QuickResumeBuilder.online",
+    "privacyPolicy": "Политика конфиденциальности",
+    "termsOfService": "Условия использования"
   },
   "auth": {
     "navLogin": "Войти",
@@ -356,7 +358,8 @@
       "oauth": "Не удалось войти через Google. Попробуйте ещё раз."
     },
     "rememberMe": "Запомнить меня",
-    "captchaRequired": "Пожалуйста, пройдите проверку CAPTCHA."
+    "captchaRequired": "Пожалуйста, пройдите проверку CAPTCHA.",
+    "signupAgreement": "Регистрируясь, вы соглашаетесь с нашими <termsLink>Условиями использования</termsLink> и <privacyLink>Политикой конфиденциальности</privacyLink>."
   },
   "pricing": {
     "title": "Простые и понятные тарифы",
@@ -409,6 +412,7 @@
   "cookieConsent": {
     "title": "Мы используем файлы cookie",
     "description": "Мы используем файлы cookie, чтобы поддерживать вашу авторизацию, защищать сайт от ботов и, с вашего разрешения, понимать, как используется сайт, и предлагать поддержку через живой чат.",
+    "privacyNotice": "Ознакомьтесь с нашей <privacyLink>Политикой конфиденциальности</privacyLink>, чтобы узнать больше о том, как мы обрабатываем ваши данные.",
     "acceptAll": "Принять всё",
     "rejectAll": "Отклонить всё",
     "customize": "Настроить",

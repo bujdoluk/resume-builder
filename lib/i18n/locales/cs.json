@@ -317,7 +317,9 @@
     }
   },
   "footer": {
-    "copyright": "© {{year}} QuickResumeBuilder.online"
+    "copyright": "© {{year}} QuickResumeBuilder.online",
+    "privacyPolicy": "Zásady ochrany osobních údajů",
+    "termsOfService": "Podmínky služby"
   },
   "auth": {
     "navLogin": "Přihlásit se",
@@ -356,7 +358,8 @@
       "oauth": "Přihlášení přes Google se nezdařilo. Zkuste to znovu."
     },
     "rememberMe": "Zapamatovat si mě",
-    "captchaRequired": "Dokončete prosím ověření CAPTCHA."
+    "captchaRequired": "Dokončete prosím ověření CAPTCHA.",
+    "signupAgreement": "Registrací souhlasíte s našimi <termsLink>podmínkami služby</termsLink> a <privacyLink>zásadami ochrany osobních údajů</privacyLink>."
   },
   "pricing": {
     "title": "Jednoduché, transparentní ceny",
@@ -409,6 +412,7 @@
   "cookieConsent": {
     "title": "Používáme cookies",
     "description": "Cookies používáme, abychom vás udrželi přihlášené, chránili web před roboty a se svolením i pochopili, jak web používáte, a nabídli živý chat podpory.",
+    "privacyNotice": "Přečtěte si naše <privacyLink>zásady ochrany osobních údajů</privacyLink>, kde se dozvíte více o tom, jak nakládáme s vašimi údaji.",
     "acceptAll": "Přijmout vše",
     "rejectAll": "Odmítnout vše",
     "customize": "Přizpůsobit",

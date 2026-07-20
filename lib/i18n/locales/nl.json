@@ -317,7 +317,9 @@
     }
   },
   "footer": {
-    "copyright": "© {{year}} QuickResumeBuilder.online"
+    "copyright": "© {{year}} QuickResumeBuilder.online",
+    "privacyPolicy": "Privacybeleid",
+    "termsOfService": "Servicevoorwaarden"
   },
   "auth": {
     "navLogin": "Inloggen",
@@ -356,7 +358,8 @@
       "oauth": "Inloggen met Google is mislukt. Probeer het opnieuw."
     },
     "rememberMe": "Onthoud mij",
-    "captchaRequired": "Voltooi de CAPTCHA-verificatie."
+    "captchaRequired": "Voltooi de CAPTCHA-verificatie.",
+    "signupAgreement": "Door je te registreren ga je akkoord met onze <termsLink>servicevoorwaarden</termsLink> en ons <privacyLink>privacybeleid</privacyLink>."
   },
   "pricing": {
     "title": "Eenvoudige, transparante prijzen",
@@ -409,6 +412,7 @@
   "cookieConsent": {
     "title": "Wij gebruiken cookies",
     "description": "We gebruiken cookies om je ingelogd te houden, de site te beschermen tegen bots en, met jouw toestemming, te begrijpen hoe de site wordt gebruikt en live chatondersteuning aan te bieden.",
+    "privacyNotice": "Lees ons <privacyLink>privacybeleid</privacyLink> voor meer informatie over hoe we met jouw gegevens omgaan.",
     "acceptAll": "Alles accepteren",
     "rejectAll": "Alles weigeren",
     "customize": "Aanpassen",
