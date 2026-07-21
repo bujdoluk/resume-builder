@@ -1,24 +1,5 @@
 "use client";
 
-/**
- * Cookie consent: gates every non-essential script in the app behind an
- * explicit opt-in, mounted once in the root layout (see app/layout.tsx) so
- * the banner and stored decision are available on every page.
- *
- * Three categories, matching what this app actually loads:
- * - `necessary` — Supabase session cookies + hCaptcha (required for login
- *   to function/be protected from bots) — always on, no toggle, no consent
- *   needed under GDPR/ePrivacy for strictly-necessary technology.
- * - `analytics` — Vercel Analytics + Speed Insights (components/ConsentedAnalytics.tsx).
- * - `supportChat` — the Tawk.to live chat widget (components/TawkChat.tsx).
- *
- * Nothing in either opt-in category loads until `consent` has a stored,
- * explicit decision — the default/pre-decision state is "off" for both, not
- * "on", so a page reload before the banner is dismissed never fires the
- * gated scripts even briefly. The decision persists in localStorage (not a
- * cookie — storing a UI preference locally doesn't itself require consent)
- * and can be revisited later via Footer.tsx's "Cookie preferences" link.
- */
 import {
   createContext,
   useContext,
@@ -31,13 +12,6 @@ import {
 import Link from "next/link";
 import { Trans, useTranslation } from "react-i18next";
 
-// Whether this render is happening in a real browser after hydration, as
-// opposed to on the server (or the client's pre-hydration pass, which must
-// match the server exactly). `useSyncExternalStore` is the API React
-// provides for values that are allowed to legitimately differ between
-// server and client snapshots — it swaps in the real answer right after
-// hydration without going through a setState-in-effect, which is what a
-// plain useState+useEffect "mounted" flag would need to do instead.
 function subscribeNever() {
   return () => {};
 }
@@ -76,8 +50,7 @@ function storeConsent(choices: ConsentChoices) {
   try {
     window.localStorage.setItem(STORAGE_KEY, JSON.stringify(choices));
   } catch {
-    // Ignore — consent still applies for this session via React state, it
-    // just won't be remembered on the next visit.
+
   }
 }
 
@@ -109,12 +82,6 @@ export function CookieConsentProvider({ children }: { children: ReactNode }) {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const mounted = useHasMounted();
 
-  // One-time hydration of interactive state from localStorage — genuinely
-  // needs an effect (no synchronous access during SSR), and unlike the
-  // "mounted" derived fact above, `consent`/`hasDecided` are further
-  // mutated locally afterward by user clicks (acceptAll/rejectAll/commit),
-  // not just mirrored from the external source — the same tradeoff
-  // ResumeBuilder.tsx's own localStorage-restore effect makes.
   useEffect(() => {
     const stored = loadStoredConsent();
     if (stored) {

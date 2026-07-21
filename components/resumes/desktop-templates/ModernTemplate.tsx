@@ -1,13 +1,5 @@
 "use client";
 
-/**
- * Read-only Modern template: a dark/accent-colored sidebar (photo, contact,
- * skills, certifications, languages) beside a main content column (About
- * Me, Work Experience, Education, Interests). Used for the live editor's
- * Preview modal and the `/templates` gallery — its editable counterpart is
- * `components/resumes/Resume.tsx`, and the `@react-pdf/renderer` port for downloads
- * is `components/pdf/ModernPdfTemplate.tsx`.
- */
 import { Fragment } from "react";
 import { useTranslation } from "react-i18next";
 import type { TemplateProps } from "@/components/resumes/desktop-templates/BasicTemplate";
@@ -36,11 +28,6 @@ import {
   type SectionKey,
 } from "@/lib/resumeData";
 
-// Section header in either of Modern's two looks: accent-colored icon+text
-// (main column) or a smaller, opacity-70 icon+text with no accent color
-// (sidebar) — a section keeps whichever style matches the zone it's
-// currently placed in, so this is a real component (not per-section inline
-// markup) shared by every section's renderSection() case below.
 function SectionHeader({
   icon,
   title,
@@ -113,10 +100,6 @@ export default function ModernTemplate({
   const languageEntries = data.languages.filter((entry) => entry.language);
   const interestEntries = data.interests.filter((entry) => entry.value);
 
-  // Renders one section in either of Modern's two zone looks — every
-  // section type supports both, so dragging it into the other zone (see
-  // components/resumes/Resume.tsx, the editable counterpart) restyles it instead of
-  // leaving it stuck with its "native" zone's appearance.
   function renderSection(
     key: SectionKey,
     zone: "main" | "sidebar",
@@ -462,11 +445,6 @@ export default function ModernTemplate({
     sectionZones ?? {},
   );
 
-  // About Me is freely draggable between zones too (not just sections), so
-  // it always sits with the personal-info fields — never interleaved among
-  // sections here, matching this file's existing "fields first, then
-  // sections" column layout — but which column it sits in depends on its
-  // own zone assignment rather than being fixed to "main".
   const aboutMeZone = resolveModernSectionZone("aboutMe", sectionZones ?? {});
   const sidebarFieldKeys = fieldOrder.filter((key) => key !== "aboutMe");
 

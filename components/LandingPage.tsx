@@ -1,15 +1,5 @@
 "use client";
 
-/**
- * Public marketing page rendered at `/`: hero section with a "start
- * building" CTA (which pulses periodically to draw attention), a grid of
- * feature highlights, the `PricingSection` (Free/Pro/Annual, `id="pricing"`
- * — also linked to from the save-limit upgrade dialogs in
- * ResumeBuilder.tsx/CoverLetterBuilder.tsx via `/#pricing`), and a daisyUI
- * `carousel` of user testimonials (scroll-snap driven by Prev/Next buttons
- * that scroll the carousel by one card's width — the snap points then
- * settle on the nearest card), followed by the shared `Footer`.
- */
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";

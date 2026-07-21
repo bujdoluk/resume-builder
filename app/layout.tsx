@@ -1,8 +1,4 @@
-/**
- * Root layout for the whole app: loads every Google Font used by the resume
- * "Typography" picker plus the default Geist UI fonts, defines the site-wide
- * `<Metadata>`, and wraps every page in `AppStateProvider` and the `Navbar`.
- */
+
 import type { Metadata } from "next";
 import {
   Geist,
@@ -38,8 +34,6 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-// Resume typography options — each exposes its own CSS variable, picked from
-// in the sidebar's "Typography" feature and applied to the resume/preview.
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],

@@ -1,10 +1,5 @@
 "use client";
 
-/**
- * Navbar light/dark mode switch: persists the choice to localStorage and
- * falls back to the OS `prefers-color-scheme` on first visit, applying the
- * theme via a `data-theme` attribute on `<html>`.
- */
 import { useEffect, useState } from "react";
 import { MoonIcon, SunIcon } from "@/components/Icons";
 
@@ -15,11 +10,6 @@ function applyTheme(dark: boolean) {
 export default function ThemeToggle() {
   const [isDark, setIsDark] = useState(false);
 
-  // Server-rendered markup always defaults to light (no way to know the
-  // visitor's saved/system preference ahead of time) — this effect corrects
-  // it once on mount. That first-paint flash is the accepted tradeoff for
-  // avoiding a hydration mismatch, which is why the state read happens here
-  // instead of in a lazy useState initializer.
   useEffect(() => {
     const stored = localStorage.getItem("theme");
     const dark = stored

@@ -1,9 +1,4 @@
-/**
- * Landing point for Google OAuth redirects (both a fresh sign-in and an
- * anonymous-to-Google `linkIdentity` flow started from `app/login/page.tsx`
- * — Supabase routes both back through this same `code` exchange): swaps the
- * `code` query param for a session, then sends the browser on to `next`.
- */
+
 import { NextResponse } from "next/server";
 import * as Sentry from "@sentry/nextjs";
 import { createClient } from "@/lib/supabase/server";

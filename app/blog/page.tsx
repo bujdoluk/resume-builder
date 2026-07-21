@@ -1,8 +1,4 @@
-/**
- * `/blog` route: public blog index, linked from the navbar. Posts are
- * fetched from the `blog_posts` table (admin-authored via the "Add Blog"
- * form on the client, see components/AddBlogPostDialog.tsx).
- */
+
 import type { Metadata } from "next";
 import Footer from "@/components/Footer";
 import BlogPageContent from "@/components/BlogPageContent";

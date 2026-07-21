@@ -1,15 +1,4 @@
-/**
- * Word (.docx) rendering of a resume, used by `DownloadButton`/
- * `EmailButton` as a non-PDF export format. Field/entry filtering comes
- * from `lib/resumeContent.ts` (shared with `lib/text/resumeText.ts`) so
- * `.txt`/`.docx`/Preview all agree on what counts as "filled in" — this
- * file only owns how that content is laid out as Word paragraphs.
- *
- * Only ever reached via a dynamic `import()` at Download/Email click-time
- * (see `ResumeBuilder.tsx`'s `buildResumeDocxBlob`) — statically importing
- * this module (or the `docx` package it wraps) from the builder would pull
- * `docx`'s ~1MB+ into the initial editor bundle.
- */
+
 import { Document, HeadingLevel, Paragraph, TextRun } from "docx";
 import { fieldLabels, type FieldKey } from "@/lib/fields";
 import {
@@ -38,10 +27,6 @@ function sectionHeading(text: string): Paragraph {
   });
 }
 
-// Word paragraphs don't render "\n" as a line break the way a .txt file
-// does — multi-line fields (e.g. a job description) must become one
-// Paragraph per line, or the whole field collapses into a single run-on
-// paragraph.
 function bodyParagraphs(text: string): Paragraph[] {
   return text
     .split("\n")

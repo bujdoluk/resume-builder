@@ -1,15 +1,5 @@
 "use client";
 
-/**
- * The completion-steps checklist (vertical step list + radial progress +
- * an info tooltip listing what's left) — presentational and format-agnostic
- * (works off plain string keys), so it can render identically in two
- * places for the cover letter editor: inline in `CoverLetterBuilder.tsx`
- * itself (hidden at the `lg` breakpoint), and in `Sidebar.tsx` under the
- * "My Cover Letters" link (shown only at `lg`+, once
- * `AppState.coverLetterStepsSummary` is populated) — see that file for why
- * the split happens at `lg`, matching the Sidebar's own collapse behavior.
- */
 import { useTranslation } from "react-i18next";
 import { InfoIcon } from "@/components/Icons";
 
@@ -22,14 +12,7 @@ export interface CompletionStepsProps {
   completedLabelKey: string;
   allCompleteLabelKey: string;
   onStepClick: (key: string) => void;
-  // Which side the info tooltip's popup grows toward — daisyUI's
-  // `tooltip-end` (default) aligns the popup's end edge to the icon,
-  // growing toward the start (left, in LTR); `tooltip-start` grows the
-  // other way. Both builders' own inline checklists have open space to the
-  // left, so the default suits them, but `Sidebar.tsx` pins this component
-  // to the left edge of the screen — with nothing but empty screen to the
-  // left of it, so it needs "start" to grow rightward into the canvas
-  // instead of clipping off the browser's left edge.
+
   tooltipAlign?: "start" | "end";
 }
 

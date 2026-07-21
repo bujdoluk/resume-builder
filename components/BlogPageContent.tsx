@@ -1,11 +1,5 @@
 "use client";
 
-/**
- * Body of the `/blog` page — a title, a card grid of posts fetched
- * server-side (app/blog/page.tsx) and passed in as `posts`, and (for
- * admins only, see useIsAdmin.ts) an "Add Blog" button opening
- * AddBlogPostDialog. Cards link to their `/blog/[slug]` detail page.
- */
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useRef } from "react";

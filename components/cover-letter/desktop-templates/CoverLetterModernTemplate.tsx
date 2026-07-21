@@ -1,18 +1,5 @@
 "use client";
 
-/**
- * Read-only Modern cover letter template: an accent-colored sidebar
- * (defaulting to the sender info) beside a white main column (recipient
- * info, date, subject, greeting, body, closing) — mirrors the resume's
- * Modern template's dark/accent sidebar. Used for the Preview modal and the
- * always-mounted print-only copy. Which section sits in which zone follows
- * `sectionOrder`/`sectionZones` (user-draggable in the editable
- * `CoverLetterFormFields.tsx`); every section's own markup uses
- * opacity-based secondary text (`opacity-70`) rather than a hardcoded
- * `text-gray-*` class, so it reads correctly whichever zone it ends up in
- * without needing two versions of each section like the resume's
- * `ModernTemplate.tsx` does.
- */
 import { Fragment } from "react";
 import type { CoverLetterTemplateProps } from "@/components/cover-letter/desktop-templates/CoverLetterBasicTemplate";
 import { getContrastTextColor } from "@/lib/color";

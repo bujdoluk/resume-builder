@@ -1,18 +1,7 @@
-/**
- * Registers every resume font's actual WOFF file URLs with
- * `@react-pdf/renderer`'s font engine — it can't reuse the browser's
- * `next/font`-loaded fonts, since PDF generation embeds real glyph data
- * directly into the file. `registerPdfFonts()` is idempotent and should be
- * called once before generating any PDF.
- */
+
 import { Font } from "@react-pdf/renderer";
 import type { FontKey } from "@/lib/fonts";
 
-// @react-pdf/renderer (via pdfkit/fontkit) can't load Google Fonts the way
-// next/font does in the browser — it needs a direct WOFF/TTF file URL per
-// weight. These are Google Fonts' actual hosted file URLs (fetched from the
-// same family/weights next/font registers in app/layout.tsx), verified to
-// resolve with a 200 before being hardcoded here.
 const fontFiles: Record<FontKey, { normal: string; bold: string }> = {
   inter: {
     normal: "https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyfMZs.woff",
@@ -66,9 +55,6 @@ const fontFiles: Record<FontKey, { normal: string; bold: string }> = {
 
 let registered = false;
 
-// Registers every resume font exactly once per process. Safe to call on
-// every PDF generation — react-pdf keeps its own registry and no-ops on a
-// family it already knows.
 export function registerPdfFonts() {
   if (registered) return;
   registered = true;

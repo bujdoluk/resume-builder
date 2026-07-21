@@ -1,8 +1,4 @@
-/**
- * The set of personal-info fields every resume template can show/hide and
- * reorder (photo, name, job title, contact fields, about me), plus their
- * display labels.
- */
+
 export type FieldKey =
   | "photo"
   | "name"

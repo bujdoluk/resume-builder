@@ -1,9 +1,4 @@
-/**
- * `/reset-password` route: landing point after a password-reset email link
- * (see `resetPassword` in lib/supabase/auth.ts and the `next` param routed
- * through app/auth/callback/route.ts). Defines page-specific SEO metadata,
- * then renders `ResetPasswordPage`.
- */
+
 import type { Metadata } from "next";
 import ResetPasswordPage from "@/components/ResetPasswordPage";
 

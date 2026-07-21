@@ -1,13 +1,4 @@
-/**
- * `/terms` route: Terms of Service. Plain static content — no data
- * fetching, no client interactivity — matching `app/blog/page.tsx`'s
- * metadata-export + <Footer/> shape. Deliberately English-only, same
- * reasoning as `app/privacy/page.tsx`.
- *
- * This is a starting draft, not legal advice — have an actual lawyer
- * review it before relying on it, and fill in the bracketed
- * governing-law placeholder in section 10 below.
- */
+
 import type { Metadata } from "next";
 import Footer from "@/components/Footer";
 import { SUPPORT_EMAIL } from "@/lib/supportEmail";

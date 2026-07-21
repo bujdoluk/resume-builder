@@ -1,9 +1,5 @@
 "use client";
 
-/**
- * Navbar button for toggling which personal-info fields and resume
- * sections are visible — moved out of the old Sidebar "Features" panel.
- */
 import { useTranslation } from "react-i18next";
 import {
   allFields,

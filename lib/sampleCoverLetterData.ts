@@ -1,7 +1,4 @@
-/**
- * Fully-populated placeholder `CoverLetterData` used to preview the cover
- * letter template as a thumbnail (mirrors `lib/sampleResumeData.ts`).
- */
+
 import type { CoverLetterData } from "@/lib/coverLetterData";
 
 export const sampleCoverLetterData: CoverLetterData = {

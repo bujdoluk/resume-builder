@@ -1,16 +1,4 @@
-/**
- * Word (.docx) rendering of a cover letter, used by `DownloadButton`/
- * `EmailButton` as a non-PDF export format. Mirrors
- * `lib/text/coverLetterText.ts`'s section iteration (`sectionOrder` +
- * `isCoverLetterFieldFilled`) so `.txt`/`.docx`/Preview all agree on what's
- * included — this file only owns how that content is laid out as Word
- * paragraphs.
- *
- * Only ever reached via a dynamic `import()` at Download/Email click-time
- * (see `CoverLetterBuilder.tsx`'s `buildCoverLetterDocxBlob`) — statically
- * importing this module (or the `docx` package it wraps) from the builder
- * would pull `docx`'s ~1MB+ into the initial editor bundle.
- */
+
 import { Document, Paragraph, TextRun } from "docx";
 import {
   isCoverLetterFieldFilled,
@@ -36,9 +24,6 @@ function boldParagraph(text: string, spacingAfter = 0): Paragraph {
   });
 }
 
-// Word paragraphs don't render "\n" as a line break the way a .txt file
-// does — the (potentially multi-line) letter body must become one
-// Paragraph per line, or it collapses into a single run-on paragraph.
 function multilineParagraphs(text: string): Paragraph[] {
   return text
     .split("\n")

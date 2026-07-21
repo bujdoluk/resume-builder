@@ -1,9 +1,4 @@
-/**
- * `/blog/[slug]` route: full article view, linked from the cards on
- * `/blog`. Posts are stored in the `blog_posts` table — no static params,
- * fully dynamic (the request-scoped Supabase client already forces this
- * via `cookies()`), so newly admin-created posts are available immediately.
- */
+
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Footer from "@/components/Footer";

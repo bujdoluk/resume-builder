@@ -1,15 +1,4 @@
-/**
- * Creates a Stripe Checkout Session for the Pro/Annual subscription and
- * returns its URL for the client to redirect to (components/PricingSection.tsx).
- * Requires a real, non-anonymous Supabase session — Checkout needs an
- * account to attach the subscription to.
- *
- * Deliberately never reads/writes the `subscriptions` table: the user's
- * email is passed to Stripe via `customer_email`, and the user id rides
- * along as `client_reference_id`/metadata for the webhook
- * (app/api/stripe/webhook/route.ts) to pick up once checkout actually
- * completes — that's the only place subscription state gets persisted.
- */
+
 import { getStripe } from "@/lib/stripe";
 import { createClient } from "@/lib/supabase/server";
 

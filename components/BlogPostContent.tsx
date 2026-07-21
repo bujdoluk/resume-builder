@@ -1,13 +1,5 @@
 "use client";
 
-/**
- * Body of a `/blog/[slug]` post page — Medium-style article layout: a
- * colored hero banner (category/title/byline) followed by a narrow,
- * serif-set reading column. `post` is fetched server-side
- * (app/blog/[slug]/page.tsx) from the `blog_posts` table — only "Back to
- * blog" and the category badge label are translated UI chrome; everything
- * else is the post's own stored text, authored directly (not via i18n).
- */
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
 import { Temporal } from "temporal-polyfill";

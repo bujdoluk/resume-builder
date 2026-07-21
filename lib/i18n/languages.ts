@@ -1,9 +1,4 @@
-/**
- * The 13 supported UI languages for `LanguageSelect.tsx`, each paired with
- * its display name and a flag icon component (looked up by country code,
- * which can differ from the language code — e.g. Swedish maps to Sweden's
- * flag).
- */
+
 import * as Flags from "country-flag-icons/react/3x2";
 
 type FlagComponent = (typeof Flags)[keyof typeof Flags];
@@ -14,11 +9,6 @@ export interface LanguageOption {
   flag: FlagComponent;
 }
 
-// `flagCountry` is an ISO 3166-1 alpha-2 country code, looked up against
-// country-flag-icons' bundled SVGs — kept separate from `code` (BCP 47
-// language code, matching lib/i18n/i18n.ts) since several languages here
-// map to a country whose code differs from the language code itself (e.g.
-// Swedish "sv" -> Sweden "SE", Norwegian "nb" -> Norway "NO").
 const languageDefinitions = [
   { code: "en", name: "English (UK)", flagCountry: "GB" },
   { code: "sk", name: "Slovak", flagCountry: "SK" },

@@ -1,14 +1,5 @@
 "use client";
 
-/**
- * Shared drag-and-drop primitives (built on `@dnd-kit`) used by the desktop
- * resume canvas (`Resume.tsx`) and the per-template mobile forms: `reorderEntries`
- * maps a dragged id order back onto entry objects, `SortableBlock`/
- * `SortableGroup` provide the draggable-row/drag-context wrappers, and
- * `renderFieldItems` walks a field order rendering each as a `SortableBlock`
- * while pairing photo+name/job-title and (optionally) packing contact
- * fields onto shared rows.
- */
 import {
   closestCenter,
   DndContext,
@@ -31,9 +22,6 @@ import { CSS } from "@dnd-kit/utilities";
 import { useTranslation } from "react-i18next";
 import type { FieldKey } from "@/components/AppState";
 
-// Rebuilds a repeatable-entry list (Work Experience, skills, languages, etc.)
-// in the order produced by a SortableGroup drag — entries carry a stable
-// `id` already, so dragging just needs to resolve ids back to their entries.
 export function reorderEntries<T extends { id: string }>(
   entries: T[],
   order: string[],
@@ -60,9 +48,6 @@ function GripIcon({ className }: { className?: string }) {
   );
 }
 
-// Wraps a single field/section block so it can be dragged directly on the
-// resume canvas to reorder it — a grip handle appears in the left gutter on
-// hover/focus instead of taking up space in the layout.
 export function SortableBlock({
   id,
   className,
@@ -71,11 +56,7 @@ export function SortableBlock({
 }: {
   id: string;
   className?: string;
-  // Top-level section/field blocks are unique per page (unlike entry-level
-  // blocks, e.g. one per work-experience entry, which reuse the same id
-  // across entries) — set `anchor` there to tag the block with
-  // `data-section-anchor`, letting the Download panel's step list
-  // (components/resumes/ResumeBuilder.tsx) scroll straight to it.
+
   anchor?: boolean;
   children: React.ReactNode;
 }) {

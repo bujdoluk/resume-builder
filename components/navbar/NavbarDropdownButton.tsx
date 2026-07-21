@@ -15,10 +15,7 @@ export default function NavbarDropdownButton({
   icon: React.ReactNode;
   label: string;
   panelClassName?: string;
-  // "end" (default) right-aligns the panel to the trigger button, which
-  // extends it leftward — fine for buttons near the navbar's right side,
-  // but a wide panel on a button near the left can overflow off-screen.
-  // "start" left-aligns instead, extending rightward.
+
   align?: "start" | "end";
   children: React.ReactNode;
 }) {

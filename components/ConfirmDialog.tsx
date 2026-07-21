@@ -1,11 +1,5 @@
 "use client";
 
-/**
- * Reusable confirmation modal exposed via a ref handle (`open({ message,
- * confirmLabel })` returns a Promise<boolean>), mirroring the call shape of
- * `window.confirm()` so callers can just `await` it instead of using a
- * native browser dialog.
- */
 import {
   useImperativeHandle,
   useRef,
@@ -21,13 +15,10 @@ export interface ConfirmOptions {
 }
 
 export interface ConfirmDialogHandle {
-  // Mirrors window.confirm()'s call shape (message in, boolean out) so call
-  // sites just await it instead of branching on a synchronous return value.
+
   open: (options: ConfirmOptions) => Promise<boolean>;
 }
 
-// React 19 passes `ref` as a plain prop to function components, so no
-// forwardRef wrapper is needed — just destructure it like any other prop.
 export default function ConfirmDialog({
   ref,
 }: {

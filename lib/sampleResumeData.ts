@@ -1,7 +1,4 @@
-/**
- * Fully-populated placeholder `ResumeData` used to preview each template
- * with realistic content on the `/templates` gallery.
- */
+
 import type { ResumeData } from "@/lib/resumeData";
 
 export const sampleResumeData: ResumeData = {

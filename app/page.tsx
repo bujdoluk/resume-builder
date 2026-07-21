@@ -1,8 +1,4 @@
-/**
- * Root `/` route: the public marketing landing page. Defines page-specific
- * SEO metadata (title/description/OpenGraph/Twitter) and a `WebApplication`
- * JSON-LD block, then renders `LandingPage`.
- */
+
 import type { Metadata } from "next";
 import LandingPage from "@/components/LandingPage";
 

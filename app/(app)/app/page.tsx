@@ -1,8 +1,4 @@
-/**
- * Route entry for `/app`, the resume editor. Reads the `template` and
- * `resumeId` query params on the server and hands them to the client-side
- * `ResumeBuilder` component, which owns all editor state.
- */
+
 import type { Metadata } from "next";
 import ResumeBuilder from "@/components/resumes/ResumeBuilder";
 

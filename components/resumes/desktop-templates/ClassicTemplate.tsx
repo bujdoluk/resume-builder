@@ -1,14 +1,5 @@
 "use client";
 
-/**
- * Read-only Classic template: a copy of BasicTemplate.tsx with a colored
- * header band (photo/name/job title/contact) at the top of the page — About
- * Me and every section stay on the plain white body below, unchanged from
- * Basic. Used for the live editor's Preview modal and the `/templates`
- * gallery — its editable counterpart is `components/resumes/Resume.tsx`, and the
- * `@react-pdf/renderer` port for downloads is
- * `components/pdf/ClassicPdfTemplate.tsx`.
- */
 import { Fragment } from "react";
 import { useTranslation } from "react-i18next";
 import type { TemplateProps } from "@/components/resumes/desktop-templates/BasicTemplate";
@@ -32,11 +23,6 @@ import { getFontSizeStyle } from "@/lib/fontSize";
 import { fontsByKey } from "@/lib/fonts";
 import { languageLevels, type SectionKey } from "@/lib/resumeData";
 
-// Renders a field order, pairing Photo with Name/Job Title (photo left,
-// text stacked right, height-matched to the photo) whenever they
-// immediately follow it — matches the same pairing rule used in the
-// editable form (components/resumes/Resume.tsx), so drag-reordering there is
-// reflected consistently here.
 function renderFieldItems(
   order: FieldKey[],
   fieldContent: Partial<Record<FieldKey, React.ReactNode>>,

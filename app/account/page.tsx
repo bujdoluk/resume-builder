@@ -1,9 +1,4 @@
-/**
- * `/account` route: shows the logged-in user's plan and lets them cancel
- * or resume a paid subscription in-app. Linked from the navbar's
- * `AuthButton` dropdown. Defines page-specific SEO metadata, then renders
- * `AccountPage`.
- */
+
 import type { Metadata } from "next";
 import AccountPage from "@/components/AccountPage";
 

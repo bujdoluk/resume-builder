@@ -1,10 +1,4 @@
-/**
- * `@react-pdf/renderer` version of the Basic template, used to generate the
- * downloaded PDF — must stay pixel-faithful to the on-screen
- * `components/resumes/desktop-templates/BasicTemplate.tsx` (colors, field order, and the
- * daisyUI timeline's dot-rail + date-above-boxed-content layout for Work
- * Experience/Education) since users need to trust the PDF matches Preview.
- */
+
 import { Document, Image, Page, StyleSheet, Text, View } from "@react-pdf/renderer";
 import {
   AboutMePdfIcon,
@@ -41,9 +35,6 @@ import {
   type SectionKey,
 } from "@/lib/resumeData";
 
-// `modernSectionZones` is only meaningful for ModernPdfTemplate (which
-// sections sit in its sidebar vs. main column); Basic and Minimal ignore
-// it, same as they already ignore parts of `color`.
 export interface PdfTemplateProps {
   data: ResumeData;
   sectionOrder: SectionKey[];
@@ -111,12 +102,7 @@ export default function BasicPdfTemplate({
     fieldsCol: { flexDirection: "column", gap: 4 },
     photoRow: { flexDirection: "row", alignItems: "stretch", gap: 14 },
     photoTextCol: { flex: 1, flexDirection: "column", justifyContent: "center", gap: 2 },
-    // Mirrors daisyUI's timeline-vertical.timeline-compact component from the
-    // on-screen Basic template: a narrow dot-and-line rail on the left, and
-    // to its right a single column where the date sits above a bordered
-    // "timeline-box" card — NOT three side-by-side columns. Verified against
-    // the live-rendered on-screen preview's getBoundingClientRect() output
-    // (dot and content share the same left edge, date stacks above the box).
+
     timelineWrap: { position: "relative" },
     timelineLine: {
       position: "absolute",
@@ -169,9 +155,6 @@ export default function BasicPdfTemplate({
     );
   }
 
-  // Mirrors the on-screen Basic template's daisyUI `timeline` component —
-  // see the timelineWrap/timelineLine/timelineBox styles above for how this
-  // was verified against the actual rendered layout.
   function timelineEntries(entries: { id: string; dateRange: string; content: React.ReactNode }[]) {
     return (
       <View style={styles.timelineWrap}>

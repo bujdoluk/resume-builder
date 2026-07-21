@@ -1,10 +1,5 @@
 "use client";
 
-/**
- * Navbar button for picking the resume's font size — moved out of the old
- * Sidebar "Features" panel. Its trigger reuses the same scaled "A" glyph
- * as the panel's own buttons instead of a separate SVG icon.
- */
 import { useTranslation } from "react-i18next";
 import { useAppState } from "@/components/AppState";
 import NavbarDropdownButton from "@/components/navbar/NavbarDropdownButton";

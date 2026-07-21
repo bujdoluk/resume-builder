@@ -1,8 +1,4 @@
-/**
- * Maps each `TemplateId` to its `@react-pdf/renderer` component — the PDF
- * counterpart of `lib/templates.ts`, used by `ResumeBuilder.tsx`'s download handler
- * to pick the right template to render into the generated PDF.
- */
+
 import type { ComponentType } from "react";
 import BasicPdfTemplate, {
   type PdfTemplateProps,

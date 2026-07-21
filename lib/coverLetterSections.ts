@@ -1,12 +1,4 @@
-/**
- * The cover letter's fixed section groupings (sender info, recipient info,
- * date, subject, letter) — shared between the editable form
- * (`CoverLetter.tsx`, which lets the user drag-reorder the sections
- * and needs to know which fields belong to each) and the Cover Letter
- * Builder's completion-steps panel (`CoverLetterBuilder.tsx`, which needs
- * the same section → field-key groupings to compute per-section
- * completion, mirroring the resume editor's `resumeSteps`).
- */
+
 import type { CoverLetterFieldKey } from "@/lib/coverLetterFields";
 
 export type CoverLetterSectionKey =
@@ -24,11 +16,6 @@ export const defaultCoverLetterSectionOrder: CoverLetterSectionKey[] = [
   "letter",
 ];
 
-// i18n key for each section's step title, used by the completion-steps
-// checklist (`components/CompletionSteps.tsx`) — shared between
-// `CoverLetterBuilder.tsx`'s own inline rendering and `Sidebar.tsx`'s
-// (which shows the same checklist under the "My Cover Letters" link once
-// `AppState.coverLetterStepsSummary` is populated), so both stay in sync.
 export const coverLetterSectionStepTitleKey: Record<CoverLetterSectionKey, string> = {
   sender: "coverLetter.sectionSender",
   recipient: "coverLetter.sectionRecipient",
@@ -55,19 +42,11 @@ export const coverLetterSectionFieldKeys: Record<
   letter: ["greeting", "body", "closing", "signature"],
 };
 
-// Which of the Modern template's two visual zones (accent-colored sidebar
-// vs. plain main column) a section renders in — mirrors the resume's
-// `ModernSectionZones` (see `lib/resumeData.ts`), stored per-cover-letter
-// rather than fixed, since it's user-reassignable by dragging. Basic
-// ignores this entirely (single flat column, no zones).
 export type CoverLetterSectionZone = "sidebar" | "main";
 export type CoverLetterSectionZones = Partial<
   Record<CoverLetterSectionKey, CoverLetterSectionZone>
 >;
 
-// Sender info defaults to the sidebar (contact details read naturally in a
-// letterhead-style column) — every other section defaults to main, since a
-// multi-paragraph letter body reads poorly squeezed into a narrow sidebar.
 export const defaultCoverLetterSectionZones: Record<
   CoverLetterSectionKey,
   CoverLetterSectionZone
@@ -86,8 +65,6 @@ export function resolveCoverLetterSectionZone(
   return zones[key] ?? defaultCoverLetterSectionZones[key];
 }
 
-// Splits an ordered section list into the two zones, preserving each zone's
-// relative order — mirrors the resume's `splitSectionsByZone`.
 export function splitCoverLetterSectionsByZone(
   order: CoverLetterSectionKey[],
   zones: CoverLetterSectionZones,

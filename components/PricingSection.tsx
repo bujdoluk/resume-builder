@@ -1,28 +1,5 @@
 "use client";
 
-/**
- * Landing page pricing section (`id="pricing"`, linked from the upgrade
- * dialogs in ResumeBuilder.tsx/CoverLetterBuilder.tsx via `/#pricing`):
- * a feature-comparison table — one row per feature, one column per plan —
- * rather than three independent bullet lists, so every plan's full feature
- * set is visible and matching features line up across plans instead of
- * only listing each plan's differences from the one before it. Free (no
- * checkout, just links straight into the app) and Pro/Annual, which POST
- * to /api/stripe/checkout and redirect to Stripe's hosted Checkout page.
- * Logged-out/anonymous visitors are routed to /login first, since
- * Checkout needs a real account to attach the subscription to.
- *
- * The outer `#pricing` div deliberately carries no `mx-auto`/`max-w-*` of
- * its own (padding/centering live on inner divs instead) — this is a
- * direct child of LandingPage.tsx's `flex flex-col` root, and a flex item
- * with `mx-auto` opts out of the default stretch-to-container-width
- * behavior, sizing to its content instead (here, the comparison table's
- * intrinsic width) regardless of the viewport. That silently broke mobile
- * layout: the whole section — table included — rendered at the table's
- * full content width and got clipped by the root's `overflow-x-hidden`
- * instead of scrolling. Matches the same outer-padding/inner-centering
- * split already used by the hero and testimonials sections below.
- */
 import Link from "next/link";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";

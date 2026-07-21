@@ -1,11 +1,5 @@
 "use client";
 
-/**
- * Mobile-width editing form for the Modern template: mirrors Modern's dark
- * accent-colored block (photo/contact/skills/certifications/languages)
- * stacked above the main content area, sharing the same drag-and-drop
- * primitives and CRUD handlers as the desktop `Resume.tsx` canvas.
- */
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import AutoResizeTextarea from "@/components/AutoResizeTextarea";
@@ -92,10 +86,6 @@ function RemoveButton({
   );
 }
 
-// Sidebar-zone headers drop the accent-color text (the block already
-// carries its own contrast colour) in favor of a muted opacity-70 look — a
-// section keeps whichever style matches the zone it's currently placed in,
-// so dragging it between zones restyles its header.
 function SectionHeader({
   icon,
   title,
@@ -569,8 +559,6 @@ export default function ModernMobileTemplate({
     </fieldset>
   );
 
-  // About Me is freely draggable between the sidebar and main zones too
-  // (not just sections), so its header restyles the same way sections' do.
   const aboutMeZone: "main" | "sidebar" = sidebarItems.includes("aboutMe")
     ? "sidebar"
     : "main";
@@ -612,10 +600,6 @@ export default function ModernMobileTemplate({
     aboutMe,
   };
 
-  // Renders one section's editing UI for either zone — the fields
-  // themselves stay fully editable in both (this is a form, not a display
-  // template), only the header restyles to match Modern's sidebar
-  // (opacity-70, no accent color) vs. main (accent-colored) look.
   function renderSection(
     key: SectionKey,
     zone: "main" | "sidebar",

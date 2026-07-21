@@ -1,8 +1,4 @@
-/**
- * Emails a generated resume/cover-letter PDF as an attachment — used by
- * app/api/send-email/route.ts, which owns input validation (address
- * format, PDF size/emptiness, filename sanitization) before calling this.
- */
+
 import { escapeHtml } from "@/lib/email/escapeHtml";
 import { EMAIL_FROM, getResend } from "@/lib/email/resend";
 
@@ -12,7 +8,7 @@ export interface SendPdfEmailParams {
   pdfBuffer: Buffer;
 }
 
-export async function sendPdfEmail({ 
+export async function sendPdfEmail({
   to,
   fileName,
   pdfBuffer,

@@ -1,11 +1,5 @@
 "use client";
 
-/**
- * Navbar button for toggling which cover letter fields are visible — the
- * cover letter counterpart of `FeaturesDropdown.tsx`. Toggling a field off
- * removes it from `coverLetterFieldOrder`; toggling it back on appends it
- * at the end, same convention as the resume's `visibleFields`.
- */
 import { useTranslation } from "react-i18next";
 import { useAppState } from "@/components/AppState";
 import { FeaturesIcon } from "@/components/Icons";

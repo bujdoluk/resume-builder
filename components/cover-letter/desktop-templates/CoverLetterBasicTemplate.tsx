@@ -1,15 +1,5 @@
 "use client";
 
-/**
- * Read-only Basic cover letter template: a plain single-column business
- * letter layout (sender info, date, recipient info, subject, greeting,
- * body, closing) — used for the Preview modal and the always-mounted
- * print-only copy. Supports the same color/font/font-size/field-visibility
- * customization as the resume templates (see `TemplateProps` in
- * `components/resumes/desktop-templates/BasicTemplate.tsx`), applied here via
- * `accentColor` (subject line) and the shared `.resume-scalable` font-size
- * scaling mechanism.
- */
 import type { CoverLetterFieldKey } from "@/lib/coverLetterFields";
 import type { CoverLetterData } from "@/lib/coverLetterData";
 import type {
@@ -19,9 +9,6 @@ import type {
 import { getFontSizeStyle, type FontSizeKey } from "@/lib/fontSize";
 import { fontsByKey, type FontKey } from "@/lib/fonts";
 
-// `sectionOrder`/`sectionZones` are only meaningful for the Modern template
-// (which sections sit in its sidebar vs. main column) — Basic ignores
-// them, same as it already ignores parts of `color`.
 export interface CoverLetterTemplateProps {
   data: CoverLetterData;
   color?: string | null;

@@ -1,17 +1,5 @@
 "use client";
 
-/**
- * `/billing` route content: the current user's plan and, for a paid plan, a
- * self-service cancel/resume control — moved out of `AccountPage.tsx` so
- * "My Account" (user info, data export, account deletion) and "Billing"
- * (subscription/payment) are two separate destinations from the navbar's
- * email dropdown (`components/navbar/AuthButton.tsx`), matching how most
- * apps split those two concerns. Cancel/resume both POST to
- * app/api/stripe/cancel/route.ts, which toggles Stripe's
- * `cancel_at_period_end` and returns the fresh state directly — the
- * `subscriptions` table itself is still only ever written by the webhook
- * (app/api/stripe/webhook/route.ts), which catches up moments later.
- */
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";

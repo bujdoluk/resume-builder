@@ -1,14 +1,5 @@
 "use client";
 
-/**
- * Mobile-width editing form for the Elegant template: mirrors Elegant's
- * plain white main area (name, job title, contact fields, then About
- * Me/sections) stacked above an accent-colored block holding only the photo
- * plus whichever sections are currently in the sidebar zone — sharing the
- * same drag-and-drop primitives, CRUD handlers, and zone bookkeeping
- * (`useModernZoneLayout`) as the desktop `Resume.tsx` canvas and Modern's
- * mobile form.
- */
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import AutoResizeTextarea from "@/components/AutoResizeTextarea";
@@ -93,9 +84,6 @@ function RemoveButton({
   );
 }
 
-// Sidebar-zone headers drop the accent-color text (the block already
-// carries its own contrast colour) in favor of a muted opacity-70 look — a
-// section keeps whichever style matches the zone it's currently placed in.
 function SectionHeader({
   icon,
   title,

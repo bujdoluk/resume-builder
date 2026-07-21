@@ -1,13 +1,5 @@
 "use client";
 
-/**
- * `/reset-password` route content: the landing point after a visitor clicks
- * the link from `resetPassword` (lib/supabase/auth.ts). By the time this
- * renders, app/auth/callback/route.ts has already exchanged the email
- * link's code for a session, so this page only needs to collect a new
- * password and call `updatePassword` on that already-authenticated
- * session — there's no separate "verify this is really you" step here.
- */
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";

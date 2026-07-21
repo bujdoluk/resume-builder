@@ -1,23 +1,5 @@
 "use client";
 
-/**
- * Generic download button: generates a PDF (via `@react-pdf/renderer`), a
- * Word document (via `docx`), or a plain-text file — depending on `format`
- * — from whatever `pdfTemplate`/`pdfProps`/`textContent`/`buildDocxBlob`
- * the caller supplies, then triggers a browser download of the result.
- * Both `@react-pdf/renderer` and `docx` are dynamically imported only when
- * actually needed so neither's weight (~1MB+ each) bloats the initial
- * editor bundle — `buildDocxBlob` is a plain async function the caller
- * defines with the `docx` import inside its own body (see
- * `ResumeBuilder.tsx`'s `buildResumeDocxBlob`), so this component never
- * needs to reference the `docx` package's types at all. Reused by both the
- * resume editor (which looks up the right PDF template from
- * `pdfTemplates[templateId]`, since it has several swappable templates)
- * and the cover letter builder (which has only one template and just
- * passes it directly) — the generic type parameter lets each caller's own
- * PDF props shape (`PdfTemplateProps` vs `CoverLetterPdfTemplateProps`)
- * flow through untouched.
- */
 import { useState, type ComponentType } from "react";
 import { useTranslation } from "react-i18next";
 import { DownloadIcon } from "@/components/Icons";

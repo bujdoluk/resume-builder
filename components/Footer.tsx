@@ -1,12 +1,5 @@
 "use client";
 
-/**
- * Site-wide footer showing the localized copyright line with the current
- * year, links to the Privacy Policy/Terms of Service pages, plus a link to
- * reopen the cookie consent preferences (the only place a returning visitor
- * can change their earlier decision, since the banner itself only shows
- * once — see components/CookieConsent.tsx).
- */
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
 import { Temporal } from "temporal-polyfill";

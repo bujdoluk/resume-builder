@@ -1,11 +1,4 @@
-/**
- * Plain-text (.txt) rendering of a cover letter, used by `DownloadButton`/
- * `EmailButton` as the non-PDF export format. Mirrors
- * `components/pdf/CoverLetterPdfTemplate.tsx`'s field-visibility logic
- * (`isVisible`) and iterates `sectionOrder` so the block order matches
- * however the user has drag-reordered sections, rather than a hardcoded
- * layout.
- */
+
 import {
   isCoverLetterFieldFilled,
   type CoverLetterFieldKey,

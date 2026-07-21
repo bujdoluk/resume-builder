@@ -1,15 +1,5 @@
 "use client";
 
-/**
- * `/login` route content: a single card that toggles between logging into
- * an existing account and creating a new one, plus a "Continue with Google"
- * option. Signing up (email/password or Google) while the visitor still
- * only has a silent anonymous session (see lib/supabase/session.ts)
- * converts that session into a real account in place, via
- * `lib/supabase/auth.ts`, so their already-saved resumes/cover letters stay
- * attached. Logging into an existing separate account does not carry those
- * over — that's a genuinely different user id.
- */
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useRef, useState } from "react";
@@ -22,13 +12,6 @@ import { forgetSessionOnBrowserClose } from "@/lib/supabase/rememberMe";
 
 type Mode = "login" | "signup" | "reset";
 
-// Unset until you sign up at hCaptcha and add NEXT_PUBLIC_HCAPTCHA_SITE_KEY
-// (see .env.example) — the widget and its "please verify" validation are
-// both skipped entirely in that case, so local dev works before it's
-// configured. Doesn't affect Supabase actually enforcing CAPTCHA — that's
-// controlled separately in the Supabase Dashboard (Authentication → Attack
-// Protection); until it's turned on there, a captchaToken is accepted but
-// not required server-side.
 const HCAPTCHA_SITE_KEY = process.env.NEXT_PUBLIC_HCAPTCHA_SITE_KEY;
 
 function LoginForm() {
@@ -56,9 +39,7 @@ function LoginForm() {
     setError(null);
     setConfirmEmailSent(false);
     setResetLinkSent(false);
-    // Switching to/from reset mode unmounts one HCaptcha widget instance and
-    // mounts a different one — any token already solved for the old one
-    // doesn't carry over.
+
     setCaptchaToken(null);
   }
 

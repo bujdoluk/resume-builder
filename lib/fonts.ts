@@ -1,7 +1,4 @@
-/**
- * The Sidebar's "Typography" font picker options, each mapping to a CSS
- * variable registered by `next/font` in `app/layout.tsx`.
- */
+
 export type FontKey =
   | "inter"
   | "roboto"
@@ -22,9 +19,6 @@ export interface FontOption {
   variable: string;
 }
 
-// Each `variable` matches a CSS custom property registered by next/font in
-// app/layout.tsx; the value there is a real font-family stack, so setting
-// `fontFamily: var(--font-x)` anywhere picks it up.
 export const allFonts: FontOption[] = [
   { key: "inter", name: "Inter", variable: "var(--font-inter)" },
   { key: "roboto", name: "Roboto", variable: "var(--font-roboto)" },

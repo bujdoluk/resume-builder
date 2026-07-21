@@ -1,27 +1,5 @@
 "use client";
 
-/**
- * Persistent editor navigation column (rendered once in the `(app)`
- * layout, so it survives navigation between `/app`, `/templates`, and
- * `/my-resumes`): a link to the My Resumes list, with a resume-count
- * badge, and its own collapse/expand toggle to reclaim width for the
- * editing canvas. The Templates link and the Features/Colours/Typography/
- * Font Size controls that used to live here have moved to the Navbar (see
- * `components/navbar/`), shown only on `/app`.
- *
- * At the `lg` breakpoint (where this sidebar shows full labels, not just
- * icons), it also renders whichever builder's completion-steps checklist is
- * currently active, below the nav links — fed by
- * `AppState.resumeStepsSummary`/`coverLetterStepsSummary`, which
- * `ResumeBuilder.tsx`/`CoverLetterBuilder.tsx` publish while mounted (and
- * clear on unmount). Both summaries share one fixed slot (only one is ever
- * non-null at a time, since only one builder is ever mounted) rather than
- * each getting its own spot next to its own nav link — that would shift the
- * links below it up/down every time the checklist appeared, disappeared, or
- * changed length while editing. Below `lg`, the builders render the same
- * checklist inline themselves instead (this sidebar collapses to icon-only
- * tabs there, with no room for it).
- */
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
@@ -58,9 +36,6 @@ export default function Sidebar() {
   const [resumeCount, setResumeCount] = useState<number | null>(null);
   const [coverLetterCount, setCoverLetterCount] = useState<number | null>(null);
 
-  // Refetch whenever resumeListVersion is bumped (ResumeBuilder.tsx after a save,
-  // the "My Resumes" page after a delete) — this sidebar stays mounted
-  // across navigations, so those pages can't just rely on a remount.
   useEffect(() => {
     let cancelled = false;
 
@@ -80,9 +55,6 @@ export default function Sidebar() {
     };
   }, [supabase, resumeListVersion]);
 
-  // Same refetch pattern as the resume count, keyed off
-  // coverLetterListVersion (CoverLetterBuilder.tsx after a save, the "My
-  // Cover Letters" page after a delete).
   useEffect(() => {
     let cancelled = false;
 
@@ -104,7 +76,7 @@ export default function Sidebar() {
 
   return (
     <div className="bg-base-100 border-base-300 flex w-full flex-col border-b lg:h-full lg:w-auto lg:border-r lg:border-b-0">
-      {/* Mobile/tablet: icon-only tab bar at the top */}
+      {}
       <div role="tablist" className="tabs tabs-box m-2 lg:hidden">
         <Link
           href={lastEditorPath}
@@ -161,7 +133,7 @@ export default function Sidebar() {
         </Link>
       </div>
 
-      {/* Desktop: permanent left column with its own collapse toggle */}
+      {}
       <div
         className={`hidden transition-[width] duration-200 lg:flex lg:flex-col ${
           collapsed ? "lg:w-20" : "lg:w-64"

@@ -1,9 +1,4 @@
-/**
- * Emails a generated resume/cover-letter Word document as an attachment —
- * the .docx sibling of `lib/email/sendPdfEmail.ts` and
- * `lib/email/sendTextEmail.ts`, used by app/api/send-email/route.ts, which
- * owns input validation before calling this.
- */
+
 import { escapeHtml } from "@/lib/email/escapeHtml";
 import { EMAIL_FROM, getResend } from "@/lib/email/resend";
 

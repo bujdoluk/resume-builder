@@ -1,14 +1,5 @@
 "use client";
 
-/**
- * Small dropdown for picking which file format `DownloadButton`/
- * `EmailButton` should act on (PDF, Word, or plain text) — a single shared
- * choice governing both actions, rather than each button having its own
- * picker. Modeled directly on `LanguageSelect.tsx`'s hand-rolled daisyUI
- * dropdown (`dropdown` + `dropdown-content menu` + `active` class on the
- * selected item, same Escape-to-blur handling) so it matches the app's
- * existing dropdown convention instead of introducing a new one.
- */
 import { useTranslation } from "react-i18next";
 import { ChevronDownIcon } from "@/components/Icons";
 import type { ExportFormat } from "@/lib/exportFormat";

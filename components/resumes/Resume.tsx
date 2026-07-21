@@ -1,15 +1,5 @@
 "use client";
 
-/**
- * Desktop resume editing canvas: renders the currently selected template
- * (Basic/Modern/Minimal) as a live, directly-editable A4 page — every
- * personal-info field, section, and entry sub-field is both an input and a
- * `SortableBlock`, so the user drags things around on the canvas itself
- * rather than in a separate form. Each template branch (Modern's
- * sidebar+main grid, Minimal's centered layout, Basic's default layout)
- * composes the same `sectionContent`/`fieldContent` maps differently to
- * match its read-only counterpart in `components/resumes/desktop-templates/`.
- */
 import { rectSortingStrategy } from "@dnd-kit/sortable";
 import { Fragment, useState, type Dispatch, type SetStateAction } from "react";
 import { useTranslation } from "react-i18next";
@@ -78,16 +68,8 @@ interface ResumeProps {
   onChangeModernSectionZones: Dispatch<SetStateAction<ModernSectionZones>>;
 }
 
-// Personal-info fields that render in the Modern template's main column
-// instead of the sidebar — About Me stays spatially just before Work
-// History, which itself lives in the main column for Modern.
 const modernMainFieldKeys: FieldKey[] = ["aboutMe"];
 
-// The sub-fields within a single entry card (e.g. one Work Experience entry)
-// are also individually draggable in the editing form. Order is shared
-// across every entry of that type, same as the top-level fields/sections —
-// this only affects the editable form; the read-only Preview/PDF templates
-// keep their own fixed, per-template composition of these values.
 type WorkEntryFieldKey =
   | "position"
   | "dateFrom"
@@ -186,10 +168,6 @@ function SectionHeader({
     );
   }
 
-  // Modern's sidebar zone drops the accent-color text (the dark block
-  // already carries its own contrast color) in favor of a muted, opacity-70
-  // look — matches components/resumes/desktop-templates/ModernTemplate.tsx's sidebar
-  // headers, so a section keeps whichever style matches its current zone.
   if (variant === "sidebar") {
     return (
       <div className="mt-4 mb-2">

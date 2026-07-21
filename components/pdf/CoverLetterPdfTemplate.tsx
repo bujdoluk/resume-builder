@@ -1,11 +1,4 @@
-/**
- * `@react-pdf/renderer` version of the Basic cover letter template, used to
- * generate the downloaded PDF — must stay pixel-faithful to the on-screen
- * `components/cover-letter/desktop-templates/CoverLetterBasicTemplate.tsx`, including its
- * color/font/font-size/field-visibility customization (mirrors
- * `components/pdf/BasicPdfTemplate.tsx`'s `s()` scale helper and
- * `accentColor` pattern).
- */
+
 import { Document, Page, StyleSheet, Text, View } from "@react-pdf/renderer";
 import type { CoverLetterFieldKey } from "@/lib/coverLetterFields";
 import type { CoverLetterData } from "@/lib/coverLetterData";
@@ -17,9 +10,6 @@ import { getFontScaleRatio, type FontSizeKey } from "@/lib/fontSize";
 import type { FontKey } from "@/lib/fonts";
 import { GRAY_600, RESUME_TEXT_COLOR } from "@/lib/pdf/theme";
 
-// `sectionOrder`/`sectionZones` are only meaningful for the Modern PDF
-// template (which sections sit in its sidebar vs. main column) — Basic
-// ignores them, same as it already ignores parts of `color`.
 export interface CoverLetterPdfTemplateProps {
   data: CoverLetterData;
   color?: string | null;

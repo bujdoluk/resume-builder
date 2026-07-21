@@ -1,7 +1,4 @@
-/**
- * Shared layout for the `/app`, `/my-resumes`, and `/templates` routes:
- * renders the persistent editor `Sidebar` alongside the page content.
- */
+
 import Sidebar from "@/components/Sidebar";
 
 export default function AppLayout({ children }: Readonly<{

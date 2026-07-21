@@ -1,10 +1,4 @@
-/**
- * `createResumeFormHandlers` builds every add/update/remove function needed
- * to edit a resume's repeatable entries (work experience, education,
- * skills, certifications, languages, interests) plus the photo-upload
- * handler — shared by the desktop editing canvas and the per-template
- * mobile forms so this CRUD logic exists in exactly one place.
- */
+
 import { generateId } from "@/lib/generateId";
 import {
   languageLevels,
@@ -27,9 +21,6 @@ export interface ResumeFormHandlersProps {
   onInterestsChange: (interests: SimpleEntry[]) => void;
 }
 
-// Every add/update/remove function needed to edit a resume's entries, shared
-// across the desktop canvas and the per-template mobile forms so this logic
-// exists in exactly one place.
 export function createResumeFormHandlers({
   data,
   onChange,

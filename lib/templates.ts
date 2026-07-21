@@ -1,10 +1,4 @@
-/**
- * Registry of the three resume templates (Basic/Modern/Minimal), each
- * pairing its read-only desktop display component
- * (`components/resumes/desktop-templates/`) with its mobile editing template
- * (`components/resumes/mobile-templates/`) — the single source `ResumeBuilder.tsx` and the
- * `/templates` gallery look up templates by id from.
- */
+
 import type { ComponentType } from "react";
 import BasicMobileTemplate, {
   type MobileTemplateProps,

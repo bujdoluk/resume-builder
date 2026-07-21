@@ -1,12 +1,5 @@
 "use client";
 
-/**
- * Mobile-width editing form for the Basic template: a stacked, touch-
- * friendly counterpart to the desktop `Resume.tsx` canvas that mirrors
- * Basic's visual language (icon + gray-label section headers, plain white
- * background) while sharing the same drag-and-drop primitives and CRUD
- * handlers (`Sortable.tsx`, `useResumeFormHandlers.ts`).
- */
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import AutoResizeTextarea from "@/components/AutoResizeTextarea";
@@ -69,12 +62,6 @@ const defaultEducationFieldOrder: EducationEntryFieldKey[] = [
   "description",
 ];
 
-// Canonical shared props for all 3 mobile editing templates — Modern and
-// Minimal import this rather than redeclaring it, mirroring how
-// PdfTemplateProps already works for the PDF templates.
-// `modernSectionZones`/`onChangeModernSectionZones` are only meaningful for
-// Modern (which sections sit in its sidebar vs. main column); Basic and
-// Minimal ignore them, same as they already ignore parts of `color`.
 export interface MobileTemplateProps {
   data: ResumeData;
   onChange: (field: keyof ResumeData, value: string) => void;

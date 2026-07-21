@@ -1,17 +1,5 @@
 "use client";
 
-/**
- * Navbar auth control: a "Log in" link when the visitor is only signed in
- * anonymously (or not at all), or an email + logout dropdown once they hold
- * a real Supabase account. Subscribes to `onAuthStateChange` so it updates
- * immediately after the login page or a Google redirect completes, without
- * needing a full page reload. Logging out sends the visitor back to the
- * landing page.
- *
- * "Support" links to /support (components/SupportPage.tsx), which shows the
- * support email plainly plus a live-chat entry point — a real page rather
- * than an immediate click action, matching "My Account"/"Billing".
- */
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";

@@ -1,10 +1,4 @@
-/**
- * Every hand-drawn SVG icon used in the on-screen app UI (section headers,
- * contact fields, sidebar navigation, theme toggle, table row actions,
- * etc.) — each a thin wrapper around `IconBase` with its own Heroicons-style
- * path data. See `components/pdf/PdfIcons.tsx` for the equivalent set used
- * inside the generated PDF.
- */
+
 interface IconProps {
   className?: string;
   style?: React.CSSProperties;
@@ -435,10 +429,7 @@ export function ColoursIcon(props: IconProps) {
         strokeWidth="1.5"
         d="M12 3.75c-4.556 0-8.25 3.694-8.25 8.25S7.444 20.25 12 20.25c.9 0 1.5-.746 1.5-1.5 0-.4-.16-.76-.42-1.02-.26-.26-.42-.62-.42-1.02 0-.83.67-1.5 1.5-1.5h1.755c1.518 0 2.835-1.135 2.914-2.65C18.951 7.6 15.847 3.75 12 3.75Z"
       />
-      {/* Bright, distinct paint dabs (same reds/blues/yellows as the
-          accent-color swatches in lib/color.ts) instead of currentColor,
-          so the icon actually reads as "color" rather than matching
-          whatever muted gray the rest of the button uses. */}
+      {}
       <circle cx="7.5" cy="10.5" r="1.15" fill="#ef4444" stroke="none" />
       <circle cx="10.5" cy="7.5" r="1.15" fill="#3b82f6" stroke="none" />
       <circle cx="15" cy="8" r="1.15" fill="#eab308" stroke="none" />

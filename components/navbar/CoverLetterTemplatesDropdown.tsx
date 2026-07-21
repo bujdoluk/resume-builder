@@ -1,12 +1,5 @@
 "use client";
 
-/**
- * Navbar button for switching the cover letter's template — the cover
- * letter counterpart of `TemplatesDropdown.tsx`. Picking one just updates
- * the shared `AppState.coverLetterTemplateId` in place — no navigation, so
- * `CoverLetterBuilder.tsx`'s in-memory cover letter `data` is completely
- * untouched.
- */
 import { useTranslation } from "react-i18next";
 import { useAppState } from "@/components/AppState";
 import { TemplatesIcon } from "@/components/Icons";

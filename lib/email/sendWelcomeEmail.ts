@@ -1,10 +1,4 @@
-/**
- * Sends the subscription welcome email — called from
- * app/api/stripe/webhook/route.ts's checkout.session.completed handler,
- * only when the user had no prior subscriptions row (see the existence
- * check there), so this fires once per user, never on renewals, plan
- * switches, or resubscribes after a cancellation.
- */
+
 import * as Sentry from "@sentry/nextjs";
 import { EMAIL_FROM, getResend } from "@/lib/email/resend";
 

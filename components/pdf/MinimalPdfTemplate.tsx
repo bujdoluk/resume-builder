@@ -1,11 +1,4 @@
-/**
- * `@react-pdf/renderer` version of the Minimal template, used to generate
- * the downloaded PDF — mirrors the on-screen
- * `components/resumes/desktop-templates/MinimalTemplate.tsx`'s icon-free, centered layout
- * with bordered section-header dividers and left-accented entry cards,
- * including which elements stay fixed to daisyUI's theme purple versus
- * which respond to the user's custom accent color.
- */
+
 import { Document, Image, Page, StyleSheet, Text, View } from "@react-pdf/renderer";
 import type { PdfTemplateProps } from "@/components/pdf/BasicPdfTemplate";
 import {
@@ -46,9 +39,7 @@ export default function MinimalPdfTemplate({
     header: { alignItems: "center", textAlign: "center", marginBottom: 6 },
     photo: { width: 64, height: 64, borderRadius: 32, objectFit: "cover", marginBottom: 8 },
     name: { fontSize: s(26), fontWeight: "bold", letterSpacing: 1 },
-    // Mirrors the on-screen Minimal template exactly: the job title always
-    // stays daisyUI's fixed theme purple — unlike the section title border
-    // below, it never picks up the user's custom accent color.
+
     jobTitle: {
       fontSize: s(9),
       fontWeight: "bold",
@@ -73,8 +64,7 @@ export default function MinimalPdfTemplate({
       marginTop: 14,
       marginBottom: 8,
     },
-    // Also always fixed (border-primary/40 on screen never responds to the
-    // custom accent color either — see MinimalTemplate.tsx).
+
     entry: { borderLeftWidth: 1.5, borderLeftColor: DAISYUI_PRIMARY_40, paddingLeft: 8, marginBottom: 8 },
     row: { flexDirection: "row", justifyContent: "space-between", alignItems: "baseline" },
     entryTitle: { fontSize: s(12), fontWeight: "bold" },

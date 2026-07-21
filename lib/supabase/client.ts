@@ -1,7 +1,4 @@
-/**
- * Creates a Supabase client for use in Client Components (browser-side),
- * reading credentials from public env vars.
- */
+
 import { createBrowserClient } from "@supabase/ssr";
 
 export function createClient() {

@@ -1,13 +1,4 @@
-/**
- * Generates a random id for a new resume entry (work experience, education,
- * skill, etc.). `crypto.randomUUID()` is restricted to secure contexts per
- * the Web Crypto API spec — it throws "crypto.randomUUID is not a function"
- * on a plain-http origin that isn't literally `localhost`/`127.0.0.1` (e.g.
- * a hosts-file-mapped custom hostname like `dev.quickresumebuilder.online`,
- * used elsewhere in this app for local hCaptcha testing). `getRandomValues`
- * has no such restriction, so it's used directly to hand-roll a UUID v4
- * whenever `randomUUID` isn't available.
- */
+
 export function generateId(): string {
   if (typeof crypto !== "undefined" && typeof crypto.randomUUID === "function") {
     return crypto.randomUUID();

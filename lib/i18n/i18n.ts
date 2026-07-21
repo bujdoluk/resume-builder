@@ -1,8 +1,4 @@
-/**
- * i18next setup: loads every locale's translation JSON from `./locales/`
- * and initializes the singleton `i18n` instance used app-wide via
- * `react-i18next`'s `useTranslation()`.
- */
+
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 import cs from "./locales/cs.json";

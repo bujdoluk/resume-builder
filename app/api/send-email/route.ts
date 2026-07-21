@@ -1,26 +1,11 @@
-/**
- * Emails a generated resume/cover-letter PDF, Word document, or plain-text
- * file to an address the visitor types in. The file itself is generated
- * client-side (same `@react-pdf/renderer`/`docx`/`generate*Text` path as
- * `DownloadButton`) and posted here as base64 (PDF/Word) or a raw string
- * (text) so this route only has to hand it to Resend as an attachment. The
- * actual sends live in lib/email/sendPdfEmail.ts, lib/email/sendDocxEmail.ts,
- * and lib/email/sendTextEmail.ts, alongside this app's other transactional
- * email (lib/email/sendWelcomeEmail.ts).
- *
- * Guarded by the same invisible hCaptcha widget used for silent anonymous
- * sign-in (see lib/supabase/invisibleCaptcha.ts) — without it, this route
- * would let anyone spam arbitrary addresses through this app's Resend
- * account. See lib/hcaptcha.ts for why this route verifies the token
- * itself rather than relying on Supabase.
- */
+
 import { verifyCaptchaToken } from "@/lib/hcaptcha";
 import { sendDocxEmail } from "@/lib/email/sendDocxEmail";
 import { sendPdfEmail } from "@/lib/email/sendPdfEmail";
 import { sendTextEmail } from "@/lib/email/sendTextEmail";
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-// Bounds both binary attachment types (PDF and Word) identically.
+
 const MAX_ATTACHMENT_BYTES = 10 * 1024 * 1024;
 const MAX_TEXT_LENGTH = 500_000;
 

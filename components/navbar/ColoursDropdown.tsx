@@ -1,9 +1,5 @@
 "use client";
 
-/**
- * Navbar button for picking the resume's accent color (preset swatches or
- * a custom color) — moved out of the old Sidebar "Features" panel.
- */
 import { useTranslation } from "react-i18next";
 import { useAppState } from "@/components/AppState";
 import { ColoursIcon } from "@/components/Icons";

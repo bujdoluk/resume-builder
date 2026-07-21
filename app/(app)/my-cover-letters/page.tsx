@@ -1,12 +1,5 @@
 "use client";
 
-/**
- * `/my-cover-letters` route: lists every cover letter the current
- * (anonymous) user has saved in Supabase, with actions to rename,
- * duplicate, edit, or delete each one — the cover letter counterpart of
- * `/my-resumes` (`app/(app)/my-resumes/page.tsx`), simplified since a
- * cover letter has no per-item template/color/font to display.
- */
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";

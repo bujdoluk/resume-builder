@@ -1,11 +1,4 @@
-/**
- * `@react-pdf/renderer` version of the Elegant template, used to generate
- * the downloaded PDF — mirrors the on-screen
- * `components/resumes/desktop-templates/ElegantTemplate.tsx`'s white main column
- * (name, contact, About Me, numbered-bullet Work Experience, Education) on
- * the left beside an accent-colored sidebar (photo, pill-style Skills,
- * Certifications, donut-style Languages, Interests) on the right.
- */
+
 import { Document, Image, Page, StyleSheet, Text, View } from "@react-pdf/renderer";
 import {
   AboutMePdfIcon,
@@ -54,9 +47,7 @@ export default function ElegantPdfTemplate({
   const isVisible = (key: FieldKey) => !visibleFields || visibleFields.includes(key);
   const accentColor = color ?? undefined;
   const sidebarBg = color ?? DAISYUI_NEUTRAL;
-  // Matches ElegantTemplate.tsx's default exactly (plain "#ffffff", not
-  // DAISYUI_NEUTRAL_CONTENT's slightly-gray "#e4e4e7") so the `=== "#ffffff"`
-  // checks below for pill/track colors agree with the on-screen Preview.
+
   const sidebarFg = color ? getContrastTextColor(color) : "#ffffff";
   const pillBg = tintBackground(sidebarBg, sidebarFg);
   const fontFamily = font ?? "inter";
@@ -65,8 +56,7 @@ export default function ElegantPdfTemplate({
     page: { fontFamily, fontSize: s(10), color: RESUME_TEXT_COLOR, flexDirection: "row" },
     main: { flex: 1, padding: 24 },
     sidebar: {
-      // A4 is 595.28pt wide — matches the on-screen Preview's 80mm/210mm
-      // sidebar proportion (~38%) instead of an arbitrary fixed point value.
+
       width: 227,
       backgroundColor: sidebarBg,
       color: sidebarFg,
@@ -173,8 +163,6 @@ export default function ElegantPdfTemplate({
     );
   }
 
-  // Every section supports both zone looks — dragging it into the other
-  // zone on the editable canvas restyles the downloaded PDF to match.
   function renderSection(key: SectionKey, zone: "main" | "sidebar"): React.ReactNode {
     switch (key) {
       case "workExperience": {

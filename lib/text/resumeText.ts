@@ -1,10 +1,4 @@
-/**
- * Plain-text (.txt) rendering of a resume, used by `DownloadButton`/
- * `EmailButton` as the non-PDF export format. Field/entry filtering comes
- * from `lib/resumeContent.ts` (shared with `lib/docx/resumeDocx.ts`) so
- * `.txt`/`.docx`/Preview all agree on what counts as "filled in" — this
- * file only owns how that content is laid out as plain lines of text.
- */
+
 import { fieldLabels, type FieldKey } from "@/lib/fields";
 import {
   contactFieldKeys,

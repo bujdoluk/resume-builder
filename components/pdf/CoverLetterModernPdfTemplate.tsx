@@ -1,11 +1,4 @@
-/**
- * `@react-pdf/renderer` version of the Modern cover letter template, used
- * to generate the downloaded PDF — must stay pixel-faithful to the
- * on-screen `components/cover-letter/desktop-templates/CoverLetterModernTemplate.tsx`
- * (accent-colored sidebar defaulting to sender info, beside a white main
- * column), mirroring `components/pdf/ModernPdfTemplate.tsx`'s row-layout
- * `page`/`sidebar`/`main` pattern.
- */
+
 import { Document, Page, StyleSheet, Text, View } from "@react-pdf/renderer";
 import type { CoverLetterPdfTemplateProps } from "@/components/pdf/CoverLetterPdfTemplate";
 import { getContrastTextColor } from "@/lib/color";
@@ -72,11 +65,6 @@ export default function CoverLetterModernPdfTemplate({
   const closing = isVisible("closing") && data.closing;
   const signature = isVisible("signature") && data.senderName;
 
-  // Each zone gets its own `meta` style (sidebar: opacity-based, inherits
-  // the sidebar's own text color; main: a fixed gray) rather than sharing
-  // one, since react-pdf's `color` isn't affected by an ancestor View the
-  // way CSS `opacity` on a Text naturally blends with whatever `color` it
-  // inherits — mirrors the on-screen template's opacity-70 approach.
   function metaStyle(inSidebar: boolean) {
     return inSidebar ? styles.meta : styles.mainMeta;
   }

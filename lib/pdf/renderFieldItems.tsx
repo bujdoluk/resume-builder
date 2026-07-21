@@ -1,10 +1,4 @@
-/**
- * `renderPdfFieldItems` ports `components/resumes/desktop-templates/BasicTemplate.tsx` and
- * `MinimalTemplate.tsx`'s `renderFieldItems` (photo/name/job-title pairing,
- * plus Minimal's contact-field row-packing) to `@react-pdf/renderer`
- * primitives, so the printed PDF's field order faithfully matches whatever
- * order the user actually drag-reordered on screen.
- */
+
 import { View } from "@react-pdf/renderer";
 import type { Style as PdfStyle } from "@react-pdf/stylesheet";
 import type { FieldKey } from "@/lib/fields";
@@ -20,20 +14,11 @@ const defaultContactFieldKeys: FieldKey[] = [
 export interface RenderPdfFieldItemsOptions {
   photoRowStyle?: PdfStyle;
   photoTextColStyle?: PdfStyle;
-  // Minimal packs consecutive contact fields onto one wrapping row; Basic
-  // and Modern's sidebar don't.
+
   packContactFields?: boolean;
   contactRowStyle?: PdfStyle;
 }
 
-// Ports components/resumes/desktop-templates/BasicTemplate.tsx and MinimalTemplate.tsx's
-// renderFieldItems (photo/name/job-title pairing, plus Minimal's
-// contact-field row-packing) to react-pdf primitives — the on-screen
-// versions render an ordered list of <div>s, this one an ordered list of
-// <View>s, but the underlying "walk the user's actual drag-reordered field
-// order, grouping photo+name/jobTitle and (optionally) contact fields"
-// algorithm must stay identical, or the printed PDF silently stops matching
-// whatever order the user actually arranged on screen.
 export function renderPdfFieldItems(
   order: FieldKey[],
   fieldContent: Partial<Record<FieldKey, React.ReactNode>>,

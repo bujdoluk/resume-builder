@@ -1,13 +1,5 @@
 "use client";
 
-/**
- * Read-only Basic template: a simple, icon-and-gray-label single-column
- * layout with a daisyUI `timeline` for Work Experience/Education. Used for
- * the live editor's Preview modal and the `/templates` gallery — its
- * editable counterpart is `components/resumes/Resume.tsx`, and the
- * `@react-pdf/renderer` port for downloads is
- * `components/pdf/BasicPdfTemplate.tsx`.
- */
 import { Fragment } from "react";
 import { useTranslation } from "react-i18next";
 import { allFields, type FieldKey } from "@/lib/fields";
@@ -34,11 +26,6 @@ import {
   type SectionKey,
 } from "@/lib/resumeData";
 
-// Canonical shared props for all 3 read-only templates — Modern and Minimal
-// import this rather than redeclaring it, mirroring how PdfTemplateProps
-// already works for the PDF templates. `sectionZones` is only meaningful
-// for Modern (which sections sit in its sidebar vs. main column); Basic and
-// Minimal ignore it, same as they already ignore parts of `color`.
 export interface TemplateProps {
   data: ResumeData;
   sectionOrder: SectionKey[];
@@ -49,11 +36,6 @@ export interface TemplateProps {
   sectionZones?: ModernSectionZones;
 }
 
-// Renders a field order, pairing Photo with Name/Job Title (photo left,
-// text stacked right, height-matched to the photo) whenever they
-// immediately follow it — matches the same pairing rule used in the
-// editable form (components/resumes/Resume.tsx), so drag-reordering there is
-// reflected consistently here.
 function renderFieldItems(
   order: FieldKey[],
   fieldContent: Partial<Record<FieldKey, React.ReactNode>>,

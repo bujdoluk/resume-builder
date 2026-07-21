@@ -1,12 +1,5 @@
 "use client";
 
-/**
- * Admin-only "Add Blog" form, opened from components/BlogPageContent.tsx.
- * Same imperative-ref/Promise pattern as components/SaveResumeDialog.tsx,
- * but `open()` takes no args and resolves `true` once a post was actually
- * created (so the caller knows to `router.refresh()`), or `false` if
- * cancelled.
- */
 import { useImperativeHandle, useRef, useState, type Ref } from "react";
 import { useTranslation } from "react-i18next";
 import { Temporal } from "temporal-polyfill";

@@ -1,17 +1,4 @@
-/**
- * Stripe webhook — the only place that writes to the `subscriptions`
- * table, via the service-role client (bypasses RLS; the table has no
- * insert/update policy for regular users — see
- * supabase/migrations/0004_create_subscriptions.sql). Must read the
- * request as raw text (not `.json()`) since signature verification needs
- * the exact bytes Stripe sent.
- *
- * Note: `current_period_end`/`price` live on each subscription *item*
- * (`subscription.items.data[0]`) in this API version, not on the
- * top-level Subscription object — verified against the installed SDK's
- * type definitions rather than assumed, since this moved in a past Stripe
- * API version.
- */
+
 import type Stripe from "stripe";
 import * as Sentry from "@sentry/nextjs";
 import { sendWelcomeEmail } from "@/lib/email/sendWelcomeEmail";
@@ -82,9 +69,6 @@ export async function POST(request: Request) {
         const priceId = subscription?.items.data[0]?.price.id;
         const plan = planFromPriceId(priceId);
 
-        // Checked before upserting: a row already existing here means this
-        // user has subscribed before (even if later canceled) — a
-        // resubscribe or plan switch, not their first-ever subscription.
         const precheckClient = createServiceRoleClient();
         const { data: existingRow } = await precheckClient
           .from("subscriptions")

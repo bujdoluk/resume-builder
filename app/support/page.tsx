@@ -1,8 +1,4 @@
-/**
- * `/support` route: shows the support email and a live-chat entry point.
- * Linked from the navbar's `AuthButton` dropdown, alongside "My Account"
- * and "Billing". Unlike those two, this page doesn't require login.
- */
+
 import type { Metadata } from "next";
 import SupportPage from "@/components/SupportPage";
 

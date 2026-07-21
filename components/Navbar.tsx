@@ -1,17 +1,5 @@
 "use client";
 
-/**
- * Site-wide top navigation bar: the app name/home link, the editor-only
- * Templates/Features/Colours/Typography/Font Size buttons (shown on `/app`
- * for the resume and on `/cover-letter` for the cover letter, in the center
- * of the same row), plus the theme toggle and language selector. Colours/
- * Typography/Font Size are shared as-is between the two editors (same
- * global `color`/`font`/`fontSize` AppState); Templates/Features are
- * cover-letter-specific variants since they depend on resume-only types
- * (TemplateId, FieldKey). Rendered once in the root layout so it appears on
- * every route — including the landing page, where `AuthButton` shows the
- * login button.
- */
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useTranslation } from "react-i18next";

@@ -1,9 +1,4 @@
-/**
- * The Sidebar's accent-color swatch palette (rainbow hues darkened for
- * legibility, plus black/gray) and `getContrastTextColor`, which picks
- * black or white text to stay readable against an arbitrary user-picked
- * background (e.g. Modern's sidebar).
- */
+
 export interface AccentColor {
   name: string;
   value: string;
@@ -39,9 +34,6 @@ const mixWithBlack = (hex: string, ratio: number) => mixChannels(hex, 0, ratio);
 
 const DARK_RATIO = 0.25;
 
-// Stripped down to the essentials: the darkest tone of each rainbow hue,
-// plus black and one neutral gray. No white — Sidebar.tsx appends a
-// "custom color" swatch (native <input type="color">) as the last option.
 const darkHues: AccentColor[] = rainbowHues.map((hue) => ({
   name: `${hue.name} Dark`,
   value: mixWithBlack(hue.value, DARK_RATIO),

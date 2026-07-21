@@ -1,9 +1,4 @@
-/**
- * Registry of cover letter templates, mirroring `lib/templates.ts`'s
- * resume registry, so the Navbar's template thumbnail picker and the
- * builder's desktop/mobile switching follow the same pattern as the resume
- * side.
- */
+
 import type { ComponentType } from "react";
 import CoverLetterBasicMobileTemplate, {
   type CoverLetterMobileTemplateProps,

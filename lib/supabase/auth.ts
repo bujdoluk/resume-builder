@@ -1,42 +1,4 @@
-/**
- * Email/password + Google login and signup, on top of the silent anonymous
- * session `ensureUserId` creates. `signUp`/`continueWithGoogle` both take an
- * explicit `redirectTo` (the caller's own origin) rather than relying on
- * Supabase's dashboard-configured Site URL default — otherwise confirmation
- * emails/OAuth redirects sent from production would point at whatever Site
- * URL happens to be set in the dashboard (e.g. still `localhost:3000` from
- * initial local dev), which is broken for every real visitor.
- *
- * Email/password signup converts the
- * current anonymous user in place (via `updateUser`) when there is one, so
- * resumes/cover letters already saved under the anonymous id stay attached
- * — and if that email already belongs to an existing account, `updateUser`
- * fails with a clear "already in use" error the caller can show.
- *
- * Google deliberately does *not* do that anonymous-linking dance
- * (`linkIdentity`): that call fails outright if the Google identity is
- * already linked to a different user, which is exactly what happens for
- * any returning user on a fresh anonymous session (new device, cleared
- * cookies, etc.) — a far more common case than a brand-new user's first
- * ever Google signup. So Google always just signs in/up normally; the
- * trade-off is anonymous data isn't auto-carried into a first-time Google
- * account the way it is for email/password.
- *
- * Logging into an *existing* separate account (either method) is a
- * genuinely different user id from the anonymous session — its data can't
- * carry over, since Supabase has no server-side merge for that and this
- * project has no service-role key to do it manually.
- *
- * `logIn`/`signUp`/`resetPassword` take an optional `captchaToken` (from
- * components/LoginPage.tsx's hCaptcha widget), forwarded to Supabase for
- * server-side verification once CAPTCHA protection is turned on in the
- * Supabase Dashboard (Authentication → Attack Protection) — until then
- * it's harmlessly ignored. The anonymous-conversion `updateUser` path
- * inside `signUp` never takes one: it operates on an already-authenticated
- * session, and Supabase's `updateUser` endpoint doesn't accept a
- * captchaToken at all (only the public, unauthenticated auth endpoints —
- * signup, sign-in, password reset — are gated by CAPTCHA).
- */
+
 import type { AuthError, SupabaseClient } from "@supabase/supabase-js";
 
 export type AuthErrorCode =
@@ -114,13 +76,6 @@ export async function continueWithGoogle(supabase: SupabaseClient, redirectTo: s
   if (error) throw new AuthActionError("oauth", error);
 }
 
-// Emails a recovery link to `email`; clicking it lands back on `redirectTo`
-// (routed through app/auth/callback/route.ts, same as every other auth
-// redirect here) with a session already established, ready for
-// `updatePassword` below. Supabase intentionally returns success here
-// regardless of whether the email has an account, to avoid leaking which
-// emails are registered — so this never surfaces an "account not found"
-// error, matching the same reasoning as the login error message.
 export async function resetPassword(
   supabase: SupabaseClient,
   email: string,
@@ -131,8 +86,6 @@ export async function resetPassword(
   if (error) throw new AuthActionError("generic", error);
 }
 
-// Sets a new password on whichever session is currently active — normally
-// the recovery session created by clicking the reset-password email link.
 export async function updatePassword(supabase: SupabaseClient, password: string): Promise<void> {
   const { error } = await supabase.auth.updateUser({ password });
   if (error) throw mapSignUpError(error);

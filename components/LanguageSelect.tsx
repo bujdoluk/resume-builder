@@ -1,10 +1,5 @@
 "use client";
 
-/**
- * Navbar dropdown for switching the app's UI language: shows the current
- * language's flag/name and lists every supported language from
- * `lib/i18n/languages.ts`, updating the shared `AppState` language on pick.
- */
 import { useTranslation } from "react-i18next";
 import { useAppState } from "@/components/AppState";
 import { ChevronDownIcon } from "@/components/Icons";

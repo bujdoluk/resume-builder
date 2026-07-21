@@ -1,34 +1,5 @@
 "use client";
 
-/**
- * The cover letter's complete visual layout — field/section markup grouped
- * into five sections (sender info, recipient info, date, subject, letter),
- * plus the outer sizing container (paper-width desktop canvas vs. fluid
- * stacked mobile form) and, for the Modern template, the accent-colored
- * sidebar + white main column split (mirroring the resume's Modern
- * `Resume.tsx`/`ModernMobileTemplate.tsx`). This one component owns ALL of
- * that — for every template × both view modes — the same role
- * `components/resumes/Resume.tsx` plays for the resume (build the field/
- * section content once, then branch the surrounding layout by
- * `templateId`), so `CoverLetter.tsx` (desktop) and the
- * `mobile-templates/*.tsx` files are just thin wrappers that pick
- * `mobile`/lock in a `templateId` and forward every other prop through.
- *
- * `fieldOrder`/`onReorderFields` hold ALL 16 fields' order AND visibility in
- * one flat array (a hidden field is simply absent — same convention as the
- * resume's `visibleFields`), even though each section drags independently:
- * dragging within one section reorders only that section's subsequence,
- * then splices the result back into the full array via
- * `replaceSubsequence` so the other sections' relative positions (and any
- * currently-hidden fields elsewhere in the array) are left untouched. A
- * section collapses entirely once all of its own fields are hidden.
- * `sectionOrder`/`onReorderSections` work the same way at the section
- * level. For Modern, `sectionZones`/`onChangeSectionZones` additionally
- * track which of the two zones (sidebar/main) each section currently sits
- * in — mirroring the resume's `modernSectionZones` — and every section is
- * tagged with `anchor` so the Builder's completion-steps panel can scroll
- * to it regardless of which template/zone it's currently in.
- */
 import { useTranslation } from "react-i18next";
 import AutoResizeTextarea from "@/components/AutoResizeTextarea";
 import {
@@ -71,11 +42,6 @@ const senderKeys = coverLetterSectionFieldKeys.sender;
 const recipientKeys = coverLetterSectionFieldKeys.recipient;
 const letterKeys = coverLetterSectionFieldKeys.letter;
 
-// Splices a reordered subsequence (e.g. just the sender fields after a drag
-// within that section, the visible sections after a drag of the sections
-// themselves, or the sidebar/main zones after a cross-zone drag) back into
-// a full order, replacing each occurrence of a `subsequenceKeys` member in
-// place so every other item's position is left untouched.
 function replaceSubsequence<T>(
   fullOrder: T[],
   subsequenceKeys: T[],
@@ -87,13 +53,6 @@ function replaceSubsequence<T>(
   );
 }
 
-// `isFirst` is passed explicitly based on the section's index in whichever
-// list it's currently rendered from (the flat visible order for Basic, or
-// its own zone's item list for Modern) rather than relying on a CSS
-// `first:` selector — every section lives in its own `SortableBlock`
-// wrapper (for the section-level drag), so every header is the first child
-// of ITS OWN parent regardless of position, and `first:mt-0` would fire for
-// all of them instead of just the topmost one in each list.
 function SectionHeader({
   title,
   color,

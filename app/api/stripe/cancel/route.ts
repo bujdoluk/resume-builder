@@ -1,17 +1,4 @@
-/**
- * Cancels or resumes the current user's subscription (toggles Stripe's
- * `cancel_at_period_end`) — the in-app replacement for redirecting to
- * Stripe's hosted Billing Portal, used by components/AccountPage.tsx.
- *
- * Looks up `stripe_subscription_id` via the normal session-scoped client
- * (the `subscriptions` table's select policy already allows a user to
- * read their own row — see supabase/migrations/0004_create_subscriptions.sql).
- * The actual `subscriptions` table write still only ever happens in the
- * webhook (app/api/stripe/webhook/route.ts), which fires moments later in
- * response to this Stripe API call — this route just returns the fresh
- * Stripe state directly so the UI can update immediately without waiting
- * on that round-trip.
- */
+
 import { getStripe } from "@/lib/stripe";
 import { createClient } from "@/lib/supabase/server";
 

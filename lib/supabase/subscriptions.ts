@@ -1,11 +1,4 @@
-/**
- * Read-only access to the `subscriptions` table. Rows are only ever
- * written by the Stripe webhook (app/api/stripe/webhook/route.ts) via the
- * service-role client — the table has no insert/update/delete policies for
- * regular users (see supabase/migrations/0004_create_subscriptions.sql). A
- * user with no row — every free user — is treated as plan "free"; no row
- * is ever written just for being on the free plan.
- */
+
 import type { SupabaseClient } from "@supabase/supabase-js";
 
 export type Plan = "free" | "pro" | "annual";
@@ -50,8 +43,7 @@ export async function getSubscription(
   if (!data) return FREE_SUBSCRIPTION;
 
   const row = data as SubscriptionTableRow;
-  // A row left over from a lapsed/canceled subscription (status no longer
-  // active/trialing) no longer grants paid limits, regardless of `plan`.
+
   if (row.status !== "active" && row.status !== "trialing") return FREE_SUBSCRIPTION;
 
   return {

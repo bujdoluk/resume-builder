@@ -1,14 +1,5 @@
 "use client";
 
-/**
- * `/support` route content: a card matching `BillingPage.tsx`/`AccountPage.tsx`'s
- * shape, showing the support email plainly (reliable regardless of Tawk.to
- * being configured or consented to) plus a "Start Live Chat" button that
- * tries the Tawk.to widget and falls back to a mailto: link if it's not
- * available (see lib/tawkChat.ts). Unlike Account/Billing, this page needs
- * no login — support should be reachable whether or not you have an
- * account.
- */
 import { useRouter } from "next/navigation";
 import { useTranslation } from "react-i18next";
 import { ArrowLeftIcon } from "@/components/Icons";

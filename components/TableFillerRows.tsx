@@ -1,10 +1,4 @@
-/**
- * Invisible `<tr>` padding rows appended after a paginated table's real
- * rows so every page renders the same number of rows (and thus the same
- * height) regardless of how many items are on it — otherwise a half-full
- * last page makes the pagination bar (and everything below it) jump
- * position compared to a full page, a layout shift on every page change.
- */
+
 export default function TableFillerRows({
   count,
   checkboxColumn = false,

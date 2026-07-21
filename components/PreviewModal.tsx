@@ -1,21 +1,5 @@
 "use client";
 
-/**
- * Generic full-page Preview modal opened from an editor's "Preview" button —
- * renders whatever `templateComponent` and `templateProps` the caller
- * supplies, scaled to fit the viewport on mobile widths via
- * `ScaleToFitWidth`. Also renders a second, always-mounted copy of the
- * template (`#pdf-area`) that's hidden on screen and only shown under
- * `@media print` (app/globals.css), so the Print button can call
- * `window.print()` without the dialog ever popping open. Exposed via a ref
- * handle (`open()`/`print()`), mirroring `ConfirmDialog`/`SaveResumeDialog`.
- *
- * Reused by both the resume editor (`templateComponent` looked up from
- * `templates`, since it has several swappable templates) and the cover
- * letter builder (which has only one template and just passes it directly)
- * — the generic type parameter lets each caller's own props shape
- * (`TemplateProps` vs `CoverLetterTemplateProps`) flow through untouched.
- */
 import {
   useImperativeHandle,
   useRef,

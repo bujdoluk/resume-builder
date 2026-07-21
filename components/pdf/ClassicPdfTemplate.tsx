@@ -1,10 +1,4 @@
-/**
- * `@react-pdf/renderer` version of the Classic template, used to generate
- * the downloaded PDF — a copy of BasicPdfTemplate.tsx with a colored header
- * band (photo/name/job title/contact) at the top, mirroring the on-screen
- * `components/resumes/desktop-templates/ClassicTemplate.tsx`. About Me and every
- * section stay in the plain white body below, unchanged from Basic.
- */
+
 import { Document, Image, Page, StyleSheet, Text, View } from "@react-pdf/renderer";
 import {
   AboutMePdfIcon,
@@ -105,10 +99,7 @@ export default function ClassicPdfTemplate({
     fieldsCol: { flexDirection: "column", gap: 4 },
     photoRow: { flexDirection: "row", alignItems: "stretch", gap: 14 },
     photoTextCol: { flex: 1, flexDirection: "column", justifyContent: "center", gap: 2 },
-    // Mirrors daisyUI's timeline-vertical.timeline-compact component from the
-    // on-screen Basic/Classic templates: a narrow dot-and-line rail on the
-    // left, and to its right a single column where the date sits above a
-    // bordered "timeline-box" card.
+
     timelineWrap: { position: "relative" },
     timelineLine: {
       position: "absolute",
@@ -161,8 +152,6 @@ export default function ClassicPdfTemplate({
     );
   }
 
-  // Mirrors the on-screen Basic/Classic templates' daisyUI `timeline`
-  // component — see the timelineWrap/timelineLine/timelineBox styles above.
   function timelineEntries(entries: { id: string; dateRange: string; content: React.ReactNode }[]) {
     return (
       <View style={styles.timelineWrap}>

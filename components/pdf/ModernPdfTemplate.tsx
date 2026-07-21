@@ -1,10 +1,4 @@
-/**
- * `@react-pdf/renderer` version of the Modern template, used to generate
- * the downloaded PDF — mirrors the on-screen
- * `components/resumes/desktop-templates/ModernTemplate.tsx`'s dark/accent-colored sidebar
- * (photo, contact, skills, certifications, languages) plus main column
- * (About Me, Work Experience, Education, Interests).
- */
+
 import { Document, Image, Page, StyleSheet, Text, View } from "@react-pdf/renderer";
 import {
   AboutMePdfIcon,
@@ -114,11 +108,6 @@ export default function ModernPdfTemplate({
     modernSectionZones ?? {},
   );
 
-  // About Me is freely draggable between zones too (not just sections), so
-  // it's excluded from the plain field list here and placed separately
-  // below based on its own zone assignment (no pairing/packing either way,
-  // unlike Basic/Minimal: Modern always shows the photo centered alone with
-  // name/job title stacked below it).
   const fieldOrder = visibleFields ?? allFields;
   const sidebarFieldKeys = fieldOrder.filter((key) => key !== "aboutMe");
   const aboutMeZone = resolveModernSectionZone("aboutMe", modernSectionZones ?? {});
@@ -141,10 +130,6 @@ export default function ModernPdfTemplate({
     );
   }
 
-  // Renders one section in either of Modern's two zone looks — every
-  // section type supports both, so dragging it into the other zone (on the
-  // editable canvas, components/resumes/Resume.tsx) restyles the downloaded PDF to
-  // match instead of leaving it stuck with its "native" zone's appearance.
   function renderSection(
     key: SectionKey,
     zone: "main" | "sidebar",

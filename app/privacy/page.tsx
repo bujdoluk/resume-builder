@@ -1,17 +1,4 @@
-/**
- * `/privacy` route: Privacy Policy, including the Cookie Policy as its own
- * `#cookies` section rather than a separate page. Plain static content —
- * no data fetching, no client interactivity — matching `app/blog/page.tsx`'s
- * metadata-export + <Footer/> shape. Deliberately English-only (see this
- * file's own placeholders below): unlike short UI labels, legal text isn't
- * something to machine-translate into 13 languages without native-speaker
- * legal review.
- *
- * This is a starting draft, not legal advice — have an actual lawyer review
- * it before relying on it, and fill in the bracketed placeholders below
- * (governing-law jurisdiction lives in /terms; a physical business address
- * here if your jurisdiction requires one in a privacy notice).
- */
+
 import type { Metadata } from "next";
 import Footer from "@/components/Footer";
 import { SUPPORT_EMAIL } from "@/lib/supportEmail";

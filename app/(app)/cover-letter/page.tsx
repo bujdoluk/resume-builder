@@ -1,8 +1,4 @@
-/**
- * Route entry for `/cover-letter`, the cover letter builder. Reads the `id`
- * query param on the server and hands it to the client-side
- * `CoverLetterBuilder` component, which owns all editor state.
- */
+
 import type { Metadata } from "next";
 import CoverLetterBuilder from "@/components/cover-letter/CoverLetterBuilder";
 

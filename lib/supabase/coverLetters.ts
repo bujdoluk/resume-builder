@@ -1,9 +1,4 @@
-/**
- * CRUD operations against the Supabase `cover_letters` table — the cover
- * letter counterpart of `lib/supabase/resumes.ts`, kept simpler since
- * there's only one template: save (insert or update), get/list/count by
- * user, delete, rename, and duplicate a cover letter.
- */
+
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { Temporal } from "temporal-polyfill";
 import type { CoverLetterData } from "@/lib/coverLetterData";

@@ -1,20 +1,5 @@
 "use client";
 
-/**
- * Top-level cover letter builder page component rendered by the
- * `/cover-letter` route: owns the cover letter's data state, loads a saved
- * one by id, and renders either the mobile editing form or the desktop
- * editing canvas (mirroring `ResumeBuilder.tsx`'s mobile/desktop split between
- * `MobileTemplateComponent` and `Resume.tsx`) alongside Preview/Save/Print/
- * Download actions plus a completion-steps checklist (`renderInlineSteps`,
- * mirroring `ResumeBuilder.tsx`'s `renderSectionSteps` but simpler — one
- * fixed template, and a single, non-repeatable field per section instead of
- * arbitrary-length entries, so each step is either fully filled or not).
- * Below the `lg` breakpoint the checklist renders inline; at `lg`+,
- * `Sidebar.tsx` renders the same checklist itself (fed via
- * `AppState.coverLetterStepsSummary`, published by the effect below) under
- * its "My Cover Letters" link instead.
- */
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useTranslation } from "react-i18next";
@@ -100,10 +85,6 @@ export default function CoverLetterBuilder({
     visibleFields: coverLetterFieldOrder,
   });
 
-  // `docx` is dynamically imported here (inside this closure), rather than
-  // statically at the top of this file, so it stays out of the initial
-  // editor bundle — only loaded once the user actually picks "Word (.docx)"
-  // and clicks Download/Email.
   async function buildCoverLetterDocxBlob(): Promise<Blob> {
     const [{ generateCoverLetterDocx }, { Packer }] = await Promise.all([
       import("@/lib/docx/coverLetterDocx"),
@@ -137,9 +118,6 @@ export default function CoverLetterBuilder({
     setData((prev) => ({ ...prev, [field]: value }));
   }
 
-  // {filled, total} counts only the section's fields that are currently
-  // visible (present in `coverLetterFieldOrder`) — a field hidden via the
-  // Navbar's Features control doesn't count toward either number.
   function fieldCompletionStats(key: CoverLetterSectionKey): {
     filled: number;
     total: number;
@@ -160,13 +138,6 @@ export default function CoverLetterBuilder({
     return stats.total > 0 && stats.filled === stats.total;
   }
 
-  // A section with none of its own fields currently visible has nothing to
-  // fill in or scroll to, so it doesn't get a step — mirrors how it also
-  // collapses entirely out of the editor itself. Recomputed every render
-  // (cheap — a handful of sections) and both rendered inline below *and*
-  // published to `AppState.coverLetterStepsSummary` (see the effect below)
-  // so `Sidebar.tsx` can show the identical checklist under "My Cover
-  // Letters" once the `lg` breakpoint takes over from this inline copy.
   const stepKeys = sectionOrder.filter((key) => fieldCompletionStats(key).total > 0);
   const incompleteKeys = stepKeys.filter((key) => !isStepFilled(key));
   const stepStats = stepKeys.map((key) => fieldCompletionStats(key));
@@ -175,17 +146,6 @@ export default function CoverLetterBuilder({
   const completionPercent =
     totalStepFields > 0 ? Math.round((filledStepFields / totalStepFields) * 100) : 0;
 
-  // Publishes the current steps snapshot to shared state so Sidebar.tsx can
-  // render it too, and clears it on unmount so the sidebar shows nothing
-  // extra once the user navigates away from this editor.
-  //
-  // Deliberately depends on `data`/`sectionOrder`/`coverLetterFieldOrder`
-  // (the actual inputs) rather than `stepKeys`/`incompleteKeys` themselves:
-  // those are new array literals every render, so depending on them
-  // directly would make the effect's deps look "changed" on the very
-  // re-render its own `setCoverLetterStepsSummary` call causes (this
-  // component reads `coverLetterFieldOrder` from the same AppState context
-  // it just wrote to) — an infinite update loop, not just a wasted render.
   useEffect(() => {
     setCoverLetterStepsSummary(
       stepKeys.length === 0 ? null : { stepKeys, incompleteKeys, completionPercent },
@@ -195,8 +155,7 @@ export default function CoverLetterBuilder({
   }, [data, sectionOrder, coverLetterFieldOrder, setCoverLetterStepsSummary]);
 
   function renderInlineSteps() {
-    // Hidden at `lg`+, where Sidebar.tsx takes over showing this same
-    // checklist under "My Cover Letters" instead.
+
     return (
       <div className="lg:hidden">
         <CompletionSteps

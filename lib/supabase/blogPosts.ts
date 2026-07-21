@@ -1,10 +1,4 @@
-/**
- * Reads/writes the `blog_posts` table. Anyone can read (public blog); only
- * admins can insert (see supabase/migrations/0006_create_blog_posts.sql —
- * the RLS `insert` policy checks `app_metadata.role`, granted via
- * scripts/set-admin.mjs). There's no update/delete yet since only "add" was
- * requested.
- */
+
 import type { SupabaseClient } from "@supabase/supabase-js";
 
 export type BlogCategoryKey =

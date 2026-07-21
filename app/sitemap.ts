@@ -1,10 +1,4 @@
-/**
- * Generates `/sitemap.xml` listing the site's public routes (landing page,
- * templates gallery, editor) with their change frequency and priority,
- * plus one entry per blog post — needed since posts are admin-created at
- * runtime and app/blog/[slug]/page.tsx has no generateStaticParams to
- * otherwise enumerate them for crawlers.
- */
+
 import type { MetadataRoute } from "next";
 import { Temporal } from "temporal-polyfill";
 import { createClient } from "@/lib/supabase/server";

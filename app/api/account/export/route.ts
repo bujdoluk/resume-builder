@@ -1,14 +1,4 @@
-/**
- * Returns everything tied to the current user's account as one JSON
- * payload — used by the "Export my data" control on
- * components/AccountPage.tsx, which turns this response into a downloaded
- * file client-side (same blob-download pattern as DownloadButton.tsx)
- * rather than this route driving the download itself.
- *
- * No service-role client needed — every read here goes through the normal
- * session-scoped client, and RLS already scopes `resumes`/`cover_letters`/
- * `subscriptions` reads to the caller's own rows.
- */
+
 import { Temporal } from "temporal-polyfill";
 import { createClient } from "@/lib/supabase/server";
 import { listAllCoverLetters } from "@/lib/supabase/coverLetters";

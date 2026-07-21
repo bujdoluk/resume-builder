@@ -1,8 +1,4 @@
-/**
- * CRUD operations against the Supabase `resumes` table: save (insert or
- * update), list/count/get/delete/rename/duplicate a resume, plus the
- * snake_case ↔ camelCase row mapping between the DB schema and `ResumeRow`.
- */
+
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { Temporal } from "temporal-polyfill";
 import type { FieldKey } from "@/lib/fields";

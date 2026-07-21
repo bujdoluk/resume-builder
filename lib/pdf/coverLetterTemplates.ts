@@ -1,9 +1,4 @@
-/**
- * Maps each `CoverLetterTemplateId` to its `@react-pdf/renderer` component —
- * the PDF counterpart of `lib/coverLetterTemplates.ts`, used by
- * `CoverLetterBuilder.tsx`'s download handler to pick the right template to
- * render into the generated PDF. Mirrors `lib/pdf/templates.ts`.
- */
+
 import type { ComponentType } from "react";
 import CoverLetterModernPdfTemplate from "@/components/pdf/CoverLetterModernPdfTemplate";
 import CoverLetterPdfTemplate, {

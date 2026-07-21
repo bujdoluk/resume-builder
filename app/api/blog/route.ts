@@ -1,10 +1,4 @@
-/**
- * Creates a blog post (components/AddBlogPostDialog.tsx). Requires an
- * admin session — checked here for a clean 403, and enforced independently
- * by the `blog_posts` insert RLS policy (supabase/migrations/0006_create_blog_posts.sql),
- * which is the actual authorization boundary. Inserts via the
- * request-scoped client (not service-role) so that policy applies.
- */
+
 import { createClient } from "@/lib/supabase/server";
 import { blogCategories, createBlogPost } from "@/lib/supabase/blogPosts";
 

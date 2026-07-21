@@ -1,12 +1,5 @@
 "use client";
 
-/**
- * Read-only Minimal template: an icon-free, centered layout with bordered
- * section-header dividers and left-accented entry cards. Used for the live
- * editor's Preview modal and the `/templates` gallery — its editable
- * counterpart is `components/resumes/Resume.tsx`, and the `@react-pdf/renderer`
- * port for downloads is `components/pdf/MinimalPdfTemplate.tsx`.
- */
 import { Fragment } from "react";
 import { useTranslation } from "react-i18next";
 import type { TemplateProps } from "@/components/resumes/desktop-templates/BasicTemplate";
@@ -39,8 +32,6 @@ function SectionTitle({
   );
 }
 
-// Contact fields packed onto shared, wrapping rows instead of stacking
-// one-per-line — mirrors the editable form (components/resumes/Resume.tsx).
 const contactFieldKeys: FieldKey[] = [
   "phone",
   "email",
@@ -49,12 +40,6 @@ const contactFieldKeys: FieldKey[] = [
   "linkedin",
 ];
 
-// Renders a field order, pairing Photo with Name/Job Title (photo left,
-// text stacked right, height-matched to the photo) whenever they
-// immediately follow it, and packing any immediately-consecutive run of
-// contact fields onto a shared flex-wrap row — matches the same rules used
-// in the editable form (components/resumes/Resume.tsx), so drag-reordering there is
-// reflected consistently here.
 function renderFieldItems(
   order: FieldKey[],
   fieldContent: Partial<Record<FieldKey, React.ReactNode>>,
@@ -128,10 +113,6 @@ function renderFieldItems(
   return nodes;
 }
 
-/**
- * Third template: a clean, centered-header single column with no icons or
- * timeline dots — entries are set off with a thin left accent border instead.
- */
 export default function MinimalTemplate({
   data,
   sectionOrder,

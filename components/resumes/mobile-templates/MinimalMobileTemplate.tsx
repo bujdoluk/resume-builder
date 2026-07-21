@@ -1,11 +1,5 @@
 "use client";
 
-/**
- * Mobile-width editing form for the Minimal template: icon-free, centered
- * layout with bordered section-header dividers and left-accented entry
- * cards, sharing the same drag-and-drop primitives and CRUD handlers as the
- * desktop `Resume.tsx` canvas.
- */
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import AutoResizeTextarea from "@/components/AutoResizeTextarea";
@@ -86,8 +80,6 @@ function RemoveButton({
   );
 }
 
-// No icons anywhere in Minimal — headers get a bottom border/divider instead,
-// driven by the accent colour, with wide letter-spacing.
 function SectionHeader({ title, color }: { title: string; color?: string | null }) {
   return (
     <div

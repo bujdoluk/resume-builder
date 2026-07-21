@@ -1,8 +1,4 @@
-/**
- * `/login` route: public login/signup page, linked from the navbar's
- * `AuthButton`. Defines page-specific SEO metadata, then renders
- * `LoginPage`.
- */
+
 import type { Metadata } from "next";
 import LoginPage from "@/components/LoginPage";
 

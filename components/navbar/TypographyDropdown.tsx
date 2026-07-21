@@ -1,13 +1,5 @@
 "use client";
 
-/**
- * Navbar button for picking the resume's font — moved out of the old
- * Sidebar "Features" panel. Renders every font as its own button in a grid
- * (all visible at once, no scrolling — matching Font Size's row-of-buttons
- * pattern), each styled in its actual font, rather than a native `<select>`:
- * browsers largely ignore inline `font-family` styling on `<option>`
- * elements, so the old select never really showed a live preview.
- */
 import { useTranslation } from "react-i18next";
 import { useAppState } from "@/components/AppState";
 import { TypographyIcon } from "@/components/Icons";

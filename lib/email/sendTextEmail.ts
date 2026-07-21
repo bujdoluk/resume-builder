@@ -1,9 +1,4 @@
-/**
- * Emails a generated resume/cover-letter plain-text file as an attachment —
- * the .txt sibling of `lib/email/sendPdfEmail.ts`, used by
- * app/api/send-email/route.ts, which owns input validation before calling
- * this.
- */
+
 import { escapeHtml } from "@/lib/email/escapeHtml";
 import { EMAIL_FROM, getResend } from "@/lib/email/resend";
 

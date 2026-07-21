@@ -1,14 +1,5 @@
 "use client";
 
-/**
- * Generic email button: opens a dialog asking for a recipient address, then
- * generates the same client-side PDF/Word/plain-text content as
- * `DownloadButton` — depending on `format` — and posts it to
- * `/api/send-email`, which relays it through Resend as an attachment.
- * Reused by both the resume editor and the cover letter builder, same as
- * `DownloadButton` (see that file for why `buildDocxBlob` is a plain async
- * function rather than a `docx`-typed prop).
- */
 import { useRef, useState, type ComponentType } from "react";
 import { useTranslation } from "react-i18next";
 import { EmailIcon } from "@/components/Icons";

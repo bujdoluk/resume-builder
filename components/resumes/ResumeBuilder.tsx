@@ -1,15 +1,5 @@
 "use client";
 
-/**
- * Top-level resume builder page component rendered by the `/app` route:
- * owns the resume's data state, loads a saved resume by id or restores an
- * unsaved draft from localStorage, and renders either the mobile editing
- * template or the desktop drag-and-drop `Resume` canvas alongside Preview/
- * Save/Download actions. Save persists to Supabase; Download generates a
- * PDF client-side via `@react-pdf/renderer` using the matching
- * `pdfTemplates` entry for the current template. The cover letter
- * counterpart is `CoverLetterBuilder.tsx`.
- */
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useTranslation } from "react-i18next";
@@ -60,12 +50,6 @@ function resolveTemplateId(id: string | undefined): TemplateId {
     : defaultTemplateId;
 }
 
-// The unsaved, in-progress resume (no resumeId yet) is mirrored to
-// localStorage so its content survives switching templates — which
-// navigates away to /templates and back, remounting ResumeBuilder — and
-// closing the browser entirely. Once the user explicitly saves, the data
-// has a durable home under its own resumeId and this scratch slot is
-// cleared so a later blank resume doesn't inherit it.
 const DRAFT_STORAGE_KEY = "resumeBuilder:draft";
 
 function loadDraft(): ResumeData | null {
@@ -81,8 +65,7 @@ function saveDraft(data: ResumeData) {
   try {
     window.localStorage.setItem(DRAFT_STORAGE_KEY, JSON.stringify(data));
   } catch {
-    // Ignore quota/serialization errors — the draft is a convenience, not
-    // the resume's source of truth.
+
   }
 }
 
@@ -90,7 +73,7 @@ function clearDraft() {
   try {
     window.localStorage.removeItem(DRAFT_STORAGE_KEY);
   } catch {
-    // Ignore.
+
   }
 }
 
@@ -138,10 +121,6 @@ export default function ResumeBuilder({
   const [supabase] = useState(() => createClient());
   const exportText = generateResumeText({ data, sectionOrder, visibleFields });
 
-  // `docx` is dynamically imported here (inside this closure), rather than
-  // statically at the top of this file, so it stays out of the initial
-  // editor bundle — only loaded once the user actually picks "Word (.docx)"
-  // and clicks Download/Email.
   async function buildResumeDocxBlob(): Promise<Blob> {
     const [{ generateResumeDocx }, { Packer }] = await Promise.all([
       import("@/lib/docx/resumeDocx"),
@@ -150,20 +129,11 @@ export default function ResumeBuilder({
     return Packer.toBlob(generateResumeDocx({ data, sectionOrder, visibleFields }));
   }
 
-  // Applies the URL's `?template=` param whenever it changes — e.g. landing
-  // here fresh from the `/templates` gallery, or opening a saved resume via
-  // its "My Resumes" edit link (which encodes the resume's own template).
-  // Switching templates *from within* the editor (the Navbar's Templates
-  // dropdown) only ever calls `setTemplateId` directly and never touches
-  // this prop, so it doesn't fight with that.
   useEffect(() => {
     setTemplateId(resolveTemplateId(initialTemplateId));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialTemplateId]);
 
-  // Keeps the Sidebar's "Back to editor" link pointed at this exact
-  // resume/template pair, so navigating away to /my-resumes or /templates
-  // and back returns here instead of a blank editor.
   useEffect(() => {
     setLastEditorPath(
       resumeId

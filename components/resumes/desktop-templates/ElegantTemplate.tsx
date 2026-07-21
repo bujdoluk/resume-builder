@@ -1,18 +1,5 @@
 "use client";
 
-/**
- * Read-only Elegant template: the mirror image of Modern — a white main
- * column (name, job title, contact row, About Me, Work Experience with
- * numbered achievement bullets, Education) on the left beside an
- * accent-colored sidebar (photo, Skills as pill tags, Certifications,
- * Languages as proficiency donuts, Interests) on the right. Only the photo
- * is fixed to the sidebar — every section (and About Me) is freely
- * draggable between the two zones via the same `sectionZones` mechanism
- * Modern uses. Used for the live editor's Preview modal and the
- * `/templates` gallery — its editable counterpart is `components/resumes/Resume.tsx`,
- * and the `@react-pdf/renderer` port for downloads is
- * `components/pdf/ElegantPdfTemplate.tsx`.
- */
 import dynamic from "next/dynamic";
 import { Fragment } from "react";
 import { useTranslation } from "react-i18next";
@@ -42,30 +29,22 @@ import {
   type SectionKey,
 } from "@/lib/resumeData";
 
-// ApexCharts touches `window` at import time, so it can't be part of the
-// server-rendered bundle for this "use client" component (Next.js still
-// server-renders client components for the initial HTML) — loaded on the
-// client only via next/dynamic.
 const ApexChart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
-// A compact radial-bar "donut" showing one language's proficiency percent —
-// the reference resume's language visualization, reimplemented with
-// react-apexcharts instead of a hand-rolled SVG/CSS donut. Only used here
-// (the read-only Preview/gallery); the PDF export keeps the lightweight
-// hand-drawn `DonutPdfIcon` since ApexCharts needs a real browser DOM and
-// can't run inside `@react-pdf/renderer`'s custom renderer.
 function LanguageDonut({ percent, color }: { percent: number; color: string }) {
+
+  const chartValue = Math.max(percent, 1);
+
   return (
     <ApexChart
       type="radialBar"
       width={80}
       height={80}
-      series={[percent]}
+      series={[chartValue]}
       options={{
         chart: {
           sparkline: { enabled: true },
-          // No parent-resize/animation redraws needed for a static,
-          // fixed-size chart — skip the extra recalculation work.
+
           redrawOnParentResize: false,
           redrawOnWindowResize: false,
           animations: { enabled: false },
@@ -84,7 +63,7 @@ function LanguageDonut({ percent, color }: { percent: number; color: string }) {
                 fontSize: "12px",
                 fontWeight: 600,
                 color,
-                formatter: (val) => `${Math.round(val)}%`,
+                formatter: () => `${percent}%`,
               },
             },
           },

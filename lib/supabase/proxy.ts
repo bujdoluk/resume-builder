@@ -1,8 +1,4 @@
-/**
- * `updateSession` refreshes the Supabase auth session's cookies on every
- * request — called from the root `proxy.ts` middleware, since Server
- * Components can only read cookies, not write them.
- */
+
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
@@ -30,8 +26,6 @@ export async function updateSession(request: NextRequest) {
     },
   );
 
-  // Refreshes the auth token if expired — required for Server Components,
-  // which can only read cookies, not write them.
   await supabase.auth.getUser();
 
   return supabaseResponse;

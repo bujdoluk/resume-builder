@@ -1,11 +1,5 @@
 "use client";
 
-/**
- * `/account` route content: account info (email, member since) plus
- * self-service data export and account deletion. Subscription/billing
- * moved to `components/BillingPage.tsx` (`/billing`) — the navbar's email
- * dropdown (`components/navbar/AuthButton.tsx`) links to both separately.
- */
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";

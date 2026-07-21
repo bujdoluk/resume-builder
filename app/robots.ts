@@ -1,7 +1,4 @@
-/**
- * Generates `/robots.txt`: allows crawling of the whole site except the
- * user-specific `/my-resumes` page, and points crawlers at the sitemap.
- */
+
 import type { MetadataRoute } from "next";
 
 export default function robots(): MetadataRoute.Robots {

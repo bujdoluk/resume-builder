@@ -1,13 +1,5 @@
 "use client";
 
-/**
- * Mobile-width editing form for the Classic template: a copy of
- * BasicMobileTemplate.tsx with a colored header band (photo/name/job
- * title/contact) at the top — About Me and every section stay in the plain
- * white body below, unchanged from Basic. Mirrors Classic's visual language
- * while sharing the same drag-and-drop primitives and CRUD handlers
- * (`Sortable.tsx`, `useResumeFormHandlers.ts`).
- */
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import AutoResizeTextarea from "@/components/AutoResizeTextarea";
