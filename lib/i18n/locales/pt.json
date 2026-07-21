@@ -461,6 +461,7 @@
     "noSubscriptionFound": "Não foi encontrada nenhuma subscrição.",
     "invalidPlan": "Plano inválido.",
     "failedToCancelSubscription": "Não foi possível cancelar a sua subscrição. Tente novamente ou contacte o suporte.",
-    "failedToDeleteAccount": "Não foi possível eliminar a conta."
+    "failedToDeleteAccount": "Não foi possível eliminar a conta.",
+    "rateLimited": "Demasiados pedidos. Aguarde um momento e tente novamente."
   }
 }

@@ -461,6 +461,7 @@
     "noSubscriptionFound": "Předplatné nebylo nalezeno.",
     "invalidPlan": "Neplatný tarif.",
     "failedToCancelSubscription": "Zrušení předplatného se nezdařilo. Zkuste to prosím znovu nebo kontaktujte podporu.",
-    "failedToDeleteAccount": "Odstranění účtu se nezdařilo."
+    "failedToDeleteAccount": "Odstranění účtu se nezdařilo.",
+    "rateLimited": "Příliš mnoho požadavků. Počkejte prosím chvíli a zkuste to znovu."
   }
 }

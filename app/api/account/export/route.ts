@@ -1,7 +1,13 @@
 
 import { Temporal } from "temporal-polyfill";
 import { errorResponse } from "@/lib/apiErrors";
-import { HTTP_UNAUTHORIZED } from "@/lib/constants";
+import {
+  HTTP_TOO_MANY_REQUESTS,
+  HTTP_UNAUTHORIZED,
+  RATE_LIMIT_ACCOUNT_EXPORT_REQUESTS,
+  RATE_LIMIT_ACCOUNT_EXPORT_WINDOW,
+} from "@/lib/constants";
+import { checkRateLimit } from "@/lib/rateLimit";
 import { createClient } from "@/lib/supabase/server";
 import { listAllCoverLetters } from "@/lib/supabase/coverLetters";
 import { listAllResumes } from "@/lib/supabase/resumes";
@@ -15,6 +21,16 @@ export async function GET(request: Request) {
 
   if (!user || user.is_anonymous) {
     return errorResponse(HTTP_UNAUTHORIZED, "loginRequired", request);
+  }
+
+  const allowed = await checkRateLimit(
+    "account-export",
+    user.id,
+    RATE_LIMIT_ACCOUNT_EXPORT_REQUESTS,
+    RATE_LIMIT_ACCOUNT_EXPORT_WINDOW,
+  );
+  if (!allowed) {
+    return errorResponse(HTTP_TOO_MANY_REQUESTS, "rateLimited", request);
   }
 
   const [resumes, coverLetters, subscription] = await Promise.all([

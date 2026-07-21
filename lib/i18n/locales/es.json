@@ -461,6 +461,7 @@
     "noSubscriptionFound": "No se encontró ninguna suscripción.",
     "invalidPlan": "Plan no válido.",
     "failedToCancelSubscription": "No se pudo cancelar tu suscripción. Inténtalo de nuevo o contacta con soporte.",
-    "failedToDeleteAccount": "No se pudo eliminar la cuenta."
+    "failedToDeleteAccount": "No se pudo eliminar la cuenta.",
+    "rateLimited": "Demasiadas solicitudes. Espera un momento e inténtalo de nuevo."
   }
 }

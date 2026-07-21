@@ -461,6 +461,7 @@
     "noSubscriptionFound": "Fant ikke noe abonnement.",
     "invalidPlan": "Ugyldig plan.",
     "failedToCancelSubscription": "Kunne ikke si opp abonnementet. Prøv igjen eller kontakt support.",
-    "failedToDeleteAccount": "Kunne ikke slette kontoen."
+    "failedToDeleteAccount": "Kunne ikke slette kontoen.",
+    "rateLimited": "For mange forespørsler. Vent litt og prøv igjen."
   }
 }

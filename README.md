@@ -57,7 +57,7 @@ A free, in-browser resume and cover letter builder built with Next.js. Fill in y
 
 ## Getting Started
 
-Copy the environment template and fill in your Supabase project's credentials, plus a [Resend](https://resend.com) API key if you want the Email export/welcome-email features to actually send mail (`RESEND_FROM_EMAIL` falls back to Resend's shared sandbox address until you verify your own domain). See Billing setup, Support, Blog admin setup, and Bot protection below for the Stripe, Tawk.to, and hCaptcha variables.
+Copy the environment template and fill in your Supabase project's credentials, plus a [Resend](https://resend.com) API key if you want the Email export/welcome-email features to actually send mail (`RESEND_FROM_EMAIL` falls back to Resend's shared sandbox address until you verify your own domain). See Billing setup, Support, Blog admin setup, Bot protection, and Rate limiting below for the Stripe, Tawk.to, hCaptcha, and Upstash variables.
 
 ```bash
 cp .env.example .env.local
@@ -107,6 +107,14 @@ Sign up free at [tawk.to](https://www.tawk.to), create a property, and grab the 
 3. In **Supabase Dashboard → Authentication → Attack Protection**, enable CAPTCHA protection, select hCaptcha, and paste in the same **Secret Key** (this copy of it only ever lives in Supabase's own config, never in this codebase). Without this step, the app sends a captcha token on every auth request but Supabase won't actually require or verify it yet.
 4. Also set the Secret Key as `HCAPTCHA_SECRET_KEY` in `.env.local` — unlike the auth flows above, `/api/send-email` never touches Supabase Auth, so this route verifies the token itself directly against hCaptcha's API (`lib/hcaptcha.ts`) rather than relying on Supabase to do it. Without this step, the route accepts email-send requests with no captcha check at all.
 
+### Rate limiting (Upstash Redis)
+
+Guards `/api/send-email` (by IP), `/api/account/export`/`delete`, and `/api/stripe/checkout`/`cancel` (by user id) against abuse — see `lib/rateLimit.ts` for the limiter and `lib/constants.ts` for the per-route request/window numbers.
+
+1. Create a free database at [Upstash](https://upstash.com) (Redis → Create Database).
+2. Copy the **REST URL** and **REST Token** from its dashboard and set them as `UPSTASH_REDIS_REST_URL`/`UPSTASH_REDIS_REST_TOKEN`.
+3. Optional: `checkRateLimit()` fails open (never blocks) when these aren't set, so local dev and any environment without Upstash configured works exactly as before — this step can be skipped entirely until you're ready for it.
+
 ## Project Structure
 
 - `app/` — Next.js App Router pages: `/` (marketing landing page), `/blog` + `/blog/[slug]` (Supabase-backed blog list and post pages — see Blog above), `/login` (login/signup), `/reset-password` (set a new password), `/account` (profile info, data export, delete account), `/billing` (plan, cancel/resume subscription), `/support` (support email + live chat), `/privacy`/`/terms` (Privacy Policy/Terms of Service), `/auth/callback` (route handler completing OAuth/email-link redirects via `exchangeCodeForSession`), `/app` (resume editor), `/templates` (template gallery), `/my-resumes` (saved resumes list), `/cover-letter` (cover letter editor), `/my-cover-letters` (saved cover letters list), `/api/account/export`/`delete` (data export/account deletion), `/api/send-email` (relays a client-generated PDF, Word document, or plain-text file through Resend), `/api/blog` (admin-gated, creates a blog post), `/api/stripe/checkout`/`webhook`/`cancel` (subscription routes — see Subscriptions & Billing above).
@@ -124,6 +132,7 @@ Sign up free at [tawk.to](https://www.tawk.to), create a property, and grab the 
 - `lib/` — resume data types (`resumeData.ts`) and cover letter data types (`coverLetterData.ts`), template registries (`templates.ts`, `coverLetterTemplates.ts`) and their PDF counterparts (`lib/pdf/templates.ts`, `lib/pdf/coverLetterTemplates.ts`), font/colour/font-size options, the i18n setup (`lib/i18n/`), PDF rendering helpers (`lib/pdf/`), `exportFormat.ts` (the shared `"pdf" | "docx" | "txt"` type), `resumeContent.ts` (field/entry filtering shared by the non-PDF resume renderers below, so `.txt`/`.docx` output can't drift apart), `lib/text/` (plain-text renderers, `resumeText.ts`/`coverLetterText.ts`), `lib/docx/` (Word-document renderers, `resumeDocx.ts`/`coverLetterDocx.ts`, built with the [`docx`](https://www.npmjs.com/package/docx) package and only ever reached via dynamic `import()` at Download/Email click-time so it stays out of the initial editor bundle), `stripe.ts` (lazily-instantiated Stripe client — see Billing setup above for why), `generateId.ts` (secure-context-safe ID generator, falls back to `crypto.getRandomValues` when `crypto.randomUUID` isn't available), `constants.ts` (shared numeric constants — HTTP status codes, size/length limits, UI timing durations, pagination sizes — see Privacy & feedback above for the error-handling ones), `supportEmail.ts`/`tawkChat.ts` (the support email address and `openSupportChat` chat-widget trigger behind `/support`), email (`lib/email/`), and Supabase helpers (`lib/supabase/`):
   - `apiResponse.ts` — client-side: categorizes a `fetch` response's HTTP status into a toast colour/message via `handleApiResponse` (see Privacy & feedback above).
   - `apiErrors.ts` — server-side counterpart: `errorResponse(status, key, request)`, used by every API route to return a `{ error }` JSON body localized per the request's `X-App-Locale` header (`apiLocaleHeader.ts`) rather than hardcoded English.
+  - `rateLimit.ts` — `checkRateLimit()`, backed by Upstash Redis (see Rate limiting above); fails open (never blocks) if Upstash isn't configured, same lazy-instantiation pattern as `stripe.ts`.
   - `client.ts`/`server.ts`/`proxy.ts` — browser/server/middleware Supabase client factories.
   - `serviceRole.ts` — the RLS-bypassing client, used only by the Stripe webhook to write subscription state.
   - `session.ts` — `ensureUserId`, the silent anonymous-session helper used throughout the app.

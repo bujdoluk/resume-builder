@@ -461,6 +461,7 @@
     "noSubscriptionFound": "Aucun abonnement trouvé.",
     "invalidPlan": "Forfait invalide.",
     "failedToCancelSubscription": "Impossible d'annuler votre abonnement. Veuillez réessayer ou contacter le support.",
-    "failedToDeleteAccount": "Impossible de supprimer le compte."
+    "failedToDeleteAccount": "Impossible de supprimer le compte.",
+    "rateLimited": "Trop de requêtes. Veuillez patienter un instant et réessayer."
   }
 }

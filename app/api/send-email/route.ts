@@ -1,14 +1,33 @@
 
 import { errorResponse } from "@/lib/apiErrors";
-import { HTTP_BAD_GATEWAY, HTTP_BAD_REQUEST, MAX_ATTACHMENT_BYTES, MAX_TEXT_LENGTH } from "@/lib/constants";
+import {
+  HTTP_BAD_GATEWAY,
+  HTTP_BAD_REQUEST,
+  HTTP_TOO_MANY_REQUESTS,
+  MAX_ATTACHMENT_BYTES,
+  MAX_TEXT_LENGTH,
+  RATE_LIMIT_SEND_EMAIL_REQUESTS,
+  RATE_LIMIT_SEND_EMAIL_WINDOW,
+} from "@/lib/constants";
 import { verifyCaptchaToken } from "@/lib/hcaptcha";
 import { sendDocxEmail } from "@/lib/email/sendDocxEmail";
 import { sendPdfEmail } from "@/lib/email/sendPdfEmail";
 import { sendTextEmail } from "@/lib/email/sendTextEmail";
+import { checkRateLimit, getRequestIp } from "@/lib/rateLimit";
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export async function POST(request: Request) {
+  const allowed = await checkRateLimit(
+    "send-email",
+    getRequestIp(request),
+    RATE_LIMIT_SEND_EMAIL_REQUESTS,
+    RATE_LIMIT_SEND_EMAIL_WINDOW,
+  );
+  if (!allowed) {
+    return errorResponse(HTTP_TOO_MANY_REQUESTS, "rateLimited", request);
+  }
+
   const { to, fileName, format, pdfBase64, docxBase64, textContent, captchaToken } =
     await request.json();
 

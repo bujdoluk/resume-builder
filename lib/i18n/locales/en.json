@@ -461,6 +461,7 @@
     "noSubscriptionFound": "No subscription found.",
     "invalidPlan": "Invalid plan.",
     "failedToCancelSubscription": "Failed to cancel your subscription. Please try again or contact support.",
-    "failedToDeleteAccount": "Failed to delete account."
+    "failedToDeleteAccount": "Failed to delete account.",
+    "rateLimited": "Too many requests. Please slow down and try again shortly."
   }
 }

@@ -46,3 +46,18 @@ export const FREE_TIER_LIMITS = {
   resumes: 2,
   coverLetters: 2,
 };
+
+// Rate limits enforced via lib/rateLimit.ts (Upstash Redis; routes fail
+// open — no blocking — if Upstash isn't configured, same as local dev
+// without Stripe/Resend/hCaptcha). `send-email` is keyed by IP (the route
+// has no auth requirement); the rest are keyed by user id.
+export const RATE_LIMIT_SEND_EMAIL_REQUESTS = 5;
+export const RATE_LIMIT_SEND_EMAIL_WINDOW = "10 m";
+export const RATE_LIMIT_ACCOUNT_EXPORT_REQUESTS = 10;
+export const RATE_LIMIT_ACCOUNT_EXPORT_WINDOW = "1 h";
+export const RATE_LIMIT_ACCOUNT_DELETE_REQUESTS = 5;
+export const RATE_LIMIT_ACCOUNT_DELETE_WINDOW = "1 h";
+export const RATE_LIMIT_STRIPE_CHECKOUT_REQUESTS = 10;
+export const RATE_LIMIT_STRIPE_CHECKOUT_WINDOW = "1 h";
+export const RATE_LIMIT_STRIPE_CANCEL_REQUESTS = 10;
+export const RATE_LIMIT_STRIPE_CANCEL_WINDOW = "1 h";

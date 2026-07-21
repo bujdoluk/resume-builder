@@ -461,6 +461,7 @@
     "noSubscriptionFound": "Geen abonnement gevonden.",
     "invalidPlan": "Ongeldig abonnement.",
     "failedToCancelSubscription": "Je abonnement kon niet worden opgezegd. Probeer het opnieuw of neem contact op met support.",
-    "failedToDeleteAccount": "Account kon niet worden verwijderd."
+    "failedToDeleteAccount": "Account kon niet worden verwijderd.",
+    "rateLimited": "Te veel verzoeken. Wacht even en probeer het opnieuw."
   }
 }

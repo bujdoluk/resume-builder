@@ -461,6 +461,7 @@
     "noSubscriptionFound": "Ingen prenumeration hittades.",
     "invalidPlan": "Ogiltig plan.",
     "failedToCancelSubscription": "Det gick inte att säga upp din prenumeration. Försök igen eller kontakta support.",
-    "failedToDeleteAccount": "Det gick inte att ta bort kontot."
+    "failedToDeleteAccount": "Det gick inte att ta bort kontot.",
+    "rateLimited": "För många förfrågningar. Vänta en stund och försök igen."
   }
 }

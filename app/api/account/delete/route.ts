@@ -1,7 +1,15 @@
 
 import * as Sentry from "@sentry/nextjs";
 import { errorResponse } from "@/lib/apiErrors";
-import { HTTP_BAD_GATEWAY, HTTP_INTERNAL_SERVER_ERROR, HTTP_UNAUTHORIZED } from "@/lib/constants";
+import {
+  HTTP_BAD_GATEWAY,
+  HTTP_INTERNAL_SERVER_ERROR,
+  HTTP_TOO_MANY_REQUESTS,
+  HTTP_UNAUTHORIZED,
+  RATE_LIMIT_ACCOUNT_DELETE_REQUESTS,
+  RATE_LIMIT_ACCOUNT_DELETE_WINDOW,
+} from "@/lib/constants";
+import { checkRateLimit } from "@/lib/rateLimit";
 import { getStripe } from "@/lib/stripe";
 import { createClient } from "@/lib/supabase/server";
 import { createServiceRoleClient } from "@/lib/supabase/serviceRole";
@@ -14,6 +22,16 @@ export async function POST(request: Request) {
 
   if (!user || user.is_anonymous) {
     return errorResponse(HTTP_UNAUTHORIZED, "loginRequired", request);
+  }
+
+  const allowed = await checkRateLimit(
+    "account-delete",
+    user.id,
+    RATE_LIMIT_ACCOUNT_DELETE_REQUESTS,
+    RATE_LIMIT_ACCOUNT_DELETE_WINDOW,
+  );
+  if (!allowed) {
+    return errorResponse(HTTP_TOO_MANY_REQUESTS, "rateLimited", request);
   }
 
   const { data: subscriptionRow } = await supabase

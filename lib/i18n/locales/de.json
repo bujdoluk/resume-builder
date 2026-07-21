@@ -461,6 +461,7 @@
     "noSubscriptionFound": "Kein Abonnement gefunden.",
     "invalidPlan": "Ungültiger Tarif.",
     "failedToCancelSubscription": "Ihr Abonnement konnte nicht gekündigt werden. Bitte versuchen Sie es erneut oder kontaktieren Sie den Support.",
-    "failedToDeleteAccount": "Konto konnte nicht gelöscht werden."
+    "failedToDeleteAccount": "Konto konnte nicht gelöscht werden.",
+    "rateLimited": "Zu viele Anfragen. Bitte warten Sie einen Moment und versuchen Sie es erneut."
   }
 }

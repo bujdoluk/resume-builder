@@ -461,6 +461,7 @@
     "noSubscriptionFound": "Nessun abbonamento trovato.",
     "invalidPlan": "Piano non valido.",
     "failedToCancelSubscription": "Impossibile annullare l'abbonamento. Riprova o contatta l'assistenza.",
-    "failedToDeleteAccount": "Impossibile eliminare l'account."
+    "failedToDeleteAccount": "Impossibile eliminare l'account.",
+    "rateLimited": "Troppe richieste. Attendi un momento e riprova."
   }
 }

@@ -1,6 +1,13 @@
 
 import { errorResponse } from "@/lib/apiErrors";
-import { HTTP_BAD_REQUEST, HTTP_UNAUTHORIZED } from "@/lib/constants";
+import {
+  HTTP_BAD_REQUEST,
+  HTTP_TOO_MANY_REQUESTS,
+  HTTP_UNAUTHORIZED,
+  RATE_LIMIT_STRIPE_CHECKOUT_REQUESTS,
+  RATE_LIMIT_STRIPE_CHECKOUT_WINDOW,
+} from "@/lib/constants";
+import { checkRateLimit } from "@/lib/rateLimit";
 import { getStripe } from "@/lib/stripe";
 import { createClient } from "@/lib/supabase/server";
 
@@ -23,6 +30,16 @@ export async function POST(request: Request) {
 
   if (!user || user.is_anonymous) {
     return errorResponse(HTTP_UNAUTHORIZED, "loginRequired", request);
+  }
+
+  const allowed = await checkRateLimit(
+    "stripe-checkout",
+    user.id,
+    RATE_LIMIT_STRIPE_CHECKOUT_REQUESTS,
+    RATE_LIMIT_STRIPE_CHECKOUT_WINDOW,
+  );
+  if (!allowed) {
+    return errorResponse(HTTP_TOO_MANY_REQUESTS, "rateLimited", request);
   }
 
   const { origin } = new URL(request.url);
