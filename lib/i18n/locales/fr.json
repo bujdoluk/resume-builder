@@ -434,5 +434,33 @@
     "supportChatTitle": "Chat d'assistance",
     "supportChatDescription": "Charge le widget de chat en direct Tawk.to afin que notre équipe d'assistance puisse vous aider directement. Définit des cookies tiers.",
     "preferencesLink": "Préférences de cookies"
+  },
+  "errors": {
+    "badRequest": "Cette requête n'était pas correcte. Veuillez vérifier votre saisie et réessayer.",
+    "unauthorized": "Veuillez vous connecter pour continuer.",
+    "forbidden": "Vous n'avez pas la permission de faire cela.",
+    "notFound": "Nous n'avons pas trouvé ce que vous cherchiez.",
+    "conflict": "Cela entre en conflit avec quelque chose qui existe déjà.",
+    "tooManyRequests": "Trop de requêtes. Veuillez patienter un instant et réessayer.",
+    "genericClient": "Quelque chose n'allait pas avec cette requête. Veuillez réessayer.",
+    "genericServer": "Une erreur est survenue de notre côté. Veuillez réessayer."
+  },
+  "apiErrors": {
+    "loginRequired": "Connexion requise.",
+    "adminLoginRequired": "Connexion administrateur requise.",
+    "invalidInput": "Saisie invalide.",
+    "failedToCreatePost": "Échec de la création de l'article.",
+    "captchaVerificationFailed": "Échec de la vérification captcha.",
+    "invalidEmailAddress": "Adresse e-mail invalide.",
+    "invalidTextData": "Données texte invalides.",
+    "missingWordData": "Données du document Word manquantes.",
+    "invalidWordData": "Données du document Word invalides.",
+    "missingPdfData": "Données PDF manquantes.",
+    "invalidPdfData": "Données PDF invalides.",
+    "invalidAction": "Action invalide.",
+    "noSubscriptionFound": "Aucun abonnement trouvé.",
+    "invalidPlan": "Forfait invalide.",
+    "failedToCancelSubscription": "Impossible d'annuler votre abonnement. Veuillez réessayer ou contacter le support.",
+    "failedToDeleteAccount": "Impossible de supprimer le compte."
   }
 }

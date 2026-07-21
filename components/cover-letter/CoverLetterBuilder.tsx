@@ -28,13 +28,14 @@ import {
   type CoverLetterSectionKey,
 } from "@/lib/coverLetterSections";
 import { coverLetterTemplates } from "@/lib/coverLetterTemplates";
+import { FREE_TIER_LIMITS, SAVED_INDICATOR_DURATION_MS } from "@/lib/constants";
 import type { ExportFormat } from "@/lib/exportFormat";
 import { coverLetterPdfTemplates } from "@/lib/pdf/coverLetterTemplates";
 import { scrollToSectionAnchor } from "@/lib/scrollToSectionAnchor";
 import { createClient } from "@/lib/supabase/client";
 import { countCoverLetters, getCoverLetter, saveCoverLetter } from "@/lib/supabase/coverLetters";
 import { ensureUserId } from "@/lib/supabase/session";
-import { FREE_TIER_LIMITS, getSubscription, isPaidPlan } from "@/lib/supabase/subscriptions";
+import { getSubscription, isPaidPlan } from "@/lib/supabase/subscriptions";
 import { generateCoverLetterText } from "@/lib/text/coverLetterText";
 
 interface CoverLetterBuilderProps {
@@ -234,7 +235,7 @@ export default function CoverLetterBuilder({
       router.replace(`/cover-letter?id=${row.id}`);
       notifyCoverLetterListChanged();
       setJustSaved(true);
-      setTimeout(() => setJustSaved(false), 1500);
+      setTimeout(() => setJustSaved(false), SAVED_INDICATOR_DURATION_MS);
     } catch (error) {
       console.error(error);
       Sentry.captureException(error);

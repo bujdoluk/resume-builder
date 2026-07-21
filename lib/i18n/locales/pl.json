@@ -434,5 +434,33 @@
     "supportChatTitle": "Czat wsparcia",
     "supportChatDescription": "Ładuje widżet czatu na żywo Tawk.to, aby nasz zespół wsparcia mógł pomóc Ci bezpośrednio. Ustawia pliki cookie stron trzecich.",
     "preferencesLink": "Preferencje cookie"
+  },
+  "errors": {
+    "badRequest": "To żądanie nie było poprawne. Sprawdź wprowadzone dane i spróbuj ponownie.",
+    "unauthorized": "Zaloguj się, aby kontynuować.",
+    "forbidden": "Nie masz uprawnień, aby to zrobić.",
+    "notFound": "Nie mogliśmy znaleźć tego, czego szukasz.",
+    "conflict": "To koliduje z czymś, co już istnieje.",
+    "tooManyRequests": "Zbyt wiele żądań. Poczekaj chwilę i spróbuj ponownie.",
+    "genericClient": "Coś było nie tak z tym żądaniem. Spróbuj ponownie.",
+    "genericServer": "Coś poszło nie tak po naszej stronie. Spróbuj ponownie."
+  },
+  "apiErrors": {
+    "loginRequired": "Wymagane jest zalogowanie.",
+    "adminLoginRequired": "Wymagane jest zalogowanie administratora.",
+    "invalidInput": "Nieprawidłowe dane wejściowe.",
+    "failedToCreatePost": "Nie udało się utworzyć wpisu.",
+    "captchaVerificationFailed": "Weryfikacja captcha nie powiodła się.",
+    "invalidEmailAddress": "Nieprawidłowy adres e-mail.",
+    "invalidTextData": "Nieprawidłowe dane tekstowe.",
+    "missingWordData": "Brak danych dokumentu Word.",
+    "invalidWordData": "Nieprawidłowe dane dokumentu Word.",
+    "missingPdfData": "Brak danych PDF.",
+    "invalidPdfData": "Nieprawidłowe dane PDF.",
+    "invalidAction": "Nieprawidłowa akcja.",
+    "noSubscriptionFound": "Nie znaleziono subskrypcji.",
+    "invalidPlan": "Nieprawidłowy plan.",
+    "failedToCancelSubscription": "Nie udało się anulować subskrypcji. Spróbuj ponownie lub skontaktuj się z pomocą techniczną.",
+    "failedToDeleteAccount": "Nie udało się usunąć konta."
   }
 }

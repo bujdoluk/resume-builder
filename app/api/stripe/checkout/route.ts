@@ -1,4 +1,6 @@
 
+import { errorResponse } from "@/lib/apiErrors";
+import { HTTP_BAD_REQUEST, HTTP_UNAUTHORIZED } from "@/lib/constants";
 import { getStripe } from "@/lib/stripe";
 import { createClient } from "@/lib/supabase/server";
 
@@ -11,7 +13,7 @@ export async function POST(request: Request) {
   const { plan } = await request.json();
   const priceId = typeof plan === "string" ? PRICE_IDS[plan] : undefined;
   if (!priceId) {
-    return Response.json({ error: "Invalid plan." }, { status: 400 });
+    return errorResponse(HTTP_BAD_REQUEST, "invalidPlan", request);
   }
 
   const supabase = await createClient();
@@ -20,7 +22,7 @@ export async function POST(request: Request) {
   } = await supabase.auth.getUser();
 
   if (!user || user.is_anonymous) {
-    return Response.json({ error: "Login required." }, { status: 401 });
+    return errorResponse(HTTP_UNAUTHORIZED, "loginRequired", request);
   }
 
   const { origin } = new URL(request.url);

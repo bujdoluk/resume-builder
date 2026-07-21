@@ -22,6 +22,7 @@ import { CookieConsentProvider } from "@/components/CookieConsent";
 import InvisibleCaptcha from "@/components/InvisibleCaptcha";
 import Navbar from "@/components/Navbar";
 import TawkChat from "@/components/TawkChat";
+import { ToastProvider } from "@/components/Toast";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -142,15 +143,17 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${fontVariables} h-full antialiased`}>
       <body className="min-h-full flex flex-col">
-        <CookieConsentProvider>
-          <AppStateProvider>
-            <InvisibleCaptcha />
-            <Navbar />
-            <div className="flex flex-1 flex-col">{children}</div>
-            <ConsentedAnalytics />
-            <TawkChat />
-          </AppStateProvider>
-        </CookieConsentProvider>
+        <ToastProvider>
+          <CookieConsentProvider>
+            <AppStateProvider>
+              <InvisibleCaptcha />
+              <Navbar />
+              <div className="flex flex-1 flex-col">{children}</div>
+              <ConsentedAnalytics />
+              <TawkChat />
+            </AppStateProvider>
+          </CookieConsentProvider>
+        </ToastProvider>
       </body>
     </html>
   );

@@ -1,4 +1,6 @@
 
+import { CAPTCHA_POLL_ATTEMPTS, CAPTCHA_POLL_INTERVAL_MS } from "@/lib/constants";
+
 type CaptchaExecutor = () => Promise<string | undefined>;
 
 let executor: CaptchaExecutor | null = null;
@@ -7,12 +9,9 @@ export function registerCaptchaExecutor(fn: CaptchaExecutor | null) {
   executor = fn;
 }
 
-const EXECUTOR_POLL_INTERVAL_MS = 100;
-const EXECUTOR_POLL_ATTEMPTS = 20;
-
 async function requestToken(): Promise<string | undefined> {
-  for (let attempt = 0; attempt < EXECUTOR_POLL_ATTEMPTS && !executor; attempt++) {
-    await new Promise((resolve) => setTimeout(resolve, EXECUTOR_POLL_INTERVAL_MS));
+  for (let attempt = 0; attempt < CAPTCHA_POLL_ATTEMPTS && !executor; attempt++) {
+    await new Promise((resolve) => setTimeout(resolve, CAPTCHA_POLL_INTERVAL_MS));
   }
   if (!executor) return undefined;
 

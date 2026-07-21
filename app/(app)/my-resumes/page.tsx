@@ -21,6 +21,7 @@ import SaveResumeDialog, {
 } from "@/components/SaveResumeDialog";
 import SortableColumnHeader from "@/components/SortableColumnHeader";
 import TableFillerRows from "@/components/TableFillerRows";
+import { FREE_TIER_LIMITS, RESUMES_PAGE_SIZE } from "@/lib/constants";
 import {
   countResumes,
   deleteResume,
@@ -28,13 +29,12 @@ import {
   duplicateResume,
   listResumes,
   renameResume,
-  RESUMES_PAGE_SIZE,
   type ResumeRow,
   type ResumeSort,
 } from "@/lib/supabase/resumes";
 import { createClient } from "@/lib/supabase/client";
 import { ensureUserId } from "@/lib/supabase/session";
-import { FREE_TIER_LIMITS, getSubscription, isPaidPlan } from "@/lib/supabase/subscriptions";
+import { getSubscription, isPaidPlan } from "@/lib/supabase/subscriptions";
 
 function formatDate(iso: string, locale: string): string {
   return Temporal.Instant.from(iso).toLocaleString(locale, {

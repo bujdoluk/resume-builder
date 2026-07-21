@@ -1,10 +1,9 @@
 
 import type { AuthError, SupabaseClient } from "@supabase/supabase-js";
+import { CAPTCHA_RETRY_DELAY_MS } from "@/lib/constants";
 import { getAnonymousCaptchaToken } from "@/lib/supabase/invisibleCaptcha";
 
 let inFlightSignIn: Promise<string> | null = null;
-
-const CAPTCHA_RETRY_DELAY_MS = 750;
 
 function isCaptchaFailure(error: AuthError | null): boolean {
   return error?.code === "captcha_failed";

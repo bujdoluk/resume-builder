@@ -21,8 +21,8 @@ import SaveResumeDialog, {
 } from "@/components/SaveResumeDialog";
 import SortableColumnHeader from "@/components/SortableColumnHeader";
 import TableFillerRows from "@/components/TableFillerRows";
+import { COVER_LETTERS_PAGE_SIZE, FREE_TIER_LIMITS } from "@/lib/constants";
 import {
-  COVER_LETTERS_PAGE_SIZE,
   countCoverLetters,
   deleteCoverLetter,
   deleteCoverLetters,
@@ -34,7 +34,7 @@ import {
 } from "@/lib/supabase/coverLetters";
 import { createClient } from "@/lib/supabase/client";
 import { ensureUserId } from "@/lib/supabase/session";
-import { FREE_TIER_LIMITS, getSubscription, isPaidPlan } from "@/lib/supabase/subscriptions";
+import { getSubscription, isPaidPlan } from "@/lib/supabase/subscriptions";
 
 function formatDate(iso: string, locale: string): string {
   return Temporal.Instant.from(iso).toLocaleString(locale, {

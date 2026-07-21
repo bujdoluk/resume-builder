@@ -1,4 +1,6 @@
 
+import { errorResponse } from "@/lib/apiErrors";
+import { HTTP_BAD_REQUEST, HTTP_FORBIDDEN, HTTP_INTERNAL_SERVER_ERROR } from "@/lib/constants";
 import { createClient } from "@/lib/supabase/server";
 import { blogCategories, createBlogPost } from "@/lib/supabase/blogPosts";
 
@@ -9,7 +11,7 @@ export async function POST(request: Request) {
   } = await supabase.auth.getUser();
 
   if (!user || user.is_anonymous || user.app_metadata?.role !== "admin") {
-    return Response.json({ error: "Admin login required." }, { status: 403 });
+    return errorResponse(HTTP_FORBIDDEN, "adminLoginRequired", request);
   }
 
   const body = await request.json().catch(() => null);
@@ -31,7 +33,7 @@ export async function POST(request: Request) {
     !publishedAt.trim() ||
     !blogCategories.includes(category)
   ) {
-    return Response.json({ error: "Invalid input." }, { status: 400 });
+    return errorResponse(HTTP_BAD_REQUEST, "invalidInput", request);
   }
 
   try {
@@ -47,6 +49,6 @@ export async function POST(request: Request) {
     });
     return Response.json({ post });
   } catch {
-    return Response.json({ error: "Failed to create post." }, { status: 500 });
+    return errorResponse(HTTP_INTERNAL_SERVER_ERROR, "failedToCreatePost", request);
   }
 }

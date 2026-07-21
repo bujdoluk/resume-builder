@@ -1,6 +1,7 @@
 
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { Temporal } from "temporal-polyfill";
+import { RESUMES_PAGE_SIZE } from "@/lib/constants";
 import type { FieldKey } from "@/lib/fields";
 import { defaultFontSizeKey, type FontSizeKey } from "@/lib/fontSize";
 import type { FontKey } from "@/lib/fonts";
@@ -106,8 +107,6 @@ export async function countResumes(supabase: SupabaseClient, userId: string): Pr
   if (error) throw error;
   return count ?? 0;
 }
-
-export const RESUMES_PAGE_SIZE = 12;
 
 export interface ResumeSort {
   column: "name" | "created_at" | "updated_at";

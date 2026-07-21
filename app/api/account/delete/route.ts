@@ -1,17 +1,19 @@
 
 import * as Sentry from "@sentry/nextjs";
+import { errorResponse } from "@/lib/apiErrors";
+import { HTTP_BAD_GATEWAY, HTTP_INTERNAL_SERVER_ERROR, HTTP_UNAUTHORIZED } from "@/lib/constants";
 import { getStripe } from "@/lib/stripe";
 import { createClient } from "@/lib/supabase/server";
 import { createServiceRoleClient } from "@/lib/supabase/serviceRole";
 
-export async function POST() {
+export async function POST(request: Request) {
   const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
 
   if (!user || user.is_anonymous) {
-    return Response.json({ error: "Login required." }, { status: 401 });
+    return errorResponse(HTTP_UNAUTHORIZED, "loginRequired", request);
   }
 
   const { data: subscriptionRow } = await supabase
@@ -26,10 +28,7 @@ export async function POST() {
     } catch (error) {
       console.error(error);
       Sentry.captureException(error);
-      return Response.json(
-        { error: "Failed to cancel your subscription. Please try again or contact support." },
-        { status: 502 },
-      );
+      return errorResponse(HTTP_BAD_GATEWAY, "failedToCancelSubscription", request);
     }
   }
 
@@ -37,7 +36,7 @@ export async function POST() {
   if (error) {
     console.error(error);
     Sentry.captureException(error);
-    return Response.json({ error: "Failed to delete account." }, { status: 500 });
+    return errorResponse(HTTP_INTERNAL_SERVER_ERROR, "failedToDeleteAccount", request);
   }
 
   return Response.json({ ok: true });

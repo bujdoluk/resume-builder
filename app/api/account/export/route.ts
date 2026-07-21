@@ -1,18 +1,20 @@
 
 import { Temporal } from "temporal-polyfill";
+import { errorResponse } from "@/lib/apiErrors";
+import { HTTP_UNAUTHORIZED } from "@/lib/constants";
 import { createClient } from "@/lib/supabase/server";
 import { listAllCoverLetters } from "@/lib/supabase/coverLetters";
 import { listAllResumes } from "@/lib/supabase/resumes";
 import { getSubscription } from "@/lib/supabase/subscriptions";
 
-export async function GET() {
+export async function GET(request: Request) {
   const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
 
   if (!user || user.is_anonymous) {
-    return Response.json({ error: "Login required." }, { status: 401 });
+    return errorResponse(HTTP_UNAUTHORIZED, "loginRequired", request);
   }
 
   const [resumes, coverLetters, subscription] = await Promise.all([

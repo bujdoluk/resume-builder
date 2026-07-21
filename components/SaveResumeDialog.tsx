@@ -2,12 +2,11 @@
 
 import { useImperativeHandle, useRef, useState, type Ref } from "react";
 import { useTranslation } from "react-i18next";
+import { MAX_SAVED_ITEM_NAME_LENGTH } from "@/lib/constants";
 
 export interface SaveResumeDialogHandle {
   open: (initialName: string) => Promise<string | null>;
 }
-
-const MAX_NAME_LENGTH = 100;
 
 export default function SaveResumeDialog({
   ref,
@@ -26,7 +25,7 @@ export default function SaveResumeDialog({
   const dialogRef = useRef<HTMLDialogElement>(null);
   const resolveRef = useRef<((name: string | null) => void) | null>(null);
   const [name, setName] = useState("");
-  const isTooLong = name.trim().length > MAX_NAME_LENGTH;
+  const isTooLong = name.trim().length > MAX_SAVED_ITEM_NAME_LENGTH;
 
   useImperativeHandle(ref, () => ({
     open(initialName) {

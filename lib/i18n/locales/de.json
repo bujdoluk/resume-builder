@@ -434,5 +434,33 @@
     "supportChatTitle": "Support-Chat",
     "supportChatDescription": "Lädt das Tawk.to-Live-Chat-Widget, damit unser Support-Team Ihnen direkt helfen kann. Setzt Cookies von Drittanbietern.",
     "preferencesLink": "Cookie-Einstellungen"
+  },
+  "errors": {
+    "badRequest": "Mit dieser Anfrage stimmte etwas nicht. Bitte überprüfen Sie Ihre Eingabe und versuchen Sie es erneut.",
+    "unauthorized": "Bitte melden Sie sich an, um fortzufahren.",
+    "forbidden": "Sie haben keine Berechtigung dafür.",
+    "notFound": "Wir konnten nicht finden, wonach Sie gesucht haben.",
+    "conflict": "Das steht im Konflikt mit etwas, das bereits existiert.",
+    "tooManyRequests": "Zu viele Anfragen. Bitte warten Sie einen Moment und versuchen Sie es erneut.",
+    "genericClient": "Mit dieser Anfrage stimmte etwas nicht. Bitte versuchen Sie es erneut.",
+    "genericServer": "Bei uns ist etwas schiefgelaufen. Bitte versuchen Sie es erneut."
+  },
+  "apiErrors": {
+    "loginRequired": "Anmeldung erforderlich.",
+    "adminLoginRequired": "Admin-Anmeldung erforderlich.",
+    "invalidInput": "Ungültige Eingabe.",
+    "failedToCreatePost": "Beitrag konnte nicht erstellt werden.",
+    "captchaVerificationFailed": "Captcha-Überprüfung fehlgeschlagen.",
+    "invalidEmailAddress": "Ungültige E-Mail-Adresse.",
+    "invalidTextData": "Ungültige Textdaten.",
+    "missingWordData": "Word-Dokumentdaten fehlen.",
+    "invalidWordData": "Ungültige Word-Dokumentdaten.",
+    "missingPdfData": "PDF-Daten fehlen.",
+    "invalidPdfData": "Ungültige PDF-Daten.",
+    "invalidAction": "Ungültige Aktion.",
+    "noSubscriptionFound": "Kein Abonnement gefunden.",
+    "invalidPlan": "Ungültiger Tarif.",
+    "failedToCancelSubscription": "Ihr Abonnement konnte nicht gekündigt werden. Bitte versuchen Sie es erneut oder kontaktieren Sie den Support.",
+    "failedToDeleteAccount": "Konto konnte nicht gelöscht werden."
   }
 }

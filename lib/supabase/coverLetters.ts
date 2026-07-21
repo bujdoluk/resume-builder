@@ -2,6 +2,7 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { Temporal } from "temporal-polyfill";
 import type { CoverLetterData } from "@/lib/coverLetterData";
+import { COVER_LETTERS_PAGE_SIZE } from "@/lib/constants";
 import { nextCopyName } from "@/lib/supabase/resumes";
 
 export interface CoverLetterRow {
@@ -94,8 +95,6 @@ export async function countCoverLetters(supabase: SupabaseClient, userId: string
   if (error) throw error;
   return count ?? 0;
 }
-
-export const COVER_LETTERS_PAGE_SIZE = 12;
 
 export interface CoverLetterSort {
   column: "name" | "created_at" | "updated_at";

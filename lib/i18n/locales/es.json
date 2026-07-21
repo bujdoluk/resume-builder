@@ -434,5 +434,33 @@
     "supportChatTitle": "Chat de soporte",
     "supportChatDescription": "Carga el widget de chat en vivo de Tawk.to para que nuestro equipo de soporte pueda ayudarte directamente. Establece cookies de terceros.",
     "preferencesLink": "Preferencias de cookies"
+  },
+  "errors": {
+    "badRequest": "Esa solicitud no era correcta. Comprueba los datos introducidos e inténtalo de nuevo.",
+    "unauthorized": "Inicia sesión para continuar.",
+    "forbidden": "No tienes permiso para hacer eso.",
+    "notFound": "No pudimos encontrar lo que buscabas.",
+    "conflict": "Eso entra en conflicto con algo que ya existe.",
+    "tooManyRequests": "Demasiadas solicitudes. Espera un momento e inténtalo de nuevo.",
+    "genericClient": "Algo no estaba bien con esa solicitud. Inténtalo de nuevo.",
+    "genericServer": "Algo salió mal por nuestra parte. Inténtalo de nuevo."
+  },
+  "apiErrors": {
+    "loginRequired": "Se requiere iniciar sesión.",
+    "adminLoginRequired": "Se requiere inicio de sesión de administrador.",
+    "invalidInput": "Entrada no válida.",
+    "failedToCreatePost": "No se pudo crear la entrada.",
+    "captchaVerificationFailed": "La verificación captcha ha fallado.",
+    "invalidEmailAddress": "Dirección de correo electrónico no válida.",
+    "invalidTextData": "Datos de texto no válidos.",
+    "missingWordData": "Faltan los datos del documento de Word.",
+    "invalidWordData": "Datos del documento de Word no válidos.",
+    "missingPdfData": "Faltan los datos del PDF.",
+    "invalidPdfData": "Datos del PDF no válidos.",
+    "invalidAction": "Acción no válida.",
+    "noSubscriptionFound": "No se encontró ninguna suscripción.",
+    "invalidPlan": "Plan no válido.",
+    "failedToCancelSubscription": "No se pudo cancelar tu suscripción. Inténtalo de nuevo o contacta con soporte.",
+    "failedToDeleteAccount": "No se pudo eliminar la cuenta."
   }
 }

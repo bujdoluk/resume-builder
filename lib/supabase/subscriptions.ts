@@ -17,11 +17,6 @@ const FREE_SUBSCRIPTION: Subscription = {
   cancelAtPeriodEnd: false,
 };
 
-export const FREE_TIER_LIMITS = {
-  resumes: 2,
-  coverLetters: 2,
-};
-
 interface SubscriptionTableRow {
   plan: Plan;
   status: string;

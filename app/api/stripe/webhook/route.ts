@@ -1,6 +1,7 @@
 
 import type Stripe from "stripe";
 import * as Sentry from "@sentry/nextjs";
+import { HTTP_BAD_REQUEST, HTTP_INTERNAL_SERVER_ERROR, HTTP_OK } from "@/lib/constants";
 import { sendWelcomeEmail } from "@/lib/email/sendWelcomeEmail";
 import { getStripe } from "@/lib/stripe";
 import { createServiceRoleClient } from "@/lib/supabase/serviceRole";
@@ -51,7 +52,7 @@ export async function POST(request: Request) {
   } catch (error) {
     console.error("Stripe webhook signature verification failed:", error);
     Sentry.captureException(error);
-    return new Response("Invalid signature", { status: 400 });
+    return new Response("Invalid signature", { status: HTTP_BAD_REQUEST });
   }
 
   try {
@@ -121,8 +122,8 @@ export async function POST(request: Request) {
   } catch (error) {
     console.error(`Failed to process Stripe webhook event ${event.type}:`, error);
     Sentry.captureException(error, { tags: { stripeEventType: event.type } });
-    return new Response("Webhook handler error", { status: 500 });
+    return new Response("Webhook handler error", { status: HTTP_INTERNAL_SERVER_ERROR });
   }
 
-  return new Response("ok", { status: 200 });
+  return new Response("ok", { status: HTTP_OK });
 }

@@ -4,12 +4,16 @@ import Link from "next/link";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { CheckIcon } from "@/components/Icons";
+import { useToast } from "@/components/Toast";
+import { API_LOCALE_HEADER } from "@/lib/apiLocaleHeader";
+import { handleApiResponse } from "@/lib/apiResponse";
 import { createClient } from "@/lib/supabase/client";
 
 type PaidPlan = "monthly" | "annual";
 
 export default function PricingSection() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const { showToast } = useToast();
   const [supabase] = useState(() => createClient());
   const [loadingPlan, setLoadingPlan] = useState<PaidPlan | null>(null);
 
@@ -28,11 +32,11 @@ export default function PricingSection() {
 
       const response = await fetch("/api/stripe/checkout", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", [API_LOCALE_HEADER]: i18n.language },
         body: JSON.stringify({ plan }),
       });
-      const body = await response.json();
-      if (body.url) {
+      const body = await handleApiResponse<{ url: string }>(response, showToast, t);
+      if (body?.url) {
         window.location.href = body.url;
       } else {
         setLoadingPlan(null);

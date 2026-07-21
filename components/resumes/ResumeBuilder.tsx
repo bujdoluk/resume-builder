@@ -19,6 +19,7 @@ import Resume from "@/components/resumes/Resume";
 import SaveResumeDialog, {
   type SaveResumeDialogHandle,
 } from "@/components/SaveResumeDialog";
+import { FREE_TIER_LIMITS, SAVED_INDICATOR_DURATION_MS } from "@/lib/constants";
 import type { ExportFormat } from "@/lib/exportFormat";
 import { defaultFontSizeKey } from "@/lib/fontSize";
 import {
@@ -36,7 +37,7 @@ import { scrollToSectionAnchor } from "@/lib/scrollToSectionAnchor";
 import { createClient } from "@/lib/supabase/client";
 import { countResumes, getResume, saveResume } from "@/lib/supabase/resumes";
 import { ensureUserId } from "@/lib/supabase/session";
-import { FREE_TIER_LIMITS, getSubscription, isPaidPlan } from "@/lib/supabase/subscriptions";
+import { getSubscription, isPaidPlan } from "@/lib/supabase/subscriptions";
 import {
   defaultTemplateId,
   templates,
@@ -290,7 +291,7 @@ export default function ResumeBuilder({
       clearDraft();
       notifyResumeListChanged();
       setJustSaved(true);
-      setTimeout(() => setJustSaved(false), 1500);
+      setTimeout(() => setJustSaved(false), SAVED_INDICATOR_DURATION_MS);
     } catch (error) {
       console.error(error);
       Sentry.captureException(error);

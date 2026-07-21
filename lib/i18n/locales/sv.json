@@ -434,5 +434,33 @@
     "supportChatTitle": "Supportchatt",
     "supportChatDescription": "Laddar Tawk.tos livechattwidget så att vårt supportteam kan hjälpa dig direkt. Sätter tredjepartscookies.",
     "preferencesLink": "Cookie-inställningar"
+  },
+  "errors": {
+    "badRequest": "Den begäran var inte helt korrekt. Kontrollera det du angav och försök igen.",
+    "unauthorized": "Logga in för att fortsätta.",
+    "forbidden": "Du har inte behörighet att göra det.",
+    "notFound": "Vi kunde inte hitta det du letade efter.",
+    "conflict": "Det står i konflikt med något som redan finns.",
+    "tooManyRequests": "För många förfrågningar. Vänta en stund och försök igen.",
+    "genericClient": "Något stämde inte med den begäran. Försök igen.",
+    "genericServer": "Något gick fel på vår sida. Försök igen."
+  },
+  "apiErrors": {
+    "loginRequired": "Inloggning krävs.",
+    "adminLoginRequired": "Admin-inloggning krävs.",
+    "invalidInput": "Ogiltig inmatning.",
+    "failedToCreatePost": "Det gick inte att skapa inlägget.",
+    "captchaVerificationFailed": "Captcha-verifieringen misslyckades.",
+    "invalidEmailAddress": "Ogiltig e-postadress.",
+    "invalidTextData": "Ogiltiga textdata.",
+    "missingWordData": "Word-dokumentdata saknas.",
+    "invalidWordData": "Ogiltiga Word-dokumentdata.",
+    "missingPdfData": "PDF-data saknas.",
+    "invalidPdfData": "Ogiltiga PDF-data.",
+    "invalidAction": "Ogiltig åtgärd.",
+    "noSubscriptionFound": "Ingen prenumeration hittades.",
+    "invalidPlan": "Ogiltig plan.",
+    "failedToCancelSubscription": "Det gick inte att säga upp din prenumeration. Försök igen eller kontakta support.",
+    "failedToDeleteAccount": "Det gick inte att ta bort kontot."
   }
 }

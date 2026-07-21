@@ -434,5 +434,33 @@
     "supportChatTitle": "Support-chat",
     "supportChatDescription": "Laster inn Tawk.to sin live chat-widget slik at supportteamet vårt kan hjelpe deg direkte. Setter tredjeparts informasjonskapsler.",
     "preferencesLink": "Informasjonskapsler"
+  },
+  "errors": {
+    "badRequest": "Forespørselen var ikke helt riktig. Sjekk det du skrev inn, og prøv igjen.",
+    "unauthorized": "Logg inn for å fortsette.",
+    "forbidden": "Du har ikke tillatelse til å gjøre det.",
+    "notFound": "Vi fant ikke det du lette etter.",
+    "conflict": "Det er i konflikt med noe som allerede finnes.",
+    "tooManyRequests": "For mange forespørsler. Vent litt og prøv igjen.",
+    "genericClient": "Noe var ikke riktig med den forespørselen. Prøv igjen.",
+    "genericServer": "Noe gikk galt på vår side. Prøv igjen."
+  },
+  "apiErrors": {
+    "loginRequired": "Innlogging kreves.",
+    "adminLoginRequired": "Admin-innlogging kreves.",
+    "invalidInput": "Ugyldig inndata.",
+    "failedToCreatePost": "Kunne ikke opprette innlegget.",
+    "captchaVerificationFailed": "Captcha-verifisering mislyktes.",
+    "invalidEmailAddress": "Ugyldig e-postadresse.",
+    "invalidTextData": "Ugyldige tekstdata.",
+    "missingWordData": "Word-dokumentdata mangler.",
+    "invalidWordData": "Ugyldige Word-dokumentdata.",
+    "missingPdfData": "PDF-data mangler.",
+    "invalidPdfData": "Ugyldige PDF-data.",
+    "invalidAction": "Ugyldig handling.",
+    "noSubscriptionFound": "Fant ikke noe abonnement.",
+    "invalidPlan": "Ugyldig plan.",
+    "failedToCancelSubscription": "Kunne ikke si opp abonnementet. Prøv igjen eller kontakt support.",
+    "failedToDeleteAccount": "Kunne ikke slette kontoen."
   }
 }

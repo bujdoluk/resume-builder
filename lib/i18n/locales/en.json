@@ -434,5 +434,33 @@
     "supportChatTitle": "Support Chat",
     "supportChatDescription": "Loads the Tawk.to live chat widget so our support team can help you directly. Sets third-party cookies.",
     "preferencesLink": "Cookie Preferences"
+  },
+  "errors": {
+    "badRequest": "That request wasn't quite right. Please check your input and try again.",
+    "unauthorized": "Please log in to continue.",
+    "forbidden": "You don't have permission to do that.",
+    "notFound": "We couldn't find what you were looking for.",
+    "conflict": "That conflicts with something that already exists.",
+    "tooManyRequests": "Too many requests. Please wait a moment and try again.",
+    "genericClient": "Something wasn't right with that request. Please try again.",
+    "genericServer": "Something went wrong on our end. Please try again."
+  },
+  "apiErrors": {
+    "loginRequired": "Login required.",
+    "adminLoginRequired": "Admin login required.",
+    "invalidInput": "Invalid input.",
+    "failedToCreatePost": "Failed to create post.",
+    "captchaVerificationFailed": "Captcha verification failed.",
+    "invalidEmailAddress": "Invalid email address.",
+    "invalidTextData": "Invalid text data.",
+    "missingWordData": "Missing Word document data.",
+    "invalidWordData": "Invalid Word document data.",
+    "missingPdfData": "Missing PDF data.",
+    "invalidPdfData": "Invalid PDF data.",
+    "invalidAction": "Invalid action.",
+    "noSubscriptionFound": "No subscription found.",
+    "invalidPlan": "Invalid plan.",
+    "failedToCancelSubscription": "Failed to cancel your subscription. Please try again or contact support.",
+    "failedToDeleteAccount": "Failed to delete account."
   }
 }

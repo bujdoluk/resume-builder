@@ -7,6 +7,9 @@ import { useTranslation } from "react-i18next";
 import { Temporal } from "temporal-polyfill";
 import ConfirmDialog, { type ConfirmDialogHandle } from "@/components/ConfirmDialog";
 import { ArrowLeftIcon } from "@/components/Icons";
+import { useToast } from "@/components/Toast";
+import { API_LOCALE_HEADER } from "@/lib/apiLocaleHeader";
+import { handleApiResponse } from "@/lib/apiResponse";
 import { createClient } from "@/lib/supabase/client";
 import { getSubscription, type Subscription } from "@/lib/supabase/subscriptions";
 
@@ -17,6 +20,7 @@ function formatDate(iso: string, locale: string): string {
 export default function BillingPage() {
   const { t, i18n } = useTranslation();
   const router = useRouter();
+  const { showToast } = useToast();
   const [supabase] = useState(() => createClient());
   const [subscription, setSubscription] = useState<Subscription | null>(null);
   const [actionLoading, setActionLoading] = useState(false);
@@ -51,11 +55,15 @@ export default function BillingPage() {
     try {
       const response = await fetch("/api/stripe/cancel", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", [API_LOCALE_HEADER]: i18n.language },
         body: JSON.stringify({ action }),
       });
-      if (!response.ok) throw new Error("Request failed");
-      const body = await response.json();
+      const body = await handleApiResponse<{
+        status: string;
+        cancelAtPeriodEnd: boolean;
+        currentPeriodEnd: string | null;
+      }>(response, showToast, t);
+      if (!body) return;
       setSubscription((prev) =>
         prev
           ? {
@@ -66,8 +74,6 @@ export default function BillingPage() {
             }
           : prev,
       );
-    } catch {
-      alert(t("account.actionFailed"));
     } finally {
       setActionLoading(false);
     }

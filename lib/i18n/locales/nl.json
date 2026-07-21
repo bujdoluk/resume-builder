@@ -434,5 +434,33 @@
     "supportChatTitle": "Support chat",
     "supportChatDescription": "Laadt de Tawk.to live-chatwidget zodat ons supportteam je direct kan helpen. Plaatst cookies van derden.",
     "preferencesLink": "Cookievoorkeuren"
+  },
+  "errors": {
+    "badRequest": "Dat verzoek klopte niet helemaal. Controleer je invoer en probeer het opnieuw.",
+    "unauthorized": "Log in om door te gaan.",
+    "forbidden": "Je hebt geen toestemming om dat te doen.",
+    "notFound": "We konden niet vinden wat je zocht.",
+    "conflict": "Dat is in strijd met iets dat al bestaat.",
+    "tooManyRequests": "Te veel verzoeken. Wacht even en probeer het opnieuw.",
+    "genericClient": "Er klopte iets niet met dat verzoek. Probeer het opnieuw.",
+    "genericServer": "Er is iets misgegaan aan onze kant. Probeer het opnieuw."
+  },
+  "apiErrors": {
+    "loginRequired": "Inloggen vereist.",
+    "adminLoginRequired": "Beheerderslogin vereist.",
+    "invalidInput": "Ongeldige invoer.",
+    "failedToCreatePost": "Bericht kon niet worden aangemaakt.",
+    "captchaVerificationFailed": "Captcha-verificatie mislukt.",
+    "invalidEmailAddress": "Ongeldig e-mailadres.",
+    "invalidTextData": "Ongeldige tekstgegevens.",
+    "missingWordData": "Word-documentgegevens ontbreken.",
+    "invalidWordData": "Ongeldige Word-documentgegevens.",
+    "missingPdfData": "PDF-gegevens ontbreken.",
+    "invalidPdfData": "Ongeldige PDF-gegevens.",
+    "invalidAction": "Ongeldige actie.",
+    "noSubscriptionFound": "Geen abonnement gevonden.",
+    "invalidPlan": "Ongeldig abonnement.",
+    "failedToCancelSubscription": "Je abonnement kon niet worden opgezegd. Probeer het opnieuw of neem contact op met support.",
+    "failedToDeleteAccount": "Account kon niet worden verwijderd."
   }
 }

@@ -15,6 +15,7 @@ import {
   MyResumesIcon,
   TemplatesIcon,
 } from "@/components/Icons";
+import { TESTIMONIAL_PULSE_INTERVAL_MS, TESTIMONIAL_PULSE_START_DELAY_MS } from "@/lib/constants";
 
 const features = [
   { key: "templates", icon: TemplatesIcon },
@@ -48,8 +49,8 @@ export default function LandingPage() {
       setPulseCount((count) => count + 1);
       interval = setInterval(() => {
         setPulseCount((count) => count + 1);
-      }, 7000);
-    }, 3000);
+      }, TESTIMONIAL_PULSE_INTERVAL_MS);
+    }, TESTIMONIAL_PULSE_START_DELAY_MS);
 
     return () => {
       clearTimeout(startTimer);

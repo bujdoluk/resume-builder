@@ -2,11 +2,10 @@
 
 import { useEffect, useRef } from "react";
 import HCaptcha from "@hcaptcha/react-hcaptcha";
+import { CAPTCHA_POLL_ATTEMPTS, CAPTCHA_POLL_INTERVAL_MS } from "@/lib/constants";
 import { registerCaptchaExecutor } from "@/lib/supabase/invisibleCaptcha";
 
 const HCAPTCHA_SITE_KEY = process.env.NEXT_PUBLIC_HCAPTCHA_SITE_KEY;
-const READY_POLL_INTERVAL_MS = 100;
-const READY_POLL_ATTEMPTS = 20;
 
 function delay(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -22,8 +21,8 @@ export default function InvisibleCaptcha() {
       const widget = widgetRef.current;
       if (!widget) return undefined;
 
-      for (let attempt = 0; attempt < READY_POLL_ATTEMPTS && !widget.isReady(); attempt++) {
-        await delay(READY_POLL_INTERVAL_MS);
+      for (let attempt = 0; attempt < CAPTCHA_POLL_ATTEMPTS && !widget.isReady(); attempt++) {
+        await delay(CAPTCHA_POLL_INTERVAL_MS);
       }
       if (!widget.isReady()) return undefined;
 

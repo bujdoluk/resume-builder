@@ -3,7 +3,11 @@
 import { useRef, useState, type ComponentType } from "react";
 import { useTranslation } from "react-i18next";
 import { EmailIcon } from "@/components/Icons";
+import { useToast } from "@/components/Toast";
 import type { ExportFormat } from "@/lib/exportFormat";
+import { API_LOCALE_HEADER } from "@/lib/apiLocaleHeader";
+import { handleApiResponse } from "@/lib/apiResponse";
+import { EMAIL_SENT_DIALOG_CLOSE_DELAY_MS } from "@/lib/constants";
 import { registerPdfFonts } from "@/lib/pdf/fonts";
 import { getAnonymousCaptchaToken } from "@/lib/supabase/invisibleCaptcha";
 
@@ -34,15 +38,14 @@ export default function EmailButton<T extends object>({
   fileName,
   className,
 }: EmailButtonProps<T>) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const { showToast } = useToast();
   const dialogRef = useRef<HTMLDialogElement>(null);
   const [to, setTo] = useState("");
   const [isSending, setIsSending] = useState(false);
-  const [error, setError] = useState<string | null>(null);
   const [sent, setSent] = useState(false);
 
   function openDialog() {
-    setError(null);
     setSent(false);
     dialogRef.current?.showModal();
   }
@@ -55,7 +58,6 @@ export default function EmailButton<T extends object>({
     event.preventDefault();
     if (isSending) return;
     setIsSending(true);
-    setError(null);
     try {
       const captchaToken = await getAnonymousCaptchaToken();
       const body: Record<string, string> = { to, fileName, format };
@@ -74,20 +76,16 @@ export default function EmailButton<T extends object>({
 
       const response = await fetch("/api/send-email", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", [API_LOCALE_HEADER]: i18n.language },
         body: JSON.stringify(body),
       });
 
-      if (!response.ok) {
-        const responseBody = await response.json().catch(() => null);
-        throw new Error(responseBody?.error || t("emailDialog.sendFailed"));
-      }
+      const result = await handleApiResponse(response, showToast, t);
+      if (!result) return;
 
       setSent(true);
       setTo("");
-      setTimeout(closeDialog, 1200);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : t("emailDialog.sendFailed"));
+      setTimeout(closeDialog, EMAIL_SENT_DIALOG_CLOSE_DELAY_MS);
     } finally {
       setIsSending(false);
     }
@@ -119,7 +117,6 @@ export default function EmailButton<T extends object>({
                 placeholder={t("emailDialog.placeholder")}
                 autoFocus
               />
-              {error && <p className="text-error mt-1 text-sm">{error}</p>}
               {sent && (
                 <p className="text-success mt-1 text-sm">{t("emailDialog.sent")}</p>
               )}

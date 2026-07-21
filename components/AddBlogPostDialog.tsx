@@ -3,6 +3,9 @@
 import { useImperativeHandle, useRef, useState, type Ref } from "react";
 import { useTranslation } from "react-i18next";
 import { Temporal } from "temporal-polyfill";
+import { useToast } from "@/components/Toast";
+import { API_LOCALE_HEADER } from "@/lib/apiLocaleHeader";
+import { handleApiResponse } from "@/lib/apiResponse";
 import { blogCategories, type BlogCategoryKey } from "@/lib/supabase/blogPosts";
 
 export interface AddBlogPostDialogHandle {
@@ -21,17 +24,16 @@ const EMPTY_FORM = {
 };
 
 export default function AddBlogPostDialog({ ref }: { ref?: Ref<AddBlogPostDialogHandle> }) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const { showToast } = useToast();
   const dialogRef = useRef<HTMLDialogElement>(null);
   const resolveRef = useRef<((created: boolean) => void) | null>(null);
   const [form, setForm] = useState(EMPTY_FORM);
   const [submitting, setSubmitting] = useState(false);
-  const [error, setError] = useState<string | null>(null);
 
   useImperativeHandle(ref, () => ({
     open() {
       setForm({ ...EMPTY_FORM, publishedAt: Temporal.Now.plainDateISO().toString() });
-      setError(null);
       dialogRef.current?.showModal();
       return new Promise<boolean>((resolve) => {
         resolveRef.current = resolve;
@@ -52,24 +54,18 @@ export default function AddBlogPostDialog({ ref }: { ref?: Ref<AddBlogPostDialog
   async function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
     setSubmitting(true);
-    setError(null);
     try {
       const response = await fetch("/api/blog", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", [API_LOCALE_HEADER]: i18n.language },
         body: JSON.stringify({
           ...form,
           authorAvatarUrl: form.authorAvatarUrl.trim() || null,
         }),
       });
-      if (!response.ok) {
-        const body = await response.json().catch(() => null);
-        setError(body?.error ?? t("blog.dialog.submitError"));
-        return;
-      }
+      const body = await handleApiResponse(response, showToast, t);
+      if (!body) return;
       close(true);
-    } catch {
-      setError(t("blog.dialog.submitError"));
     } finally {
       setSubmitting(false);
     }
@@ -194,7 +190,6 @@ export default function AddBlogPostDialog({ ref }: { ref?: Ref<AddBlogPostDialog
               </div>
             </div>
 
-            {error && <p className="text-error mt-3 text-sm">{error}</p>}
           </fieldset>
 
           <div className="modal-action">

@@ -1,5 +1,6 @@
 
 import type { SupabaseClient } from "@supabase/supabase-js";
+import { MAX_SLUG_ATTEMPTS } from "@/lib/constants";
 
 export type BlogCategoryKey =
   | "resumeTips"
@@ -103,8 +104,6 @@ export interface NewBlogPostInput {
   readTime: string;
   publishedAt: string;
 }
-
-const MAX_SLUG_ATTEMPTS = 20;
 
 export async function createBlogPost(
   supabase: SupabaseClient,

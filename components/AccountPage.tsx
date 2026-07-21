@@ -6,6 +6,9 @@ import { useTranslation } from "react-i18next";
 import { Temporal } from "temporal-polyfill";
 import ConfirmDialog, { type ConfirmDialogHandle } from "@/components/ConfirmDialog";
 import { ArrowLeftIcon } from "@/components/Icons";
+import { useToast } from "@/components/Toast";
+import { API_LOCALE_HEADER } from "@/lib/apiLocaleHeader";
+import { handleApiResponse } from "@/lib/apiResponse";
 import { createClient } from "@/lib/supabase/client";
 
 function formatDate(iso: string, locale: string): string {
@@ -15,6 +18,7 @@ function formatDate(iso: string, locale: string): string {
 export default function AccountPage() {
   const { t, i18n } = useTranslation();
   const router = useRouter();
+  const { showToast } = useToast();
   const [supabase] = useState(() => createClient());
   const [email, setEmail] = useState<string | null>(null);
   const [createdAt, setCreatedAt] = useState<string | null>(null);
@@ -37,9 +41,11 @@ export default function AccountPage() {
   async function handleExport() {
     setExportLoading(true);
     try {
-      const response = await fetch("/api/account/export");
-      if (!response.ok) throw new Error("Request failed");
-      const data = await response.json();
+      const response = await fetch("/api/account/export", {
+        headers: { [API_LOCALE_HEADER]: i18n.language },
+      });
+      const data = await handleApiResponse(response, showToast, t);
+      if (!data) return;
 
       const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
       const url = URL.createObjectURL(blob);
@@ -48,8 +54,6 @@ export default function AccountPage() {
       link.download = `quickresumebuilder-data-${Temporal.Now.plainDateISO().toString()}.json`;
       link.click();
       URL.revokeObjectURL(url);
-    } catch {
-      alert(t("account.actionFailed"));
     } finally {
       setExportLoading(false);
     }
@@ -63,15 +67,17 @@ export default function AccountPage() {
     if (!confirmed) return;
 
     setActionLoading(true);
-    try {
-      const response = await fetch("/api/account/delete", { method: "POST" });
-      if (!response.ok) throw new Error("Request failed");
-      await supabase.auth.signOut();
-      router.push("/");
-    } catch {
-      alert(t("account.deleteFailed"));
+    const response = await fetch("/api/account/delete", {
+      method: "POST",
+      headers: { [API_LOCALE_HEADER]: i18n.language },
+    });
+    const result = await handleApiResponse(response, showToast, t);
+    if (!result) {
       setActionLoading(false);
+      return;
     }
+    await supabase.auth.signOut();
+    router.push("/");
   }
 
   if (!email) {

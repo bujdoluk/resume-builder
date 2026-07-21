@@ -1,11 +1,13 @@
 
+import { errorResponse } from "@/lib/apiErrors";
+import { HTTP_BAD_REQUEST, HTTP_NOT_FOUND, HTTP_UNAUTHORIZED } from "@/lib/constants";
 import { getStripe } from "@/lib/stripe";
 import { createClient } from "@/lib/supabase/server";
 
 export async function POST(request: Request) {
   const { action } = await request.json();
   if (action !== "cancel" && action !== "resume") {
-    return Response.json({ error: "Invalid action." }, { status: 400 });
+    return errorResponse(HTTP_BAD_REQUEST, "invalidAction", request);
   }
 
   const supabase = await createClient();
@@ -14,7 +16,7 @@ export async function POST(request: Request) {
   } = await supabase.auth.getUser();
 
   if (!user || user.is_anonymous) {
-    return Response.json({ error: "Login required." }, { status: 401 });
+    return errorResponse(HTTP_UNAUTHORIZED, "loginRequired", request);
   }
 
   const { data: subscriptionRow } = await supabase
@@ -24,7 +26,7 @@ export async function POST(request: Request) {
     .maybeSingle();
 
   if (!subscriptionRow?.stripe_subscription_id) {
-    return Response.json({ error: "No subscription found." }, { status: 404 });
+    return errorResponse(HTTP_NOT_FOUND, "noSubscriptionFound", request);
   }
 
   const subscription = await getStripe().subscriptions.update(subscriptionRow.stripe_subscription_id, {

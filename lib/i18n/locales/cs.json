@@ -434,5 +434,33 @@
     "supportChatTitle": "Chat podpory",
     "supportChatDescription": "Načte živý chat Tawk.to, aby vám náš tým podpory mohl pomoci přímo. Nastavuje cookies třetích stran.",
     "preferencesLink": "Nastavení cookies"
+  },
+  "errors": {
+    "badRequest": "Požadavek nebyl v pořádku. Zkontrolujte prosím zadané údaje a zkuste to znovu.",
+    "unauthorized": "Pro pokračování se prosím přihlaste.",
+    "forbidden": "K této akci nemáte oprávnění.",
+    "notFound": "Nepodařilo se nám najít, co hledáte.",
+    "conflict": "To koliduje s něčím, co už existuje.",
+    "tooManyRequests": "Příliš mnoho požadavků. Počkejte prosím chvíli a zkuste to znovu.",
+    "genericClient": "S tímto požadavkem něco nebylo v pořádku. Zkuste to prosím znovu.",
+    "genericServer": "Na naší straně došlo k chybě. Zkuste to prosím znovu."
+  },
+  "apiErrors": {
+    "loginRequired": "Je vyžadováno přihlášení.",
+    "adminLoginRequired": "Je vyžadováno přihlášení správce.",
+    "invalidInput": "Neplatný vstup.",
+    "failedToCreatePost": "Vytvoření příspěvku se nezdařilo.",
+    "captchaVerificationFailed": "Ověření captcha se nezdařilo.",
+    "invalidEmailAddress": "Neplatná e-mailová adresa.",
+    "invalidTextData": "Neplatná textová data.",
+    "missingWordData": "Chybí data dokumentu Word.",
+    "invalidWordData": "Neplatná data dokumentu Word.",
+    "missingPdfData": "Chybí data PDF.",
+    "invalidPdfData": "Neplatná data PDF.",
+    "invalidAction": "Neplatná akce.",
+    "noSubscriptionFound": "Předplatné nebylo nalezeno.",
+    "invalidPlan": "Neplatný tarif.",
+    "failedToCancelSubscription": "Zrušení předplatného se nezdařilo. Zkuste to prosím znovu nebo kontaktujte podporu.",
+    "failedToDeleteAccount": "Odstranění účtu se nezdařilo."
   }
 }
