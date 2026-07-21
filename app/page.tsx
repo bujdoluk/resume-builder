@@ -1,6 +1,6 @@
 
 import type { Metadata } from "next";
-import LandingPage from "@/components/LandingPage";
+import LandingPage from "@/components/landing-page/LandingPage";
 
 const title = "QuickResumeBuilder.online — Free Online Resume Builder";
 const description =

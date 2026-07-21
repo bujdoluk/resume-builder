@@ -6,7 +6,7 @@ import {
   type ComponentType,
   type Ref,
 } from "react";
-import ScaleToFitWidth from "@/components/ScaleToFitWidth";
+import ScaleToFit from "@/components/ScaleToFit";
 
 export interface PreviewModalHandle {
   open: () => void;
@@ -35,9 +35,9 @@ export default function PreviewModal<T extends object>({
     <>
       <dialog ref={dialogRef} className="modal">
         <div className="modal-box max-h-[90vh]! w-[95vw]! max-w-[95vw]! overflow-auto! rounded-none! rounded-tr-2xl! rounded-br-2xl! bg-transparent! p-0! shadow-none! lg:w-fit! lg:max-w-none!">
-          <ScaleToFitWidth>
+          <ScaleToFit>
             <TemplateComponent {...templateProps} />
-          </ScaleToFitWidth>
+          </ScaleToFit>
         </div>
         <form method="dialog" className="modal-backdrop">
           <button>close</button>

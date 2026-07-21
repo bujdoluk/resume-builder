@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import Footer from "@/components/Footer";
-import PricingSection from "@/components/PricingSection";
+import PricingSection from "@/components/landing-page/PricingSection";
 import {
   CustomizationIcon,
   DownloadIcon,

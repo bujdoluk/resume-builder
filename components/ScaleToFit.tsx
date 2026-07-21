@@ -5,8 +5,20 @@ import { useEffect, useRef, useState } from "react";
 const LG_BREAKPOINT_PX = 1024;
 
 const MODAL_WIDTH_RATIO = 0.95;
+const MODAL_HEIGHT_RATIO = 0.9;
 
-export default function ScaleToFitWidth({
+// A4 page height in CSS px at 96dpi (1mm = 96/25.4px). Every resume/cover
+// letter template renders at min-h-[297mm] (see
+// components/resumes/desktop-templates/*.tsx and
+// components/cover-letter/desktop-templates/*.tsx), so this is what "one
+// page" means regardless of a given document's actual (possibly multi-page)
+// content height. Scaling against this fixed reference — rather than the
+// document's full natural height — lets a single-page document shrink to
+// fit the modal with no scrollbar, while a longer document still overflows
+// past one page's worth of space and scrolls instead of shrinking further.
+const A4_PAGE_HEIGHT_PX = 297 * (96 / 25.4);
+
+export default function ScaleToFit({
   children,
 }: {
   children: React.ReactNode;
@@ -30,8 +42,9 @@ export default function ScaleToFitWidth({
         window.innerWidth >= LG_BREAKPOINT_PX
           ? Infinity
           : window.innerWidth * MODAL_WIDTH_RATIO;
+      const availableHeight = window.innerHeight * MODAL_HEIGHT_RATIO;
       setState({
-        scale: Math.min(1, availableWidth / naturalWidth),
+        scale: Math.min(1, availableWidth / naturalWidth, availableHeight / A4_PAGE_HEIGHT_PX),
         width: naturalWidth,
         height: naturalHeight,
       });
