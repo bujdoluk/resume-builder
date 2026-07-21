@@ -354,7 +354,7 @@ export default function ModernPdfTemplate({
       <Image src={data.photo} style={styles.photo} />
     ),
     name: isVisible("name") && (
-      <Text style={styles.sidebarName}>{data.name || "Your Name"}</Text>
+      <Text style={styles.sidebarName}>{data.name}</Text>
     ),
     jobTitle: data.jobTitle && isVisible("jobTitle") && (
       <Text style={styles.sidebarJobTitle}>{data.jobTitle}</Text>

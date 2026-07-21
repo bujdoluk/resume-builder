@@ -305,7 +305,7 @@ export default function MinimalTemplate({
 
     name: isVisible("name") && (
       <h1 className="text-4xl font-bold tracking-wide">
-        {data.name || t("placeholders.yourName")}
+        {data.name}
       </h1>
     ),
 

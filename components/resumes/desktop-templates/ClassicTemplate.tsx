@@ -346,7 +346,7 @@ export default function ClassicTemplate({
 
     name: isVisible("name") && (
       <h1 className="text-4xl font-bold">
-        {data.name || t("placeholders.yourName")}
+        {data.name}
       </h1>
     ),
 

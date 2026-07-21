@@ -305,7 +305,7 @@ export default function BasicPdfTemplate({
       <Image src={data.photo} style={styles.photo} />
     ),
     name: isVisible("name") && (
-      <Text style={styles.name}>{data.name || "Your Name"}</Text>
+      <Text style={styles.name}>{data.name}</Text>
     ),
     jobTitle: data.jobTitle && isVisible("jobTitle") && (
       <Text style={styles.jobTitle}>{data.jobTitle}</Text>
