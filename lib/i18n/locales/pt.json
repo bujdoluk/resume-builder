@@ -462,6 +462,43 @@
     "invalidPlan": "Plano inválido.",
     "failedToCancelSubscription": "Não foi possível cancelar a sua subscrição. Tente novamente ou contacte o suporte.",
     "failedToDeleteAccount": "Não foi possível eliminar a conta.",
-    "rateLimited": "Demasiados pedidos. Aguarde um momento e tente novamente."
+    "rateLimited": "Demasiados pedidos. Aguarde um momento e tente novamente.",
+    "coherenceCheckUnavailable": "A verificação de coerência não está configurada neste momento.",
+    "coherenceCheckFailed": "Não foi possível concluir a verificação de coerência. Tente novamente."
+  },
+  "atsChecker": {
+    "buttonLabel": "Verificar pontuação ATS",
+    "title": "Verificador ATS",
+    "formatCheckTitle": "Verificação de formato",
+    "checksPassed": "{{passed}} de {{total}} verificações aprovadas",
+    "jobDescriptionTitle": "Correspondência com a oferta de emprego",
+    "disclaimer": "A correspondência de palavras-chave é um guia heurístico para texto em inglês, não uma garantia do comportamento de um ATS real.",
+    "pastePlaceholder": "Cole aqui a descrição da vaga…",
+    "analyzeButton": "Analisar",
+    "matchScoreLabel": "Correspondência de palavras-chave",
+    "matchedLabel": "Palavras-chave encontradas",
+    "missingLabel": "Palavras-chave em falta — considere adicioná-las",
+    "formatCheckDisclaimer": "Verifica se os campos estão preenchidos e estruturados corretamente — não consegue verificar se o próprio conteúdo é real ou coerente.",
+    "coherenceTitle": "Verificação de coerência do conteúdo",
+    "coherenceDescription": "Usa IA para verificar se o seu conteúdo se lê como linguagem real e coerente, em vez de texto de preenchimento ou sem sentido. Isto verifica a coerência, não a exatidão factual — não consegue verificar se as suas afirmações são verdadeiras.",
+    "checkCoherenceButton": "Verificar coerência",
+    "coherentResult": "Este conteúdo lê-se como texto coerente e real.",
+    "checks": {
+      "multiColumnTemplate": "Usa um layout de coluna única (mais seguro para ATS)",
+      "hasName": "O nome está preenchido",
+      "hasEmail": "O endereço de e-mail está preenchido",
+      "hasPhone": "O número de telefone está preenchido",
+      "hasWorkExperience": "Inclui pelo menos uma experiência profissional",
+      "workDatesComplete": "Cada experiência profissional tem ambas as datas preenchidas",
+      "hasSkills": "Inclui pelo menos uma competência",
+      "hasQuantifiedContent": "Inclui resultados mensuráveis (números ou %)",
+      "hasSummary": "A secção Sobre mim / resumo está preenchida",
+      "hasCertifications": "Inclui pelo menos uma certificação",
+      "hasLanguages": "Inclui pelo menos um idioma",
+      "hasSenderContact": "O e-mail e telefone do remetente estão preenchidos",
+      "hasRecipientInfo": "O nome ou empresa do destinatário está preenchido",
+      "hasSubject": "A linha de assunto está preenchida",
+      "bodyLongEnough": "O corpo da carta tem conteúdo suficiente"
+    }
   }
 }

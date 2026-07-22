@@ -462,6 +462,43 @@
     "invalidPlan": "Invalid plan.",
     "failedToCancelSubscription": "Failed to cancel your subscription. Please try again or contact support.",
     "failedToDeleteAccount": "Failed to delete account.",
-    "rateLimited": "Too many requests. Please slow down and try again shortly."
+    "rateLimited": "Too many requests. Please slow down and try again shortly.",
+    "coherenceCheckUnavailable": "The coherence check isn't set up right now.",
+    "coherenceCheckFailed": "We couldn't complete the coherence check. Please try again."
+  },
+  "atsChecker": {
+    "buttonLabel": "Check ATS Score",
+    "title": "ATS Checker",
+    "formatCheckTitle": "Format Check",
+    "checksPassed": "{{passed}} of {{total}} checks passed",
+    "jobDescriptionTitle": "Job Description Match",
+    "disclaimer": "Keyword matching is a heuristic guide for English text, not a guarantee of how any real ATS behaves.",
+    "pastePlaceholder": "Paste the job description here…",
+    "analyzeButton": "Analyze",
+    "matchScoreLabel": "Keyword match",
+    "matchedLabel": "Matched keywords",
+    "missingLabel": "Missing keywords — consider adding",
+    "formatCheckDisclaimer": "Checks whether fields are filled in and structured correctly — it can't verify that the content itself is real or meaningful.",
+    "coherenceTitle": "Content Coherence Check",
+    "coherenceDescription": "Uses AI to check whether your content reads as real, sensible language rather than placeholder or gibberish text. This checks coherence, not factual accuracy — it can't verify that your claims are true.",
+    "checkCoherenceButton": "Check Coherence",
+    "coherentResult": "This content reads as coherent, real language.",
+    "checks": {
+      "multiColumnTemplate": "Uses a single-column layout (safer for ATS parsing)",
+      "hasName": "Name is filled in",
+      "hasEmail": "Email address is filled in",
+      "hasPhone": "Phone number is filled in",
+      "hasWorkExperience": "Includes at least one work experience entry",
+      "workDatesComplete": "Every work experience entry has both dates filled in",
+      "hasSkills": "Includes at least one skill",
+      "hasQuantifiedContent": "Includes measurable achievements (numbers or %)",
+      "hasSummary": "About Me / summary is filled in",
+      "hasCertifications": "Includes at least one certification",
+      "hasLanguages": "Includes at least one language",
+      "hasSenderContact": "Sender email and phone are filled in",
+      "hasRecipientInfo": "Recipient name or company is filled in",
+      "hasSubject": "Subject line is filled in",
+      "bodyLongEnough": "Letter body has enough content"
+    }
   }
 }

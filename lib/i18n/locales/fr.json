@@ -462,6 +462,43 @@
     "invalidPlan": "Forfait invalide.",
     "failedToCancelSubscription": "Impossible d'annuler votre abonnement. Veuillez réessayer ou contacter le support.",
     "failedToDeleteAccount": "Impossible de supprimer le compte.",
-    "rateLimited": "Trop de requêtes. Veuillez patienter un instant et réessayer."
+    "rateLimited": "Trop de requêtes. Veuillez patienter un instant et réessayer.",
+    "coherenceCheckUnavailable": "La vérification de cohérence n'est pas configurée actuellement.",
+    "coherenceCheckFailed": "Nous n'avons pas pu terminer la vérification de cohérence. Veuillez réessayer."
+  },
+  "atsChecker": {
+    "buttonLabel": "Vérifier le score ATS",
+    "title": "Vérificateur ATS",
+    "formatCheckTitle": "Vérification du format",
+    "checksPassed": "{{passed}} vérifications réussies sur {{total}}",
+    "jobDescriptionTitle": "Correspondance avec l'offre d'emploi",
+    "disclaimer": "La correspondance des mots-clés est un guide heuristique pour le texte en anglais, pas une garantie du comportement d'un véritable ATS.",
+    "pastePlaceholder": "Collez ici la description du poste…",
+    "analyzeButton": "Analyser",
+    "matchScoreLabel": "Correspondance des mots-clés",
+    "matchedLabel": "Mots-clés trouvés",
+    "missingLabel": "Mots-clés manquants — envisagez de les ajouter",
+    "formatCheckDisclaimer": "Vérifie si les champs sont remplis et correctement structurés — cela ne peut pas vérifier si le contenu lui-même est réel ou pertinent.",
+    "coherenceTitle": "Vérification de la cohérence du contenu",
+    "coherenceDescription": "Utilise l'IA pour vérifier si votre contenu se lit comme un langage réel et cohérent plutôt que comme du texte de remplissage ou incompréhensible. Cela vérifie la cohérence, pas l'exactitude des faits — cela ne peut pas vérifier que vos affirmations sont vraies.",
+    "checkCoherenceButton": "Vérifier la cohérence",
+    "coherentResult": "Ce contenu se lit comme un texte cohérent et réel.",
+    "checks": {
+      "multiColumnTemplate": "Utilise une mise en page à une seule colonne (plus sûre pour les ATS)",
+      "hasName": "Le nom est renseigné",
+      "hasEmail": "L'adresse e-mail est renseignée",
+      "hasPhone": "Le numéro de téléphone est renseigné",
+      "hasWorkExperience": "Comprend au moins une expérience professionnelle",
+      "workDatesComplete": "Chaque expérience professionnelle a les deux dates renseignées",
+      "hasSkills": "Comprend au moins une compétence",
+      "hasQuantifiedContent": "Comprend des résultats mesurables (chiffres ou %)",
+      "hasSummary": "La section À propos / résumé est renseignée",
+      "hasCertifications": "Comprend au moins une certification",
+      "hasLanguages": "Comprend au moins une langue",
+      "hasSenderContact": "L'e-mail et le téléphone de l'expéditeur sont renseignés",
+      "hasRecipientInfo": "Le nom ou l'entreprise du destinataire est renseigné",
+      "hasSubject": "La ligne d'objet est renseignée",
+      "bodyLongEnough": "Le corps de la lettre contient suffisamment de contenu"
+    }
   }
 }

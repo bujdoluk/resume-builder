@@ -462,6 +462,43 @@
     "invalidPlan": "Ogiltig plan.",
     "failedToCancelSubscription": "Det gick inte att säga upp din prenumeration. Försök igen eller kontakta support.",
     "failedToDeleteAccount": "Det gick inte att ta bort kontot.",
-    "rateLimited": "För många förfrågningar. Vänta en stund och försök igen."
+    "rateLimited": "För många förfrågningar. Vänta en stund och försök igen.",
+    "coherenceCheckUnavailable": "Koherenskontrollen är inte konfigurerad just nu.",
+    "coherenceCheckFailed": "Vi kunde inte slutföra koherenskontrollen. Försök igen."
+  },
+  "atsChecker": {
+    "buttonLabel": "Kontrollera ATS-poäng",
+    "title": "ATS-kontroll",
+    "formatCheckTitle": "Formatkontroll",
+    "checksPassed": "{{passed}} av {{total}} kontroller godkända",
+    "jobDescriptionTitle": "Matchning mot jobbannons",
+    "disclaimer": "Nyckelordsmatchning är en vägledande heuristik för engelsk text, ingen garanti för hur ett verkligt ATS beter sig.",
+    "pastePlaceholder": "Klistra in jobbannonsen här…",
+    "analyzeButton": "Analysera",
+    "matchScoreLabel": "Nyckelordsmatchning",
+    "matchedLabel": "Hittade nyckelord",
+    "missingLabel": "Saknade nyckelord — överväg att lägga till dem",
+    "formatCheckDisclaimer": "Kontrollerar om fälten är ifyllda och korrekt strukturerade — den kan inte kontrollera om själva innehållet är verkligt eller meningsfullt.",
+    "coherenceTitle": "Innehållskoherenskontroll",
+    "coherenceDescription": "Använder AI för att kontrollera om ditt innehåll läses som verkligt, meningsfullt språk snarare än platshållar- eller nonsenstext. Detta kontrollerar koherens, inte faktisk korrekthet — den kan inte verifiera att dina påståenden är sanna.",
+    "checkCoherenceButton": "Kontrollera koherens",
+    "coherentResult": "Det här innehållet läses som koherent, verkligt språk.",
+    "checks": {
+      "multiColumnTemplate": "Använder enkolumnslayout (säkrare för ATS)",
+      "hasName": "Namn är ifyllt",
+      "hasEmail": "E-postadress är ifylld",
+      "hasPhone": "Telefonnummer är ifyllt",
+      "hasWorkExperience": "Innehåller minst en arbetslivserfarenhet",
+      "workDatesComplete": "Varje arbetslivserfarenhet har båda datumen ifyllda",
+      "hasSkills": "Innehåller minst en kompetens",
+      "hasQuantifiedContent": "Innehåller mätbara resultat (siffror eller %)",
+      "hasSummary": "Om mig / sammanfattning är ifylld",
+      "hasCertifications": "Innehåller minst ett certifikat",
+      "hasLanguages": "Innehåller minst ett språk",
+      "hasSenderContact": "Avsändarens e-post och telefon är ifyllda",
+      "hasRecipientInfo": "Mottagarens namn eller företag är ifyllt",
+      "hasSubject": "Ämnesraden är ifylld",
+      "bodyLongEnough": "Brevtexten har tillräckligt med innehåll"
+    }
   }
 }

@@ -462,6 +462,43 @@
     "invalidPlan": "Neplatný plán.",
     "failedToCancelSubscription": "Zrušenie predplatného sa nepodarilo. Skúste to znova alebo kontaktujte podporu.",
     "failedToDeleteAccount": "Odstránenie účtu sa nepodarilo.",
-    "rateLimited": "Príliš veľa požiadaviek. Počkajte chvíľu a skúste to znova."
+    "rateLimited": "Príliš veľa požiadaviek. Počkajte chvíľu a skúste to znova.",
+    "coherenceCheckUnavailable": "Kontrola zrozumiteľnosti nie je momentálne nastavená.",
+    "coherenceCheckFailed": "Kontrolu zrozumiteľnosti sa nepodarilo dokončiť. Skúste to znova."
+  },
+  "atsChecker": {
+    "buttonLabel": "Skontrolovať ATS skóre",
+    "title": "Kontrola ATS",
+    "formatCheckTitle": "Kontrola formátu",
+    "checksPassed": "{{passed}} z {{total}} kontrol splnených",
+    "jobDescriptionTitle": "Zhoda s popisom pracovnej pozície",
+    "disclaimer": "Zhoda kľúčových slov je orientačná pomôcka pre anglický text, nie záruka správania skutočného ATS.",
+    "pastePlaceholder": "Sem vložte popis pracovnej pozície…",
+    "analyzeButton": "Analyzovať",
+    "matchScoreLabel": "Zhoda kľúčových slov",
+    "matchedLabel": "Nájdené kľúčové slová",
+    "missingLabel": "Chýbajúce kľúčové slová — zvážte ich pridanie",
+    "formatCheckDisclaimer": "Kontroluje, či sú polia vyplnené a správne štruktúrované — nemôže overiť, či je samotný obsah pravdivý alebo zmysluplný.",
+    "coherenceTitle": "Kontrola zrozumiteľnosti obsahu",
+    "coherenceDescription": "Pomocou AI kontroluje, či váš obsah pôsobí ako skutočný, zmysluplný text, a nie ako zástupný text alebo nezmysel. Ide o kontrolu zrozumiteľnosti, nie faktickej presnosti — nemožno overiť, či sú vaše tvrdenia pravdivé.",
+    "checkCoherenceButton": "Skontrolovať zrozumiteľnosť",
+    "coherentResult": "Tento obsah pôsobí ako zrozumiteľný, skutočný text.",
+    "checks": {
+      "multiColumnTemplate": "Používa jednostĺpcové rozloženie (bezpečnejšie pre ATS)",
+      "hasName": "Meno je vyplnené",
+      "hasEmail": "E-mailová adresa je vyplnená",
+      "hasPhone": "Telefónne číslo je vyplnené",
+      "hasWorkExperience": "Obsahuje aspoň jednu pracovnú skúsenosť",
+      "workDatesComplete": "Každá pracovná skúsenosť má vyplnené obe dátumy",
+      "hasSkills": "Obsahuje aspoň jednu zručnosť",
+      "hasQuantifiedContent": "Obsahuje merateľné výsledky (čísla alebo %)",
+      "hasSummary": "Sekcia O mne / zhrnutie je vyplnená",
+      "hasCertifications": "Obsahuje aspoň jeden certifikát",
+      "hasLanguages": "Obsahuje aspoň jeden jazyk",
+      "hasSenderContact": "E-mail a telefón odosielateľa sú vyplnené",
+      "hasRecipientInfo": "Meno alebo spoločnosť príjemcu je vyplnené",
+      "hasSubject": "Predmet je vyplnený",
+      "bodyLongEnough": "Text listu má dostatočný obsah"
+    }
   }
 }

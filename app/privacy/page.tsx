@@ -5,7 +5,7 @@ import { SUPPORT_EMAIL } from "@/lib/supportEmail";
 
 const title = "Privacy Policy — QuickResumeBuilder.online";
 const description = "How QuickResumeBuilder.online collects, uses, and protects your information.";
-const lastUpdated = "20 July 2026";
+const lastUpdated = "22 July 2026";
 
 export const metadata: Metadata = {
   title,
@@ -66,6 +66,12 @@ export default function Page() {
           message us, those conversations are handled by Tawk.to.
         </p>
         <p className="mt-3">
+          <strong>AI coherence check.</strong> The ATS Checker&rsquo;s optional &ldquo;Check
+          Coherence&rdquo; button sends the text of your resume or cover letter to Groq, an AI
+          inference provider, to assess whether it reads as coherent, plausible content. This only
+          happens when you explicitly click that button — it&rsquo;s never sent automatically.
+        </p>
+        <p className="mt-3">
           <strong>Usage data.</strong> If you opt in to analytics (see Cookies below), we collect
           anonymized, aggregate usage data via Vercel Analytics and Speed Insights — page views and
           performance metrics, not the content of your resume.
@@ -119,6 +125,7 @@ export default function Page() {
           <li><strong>Stripe</strong> — payment processing for paid subscriptions.</li>
           <li><strong>Resend</strong> — transactional email delivery.</li>
           <li><strong>Tawk.to</strong> — live chat support (opt-in only).</li>
+          <li><strong>Groq</strong> — AI-based coherence check for the ATS Checker (opt-in only).</li>
           <li><strong>hCaptcha</strong> — bot and abuse protection.</li>
           <li><strong>Sentry</strong> — error monitoring.</li>
           <li><strong>Vercel</strong> — hosting, analytics, and performance monitoring (analytics opt-in only).</li>

@@ -462,6 +462,43 @@
     "invalidPlan": "Ungültiger Tarif.",
     "failedToCancelSubscription": "Ihr Abonnement konnte nicht gekündigt werden. Bitte versuchen Sie es erneut oder kontaktieren Sie den Support.",
     "failedToDeleteAccount": "Konto konnte nicht gelöscht werden.",
-    "rateLimited": "Zu viele Anfragen. Bitte warten Sie einen Moment und versuchen Sie es erneut."
+    "rateLimited": "Zu viele Anfragen. Bitte warten Sie einen Moment und versuchen Sie es erneut.",
+    "coherenceCheckUnavailable": "Die Kohärenzprüfung ist derzeit nicht eingerichtet.",
+    "coherenceCheckFailed": "Die Kohärenzprüfung konnte nicht abgeschlossen werden. Bitte versuchen Sie es erneut."
+  },
+  "atsChecker": {
+    "buttonLabel": "ATS-Score prüfen",
+    "title": "ATS-Prüfung",
+    "formatCheckTitle": "Formatprüfung",
+    "checksPassed": "{{passed}} von {{total}} Prüfungen bestanden",
+    "jobDescriptionTitle": "Abgleich mit Stellenbeschreibung",
+    "disclaimer": "Der Schlüsselwortabgleich ist eine heuristische Orientierungshilfe für englischsprachigen Text, keine Garantie für das Verhalten eines echten ATS.",
+    "pastePlaceholder": "Stellenbeschreibung hier einfügen…",
+    "analyzeButton": "Analysieren",
+    "matchScoreLabel": "Schlüsselwort-Übereinstimmung",
+    "matchedLabel": "Gefundene Schlüsselwörter",
+    "missingLabel": "Fehlende Schlüsselwörter — erwägen Sie, diese hinzuzufügen",
+    "formatCheckDisclaimer": "Prüft, ob Felder ausgefüllt und richtig strukturiert sind — sie kann nicht überprüfen, ob der Inhalt selbst real oder sinnvoll ist.",
+    "coherenceTitle": "Inhaltliche Kohärenzprüfung",
+    "coherenceDescription": "Nutzt KI, um zu prüfen, ob Ihr Inhalt wie echte, sinnvolle Sprache wirkt und nicht wie Platzhalter- oder Kauderwelsch-Text. Dies prüft Kohärenz, nicht sachliche Richtigkeit — es kann nicht überprüfen, ob Ihre Angaben wahr sind.",
+    "checkCoherenceButton": "Kohärenz prüfen",
+    "coherentResult": "Dieser Inhalt wirkt kohärent und wie echte Sprache.",
+    "checks": {
+      "multiColumnTemplate": "Verwendet ein einspaltiges Layout (sicherer für ATS)",
+      "hasName": "Name ist ausgefüllt",
+      "hasEmail": "E-Mail-Adresse ist ausgefüllt",
+      "hasPhone": "Telefonnummer ist ausgefüllt",
+      "hasWorkExperience": "Enthält mindestens einen Berufserfahrungseintrag",
+      "workDatesComplete": "Jeder Berufserfahrungseintrag hat beide Daten ausgefüllt",
+      "hasSkills": "Enthält mindestens eine Fähigkeit",
+      "hasQuantifiedContent": "Enthält messbare Erfolge (Zahlen oder %)",
+      "hasSummary": "Über mich / Zusammenfassung ist ausgefüllt",
+      "hasCertifications": "Enthält mindestens ein Zertifikat",
+      "hasLanguages": "Enthält mindestens eine Sprache",
+      "hasSenderContact": "E-Mail und Telefon des Absenders sind ausgefüllt",
+      "hasRecipientInfo": "Name oder Unternehmen des Empfängers ist ausgefüllt",
+      "hasSubject": "Betreffzeile ist ausgefüllt",
+      "bodyLongEnough": "Der Brieftext hat ausreichend Inhalt"
+    }
   }
 }

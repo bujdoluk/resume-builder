@@ -462,6 +462,43 @@
     "invalidPlan": "Ugyldig plan.",
     "failedToCancelSubscription": "Kunne ikke si opp abonnementet. Prøv igjen eller kontakt support.",
     "failedToDeleteAccount": "Kunne ikke slette kontoen.",
-    "rateLimited": "For mange forespørsler. Vent litt og prøv igjen."
+    "rateLimited": "For mange forespørsler. Vent litt og prøv igjen.",
+    "coherenceCheckUnavailable": "Koherenssjekken er ikke satt opp akkurat nå.",
+    "coherenceCheckFailed": "Vi kunne ikke fullføre koherenssjekken. Prøv igjen."
+  },
+  "atsChecker": {
+    "buttonLabel": "Sjekk ATS-score",
+    "title": "ATS-sjekk",
+    "formatCheckTitle": "Formatsjekk",
+    "checksPassed": "{{passed}} av {{total}} sjekker bestått",
+    "jobDescriptionTitle": "Match med stillingsannonse",
+    "disclaimer": "Nøkkelordmatching er en veiledende heuristikk for engelsk tekst, ikke en garanti for hvordan et reelt ATS-system oppfører seg.",
+    "pastePlaceholder": "Lim inn stillingsannonsen her…",
+    "analyzeButton": "Analyser",
+    "matchScoreLabel": "Nøkkelordmatch",
+    "matchedLabel": "Funnet nøkkelord",
+    "missingLabel": "Manglende nøkkelord — vurder å legge dem til",
+    "formatCheckDisclaimer": "Sjekker om feltene er fylt ut og strukturert riktig — den kan ikke sjekke om selve innholdet er reelt eller meningsfullt.",
+    "coherenceTitle": "Innholdskoherens-sjekk",
+    "coherenceDescription": "Bruker AI til å sjekke om innholdet ditt leses som ekte, meningsfullt språk i stedet for plassholder- eller nonsens-tekst. Dette sjekker koherens, ikke faktisk nøyaktighet — den kan ikke bekrefte at påstandene dine er sanne.",
+    "checkCoherenceButton": "Sjekk koherens",
+    "coherentResult": "Dette innholdet leses som koherent, ekte språk.",
+    "checks": {
+      "multiColumnTemplate": "Bruker ettkolonnelayout (tryggere for ATS)",
+      "hasName": "Navn er fylt ut",
+      "hasEmail": "E-postadresse er fylt ut",
+      "hasPhone": "Telefonnummer er fylt ut",
+      "hasWorkExperience": "Inkluderer minst én arbeidserfaring",
+      "workDatesComplete": "Hver arbeidserfaring har begge datoene fylt ut",
+      "hasSkills": "Inkluderer minst én ferdighet",
+      "hasQuantifiedContent": "Inkluderer målbare resultater (tall eller %)",
+      "hasSummary": "Om meg / sammendrag er fylt ut",
+      "hasCertifications": "Inkluderer minst ett sertifikat",
+      "hasLanguages": "Inkluderer minst ett språk",
+      "hasSenderContact": "Avsenders e-post og telefon er fylt ut",
+      "hasRecipientInfo": "Mottakers navn eller selskap er fylt ut",
+      "hasSubject": "Emnelinje er fylt ut",
+      "bodyLongEnough": "Brevteksten har nok innhold"
+    }
   }
 }

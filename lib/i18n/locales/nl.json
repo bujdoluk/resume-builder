@@ -462,6 +462,43 @@
     "invalidPlan": "Ongeldig abonnement.",
     "failedToCancelSubscription": "Je abonnement kon niet worden opgezegd. Probeer het opnieuw of neem contact op met support.",
     "failedToDeleteAccount": "Account kon niet worden verwijderd.",
-    "rateLimited": "Te veel verzoeken. Wacht even en probeer het opnieuw."
+    "rateLimited": "Te veel verzoeken. Wacht even en probeer het opnieuw.",
+    "coherenceCheckUnavailable": "De coherentiecontrole is momenteel niet ingesteld.",
+    "coherenceCheckFailed": "We konden de coherentiecontrole niet voltooien. Probeer het opnieuw."
+  },
+  "atsChecker": {
+    "buttonLabel": "ATS-score controleren",
+    "title": "ATS-controle",
+    "formatCheckTitle": "Formaatcontrole",
+    "checksPassed": "{{passed}} van {{total}} controles geslaagd",
+    "jobDescriptionTitle": "Overeenkomst met vacature",
+    "disclaimer": "Trefwoordmatching is een richtlijn voor Engelstalige tekst, geen garantie voor het gedrag van een echt ATS.",
+    "pastePlaceholder": "Plak hier de vacaturetekst…",
+    "analyzeButton": "Analyseren",
+    "matchScoreLabel": "Trefwoordovereenkomst",
+    "matchedLabel": "Gevonden trefwoorden",
+    "missingLabel": "Ontbrekende trefwoorden — overweeg deze toe te voegen",
+    "formatCheckDisclaimer": "Controleert of velden zijn ingevuld en correct gestructureerd — dit kan niet controleren of de inhoud zelf echt of zinvol is.",
+    "coherenceTitle": "Inhoudscoherentiecontrole",
+    "coherenceDescription": "Gebruikt AI om te controleren of je inhoud leest als echte, zinvolle taal in plaats van placeholder- of onzin-tekst. Dit controleert coherentie, niet feitelijke juistheid — het kan niet verifiëren of je beweringen waar zijn.",
+    "checkCoherenceButton": "Coherentie controleren",
+    "coherentResult": "Deze inhoud leest als coherente, echte taal.",
+    "checks": {
+      "multiColumnTemplate": "Gebruikt een layout met één kolom (veiliger voor ATS)",
+      "hasName": "Naam is ingevuld",
+      "hasEmail": "E-mailadres is ingevuld",
+      "hasPhone": "Telefoonnummer is ingevuld",
+      "hasWorkExperience": "Bevat minstens één werkervaring",
+      "workDatesComplete": "Elke werkervaring heeft beide datums ingevuld",
+      "hasSkills": "Bevat minstens één vaardigheid",
+      "hasQuantifiedContent": "Bevat meetbare resultaten (cijfers of %)",
+      "hasSummary": "Over mij / samenvatting is ingevuld",
+      "hasCertifications": "Bevat minstens één certificering",
+      "hasLanguages": "Bevat minstens één taal",
+      "hasSenderContact": "E-mail en telefoon van de afzender zijn ingevuld",
+      "hasRecipientInfo": "Naam of bedrijf van de ontvanger is ingevuld",
+      "hasSubject": "Onderwerpregel is ingevuld",
+      "bodyLongEnough": "De brief heeft voldoende inhoud"
+    }
   }
 }

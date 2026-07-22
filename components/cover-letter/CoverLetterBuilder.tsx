@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useTranslation } from "react-i18next";
 import * as Sentry from "@sentry/nextjs";
 import { useAppState } from "@/components/AppState";
+import AtsCheckerDialog, { type AtsCheckerDialogHandle } from "@/components/AtsCheckerDialog";
 import CompletionSteps from "@/components/CompletionSteps";
 import ConfirmDialog, { type ConfirmDialogHandle } from "@/components/ConfirmDialog";
 import DownloadButton from "@/components/DownloadButton";
@@ -28,6 +29,7 @@ import {
   type CoverLetterSectionKey,
 } from "@/lib/coverLetterSections";
 import { coverLetterTemplates } from "@/lib/coverLetterTemplates";
+import { checkCoverLetterFormat } from "@/lib/atsChecker/checkCoverLetterFormat";
 import { FREE_TIER_LIMITS, SAVED_INDICATOR_DURATION_MS } from "@/lib/constants";
 import type { ExportFormat } from "@/lib/exportFormat";
 import { coverLetterPdfTemplates } from "@/lib/pdf/coverLetterTemplates";
@@ -79,6 +81,7 @@ export default function CoverLetterBuilder({
   const previewRef = useRef<PreviewModalHandle>(null);
   const saveDialogRef = useRef<SaveResumeDialogHandle>(null);
   const upgradeDialogRef = useRef<ConfirmDialogHandle>(null);
+  const atsCheckerRef = useRef<AtsCheckerDialogHandle>(null);
   const [supabase] = useState(() => createClient());
   const exportText = generateCoverLetterText({
     data,
@@ -328,6 +331,19 @@ export default function CoverLetterBuilder({
             sectionZones: coverLetterSectionZones,
           }}
         />
+
+        <button
+          type="button"
+          className="btn btn-outline hover:border-primary flex-1 md:flex-none md:w-48"
+          onClick={() =>
+            atsCheckerRef.current?.open({
+              formatChecks: checkCoverLetterFormat(data, coverLetterTemplateId),
+              documentText: exportText,
+            })
+          }
+        >
+          {t("atsChecker.buttonLabel")}
+        </button>
       </div>
     );
   }
@@ -399,6 +415,7 @@ export default function CoverLetterBuilder({
         tooLongMessage={t("coverLetter.nameTooLong")}
       />
       <ConfirmDialog ref={upgradeDialogRef} />
+      <AtsCheckerDialog ref={atsCheckerRef} />
     </div>
   );
 }

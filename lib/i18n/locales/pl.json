@@ -462,6 +462,43 @@
     "invalidPlan": "Nieprawidłowy plan.",
     "failedToCancelSubscription": "Nie udało się anulować subskrypcji. Spróbuj ponownie lub skontaktuj się z pomocą techniczną.",
     "failedToDeleteAccount": "Nie udało się usunąć konta.",
-    "rateLimited": "Zbyt wiele żądań. Poczekaj chwilę i spróbuj ponownie."
+    "rateLimited": "Zbyt wiele żądań. Poczekaj chwilę i spróbuj ponownie.",
+    "coherenceCheckUnavailable": "Kontrola spójności nie jest obecnie skonfigurowana.",
+    "coherenceCheckFailed": "Nie udało się zakończyć kontroli spójności. Spróbuj ponownie."
+  },
+  "atsChecker": {
+    "buttonLabel": "Sprawdź wynik ATS",
+    "title": "Sprawdzanie ATS",
+    "formatCheckTitle": "Sprawdzenie formatu",
+    "checksPassed": "{{passed}} z {{total}} kontroli zaliczonych",
+    "jobDescriptionTitle": "Dopasowanie do oferty pracy",
+    "disclaimer": "Dopasowanie słów kluczowych to orientacyjna wskazówka dla tekstu w języku angielskim, a nie gwarancja działania rzeczywistego systemu ATS.",
+    "pastePlaceholder": "Wklej tutaj opis stanowiska…",
+    "analyzeButton": "Analizuj",
+    "matchScoreLabel": "Dopasowanie słów kluczowych",
+    "matchedLabel": "Znalezione słowa kluczowe",
+    "missingLabel": "Brakujące słowa kluczowe — rozważ ich dodanie",
+    "formatCheckDisclaimer": "Sprawdza, czy pola są wypełnione i poprawnie ustrukturyzowane — nie może zweryfikować, czy sama treść jest prawdziwa lub sensowna.",
+    "coherenceTitle": "Kontrola spójności treści",
+    "coherenceDescription": "Wykorzystuje AI do sprawdzenia, czy Twoja treść czyta się jak prawdziwy, sensowny język, a nie tekst zastępczy lub bez sensu. Sprawdza to spójność, a nie zgodność z faktami — nie może zweryfikować, czy Twoje twierdzenia są prawdziwe.",
+    "checkCoherenceButton": "Sprawdź spójność",
+    "coherentResult": "Ta treść czyta się jak spójny, prawdziwy tekst.",
+    "checks": {
+      "multiColumnTemplate": "Używa układu jednokolumnowego (bezpieczniejszy dla ATS)",
+      "hasName": "Imię i nazwisko jest uzupełnione",
+      "hasEmail": "Adres e-mail jest uzupełniony",
+      "hasPhone": "Numer telefonu jest uzupełniony",
+      "hasWorkExperience": "Zawiera co najmniej jedno doświadczenie zawodowe",
+      "workDatesComplete": "Każde doświadczenie zawodowe ma uzupełnione obie daty",
+      "hasSkills": "Zawiera co najmniej jedną umiejętność",
+      "hasQuantifiedContent": "Zawiera mierzalne osiągnięcia (liczby lub %)",
+      "hasSummary": "Sekcja O mnie / podsumowanie jest uzupełniona",
+      "hasCertifications": "Zawiera co najmniej jeden certyfikat",
+      "hasLanguages": "Zawiera co najmniej jeden język",
+      "hasSenderContact": "E-mail i telefon nadawcy są uzupełnione",
+      "hasRecipientInfo": "Imię i nazwisko lub firma odbiorcy jest uzupełnione",
+      "hasSubject": "Temat jest uzupełniony",
+      "bodyLongEnough": "Treść listu zawiera wystarczającą ilość treści"
+    }
   }
 }

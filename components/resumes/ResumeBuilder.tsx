@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useTranslation } from "react-i18next";
 import * as Sentry from "@sentry/nextjs";
 import { useAppState } from "@/components/AppState";
+import AtsCheckerDialog, { type AtsCheckerDialogHandle } from "@/components/AtsCheckerDialog";
 import CompletionSteps from "@/components/CompletionSteps";
 import ConfirmDialog, { type ConfirmDialogHandle } from "@/components/ConfirmDialog";
 import DownloadButton from "@/components/DownloadButton";
@@ -32,6 +33,7 @@ import {
   type SimpleEntry,
   type WorkEntry,
 } from "@/lib/resumeData";
+import { checkResumeFormat } from "@/lib/atsChecker/checkResumeFormat";
 import { pdfTemplates } from "@/lib/pdf/templates";
 import { scrollToSectionAnchor } from "@/lib/scrollToSectionAnchor";
 import { createClient } from "@/lib/supabase/client";
@@ -119,6 +121,7 @@ export default function ResumeBuilder({
   const previewRef = useRef<PreviewModalHandle>(null);
   const saveDialogRef = useRef<SaveResumeDialogHandle>(null);
   const upgradeDialogRef = useRef<ConfirmDialogHandle>(null);
+  const atsCheckerRef = useRef<AtsCheckerDialogHandle>(null);
   const [supabase] = useState(() => createClient());
   const exportText = generateResumeText({ data, sectionOrder, visibleFields });
 
@@ -571,6 +574,19 @@ export default function ResumeBuilder({
             modernSectionZones,
           }}
         />
+
+        <button
+          type="button"
+          className="btn btn-outline hover:border-primary flex-1 md:flex-none md:w-48"
+          onClick={() =>
+            atsCheckerRef.current?.open({
+              formatChecks: checkResumeFormat(data, templateId),
+              documentText: exportText,
+            })
+          }
+        >
+          {t("atsChecker.buttonLabel")}
+        </button>
       </div>
     );
   }
@@ -647,6 +663,7 @@ export default function ResumeBuilder({
 
       <SaveResumeDialog ref={saveDialogRef} />
       <ConfirmDialog ref={upgradeDialogRef} />
+      <AtsCheckerDialog ref={atsCheckerRef} />
     </>
   );
 }

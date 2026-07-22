@@ -462,6 +462,43 @@
     "invalidPlan": "Piano non valido.",
     "failedToCancelSubscription": "Impossibile annullare l'abbonamento. Riprova o contatta l'assistenza.",
     "failedToDeleteAccount": "Impossibile eliminare l'account.",
-    "rateLimited": "Troppe richieste. Attendi un momento e riprova."
+    "rateLimited": "Troppe richieste. Attendi un momento e riprova.",
+    "coherenceCheckUnavailable": "Il controllo di coerenza non è configurato al momento.",
+    "coherenceCheckFailed": "Non siamo riusciti a completare il controllo di coerenza. Riprova."
+  },
+  "atsChecker": {
+    "buttonLabel": "Controlla punteggio ATS",
+    "title": "Controllo ATS",
+    "formatCheckTitle": "Controllo formato",
+    "checksPassed": "{{passed}} controlli superati su {{total}}",
+    "jobDescriptionTitle": "Corrispondenza con l'offerta di lavoro",
+    "disclaimer": "La corrispondenza delle parole chiave è una guida euristica per testo in inglese, non una garanzia del comportamento di un ATS reale.",
+    "pastePlaceholder": "Incolla qui la descrizione del lavoro…",
+    "analyzeButton": "Analizza",
+    "matchScoreLabel": "Corrispondenza parole chiave",
+    "matchedLabel": "Parole chiave trovate",
+    "missingLabel": "Parole chiave mancanti — valuta di aggiungerle",
+    "formatCheckDisclaimer": "Verifica se i campi sono compilati e strutturati correttamente — non può verificare se il contenuto stesso sia reale o sensato.",
+    "coherenceTitle": "Controllo di coerenza del contenuto",
+    "coherenceDescription": "Utilizza l'IA per verificare se il tuo contenuto si legge come un linguaggio reale e coerente, invece di testo segnaposto o senza senso. Questo verifica la coerenza, non l'accuratezza dei fatti — non può verificare che le tue affermazioni siano vere.",
+    "checkCoherenceButton": "Controlla coerenza",
+    "coherentResult": "Questo contenuto si legge come testo coerente e reale.",
+    "checks": {
+      "multiColumnTemplate": "Usa un layout a colonna singola (più sicuro per l'ATS)",
+      "hasName": "Il nome è compilato",
+      "hasEmail": "L'indirizzo email è compilato",
+      "hasPhone": "Il numero di telefono è compilato",
+      "hasWorkExperience": "Include almeno un'esperienza lavorativa",
+      "workDatesComplete": "Ogni esperienza lavorativa ha entrambe le date compilate",
+      "hasSkills": "Include almeno una competenza",
+      "hasQuantifiedContent": "Include risultati misurabili (numeri o %)",
+      "hasSummary": "La sezione Chi sono / riepilogo è compilata",
+      "hasCertifications": "Include almeno una certificazione",
+      "hasLanguages": "Include almeno una lingua",
+      "hasSenderContact": "Email e telefono del mittente sono compilati",
+      "hasRecipientInfo": "Nome o azienda del destinatario è compilato",
+      "hasSubject": "La riga dell'oggetto è compilata",
+      "bodyLongEnough": "Il corpo della lettera ha contenuto sufficiente"
+    }
   }
 }

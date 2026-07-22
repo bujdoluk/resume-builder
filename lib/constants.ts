@@ -61,3 +61,14 @@ export const RATE_LIMIT_STRIPE_CHECKOUT_REQUESTS = 10;
 export const RATE_LIMIT_STRIPE_CHECKOUT_WINDOW = "1 h";
 export const RATE_LIMIT_STRIPE_CANCEL_REQUESTS = 10;
 export const RATE_LIMIT_STRIPE_CANCEL_WINDOW = "1 h";
+
+// lib/atsChecker/ — ATS format-check/keyword-matching thresholds.
+export const MIN_COVER_LETTER_BODY_LENGTH = 200;
+export const KEYWORD_EXTRACTION_LIMIT = 30;
+
+// app/api/ats-coherence/route.ts — the coherence check calls a real LLM
+// (Groq) whose free tier is a shared, app-wide budget (not per-user), so
+// this stays conservative rather than matching the other per-IP limits.
+export const MAX_COHERENCE_CHECK_TEXT_LENGTH = 10_000;
+export const RATE_LIMIT_ATS_COHERENCE_REQUESTS = 3;
+export const RATE_LIMIT_ATS_COHERENCE_WINDOW = "10 m";

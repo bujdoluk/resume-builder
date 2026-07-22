@@ -462,6 +462,43 @@
     "invalidPlan": "Plan no válido.",
     "failedToCancelSubscription": "No se pudo cancelar tu suscripción. Inténtalo de nuevo o contacta con soporte.",
     "failedToDeleteAccount": "No se pudo eliminar la cuenta.",
-    "rateLimited": "Demasiadas solicitudes. Espera un momento e inténtalo de nuevo."
+    "rateLimited": "Demasiadas solicitudes. Espera un momento e inténtalo de nuevo.",
+    "coherenceCheckUnavailable": "La comprobación de coherencia no está configurada en este momento.",
+    "coherenceCheckFailed": "No pudimos completar la comprobación de coherencia. Inténtalo de nuevo."
+  },
+  "atsChecker": {
+    "buttonLabel": "Comprobar puntuación ATS",
+    "title": "Comprobador ATS",
+    "formatCheckTitle": "Comprobación de formato",
+    "checksPassed": "{{passed}} de {{total}} comprobaciones superadas",
+    "jobDescriptionTitle": "Coincidencia con la oferta de empleo",
+    "disclaimer": "La coincidencia de palabras clave es una guía orientativa para texto en inglés, no una garantía del comportamiento de un ATS real.",
+    "pastePlaceholder": "Pega aquí la descripción del puesto…",
+    "analyzeButton": "Analizar",
+    "matchScoreLabel": "Coincidencia de palabras clave",
+    "matchedLabel": "Palabras clave encontradas",
+    "missingLabel": "Palabras clave que faltan — considera añadirlas",
+    "formatCheckDisclaimer": "Comprueba si los campos están completos y bien estructurados; no puede verificar si el contenido en sí es real o tiene sentido.",
+    "coherenceTitle": "Comprobación de coherencia del contenido",
+    "coherenceDescription": "Usa IA para comprobar si tu contenido se lee como un lenguaje real y coherente, en lugar de texto de relleno o sin sentido. Esto comprueba la coherencia, no la exactitud de los hechos — no puede verificar que tus afirmaciones sean ciertas.",
+    "checkCoherenceButton": "Comprobar coherencia",
+    "coherentResult": "Este contenido se lee como un texto coherente y real.",
+    "checks": {
+      "multiColumnTemplate": "Usa un diseño de una sola columna (más seguro para ATS)",
+      "hasName": "El nombre está completo",
+      "hasEmail": "La dirección de correo electrónico está completa",
+      "hasPhone": "El número de teléfono está completo",
+      "hasWorkExperience": "Incluye al menos una experiencia laboral",
+      "workDatesComplete": "Cada experiencia laboral tiene ambas fechas completas",
+      "hasSkills": "Incluye al menos una habilidad",
+      "hasQuantifiedContent": "Incluye logros medibles (números o %)",
+      "hasSummary": "Sobre mí / resumen está completo",
+      "hasCertifications": "Incluye al menos una certificación",
+      "hasLanguages": "Incluye al menos un idioma",
+      "hasSenderContact": "El correo y teléfono del remitente están completos",
+      "hasRecipientInfo": "El nombre o la empresa del destinatario está completo",
+      "hasSubject": "La línea de asunto está completa",
+      "bodyLongEnough": "El cuerpo de la carta tiene suficiente contenido"
+    }
   }
 }

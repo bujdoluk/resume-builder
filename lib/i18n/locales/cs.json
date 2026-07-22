@@ -462,6 +462,43 @@
     "invalidPlan": "Neplatný tarif.",
     "failedToCancelSubscription": "Zrušení předplatného se nezdařilo. Zkuste to prosím znovu nebo kontaktujte podporu.",
     "failedToDeleteAccount": "Odstranění účtu se nezdařilo.",
-    "rateLimited": "Příliš mnoho požadavků. Počkejte prosím chvíli a zkuste to znovu."
+    "rateLimited": "Příliš mnoho požadavků. Počkejte prosím chvíli a zkuste to znovu.",
+    "coherenceCheckUnavailable": "Kontrola srozumitelnosti není nyní nastavena.",
+    "coherenceCheckFailed": "Kontrolu srozumitelnosti se nepodařilo dokončit. Zkuste to prosím znovu."
+  },
+  "atsChecker": {
+    "buttonLabel": "Zkontrolovat ATS skóre",
+    "title": "Kontrola ATS",
+    "formatCheckTitle": "Kontrola formátu",
+    "checksPassed": "{{passed}} z {{total}} kontrol splněno",
+    "jobDescriptionTitle": "Shoda s popisem pozice",
+    "disclaimer": "Shoda klíčových slov je orientační pomůcka pro anglický text, nikoli záruka chování skutečného ATS.",
+    "pastePlaceholder": "Sem vložte popis pracovní pozice…",
+    "analyzeButton": "Analyzovat",
+    "matchScoreLabel": "Shoda klíčových slov",
+    "matchedLabel": "Nalezená klíčová slova",
+    "missingLabel": "Chybějící klíčová slova — zvažte jejich přidání",
+    "formatCheckDisclaimer": "Kontroluje, zda jsou pole vyplněna a správně strukturována — nemůže ověřit, zda je samotný obsah pravdivý nebo smysluplný.",
+    "coherenceTitle": "Kontrola srozumitelnosti obsahu",
+    "coherenceDescription": "Pomocí AI zkontroluje, zda váš obsah vypadá jako skutečný, smysluplný text, a ne jako zástupný text nebo nesmysl. Jde o kontrolu srozumitelnosti, ne faktické přesnosti — nelze ověřit, zda jsou vaše tvrzení pravdivá.",
+    "checkCoherenceButton": "Zkontrolovat srozumitelnost",
+    "coherentResult": "Tento obsah vypadá jako srozumitelný, skutečný text.",
+    "checks": {
+      "multiColumnTemplate": "Používá jednosloupcové rozvržení (bezpečnější pro ATS)",
+      "hasName": "Jméno je vyplněno",
+      "hasEmail": "E-mailová adresa je vyplněna",
+      "hasPhone": "Telefonní číslo je vyplněno",
+      "hasWorkExperience": "Obsahuje alespoň jednu pracovní zkušenost",
+      "workDatesComplete": "Každá pracovní zkušenost má vyplněná obě data",
+      "hasSkills": "Obsahuje alespoň jednu dovednost",
+      "hasQuantifiedContent": "Obsahuje měřitelné výsledky (čísla nebo %)",
+      "hasSummary": "Sekce O mně / shrnutí je vyplněna",
+      "hasCertifications": "Obsahuje alespoň jeden certifikát",
+      "hasLanguages": "Obsahuje alespoň jeden jazyk",
+      "hasSenderContact": "E-mail a telefon odesílatele jsou vyplněny",
+      "hasRecipientInfo": "Jméno nebo společnost příjemce je vyplněno",
+      "hasSubject": "Předmět je vyplněn",
+      "bodyLongEnough": "Text dopisu má dostatečný obsah"
+    }
   }
 }
