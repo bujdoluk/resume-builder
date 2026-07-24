@@ -15,11 +15,15 @@ create table if not exists public.resumes (
 
 alter table public.resumes enable row level security;
 
+drop policy if exists "Users can view their own resumes" on public.resumes;
 create policy "Users can view their own resumes" on public.resumes
   for select using (auth.uid() = user_id);
+drop policy if exists "Users can insert their own resumes" on public.resumes;
 create policy "Users can insert their own resumes" on public.resumes
   for insert with check (auth.uid() = user_id);
+drop policy if exists "Users can update their own resumes" on public.resumes;
 create policy "Users can update their own resumes" on public.resumes
   for update using (auth.uid() = user_id);
+drop policy if exists "Users can delete their own resumes" on public.resumes;
 create policy "Users can delete their own resumes" on public.resumes
   for delete using (auth.uid() = user_id);

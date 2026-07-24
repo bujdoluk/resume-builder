@@ -17,9 +17,11 @@ create index if not exists blog_posts_published_at_idx on public.blog_posts (pub
 
 alter table public.blog_posts enable row level security;
 
+drop policy if exists "Anyone can view blog posts" on public.blog_posts;
 create policy "Anyone can view blog posts" on public.blog_posts
   for select using (true);
 
+drop policy if exists "Admins can insert blog posts" on public.blog_posts;
 create policy "Admins can insert blog posts" on public.blog_posts
   for insert with check (
     (select auth.jwt() -> 'app_metadata' ->> 'role') = 'admin'
@@ -135,4 +137,5 @@ Network in the open
 
 Remote teams often hire through referrals and public visibility — a thoughtful comment on a company''s public roadmap, a genuine connection made in a community Slack, or content shared in your area of expertise can put you on a hiring manager''s radar before a role is even posted.
 
-Standing out remotely means demonstrating, not just claiming, that distance won''t be a problem.', 'QuickResumeBuilder Team', '5 min read', '2026-07-07');
+Standing out remotely means demonstrating, not just claiming, that distance won''t be a problem.', 'QuickResumeBuilder Team', '5 min read', '2026-07-07')
+on conflict (slug) do nothing;
