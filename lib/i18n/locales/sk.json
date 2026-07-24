@@ -252,8 +252,12 @@
         "description": "Farby, typografia, veľkosť písma a rozloženie presúvaním – všetko naživo."
       },
       "pdf": {
-        "title": "Export do PDF jedným kliknutím",
-        "description": "Stiahnite si PDF pripravené na tlač, hneď ako budete spokojní."
+        "title": "Export do PDF, Wordu a textu",
+        "description": "Stiahnite si súbor pripravený na použitie vo formáte, ktorý potrebujete, hneď ako budete spokojní."
+      },
+      "ats": {
+        "title": "Vstavaná kontrola ATS",
+        "description": "Skontrolujte životopis kvôli problémom s formátovaním a porovnajte ho s popisom pracovnej pozície pred odoslaním."
       },
       "email": {
         "title": "Odoslať priamo e-mailom",

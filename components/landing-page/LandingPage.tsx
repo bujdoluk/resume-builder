@@ -7,6 +7,7 @@ import { useTranslation } from "react-i18next";
 import Footer from "@/components/Footer";
 import PricingSection from "@/components/landing-page/PricingSection";
 import {
+  AtsCheckerIcon,
   CustomizationIcon,
   DownloadIcon,
   EmailIcon,
@@ -22,6 +23,7 @@ const features = [
   { key: "coverLetter", icon: MyCoverLettersIcon },
   { key: "customization", icon: CustomizationIcon },
   { key: "pdf", icon: DownloadIcon },
+  { key: "ats", icon: AtsCheckerIcon },
   { key: "email", icon: EmailIcon },
   { key: "languages", icon: LanguagesIcon },
   { key: "saveResumes", icon: MyResumesIcon },

@@ -252,8 +252,12 @@
         "description": "Couleurs, typographie, taille de texte et mise en page par glisser-déposer, en direct."
       },
       "pdf": {
-        "title": "Export PDF en un clic",
-        "description": "Téléchargez un PDF prêt à imprimer dès que vous êtes satisfait."
+        "title": "Export PDF, Word et texte",
+        "description": "Téléchargez un fichier prêt à l'emploi dans le format dont vous avez besoin, dès que vous êtes satisfait."
+      },
+      "ats": {
+        "title": "Vérificateur ATS intégré",
+        "description": "Analysez votre CV à la recherche de problèmes de mise en forme et comparez-le à une offre d'emploi avant de postuler."
       },
       "email": {
         "title": "Envoyez-le directement par e-mail",

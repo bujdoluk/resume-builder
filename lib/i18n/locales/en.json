@@ -252,8 +252,12 @@
         "description": "Colours, typography, font size, and drag-and-drop layout, all live."
       },
       "pdf": {
-        "title": "One-click PDF export",
-        "description": "Download a print-ready PDF whenever you're happy with it."
+        "title": "PDF, Word & text export",
+        "description": "Download a print-ready file in whichever format you need, whenever you're happy with it."
+      },
+      "ats": {
+        "title": "Built-in ATS Checker",
+        "description": "Scan your resume for formatting issues and match it against a job description before you apply."
       },
       "email": {
         "title": "Email it directly",

@@ -252,8 +252,12 @@
         "description": "Colori, tipografia, dimensione del testo e layout drag-and-drop, tutto dal vivo."
       },
       "pdf": {
-        "title": "Esportazione PDF con un clic",
-        "description": "Scarica un PDF pronto per la stampa non appena sei soddisfatto."
+        "title": "Esportazione in PDF, Word e testo",
+        "description": "Scarica un file pronto per l'uso nel formato che preferisci, non appena sei soddisfatto."
+      },
+      "ats": {
+        "title": "Controllo ATS integrato",
+        "description": "Scansiona il tuo CV alla ricerca di problemi di formattazione e confrontalo con una descrizione del lavoro prima di candidarti."
       },
       "email": {
         "title": "Invialo direttamente via email",

@@ -25,6 +25,7 @@ A free, in-browser resume and cover letter builder built with Next.js. Fill in y
 
 ### Shared across both builders
 - **Customization navbar** — accent colour, font, font size, field/section visibility.
+- **Custom field** — one arbitrary value (e.g. Nationality, Driver's License) under a renameable section heading, reflected in the step tracker.
 - **Export to PDF, Word, or plain text**, plus print and full-page preview.
 - **Email export** — sends the exported file via [Resend](https://resend.com), hCaptcha-protected.
 - **13 languages**, switchable on the fly (i18next).
@@ -61,6 +62,10 @@ A free, in-browser resume and cover letter builder built with Next.js. Fill in y
 ### Role-based authorization
 - **Admin role** via a JWT `app_metadata.role` claim, enforced at the database level (RLS), not just hidden in the UI.
 
+### Security & monitoring
+- **Security headers** — CSP, HSTS, X-Frame-Options, and friends, set in `next.config.ts` and scoped to the exact third-party origins the app loads (Supabase, hCaptcha, Tawk.to, Sentry).
+- **Error monitoring** — Sentry, opt-in via `NEXT_PUBLIC_SENTRY_DSN`.
+
 ## Getting Started
 
 ```bash
@@ -86,6 +91,9 @@ Run every file under `supabase/migrations/` in order (`0001`–`0006`) — there
 
 ### Support (Tawk.to)
 Sign up at [tawk.to](https://www.tawk.to), create a property, and set `NEXT_PUBLIC_TAWKTO_PROPERTY_ID`/`NEXT_PUBLIC_TAWKTO_WIDGET_ID` from the embed snippet's URL.
+
+### Error monitoring (Sentry)
+Create a project at [sentry.io](https://sentry.io), set `NEXT_PUBLIC_SENTRY_DSN` to enable client/server error reporting, and `SENTRY_ORG`/`SENTRY_PROJECT`/`SENTRY_AUTH_TOKEN` to also upload source maps at build time. Unset = Sentry is never initialized, matching every other optional integration here.
 
 ### Blog admin setup
 1. Run migration `0006` (see Database setup).

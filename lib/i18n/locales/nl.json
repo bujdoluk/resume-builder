@@ -252,8 +252,12 @@
         "description": "Kleuren, typografie, tekstgrootte en sleep-en-neerzet-indeling, allemaal live."
       },
       "pdf": {
-        "title": "PDF-export met één klik",
-        "description": "Download een afdrukklare pdf zodra je tevreden bent."
+        "title": "Export naar PDF, Word en tekst",
+        "description": "Download een afdrukklaar bestand in het gewenste formaat, zodra je tevreden bent."
+      },
+      "ats": {
+        "title": "Ingebouwde ATS-checker",
+        "description": "Scan je cv op opmaakproblemen en vergelijk het met een vacaturetekst voordat je solliciteert."
       },
       "email": {
         "title": "Direct e-mailen",

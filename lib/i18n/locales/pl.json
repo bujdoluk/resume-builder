@@ -252,8 +252,12 @@
         "description": "Kolory, typografia, rozmiar tekstu i układ metodą przeciągnij i upuść – wszystko na żywo."
       },
       "pdf": {
-        "title": "Eksport do PDF jednym kliknięciem",
-        "description": "Pobierz gotowy do druku PDF, gdy tylko będziesz zadowolony."
+        "title": "Eksport do PDF, Worda i tekstu",
+        "description": "Pobierz gotowy plik w formacie, którego potrzebujesz, gdy tylko będziesz zadowolony."
+      },
+      "ats": {
+        "title": "Wbudowany kontroler ATS",
+        "description": "Sprawdź CV pod kątem problemów z formatowaniem i porównaj je z opisem stanowiska przed wysłaniem aplikacji."
       },
       "email": {
         "title": "Wyślij bezpośrednio e-mailem",

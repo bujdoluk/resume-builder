@@ -252,8 +252,12 @@
         "description": "Cores, tipografia, tamanho do texto e disposição por arrastar e largar, tudo em tempo real."
       },
       "pdf": {
-        "title": "Exportação para PDF num clique",
-        "description": "Descarregue um PDF pronto a imprimir assim que estiver satisfeito."
+        "title": "Exportação para PDF, Word e texto",
+        "description": "Descarregue um ficheiro pronto a usar no formato que precisar, assim que estiver satisfeito."
+      },
+      "ats": {
+        "title": "Verificador de ATS integrado",
+        "description": "Analise o seu currículo em busca de problemas de formatação e compare-o com uma descrição de vaga antes de se candidatar."
       },
       "email": {
         "title": "Envie diretamente por e-mail",

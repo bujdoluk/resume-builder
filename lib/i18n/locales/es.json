@@ -252,8 +252,12 @@
         "description": "Colores, tipografía, tamaño de fuente y diseño con arrastrar y soltar, todo en vivo."
       },
       "pdf": {
-        "title": "Exportación a PDF con un clic",
-        "description": "Descarga un PDF listo para imprimir en cuanto estés conforme."
+        "title": "Exportación a PDF, Word y texto",
+        "description": "Descarga un archivo listo para usar en el formato que necesites, en cuanto estés conforme."
+      },
+      "ats": {
+        "title": "Verificador ATS integrado",
+        "description": "Analiza tu currículum en busca de problemas de formato y compáralo con una oferta de empleo antes de enviarlo."
       },
       "email": {
         "title": "Envíalo directamente por correo",

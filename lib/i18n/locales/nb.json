@@ -252,8 +252,12 @@
         "description": "Farger, typografi, tekststørrelse og dra-og-slipp-layout, alt live."
       },
       "pdf": {
-        "title": "PDF-eksport med ett klikk",
-        "description": "Last ned en utskriftsklar PDF så snart du er fornøyd."
+        "title": "Eksport til PDF, Word og tekst",
+        "description": "Last ned en utskriftsklar fil i formatet du trenger, så snart du er fornøyd."
+      },
+      "ats": {
+        "title": "Innebygd ATS-sjekk",
+        "description": "Skann CV-en din for formateringsproblemer og sammenlign den med en stillingsannonse før du søker."
       },
       "email": {
         "title": "Send det direkte på e-post",

@@ -252,8 +252,12 @@
         "description": "Färger, typografi, textstorlek och dra-och-släpp-layout, allt i realtid."
       },
       "pdf": {
-        "title": "PDF-export med ett klick",
-        "description": "Ladda ner en utskriftsklar PDF så snart du är nöjd."
+        "title": "Export till PDF, Word och text",
+        "description": "Ladda ner en utskriftsklar fil i det format du behöver, så snart du är nöjd."
+      },
+      "ats": {
+        "title": "Inbyggd ATS-kontroll",
+        "description": "Skanna ditt CV efter formateringsproblem och matcha det mot en jobbannons innan du söker."
       },
       "email": {
         "title": "Skicka direkt via e-post",

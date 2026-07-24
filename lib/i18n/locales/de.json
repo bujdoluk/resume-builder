@@ -252,8 +252,12 @@
         "description": "Farben, Typografie, Schriftgröße und Drag-and-Drop-Layout – alles live."
       },
       "pdf": {
-        "title": "PDF-Export mit einem Klick",
-        "description": "Lade ein druckfertiges PDF herunter, sobald du zufrieden bist."
+        "title": "PDF-, Word- und Textexport",
+        "description": "Lade eine druckfertige Datei im gewünschten Format herunter, sobald du zufrieden bist."
+      },
+      "ats": {
+        "title": "Integrierter ATS-Check",
+        "description": "Prüfe deinen Lebenslauf auf Formatierungsprobleme und gleiche ihn mit einer Stellenbeschreibung ab, bevor du dich bewirbst."
       },
       "email": {
         "title": "Direkt per E-Mail versenden",
