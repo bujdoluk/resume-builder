@@ -70,9 +70,9 @@ function renderSectionParagraphs(key: SectionKey, data: ResumeData): Paragraph[]
     case "education":
       return filledEducationEntries(data).flatMap((entry) => {
         const paragraphs: Paragraph[] = [];
-        if (entry.school) paragraphs.push(boldParagraph(entry.school));
+        if (entry.subject) paragraphs.push(boldParagraph(entry.subject));
         const meta = [
-          entry.subject,
+          entry.school,
           [dateRange(entry.dateFrom, entry.dateTo), entry.location].filter(Boolean).join("  ·  "),
         ]
           .filter(Boolean)

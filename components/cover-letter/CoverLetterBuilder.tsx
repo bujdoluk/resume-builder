@@ -248,6 +248,22 @@ export default function CoverLetterBuilder({
     }
   }
 
+  const handleSaveRef = useRef(handleSave);
+  useEffect(() => {
+    handleSaveRef.current = handleSave;
+  });
+
+  useEffect(() => {
+    function handleKeyDown(event: KeyboardEvent) {
+      if ((event.ctrlKey || event.metaKey) && event.code === "KeyS") {
+        event.preventDefault();
+        handleSaveRef.current();
+      }
+    }
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
   function renderActionButtons(className: string) {
     return (
       <div className={className}>

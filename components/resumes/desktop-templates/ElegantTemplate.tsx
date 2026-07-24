@@ -322,10 +322,10 @@ export default function ElegantTemplate({
                     .join(" – ");
                   return (
                     <li key={entry.id}>
-                      {entry.school}
-                      {(entry.subject || dateRange || entry.location) && (
+                      {entry.subject}
+                      {(entry.school || dateRange || entry.location) && (
                         <span className="block text-xs opacity-70">
-                          {[entry.subject, dateRange, entry.location]
+                          {[entry.school, dateRange, entry.location]
                             .filter(Boolean)
                             .join(" · ")}
                         </span>
@@ -353,12 +353,12 @@ export default function ElegantTemplate({
 
                 return (
                   <div key={entry.id}>
-                    {entry.school && (
-                      <p className="text-lg font-semibold">{entry.school}</p>
-                    )}
                     {entry.subject && (
+                      <p className="text-lg font-semibold">{entry.subject}</p>
+                    )}
+                    {entry.school && (
                       <p className="text-base text-gray-600">
-                        {entry.subject}
+                        {entry.school}
                       </p>
                     )}
                     {(dateRange || entry.location) && (

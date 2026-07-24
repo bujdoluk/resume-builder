@@ -188,10 +188,10 @@ export default function ModernPdfTemplate({
                 const dateRange = [entry.dateFrom, entry.dateTo].filter(Boolean).join(" – ");
                 return (
                   <View key={entry.id} style={{ marginTop: 3 }} wrap={false}>
-                    <Text style={styles.sidebarBodyText}>{entry.school}</Text>
-                    {(entry.subject || dateRange || entry.location) && (
+                    <Text style={styles.sidebarBodyText}>{entry.subject}</Text>
+                    {(entry.school || dateRange || entry.location) && (
                       <Text style={[styles.sidebarBodyText, { fontSize: s(7.5), opacity: 0.7 }]}>
-                        {[entry.subject, dateRange, entry.location].filter(Boolean).join(" · ")}
+                        {[entry.school, dateRange, entry.location].filter(Boolean).join(" · ")}
                       </Text>
                     )}
                   </View>
@@ -207,8 +207,8 @@ export default function ModernPdfTemplate({
               const dateRange = [entry.dateFrom, entry.dateTo].filter(Boolean).join(" – ");
               return (
                 <View key={entry.id} style={styles.entry} wrap={false}>
-                  {entry.school && <Text style={styles.entryTitle}>{entry.school}</Text>}
-                  {entry.subject && <Text style={styles.entryMetaAlt}>{entry.subject}</Text>}
+                  {entry.subject && <Text style={styles.entryTitle}>{entry.subject}</Text>}
+                  {entry.school && <Text style={styles.entryMetaAlt}>{entry.school}</Text>}
                   {(dateRange || entry.location) && (
                     <Text style={styles.entryMeta}>
                       {[dateRange, entry.location].filter(Boolean).join(" · ")}

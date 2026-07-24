@@ -304,6 +304,22 @@ export default function ResumeBuilder({
     }
   }
 
+  const handleSaveRef = useRef(handleSave);
+  useEffect(() => {
+    handleSaveRef.current = handleSave;
+  });
+
+  useEffect(() => {
+    function handleKeyDown(event: KeyboardEvent) {
+      if ((event.ctrlKey || event.metaKey) && event.code === "KeyS") {
+        event.preventDefault();
+        handleSaveRef.current();
+      }
+    }
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
   const templateDefinition =
     templates.find((template) => template.id === templateId) ?? templates[0];
   const TemplateComponent = templateDefinition.component;

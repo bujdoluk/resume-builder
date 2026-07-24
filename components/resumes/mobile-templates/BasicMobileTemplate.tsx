@@ -55,8 +55,8 @@ type EducationEntryFieldKey =
   | "location"
   | "description";
 const defaultEducationFieldOrder: EducationEntryFieldKey[] = [
-  "school",
   "subject",
+  "school",
   "dateFrom",
   "dateTo",
   "location",

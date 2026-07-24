@@ -208,8 +208,8 @@ export default function ClassicPdfTemplate({
             dateRange: [entry.dateFrom, entry.dateTo].filter(Boolean).join(" – "),
             content: (
               <>
-                {entry.school && <Text style={styles.entryTitle}>{entry.school}</Text>}
-                {entry.subject && <Text style={styles.entryMetaAlt}>{entry.subject}</Text>}
+                {entry.subject && <Text style={styles.entryTitle}>{entry.subject}</Text>}
+                {entry.school && <Text style={styles.entryMetaAlt}>{entry.school}</Text>}
                 {entry.location && <Text style={styles.entryMeta}>{entry.location}</Text>}
                 {entry.description && (
                   <Text style={styles.entryDescription}>{entry.description}</Text>

@@ -209,11 +209,11 @@ export default function BasicTemplate({
                   </svg>
                 </div>
                 <div className="timeline-end timeline-box">
-                  {entry.school && (
-                    <p className="text-lg font-semibold">{entry.school}</p>
-                  )}
                   {entry.subject && (
-                    <p className="text-base text-gray-600">{entry.subject}</p>
+                    <p className="text-lg font-semibold">{entry.subject}</p>
+                  )}
+                  {entry.school && (
+                    <p className="text-base text-gray-600">{entry.school}</p>
                   )}
                   {entry.location && (
                     <p className="text-base text-gray-500">{entry.location}</p>
@@ -306,9 +306,9 @@ export default function BasicTemplate({
                         key={level}
                         type="radio"
                         aria-label={level}
+                        aria-current={index === levelIndex ? true : undefined}
                         className="mask mask-star"
                         style={color ? { backgroundColor: color } : undefined}
-                        defaultChecked={index === levelIndex}
                       />
                     ))}
                   </div>

@@ -208,12 +208,12 @@ export default function MinimalTemplate({
                 key={entry.id}
                 className="border-primary/40 border-l-2 pl-3"
               >
-                {entry.school && (
-                  <p className="text-lg font-semibold">{entry.school}</p>
+                {entry.subject && (
+                  <p className="text-lg font-semibold">{entry.subject}</p>
                 )}
                 <div className="flex items-baseline justify-between gap-2">
-                  {entry.subject && (
-                    <p className="text-base text-gray-600">{entry.subject}</p>
+                  {entry.school && (
+                    <p className="text-base text-gray-600">{entry.school}</p>
                   )}
                   {dateRange && (
                     <p className="text-sm whitespace-nowrap text-gray-500">

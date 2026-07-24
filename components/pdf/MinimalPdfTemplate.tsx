@@ -113,9 +113,9 @@ export default function MinimalPdfTemplate({
           const dateRange = [entry.dateFrom, entry.dateTo].filter(Boolean).join(" – ");
           return (
             <View key={entry.id} style={styles.entry} wrap={false}>
-              {entry.school && <Text style={styles.entryTitle}>{entry.school}</Text>}
+              {entry.subject && <Text style={styles.entryTitle}>{entry.subject}</Text>}
               <View style={styles.row}>
-                {entry.subject && <Text style={styles.entryMetaAlt}>{entry.subject}</Text>}
+                {entry.school && <Text style={styles.entryMetaAlt}>{entry.school}</Text>}
                 {dateRange && <Text style={styles.entryMeta}>{dateRange}</Text>}
               </View>
               {entry.location && <Text style={styles.entryMeta}>{entry.location}</Text>}

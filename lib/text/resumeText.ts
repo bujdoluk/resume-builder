@@ -32,8 +32,8 @@ function renderSectionLines(key: SectionKey, data: ResumeData): string[] {
 
     case "education":
       return filledEducationEntries(data).flatMap((entry) => {
-        const lines = [entry.school].filter(Boolean) as string[];
-        if (entry.subject) lines.push(entry.subject);
+        const lines = [entry.subject].filter(Boolean) as string[];
+        if (entry.school) lines.push(entry.school);
         if (entry.location) lines.push(entry.location);
         const range = dateRange(entry.dateFrom, entry.dateTo);
         if (range) lines.push(range);
