@@ -452,7 +452,11 @@
     "conflict": "Cela entre en conflit avec quelque chose qui existe déjà.",
     "tooManyRequests": "Trop de requêtes. Veuillez patienter un instant et réessayer.",
     "genericClient": "Quelque chose n'allait pas avec cette requête. Veuillez réessayer.",
-    "genericServer": "Une erreur est survenue de notre côté. Veuillez réessayer."
+    "genericServer": "Une erreur est survenue de notre côté. Veuillez réessayer.",
+    "pageCrashTitle": "Une erreur est survenue",
+    "pageCrashDescription": "Une erreur inattendue s'est produite. Vous pouvez réessayer ou revenir à la page d'accueil.",
+    "pageCrashRetry": "Réessayer",
+    "pageCrashHome": "Retour à l'accueil"
   },
   "apiErrors": {
     "loginRequired": "Connexion requise.",

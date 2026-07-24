@@ -452,7 +452,11 @@
     "conflict": "That conflicts with something that already exists.",
     "tooManyRequests": "Too many requests. Please wait a moment and try again.",
     "genericClient": "Something wasn't right with that request. Please try again.",
-    "genericServer": "Something went wrong on our end. Please try again."
+    "genericServer": "Something went wrong on our end. Please try again.",
+    "pageCrashTitle": "Something went wrong",
+    "pageCrashDescription": "An unexpected error occurred. You can try again, or head back to the homepage.",
+    "pageCrashRetry": "Try again",
+    "pageCrashHome": "Go home"
   },
   "apiErrors": {
     "loginRequired": "Login required.",

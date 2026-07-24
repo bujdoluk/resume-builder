@@ -452,7 +452,11 @@
     "conflict": "Det står i konflikt med något som redan finns.",
     "tooManyRequests": "För många förfrågningar. Vänta en stund och försök igen.",
     "genericClient": "Något stämde inte med den begäran. Försök igen.",
-    "genericServer": "Något gick fel på vår sida. Försök igen."
+    "genericServer": "Något gick fel på vår sida. Försök igen.",
+    "pageCrashTitle": "Något gick fel",
+    "pageCrashDescription": "Ett oväntat fel inträffade. Du kan försöka igen eller gå tillbaka till startsidan.",
+    "pageCrashRetry": "Försök igen",
+    "pageCrashHome": "Gå till startsidan"
   },
   "apiErrors": {
     "loginRequired": "Inloggning krävs.",

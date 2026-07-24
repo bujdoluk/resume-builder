@@ -452,7 +452,11 @@
     "conflict": "Das steht im Konflikt mit etwas, das bereits existiert.",
     "tooManyRequests": "Zu viele Anfragen. Bitte warten Sie einen Moment und versuchen Sie es erneut.",
     "genericClient": "Mit dieser Anfrage stimmte etwas nicht. Bitte versuchen Sie es erneut.",
-    "genericServer": "Bei uns ist etwas schiefgelaufen. Bitte versuchen Sie es erneut."
+    "genericServer": "Bei uns ist etwas schiefgelaufen. Bitte versuchen Sie es erneut.",
+    "pageCrashTitle": "Etwas ist schiefgelaufen",
+    "pageCrashDescription": "Ein unerwarteter Fehler ist aufgetreten. Sie können es erneut versuchen oder zur Startseite zurückkehren.",
+    "pageCrashRetry": "Erneut versuchen",
+    "pageCrashHome": "Zur Startseite"
   },
   "apiErrors": {
     "loginRequired": "Anmeldung erforderlich.",

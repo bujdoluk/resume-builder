@@ -452,7 +452,11 @@
     "conflict": "Det er i konflikt med noe som allerede finnes.",
     "tooManyRequests": "For mange forespørsler. Vent litt og prøv igjen.",
     "genericClient": "Noe var ikke riktig med den forespørselen. Prøv igjen.",
-    "genericServer": "Noe gikk galt på vår side. Prøv igjen."
+    "genericServer": "Noe gikk galt på vår side. Prøv igjen.",
+    "pageCrashTitle": "Noe gikk galt",
+    "pageCrashDescription": "Det oppstod en uventet feil. Du kan prøve igjen, eller gå tilbake til startsiden.",
+    "pageCrashRetry": "Prøv igjen",
+    "pageCrashHome": "Gå til startsiden"
   },
   "apiErrors": {
     "loginRequired": "Innlogging kreves.",

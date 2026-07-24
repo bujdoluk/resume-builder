@@ -452,7 +452,11 @@
     "conflict": "Dat is in strijd met iets dat al bestaat.",
     "tooManyRequests": "Te veel verzoeken. Wacht even en probeer het opnieuw.",
     "genericClient": "Er klopte iets niet met dat verzoek. Probeer het opnieuw.",
-    "genericServer": "Er is iets misgegaan aan onze kant. Probeer het opnieuw."
+    "genericServer": "Er is iets misgegaan aan onze kant. Probeer het opnieuw.",
+    "pageCrashTitle": "Er is iets misgegaan",
+    "pageCrashDescription": "Er is een onverwachte fout opgetreden. Je kunt het opnieuw proberen of teruggaan naar de homepage.",
+    "pageCrashRetry": "Opnieuw proberen",
+    "pageCrashHome": "Naar home"
   },
   "apiErrors": {
     "loginRequired": "Inloggen vereist.",

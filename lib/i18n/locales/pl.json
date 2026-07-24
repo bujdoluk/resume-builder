@@ -452,7 +452,11 @@
     "conflict": "To koliduje z czymś, co już istnieje.",
     "tooManyRequests": "Zbyt wiele żądań. Poczekaj chwilę i spróbuj ponownie.",
     "genericClient": "Coś było nie tak z tym żądaniem. Spróbuj ponownie.",
-    "genericServer": "Coś poszło nie tak po naszej stronie. Spróbuj ponownie."
+    "genericServer": "Coś poszło nie tak po naszej stronie. Spróbuj ponownie.",
+    "pageCrashTitle": "Coś poszło nie tak",
+    "pageCrashDescription": "Wystąpił nieoczekiwany błąd. Możesz spróbować ponownie lub wrócić na stronę główną.",
+    "pageCrashRetry": "Spróbuj ponownie",
+    "pageCrashHome": "Przejdź na stronę główną"
   },
   "apiErrors": {
     "loginRequired": "Wymagane jest zalogowanie.",

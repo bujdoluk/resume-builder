@@ -452,7 +452,11 @@
     "conflict": "Isso entra em conflito com algo que já existe.",
     "tooManyRequests": "Demasiados pedidos. Aguarde um momento e tente novamente.",
     "genericClient": "Algo não estava certo com esse pedido. Tente novamente.",
-    "genericServer": "Algo correu mal do nosso lado. Tente novamente."
+    "genericServer": "Algo correu mal do nosso lado. Tente novamente.",
+    "pageCrashTitle": "Algo correu mal",
+    "pageCrashDescription": "Ocorreu um erro inesperado. Pode tentar novamente ou voltar à página inicial.",
+    "pageCrashRetry": "Tentar novamente",
+    "pageCrashHome": "Ir para o início"
   },
   "apiErrors": {
     "loginRequired": "É necessário iniciar sessão.",

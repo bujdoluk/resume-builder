@@ -452,7 +452,11 @@
     "conflict": "Questo è in conflitto con qualcosa che esiste già.",
     "tooManyRequests": "Troppe richieste. Attendi un momento e riprova.",
     "genericClient": "Qualcosa non andava in questa richiesta. Riprova.",
-    "genericServer": "Qualcosa è andato storto da parte nostra. Riprova."
+    "genericServer": "Qualcosa è andato storto da parte nostra. Riprova.",
+    "pageCrashTitle": "Qualcosa è andato storto",
+    "pageCrashDescription": "Si è verificato un errore imprevisto. Puoi riprovare oppure tornare alla home page.",
+    "pageCrashRetry": "Riprova",
+    "pageCrashHome": "Vai alla home"
   },
   "apiErrors": {
     "loginRequired": "Accesso richiesto.",

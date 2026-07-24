@@ -452,7 +452,11 @@
     "conflict": "To koliduje s něčím, co už existuje.",
     "tooManyRequests": "Příliš mnoho požadavků. Počkejte prosím chvíli a zkuste to znovu.",
     "genericClient": "S tímto požadavkem něco nebylo v pořádku. Zkuste to prosím znovu.",
-    "genericServer": "Na naší straně došlo k chybě. Zkuste to prosím znovu."
+    "genericServer": "Na naší straně došlo k chybě. Zkuste to prosím znovu.",
+    "pageCrashTitle": "Něco se pokazilo",
+    "pageCrashDescription": "Došlo k neočekávané chybě. Můžete to zkusit znovu, nebo se vrátit na domovskou stránku.",
+    "pageCrashRetry": "Zkusit znovu",
+    "pageCrashHome": "Přejít domů"
   },
   "apiErrors": {
     "loginRequired": "Je vyžadováno přihlášení.",
