@@ -6,7 +6,7 @@ A free, in-browser resume and cover letter builder built with Next.js. Fill in y
 
 |                                                    |                                                            |                                                              |
 | -------------------------------------------------- | ---------------------------------------------------------- | ------------------------------------------------------------ |
-| ![Landing page](public/images/landing-page.png)     | ![Resume editor](public/images/resume-builder-editor.png)  | ![Template picker](public/images/template-feature-open.png)  |
+| ![Landing page](public/images/landing-page.webp)     | ![Resume editor](public/images/resume-builder-editor.webp)  | ![Template picker](public/images/template-feature-open.webp)  |
 | Landing page                                        | Resume builder editor                                      | Template picker                                               |
 
 ## Features

@@ -63,7 +63,7 @@ export default function LandingPage() {
       <div className="bg-base-200 flex-1">
         <div className="relative">
           <Image
-            src="/images/app_background.png"
+            src="/images/app_background.webp"
             alt="Resume preview picture"
             aria-hidden="true"
             width={1752}
@@ -73,7 +73,7 @@ export default function LandingPage() {
           />
 
           <Image
-            src="/images/Resume_lp_background.png"
+            src="/images/Resume_lp_background.webp"
             alt="Resume preview picture"
             aria-hidden="true"
             width={1752}
