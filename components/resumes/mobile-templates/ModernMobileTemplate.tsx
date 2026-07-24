@@ -16,6 +16,7 @@ import { createResumeFormHandlers } from "@/components/useResumeFormHandlers";
 import { useModernZoneLayout } from "@/components/useModernZoneLayout";
 import { getContrastTextColor } from "@/lib/color";
 import { type FieldKey } from "@/lib/fields";
+import { formatPhoneAsYouType } from "@/lib/phone";
 import {
   languageLevels,
   type EducationEntry,
@@ -439,7 +440,7 @@ export default function ModernMobileTemplate({
           placeholder={t("placeholders.yourPhone")}
           className="grow text-sm"
           value={data.phone}
-          onChange={(e) => onChange("phone", e.target.value)}
+          onChange={(e) => onChange("phone", formatPhoneAsYouType(e.target.value))}
         />
       </label>
     </fieldset>

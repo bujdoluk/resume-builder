@@ -20,6 +20,7 @@ import {
 import type { CoverLetterTemplateId } from "@/lib/coverLetterTemplates";
 import { getFontSizeStyle, type FontSizeKey } from "@/lib/fontSize";
 import { fontsByKey, type FontKey } from "@/lib/fonts";
+import { formatPhoneAsYouType } from "@/lib/phone";
 import type { Dispatch, SetStateAction } from "react";
 
 export interface CoverLetterFormFieldsProps {
@@ -153,7 +154,7 @@ export default function CoverLetterFormFields({
           type="tel"
           className="input w-full"
           value={data.senderPhone}
-          onChange={(e) => onChange("senderPhone", e.target.value)}
+          onChange={(e) => onChange("senderPhone", formatPhoneAsYouType(e.target.value))}
           placeholder={t("coverLetter.senderPhonePlaceholder")}
         />
       </fieldset>
@@ -208,7 +209,7 @@ export default function CoverLetterFormFields({
           type="tel"
           className="input w-full"
           value={data.recipientPhone}
-          onChange={(e) => onChange("recipientPhone", e.target.value)}
+          onChange={(e) => onChange("recipientPhone", formatPhoneAsYouType(e.target.value))}
           placeholder={t("coverLetter.recipientPhonePlaceholder")}
         />
       </fieldset>

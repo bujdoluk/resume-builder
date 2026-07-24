@@ -18,6 +18,7 @@ import { useModernZoneLayout } from "@/components/useModernZoneLayout";
 import { getContrastTextColor } from "@/lib/color";
 import { getFontSizeStyle, type FontSizeKey } from "@/lib/fontSize";
 import { generateId } from "@/lib/generateId";
+import { formatPhoneAsYouType } from "@/lib/phone";
 import { fontsByKey, type FontKey } from "@/lib/fonts";
 import {
   emptyResumeData,
@@ -1260,7 +1261,7 @@ export default function Resume({
           placeholder={t("placeholders.yourPhone")}
           className="grow"
           value={data.phone}
-          onChange={(e) => onChange("phone", e.target.value)}
+          onChange={(e) => onChange("phone", formatPhoneAsYouType(e.target.value))}
         />
       </label>
     </fieldset>

@@ -12,6 +12,7 @@ import {
 import { createResumeFormHandlers } from "@/components/useResumeFormHandlers";
 import { getContrastTextColor } from "@/lib/color";
 import { type FieldKey } from "@/lib/fields";
+import { formatPhoneAsYouType } from "@/lib/phone";
 import {
   languageLevels,
   type EducationEntry,
@@ -412,7 +413,7 @@ export default function MinimalMobileTemplate({
           placeholder={t("placeholders.yourPhone")}
           className="grow"
           value={data.phone}
-          onChange={(e) => onChange("phone", e.target.value)}
+          onChange={(e) => onChange("phone", formatPhoneAsYouType(e.target.value))}
         />
       </label>
     </fieldset>
