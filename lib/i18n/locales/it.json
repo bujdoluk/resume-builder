@@ -35,7 +35,8 @@
     "skills": "Competenze",
     "certifications": "Certificazioni",
     "languages": "Lingue",
-    "interests": "Interessi"
+    "interests": "Interessi",
+    "customFields": "Campo personalizzato"
   },
   "resumeSteps": {
     "personalInfo": "Informazioni personali",
@@ -46,6 +47,7 @@
     "certificationsTooltip": "Ogni certificazione richiede un nome e una data.",
     "languagesTooltip": "Ogni lingua richiede un nome.",
     "interestsTooltip": "Ogni interesse richiede un valore.",
+    "customFieldsTooltip": "Aggiungi un valore per completare questo passaggio.",
     "allComplete": "Fatto: tutte le sezioni sono complete!",
     "completed": "Completato"
   },
@@ -74,7 +76,8 @@
     "certificationDateFrom": "Data di conseguimento (es. 01-06-2020)",
     "certificationDateTo": "Data di scadenza (facoltativo)",
     "yourLanguage": "La tua lingua",
-    "yourInterest": "Il tuo interesse"
+    "yourInterest": "Il tuo interesse",
+    "customFieldValue": "es. Italiana"
   },
   "buttons": {
     "addWorkExperience": "+ Aggiungi esperienza lavorativa",
@@ -157,6 +160,7 @@
     "sectionDate": "Data",
     "sectionSubject": "Oggetto",
     "sectionLetter": "Lettera",
+    "sectionCustomFields": "Campo personalizzato",
     "senderName": "Il tuo nome",
     "senderNamePlaceholder": "Jane Doe",
     "senderEmail": "La tua email",
@@ -200,6 +204,7 @@
     "dateTooltip": "Aggiungi una data per completare questo passaggio.",
     "subjectTooltip": "Aggiungi un oggetto per completare questo passaggio.",
     "letterTooltip": "Inserisci formula di apertura, corpo della lettera e formula di chiusura per completare questo passaggio.",
+    "customFieldsTooltip": "Aggiungi un valore per completare questo passaggio.",
     "allComplete": "Fatto — tutte le sezioni sono complete!",
     "completed": "Completato"
   },

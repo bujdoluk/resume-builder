@@ -35,7 +35,8 @@
     "skills": "Vaardigheden",
     "certifications": "Certificeringen",
     "languages": "Talen",
-    "interests": "Interesses"
+    "interests": "Interesses",
+    "customFields": "Aangepast veld"
   },
   "resumeSteps": {
     "personalInfo": "Persoonlijke gegevens",
@@ -46,6 +47,7 @@
     "certificationsTooltip": "Elke certificering heeft een naam en een datum nodig.",
     "languagesTooltip": "Elke taal heeft een naam nodig.",
     "interestsTooltip": "Elke interesse heeft een waarde nodig.",
+    "customFieldsTooltip": "Voeg een waarde toe om deze stap te voltooien.",
     "allComplete": "Klaar — alle secties zijn compleet!",
     "completed": "Voltooid"
   },
@@ -74,7 +76,8 @@
     "certificationDateFrom": "Behaald op (bijv. 01-06-2020)",
     "certificationDateTo": "Vervaldatum (optioneel)",
     "yourLanguage": "Uw taal",
-    "yourInterest": "Uw interesse"
+    "yourInterest": "Uw interesse",
+    "customFieldValue": "bijv. Nederlandse"
   },
   "buttons": {
     "addWorkExperience": "+ Werkervaring toevoegen",
@@ -157,6 +160,7 @@
     "sectionDate": "Datum",
     "sectionSubject": "Onderwerp",
     "sectionLetter": "Brief",
+    "sectionCustomFields": "Aangepast veld",
     "senderName": "Uw naam",
     "senderNamePlaceholder": "Jane Doe",
     "senderEmail": "Uw e-mail",
@@ -200,6 +204,7 @@
     "dateTooltip": "Voeg een datum toe om deze stap te voltooien.",
     "subjectTooltip": "Voeg een onderwerpregel toe om deze stap te voltooien.",
     "letterTooltip": "Vul de aanhef, brieftekst en afsluiting in om deze stap te voltooien.",
+    "customFieldsTooltip": "Voeg een waarde toe om deze stap te voltooien.",
     "allComplete": "Klaar — alle secties zijn compleet!",
     "completed": "Voltooid"
   },

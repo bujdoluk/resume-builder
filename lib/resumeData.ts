@@ -1,4 +1,3 @@
-
 export interface LanguageEntry {
   id: string;
   language: string;
@@ -49,7 +48,8 @@ export type SectionKey =
   | "skills"
   | "certifications"
   | "languages"
-  | "interests";
+  | "interests"
+  | "customFields";
 
 export const sectionLabels: Record<SectionKey, string> = {
   workExperience: "Work Experience",
@@ -58,6 +58,7 @@ export const sectionLabels: Record<SectionKey, string> = {
   certifications: "Certifications",
   languages: "Languages",
   interests: "Interests",
+  customFields: "Custom Field",
 };
 
 export type ModernZoneItem = SectionKey | "aboutMe";
@@ -71,6 +72,7 @@ export const defaultModernSectionZones: Record<ModernZoneItem, ModernSectionZone
   skills: "sidebar",
   certifications: "sidebar",
   languages: "sidebar",
+  customFields: "main",
   aboutMe: "main",
 };
 
@@ -113,6 +115,8 @@ export interface ResumeData {
   certifications: CertificationEntry[];
   languages: LanguageEntry[];
   interests: SimpleEntry[];
+  customFieldValue: string;
+  customFieldsTitle: string;
 }
 
 export const emptyResumeData: ResumeData = {
@@ -131,4 +135,6 @@ export const emptyResumeData: ResumeData = {
   certifications: [],
   languages: [],
   interests: [],
+  customFieldValue: "",
+  customFieldsTitle: "",
 };

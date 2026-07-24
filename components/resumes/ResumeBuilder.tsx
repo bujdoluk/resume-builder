@@ -58,7 +58,11 @@ const DRAFT_STORAGE_KEY = "resumeBuilder:draft";
 function loadDraft(): ResumeData | null {
   try {
     const raw = window.localStorage.getItem(DRAFT_STORAGE_KEY);
-    return raw ? (JSON.parse(raw) as ResumeData) : null;
+    if (!raw) return null;
+    // Drafts saved before a data-model field was added (e.g. customFields)
+    // won't have it in their stored JSON — backfill from the current
+    // defaults so older drafts don't crash newer template code.
+    return { ...emptyResumeData, ...(JSON.parse(raw) as ResumeData) };
   } catch {
     return null;
   }
@@ -382,6 +386,8 @@ export default function ResumeBuilder({
           data.interests.length > 0 &&
           data.interests.every((entry) => entry.value)
         );
+      case "customFields":
+        return Boolean(data.customFieldValue);
       default:
         return false;
     }
@@ -441,6 +447,8 @@ export default function ResumeBuilder({
         return entryFieldStats(data.languages, ["language"]);
       case "interests":
         return entryFieldStats(data.interests, ["value"]);
+      case "customFields":
+        return { filled: data.customFieldValue ? 1 : 0, total: 1 };
       default:
         return { filled: 0, total: 0 };
     }
@@ -482,7 +490,12 @@ export default function ResumeBuilder({
     setResumeStepsSummary(
       stepKeys.length === 0
         ? null
-        : { stepKeys, incompleteKeys, completionPercent: sectionCompletionPercent },
+        : {
+            stepKeys,
+            incompleteKeys,
+            completionPercent: sectionCompletionPercent,
+            customFieldsTitle: data.customFieldsTitle,
+          },
     );
     return () => setResumeStepsSummary(null);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -498,6 +511,7 @@ export default function ResumeBuilder({
           incompleteKeys={incompleteKeys}
           completionPercent={sectionCompletionPercent}
           titleKey={(key) => (key === "personalInfo" ? "resumeSteps.personalInfo" : `sections.${key}`)}
+          titleOverride={(key) => (key === "customFields" ? data.customFieldsTitle || undefined : undefined)}
           tooltipKey={(key) => `resumeSteps.${key}Tooltip`}
           completedLabelKey="resumeSteps.completed"
           allCompleteLabelKey="resumeSteps.allComplete"
@@ -644,7 +658,7 @@ export default function ResumeBuilder({
             onCertificationsChange={handleCertificationsChange}
             onLanguagesChange={handleLanguagesChange}
             onInterestsChange={handleInterestsChange}
-            sectionOrder={sectionOrder}
+              sectionOrder={sectionOrder}
             onReorderSections={setSectionOrder}
             templateId={templateId}
             color={color}

@@ -102,6 +102,9 @@ function renderSectionParagraphs(key: SectionKey, data: ResumeData): Paragraph[]
     case "interests":
       return filledSimpleEntries(data.interests).map((entry) => bulletParagraph(entry.value));
 
+    case "customFields":
+      return data.customFieldValue ? [new Paragraph({ text: data.customFieldValue })] : [];
+
     default:
       return [];
   }
@@ -140,7 +143,8 @@ export function generateResumeDocx({
   for (const key of sectionOrder) {
     const sectionParagraphs = renderSectionParagraphs(key, data);
     if (sectionParagraphs.length === 0) continue;
-    children.push(sectionHeading(sectionLabels[key]));
+    const heading = key === "customFields" ? data.customFieldsTitle || sectionLabels[key] : sectionLabels[key];
+    children.push(sectionHeading(heading));
     children.push(...sectionParagraphs);
   }
 

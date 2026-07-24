@@ -35,7 +35,8 @@
     "skills": "Fähigkeiten",
     "certifications": "Zertifikate",
     "languages": "Sprachen",
-    "interests": "Interessen"
+    "interests": "Interessen",
+    "customFields": "Benutzerdefiniertes Feld"
   },
   "resumeSteps": {
     "personalInfo": "Persönliche Daten",
@@ -46,6 +47,7 @@
     "certificationsTooltip": "Jedes Zertifikat benötigt einen Namen und ein Datum.",
     "languagesTooltip": "Jede Sprache benötigt einen Namen.",
     "interestsTooltip": "Jedes Interesse benötigt einen Wert.",
+    "customFieldsTooltip": "Fügen Sie einen Wert hinzu, um diesen Schritt abzuschließen.",
     "allComplete": "Fertig – alle Abschnitte sind vollständig!",
     "completed": "Abgeschlossen"
   },
@@ -74,7 +76,8 @@
     "certificationDateFrom": "Datum erhalten (z. B. 01-06-2020)",
     "certificationDateTo": "Ablaufdatum (optional)",
     "yourLanguage": "Ihre Sprache",
-    "yourInterest": "Ihr Interesse"
+    "yourInterest": "Ihr Interesse",
+    "customFieldValue": "z. B. Deutsch"
   },
   "buttons": {
     "addWorkExperience": "+ Berufserfahrung hinzufügen",
@@ -157,6 +160,7 @@
     "sectionDate": "Datum",
     "sectionSubject": "Betreff",
     "sectionLetter": "Brief",
+    "sectionCustomFields": "Benutzerdefiniertes Feld",
     "senderName": "Ihr Name",
     "senderNamePlaceholder": "Max Mustermann",
     "senderEmail": "Ihre E-Mail",
@@ -200,6 +204,7 @@
     "dateTooltip": "Fügen Sie ein Datum hinzu, um diesen Schritt abzuschließen.",
     "subjectTooltip": "Fügen Sie eine Betreffzeile hinzu, um diesen Schritt abzuschließen.",
     "letterTooltip": "Füllen Sie Anrede, Anschreibentext und Grußformel aus, um diesen Schritt abzuschließen.",
+    "customFieldsTooltip": "Fügen Sie einen Wert hinzu, um diesen Schritt abzuschließen.",
     "allComplete": "Fertig – alle Abschnitte sind vollständig!",
     "completed": "Abgeschlossen"
   },

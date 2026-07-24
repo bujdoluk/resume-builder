@@ -35,7 +35,8 @@
     "skills": "Ferdigheter",
     "certifications": "Sertifiseringer",
     "languages": "Språk",
-    "interests": "Interesser"
+    "interests": "Interesser",
+    "customFields": "Egendefinert felt"
   },
   "resumeSteps": {
     "personalInfo": "Personlig informasjon",
@@ -46,6 +47,7 @@
     "certificationsTooltip": "Hver sertifisering trenger et navn og en dato.",
     "languagesTooltip": "Hvert språk trenger et navn.",
     "interestsTooltip": "Hver interesse trenger en verdi.",
+    "customFieldsTooltip": "Legg til en verdi for å fullføre dette trinnet.",
     "allComplete": "Ferdig – alle seksjoner er fullstendige!",
     "completed": "Fullført"
   },
@@ -74,7 +76,8 @@
     "certificationDateFrom": "Dato oppnådd (f.eks. 01-06-2020)",
     "certificationDateTo": "Utløpsdato (valgfritt)",
     "yourLanguage": "Ditt språk",
-    "yourInterest": "Din interesse"
+    "yourInterest": "Din interesse",
+    "customFieldValue": "f.eks. Norsk"
   },
   "buttons": {
     "addWorkExperience": "+ Legg til arbeidserfaring",
@@ -157,6 +160,7 @@
     "sectionDate": "Dato",
     "sectionSubject": "Emne",
     "sectionLetter": "Brev",
+    "sectionCustomFields": "Egendefinert felt",
     "senderName": "Ditt navn",
     "senderNamePlaceholder": "Jane Doe",
     "senderEmail": "Din e-post",
@@ -200,6 +204,7 @@
     "dateTooltip": "Legg til en dato for å fullføre dette trinnet.",
     "subjectTooltip": "Legg til en emnelinje for å fullføre dette trinnet.",
     "letterTooltip": "Fyll inn hilsen, brevtekst og avslutning for å fullføre dette trinnet.",
+    "customFieldsTooltip": "Legg til en verdi for å fullføre dette trinnet.",
     "allComplete": "Ferdig — alle seksjoner er komplette!",
     "completed": "Fullført"
   },

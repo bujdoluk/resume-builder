@@ -5,7 +5,7 @@ import { RESUMES_PAGE_SIZE } from "@/lib/constants";
 import type { FieldKey } from "@/lib/fields";
 import { defaultFontSizeKey, type FontSizeKey } from "@/lib/fontSize";
 import type { FontKey } from "@/lib/fonts";
-import type { ModernSectionZones, ResumeData, SectionKey } from "@/lib/resumeData";
+import { emptyResumeData, type ModernSectionZones, type ResumeData, type SectionKey } from "@/lib/resumeData";
 import type { TemplateId } from "@/lib/templates";
 
 export interface ResumeRow {
@@ -49,7 +49,7 @@ function fromTableRow(row: ResumeTableRow): ResumeRow {
     sectionOrder: row.section_order,
     visibleFields: row.visible_fields,
     modernSectionZones: row.modern_section_zones ?? {},
-    data: row.data,
+    data: { ...emptyResumeData, ...row.data },
     createdAt: row.created_at,
     updatedAt: row.updated_at,
   };

@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 import AutoResizeTextarea from "@/components/AutoResizeTextarea";
 import {
   CertificationsIcon,
+  CustomFieldsIcon,
   EducationIcon,
   InterestsIcon,
   LanguagesIcon,
@@ -94,10 +95,14 @@ function SectionHeader({
   icon,
   title,
   color,
+  onTitleChange,
+  titlePlaceholder,
 }: {
   icon: React.ReactNode;
   title: string;
   color?: string | null;
+  onTitleChange?: (value: string) => void;
+  titlePlaceholder?: string;
 }) {
   return (
     <div className="mt-4 mb-2">
@@ -106,7 +111,17 @@ function SectionHeader({
         style={color ? { color } : undefined}
       >
         {icon}
-        {title}
+        {onTitleChange ? (
+          <input
+            type="text"
+            className="min-w-0 flex-1 border-none bg-transparent p-0 text-sm font-semibold tracking-wide text-gray-500 uppercase outline-none focus:outline-none"
+            value={title}
+            placeholder={titlePlaceholder}
+            onChange={(e) => onTitleChange(e.target.value)}
+          />
+        ) : (
+          title
+        )}
       </h2>
     </div>
   );
@@ -933,6 +948,27 @@ export default function ClassicMobileTemplate({
             {t("buttons.addInterest")}
           </button>
         </div>
+      </>
+    ),
+
+    customFields: (
+      <>
+        <SectionHeader
+          icon={<CustomFieldsIcon className="h-6 w-6 stroke-current" />}
+          title={data.customFieldsTitle}
+          onTitleChange={(value) => onChange("customFieldsTitle", value)}
+          titlePlaceholder={t("sections.customFields")}
+          color={color}
+        />
+        <fieldset className="fieldset">
+          <input
+            type="text"
+            placeholder={t("placeholders.customFieldValue")}
+            className="input w-full"
+            value={data.customFieldValue}
+            onChange={(e) => onChange("customFieldValue", e.target.value)}
+          />
+        </fieldset>
       </>
     ),
   };

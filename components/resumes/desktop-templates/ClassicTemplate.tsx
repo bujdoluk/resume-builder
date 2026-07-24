@@ -8,6 +8,7 @@ import {
   AboutMeIcon,
   AddressIcon,
   CertificationsIcon,
+  CustomFieldsIcon,
   EducationIcon,
   EmailIcon,
   InterestsIcon,
@@ -326,6 +327,20 @@ export default function ClassicTemplate({
         <p className="text-gray-700">
           {interestEntries.map((entry) => entry.value).join(", ")}
         </p>
+      </>
+    ),
+
+    customFields: Boolean(data.customFieldValue) && (
+      <>
+        <h2
+          className="mt-4 mb-2 flex items-center gap-2 text-sm font-semibold tracking-wide text-gray-500 uppercase"
+          style={color ? { color } : undefined}
+        >
+          <CustomFieldsIcon className="h-6 w-6 stroke-current" />
+          {data.customFieldsTitle || t("sections.customFields")}
+        </h2>
+
+        <p className="text-gray-700">{data.customFieldValue}</p>
       </>
     ),
   };

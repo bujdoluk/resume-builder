@@ -6,7 +6,8 @@ export type CoverLetterSectionKey =
   | "date"
   | "recipient"
   | "subject"
-  | "letter";
+  | "letter"
+  | "customFields";
 
 export const defaultCoverLetterSectionOrder: CoverLetterSectionKey[] = [
   "sender",
@@ -14,6 +15,7 @@ export const defaultCoverLetterSectionOrder: CoverLetterSectionKey[] = [
   "recipient",
   "subject",
   "letter",
+  "customFields",
 ];
 
 export const coverLetterSectionStepTitleKey: Record<CoverLetterSectionKey, string> = {
@@ -22,6 +24,7 @@ export const coverLetterSectionStepTitleKey: Record<CoverLetterSectionKey, strin
   date: "coverLetter.sectionDate",
   subject: "coverLetter.sectionSubject",
   letter: "coverLetter.sectionLetter",
+  customFields: "coverLetter.sectionCustomFields",
 };
 
 export const coverLetterSectionFieldKeys: Record<
@@ -40,6 +43,7 @@ export const coverLetterSectionFieldKeys: Record<
   ],
   subject: ["subject"],
   letter: ["greeting", "body", "closing", "signature"],
+  customFields: [],
 };
 
 export type CoverLetterSectionZone = "sidebar" | "main";
@@ -56,6 +60,7 @@ export const defaultCoverLetterSectionZones: Record<
   recipient: "main",
   subject: "main",
   letter: "main",
+  customFields: "main",
 };
 
 export function resolveCoverLetterSectionZone(

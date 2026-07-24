@@ -35,7 +35,8 @@
     "skills": "Umiejętności",
     "certifications": "Certyfikaty",
     "languages": "Języki",
-    "interests": "Zainteresowania"
+    "interests": "Zainteresowania",
+    "customFields": "Pole niestandardowe"
   },
   "resumeSteps": {
     "personalInfo": "Dane osobowe",
@@ -46,6 +47,7 @@
     "certificationsTooltip": "Każdy certyfikat wymaga nazwy i daty.",
     "languagesTooltip": "Każdy język wymaga nazwy.",
     "interestsTooltip": "Każde zainteresowanie wymaga wartości.",
+    "customFieldsTooltip": "Dodaj wartość, aby ukończyć ten krok.",
     "allComplete": "Gotowe — wszystkie sekcje są kompletne!",
     "completed": "Ukończono"
   },
@@ -74,7 +76,8 @@
     "certificationDateFrom": "Data uzyskania (np. 01-06-2020)",
     "certificationDateTo": "Data ważności (opcjonalnie)",
     "yourLanguage": "Twój język",
-    "yourInterest": "Twoje zainteresowanie"
+    "yourInterest": "Twoje zainteresowanie",
+    "customFieldValue": "np. Polska"
   },
   "buttons": {
     "addWorkExperience": "+ Dodaj doświadczenie zawodowe",
@@ -157,6 +160,7 @@
     "sectionDate": "Data",
     "sectionSubject": "Temat",
     "sectionLetter": "List",
+    "sectionCustomFields": "Pole niestandardowe",
     "senderName": "Twoje imię i nazwisko",
     "senderNamePlaceholder": "Jan Kowalski",
     "senderEmail": "Twój e-mail",
@@ -200,6 +204,7 @@
     "dateTooltip": "Dodaj datę, aby ukończyć ten krok.",
     "subjectTooltip": "Dodaj temat, aby ukończyć ten krok.",
     "letterTooltip": "Uzupełnij zwrot grzecznościowy, treść listu i zakończenie, aby ukończyć ten krok.",
+    "customFieldsTooltip": "Dodaj wartość, aby ukończyć ten krok.",
     "allComplete": "Gotowe — wszystkie sekcje są kompletne!",
     "completed": "Ukończono"
   },

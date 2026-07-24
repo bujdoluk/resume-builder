@@ -53,6 +53,7 @@ export default function CoverLetterPdfTemplate({
     greeting: { marginTop: 24 },
     body: { marginTop: 16, lineHeight: 1.5 },
     closingBlock: { flexDirection: "column", gap: 2, marginTop: 24 },
+    customFieldsBlock: { flexDirection: "column", gap: 2, marginTop: 24 },
   });
 
   const senderName = isVisible("senderName") && data.senderName;
@@ -118,6 +119,12 @@ export default function CoverLetterPdfTemplate({
           <View style={styles.closingBlock}>
             {closing && <Text>{closing}</Text>}
             {signature && <Text>{signature}</Text>}
+          </View>
+        )}
+
+        {data.customFieldValue && (
+          <View style={styles.customFieldsBlock}>
+            <Text style={styles.meta}>{data.customFieldValue}</Text>
           </View>
         )}
       </Page>

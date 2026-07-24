@@ -126,6 +126,9 @@ export default function CoverLetterBuilder({
     filled: number;
     total: number;
   } {
+    if (key === "customFields") {
+      return { filled: data.customFieldValue ? 1 : 0, total: 1 };
+    }
     const visibleSectionFields = coverLetterSectionFieldKeys[key].filter((field) =>
       coverLetterFieldOrder.includes(field),
     );
@@ -152,7 +155,9 @@ export default function CoverLetterBuilder({
 
   useEffect(() => {
     setCoverLetterStepsSummary(
-      stepKeys.length === 0 ? null : { stepKeys, incompleteKeys, completionPercent },
+      stepKeys.length === 0
+        ? null
+        : { stepKeys, incompleteKeys, completionPercent, customFieldsTitle: data.customFieldsTitle },
     );
     return () => setCoverLetterStepsSummary(null);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -167,6 +172,9 @@ export default function CoverLetterBuilder({
           incompleteKeys={incompleteKeys}
           completionPercent={completionPercent}
           titleKey={(key) => coverLetterSectionStepTitleKey[key as CoverLetterSectionKey]}
+          titleOverride={(key) =>
+            key === "customFields" ? data.customFieldsTitle || undefined : undefined
+          }
           tooltipKey={(key) => `coverLetterSteps.${key}Tooltip`}
           completedLabelKey="coverLetterSteps.completed"
           allCompleteLabelKey="coverLetterSteps.allComplete"
@@ -391,7 +399,7 @@ export default function CoverLetterBuilder({
           <CoverLetter
             data={data}
             onChange={handleChange}
-            fieldOrder={coverLetterFieldOrder}
+              fieldOrder={coverLetterFieldOrder}
             onReorderFields={setCoverLetterFieldOrder}
             sectionOrder={sectionOrder}
             onReorderSections={setSectionOrder}

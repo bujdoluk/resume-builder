@@ -58,6 +58,9 @@ function renderSectionLines(key: SectionKey, data: ResumeData): string[] {
         Boolean,
       );
 
+    case "customFields":
+      return data.customFieldValue ? [data.customFieldValue] : [];
+
     default:
       return [];
   }
@@ -89,7 +92,8 @@ export function generateResumeText({
   for (const key of sectionOrder) {
     const sectionLines = renderSectionLines(key, data);
     if (sectionLines.length === 0) continue;
-    lines.push("", sectionLabels[key].toUpperCase(), ...sectionLines);
+    const heading = key === "customFields" ? data.customFieldsTitle || sectionLabels[key] : sectionLabels[key];
+    lines.push("", heading.toUpperCase(), ...sectionLines);
   }
 
   // Trailing blank lines can accumulate from the work/education entry

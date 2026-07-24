@@ -69,4 +69,6 @@ export const sampleResumeData: ResumeData = {
     { id: "sample-interest-1", value: "Photography" },
     { id: "sample-interest-2", value: "Ceramics" },
   ],
+  customFieldValue: "American",
+  customFieldsTitle: "Nationality",
 };

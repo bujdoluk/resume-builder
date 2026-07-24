@@ -35,7 +35,8 @@
     "skills": "Habilidades",
     "certifications": "Certificaciones",
     "languages": "Idiomas",
-    "interests": "Intereses"
+    "interests": "Intereses",
+    "customFields": "Campo personalizado"
   },
   "resumeSteps": {
     "personalInfo": "Información personal",
@@ -46,6 +47,7 @@
     "certificationsTooltip": "Cada certificación necesita un nombre y una fecha.",
     "languagesTooltip": "Cada idioma necesita un nombre.",
     "interestsTooltip": "Cada interés necesita un valor.",
+    "customFieldsTooltip": "Añade un valor para completar este paso.",
     "allComplete": "¡Listo! Todas las secciones están completas.",
     "completed": "Completado"
   },
@@ -74,7 +76,8 @@
     "certificationDateFrom": "Fecha de obtención (ej. 01-06-2020)",
     "certificationDateTo": "Fecha de caducidad (opcional)",
     "yourLanguage": "Tu idioma",
-    "yourInterest": "Tu interés"
+    "yourInterest": "Tu interés",
+    "customFieldValue": "p. ej. Española"
   },
   "buttons": {
     "addWorkExperience": "+ Añadir experiencia laboral",
@@ -157,6 +160,7 @@
     "sectionDate": "Fecha",
     "sectionSubject": "Asunto",
     "sectionLetter": "Carta",
+    "sectionCustomFields": "Campo personalizado",
     "senderName": "Tu nombre",
     "senderNamePlaceholder": "Jane Doe",
     "senderEmail": "Tu correo",
@@ -200,6 +204,7 @@
     "dateTooltip": "Añade una fecha para completar este paso.",
     "subjectTooltip": "Añade un asunto para completar este paso.",
     "letterTooltip": "Completa el saludo, el cuerpo de la carta y la despedida para completar este paso.",
+    "customFieldsTooltip": "Añade un valor para completar este paso.",
     "allComplete": "Listo — ¡todas las secciones están completas!",
     "completed": "Completado"
   },

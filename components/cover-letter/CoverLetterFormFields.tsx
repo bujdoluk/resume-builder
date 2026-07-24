@@ -58,16 +58,30 @@ function SectionHeader({
   title,
   color,
   isFirst,
+  onTitleChange,
+  titlePlaceholder,
 }: {
   title: string;
   color?: string | null;
   isFirst?: boolean;
+  onTitleChange?: (value: string) => void;
+  titlePlaceholder?: string;
 }) {
+  const className = `mb-2 text-sm font-semibold tracking-wide text-gray-500 uppercase ${isFirst ? "mt-0" : "mt-6"}`;
+  if (onTitleChange) {
+    return (
+      <input
+        type="text"
+        className={`${className} w-full border-none bg-transparent p-0 outline-none focus:outline-none`}
+        style={color ? { color } : undefined}
+        value={title}
+        placeholder={titlePlaceholder}
+        onChange={(e) => onTitleChange(e.target.value)}
+      />
+    );
+  }
   return (
-    <h2
-      className={`mb-2 text-sm font-semibold tracking-wide text-gray-500 uppercase ${isFirst ? "mt-0" : "mt-6"}`}
-      style={color ? { color } : undefined}
-    >
+    <h2 className={className} style={color ? { color } : undefined}>
       {title}
     </h2>
   );
@@ -107,6 +121,10 @@ export default function CoverLetterFormFields({
     date: showDate,
     subject: showSubject,
     letter: visibleLetterOrder.length > 0,
+    // No on/off toggle exists for this section (unlike the others, which
+    // key off fieldOrder inclusion) — always show it in the editable form;
+    // read-only rendering layers gate on the fields being filled instead.
+    customFields: true,
   };
   const visibleSectionOrder = sectionOrder.filter((key) => sectionVisible[key]);
 
@@ -301,6 +319,7 @@ export default function CoverLetterFormFields({
     date: "coverLetter.sectionDate",
     subject: "coverLetter.sectionSubject",
     letter: "coverLetter.sectionLetter",
+    customFields: "coverLetter.sectionCustomFields",
   };
 
   // Fields only, no header — the header is rendered separately at map time
@@ -372,6 +391,17 @@ export default function CoverLetterFormFields({
         </div>
       </SortableGroup>
     ),
+    customFields: (
+      <fieldset className="fieldset">
+        <input
+          type="text"
+          className="input w-full"
+          value={data.customFieldValue}
+          onChange={(e) => onChange("customFieldValue", e.target.value)}
+          placeholder={t("placeholders.customFieldValue")}
+        />
+      </fieldset>
+    ),
   };
 
   if (templateId === "modern") {
@@ -438,7 +468,16 @@ export default function CoverLetterFormFields({
             >
               {sidebarItems.map((key, index) => (
                 <SortableBlock key={key} id={key} anchor>
-                  <SectionHeader title={t(sectionTitleKey[key])} isFirst={index === 0} />
+                  <SectionHeader
+                    title={key === "customFields" ? data.customFieldsTitle : t(sectionTitleKey[key])}
+                    onTitleChange={
+                      key === "customFields"
+                        ? (value) => onChange("customFieldsTitle", value)
+                        : undefined
+                    }
+                    titlePlaceholder={t(sectionTitleKey[key])}
+                    isFirst={index === 0}
+                  />
                   {sectionFieldsContent[key]}
                 </SortableBlock>
               ))}
@@ -454,7 +493,13 @@ export default function CoverLetterFormFields({
               {mainItems.map((key, index) => (
                 <SortableBlock key={key} id={key} anchor>
                   <SectionHeader
-                    title={t(sectionTitleKey[key])}
+                    title={key === "customFields" ? data.customFieldsTitle : t(sectionTitleKey[key])}
+                    onTitleChange={
+                      key === "customFields"
+                        ? (value) => onChange("customFieldsTitle", value)
+                        : undefined
+                    }
+                    titlePlaceholder={t(sectionTitleKey[key])}
                     color={color}
                     isFirst={index === 0}
                   />
@@ -485,7 +530,13 @@ export default function CoverLetterFormFields({
         {visibleSectionOrder.map((key, index) => (
           <SortableBlock key={key} id={key} anchor>
             <SectionHeader
-              title={t(sectionTitleKey[key])}
+              title={key === "customFields" ? data.customFieldsTitle : t(sectionTitleKey[key])}
+              onTitleChange={
+                key === "customFields"
+                  ? (value) => onChange("customFieldsTitle", value)
+                  : undefined
+              }
+              titlePlaceholder={t(sectionTitleKey[key])}
               color={color}
               isFirst={index === 0}
             />

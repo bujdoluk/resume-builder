@@ -35,7 +35,8 @@
     "skills": "Zručnosti",
     "certifications": "Certifikáty",
     "languages": "Jazyky",
-    "interests": "Záujmy"
+    "interests": "Záujmy",
+    "customFields": "Vlastné pole"
   },
   "resumeSteps": {
     "personalInfo": "Osobné údaje",
@@ -46,6 +47,7 @@
     "certificationsTooltip": "Každý certifikát potrebuje názov a dátum.",
     "languagesTooltip": "Každý jazyk potrebuje názov.",
     "interestsTooltip": "Každý záujem potrebuje hodnotu.",
+    "customFieldsTooltip": "Pridajte hodnotu, aby ste dokončili tento krok.",
     "allComplete": "Hotovo — všetky sekcie sú kompletné!",
     "completed": "Dokončené"
   },
@@ -74,7 +76,8 @@
     "certificationDateFrom": "Dátum získania (napr. 01-06-2020)",
     "certificationDateTo": "Dátum platnosti do (voliteľné)",
     "yourLanguage": "Váš jazyk",
-    "yourInterest": "Váš záujem"
+    "yourInterest": "Váš záujem",
+    "customFieldValue": "napr. Slovenská"
   },
   "buttons": {
     "addWorkExperience": "+ Pridať pracovnú skúsenosť",
@@ -157,6 +160,7 @@
     "sectionDate": "Dátum",
     "sectionSubject": "Predmet",
     "sectionLetter": "List",
+    "sectionCustomFields": "Vlastné pole",
     "senderName": "Vaše meno",
     "senderNamePlaceholder": "Jana Nováková",
     "senderEmail": "Váš email",
@@ -200,6 +204,7 @@
     "dateTooltip": "Pridajte dátum, aby ste dokončili tento krok.",
     "subjectTooltip": "Pridajte predmet, aby ste dokončili tento krok.",
     "letterTooltip": "Vyplňte oslovenie, text listu a záver, aby ste dokončili tento krok.",
+    "customFieldsTooltip": "Pridajte hodnotu, aby ste dokončili tento krok.",
     "allComplete": "Hotovo — všetky sekcie sú kompletné!",
     "completed": "Dokončené"
   },

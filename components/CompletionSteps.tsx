@@ -8,6 +8,7 @@ export interface CompletionStepsProps {
   incompleteKeys: string[];
   completionPercent: number;
   titleKey: (key: string) => string;
+  titleOverride?: (key: string) => string | undefined;
   tooltipKey: (key: string) => string;
   completedLabelKey: string;
   allCompleteLabelKey: string;
@@ -21,6 +22,7 @@ export default function CompletionSteps({
   incompleteKeys,
   completionPercent,
   titleKey,
+  titleOverride,
   tooltipKey,
   completedLabelKey,
   allCompleteLabelKey,
@@ -30,6 +32,10 @@ export default function CompletionSteps({
   const { t } = useTranslation();
 
   if (stepKeys.length === 0) return null;
+
+  function resolveTitle(key: string): string {
+    return titleOverride?.(key) || t(titleKey(key));
+  }
 
   return (
     <div className="flex flex-col gap-4">
@@ -45,7 +51,7 @@ export default function CompletionSteps({
                 className="cursor-pointer text-left font-medium"
                 onClick={() => onStepClick(key)}
               >
-                {t(titleKey(key))}
+                {resolveTitle(key)}
               </button>
             </div>
           </li>
@@ -82,7 +88,7 @@ export default function CompletionSteps({
               ) : (
                 incompleteKeys.map((incompleteKey) => (
                   <p key={incompleteKey}>
-                    <span className="font-semibold">{t(titleKey(incompleteKey))}:</span>{" "}
+                    <span className="font-semibold">{resolveTitle(incompleteKey)}:</span>{" "}
                     {t(tooltipKey(incompleteKey))}
                   </p>
                 ))

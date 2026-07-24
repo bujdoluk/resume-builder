@@ -90,18 +90,34 @@ function SectionHeader({
   title,
   zone,
   color,
+  onTitleChange,
+  titlePlaceholder,
 }: {
   icon: React.ReactNode;
   title: string;
   zone: "main" | "sidebar";
   color?: string | null;
+  onTitleChange?: (value: string) => void;
+  titlePlaceholder?: string;
 }) {
+  function renderTitle(className: string) {
+    if (!onTitleChange) return title;
+    return (
+      <input
+        type="text"
+        className={`${className} min-w-0 flex-1 border-none bg-transparent p-0 outline-none focus:outline-none`}
+        value={title}
+        placeholder={titlePlaceholder}
+        onChange={(e) => onTitleChange(e.target.value)}
+      />
+    );
+  }
   if (zone === "sidebar") {
     return (
       <div className="mt-4 mb-2">
         <h2 className="flex items-center gap-2 text-sm font-semibold tracking-wide uppercase opacity-70">
           {icon}
-          {title}
+          {renderTitle("text-sm font-semibold tracking-wide uppercase opacity-70")}
         </h2>
       </div>
     );
@@ -113,7 +129,7 @@ function SectionHeader({
         style={color ? { color } : undefined}
       >
         {icon}
-        {title}
+        {renderTitle("text-sm font-semibold tracking-wide text-gray-500 uppercase")}
       </h2>
     </div>
   );
@@ -1078,6 +1094,49 @@ export default function ElegantMobileTemplate({
                 {t("buttons.addInterest")}
               </button>
             </div>
+          </>
+        );
+
+      case "customFields":
+        return (
+          <>
+            <SectionHeader
+              icon={
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  className="h-6 w-6 stroke-current"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="1.5"
+                    d="M9.568 3H5.25A2.25 2.25 0 0 0 3 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 0 0 5.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 0 0 9.568 3Z"
+                  />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="1.5"
+                    d="M6 6h.008v.008H6V6Z"
+                  />
+                </svg>
+              }
+              title={data.customFieldsTitle}
+              onTitleChange={(value) => onChange("customFieldsTitle", value)}
+              titlePlaceholder={t("sections.customFields")}
+              zone={zone}
+              color={headerColor}
+            />
+            <fieldset className="fieldset">
+              <input
+                type="text"
+                placeholder={t("placeholders.customFieldValue")}
+                className="input w-full"
+                value={data.customFieldValue}
+                onChange={(e) => onChange("customFieldValue", e.target.value)}
+              />
+            </fieldset>
           </>
         );
     }

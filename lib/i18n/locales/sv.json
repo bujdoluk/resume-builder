@@ -35,7 +35,8 @@
     "skills": "Färdigheter",
     "certifications": "Certifieringar",
     "languages": "Språk",
-    "interests": "Intressen"
+    "interests": "Intressen",
+    "customFields": "Anpassat fält"
   },
   "resumeSteps": {
     "personalInfo": "Personlig information",
@@ -46,6 +47,7 @@
     "certificationsTooltip": "Varje certifiering behöver ett namn och ett datum.",
     "languagesTooltip": "Varje språk behöver ett namn.",
     "interestsTooltip": "Varje intresse behöver ett värde.",
+    "customFieldsTooltip": "Lägg till ett värde för att slutföra detta steg.",
     "allComplete": "Klart — alla sektioner är kompletta!",
     "completed": "Slutfört"
   },
@@ -74,7 +76,8 @@
     "certificationDateFrom": "Datum erhållet (t.ex. 01-06-2020)",
     "certificationDateTo": "Utgångsdatum (valfritt)",
     "yourLanguage": "Ditt språk",
-    "yourInterest": "Ditt intresse"
+    "yourInterest": "Ditt intresse",
+    "customFieldValue": "t.ex. Svensk"
   },
   "buttons": {
     "addWorkExperience": "+ Lägg till arbetslivserfarenhet",
@@ -157,6 +160,7 @@
     "sectionDate": "Datum",
     "sectionSubject": "Ämne",
     "sectionLetter": "Brev",
+    "sectionCustomFields": "Anpassat fält",
     "senderName": "Ditt namn",
     "senderNamePlaceholder": "Jane Doe",
     "senderEmail": "Din e-post",
@@ -200,6 +204,7 @@
     "dateTooltip": "Lägg till ett datum för att slutföra detta steg.",
     "subjectTooltip": "Lägg till en ämnesrad för att slutföra detta steg.",
     "letterTooltip": "Fyll i hälsningsfras, brevtext och avslutning för att slutföra detta steg.",
+    "customFieldsTooltip": "Lägg till ett värde för att slutföra detta steg.",
     "allComplete": "Klart — alla sektioner är kompletta!",
     "completed": "Slutfört"
   },

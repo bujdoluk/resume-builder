@@ -88,6 +88,9 @@ function renderSectionParagraphs(
       return paragraphs;
     }
 
+    case "customFields":
+      return data.customFieldValue ? [textParagraph(data.customFieldValue)] : [];
+
     default:
       return [];
   }

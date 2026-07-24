@@ -287,6 +287,13 @@ export default function MinimalTemplate({
         </p>
       </>
     ),
+
+    customFields: Boolean(data.customFieldValue) && (
+      <>
+        <SectionTitle color={color}>{data.customFieldsTitle || t("sections.customFields")}</SectionTitle>
+        <p className="text-gray-700">{data.customFieldValue}</p>
+      </>
+    ),
   };
 
   const fieldContent: Partial<Record<FieldKey, React.ReactNode>> = {

@@ -126,6 +126,10 @@ export default function CoverLetterModernPdfTemplate({
           </View>
         )
       : undefined,
+
+    customFields: data.customFieldValue
+      ? (inSidebar) => <Text style={metaStyle(inSidebar)}>{data.customFieldValue}</Text>
+      : undefined,
   };
 
   const order = sectionOrder ?? defaultCoverLetterSectionOrder;

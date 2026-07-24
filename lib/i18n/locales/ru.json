@@ -35,7 +35,8 @@
     "skills": "Навыки",
     "certifications": "Сертификаты",
     "languages": "Языки",
-    "interests": "Интересы"
+    "interests": "Интересы",
+    "customFields": "Дополнительное поле"
   },
   "resumeSteps": {
     "personalInfo": "Личная информация",
@@ -46,6 +47,7 @@
     "certificationsTooltip": "Для каждого сертификата нужны название и дата.",
     "languagesTooltip": "Для каждого языка нужно название.",
     "interestsTooltip": "Для каждого интереса нужно значение.",
+    "customFieldsTooltip": "Добавьте значение, чтобы завершить этот шаг.",
     "allComplete": "Готово — все разделы заполнены полностью!",
     "completed": "Завершено"
   },
@@ -74,7 +76,8 @@
     "certificationDateFrom": "Дата получения (напр. 01-06-2020)",
     "certificationDateTo": "Дата истечения (необязательно)",
     "yourLanguage": "Ваш язык",
-    "yourInterest": "Ваш интерес"
+    "yourInterest": "Ваш интерес",
+    "customFieldValue": "напр. Российское"
   },
   "buttons": {
     "addWorkExperience": "+ Добавить опыт работы",
@@ -157,6 +160,7 @@
     "sectionDate": "Дата",
     "sectionSubject": "Тема",
     "sectionLetter": "Письмо",
+    "sectionCustomFields": "Дополнительное поле",
     "senderName": "Ваше имя",
     "senderNamePlaceholder": "Иван Иванов",
     "senderEmail": "Ваш email",
@@ -200,6 +204,7 @@
     "dateTooltip": "Добавьте дату, чтобы завершить этот шаг.",
     "subjectTooltip": "Добавьте тему, чтобы завершить этот шаг.",
     "letterTooltip": "Заполните приветствие, текст письма и заключение, чтобы завершить этот шаг.",
+    "customFieldsTooltip": "Добавьте значение, чтобы завершить этот шаг.",
     "allComplete": "Готово — все разделы заполнены полностью!",
     "completed": "Завершено"
   },

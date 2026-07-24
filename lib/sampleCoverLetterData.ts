@@ -17,4 +17,6 @@ export const sampleCoverLetterData: CoverLetterData = {
   greeting: "Dear Hiring Manager,",
   body: "I'm excited to apply for the Senior Product Designer role at Acme Inc. With over 8 years of experience leading end-to-end design for consumer and B2B products, I'm confident I can make a strong impact on your team.",
   closing: "Sincerely,",
+  customFieldValue: "American",
+  customFieldsTitle: "Nationality",
 };

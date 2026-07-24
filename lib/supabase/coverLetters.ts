@@ -1,7 +1,7 @@
 
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { Temporal } from "temporal-polyfill";
-import type { CoverLetterData } from "@/lib/coverLetterData";
+import { emptyCoverLetterData, type CoverLetterData } from "@/lib/coverLetterData";
 import { COVER_LETTERS_PAGE_SIZE } from "@/lib/constants";
 import { nextCopyName } from "@/lib/supabase/resumes";
 
@@ -25,7 +25,7 @@ function fromTableRow(row: CoverLetterTableRow): CoverLetterRow {
   return {
     id: row.id,
     name: row.name,
-    data: row.data,
+    data: { ...emptyCoverLetterData, ...row.data },
     createdAt: row.created_at,
     updatedAt: row.updated_at,
   };

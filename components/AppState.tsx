@@ -37,6 +37,7 @@ export const allSections: SectionKey[] = [
   "languages",
   "certifications",
   "interests",
+  "customFields",
 ];
 
 export const defaultSectionOrder: SectionKey[] = [...allSections];
@@ -51,12 +52,14 @@ export interface ResumeStepsSummary {
   stepKeys: string[];
   incompleteKeys: string[];
   completionPercent: number;
+  customFieldsTitle?: string;
 }
 
 export interface CoverLetterStepsSummary {
   stepKeys: CoverLetterSectionKey[];
   incompleteKeys: CoverLetterSectionKey[];
   completionPercent: number;
+  customFieldsTitle?: string;
 }
 
 interface AppStateValue {

@@ -81,13 +81,35 @@ function RemoveButton({
   );
 }
 
-function SectionHeader({ title, color }: { title: string; color?: string | null }) {
+function SectionHeader({
+  title,
+  color,
+  onTitleChange,
+  titlePlaceholder,
+}: {
+  title: string;
+  color?: string | null;
+  onTitleChange?: (value: string) => void;
+  titlePlaceholder?: string;
+}) {
   return (
     <div
       className="border-primary mt-6 mb-3 border-b-2 pb-1"
       style={color ? { borderColor: color } : undefined}
     >
-      <h2 className="text-sm font-bold tracking-[0.2em] uppercase">{title}</h2>
+      <h2 className="text-sm font-bold tracking-[0.2em] uppercase">
+        {onTitleChange ? (
+          <input
+            type="text"
+            className="w-full border-none bg-transparent p-0 text-sm font-bold tracking-[0.2em] uppercase outline-none focus:outline-none"
+            value={title}
+            placeholder={titlePlaceholder}
+            onChange={(e) => onTitleChange(e.target.value)}
+          />
+        ) : (
+          title
+        )}
+      </h2>
     </div>
   );
 }
@@ -893,6 +915,26 @@ export default function MinimalMobileTemplate({
             {t("buttons.addInterest")}
           </button>
         </div>
+      </>
+    ),
+
+    customFields: (
+      <>
+        <SectionHeader
+          title={data.customFieldsTitle}
+          onTitleChange={(value) => onChange("customFieldsTitle", value)}
+          titlePlaceholder={t("sections.customFields")}
+          color={color}
+        />
+        <fieldset className="fieldset">
+          <input
+            type="text"
+            placeholder={t("placeholders.customFieldValue")}
+            className="input w-full"
+            value={data.customFieldValue}
+            onChange={(e) => onChange("customFieldValue", e.target.value)}
+          />
+        </fieldset>
       </>
     ),
   };

@@ -20,6 +20,9 @@ export interface CoverLetterData {
   greeting: string;
   body: string;
   closing: string;
+
+  customFieldValue: string;
+  customFieldsTitle: string;
 }
 
 export const emptyCoverLetterData: CoverLetterData = {
@@ -38,4 +41,6 @@ export const emptyCoverLetterData: CoverLetterData = {
   greeting: "",
   body: "",
   closing: "",
+  customFieldValue: "",
+  customFieldsTitle: "",
 };

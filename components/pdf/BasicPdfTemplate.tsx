@@ -4,6 +4,7 @@ import {
   AboutMePdfIcon,
   AddressPdfIcon,
   CertificationsPdfIcon,
+  CustomFieldsPdfIcon,
   EducationPdfIcon,
   EmailPdfIcon,
   InterestsPdfIcon,
@@ -293,6 +294,16 @@ export default function BasicPdfTemplate({
           "Interests",
         )}
         <Text style={styles.bodyText}>{interestEntries.map((e) => e.value).join(", ")}</Text>
+      </View>
+    ),
+
+    customFields: Boolean(data.customFieldValue) && (
+      <View key="customFields">
+        {sectionHeader(
+          <CustomFieldsPdfIcon size={s(11)} color={accentColor ?? GRAY_500} />,
+          data.customFieldsTitle || "Custom Field",
+        )}
+        <Text style={styles.bodyText}>{data.customFieldValue}</Text>
       </View>
     ),
   };

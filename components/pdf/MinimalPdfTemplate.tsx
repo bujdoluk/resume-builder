@@ -167,6 +167,12 @@ export default function MinimalPdfTemplate({
         <Text style={styles.bodyText}>{interestEntries.map((e) => e.value).join(" · ")}</Text>
       </View>
     ),
+    customFields: Boolean(data.customFieldValue) && (
+      <View key="customFields">
+        <Text style={styles.sectionTitle}>{data.customFieldsTitle || "Custom Field"}</Text>
+        <Text style={styles.bodyText}>{data.customFieldValue}</Text>
+      </View>
+    ),
   };
 
   const fieldOrder = visibleFields ?? allFields;

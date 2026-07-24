@@ -246,6 +246,9 @@ export default function Sidebar() {
                 titleKey={(key) =>
                   key === "personalInfo" ? "resumeSteps.personalInfo" : `sections.${key}`
                 }
+                titleOverride={(key) =>
+                  key === "customFields" ? resumeStepsSummary.customFieldsTitle : undefined
+                }
                 tooltipKey={(key) => `resumeSteps.${key}Tooltip`}
                 completedLabelKey="resumeSteps.completed"
                 allCompleteLabelKey="resumeSteps.allComplete"
@@ -260,6 +263,9 @@ export default function Sidebar() {
                   completionPercent={coverLetterStepsSummary.completionPercent}
                   titleKey={(key) =>
                     coverLetterSectionStepTitleKey[key as CoverLetterSectionKey]
+                  }
+                  titleOverride={(key) =>
+                    key === "customFields" ? coverLetterStepsSummary.customFieldsTitle : undefined
                   }
                   tooltipKey={(key) => `coverLetterSteps.${key}Tooltip`}
                   completedLabelKey="coverLetterSteps.completed"

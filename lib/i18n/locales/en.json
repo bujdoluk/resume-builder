@@ -35,7 +35,8 @@
     "skills": "Skills",
     "certifications": "Certifications",
     "languages": "Languages",
-    "interests": "Interests"
+    "interests": "Interests",
+    "customFields": "Custom Field"
   },
   "resumeSteps": {
     "personalInfo": "Personal Info",
@@ -46,6 +47,7 @@
     "certificationsTooltip": "Every certification needs a name and a date.",
     "languagesTooltip": "Every language needs a name.",
     "interestsTooltip": "Every interest needs a value.",
+    "customFieldsTooltip": "Add a value to complete this step.",
     "allComplete": "All set — every section is complete!",
     "completed": "Completed"
   },
@@ -74,7 +76,8 @@
     "certificationDateFrom": "Date obtained (e.g. 01-06-2020)",
     "certificationDateTo": "Expiry date (optional)",
     "yourLanguage": "Your language",
-    "yourInterest": "Your interest"
+    "yourInterest": "Your interest",
+    "customFieldValue": "e.g. Slovak"
   },
   "buttons": {
     "addWorkExperience": "+ Add Work Experience",
@@ -157,6 +160,7 @@
     "sectionDate": "Date",
     "sectionSubject": "Subject",
     "sectionLetter": "Letter",
+    "sectionCustomFields": "Custom Field",
     "senderName": "Your Name",
     "senderNamePlaceholder": "Jane Doe",
     "senderEmail": "Your Email",
@@ -200,6 +204,7 @@
     "dateTooltip": "Add a date to complete this step.",
     "subjectTooltip": "Add a subject line to complete this step.",
     "letterTooltip": "Fill in the greeting, letter body, and closing to complete this step.",
+    "customFieldsTooltip": "Add a value to complete this step.",
     "allComplete": "All set — every section is complete!",
     "completed": "Completed"
   },

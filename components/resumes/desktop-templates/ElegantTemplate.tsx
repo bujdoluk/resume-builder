@@ -9,6 +9,7 @@ import {
   AboutMeIcon,
   AddressIcon,
   CertificationsIcon,
+  CustomFieldsIcon,
   EducationIcon,
   EmailIcon,
   InterestsIcon,
@@ -535,6 +536,23 @@ export default function ElegantTemplate({
             />
             <p className={zone === "sidebar" ? undefined : "text-gray-700"}>
               {interestEntries.map((entry) => entry.value).join(", ")}
+            </p>
+          </>
+        );
+      }
+
+      case "customFields": {
+        if (!data.customFieldValue) return null;
+        return (
+          <>
+            <SectionHeader
+              icon={<CustomFieldsIcon className={iconClassName} />}
+              title={data.customFieldsTitle || t("sections.customFields")}
+              zone={zone}
+              color={zone === "main" ? color : undefined}
+            />
+            <p className={zone === "sidebar" ? undefined : "text-gray-700"}>
+              {data.customFieldValue}
             </p>
           </>
         );

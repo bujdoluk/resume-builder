@@ -4,6 +4,7 @@ import {
   AboutMePdfIcon,
   AddressPdfIcon,
   CertificationsPdfIcon,
+  CustomFieldsPdfIcon,
   EducationPdfIcon,
   EmailPdfIcon,
   InterestsPdfIcon,
@@ -236,6 +237,30 @@ export default function ModernPdfTemplate({
           <View key="interests">
             {mainSectionHeader(<InterestsPdfIcon size={s(11)} color={accentColor ?? GRAY_500} />, "Interests")}
             <Text style={styles.bodyText}>{interestEntries.map((e) => e.value).join(", ")}</Text>
+          </View>
+        );
+      }
+
+      case "customFields": {
+        if (!data.customFieldValue) return null;
+        if (zone === "sidebar") {
+          return (
+            <View key="customFields">
+              {sidebarSectionHeader(
+                <CustomFieldsPdfIcon size={s(10)} color={sidebarFg} />,
+                data.customFieldsTitle || "Custom Field",
+              )}
+              <Text style={styles.sidebarBodyText}>{data.customFieldValue}</Text>
+            </View>
+          );
+        }
+        return (
+          <View key="customFields">
+            {mainSectionHeader(
+              <CustomFieldsPdfIcon size={s(11)} color={accentColor ?? GRAY_500} />,
+              data.customFieldsTitle || "Custom Field",
+            )}
+            <Text style={styles.bodyText}>{data.customFieldValue}</Text>
           </View>
         );
       }

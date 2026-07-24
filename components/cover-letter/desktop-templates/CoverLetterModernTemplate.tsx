@@ -102,6 +102,10 @@ export default function CoverLetterModernTemplate({
         )}
       </div>
     ),
+
+    customFields: Boolean(data.customFieldValue) && (
+      <p className="text-sm opacity-70">{data.customFieldValue}</p>
+    ),
   };
 
   const order = sectionOrder ?? defaultCoverLetterSectionOrder;

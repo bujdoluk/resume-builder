@@ -69,6 +69,9 @@ function renderSectionLines(
       return lines;
     }
 
+    case "customFields":
+      return data.customFieldValue ? [data.customFieldValue] : [];
+
     default:
       return [];
   }

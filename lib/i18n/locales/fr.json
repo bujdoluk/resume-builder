@@ -35,7 +35,8 @@
     "skills": "Compétences",
     "certifications": "Certifications",
     "languages": "Langues",
-    "interests": "Centres d'intérêt"
+    "interests": "Centres d'intérêt",
+    "customFields": "Champ personnalisé"
   },
   "resumeSteps": {
     "personalInfo": "Informations personnelles",
@@ -46,6 +47,7 @@
     "certificationsTooltip": "Chaque certification nécessite un nom et une date.",
     "languagesTooltip": "Chaque langue nécessite un nom.",
     "interestsTooltip": "Chaque centre d'intérêt nécessite une valeur.",
+    "customFieldsTooltip": "Ajoutez une valeur pour terminer cette étape.",
     "allComplete": "Terminé : toutes les sections sont complètes !",
     "completed": "Terminé"
   },
@@ -74,7 +76,8 @@
     "certificationDateFrom": "Date d'obtention (ex. 01-06-2020)",
     "certificationDateTo": "Date d'expiration (facultatif)",
     "yourLanguage": "Votre langue",
-    "yourInterest": "Votre centre d'intérêt"
+    "yourInterest": "Votre centre d'intérêt",
+    "customFieldValue": "ex. Française"
   },
   "buttons": {
     "addWorkExperience": "+ Ajouter une expérience professionnelle",
@@ -157,6 +160,7 @@
     "sectionDate": "Date",
     "sectionSubject": "Objet",
     "sectionLetter": "Lettre",
+    "sectionCustomFields": "Champ personnalisé",
     "senderName": "Votre nom",
     "senderNamePlaceholder": "Jane Doe",
     "senderEmail": "Votre email",
@@ -200,6 +204,7 @@
     "dateTooltip": "Ajoutez une date pour terminer cette étape.",
     "subjectTooltip": "Ajoutez un objet pour terminer cette étape.",
     "letterTooltip": "Renseignez la formule d'appel, le corps de la lettre et la formule de politesse pour terminer cette étape.",
+    "customFieldsTooltip": "Ajoutez une valeur pour terminer cette étape.",
     "allComplete": "Terminé — toutes les sections sont complètes !",
     "completed": "Terminé"
   },

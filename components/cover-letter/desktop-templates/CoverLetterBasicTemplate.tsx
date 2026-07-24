@@ -104,6 +104,10 @@ export default function CoverLetterBasicTemplate({
           {signature && <p>{signature}</p>}
         </div>
       )}
+
+      {data.customFieldValue && (
+        <p className="mt-6 text-sm text-gray-600">{data.customFieldValue}</p>
+      )}
     </div>
   );
 }
