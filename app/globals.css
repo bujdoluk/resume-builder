@@ -23,25 +23,6 @@ body {
   font-size: calc(1.05rem * var(--resume-font-scale, 1));
 }
 
-/* The Font Size sidebar control scales the resume's text via the
-   --resume-font-scale variable set inline on the resume's outer wrapper.
-   Tailwind's text-* utilities read their size from these --text-* variables
-   (e.g. `.text-sm { font-size: var(--text-sm) }`), so overriding them here
-   rescales every nested text-size utility without touching spacing/sizing
-   utilities (those live under the separate --spacing namespace) — input
-   widths, padding, and the photo box stay put and only the text grows or
-   shrinks. daisyUI's .fieldset also hardcodes its own font-size, so it needs
-   its own override to follow the same scale. */
-/* The resume canvas is a printed page: it always renders as white paper with
-   dark text, independent of the app's light/dark theme. Without this, text
-   left uncolored by any Tailwind class (typed input values, name/job-title
-   spans, etc.) inherits `color` from the theme-following <body>, which turns
-   light-colored in dark mode and disappears against the still-white paper.
-   Pinning daisyUI's own base-* variables to their light-theme values too
-   means every daisyUI component used inside the canvas (buttons, badges,
-   checkboxes, etc. — e.g. the outline "Add Work Experience" buttons, whose
-   border/text color comes from --color-base-content) stays legible instead
-   of picking up the dark theme's near-white content color. */
 .resume-scalable {
   color-scheme: light;
   color: #171717;
@@ -63,17 +44,10 @@ body {
   font-size: calc(0.75rem * var(--resume-font-scale, 1));
 }
 
-/* About Me's textarea reads as a paragraph of body text, not a form field,
-   so it skips the ghost/underline styling every other input gets. */
 .textarea.textarea-plain {
   border-bottom: none;
 }
 
-/* Work Experience/Education entries now break every value (position, dates,
-   location, description) into its own draggable row, so the usual
-   ghost/underline border on each one stacks into a distracting ladder of
-   lines — these entry sub-fields skip it and rely on the entry card's own
-   background/border for grouping instead. */
 .input.input-plain,
 .textarea.input-plain {
   border-bottom: none;
@@ -99,9 +73,6 @@ body {
   font-weight: 700;
 }
 
-/* Modern template's dark sidebar: daisyUI buttons and rating stars don't
-   inherit the sidebar's light text color on their own (--btn-color and the
-   star's fill are separate from the inherited `color`), so force them here. */
 .modern-sidebar .btn {
   --btn-color: #fff;
 }
@@ -110,17 +81,6 @@ body {
   background-color: #fff;
 }
 
-/* Placeholder color is hardcoded by daisyUI to a light-theme dark color, so
-   it's invisible against the dark sidebar's black background — force it
-   light there. Icons use text-gray-500 directly (not currentColor), so they
-   need the same treatment.
-   Both read --sidebar-fg (set inline on .modern-sidebar itself, computed
-   from the picked background color for readable contrast; defaults to white
-   for the template's default black background) rather than a hardcoded
-   white, and both need !important: the accent-color picker also sets an
-   inline `style={{ color }}` on these same elements, which would otherwise
-   win and render text/icons in the exact color of the background they sit
-   on, making them disappear. */
 .modern-sidebar {
   --sidebar-fg: #fff;
 }
@@ -137,21 +97,10 @@ body {
   opacity: 0.7;
 }
 
-/* Language proficiency's rating stars are tinted with the accent color via
-   an inline `style={{ backgroundColor: color }}` (see Resume.tsx and the
-   desktop/mobile templates) so they read as themed rather than daisyUI's
-   flat default gray. When the Languages section is dragged into this same
-   dark sidebar, that accent tint can match (or nearly match) the sidebar's
-   own background, so force the readable --sidebar-fg here too — same
-   reasoning as the icons/placeholders above. */
 .modern-sidebar .rating * {
   background-color: var(--sidebar-fg) !important;
 }
 
-/* Classic template's header band is always colored (a custom accent, or the
-   default dark daisyUI "neutral"), so its contact-field icons have the same
-   text-gray-500-vs-colored-background contrast problem as the Modern/Elegant
-   sidebar above — same fix, same reasoning, just scoped to the header. */
 .classic-header {
   --header-fg: #fff;
 }
@@ -190,22 +139,13 @@ body {
   }
 }
 
-/* window.print() (PrintButton) prints the Preview modal's #pdf-area only —
-   everything else on the page (navbar, sidebar, action buttons, the
-   modal-box's own background/backdrop) is hidden rather than left to print
-   as-is, since only the resume template itself should end up on paper. */
 @media print {
-  body * {
-    visibility: hidden;
+  body > *:not(#pdf-area) {
+    display: none !important;
   }
   #pdf-area,
   #pdf-area * {
-    visibility: visible;
-  }
-  #pdf-area {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
   }
 }

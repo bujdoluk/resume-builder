@@ -1,12 +1,9 @@
 "use client";
 
-import {
-  useImperativeHandle,
-  useRef,
-  type ComponentType,
-  type Ref,
-} from "react";
+import { useImperativeHandle, useRef, type ComponentType, type Ref } from "react";
+import { createPortal } from "react-dom";
 import ScaleToFit from "@/components/ScaleToFit";
+import { useHasMounted } from "@/components/useHasMounted";
 
 export interface PreviewModalHandle {
   open: () => void;
@@ -25,6 +22,12 @@ export default function PreviewModal<T extends object>({
   templateProps,
 }: PreviewModalProps<T>) {
   const dialogRef = useRef<HTMLDialogElement>(null);
+  // #pdf-area is portaled straight onto <body> (see below) so the print
+  // stylesheet can `display: none` every other body child wholesale — it
+  // can't do that while this div is nested arbitrarily deep in the app
+  // shell alongside everything else. document.body doesn't exist during
+  // SSR, so the portal is gated on mount.
+  const mounted = useHasMounted();
 
   useImperativeHandle(ref, () => ({
     open: () => dialogRef.current?.showModal(),
@@ -44,9 +47,13 @@ export default function PreviewModal<T extends object>({
         </form>
       </dialog>
 
-      <div id="pdf-area" className="hidden print:block">
-        <TemplateComponent {...templateProps} />
-      </div>
+      {mounted &&
+        createPortal(
+          <div id="pdf-area" className="hidden print:block">
+            <TemplateComponent {...templateProps} />
+          </div>,
+          document.body,
+        )}
     </>
   );
 }

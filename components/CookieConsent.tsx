@@ -6,23 +6,11 @@ import {
   useEffect,
   useRef,
   useState,
-  useSyncExternalStore,
   type ReactNode,
 } from "react";
 import Link from "next/link";
 import { Trans, useTranslation } from "react-i18next";
-
-function subscribeNever() {
-  return () => {};
-}
-
-function useHasMounted(): boolean {
-  return useSyncExternalStore(
-    subscribeNever,
-    () => true,
-    () => false,
-  );
-}
+import { useHasMounted } from "@/components/useHasMounted";
 
 export interface ConsentChoices {
   analytics: boolean;
