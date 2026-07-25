@@ -82,7 +82,7 @@ Open [http://localhost:3000](http://localhost:3000). Fill in your Supabase crede
 - **Email delivery** — Supabase's built-in email is dev-only/rate-limited. For real emails, point custom SMTP (**Authentication → Emails → SMTP Settings**) at `smtp.resend.com` using your `RESEND_API_KEY`.
 
 ### Database setup (Supabase SQL Editor)
-Run every file under `supabase/migrations/` in order (`0001`–`0007`) — there's no linked CLI project, so this isn't automatic. Then set `SUPABASE_SERVICE_ROLE_KEY` (Project Settings → API) — never expose this to the browser.
+Run every file under `supabase/migrations/` in order (`0001`–`0008`) — there's no linked CLI project, so this isn't automatic. Then set `SUPABASE_SERVICE_ROLE_KEY` (Project Settings → API) — never expose this to the browser.
 
 ### Billing setup (Stripe)
 1. Set `STRIPE_SECRET_KEY` in `.env.local`.
