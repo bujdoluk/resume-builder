@@ -139,11 +139,15 @@ A daily [Vercel Cron Job](https://vercel.com/docs/cron-jobs) (configured in `ver
 - **`scripts/`** — `setup-stripe.mjs`, `set-admin.mjs` (one-time setup scripts, see Getting Started above).
 - **`supabase/migrations/`** — numbered SQL migrations, applied manually.
 
+## Testing
+Unit tests use [Vitest](https://vitest.dev), set up per the [official Next.js guide](https://nextjs.org/docs/app/guides/testing/vitest). Test files live under `__tests__/`, mirroring the source tree (e.g. `__tests__/lib/color.test.ts` tests `lib/color.ts`). `npm test` runs in watch mode; `npm run test:run` runs once (what CI uses). Coverage is intentionally partial — focused on pure, high-value logic (ATS keyword scoring, color-contrast math, API error localization) rather than full-app coverage.
+
 ## Available Scripts
 - `npm run dev` — start the dev server (Turbopack).
 - `npm run build` — production build.
 - `npm run start` — run the production build.
 - `npm run lint` — ESLint.
+- `npm test` / `npm run test:run` — Vitest, watch mode / single run.
 
 ## Learn More
 Built with Next.js 16, React 19, Tailwind CSS v4, and daisyUI 5. See the [Next.js Documentation](https://nextjs.org/docs) for framework details.
