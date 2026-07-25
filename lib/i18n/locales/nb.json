@@ -96,7 +96,8 @@
     "save": "Lagre",
     "saved": "Lagret",
     "cancel": "Avbryt",
-    "confirm": "Bekreft"
+    "confirm": "Bekreft",
+    "aiAssistant": "AI-assistent"
   },
   "aria": {
     "removeWorkExperience": "Fjern arbeidserfaring",
@@ -477,7 +478,11 @@
     "failedToDeleteAccount": "Kunne ikke slette kontoen.",
     "rateLimited": "For mange forespørsler. Vent litt og prøv igjen.",
     "coherenceCheckUnavailable": "Koherenssjekken er ikke satt opp akkurat nå.",
-    "coherenceCheckFailed": "Vi kunne ikke fullføre koherenssjekken. Prøv igjen."
+    "coherenceCheckFailed": "Vi kunne ikke fullføre koherenssjekken. Prøv igjen.",
+    "aiRewriteUnavailable": "AI-omskriving er ikke satt opp akkurat nå.",
+    "aiRewriteFailed": "Vi kunne ikke omskrive teksten. Prøv igjen.",
+    "unauthorized": "Ikke autorisert.",
+    "cleanupQueryFailed": "Kunne ikke hente utdaterte kontoer for opprydding."
   },
   "atsChecker": {
     "buttonLabel": "Sjekk ATS-score",

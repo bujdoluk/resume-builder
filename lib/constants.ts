@@ -72,3 +72,13 @@ export const KEYWORD_EXTRACTION_LIMIT = 30;
 export const MAX_COHERENCE_CHECK_TEXT_LENGTH = 10_000;
 export const RATE_LIMIT_ATS_COHERENCE_REQUESTS = 3;
 export const RATE_LIMIT_ATS_COHERENCE_WINDOW = "10 m";
+
+// app/api/ai-rewrite/route.ts — same shared-Groq-budget reasoning as the
+// ats-coherence limits above.
+export const MAX_AI_REWRITE_TEXT_LENGTH = 10_000;
+export const RATE_LIMIT_AI_REWRITE_REQUESTS = 10;
+export const RATE_LIMIT_AI_REWRITE_WINDOW = "10 m";
+
+// app/api/cron/cleanup-anonymous-users/route.ts — matches the retention
+// promise in app/privacy/page.tsx's "Data retention" section.
+export const ANONYMOUS_ACCOUNT_RETENTION_DAYS = 7;

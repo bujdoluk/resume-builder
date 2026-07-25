@@ -96,7 +96,8 @@
     "save": "Zapisz",
     "saved": "Zapisano",
     "cancel": "Anuluj",
-    "confirm": "Potwierdź"
+    "confirm": "Potwierdź",
+    "aiAssistant": "Asystent AI"
   },
   "aria": {
     "removeWorkExperience": "Usuń doświadczenie zawodowe",
@@ -477,7 +478,11 @@
     "failedToDeleteAccount": "Nie udało się usunąć konta.",
     "rateLimited": "Zbyt wiele żądań. Poczekaj chwilę i spróbuj ponownie.",
     "coherenceCheckUnavailable": "Kontrola spójności nie jest obecnie skonfigurowana.",
-    "coherenceCheckFailed": "Nie udało się zakończyć kontroli spójności. Spróbuj ponownie."
+    "coherenceCheckFailed": "Nie udało się zakończyć kontroli spójności. Spróbuj ponownie.",
+    "aiRewriteUnavailable": "Przepisywanie przez AI nie jest obecnie skonfigurowane.",
+    "aiRewriteFailed": "Nie udało się przepisać tego tekstu. Spróbuj ponownie.",
+    "unauthorized": "Brak autoryzacji.",
+    "cleanupQueryFailed": "Nie udało się pobrać nieaktywnych kont do wyczyszczenia."
   },
   "atsChecker": {
     "buttonLabel": "Sprawdź wynik ATS",

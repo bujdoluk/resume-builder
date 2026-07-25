@@ -65,6 +65,7 @@ A free, in-browser resume and cover letter builder built with Next.js. Fill in y
 ### Security & monitoring
 - **Security headers** — CSP, HSTS, X-Frame-Options, and friends, set in `next.config.ts` and scoped to the exact third-party origins the app loads (Supabase, hCaptcha, Tawk.to, Sentry).
 - **Error monitoring** — Sentry, opt-in via `NEXT_PUBLIC_SENTRY_DSN`.
+- **Automatic cleanup of abandoned anonymous accounts** — a daily cron job deletes anonymous sessions (and their resumes/cover letters) that were never converted into a real account after 7 days, matching the retention policy in the Privacy Policy.
 
 ## Getting Started
 
@@ -81,7 +82,7 @@ Open [http://localhost:3000](http://localhost:3000). Fill in your Supabase crede
 - **Email delivery** — Supabase's built-in email is dev-only/rate-limited. For real emails, point custom SMTP (**Authentication → Emails → SMTP Settings**) at `smtp.resend.com` using your `RESEND_API_KEY`.
 
 ### Database setup (Supabase SQL Editor)
-Run every file under `supabase/migrations/` in order (`0001`–`0006`) — there's no linked CLI project, so this isn't automatic. Then set `SUPABASE_SERVICE_ROLE_KEY` (Project Settings → API) — never expose this to the browser.
+Run every file under `supabase/migrations/` in order (`0001`–`0007`) — there's no linked CLI project, so this isn't automatic. Then set `SUPABASE_SERVICE_ROLE_KEY` (Project Settings → API) — never expose this to the browser.
 
 ### Billing setup (Stripe)
 1. Set `STRIPE_SECRET_KEY` in `.env.local`.
@@ -107,10 +108,13 @@ Create a project at [sentry.io](https://sentry.io), set `NEXT_PUBLIC_SENTRY_DSN`
 4. Also set `HCAPTCHA_SECRET_KEY` — required separately because `/api/send-email` verifies it directly rather than through Supabase.
 
 ### Rate limiting (Upstash Redis)
-Guards `/api/send-email`, `/api/account/export`/`delete`, and `/api/stripe/checkout`/`cancel` against abuse. Create a free database at [Upstash](https://upstash.com) and set `UPSTASH_REDIS_REST_URL`/`UPSTASH_REDIS_REST_TOKEN`. Unset = no limiting, not an error.
+Guards `/api/send-email`, `/api/account/export`/`delete`, `/api/stripe/checkout`/`cancel`, and the Groq-backed `/api/ats-coherence`/`/api/ai-rewrite` against abuse. Create a free database at [Upstash](https://upstash.com) and set `UPSTASH_REDIS_REST_URL`/`UPSTASH_REDIS_REST_TOKEN`. Unset = no limiting, not an error.
 
-### AI coherence check (Groq)
-Powers the ATS Checker's optional "Check Coherence" button. Sign up at [console.groq.com](https://console.groq.com) and set `GROQ_API_KEY`. Unset shows a clear "not configured" message instead of failing silently. Note: Groq's free tier (30 req/min, 14,400/day) is shared across your whole app, not per-user — fine for occasional use, worth watching under real traffic.
+### AI features (Groq)
+Powers the ATS Checker's optional "Check Coherence" button and the "Rewrite with AI" button on resume/cover letter text fields. Sign up at [console.groq.com](https://console.groq.com) and set `GROQ_API_KEY`. Unset shows a clear "not configured" message instead of failing silently. Note: Groq's free tier (30 req/min, 14,400/day) is shared across your whole app, not per-user — fine for occasional use, worth watching under real traffic.
+
+### Scheduled cleanup (Cron)
+A daily [Vercel Cron Job](https://vercel.com/docs/cron-jobs) (configured in `vercel.json`) calls `/api/cron/cleanup-anonymous-users` to delete anonymous accounts older than `ANONYMOUS_ACCOUNT_RETENTION_DAYS` (`lib/constants.ts`, currently 7 days) that were never converted into a real account. Generate a random secret and set it as `CRON_SECRET` in your Vercel project's environment variables — Vercel then calls the endpoint on schedule and attaches it automatically as an `Authorization: Bearer` header, which the route requires (unlike this app's other optional integrations, it fails closed, not open, if unset — an unauthenticated request to this endpoint is rejected outright rather than silently skipped).
 
 ## Project Structure
 

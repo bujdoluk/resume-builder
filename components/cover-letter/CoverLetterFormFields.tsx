@@ -1,6 +1,7 @@
 "use client";
 
 import { useTranslation } from "react-i18next";
+import AiRewriteButton from "@/components/AiRewriteButton";
 import AutoResizeTextarea from "@/components/AutoResizeTextarea";
 import {
   SortableBlock,
@@ -278,6 +279,13 @@ export default function CoverLetterFormFields({
     ),
     body: (
       <fieldset className="fieldset">
+        <div className="flex justify-end">
+          <AiRewriteButton
+            text={data.body}
+            style="paragraph"
+            onRewrite={(newText) => onChange("body", newText)}
+          />
+        </div>
         <AutoResizeTextarea
           className="textarea w-full"
           value={data.body}

@@ -96,7 +96,8 @@
     "save": "Enregistrer",
     "saved": "Enregistré",
     "cancel": "Annuler",
-    "confirm": "Confirmer"
+    "confirm": "Confirmer",
+    "aiAssistant": "Assistant IA"
   },
   "aria": {
     "removeWorkExperience": "Supprimer l'expérience professionnelle",
@@ -477,7 +478,11 @@
     "failedToDeleteAccount": "Impossible de supprimer le compte.",
     "rateLimited": "Trop de requêtes. Veuillez patienter un instant et réessayer.",
     "coherenceCheckUnavailable": "La vérification de cohérence n'est pas configurée actuellement.",
-    "coherenceCheckFailed": "Nous n'avons pas pu terminer la vérification de cohérence. Veuillez réessayer."
+    "coherenceCheckFailed": "Nous n'avons pas pu terminer la vérification de cohérence. Veuillez réessayer.",
+    "aiRewriteUnavailable": "La réécriture par IA n'est pas configurée actuellement.",
+    "aiRewriteFailed": "Nous n'avons pas pu réécrire ce texte. Veuillez réessayer.",
+    "unauthorized": "Non autorisé.",
+    "cleanupQueryFailed": "Échec de la recherche des comptes obsolètes à nettoyer."
   },
   "atsChecker": {
     "buttonLabel": "Vérifier le score ATS",

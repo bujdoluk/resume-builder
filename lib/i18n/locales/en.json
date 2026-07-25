@@ -96,7 +96,8 @@
     "save": "Save",
     "saved": "Saved",
     "cancel": "Cancel",
-    "confirm": "Confirm"
+    "confirm": "Confirm",
+    "aiAssistant": "AI Assistant"
   },
   "aria": {
     "removeWorkExperience": "Remove work experience",
@@ -477,7 +478,11 @@
     "failedToDeleteAccount": "Failed to delete account.",
     "rateLimited": "Too many requests. Please slow down and try again shortly.",
     "coherenceCheckUnavailable": "The coherence check isn't set up right now.",
-    "coherenceCheckFailed": "We couldn't complete the coherence check. Please try again."
+    "coherenceCheckFailed": "We couldn't complete the coherence check. Please try again.",
+    "aiRewriteUnavailable": "AI rewriting isn't set up right now.",
+    "aiRewriteFailed": "We couldn't rewrite that text. Please try again.",
+    "unauthorized": "Unauthorized.",
+    "cleanupQueryFailed": "Failed to query stale accounts for cleanup."
   },
   "atsChecker": {
     "buttonLabel": "Check ATS Score",

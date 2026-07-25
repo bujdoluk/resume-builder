@@ -3,6 +3,7 @@
 import { rectSortingStrategy } from "@dnd-kit/sortable";
 import { Fragment, useState, type Dispatch, type SetStateAction } from "react";
 import { useTranslation } from "react-i18next";
+import AiRewriteButton from "@/components/AiRewriteButton";
 import type { FieldKey } from "@/components/AppState";
 import AutoResizeTextarea from "@/components/AutoResizeTextarea";
 import { AboutMeIcon } from "@/components/Icons";
@@ -360,6 +361,13 @@ export default function Resume({
       ),
       jobDescription: (
         <fieldset className="fieldset">
+          <div className="flex justify-end">
+            <AiRewriteButton
+              text={entry.jobDescription}
+              style="bullets"
+              onRewrite={(newText) => updateWorkEntry(entry.id, "jobDescription", newText)}
+            />
+          </div>
           <AutoResizeTextarea
             placeholder={t("placeholders.describeResponsibilities")}
             className="textarea input-plain w-full"
@@ -475,6 +483,13 @@ export default function Resume({
       ),
       description: (
         <fieldset className="fieldset">
+          <div className="flex justify-end">
+            <AiRewriteButton
+              text={entry.description}
+              style="bullets"
+              onRewrite={(newText) => updateEducationEntry(entry.id, "description", newText)}
+            />
+          </div>
           <AutoResizeTextarea
             placeholder={t("placeholders.describeStudies")}
             className="textarea input-plain w-full"

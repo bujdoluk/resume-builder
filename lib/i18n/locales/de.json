@@ -96,7 +96,8 @@
     "save": "Speichern",
     "saved": "Gespeichert",
     "cancel": "Abbrechen",
-    "confirm": "Bestätigen"
+    "confirm": "Bestätigen",
+    "aiAssistant": "KI-Assistent"
   },
   "aria": {
     "removeWorkExperience": "Berufserfahrung entfernen",
@@ -477,7 +478,11 @@
     "failedToDeleteAccount": "Konto konnte nicht gelöscht werden.",
     "rateLimited": "Zu viele Anfragen. Bitte warten Sie einen Moment und versuchen Sie es erneut.",
     "coherenceCheckUnavailable": "Die Kohärenzprüfung ist derzeit nicht eingerichtet.",
-    "coherenceCheckFailed": "Die Kohärenzprüfung konnte nicht abgeschlossen werden. Bitte versuchen Sie es erneut."
+    "coherenceCheckFailed": "Die Kohärenzprüfung konnte nicht abgeschlossen werden. Bitte versuchen Sie es erneut.",
+    "aiRewriteUnavailable": "Das Umschreiben mit KI ist derzeit nicht eingerichtet.",
+    "aiRewriteFailed": "Der Text konnte nicht umgeschrieben werden. Bitte versuchen Sie es erneut.",
+    "unauthorized": "Nicht autorisiert.",
+    "cleanupQueryFailed": "Abfrage der abgelaufenen Konten für die Bereinigung fehlgeschlagen."
   },
   "atsChecker": {
     "buttonLabel": "ATS-Score prüfen",

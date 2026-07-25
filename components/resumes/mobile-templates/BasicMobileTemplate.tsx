@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import AiRewriteButton from "@/components/AiRewriteButton";
 import AutoResizeTextarea from "@/components/AutoResizeTextarea";
 import {
   CertificationsIcon,
@@ -240,6 +241,15 @@ export default function BasicMobileTemplate({
       ),
       jobDescription: (
         <fieldset className="fieldset">
+          <div className="flex justify-end">
+            <AiRewriteButton
+              text={entry.jobDescription}
+              style="bullets"
+              onRewrite={(newText) =>
+                handlers.updateWorkEntry(entry.id, "jobDescription", newText)
+              }
+            />
+          </div>
           <AutoResizeTextarea
             placeholder={t("placeholders.describeResponsibilities")}
             className="textarea input-plain w-full"
@@ -328,6 +338,15 @@ export default function BasicMobileTemplate({
       ),
       description: (
         <fieldset className="fieldset">
+          <div className="flex justify-end">
+            <AiRewriteButton
+              text={entry.description}
+              style="bullets"
+              onRewrite={(newText) =>
+                handlers.updateEducationEntry(entry.id, "description", newText)
+              }
+            />
+          </div>
           <AutoResizeTextarea
             placeholder={t("placeholders.describeStudies")}
             className="textarea input-plain w-full"

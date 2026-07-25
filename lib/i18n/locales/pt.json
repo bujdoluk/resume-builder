@@ -96,7 +96,8 @@
     "save": "Guardar",
     "saved": "Guardado",
     "cancel": "Cancelar",
-    "confirm": "Confirmar"
+    "confirm": "Confirmar",
+    "aiAssistant": "Assistente de IA"
   },
   "aria": {
     "removeWorkExperience": "Remover experiência profissional",
@@ -477,7 +478,11 @@
     "failedToDeleteAccount": "Não foi possível eliminar a conta.",
     "rateLimited": "Demasiados pedidos. Aguarde um momento e tente novamente.",
     "coherenceCheckUnavailable": "A verificação de coerência não está configurada neste momento.",
-    "coherenceCheckFailed": "Não foi possível concluir a verificação de coerência. Tente novamente."
+    "coherenceCheckFailed": "Não foi possível concluir a verificação de coerência. Tente novamente.",
+    "aiRewriteUnavailable": "A reescrita com IA não está configurada neste momento.",
+    "aiRewriteFailed": "Não foi possível reescrever esse texto. Tente novamente.",
+    "unauthorized": "Não autorizado.",
+    "cleanupQueryFailed": "Não foi possível consultar as contas inativas para limpeza."
   },
   "atsChecker": {
     "buttonLabel": "Verificar pontuação ATS",

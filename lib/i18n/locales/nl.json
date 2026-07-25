@@ -96,7 +96,8 @@
     "save": "Opslaan",
     "saved": "Opgeslagen",
     "cancel": "Annuleren",
-    "confirm": "Bevestigen"
+    "confirm": "Bevestigen",
+    "aiAssistant": "AI-assistent"
   },
   "aria": {
     "removeWorkExperience": "Werkervaring verwijderen",
@@ -477,7 +478,11 @@
     "failedToDeleteAccount": "Account kon niet worden verwijderd.",
     "rateLimited": "Te veel verzoeken. Wacht even en probeer het opnieuw.",
     "coherenceCheckUnavailable": "De coherentiecontrole is momenteel niet ingesteld.",
-    "coherenceCheckFailed": "We konden de coherentiecontrole niet voltooien. Probeer het opnieuw."
+    "coherenceCheckFailed": "We konden de coherentiecontrole niet voltooien. Probeer het opnieuw.",
+    "aiRewriteUnavailable": "Herschrijven met AI is momenteel niet ingesteld.",
+    "aiRewriteFailed": "We konden die tekst niet herschrijven. Probeer het opnieuw.",
+    "unauthorized": "Niet geautoriseerd.",
+    "cleanupQueryFailed": "Kon de verlopen accounts niet opvragen voor opschoning."
   },
   "atsChecker": {
     "buttonLabel": "ATS-score controleren",

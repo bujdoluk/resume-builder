@@ -1,4 +1,4 @@
-import Groq from "groq-sdk";
+import { getGroqClient } from "@/lib/groq";
 
 const MODEL = "openai/gpt-oss-20b";
 
@@ -19,18 +19,6 @@ const COHERENCE_SCHEMA = {
   required: ["coherent", "reason"],
   additionalProperties: false,
 };
-
-let client: Groq | null | undefined;
-
-function getGroqClient(): Groq {
-  if (client === undefined) {
-    client = process.env.GROQ_API_KEY ? new Groq() : null;
-  }
-  if (!client) {
-    throw new Error("GROQ_API_KEY is not configured.");
-  }
-  return client;
-}
 
 export async function checkCoherence(text: string): Promise<{ coherent: boolean; reason: string }> {
   const completion = await getGroqClient().chat.completions.create({

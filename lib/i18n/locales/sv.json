@@ -96,7 +96,8 @@
     "save": "Spara",
     "saved": "Sparat",
     "cancel": "Avbryt",
-    "confirm": "Bekräfta"
+    "confirm": "Bekräfta",
+    "aiAssistant": "AI-assistent"
   },
   "aria": {
     "removeWorkExperience": "Ta bort arbetslivserfarenhet",
@@ -477,7 +478,11 @@
     "failedToDeleteAccount": "Det gick inte att ta bort kontot.",
     "rateLimited": "För många förfrågningar. Vänta en stund och försök igen.",
     "coherenceCheckUnavailable": "Koherenskontrollen är inte konfigurerad just nu.",
-    "coherenceCheckFailed": "Vi kunde inte slutföra koherenskontrollen. Försök igen."
+    "coherenceCheckFailed": "Vi kunde inte slutföra koherenskontrollen. Försök igen.",
+    "aiRewriteUnavailable": "AI-omskrivning är inte konfigurerad just nu.",
+    "aiRewriteFailed": "Vi kunde inte skriva om texten. Försök igen.",
+    "unauthorized": "Ej auktoriserad.",
+    "cleanupQueryFailed": "Det gick inte att hämta inaktuella konton för rensning."
   },
   "atsChecker": {
     "buttonLabel": "Kontrollera ATS-poäng",

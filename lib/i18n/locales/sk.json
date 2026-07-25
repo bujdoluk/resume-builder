@@ -96,7 +96,8 @@
     "save": "Uložiť",
     "saved": "Uložené",
     "cancel": "Zrušiť",
-    "confirm": "Potvrdiť"
+    "confirm": "Potvrdiť",
+    "aiAssistant": "AI asistent"
   },
   "aria": {
     "removeWorkExperience": "Odstrániť pracovnú skúsenosť",
@@ -477,7 +478,11 @@
     "failedToDeleteAccount": "Odstránenie účtu sa nepodarilo.",
     "rateLimited": "Príliš veľa požiadaviek. Počkajte chvíľu a skúste to znova.",
     "coherenceCheckUnavailable": "Kontrola zrozumiteľnosti nie je momentálne nastavená.",
-    "coherenceCheckFailed": "Kontrolu zrozumiteľnosti sa nepodarilo dokončiť. Skúste to znova."
+    "coherenceCheckFailed": "Kontrolu zrozumiteľnosti sa nepodarilo dokončiť. Skúste to znova.",
+    "aiRewriteUnavailable": "Prepis pomocou AI nie je momentálne nastavený.",
+    "aiRewriteFailed": "Text sa nepodarilo prepísať. Skúste to znova.",
+    "unauthorized": "Neautorizované.",
+    "cleanupQueryFailed": "Nepodarilo sa načítať neaktívne účty na vyčistenie."
   },
   "atsChecker": {
     "buttonLabel": "Skontrolovať ATS skóre",
