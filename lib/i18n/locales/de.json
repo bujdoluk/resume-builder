@@ -457,7 +457,8 @@
     "pageCrashTitle": "Etwas ist schiefgelaufen",
     "pageCrashDescription": "Ein unerwarteter Fehler ist aufgetreten. Sie können es erneut versuchen oder zur Startseite zurückkehren.",
     "pageCrashRetry": "Erneut versuchen",
-    "pageCrashHome": "Zur Startseite"
+    "pageCrashHome": "Zur Startseite",
+    "pageNotFoundTitle": "Seite nicht gefunden"
   },
   "apiErrors": {
     "loginRequired": "Anmeldung erforderlich.",

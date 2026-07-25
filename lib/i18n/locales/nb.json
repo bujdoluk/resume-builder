@@ -457,7 +457,8 @@
     "pageCrashTitle": "Noe gikk galt",
     "pageCrashDescription": "Det oppstod en uventet feil. Du kan prøve igjen, eller gå tilbake til startsiden.",
     "pageCrashRetry": "Prøv igjen",
-    "pageCrashHome": "Gå til startsiden"
+    "pageCrashHome": "Gå til startsiden",
+    "pageNotFoundTitle": "Siden ble ikke funnet"
   },
   "apiErrors": {
     "loginRequired": "Innlogging kreves.",

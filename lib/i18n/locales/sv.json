@@ -457,7 +457,8 @@
     "pageCrashTitle": "Något gick fel",
     "pageCrashDescription": "Ett oväntat fel inträffade. Du kan försöka igen eller gå tillbaka till startsidan.",
     "pageCrashRetry": "Försök igen",
-    "pageCrashHome": "Gå till startsidan"
+    "pageCrashHome": "Gå till startsidan",
+    "pageNotFoundTitle": "Sidan hittades inte"
   },
   "apiErrors": {
     "loginRequired": "Inloggning krävs.",

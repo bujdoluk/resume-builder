@@ -457,7 +457,8 @@
     "pageCrashTitle": "Algo correu mal",
     "pageCrashDescription": "Ocorreu um erro inesperado. Pode tentar novamente ou voltar à página inicial.",
     "pageCrashRetry": "Tentar novamente",
-    "pageCrashHome": "Ir para o início"
+    "pageCrashHome": "Ir para o início",
+    "pageNotFoundTitle": "Página não encontrada"
   },
   "apiErrors": {
     "loginRequired": "É necessário iniciar sessão.",

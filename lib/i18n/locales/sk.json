@@ -457,7 +457,8 @@
     "pageCrashTitle": "Niečo sa pokazilo",
     "pageCrashDescription": "Došlo k neočakávanej chybe. Môžete to skúsiť znova alebo sa vrátiť na domovskú stránku.",
     "pageCrashRetry": "Skúsiť znova",
-    "pageCrashHome": "Prejsť domov"
+    "pageCrashHome": "Prejsť domov",
+    "pageNotFoundTitle": "Stránka nenájdená"
   },
   "apiErrors": {
     "loginRequired": "Je potrebné prihlásenie.",

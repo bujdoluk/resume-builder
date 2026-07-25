@@ -457,7 +457,8 @@
     "pageCrashTitle": "Une erreur est survenue",
     "pageCrashDescription": "Une erreur inattendue s'est produite. Vous pouvez réessayer ou revenir à la page d'accueil.",
     "pageCrashRetry": "Réessayer",
-    "pageCrashHome": "Retour à l'accueil"
+    "pageCrashHome": "Retour à l'accueil",
+    "pageNotFoundTitle": "Page introuvable"
   },
   "apiErrors": {
     "loginRequired": "Connexion requise.",

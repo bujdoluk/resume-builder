@@ -457,7 +457,8 @@
     "pageCrashTitle": "Coś poszło nie tak",
     "pageCrashDescription": "Wystąpił nieoczekiwany błąd. Możesz spróbować ponownie lub wrócić na stronę główną.",
     "pageCrashRetry": "Spróbuj ponownie",
-    "pageCrashHome": "Przejdź na stronę główną"
+    "pageCrashHome": "Przejdź na stronę główną",
+    "pageNotFoundTitle": "Strona nie została znaleziona"
   },
   "apiErrors": {
     "loginRequired": "Wymagane jest zalogowanie.",

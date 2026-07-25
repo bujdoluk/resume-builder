@@ -457,7 +457,8 @@
     "pageCrashTitle": "Qualcosa è andato storto",
     "pageCrashDescription": "Si è verificato un errore imprevisto. Puoi riprovare oppure tornare alla home page.",
     "pageCrashRetry": "Riprova",
-    "pageCrashHome": "Vai alla home"
+    "pageCrashHome": "Vai alla home",
+    "pageNotFoundTitle": "Pagina non trovata"
   },
   "apiErrors": {
     "loginRequired": "Accesso richiesto.",

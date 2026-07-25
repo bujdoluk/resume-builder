@@ -457,7 +457,8 @@
     "pageCrashTitle": "Er is iets misgegaan",
     "pageCrashDescription": "Er is een onverwachte fout opgetreden. Je kunt het opnieuw proberen of teruggaan naar de homepage.",
     "pageCrashRetry": "Opnieuw proberen",
-    "pageCrashHome": "Naar home"
+    "pageCrashHome": "Naar home",
+    "pageNotFoundTitle": "Pagina niet gevonden"
   },
   "apiErrors": {
     "loginRequired": "Inloggen vereist.",

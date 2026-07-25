@@ -457,7 +457,8 @@
     "pageCrashTitle": "Something went wrong",
     "pageCrashDescription": "An unexpected error occurred. You can try again, or head back to the homepage.",
     "pageCrashRetry": "Try again",
-    "pageCrashHome": "Go home"
+    "pageCrashHome": "Go home",
+    "pageNotFoundTitle": "Page not found"
   },
   "apiErrors": {
     "loginRequired": "Login required.",

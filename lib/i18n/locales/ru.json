@@ -457,7 +457,8 @@
     "pageCrashTitle": "Что-то пошло не так",
     "pageCrashDescription": "Произошла непредвиденная ошибка. Вы можете попробовать снова или вернуться на главную страницу.",
     "pageCrashRetry": "Попробовать снова",
-    "pageCrashHome": "На главную"
+    "pageCrashHome": "На главную",
+    "pageNotFoundTitle": "Страница не найдена"
   },
   "apiErrors": {
     "loginRequired": "Требуется вход в систему.",
