@@ -62,49 +62,42 @@ export default function LandingPage() {
 
   return (
     <div className="flex min-h-full flex-col overflow-x-hidden">
-      <div className="bg-base-200 flex-1">
-        <div className="relative">
-          <Image
-            src="/images/app_background.webp"
-            alt="Resume preview picture"
-            aria-hidden="true"
-            width={1752}
-            height={1123}
-            priority
-            className="pointer-events-none absolute top-0 left-[-180] hidden h-[80vh] w-[60vw] rotate-[0deg] object-cover object-top opacity-30 select-none lg:block"
-          />
-
-          <Image
-            src="/images/Resume_lp_background.webp"
-            alt="Resume preview picture"
-            aria-hidden="true"
-            width={1752}
-            height={1123}
-            priority
-            className="pointer-events-none absolute top-10 right-[-180] hidden h-[100vh] w-[50vw] rotate-[5deg] object-cover object-top opacity-30 select-none lg:block"
-          />
-
-          <div className="relative mx-auto max-w-3xl px-8 py-20 text-center">
+      <div className="bg-primary text-primary-content">
+        <div className="mx-auto grid min-h-[75vh] max-w-5xl items-center gap-10 px-8 py-20 lg:grid-cols-2">
+          <div className="text-center lg:text-left">
             <h1 className="text-4xl font-bold sm:text-5xl">
               {t("landing.heroTitle")}
             </h1>
-            <p className="text-base-content/70 mx-auto mt-4 max-w-xl text-lg">
+            <p className="mx-auto mt-4 max-w-xl text-lg opacity-90 lg:mx-0">
               {t("landing.heroSubtitle")}
             </p>
 
-            <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-3 lg:justify-start">
               <Link
                 key={pulseCount}
                 href="/app"
-                className={`btn btn-primary btn-lg ${pulseCount > 0 ? "cta-attention" : ""}`}
+                className={`btn btn-lg border-none bg-black text-white hover:bg-neutral-800 ${pulseCount > 0 ? "cta-attention" : ""}`}
               >
                 {t("landing.ctaStart")}
               </Link>
             </div>
           </div>
-        </div>
 
-        <div className="relative mx-auto grid max-w-5xl grid-cols-1 gap-6 px-8 pb-20 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="flex justify-center">
+            <Image
+              src="/images/resume_preview.webp"
+              alt="Example resume built with QuickResumeBuilder.online"
+              width={1588}
+              height={2246}
+              priority
+              className="h-auto max-h-[65vh] w-auto rounded-lg shadow-2xl"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div className="bg-base-200 flex-1">
+        <div className="relative mx-auto grid max-w-5xl grid-cols-1 gap-6 px-8 py-20 sm:grid-cols-2 lg:grid-cols-3">
           {features.map(({ key, icon: Icon }) => (
             <div
               key={key}
@@ -124,15 +117,15 @@ export default function LandingPage() {
 
       <PricingSection />
 
-      <div className="bg-base-300 py-20">
-        <h2 className="mx-auto max-w-3xl px-8 text-center text-2xl font-bold sm:text-3xl">
+      <div className="bg-primary py-20">
+        <h2 className="text-primary-content mx-auto max-w-3xl px-8 text-center text-2xl font-bold sm:text-3xl">
           {t("landing.testimonialsTitle")}
         </h2>
 
         <div className="relative mx-auto mt-10 max-w-5xl px-8">
           <button
             type="button"
-            className="btn btn-circle absolute top-1/2 left-0 z-10 h-12 w-12 -translate-y-1/2 text-2xl"
+            className="btn btn-circle btn-neutral absolute top-1/2 left-0 z-10 h-12 w-12 -translate-y-1/2 border-none text-2xl"
             aria-label={t("aria.previousTestimonial")}
             onClick={() => scrollTestimonials(-1)}
           >
@@ -164,12 +157,26 @@ export default function LandingPage() {
 
           <button
             type="button"
-            className="btn btn-circle absolute top-1/2 right-0 z-10 h-12 w-12 -translate-y-1/2 text-2xl"
+            className="btn btn-circle btn-neutral absolute top-1/2 right-0 z-10 h-12 w-12 -translate-y-1/2 border-none text-2xl"
             aria-label={t("aria.nextTestimonial")}
             onClick={() => scrollTestimonials(1)}
           >
             ❯
           </button>
+        </div>
+      </div>
+
+      <div className="bg-base-200 py-20">
+        <div className="mx-auto max-w-2xl px-8 text-center">
+          <h2 className="text-2xl font-bold sm:text-3xl">
+            {t("landing.ctaTitle")}
+          </h2>
+          <p className="text-base-content/70 mt-3 text-lg">
+            {t("landing.ctaSubtitle")}
+          </p>
+          <Link href="/app" className="btn btn-primary btn-lg mt-6">
+            {t("landing.ctaStart")}
+          </Link>
         </div>
       </div>
 

@@ -580,35 +580,50 @@ export default function ElegantTemplate({
     ),
 
     phone: data.phone && isVisible("phone") && (
-      <p className="flex items-center gap-1.5 text-sm text-gray-500">
+      <p
+        className="flex items-center gap-1.5 text-sm text-gray-500"
+        style={color ? { color } : undefined}
+      >
         <PhoneIcon className="h-4 w-4 shrink-0 stroke-current" />
         {data.phone}
       </p>
     ),
 
     email: data.email && isVisible("email") && (
-      <p className="flex items-center gap-1.5 text-sm text-gray-500">
+      <p
+        className="flex items-center gap-1.5 text-sm text-gray-500"
+        style={color ? { color } : undefined}
+      >
         <EmailIcon className="h-4 w-4 shrink-0 stroke-current" />
         {data.email}
       </p>
     ),
 
     address: data.address && isVisible("address") && (
-      <p className="flex items-center gap-1.5 text-sm text-gray-500">
+      <p
+        className="flex items-center gap-1.5 text-sm text-gray-500"
+        style={color ? { color } : undefined}
+      >
         <AddressIcon className="h-4 w-4 shrink-0 stroke-current" />
         {data.address}
       </p>
     ),
 
     website: data.website && isVisible("website") && (
-      <p className="flex items-center gap-1.5 text-sm text-gray-500">
+      <p
+        className="flex items-center gap-1.5 text-sm text-gray-500"
+        style={color ? { color } : undefined}
+      >
         <WebsiteIcon className="h-4 w-4 shrink-0 stroke-current" />
         {data.website}
       </p>
     ),
 
     linkedin: data.linkedin && isVisible("linkedin") && (
-      <p className="flex items-center gap-1.5 text-sm text-gray-500">
+      <p
+        className="flex items-center gap-1.5 text-sm text-gray-500"
+        style={color ? { color } : undefined}
+      >
         <LinkedInIcon className="h-4 w-4 shrink-0 stroke-current" />
         {data.linkedin}
       </p>

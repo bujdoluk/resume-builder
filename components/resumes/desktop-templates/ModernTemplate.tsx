@@ -408,8 +408,10 @@ export default function ModernTemplate({
                             type="radio"
                             aria-label={level}
                             aria-current={index === levelIndex ? true : undefined}
+                            checked={index <= levelIndex}
+                            readOnly
                             className="mask mask-star"
-                            style={color ? { backgroundColor: color } : undefined}
+                            style={index <= levelIndex && color ? { backgroundColor: color } : undefined}
                           />
                         ))}
                       </div>
@@ -441,8 +443,10 @@ export default function ModernTemplate({
                           type="radio"
                           aria-label={level}
                           aria-current={index === levelIndex ? true : undefined}
+                          checked={index <= levelIndex}
+                          readOnly
                           className="mask mask-star"
-                          style={color ? { backgroundColor: color } : undefined}
+                          style={index <= levelIndex && color ? { backgroundColor: color } : undefined}
                         />
                       ))}
                     </div>
