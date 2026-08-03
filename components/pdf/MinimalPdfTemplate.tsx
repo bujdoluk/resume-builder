@@ -10,6 +10,7 @@ import {
 } from "@/components/pdf/PdfIcons";
 import { allFields, type FieldKey } from "@/lib/fields";
 import { getFontScaleRatio } from "@/lib/fontSize";
+import i18n from "@/lib/i18n/i18n";
 import {
   DAISYUI_PRIMARY,
   DAISYUI_PRIMARY_40,
@@ -19,7 +20,7 @@ import {
   RESUME_TEXT_COLOR,
 } from "@/lib/pdf/theme";
 import { renderPdfFieldItems } from "@/lib/pdf/renderFieldItems";
-import type { SectionKey } from "@/lib/resumeData";
+import { languageLevelKey, type SectionKey } from "@/lib/resumeData";
 
 export default function MinimalPdfTemplate({
   data,
@@ -157,7 +158,9 @@ export default function MinimalPdfTemplate({
       <View key="languages">
         <Text style={styles.sectionTitle}>Languages</Text>
         <Text style={styles.bodyText}>
-          {languageEntries.map((e) => `${e.language} (${e.level})`).join(" · ")}
+          {languageEntries
+            .map((e) => `${e.language} (${i18n.t(languageLevelKey(e.level))})`)
+            .join(" · ")}
         </Text>
       </View>
     ),

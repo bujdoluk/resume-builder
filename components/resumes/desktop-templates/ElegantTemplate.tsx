@@ -24,6 +24,7 @@ import { getContrastTextColor } from "@/lib/color";
 import { fontsByKey } from "@/lib/fonts";
 import { getFontSizeStyle } from "@/lib/fontSize";
 import {
+  languageLevelKey,
   languageLevels,
   resolveModernSectionZone,
   splitSectionsByZone,
@@ -516,7 +517,7 @@ export default function ElegantTemplate({
               {languageEntries.map((entry) => (
                 <p key={entry.id} className="text-gray-700">
                   <span className="font-semibold">{entry.language}</span>
-                  <span className="text-sm text-gray-500"> — {entry.level}</span>
+                  <span className="text-sm text-gray-500"> — {t(languageLevelKey(entry.level))}</span>
                 </p>
               ))}
             </div>

@@ -24,6 +24,7 @@ import { getContrastTextColor } from "@/lib/color";
 import { type FieldKey } from "@/lib/fields";
 import { formatPhoneAsYouType } from "@/lib/phone";
 import {
+  languageLevelKey,
   languageLevels,
   type EducationEntry,
   type SectionKey,
@@ -885,7 +886,7 @@ export default function ClassicMobileTemplate({
                       aria-label="Language proficiency level"
                     >
                       <span className="shrink-0 text-xs whitespace-nowrap text-gray-500">
-                        {entry.level}
+                        {t(languageLevelKey(entry.level))}
                       </span>
                       <div className="rating shrink-0 pl-2">
                         {languageLevels.map((level, index) => (
@@ -893,7 +894,7 @@ export default function ClassicMobileTemplate({
                             key={level}
                             type="radio"
                             name={`classic-mobile-language-level-${entry.id}`}
-                            aria-label={level}
+                            aria-label={t(languageLevelKey(level))}
                             className="mask mask-star"
                             style={color ? { backgroundColor: color } : undefined}
                             checked={index === levelIndex}

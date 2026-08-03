@@ -29,6 +29,12 @@
     "linkedin": "LinkedIn",
     "aboutMe": "Sobre mí"
   },
+  "languageLevels": {
+    "beginner": "Principiante",
+    "advanced": "Avanzado",
+    "fullProfessionalProficiency": "Nivel profesional",
+    "nativeSpeaker": "Lengua materna"
+  },
   "sections": {
     "workExperience": "Experiencia laboral",
     "education": "Educación",

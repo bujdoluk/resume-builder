@@ -29,6 +29,12 @@
     "linkedin": "LinkedIn",
     "aboutMe": "Обо мне"
   },
+  "languageLevels": {
+    "beginner": "Начальный",
+    "advanced": "Продвинутый",
+    "fullProfessionalProficiency": "Профессиональный уровень",
+    "nativeSpeaker": "Родной язык"
+  },
   "sections": {
     "workExperience": "Опыт работы",
     "education": "Образование",

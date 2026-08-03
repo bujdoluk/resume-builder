@@ -19,6 +19,7 @@ import {
 import { allFields, type FieldKey } from "@/lib/fields";
 import { getFontScaleRatio, type FontSizeKey } from "@/lib/fontSize";
 import type { FontKey } from "@/lib/fonts";
+import i18n from "@/lib/i18n/i18n";
 import {
   DAISYUI_BASE_300,
   DAISYUI_BASE_CONTENT,
@@ -30,6 +31,7 @@ import {
 } from "@/lib/pdf/theme";
 import { renderPdfFieldItems } from "@/lib/pdf/renderFieldItems";
 import {
+  languageLevelKey,
   languageLevels,
   type ModernSectionZones,
   type ResumeData,
@@ -274,7 +276,7 @@ export default function BasicPdfTemplate({
           >
             <Text style={[styles.bodyText, { fontWeight: "bold" }]}>{entry.language}</Text>
             <View style={{ flexDirection: "row", alignItems: "center", gap: 5 }}>
-              <Text style={{ fontSize: s(10), color: GRAY_500 }}>{entry.level}</Text>
+              <Text style={{ fontSize: s(10), color: GRAY_500 }}>{i18n.t(languageLevelKey(entry.level))}</Text>
               <StarRatingPdfIcon
                 filled={languageLevels.indexOf(entry.level) + 1}
                 total={languageLevels.length}

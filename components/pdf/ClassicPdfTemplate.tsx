@@ -19,6 +19,7 @@ import {
 import { getContrastTextColor } from "@/lib/color";
 import { allFields, type FieldKey } from "@/lib/fields";
 import { getFontScaleRatio } from "@/lib/fontSize";
+import i18n from "@/lib/i18n/i18n";
 import {
   DAISYUI_BASE_300,
   DAISYUI_NEUTRAL,
@@ -31,6 +32,7 @@ import {
 } from "@/lib/pdf/theme";
 import { renderPdfFieldItems } from "@/lib/pdf/renderFieldItems";
 import {
+  languageLevelKey,
   languageLevels,
   type SectionKey,
 } from "@/lib/resumeData";
@@ -271,7 +273,7 @@ export default function ClassicPdfTemplate({
           >
             <Text style={[styles.bodyText, { fontWeight: "bold" }]}>{entry.language}</Text>
             <View style={{ flexDirection: "row", alignItems: "center", gap: 5 }}>
-              <Text style={{ fontSize: s(10), color: GRAY_500 }}>{entry.level}</Text>
+              <Text style={{ fontSize: s(10), color: GRAY_500 }}>{i18n.t(languageLevelKey(entry.level))}</Text>
               <StarRatingPdfIcon
                 filled={languageLevels.indexOf(entry.level) + 1}
                 total={languageLevels.length}

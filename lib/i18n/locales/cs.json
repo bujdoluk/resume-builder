@@ -29,6 +29,12 @@
     "linkedin": "LinkedIn",
     "aboutMe": "O mně"
   },
+  "languageLevels": {
+    "beginner": "Začátečník",
+    "advanced": "Pokročilý",
+    "fullProfessionalProficiency": "Profesionální úroveň",
+    "nativeSpeaker": "Rodilý mluvčí"
+  },
   "sections": {
     "workExperience": "Pracovní zkušenosti",
     "education": "Vzdělání",

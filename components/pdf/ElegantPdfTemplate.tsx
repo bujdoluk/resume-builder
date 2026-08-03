@@ -19,6 +19,7 @@ import {
 import { getContrastTextColor, tintBackground } from "@/lib/color";
 import { allFields, type FieldKey } from "@/lib/fields";
 import { getFontScaleRatio } from "@/lib/fontSize";
+import i18n from "@/lib/i18n/i18n";
 import {
   DAISYUI_NEUTRAL,
   GRAY_500,
@@ -27,6 +28,7 @@ import {
   RESUME_TEXT_COLOR,
 } from "@/lib/pdf/theme";
 import {
+  languageLevelKey,
   languageLevels,
   resolveModernSectionZone,
   splitSectionsByZone,
@@ -352,7 +354,7 @@ export default function ElegantPdfTemplate({
             {languageEntries.map((entry) => (
               <Text key={entry.id} style={[styles.bodyText, { marginTop: 2 }]}>
                 <Text style={{ fontWeight: "bold" }}>{entry.language}</Text>
-                <Text style={{ color: GRAY_500 }}> — {entry.level}</Text>
+                <Text style={{ color: GRAY_500 }}> — {i18n.t(languageLevelKey(entry.level))}</Text>
               </Text>
             ))}
           </View>

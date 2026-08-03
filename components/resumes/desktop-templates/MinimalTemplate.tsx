@@ -13,7 +13,7 @@ import {
 } from "@/components/Icons";
 import { fontsByKey } from "@/lib/fonts";
 import { getFontSizeStyle } from "@/lib/fontSize";
-import type { SectionKey } from "@/lib/resumeData";
+import { languageLevelKey, type SectionKey } from "@/lib/resumeData";
 
 function SectionTitle({
   children,
@@ -273,7 +273,7 @@ export default function MinimalTemplate({
         <SectionTitle color={color}>{t("sections.languages")}</SectionTitle>
         <p className="text-gray-700">
           {languageEntries
-            .map((entry) => `${entry.language} (${entry.level})`)
+            .map((entry) => `${entry.language} (${t(languageLevelKey(entry.level))})`)
             .join(" · ")}
         </p>
       </>

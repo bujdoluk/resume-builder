@@ -11,6 +11,17 @@ export const languageLevels = [
   "Native Speaker",
 ];
 
+const languageLevelTranslationKeys: Record<string, string> = {
+  Beginner: "languageLevels.beginner",
+  Advanced: "languageLevels.advanced",
+  "Full Professional Proficiency": "languageLevels.fullProfessionalProficiency",
+  "Native Speaker": "languageLevels.nativeSpeaker",
+};
+
+export function languageLevelKey(level: string): string {
+  return languageLevelTranslationKeys[level] ?? level;
+}
+
 export interface WorkEntry {
   id: string;
   position: string;

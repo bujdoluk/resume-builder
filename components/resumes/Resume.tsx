@@ -23,6 +23,7 @@ import { formatPhoneAsYouType } from "@/lib/phone";
 import { fontsByKey, type FontKey } from "@/lib/fonts";
 import {
   emptyResumeData,
+  languageLevelKey,
   languageLevels,
   sectionLabels,
   type CertificationEntry,
@@ -38,6 +39,7 @@ import type { TemplateId } from "@/lib/templates";
 
 export {
   emptyResumeData,
+  languageLevelKey,
   languageLevels,
   sectionLabels,
   type CertificationEntry,
@@ -638,7 +640,7 @@ export default function Resume({
           aria-label="Language proficiency level"
         >
           <span className="shrink-0 text-xs whitespace-nowrap text-gray-500">
-            {entry.level}
+            {t(languageLevelKey(entry.level))}
           </span>
           <div className="rating shrink-0 pl-2">
             {languageLevels.map((level, index) => (
@@ -646,7 +648,7 @@ export default function Resume({
                 key={level}
                 type="radio"
                 name={`canvas-language-level-${entry.id}`}
-                aria-label={level}
+                aria-label={t(languageLevelKey(level))}
                 className="mask mask-star"
                 style={color ? { backgroundColor: color } : undefined}
                 checked={index === levelIndex}

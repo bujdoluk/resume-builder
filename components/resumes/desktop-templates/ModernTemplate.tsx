@@ -23,6 +23,7 @@ import { getContrastTextColor } from "@/lib/color";
 import { fontsByKey } from "@/lib/fonts";
 import { getFontSizeStyle } from "@/lib/fontSize";
 import {
+  languageLevelKey,
   languageLevels,
   resolveModernSectionZone,
   splitSectionsByZone,
@@ -406,7 +407,7 @@ export default function ModernTemplate({
                           <input
                             key={level}
                             type="radio"
-                            aria-label={level}
+                            aria-label={t(languageLevelKey(level))}
                             aria-current={index === levelIndex ? true : undefined}
                             checked={index <= levelIndex}
                             readOnly
@@ -441,7 +442,7 @@ export default function ModernTemplate({
                         <input
                           key={level}
                           type="radio"
-                          aria-label={level}
+                          aria-label={t(languageLevelKey(level))}
                           aria-current={index === levelIndex ? true : undefined}
                           checked={index <= levelIndex}
                           readOnly

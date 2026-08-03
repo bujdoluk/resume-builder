@@ -29,6 +29,12 @@
     "linkedin": "LinkedIn",
     "aboutMe": "Over mij"
   },
+  "languageLevels": {
+    "beginner": "Beginner",
+    "advanced": "Gevorderd",
+    "fullProfessionalProficiency": "Professioneel niveau",
+    "nativeSpeaker": "Moedertaal"
+  },
   "sections": {
     "workExperience": "Werkervaring",
     "education": "Opleiding",

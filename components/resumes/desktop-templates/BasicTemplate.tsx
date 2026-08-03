@@ -21,6 +21,7 @@ import {
 import { getFontSizeStyle, type FontSizeKey } from "@/lib/fontSize";
 import { fontsByKey, type FontKey } from "@/lib/fonts";
 import {
+  languageLevelKey,
   languageLevels,
   type ModernSectionZones,
   type ResumeData,
@@ -300,13 +301,13 @@ export default function BasicTemplate({
               >
                 <span className="font-semibold">{entry.language}</span>
                 <div className="flex items-center gap-2">
-                  <span className="text-sm text-gray-500">{entry.level}</span>
+                  <span className="text-sm text-gray-500">{t(languageLevelKey(entry.level))}</span>
                   <div className="rating rating-sm pointer-events-none">
                     {languageLevels.map((level, index) => (
                       <input
                         key={level}
                         type="radio"
-                        aria-label={level}
+                        aria-label={t(languageLevelKey(level))}
                         aria-current={index === levelIndex ? true : undefined}
                         checked={index <= levelIndex}
                         readOnly

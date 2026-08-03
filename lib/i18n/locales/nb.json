@@ -29,6 +29,12 @@
     "linkedin": "LinkedIn",
     "aboutMe": "Om meg"
   },
+  "languageLevels": {
+    "beginner": "Nybegynner",
+    "advanced": "Viderekommen",
+    "fullProfessionalProficiency": "Profesjonelt nivå",
+    "nativeSpeaker": "Morsmål"
+  },
   "sections": {
     "workExperience": "Arbeidserfaring",
     "education": "Utdanning",
