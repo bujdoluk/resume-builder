@@ -103,6 +103,10 @@ describe("ResumeBuilder", () => {
   it("fills out every resume section and saves the resume", async () => {
     const user = userEvent.setup();
 
+    // Renders the full builder tree (both mobile and desktop panes) and
+    // touches ~30 fields; the default 5000ms testTimeout is too tight once
+    // this runs alongside the rest of the suite under load.
+
     const { container } = render(
       <AppStateProvider>
         <ToastProvider>
@@ -263,5 +267,5 @@ describe("ResumeBuilder", () => {
     await waitFor(() =>
       expect(desktopPane.getByRole("button", { name: "Saved" })).toBeInTheDocument(),
     );
-  });
+  }, 15000);
 });
