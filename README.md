@@ -69,6 +69,8 @@ A free, in-browser resume and cover letter builder built with Next.js. Fill in y
 
 ## Getting Started
 
+Requires Node.js `>=24.19.0` (pinned in `.nvmrc`/`package.json`'s `engines` — run `nvm use` if you use nvm).
+
 ```bash
 cp .env.example .env.local
 npm run dev
@@ -142,12 +144,34 @@ A daily [Vercel Cron Job](https://vercel.com/docs/cron-jobs) (configured in `ver
 ## Testing
 Unit tests use [Vitest](https://vitest.dev), set up per the [official Next.js guide](https://nextjs.org/docs/app/guides/testing/vitest). Test files live under `__tests__/`, mirroring the source tree (e.g. `__tests__/lib/color.test.ts` tests `lib/color.ts`). `npm test` runs in watch mode; `npm run test:run` runs once (what CI uses). Coverage is intentionally partial — focused on pure, high-value logic (ATS keyword scoring, color-contrast math, API error localization) rather than full-app coverage.
 
+End-to-end tests use [Playwright](https://playwright.dev) and live under `e2e/` (e.g. `e2e/anonymous-resume-flow.spec.ts` drives a full anonymous-user journey: landing page → builder → fill every section → save). `npm run test:e2e` runs headless and auto-starts the dev server on `http://localhost:3000` if it isn't already running; `npm run test:e2e:headed` runs the same tests in a visible browser window so you can watch each step. First-time setup needs the browser binary once: `npx playwright install chromium`.
+
+## Updating Dependencies
+This repo pins **exact** versions for `dependencies` (no `^`/`~`) so installs are reproducible — `npm outdated`/`npm update` behave differently here than in a typically `^`-ranged project (`npm update` only moves a package within its declared range, so an exact-pinned package needs its `package.json` entry edited directly). A handful of foundational `devDependencies` (`@types/node`, `@types/react`, `@types/react-dom`, `eslint`, `tailwindcss`, `@tailwindcss/postcss`, `typescript`) intentionally use a bare major-version string instead (e.g. `"24"` not `"24.9.2"`) so they auto-pick-up patch/minor releases on a plain `npm install`, but still require an explicit edit to cross a major version.
+
+**Node.js version** is pinned via `"engines"` in `package.json` and `.nvmrc` — both must stay in sync with what `.github/workflows/dev.yml`/`prod.yml` run (`actions/setup-node` `node-version`) and with the Node.js version configured in the Vercel project settings (Dashboard → Settings → Node.js Version), since that last one isn't visible from the repo.
+
+**Recommended process for future updates** (don't big-bang everything at once):
+1. Run `npm outdated` and split the results into two buckets: patch/minor bumps (low risk) and major-version bumps (real breaking-change risk).
+2. Update the patch/minor batch together — edit exact-pinned versions directly in `package.json`, then run `npm install` once (this also refreshes the bare-major-pinned packages to their latest compatible patch).
+3. Handle each major-version bump as its own separate pass with its own research (read the package's own changelog/release notes — see the note below) and its own verification cycle, not bundled with the safe batch.
+4. After each stage, run the full verification checklist: `npx next typegen`, `npx tsc --noEmit -p .`, `npm run lint`, `npm run test:run`, `npm run test:e2e`, then a manual smoke check (start the dev server, load the landing page and builder, watch for console errors).
+5. If the Node.js version itself changes, update `engines` in `package.json`, `.nvmrc`, and both GitHub Actions workflows together, and flag the Vercel project settings for a manual update.
+
+**Deferred major-version bumps** (available but not yet done — each needs its own pass per the process above):
+- `typescript` 5 → 7 (skips a full major generation; expect newly-enforced strictness across the codebase)
+- `eslint` 9 → 10 (flat config should mostly carry over, but `eslint-config-next` and any other plugins need a compatibility check first)
+- `apexcharts` 5 → 6 (check whether `react-apexcharts` needs a matching bump; used for chart rendering, so needs a visual check, not just a type check)
+
+**This repo specifically**: because this is a modified/future version of Next.js and its ecosystem (see the warning at the top of `AGENTS.md`), don't assume standard upstream upgrade behavior even for a minor-version bump — check `node_modules/<package>/dist/docs` or the package's own CHANGELOG first. This isn't theoretical: this session alone found real, undocumented-to-training-data differences (CSP/proxy handling, and `next dev` auto-regenerating part of `AGENTS.md` on Next.js 16.3+).
+
 ## Available Scripts
 - `npm run dev` — start the dev server (Turbopack).
 - `npm run build` — production build.
 - `npm run start` — run the production build.
 - `npm run lint` — ESLint.
 - `npm test` / `npm run test:run` — Vitest, watch mode / single run.
+- `npm run test:e2e` / `npm run test:e2e:headed` — Playwright, headless / visible browser.
 
 ## Learn More
 Built with Next.js 16, React 19, Tailwind CSS v4, and daisyUI 5. See the [Next.js Documentation](https://nextjs.org/docs) for framework details.
