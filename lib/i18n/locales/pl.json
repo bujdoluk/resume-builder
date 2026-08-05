@@ -103,7 +103,8 @@
     "saved": "Zapisano",
     "cancel": "Anuluj",
     "confirm": "Potwierdź",
-    "aiAssistant": "Asystent AI"
+    "aiAssistant": "Asystent AI",
+    "share": "Udostępnij"
   },
   "aria": {
     "removeWorkExperience": "Usuń doświadczenie zawodowe",
@@ -527,5 +528,16 @@
       "hasSubject": "Temat jest uzupełniony",
       "bodyLongEnough": "Treść listu zawiera wystarczającą ilość treści"
     }
+  },
+  "share": {
+    "title": "Udostępnij ten dokument",
+    "description": "Każdy, kto ma ten link, może wyświetlić PDF Twojego dokumentu — bez logowania.",
+    "enableDescription": "Utwórz publiczny link, aby każdy mógł wyświetlić PDF Twojego dokumentu.",
+    "createLink": "Utwórz link do udostępniania",
+    "copyLink": "Kopiuj link",
+    "copied": "Skopiowano!",
+    "stopSharing": "Zatrzymaj udostępnianie",
+    "saveFirst": "Najpierw zapisz dokument, aby utworzyć link do udostępniania.",
+    "downloadPdf": "Pobierz PDF"
   }
 }

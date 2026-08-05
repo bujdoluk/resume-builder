@@ -103,7 +103,8 @@
     "saved": "Uloženo",
     "cancel": "Zrušit",
     "confirm": "Potvrdit",
-    "aiAssistant": "AI asistent"
+    "aiAssistant": "AI asistent",
+    "share": "Sdílet"
   },
   "aria": {
     "removeWorkExperience": "Odebrat pracovní zkušenost",
@@ -527,5 +528,16 @@
       "hasSubject": "Předmět je vyplněn",
       "bodyLongEnough": "Text dopisu má dostatečný obsah"
     }
+  },
+  "share": {
+    "title": "Sdílet tento dokument",
+    "description": "Kdokoli s tímto odkazem si může zobrazit PDF vašeho dokumentu — bez přihlášení.",
+    "enableDescription": "Vytvořte veřejný odkaz, aby si kdokoli mohl zobrazit PDF vašeho dokumentu.",
+    "createLink": "Vytvořit odkaz ke sdílení",
+    "copyLink": "Kopírovat odkaz",
+    "copied": "Zkopírováno!",
+    "stopSharing": "Ukončit sdílení",
+    "saveFirst": "Nejprve uložte dokument, abyste mohli vytvořit odkaz ke sdílení.",
+    "downloadPdf": "Stáhnout PDF"
   }
 }

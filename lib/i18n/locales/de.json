@@ -103,7 +103,8 @@
     "saved": "Gespeichert",
     "cancel": "Abbrechen",
     "confirm": "Bestätigen",
-    "aiAssistant": "KI-Assistent"
+    "aiAssistant": "KI-Assistent",
+    "share": "Teilen"
   },
   "aria": {
     "removeWorkExperience": "Berufserfahrung entfernen",
@@ -527,5 +528,16 @@
       "hasSubject": "Betreffzeile ist ausgefüllt",
       "bodyLongEnough": "Der Brieftext hat ausreichend Inhalt"
     }
+  },
+  "share": {
+    "title": "Dieses Dokument teilen",
+    "description": "Jeder mit diesem Link kann ein PDF Ihres Dokuments ansehen — keine Anmeldung erforderlich.",
+    "enableDescription": "Erstellen Sie einen öffentlichen Link, damit jeder ein PDF Ihres Dokuments ansehen kann.",
+    "createLink": "Freigabelink erstellen",
+    "copyLink": "Link kopieren",
+    "copied": "Kopiert!",
+    "stopSharing": "Freigabe beenden",
+    "saveFirst": "Speichern Sie Ihr Dokument zuerst, um einen Freigabelink zu erstellen.",
+    "downloadPdf": "PDF herunterladen"
   }
 }

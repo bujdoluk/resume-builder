@@ -103,7 +103,8 @@
     "saved": "Enregistré",
     "cancel": "Annuler",
     "confirm": "Confirmer",
-    "aiAssistant": "Assistant IA"
+    "aiAssistant": "Assistant IA",
+    "share": "Partager"
   },
   "aria": {
     "removeWorkExperience": "Supprimer l'expérience professionnelle",
@@ -527,5 +528,16 @@
       "hasSubject": "La ligne d'objet est renseignée",
       "bodyLongEnough": "Le corps de la lettre contient suffisamment de contenu"
     }
+  },
+  "share": {
+    "title": "Partager ce document",
+    "description": "Toute personne disposant de ce lien peut consulter un PDF de votre document — sans connexion requise.",
+    "enableDescription": "Créez un lien public afin que tout le monde puisse consulter un PDF de votre document.",
+    "createLink": "Créer un lien de partage",
+    "copyLink": "Copier le lien",
+    "copied": "Copié !",
+    "stopSharing": "Arrêter le partage",
+    "saveFirst": "Enregistrez d'abord votre document pour créer un lien de partage.",
+    "downloadPdf": "Télécharger le PDF"
   }
 }

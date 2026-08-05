@@ -82,3 +82,9 @@ export const RATE_LIMIT_AI_REWRITE_WINDOW = "10 m";
 // app/api/cron/cleanup-anonymous-users/route.ts — matches the retention
 // promise in app/privacy/page.tsx's "Data retention" section.
 export const ANONYMOUS_ACCOUNT_RETENTION_DAYS = 7;
+
+// app/shared/{resume,cover-letter}/[token]/pdf/route.tsx — these are public,
+// unauthenticated routes (anyone with a share link, or just guessing the
+// path), so they're IP-rate-limited like send-email rather than user-scoped.
+export const RATE_LIMIT_SHARED_DOCUMENT_REQUESTS = 30;
+export const RATE_LIMIT_SHARED_DOCUMENT_WINDOW = "10 m";

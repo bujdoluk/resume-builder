@@ -103,7 +103,8 @@
     "saved": "Lagret",
     "cancel": "Avbryt",
     "confirm": "Bekreft",
-    "aiAssistant": "AI-assistent"
+    "aiAssistant": "AI-assistent",
+    "share": "Del"
   },
   "aria": {
     "removeWorkExperience": "Fjern arbeidserfaring",
@@ -527,5 +528,16 @@
       "hasSubject": "Emnelinje er fylt ut",
       "bodyLongEnough": "Brevteksten har nok innhold"
     }
+  },
+  "share": {
+    "title": "Del dette dokumentet",
+    "description": "Alle med denne lenken kan se en PDF av dokumentet ditt — ingen innlogging kreves.",
+    "enableDescription": "Opprett en offentlig lenke slik at hvem som helst kan se en PDF av dokumentet ditt.",
+    "createLink": "Opprett delingslenke",
+    "copyLink": "Kopier lenke",
+    "copied": "Kopiert!",
+    "stopSharing": "Stopp deling",
+    "saveFirst": "Lagre dokumentet ditt først for å opprette en delingslenke.",
+    "downloadPdf": "Last ned PDF"
   }
 }

@@ -103,7 +103,8 @@
     "saved": "Salvato",
     "cancel": "Annulla",
     "confirm": "Conferma",
-    "aiAssistant": "Assistente IA"
+    "aiAssistant": "Assistente IA",
+    "share": "Condividi"
   },
   "aria": {
     "removeWorkExperience": "Rimuovi esperienza lavorativa",
@@ -527,5 +528,16 @@
       "hasSubject": "La riga dell'oggetto è compilata",
       "bodyLongEnough": "Il corpo della lettera ha contenuto sufficiente"
     }
+  },
+  "share": {
+    "title": "Condividi questo documento",
+    "description": "Chiunque abbia questo link può visualizzare un PDF del tuo documento — senza bisogno di accedere.",
+    "enableDescription": "Crea un link pubblico in modo che chiunque possa visualizzare un PDF del tuo documento.",
+    "createLink": "Crea link di condivisione",
+    "copyLink": "Copia link",
+    "copied": "Copiato!",
+    "stopSharing": "Interrompi condivisione",
+    "saveFirst": "Salva prima il tuo documento per creare un link di condivisione.",
+    "downloadPdf": "Scarica PDF"
   }
 }

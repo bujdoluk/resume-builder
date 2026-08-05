@@ -3,7 +3,10 @@ import { describe, expect, it, vi } from "vitest";
 import { emptyCoverLetterData } from "@/lib/coverLetterData";
 import {
   countCoverLetters,
+  disableCoverLetterSharing,
+  enableCoverLetterSharing,
   getCoverLetter,
+  getCoverLetterByShareToken,
   saveCoverLetter,
   type SaveCoverLetterParams,
 } from "@/lib/supabase/coverLetters";
@@ -153,5 +156,77 @@ describe("countCoverLetters", () => {
     const { supabase } = createSupabaseMock({ count: null, error: new Error("count failed") });
 
     await expect(countCoverLetters(supabase, "user-1")).rejects.toThrow("count failed");
+  });
+});
+
+describe("enableCoverLetterSharing", () => {
+  it("generates a token and saves it via an owner-scoped update", async () => {
+    const { supabase, builder } = createSupabaseMock({ data: null, error: null });
+
+    const token = await enableCoverLetterSharing(supabase, "cover-letter-1");
+
+    expect(supabase.from).toHaveBeenCalledWith("cover_letters");
+    expect(builder.update).toHaveBeenCalledWith({ share_token: token });
+    expect(builder.eq).toHaveBeenCalledWith("id", "cover-letter-1");
+    expect(token).toMatch(/^[0-9a-f-]{36}$/);
+  });
+
+  it("generates a different token each time (invalidating any previous link)", async () => {
+    const { supabase } = createSupabaseMock({ data: null, error: null });
+
+    const first = await enableCoverLetterSharing(supabase, "cover-letter-1");
+    const second = await enableCoverLetterSharing(supabase, "cover-letter-1");
+
+    expect(first).not.toBe(second);
+  });
+
+  it("throws when Supabase returns an error", async () => {
+    const { supabase } = createSupabaseMock({ data: null, error: new Error("update failed") });
+
+    await expect(enableCoverLetterSharing(supabase, "cover-letter-1")).rejects.toThrow(
+      "update failed",
+    );
+  });
+});
+
+describe("disableCoverLetterSharing", () => {
+  it("clears the share token via an owner-scoped update", async () => {
+    const { supabase, builder } = createSupabaseMock({ data: null, error: null });
+
+    await disableCoverLetterSharing(supabase, "cover-letter-1");
+
+    expect(builder.update).toHaveBeenCalledWith({ share_token: null });
+    expect(builder.eq).toHaveBeenCalledWith("id", "cover-letter-1");
+  });
+
+  it("throws when Supabase returns an error", async () => {
+    const { supabase } = createSupabaseMock({ data: null, error: new Error("update failed") });
+
+    await expect(disableCoverLetterSharing(supabase, "cover-letter-1")).rejects.toThrow(
+      "update failed",
+    );
+  });
+});
+
+describe("getCoverLetterByShareToken", () => {
+  it("looks up the cover letter by its share token", async () => {
+    const { supabase, builder } = createSupabaseMock({ data: fakeTableRow, error: null });
+
+    const row = await getCoverLetterByShareToken(supabase, "a-token");
+
+    expect(builder.eq).toHaveBeenCalledWith("share_token", "a-token");
+    expect(row?.id).toBe("cover-letter-1");
+  });
+
+  it("returns null when no cover letter matches the token", async () => {
+    const { supabase } = createSupabaseMock({ data: null, error: null });
+
+    await expect(getCoverLetterByShareToken(supabase, "missing-token")).resolves.toBeNull();
+  });
+
+  it("throws when Supabase returns an error", async () => {
+    const { supabase } = createSupabaseMock({ data: null, error: new Error("select failed") });
+
+    await expect(getCoverLetterByShareToken(supabase, "a-token")).rejects.toThrow("select failed");
   });
 });

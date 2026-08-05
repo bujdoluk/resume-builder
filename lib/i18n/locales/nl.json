@@ -103,7 +103,8 @@
     "saved": "Opgeslagen",
     "cancel": "Annuleren",
     "confirm": "Bevestigen",
-    "aiAssistant": "AI-assistent"
+    "aiAssistant": "AI-assistent",
+    "share": "Delen"
   },
   "aria": {
     "removeWorkExperience": "Werkervaring verwijderen",
@@ -527,5 +528,16 @@
       "hasSubject": "Onderwerpregel is ingevuld",
       "bodyLongEnough": "De brief heeft voldoende inhoud"
     }
+  },
+  "share": {
+    "title": "Dit document delen",
+    "description": "Iedereen met deze link kan een pdf van je document bekijken — geen login vereist.",
+    "enableDescription": "Maak een openbare link zodat iedereen een pdf van je document kan bekijken.",
+    "createLink": "Deellink maken",
+    "copyLink": "Link kopiëren",
+    "copied": "Gekopieerd!",
+    "stopSharing": "Stoppen met delen",
+    "saveFirst": "Sla je document eerst op om een deellink te maken.",
+    "downloadPdf": "PDF downloaden"
   }
 }

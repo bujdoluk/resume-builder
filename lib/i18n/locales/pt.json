@@ -103,7 +103,8 @@
     "saved": "Guardado",
     "cancel": "Cancelar",
     "confirm": "Confirmar",
-    "aiAssistant": "Assistente de IA"
+    "aiAssistant": "Assistente de IA",
+    "share": "Compartilhar"
   },
   "aria": {
     "removeWorkExperience": "Remover experiência profissional",
@@ -527,5 +528,16 @@
       "hasSubject": "A linha de assunto está preenchida",
       "bodyLongEnough": "O corpo da carta tem conteúdo suficiente"
     }
+  },
+  "share": {
+    "title": "Compartilhar este documento",
+    "description": "Qualquer pessoa com este link pode ver um PDF do seu documento — sem necessidade de login.",
+    "enableDescription": "Crie um link público para que qualquer pessoa possa ver um PDF do seu documento.",
+    "createLink": "Criar Link de Compartilhamento",
+    "copyLink": "Copiar Link",
+    "copied": "Copiado!",
+    "stopSharing": "Parar de Compartilhar",
+    "saveFirst": "Salve o seu documento primeiro para criar um link de compartilhamento.",
+    "downloadPdf": "Baixar PDF"
   }
 }

@@ -103,7 +103,8 @@
     "saved": "Saved",
     "cancel": "Cancel",
     "confirm": "Confirm",
-    "aiAssistant": "AI Assistant"
+    "aiAssistant": "AI Assistant",
+    "share": "Share"
   },
   "aria": {
     "removeWorkExperience": "Remove work experience",
@@ -527,5 +528,16 @@
       "hasSubject": "Subject line is filled in",
       "bodyLongEnough": "Letter body has enough content"
     }
+  },
+  "share": {
+    "title": "Share this document",
+    "description": "Anyone with this link can view a PDF of your document — no login required.",
+    "enableDescription": "Create a public link so anyone can view a PDF of your document.",
+    "createLink": "Create Share Link",
+    "copyLink": "Copy Link",
+    "copied": "Copied!",
+    "stopSharing": "Stop Sharing",
+    "saveFirst": "Save your document first to create a share link.",
+    "downloadPdf": "Download PDF"
   }
 }

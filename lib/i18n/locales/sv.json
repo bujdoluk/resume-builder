@@ -103,7 +103,8 @@
     "saved": "Sparat",
     "cancel": "Avbryt",
     "confirm": "Bekräfta",
-    "aiAssistant": "AI-assistent"
+    "aiAssistant": "AI-assistent",
+    "share": "Dela"
   },
   "aria": {
     "removeWorkExperience": "Ta bort arbetslivserfarenhet",
@@ -527,5 +528,16 @@
       "hasSubject": "Ämnesraden är ifylld",
       "bodyLongEnough": "Brevtexten har tillräckligt med innehåll"
     }
+  },
+  "share": {
+    "title": "Dela det här dokumentet",
+    "description": "Alla med den här länken kan visa en PDF av ditt dokument — ingen inloggning krävs.",
+    "enableDescription": "Skapa en offentlig länk så att vem som helst kan visa en PDF av ditt dokument.",
+    "createLink": "Skapa delningslänk",
+    "copyLink": "Kopiera länk",
+    "copied": "Kopierad!",
+    "stopSharing": "Sluta dela",
+    "saveFirst": "Spara ditt dokument först för att skapa en delningslänk.",
+    "downloadPdf": "Ladda ner PDF"
   }
 }

@@ -3,7 +3,10 @@ import { describe, expect, it, vi } from "vitest";
 import { emptyResumeData } from "@/lib/resumeData";
 import {
   countResumes,
+  disableResumeSharing,
+  enableResumeSharing,
   getResume,
+  getResumeByShareToken,
   nextCopyName,
   saveResume,
   type SaveResumeParams,
@@ -205,5 +208,73 @@ describe("countResumes", () => {
     const { supabase } = createSupabaseMock({ count: null, error: new Error("count failed") });
 
     await expect(countResumes(supabase, "user-1")).rejects.toThrow("count failed");
+  });
+});
+
+describe("enableResumeSharing", () => {
+  it("generates a token and saves it via an owner-scoped update", async () => {
+    const { supabase, builder } = createSupabaseMock({ data: null, error: null });
+
+    const token = await enableResumeSharing(supabase, "resume-1");
+
+    expect(supabase.from).toHaveBeenCalledWith("resumes");
+    expect(builder.update).toHaveBeenCalledWith({ share_token: token });
+    expect(builder.eq).toHaveBeenCalledWith("id", "resume-1");
+    expect(token).toMatch(/^[0-9a-f-]{36}$/);
+  });
+
+  it("generates a different token each time (invalidating any previous link)", async () => {
+    const { supabase } = createSupabaseMock({ data: null, error: null });
+
+    const first = await enableResumeSharing(supabase, "resume-1");
+    const second = await enableResumeSharing(supabase, "resume-1");
+
+    expect(first).not.toBe(second);
+  });
+
+  it("throws when Supabase returns an error", async () => {
+    const { supabase } = createSupabaseMock({ data: null, error: new Error("update failed") });
+
+    await expect(enableResumeSharing(supabase, "resume-1")).rejects.toThrow("update failed");
+  });
+});
+
+describe("disableResumeSharing", () => {
+  it("clears the share token via an owner-scoped update", async () => {
+    const { supabase, builder } = createSupabaseMock({ data: null, error: null });
+
+    await disableResumeSharing(supabase, "resume-1");
+
+    expect(builder.update).toHaveBeenCalledWith({ share_token: null });
+    expect(builder.eq).toHaveBeenCalledWith("id", "resume-1");
+  });
+
+  it("throws when Supabase returns an error", async () => {
+    const { supabase } = createSupabaseMock({ data: null, error: new Error("update failed") });
+
+    await expect(disableResumeSharing(supabase, "resume-1")).rejects.toThrow("update failed");
+  });
+});
+
+describe("getResumeByShareToken", () => {
+  it("looks up the resume by its share token", async () => {
+    const { supabase, builder } = createSupabaseMock({ data: fakeTableRow, error: null });
+
+    const row = await getResumeByShareToken(supabase, "a-token");
+
+    expect(builder.eq).toHaveBeenCalledWith("share_token", "a-token");
+    expect(row?.id).toBe("resume-1");
+  });
+
+  it("returns null when no resume matches the token", async () => {
+    const { supabase } = createSupabaseMock({ data: null, error: null });
+
+    await expect(getResumeByShareToken(supabase, "missing-token")).resolves.toBeNull();
+  });
+
+  it("throws when Supabase returns an error", async () => {
+    const { supabase } = createSupabaseMock({ data: null, error: new Error("select failed") });
+
+    await expect(getResumeByShareToken(supabase, "a-token")).rejects.toThrow("select failed");
   });
 });

@@ -19,6 +19,7 @@ export interface ResumeRow {
   visibleFields: FieldKey[];
   modernSectionZones: ModernSectionZones;
   data: ResumeData;
+  shareToken: string | null;
   createdAt: string;
   updatedAt: string;
 }
@@ -34,6 +35,7 @@ interface ResumeTableRow {
   visible_fields: FieldKey[];
   modern_section_zones: ModernSectionZones | null;
   data: ResumeData;
+  share_token: string | null;
   created_at: string;
   updated_at: string;
 }
@@ -50,6 +52,7 @@ function fromTableRow(row: ResumeTableRow): ResumeRow {
     visibleFields: row.visible_fields,
     modernSectionZones: row.modern_section_zones ?? {},
     data: { ...emptyResumeData, ...row.data },
+    shareToken: row.share_token,
     createdAt: row.created_at,
     updatedAt: row.updated_at,
   };
@@ -152,6 +155,40 @@ export async function getResume(supabase: SupabaseClient, id: string): Promise<R
     .from("resumes")
     .select()
     .eq("id", id)
+    .maybeSingle();
+
+  if (error) throw error;
+  return data ? fromTableRow(data as ResumeTableRow) : null;
+}
+
+// Generates a new public share token and saves it on the caller's own
+// (owner-scoped, RLS-protected) row — never called with a service-role
+// client. Overwrites any existing token, invalidating a previously shared
+// link.
+export async function enableResumeSharing(supabase: SupabaseClient, id: string): Promise<string> {
+  const token = crypto.randomUUID();
+  const { error } = await supabase.from("resumes").update({ share_token: token }).eq("id", id);
+  if (error) throw error;
+  return token;
+}
+
+export async function disableResumeSharing(supabase: SupabaseClient, id: string): Promise<void> {
+  const { error } = await supabase.from("resumes").update({ share_token: null }).eq("id", id);
+  if (error) throw error;
+}
+
+// Public, unauthenticated lookup for the /shared/resume/[token] page — only
+// ever called with a service-role client from a server-only route, since an
+// anon-key client would need a public RLS SELECT policy that could let
+// anyone list every shared resume, not just the one matching this token.
+export async function getResumeByShareToken(
+  supabase: SupabaseClient,
+  token: string,
+): Promise<ResumeRow | null> {
+  const { data, error } = await supabase
+    .from("resumes")
+    .select()
+    .eq("share_token", token)
     .maybeSingle();
 
   if (error) throw error;

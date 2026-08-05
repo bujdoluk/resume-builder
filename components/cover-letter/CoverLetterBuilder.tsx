@@ -11,7 +11,7 @@ import ConfirmDialog, { type ConfirmDialogHandle } from "@/components/ConfirmDia
 import DownloadButton from "@/components/DownloadButton";
 import EmailButton from "@/components/EmailButton";
 import ExportFormatMenu from "@/components/ExportFormatMenu";
-import { SaveIcon } from "@/components/Icons";
+import { SaveIcon, ShareIcon } from "@/components/Icons";
 import PreviewModal, {
   type PreviewModalHandle,
 } from "@/components/PreviewModal";
@@ -19,6 +19,7 @@ import PrintButton from "@/components/PrintButton";
 import SaveResumeDialog, {
   type SaveResumeDialogHandle,
 } from "@/components/SaveResumeDialog";
+import ShareDialog, { type ShareDialogHandle } from "@/components/ShareDialog";
 import CoverLetter from "@/components/cover-letter/CoverLetter";
 import { emptyCoverLetterData, type CoverLetterData } from "@/lib/coverLetterData";
 import { isCoverLetterFieldFilled } from "@/lib/coverLetterFields";
@@ -75,6 +76,7 @@ export default function CoverLetterBuilder({
     initialCoverLetterId ?? null,
   );
   const [name, setName] = useState("");
+  const [shareToken, setShareToken] = useState<string | null>(null);
   const [isSaving, setIsSaving] = useState(false);
   const [justSaved, setJustSaved] = useState(false);
   const [exportFormat, setExportFormat] = useState<ExportFormat>("pdf");
@@ -82,6 +84,7 @@ export default function CoverLetterBuilder({
   const saveDialogRef = useRef<SaveResumeDialogHandle>(null);
   const upgradeDialogRef = useRef<ConfirmDialogHandle>(null);
   const atsCheckerRef = useRef<AtsCheckerDialogHandle>(null);
+  const shareDialogRef = useRef<ShareDialogHandle>(null);
   const [supabase] = useState(() => createClient());
   const exportText = generateCoverLetterText({
     data,
@@ -111,6 +114,7 @@ export default function CoverLetterBuilder({
       if (!row || cancelled) return;
       setData(row.data);
       setName(row.name);
+      setShareToken(row.shareToken);
     });
 
     return () => {
@@ -203,6 +207,7 @@ export default function CoverLetterBuilder({
     setSectionOrder(defaultCoverLetterSectionOrder);
     setCoverLetterId(null);
     setName("");
+    setShareToken(null);
     router.replace("/cover-letter");
   }
 
@@ -243,6 +248,7 @@ export default function CoverLetterBuilder({
       });
       setCoverLetterId(row.id);
       setName(row.name);
+      setShareToken(row.shareToken);
       router.replace(`/cover-letter?id=${row.id}`);
       notifyCoverLetterListChanged();
       setJustSaved(true);
@@ -307,6 +313,20 @@ export default function CoverLetterBuilder({
               {t("buttons.save")}
             </>
           )}
+        </button>
+
+        <button
+          type="button"
+          className="btn btn-outline hover:border-primary flex-1 md:flex-none md:w-48"
+          disabled={!coverLetterId}
+          title={!coverLetterId ? t("share.saveFirst") : undefined}
+          onClick={() =>
+            coverLetterId &&
+            shareDialogRef.current?.open({ kind: "coverLetter", id: coverLetterId, shareToken })
+          }
+        >
+          <ShareIcon className="h-5 w-5 stroke-current" />
+          {t("buttons.share")}
         </button>
 
         <PrintButton
@@ -440,6 +460,7 @@ export default function CoverLetterBuilder({
       />
       <ConfirmDialog ref={upgradeDialogRef} />
       <AtsCheckerDialog ref={atsCheckerRef} />
+      <ShareDialog ref={shareDialogRef} onTokenChange={setShareToken} />
     </div>
   );
 }

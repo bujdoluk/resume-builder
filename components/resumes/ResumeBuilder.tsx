@@ -11,7 +11,7 @@ import ConfirmDialog, { type ConfirmDialogHandle } from "@/components/ConfirmDia
 import DownloadButton from "@/components/DownloadButton";
 import EmailButton from "@/components/EmailButton";
 import ExportFormatMenu from "@/components/ExportFormatMenu";
-import { SaveIcon } from "@/components/Icons";
+import { SaveIcon, ShareIcon } from "@/components/Icons";
 import PreviewModal, {
   type PreviewModalHandle,
 } from "@/components/PreviewModal";
@@ -20,6 +20,7 @@ import Resume from "@/components/resumes/Resume";
 import SaveResumeDialog, {
   type SaveResumeDialogHandle,
 } from "@/components/SaveResumeDialog";
+import ShareDialog, { type ShareDialogHandle } from "@/components/ShareDialog";
 import { FREE_TIER_LIMITS, SAVED_INDICATOR_DURATION_MS } from "@/lib/constants";
 import type { ExportFormat } from "@/lib/exportFormat";
 import { defaultFontSizeKey } from "@/lib/fontSize";
@@ -121,11 +122,13 @@ export default function ResumeBuilder({
   const [isSaving, setIsSaving] = useState(false);
   const [justSaved, setJustSaved] = useState(false);
   const [resumeName, setResumeName] = useState("");
+  const [shareToken, setShareToken] = useState<string | null>(null);
   const [exportFormat, setExportFormat] = useState<ExportFormat>("pdf");
   const previewRef = useRef<PreviewModalHandle>(null);
   const saveDialogRef = useRef<SaveResumeDialogHandle>(null);
   const upgradeDialogRef = useRef<ConfirmDialogHandle>(null);
   const atsCheckerRef = useRef<AtsCheckerDialogHandle>(null);
+  const shareDialogRef = useRef<ShareDialogHandle>(null);
   const [supabase] = useState(() => createClient());
   const exportText = generateResumeText({ data, sectionOrder, visibleFields });
 
@@ -165,6 +168,7 @@ export default function ResumeBuilder({
       setVisibleFields(row.visibleFields);
       setModernSectionZones(row.modernSectionZones);
       setResumeName(row.name);
+      setShareToken(row.shareToken);
     });
 
     return () => {
@@ -246,6 +250,7 @@ export default function ResumeBuilder({
     setData(emptyResumeData);
     setResumeId(null);
     setResumeName("");
+    setShareToken(null);
     clearDraft();
     router.replace(`/app?template=${templateId}`);
   }
@@ -294,6 +299,7 @@ export default function ResumeBuilder({
       });
       setResumeId(row.id);
       setResumeName(row.name);
+      setShareToken(row.shareToken);
       router.replace(`/app?resumeId=${row.id}&template=${templateId}`);
       clearDraft();
       notifyResumeListChanged();
@@ -558,6 +564,19 @@ export default function ResumeBuilder({
           )}
         </button>
 
+        <button
+          type="button"
+          className="btn btn-outline hover:border-primary flex-1 md:flex-none md:w-48"
+          disabled={!resumeId}
+          title={!resumeId ? t("share.saveFirst") : undefined}
+          onClick={() =>
+            resumeId && shareDialogRef.current?.open({ kind: "resume", id: resumeId, shareToken })
+          }
+        >
+          <ShareIcon className="h-5 w-5 stroke-current" />
+          {t("buttons.share")}
+        </button>
+
         <PrintButton
           className="btn btn-outline hover:border-primary flex-1 md:flex-none md:w-48"
           previewRef={previewRef}
@@ -694,6 +713,7 @@ export default function ResumeBuilder({
       <SaveResumeDialog ref={saveDialogRef} />
       <ConfirmDialog ref={upgradeDialogRef} />
       <AtsCheckerDialog ref={atsCheckerRef} />
+      <ShareDialog ref={shareDialogRef} onTokenChange={setShareToken} />
     </>
   );
 }

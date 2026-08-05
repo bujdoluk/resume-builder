@@ -9,6 +9,7 @@ export interface CoverLetterRow {
   id: string;
   name: string;
   data: CoverLetterData;
+  shareToken: string | null;
   createdAt: string;
   updatedAt: string;
 }
@@ -17,6 +18,7 @@ interface CoverLetterTableRow {
   id: string;
   name: string;
   data: CoverLetterData;
+  share_token: string | null;
   created_at: string;
   updated_at: string;
 }
@@ -26,6 +28,7 @@ function fromTableRow(row: CoverLetterTableRow): CoverLetterRow {
     id: row.id,
     name: row.name,
     data: { ...emptyCoverLetterData, ...row.data },
+    shareToken: row.share_token,
     createdAt: row.created_at,
     updatedAt: row.updated_at,
   };
@@ -66,6 +69,39 @@ export async function getCoverLetter(
     .from("cover_letters")
     .select()
     .eq("id", id)
+    .maybeSingle();
+
+  if (error) throw error;
+  return data ? fromTableRow(data as CoverLetterTableRow) : null;
+}
+
+// Generates a new public share token and saves it on the caller's own
+// (owner-scoped, RLS-protected) row — never called with a service-role
+// client. Overwrites any existing token, invalidating a previously shared
+// link.
+export async function enableCoverLetterSharing(supabase: SupabaseClient, id: string): Promise<string> {
+  const token = crypto.randomUUID();
+  const { error } = await supabase.from("cover_letters").update({ share_token: token }).eq("id", id);
+  if (error) throw error;
+  return token;
+}
+
+export async function disableCoverLetterSharing(supabase: SupabaseClient, id: string): Promise<void> {
+  const { error } = await supabase.from("cover_letters").update({ share_token: null }).eq("id", id);
+  if (error) throw error;
+}
+
+// Public, unauthenticated lookup for the /shared/cover-letter/[token] page —
+// only ever called with a service-role client from a server-only route, see
+// getResumeByShareToken in resumes.ts for why.
+export async function getCoverLetterByShareToken(
+  supabase: SupabaseClient,
+  token: string,
+): Promise<CoverLetterRow | null> {
+  const { data, error } = await supabase
+    .from("cover_letters")
+    .select()
+    .eq("share_token", token)
     .maybeSingle();
 
   if (error) throw error;
