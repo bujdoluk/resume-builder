@@ -1,3 +1,4 @@
+import { Temporal } from "temporal-polyfill";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import en from "@/lib/i18n/locales/en.json";
 
@@ -112,7 +113,9 @@ describe("POST /api/stripe/cancel", () => {
     expect(await response.json()).toEqual({
       status: "active",
       cancelAtPeriodEnd: true,
-      currentPeriodEnd: new Date(1_800_000_000 * 1000).toISOString(),
+      currentPeriodEnd: Temporal.Instant.fromEpochMilliseconds(1_800_000_000 * 1000).toString({
+        fractionalSecondDigits: 3,
+      }),
     });
   });
 

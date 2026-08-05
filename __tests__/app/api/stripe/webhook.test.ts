@@ -1,4 +1,5 @@
 import type Stripe from "stripe";
+import { Temporal } from "temporal-polyfill";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 const mocks = vi.hoisted(() => ({
@@ -140,7 +141,9 @@ describe("POST /api/stripe/webhook", () => {
         stripe_subscription_id: "sub_123",
         plan: "pro",
         status: "active",
-        current_period_end: new Date(1_800_000_000 * 1000).toISOString(),
+        current_period_end: Temporal.Instant.fromEpochMilliseconds(1_800_000_000 * 1000).toString({
+          fractionalSecondDigits: 3,
+        }),
         cancel_at_period_end: false,
       }),
       { onConflict: "user_id" },
