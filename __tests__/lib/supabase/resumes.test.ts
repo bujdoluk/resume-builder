@@ -23,6 +23,7 @@ function createQueryBuilder(result: { data?: unknown; error?: unknown; count?: n
     update: vi.fn(() => builder),
     delete: vi.fn(() => builder),
     eq: vi.fn(() => builder),
+    gt: vi.fn(() => builder),
     in: vi.fn(() => builder),
     order: vi.fn(() => builder),
     range: vi.fn(() => builder),
@@ -212,15 +213,26 @@ describe("countResumes", () => {
 });
 
 describe("enableResumeSharing", () => {
-  it("generates a token and saves it via an owner-scoped update", async () => {
+  it("generates a token and expiry and saves them via an owner-scoped update", async () => {
     const { supabase, builder } = createSupabaseMock({ data: null, error: null });
 
-    const token = await enableResumeSharing(supabase, "resume-1");
+    const { token, expiresAt } = await enableResumeSharing(supabase, "resume-1");
 
     expect(supabase.from).toHaveBeenCalledWith("resumes");
-    expect(builder.update).toHaveBeenCalledWith({ share_token: token });
+    expect(builder.update).toHaveBeenCalledWith({ share_token: token, share_token_expires_at: expiresAt });
     expect(builder.eq).toHaveBeenCalledWith("id", "resume-1");
     expect(token).toMatch(/^[0-9a-f-]{36}$/);
+  });
+
+  it("sets an expiry roughly 30 days in the future", async () => {
+    const { supabase } = createSupabaseMock({ data: null, error: null });
+
+    const { expiresAt } = await enableResumeSharing(supabase, "resume-1");
+
+    const daysUntilExpiry =
+      (new Date(expiresAt).getTime() - Date.now()) / (24 * 60 * 60 * 1000);
+    expect(daysUntilExpiry).toBeGreaterThan(29);
+    expect(daysUntilExpiry).toBeLessThan(31);
   });
 
   it("generates a different token each time (invalidating any previous link)", async () => {
@@ -229,7 +241,7 @@ describe("enableResumeSharing", () => {
     const first = await enableResumeSharing(supabase, "resume-1");
     const second = await enableResumeSharing(supabase, "resume-1");
 
-    expect(first).not.toBe(second);
+    expect(first.token).not.toBe(second.token);
   });
 
   it("throws when Supabase returns an error", async () => {
@@ -240,12 +252,12 @@ describe("enableResumeSharing", () => {
 });
 
 describe("disableResumeSharing", () => {
-  it("clears the share token via an owner-scoped update", async () => {
+  it("clears the share token and expiry via an owner-scoped update", async () => {
     const { supabase, builder } = createSupabaseMock({ data: null, error: null });
 
     await disableResumeSharing(supabase, "resume-1");
 
-    expect(builder.update).toHaveBeenCalledWith({ share_token: null });
+    expect(builder.update).toHaveBeenCalledWith({ share_token: null, share_token_expires_at: null });
     expect(builder.eq).toHaveBeenCalledWith("id", "resume-1");
   });
 
@@ -257,12 +269,13 @@ describe("disableResumeSharing", () => {
 });
 
 describe("getResumeByShareToken", () => {
-  it("looks up the resume by its share token", async () => {
+  it("looks up the resume by its share token, filtering out expired tokens", async () => {
     const { supabase, builder } = createSupabaseMock({ data: fakeTableRow, error: null });
 
     const row = await getResumeByShareToken(supabase, "a-token");
 
     expect(builder.eq).toHaveBeenCalledWith("share_token", "a-token");
+    expect(builder.gt).toHaveBeenCalledWith("share_token_expires_at", expect.any(String));
     expect(row?.id).toBe("resume-1");
   });
 

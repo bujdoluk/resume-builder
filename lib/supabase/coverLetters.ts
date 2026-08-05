@@ -2,14 +2,15 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { Temporal } from "temporal-polyfill";
 import { emptyCoverLetterData, type CoverLetterData } from "@/lib/coverLetterData";
-import { COVER_LETTERS_PAGE_SIZE } from "@/lib/constants";
-import { nextCopyName } from "@/lib/supabase/resumes";
+import { COVER_LETTERS_PAGE_SIZE, SHARE_LINK_EXPIRATION_DAYS } from "@/lib/constants";
+import { nextCopyName, type EnableSharingResult } from "@/lib/supabase/resumes";
 
 export interface CoverLetterRow {
   id: string;
   name: string;
   data: CoverLetterData;
   shareToken: string | null;
+  shareTokenExpiresAt: string | null;
   createdAt: string;
   updatedAt: string;
 }
@@ -19,6 +20,7 @@ interface CoverLetterTableRow {
   name: string;
   data: CoverLetterData;
   share_token: string | null;
+  share_token_expires_at: string | null;
   created_at: string;
   updated_at: string;
 }
@@ -29,6 +31,7 @@ function fromTableRow(row: CoverLetterTableRow): CoverLetterRow {
     name: row.name,
     data: { ...emptyCoverLetterData, ...row.data },
     shareToken: row.share_token,
+    shareTokenExpiresAt: row.share_token_expires_at,
     createdAt: row.created_at,
     updatedAt: row.updated_at,
   };
@@ -79,21 +82,29 @@ export async function getCoverLetter(
 // (owner-scoped, RLS-protected) row — never called with a service-role
 // client. Overwrites any existing token, invalidating a previously shared
 // link.
-export async function enableCoverLetterSharing(supabase: SupabaseClient, id: string): Promise<string> {
+export async function enableCoverLetterSharing(supabase: SupabaseClient, id: string): Promise<EnableSharingResult> {
   const token = crypto.randomUUID();
-  const { error } = await supabase.from("cover_letters").update({ share_token: token }).eq("id", id);
+  const expiresAt = Temporal.Now.instant().add({ hours: SHARE_LINK_EXPIRATION_DAYS * 24 }).toString({ fractionalSecondDigits: 3 });
+  const { error } = await supabase
+    .from("cover_letters")
+    .update({ share_token: token, share_token_expires_at: expiresAt })
+    .eq("id", id);
   if (error) throw error;
-  return token;
+  return { token, expiresAt };
 }
 
 export async function disableCoverLetterSharing(supabase: SupabaseClient, id: string): Promise<void> {
-  const { error } = await supabase.from("cover_letters").update({ share_token: null }).eq("id", id);
+  const { error } = await supabase
+    .from("cover_letters")
+    .update({ share_token: null, share_token_expires_at: null })
+    .eq("id", id);
   if (error) throw error;
 }
 
 // Public, unauthenticated lookup for the /shared/cover-letter/[token] page —
 // only ever called with a service-role client from a server-only route, see
-// getResumeByShareToken in resumes.ts for why.
+// getResumeByShareToken in resumes.ts for why. The expiry filter makes an
+// expired token behave identically to an unknown one.
 export async function getCoverLetterByShareToken(
   supabase: SupabaseClient,
   token: string,
@@ -102,6 +113,7 @@ export async function getCoverLetterByShareToken(
     .from("cover_letters")
     .select()
     .eq("share_token", token)
+    .gt("share_token_expires_at", Temporal.Now.instant().toString())
     .maybeSingle();
 
   if (error) throw error;

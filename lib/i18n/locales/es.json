@@ -539,6 +539,7 @@
     "stopSharing": "Dejar de compartir",
     "saveFirst": "Guarda tu documento primero para crear un enlace para compartir.",
     "downloadPdf": "Descargar PDF",
-    "previewUnavailable": "La vista previa no está disponible en este momento — usa el botón Descargar de arriba."
+    "previewUnavailable": "La vista previa no está disponible en este momento — usa el botón Descargar de arriba.",
+    "expiresOn": "Este enlace caduca el {{date}}."
   }
 }

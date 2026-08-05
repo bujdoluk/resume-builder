@@ -539,6 +539,7 @@
     "stopSharing": "Stoppen met delen",
     "saveFirst": "Sla je document eerst op om een deellink te maken.",
     "downloadPdf": "PDF downloaden",
-    "previewUnavailable": "Voorbeeld is momenteel niet beschikbaar — gebruik de downloadknop hierboven."
+    "previewUnavailable": "Voorbeeld is momenteel niet beschikbaar — gebruik de downloadknop hierboven.",
+    "expiresOn": "Deze link verloopt op {{date}}."
   }
 }

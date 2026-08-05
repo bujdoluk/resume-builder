@@ -1,7 +1,7 @@
 
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { Temporal } from "temporal-polyfill";
-import { RESUMES_PAGE_SIZE } from "@/lib/constants";
+import { RESUMES_PAGE_SIZE, SHARE_LINK_EXPIRATION_DAYS } from "@/lib/constants";
 import type { FieldKey } from "@/lib/fields";
 import { defaultFontSizeKey, type FontSizeKey } from "@/lib/fontSize";
 import type { FontKey } from "@/lib/fonts";
@@ -20,6 +20,7 @@ export interface ResumeRow {
   modernSectionZones: ModernSectionZones;
   data: ResumeData;
   shareToken: string | null;
+  shareTokenExpiresAt: string | null;
   createdAt: string;
   updatedAt: string;
 }
@@ -36,6 +37,7 @@ interface ResumeTableRow {
   modern_section_zones: ModernSectionZones | null;
   data: ResumeData;
   share_token: string | null;
+  share_token_expires_at: string | null;
   created_at: string;
   updated_at: string;
 }
@@ -53,6 +55,7 @@ function fromTableRow(row: ResumeTableRow): ResumeRow {
     modernSectionZones: row.modern_section_zones ?? {},
     data: { ...emptyResumeData, ...row.data },
     shareToken: row.share_token,
+    shareTokenExpiresAt: row.share_token_expires_at,
     createdAt: row.created_at,
     updatedAt: row.updated_at,
   };
@@ -161,26 +164,39 @@ export async function getResume(supabase: SupabaseClient, id: string): Promise<R
   return data ? fromTableRow(data as ResumeTableRow) : null;
 }
 
+export interface EnableSharingResult {
+  token: string;
+  expiresAt: string;
+}
+
 // Generates a new public share token and saves it on the caller's own
 // (owner-scoped, RLS-protected) row — never called with a service-role
 // client. Overwrites any existing token, invalidating a previously shared
 // link.
-export async function enableResumeSharing(supabase: SupabaseClient, id: string): Promise<string> {
+export async function enableResumeSharing(supabase: SupabaseClient, id: string): Promise<EnableSharingResult> {
   const token = crypto.randomUUID();
-  const { error } = await supabase.from("resumes").update({ share_token: token }).eq("id", id);
+  const expiresAt = Temporal.Now.instant().add({ hours: SHARE_LINK_EXPIRATION_DAYS * 24 }).toString({ fractionalSecondDigits: 3 });
+  const { error } = await supabase
+    .from("resumes")
+    .update({ share_token: token, share_token_expires_at: expiresAt })
+    .eq("id", id);
   if (error) throw error;
-  return token;
+  return { token, expiresAt };
 }
 
 export async function disableResumeSharing(supabase: SupabaseClient, id: string): Promise<void> {
-  const { error } = await supabase.from("resumes").update({ share_token: null }).eq("id", id);
+  const { error } = await supabase
+    .from("resumes")
+    .update({ share_token: null, share_token_expires_at: null })
+    .eq("id", id);
   if (error) throw error;
 }
 
 // Public, unauthenticated lookup for the /shared/resume/[token] page — only
 // ever called with a service-role client from a server-only route, since an
 // anon-key client would need a public RLS SELECT policy that could let
-// anyone list every shared resume, not just the one matching this token.
+// anyone list every shared resume, not just the one matching this token. The
+// expiry filter makes an expired token behave identically to an unknown one.
 export async function getResumeByShareToken(
   supabase: SupabaseClient,
   token: string,
@@ -189,6 +205,7 @@ export async function getResumeByShareToken(
     .from("resumes")
     .select()
     .eq("share_token", token)
+    .gt("share_token_expires_at", Temporal.Now.instant().toString())
     .maybeSingle();
 
   if (error) throw error;

@@ -539,6 +539,7 @@
     "stopSharing": "Sluta dela",
     "saveFirst": "Spara ditt dokument först för att skapa en delningslänk.",
     "downloadPdf": "Ladda ner PDF",
-    "previewUnavailable": "Förhandsgranskning är inte tillgänglig just nu — använd knappen Ladda ner ovan."
+    "previewUnavailable": "Förhandsgranskning är inte tillgänglig just nu — använd knappen Ladda ner ovan.",
+    "expiresOn": "Den här länken upphör att gälla {{date}}."
   }
 }

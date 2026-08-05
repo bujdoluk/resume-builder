@@ -539,6 +539,7 @@
     "stopSharing": "Arrêter le partage",
     "saveFirst": "Enregistrez d'abord votre document pour créer un lien de partage.",
     "downloadPdf": "Télécharger le PDF",
-    "previewUnavailable": "L'aperçu n'est pas disponible pour le moment — utilisez le bouton Télécharger ci-dessus."
+    "previewUnavailable": "L'aperçu n'est pas disponible pour le moment — utilisez le bouton Télécharger ci-dessus.",
+    "expiresOn": "Ce lien expire le {{date}}."
   }
 }

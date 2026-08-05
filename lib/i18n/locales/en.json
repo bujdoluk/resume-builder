@@ -539,6 +539,7 @@
     "stopSharing": "Stop Sharing",
     "saveFirst": "Save your document first to create a share link.",
     "downloadPdf": "Download PDF",
-    "previewUnavailable": "Preview isn't available right now — use the Download button above."
+    "previewUnavailable": "Preview isn't available right now — use the Download button above.",
+    "expiresOn": "This link expires on {{date}}."
   }
 }

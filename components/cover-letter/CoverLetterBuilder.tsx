@@ -35,6 +35,7 @@ import { FREE_TIER_LIMITS, SAVED_INDICATOR_DURATION_MS } from "@/lib/constants";
 import type { ExportFormat } from "@/lib/exportFormat";
 import { coverLetterPdfTemplates } from "@/lib/pdf/coverLetterTemplates";
 import { scrollToSectionAnchor } from "@/lib/scrollToSectionAnchor";
+import { isShareLinkActive } from "@/lib/shareLink";
 import { createClient } from "@/lib/supabase/client";
 import { countCoverLetters, getCoverLetter, saveCoverLetter } from "@/lib/supabase/coverLetters";
 import { ensureUserId } from "@/lib/supabase/session";
@@ -77,6 +78,7 @@ export default function CoverLetterBuilder({
   );
   const [name, setName] = useState("");
   const [shareToken, setShareToken] = useState<string | null>(null);
+  const [shareTokenExpiresAt, setShareTokenExpiresAt] = useState<string | null>(null);
   const [isSaving, setIsSaving] = useState(false);
   const [justSaved, setJustSaved] = useState(false);
   const [exportFormat, setExportFormat] = useState<ExportFormat>("pdf");
@@ -114,7 +116,8 @@ export default function CoverLetterBuilder({
       if (!row || cancelled) return;
       setData(row.data);
       setName(row.name);
-      setShareToken(row.shareToken);
+      setShareToken(isShareLinkActive(row.shareTokenExpiresAt) ? row.shareToken : null);
+      setShareTokenExpiresAt(isShareLinkActive(row.shareTokenExpiresAt) ? row.shareTokenExpiresAt : null);
     });
 
     return () => {
@@ -208,6 +211,7 @@ export default function CoverLetterBuilder({
     setCoverLetterId(null);
     setName("");
     setShareToken(null);
+    setShareTokenExpiresAt(null);
     router.replace("/cover-letter");
   }
 
@@ -248,7 +252,8 @@ export default function CoverLetterBuilder({
       });
       setCoverLetterId(row.id);
       setName(row.name);
-      setShareToken(row.shareToken);
+      setShareToken(isShareLinkActive(row.shareTokenExpiresAt) ? row.shareToken : null);
+      setShareTokenExpiresAt(isShareLinkActive(row.shareTokenExpiresAt) ? row.shareTokenExpiresAt : null);
       router.replace(`/cover-letter?id=${row.id}`);
       notifyCoverLetterListChanged();
       setJustSaved(true);
@@ -322,7 +327,12 @@ export default function CoverLetterBuilder({
           title={!coverLetterId ? t("share.saveFirst") : undefined}
           onClick={() =>
             coverLetterId &&
-            shareDialogRef.current?.open({ kind: "coverLetter", id: coverLetterId, shareToken })
+            shareDialogRef.current?.open({
+              kind: "coverLetter",
+              id: coverLetterId,
+              shareToken,
+              shareTokenExpiresAt,
+            })
           }
         >
           <ShareIcon className="h-5 w-5 stroke-current" />
@@ -460,7 +470,13 @@ export default function CoverLetterBuilder({
       />
       <ConfirmDialog ref={upgradeDialogRef} />
       <AtsCheckerDialog ref={atsCheckerRef} />
-      <ShareDialog ref={shareDialogRef} onTokenChange={setShareToken} />
+      <ShareDialog
+        ref={shareDialogRef}
+        onTokenChange={(token, expiresAt) => {
+          setShareToken(token);
+          setShareTokenExpiresAt(expiresAt);
+        }}
+      />
     </div>
   );
 }

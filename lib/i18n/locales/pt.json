@@ -539,6 +539,7 @@
     "stopSharing": "Parar de Compartilhar",
     "saveFirst": "Salve o seu documento primeiro para criar um link de compartilhamento.",
     "downloadPdf": "Baixar PDF",
-    "previewUnavailable": "A pré-visualização não está disponível no momento — use o botão Baixar acima."
+    "previewUnavailable": "A pré-visualização não está disponível no momento — use o botão Baixar acima.",
+    "expiresOn": "Este link expira em {{date}}."
   }
 }

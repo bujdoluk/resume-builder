@@ -539,6 +539,7 @@
     "stopSharing": "Interrompi condivisione",
     "saveFirst": "Salva prima il tuo documento per creare un link di condivisione.",
     "downloadPdf": "Scarica PDF",
-    "previewUnavailable": "L'anteprima non è disponibile al momento — usa il pulsante Scarica qui sopra."
+    "previewUnavailable": "L'anteprima non è disponibile al momento — usa il pulsante Scarica qui sopra.",
+    "expiresOn": "Questo link scade il {{date}}."
   }
 }

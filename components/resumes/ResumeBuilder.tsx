@@ -37,6 +37,7 @@ import {
 import { checkResumeFormat } from "@/lib/atsChecker/checkResumeFormat";
 import { pdfTemplates } from "@/lib/pdf/templates";
 import { scrollToSectionAnchor } from "@/lib/scrollToSectionAnchor";
+import { isShareLinkActive } from "@/lib/shareLink";
 import { createClient } from "@/lib/supabase/client";
 import { countResumes, getResume, saveResume } from "@/lib/supabase/resumes";
 import { ensureUserId } from "@/lib/supabase/session";
@@ -123,6 +124,7 @@ export default function ResumeBuilder({
   const [justSaved, setJustSaved] = useState(false);
   const [resumeName, setResumeName] = useState("");
   const [shareToken, setShareToken] = useState<string | null>(null);
+  const [shareTokenExpiresAt, setShareTokenExpiresAt] = useState<string | null>(null);
   const [exportFormat, setExportFormat] = useState<ExportFormat>("pdf");
   const previewRef = useRef<PreviewModalHandle>(null);
   const saveDialogRef = useRef<SaveResumeDialogHandle>(null);
@@ -168,7 +170,8 @@ export default function ResumeBuilder({
       setVisibleFields(row.visibleFields);
       setModernSectionZones(row.modernSectionZones);
       setResumeName(row.name);
-      setShareToken(row.shareToken);
+      setShareToken(isShareLinkActive(row.shareTokenExpiresAt) ? row.shareToken : null);
+      setShareTokenExpiresAt(isShareLinkActive(row.shareTokenExpiresAt) ? row.shareTokenExpiresAt : null);
     });
 
     return () => {
@@ -251,6 +254,7 @@ export default function ResumeBuilder({
     setResumeId(null);
     setResumeName("");
     setShareToken(null);
+    setShareTokenExpiresAt(null);
     clearDraft();
     router.replace(`/app?template=${templateId}`);
   }
@@ -299,7 +303,8 @@ export default function ResumeBuilder({
       });
       setResumeId(row.id);
       setResumeName(row.name);
-      setShareToken(row.shareToken);
+      setShareToken(isShareLinkActive(row.shareTokenExpiresAt) ? row.shareToken : null);
+      setShareTokenExpiresAt(isShareLinkActive(row.shareTokenExpiresAt) ? row.shareTokenExpiresAt : null);
       router.replace(`/app?resumeId=${row.id}&template=${templateId}`);
       clearDraft();
       notifyResumeListChanged();
@@ -570,7 +575,13 @@ export default function ResumeBuilder({
           disabled={!resumeId}
           title={!resumeId ? t("share.saveFirst") : undefined}
           onClick={() =>
-            resumeId && shareDialogRef.current?.open({ kind: "resume", id: resumeId, shareToken })
+            resumeId &&
+            shareDialogRef.current?.open({
+              kind: "resume",
+              id: resumeId,
+              shareToken,
+              shareTokenExpiresAt,
+            })
           }
         >
           <ShareIcon className="h-5 w-5 stroke-current" />
@@ -713,7 +724,13 @@ export default function ResumeBuilder({
       <SaveResumeDialog ref={saveDialogRef} />
       <ConfirmDialog ref={upgradeDialogRef} />
       <AtsCheckerDialog ref={atsCheckerRef} />
-      <ShareDialog ref={shareDialogRef} onTokenChange={setShareToken} />
+      <ShareDialog
+        ref={shareDialogRef}
+        onTokenChange={(token, expiresAt) => {
+          setShareToken(token);
+          setShareTokenExpiresAt(expiresAt);
+        }}
+      />
     </>
   );
 }

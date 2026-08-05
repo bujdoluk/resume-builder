@@ -88,3 +88,8 @@ export const ANONYMOUS_ACCOUNT_RETENTION_DAYS = 7;
 // path), so they're IP-rate-limited like send-email rather than user-scoped.
 export const RATE_LIMIT_SHARED_DOCUMENT_REQUESTS = 30;
 export const RATE_LIMIT_SHARED_DOCUMENT_WINDOW = "10 m";
+
+// lib/supabase/resumes.ts / coverLetters.ts — how long a generated share
+// link stays valid before getResumeByShareToken/getCoverLetterByShareToken
+// stop returning a match for it (same as an invalid/unknown token).
+export const SHARE_LINK_EXPIRATION_DAYS = 30;

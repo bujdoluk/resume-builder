@@ -539,6 +539,7 @@
     "stopSharing": "Zastaviť zdieľanie",
     "saveFirst": "Najskôr uložte dokument, aby ste mohli vytvoriť odkaz na zdieľanie.",
     "downloadPdf": "Stiahnuť PDF",
-    "previewUnavailable": "Ukážka momentálne nie je dostupná — použite tlačidlo Stiahnuť vyššie."
+    "previewUnavailable": "Ukážka momentálne nie je dostupná — použite tlačidlo Stiahnuť vyššie.",
+    "expiresOn": "Tento odkaz vyprší {{date}}."
   }
 }

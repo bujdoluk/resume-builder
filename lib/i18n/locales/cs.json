@@ -539,6 +539,7 @@
     "stopSharing": "Ukončit sdílení",
     "saveFirst": "Nejprve uložte dokument, abyste mohli vytvořit odkaz ke sdílení.",
     "downloadPdf": "Stáhnout PDF",
-    "previewUnavailable": "Náhled momentálně není k dispozici — použijte tlačítko Stáhnout výše."
+    "previewUnavailable": "Náhled momentálně není k dispozici — použijte tlačítko Stáhnout výše.",
+    "expiresOn": "Tento odkaz vyprší {{date}}."
   }
 }
