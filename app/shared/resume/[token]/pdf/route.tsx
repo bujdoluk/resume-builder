@@ -47,7 +47,7 @@ export async function GET(
   return new Response(new Uint8Array(buffer), {
     headers: {
       "Content-Type": "application/pdf",
-      "Content-Disposition": `inline; filename="${resume.name.replace(/["\\]/g, "")}.pdf"`,
+      "Content-Disposition": `attachment; filename="${resume.name.replace(/["\\]/g, "")}.pdf"`,
       "Cache-Control": "no-store",
     },
   });
