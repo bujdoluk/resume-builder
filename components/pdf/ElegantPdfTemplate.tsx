@@ -19,7 +19,7 @@ import {
 import { getContrastTextColor, tintBackground } from "@/lib/color";
 import { allFields, type FieldKey } from "@/lib/fields";
 import { getFontScaleRatio } from "@/lib/fontSize";
-import i18n from "@/lib/i18n/i18n";
+import i18n from "@/lib/i18n/i18nCore";
 import {
   DAISYUI_NEUTRAL,
   GRAY_500,
