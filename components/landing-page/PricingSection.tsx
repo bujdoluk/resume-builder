@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { CheckIcon } from "@/components/Icons";
@@ -13,6 +14,7 @@ type PaidPlan = "monthly" | "annual";
 
 export default function PricingSection() {
   const { t, i18n } = useTranslation();
+  const router = useRouter();
   const { showToast } = useToast();
   const [supabase] = useState(() => createClient());
   const [loadingPlan, setLoadingPlan] = useState<PaidPlan | null>(null);
@@ -26,7 +28,7 @@ export default function PricingSection() {
       } = await supabase.auth.getSession();
 
       if (!session?.user || session.user.is_anonymous) {
-        window.location.href = "/login?next=%2F%23pricing";
+        router.push("/login?next=%2F%23pricing");
         return;
       }
 

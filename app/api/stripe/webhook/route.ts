@@ -1,5 +1,6 @@
 
 import type Stripe from "stripe";
+import { Temporal } from "temporal-polyfill";
 import * as Sentry from "@sentry/nextjs";
 import { HTTP_BAD_REQUEST, HTTP_INTERNAL_SERVER_ERROR, HTTP_OK } from "@/lib/constants";
 import { sendWelcomeEmail } from "@/lib/email/sendWelcomeEmail";
@@ -29,7 +30,7 @@ async function upsertSubscription(params: {
       status: params.status,
       current_period_end: params.currentPeriodEnd,
       cancel_at_period_end: params.cancelAtPeriodEnd,
-      updated_at: new Date().toISOString(),
+      updated_at: Temporal.Now.instant().toString(),
     },
     { onConflict: "user_id" },
   );
@@ -38,7 +39,9 @@ async function upsertSubscription(params: {
 
 function periodEndFromSubscription(subscription: Stripe.Subscription): string | null {
   const seconds = subscription.items.data[0]?.current_period_end;
-  return seconds ? new Date(seconds * 1000).toISOString() : null;
+  return seconds
+    ? Temporal.Instant.fromEpochMilliseconds(seconds * 1000).toString({ fractionalSecondDigits: 3 })
+    : null;
 }
 
 export async function POST(request: Request) {

@@ -1,4 +1,5 @@
 
+import { Temporal } from "temporal-polyfill";
 import { errorResponse } from "@/lib/apiErrors";
 import {
   HTTP_BAD_REQUEST,
@@ -56,6 +57,10 @@ export async function POST(request: Request) {
   return Response.json({
     status: subscription.status,
     cancelAtPeriodEnd: subscription.cancel_at_period_end,
-    currentPeriodEnd: periodEndSeconds ? new Date(periodEndSeconds * 1000).toISOString() : null,
+    currentPeriodEnd: periodEndSeconds
+      ? Temporal.Instant.fromEpochMilliseconds(periodEndSeconds * 1000).toString({
+          fractionalSecondDigits: 3,
+        })
+      : null,
   });
 }
