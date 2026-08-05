@@ -1,5 +1,11 @@
 
+import { pdf } from "@react-pdf/renderer";
 import { RATE_LIMIT_SHARED_DOCUMENT_REQUESTS, RATE_LIMIT_SHARED_DOCUMENT_WINDOW } from "@/lib/constants";
+import { defaultCoverLetterSectionOrder } from "@/lib/coverLetterSections";
+import { defaultCoverLetterTemplateId } from "@/lib/coverLetterTemplates";
+import { coverLetterPdfTemplates } from "@/lib/pdf/coverLetterTemplates";
+import { registerPdfFonts } from "@/lib/pdf/fonts";
+import { streamToBuffer } from "@/lib/pdf/streamToBuffer";
 import { checkRateLimit, getRequestIp } from "@/lib/rateLimit";
 import { getCoverLetterByShareToken } from "@/lib/supabase/coverLetters";
 import { createServiceRoleClient } from "@/lib/supabase/serviceRole";
@@ -29,24 +35,10 @@ export async function GET(
     return new Response("Not found", { status: 404 });
   }
 
-  // Dynamically imported — see the matching comment in
-  // app/shared/resume/[token]/pdf/route.tsx for why (i18n singleton
-  // touching client-only React APIs at module-init time breaks Next.js's
-  // build-time route analysis if imported at the top level).
-  const [{ pdf }, { registerPdfFonts }, { coverLetterPdfTemplates }, { streamToBuffer }, sections, templates] =
-    await Promise.all([
-      import("@react-pdf/renderer"),
-      import("@/lib/pdf/fonts"),
-      import("@/lib/pdf/coverLetterTemplates"),
-      import("@/lib/pdf/streamToBuffer"),
-      import("@/lib/coverLetterSections"),
-      import("@/lib/coverLetterTemplates"),
-    ]);
-
   registerPdfFonts();
-  const Template = coverLetterPdfTemplates[templates.defaultCoverLetterTemplateId];
+  const Template = coverLetterPdfTemplates[defaultCoverLetterTemplateId];
   const stream = await pdf(
-    <Template data={coverLetter.data} sectionOrder={sections.defaultCoverLetterSectionOrder} />,
+    <Template data={coverLetter.data} sectionOrder={defaultCoverLetterSectionOrder} />,
   ).toBuffer();
   const buffer = await streamToBuffer(stream);
 

@@ -22,6 +22,7 @@ import { allFields, fieldLabels, type FieldKey } from "@/lib/fields";
 import { defaultFontSizeKey, type FontSizeKey } from "@/lib/fontSize";
 import { allFonts, type FontKey } from "@/lib/fonts";
 import i18n from "@/lib/i18n/i18n";
+import i18nCore from "@/lib/i18n/i18nCore";
 import { defaultLanguageCode } from "@/lib/i18n/languages";
 import type { ModernSectionZones, SectionKey } from "@/lib/resumeData";
 import { defaultTemplateId, type TemplateId } from "@/lib/templates";
@@ -136,6 +137,11 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     i18n.changeLanguage(language);
+    // Keeps the PDF templates' language-level labels (e.g. "Beginner")
+    // in sync with the user's chosen app language for client-side
+    // downloads — i18nCore is a separate, React-free instance (see
+    // lib/i18n/i18nCore.ts for why) so it needs its own explicit sync.
+    i18nCore.changeLanguage(language);
   }, [language]);
 
   return (
