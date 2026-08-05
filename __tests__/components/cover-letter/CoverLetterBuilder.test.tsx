@@ -96,7 +96,8 @@ describe("CoverLetterBuilder", () => {
   it("fills out every cover letter section and saves the cover letter", async () => {
     // Renders the full builder tree (both mobile and desktop panes); the
     // default 5000ms testTimeout is too tight once this runs alongside the
-    // rest of the suite under load.
+    // rest of the suite under load. Even 15000ms has proven flaky as the
+    // suite has grown — 30000ms gives real headroom.
     const user = userEvent.setup();
 
     const { container } = render(
@@ -205,5 +206,5 @@ describe("CoverLetterBuilder", () => {
     await waitFor(() =>
       expect(desktopPane.getByRole("button", { name: "Saved" })).toBeInTheDocument(),
     );
-  }, 15000);
+  }, 30000);
 });
