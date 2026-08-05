@@ -538,6 +538,7 @@
     "copied": "Skopírované!",
     "stopSharing": "Zastaviť zdieľanie",
     "saveFirst": "Najskôr uložte dokument, aby ste mohli vytvoriť odkaz na zdieľanie.",
-    "downloadPdf": "Stiahnuť PDF"
+    "downloadPdf": "Stiahnuť PDF",
+    "previewUnavailable": "Ukážka momentálne nie je dostupná — použite tlačidlo Stiahnuť vyššie."
   }
 }

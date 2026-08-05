@@ -12,6 +12,10 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Static assets only — includes pdf.worker.min.mjs, copied in by
+    // scripts/copy-pdf-worker.mjs (postinstall), which is a giant
+    // minified third-party bundle, not source to lint.
+    "public/**",
   ]),
 ]);
 

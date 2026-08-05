@@ -538,6 +538,7 @@
     "copied": "Zkopírováno!",
     "stopSharing": "Ukončit sdílení",
     "saveFirst": "Nejprve uložte dokument, abyste mohli vytvořit odkaz ke sdílení.",
-    "downloadPdf": "Stáhnout PDF"
+    "downloadPdf": "Stáhnout PDF",
+    "previewUnavailable": "Náhled momentálně není k dispozici — použijte tlačítko Stáhnout výše."
   }
 }

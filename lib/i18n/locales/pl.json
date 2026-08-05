@@ -538,6 +538,7 @@
     "copied": "Skopiowano!",
     "stopSharing": "Zatrzymaj udostępnianie",
     "saveFirst": "Najpierw zapisz dokument, aby utworzyć link do udostępniania.",
-    "downloadPdf": "Pobierz PDF"
+    "downloadPdf": "Pobierz PDF",
+    "previewUnavailable": "Podgląd jest obecnie niedostępny — skorzystaj z przycisku Pobierz powyżej."
   }
 }

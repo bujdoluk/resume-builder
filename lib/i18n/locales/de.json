@@ -538,6 +538,7 @@
     "copied": "Kopiert!",
     "stopSharing": "Freigabe beenden",
     "saveFirst": "Speichern Sie Ihr Dokument zuerst, um einen Freigabelink zu erstellen.",
-    "downloadPdf": "PDF herunterladen"
+    "downloadPdf": "PDF herunterladen",
+    "previewUnavailable": "Die Vorschau ist momentan nicht verfügbar — verwenden Sie die Download-Schaltfläche oben."
   }
 }

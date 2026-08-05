@@ -538,6 +538,7 @@
     "copied": "Kopiert!",
     "stopSharing": "Stopp deling",
     "saveFirst": "Lagre dokumentet ditt først for å opprette en delingslenke.",
-    "downloadPdf": "Last ned PDF"
+    "downloadPdf": "Last ned PDF",
+    "previewUnavailable": "Forhåndsvisning er ikke tilgjengelig akkurat nå — bruk Last ned-knappen ovenfor."
   }
 }

@@ -538,6 +538,7 @@
     "copied": "Gekopieerd!",
     "stopSharing": "Stoppen met delen",
     "saveFirst": "Sla je document eerst op om een deellink te maken.",
-    "downloadPdf": "PDF downloaden"
+    "downloadPdf": "PDF downloaden",
+    "previewUnavailable": "Voorbeeld is momenteel niet beschikbaar — gebruik de downloadknop hierboven."
   }
 }

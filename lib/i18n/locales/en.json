@@ -538,6 +538,7 @@
     "copied": "Copied!",
     "stopSharing": "Stop Sharing",
     "saveFirst": "Save your document first to create a share link.",
-    "downloadPdf": "Download PDF"
+    "downloadPdf": "Download PDF",
+    "previewUnavailable": "Preview isn't available right now — use the Download button above."
   }
 }
