@@ -1,0 +1,69 @@
+{
+  "folders": [
+    {
+      "path": "."
+    }
+  ],
+  "settings": {
+    "editor.tabSize": 2,
+    "editor.insertSpaces": true,
+    "editor.rulers": [160],
+    "files.eol": "\n",
+    "files.insertFinalNewline": true,
+    "files.trimTrailingWhitespace": true,
+    "[markdown]": {
+      "files.trimTrailingWhitespace": false
+    },
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": "explicit"
+    },
+    "js/ts.tsdk.path": "node_modules/typescript/lib",
+    "js/ts.tsdk.promptToUseWorkspaceVersion": true,
+    "workbench.iconTheme": "material-icon-theme",
+    "files.exclude": {
+      "**/.next": true,
+      "**/test-results": true,
+      "**/playwright-report": true
+    },
+    "search.exclude": {
+      "**/.next": true,
+      "**/test-results": true,
+      "**/playwright-report": true,
+      "**/package-lock.json": true
+    }
+  },
+  "extensions": {
+    "recommendations": [
+      "anthropic.claude-code",
+      "dbaeumer.vscode-eslint",
+      "editorconfig.editorconfig",
+      "bradlc.vscode-tailwindcss",
+      "austenc.tailwind-docs",
+      "vitest.explorer",
+      "ms-playwright.playwright",
+      "stripe.vscode-stripe",
+      "formulahendry.auto-close-tag",
+      "vivaxy.vscode-conventional-commits",
+      "tomoki1207.pdf",
+      "pkief.material-icon-theme",
+      "mtxr.sqltools",
+      "mtxr.sqltools-driver-pg",
+      "syler.sass-indented",
+      "mechatroner.rainbow-csv",
+      "davidanson.vscode-markdownlint",
+      "ritwickdey.liveserver",
+      "dsznajder.es7-react-js-snippets",
+      "dineug.vuerd-vscode",
+      "github.vscode-github-actions",
+      "eamodio.gitlens",
+      "nuxt.mdc",
+      "pushqrdx.inline-html",
+      "zignd.html-css-class-completion",
+      "christian-kohler.npm-intellisense",
+      "ms-vscode-remote.remote-wsl",
+      "redhat.vscode-yaml",
+      "antfu.goto-alias",
+      "frenco.vscode-vercel"
+    ]
+  }
+}
