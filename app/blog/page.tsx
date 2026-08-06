@@ -1,6 +1,6 @@
 
 import type { Metadata } from "next";
-import Footer from "@/components/Footer";
+import Footer from "@/components/landing-page/Footer";
 import BlogPageContent from "@/components/BlogPageContent";
 import { createClient } from "@/lib/supabase/server";
 import { getBlogPosts } from "@/lib/supabase/blogPosts";
