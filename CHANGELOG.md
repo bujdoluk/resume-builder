@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.0](https://github.com/bujdoluk/resume-builder/compare/QuickResumeBuilder.online-v0.2.0...QuickResumeBuilder.online-v0.3.0) (2026-08-06)
+
+
+### Features
+
+* added dialog to required user to verify before disabling mfa ([ed65788](https://github.com/bujdoluk/resume-builder/commit/ed65788579c97c0156b372fbe4990410a5920c28))
+
 ## [0.2.0](https://github.com/bujdoluk/resume-builder/compare/QuickResumeBuilder.online-v0.1.0...QuickResumeBuilder.online-v0.2.0) (2026-08-06)
 
 
