@@ -2,11 +2,19 @@
 
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Suspense, useRef, useState } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import HCaptcha from "@hcaptcha/react-hcaptcha";
 import { ArrowLeftIcon, EyeIcon, EyeSlashIcon } from "@/components/Icons";
-import { AuthActionError, continueWithGoogle, logIn, resetPassword, signUp } from "@/lib/supabase/auth";
+import {
+  AuthActionError,
+  continueWithGoogle,
+  getStepUpRequired,
+  logIn,
+  resetPassword,
+  signUp,
+  verifyStepUpChallenge,
+} from "@/lib/supabase/auth";
 import { createClient } from "@/lib/supabase/client";
 import { forgetSessionOnBrowserClose } from "@/lib/supabase/rememberMe";
 
@@ -33,6 +41,19 @@ function LoginForm() {
   const [resetLinkSent, setResetLinkSent] = useState(false);
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
   const hcaptchaRef = useRef<HCaptcha>(null);
+  const [awaitingMfaCode, setAwaitingMfaCode] = useState(false);
+  const [mfaCode, setMfaCode] = useState("");
+
+  // Covers the OAuth path: /auth/callback redirects here (rather than
+  // straight to `next`) whenever the session it just established still
+  // needs a step-up challenge — this is what actually shows the code form
+  // in that case, since handleSubmit's own check only runs for password
+  // login.
+  useEffect(() => {
+    getStepUpRequired(supabase).then((required) => {
+      if (required) setAwaitingMfaCode(true);
+    });
+  }, [supabase]);
 
   function switchMode(nextMode: Mode) {
     setMode(nextMode);
@@ -60,6 +81,10 @@ function LoginForm() {
       if (mode === "login") {
         await logIn(supabase, email, password, captchaToken ?? undefined);
         if (!rememberMe) forgetSessionOnBrowserClose();
+        if (await getStepUpRequired(supabase)) {
+          setAwaitingMfaCode(true);
+          return;
+        }
         router.push(next);
       } else {
         const redirectTo = `${window.location.origin}/auth/callback?next=${encodeURIComponent(next)}`;
@@ -77,6 +102,28 @@ function LoginForm() {
       setSubmitting(false);
       resetCaptcha();
     }
+  }
+
+  async function handleMfaSubmit(event: React.FormEvent) {
+    event.preventDefault();
+    setError(null);
+    setSubmitting(true);
+    try {
+      await verifyStepUpChallenge(supabase, mfaCode);
+      router.push(next);
+    } catch (error) {
+      const code = error instanceof AuthActionError ? error.code : "generic";
+      setError(t(`auth.errors.${code}`));
+    } finally {
+      setSubmitting(false);
+    }
+  }
+
+  async function handleMfaCancel() {
+    await supabase.auth.signOut();
+    setAwaitingMfaCode(false);
+    setMfaCode("");
+    setError(null);
   }
 
   async function handleResetSubmit(event: React.FormEvent) {
@@ -117,17 +164,44 @@ function LoginForm() {
       <div className="card bg-base-100 border-base-300 w-full max-w-sm border shadow-sm">
         <div className="card-body">
           <h1 className="text-center text-xl font-bold">
-            {mode === "login" && t("auth.loginTitle")}
-            {mode === "signup" && t("auth.signupTitle")}
-            {mode === "reset" && t("auth.resetTitle")}
+            {awaitingMfaCode && t("auth.mfa.title")}
+            {!awaitingMfaCode && mode === "login" && t("auth.loginTitle")}
+            {!awaitingMfaCode && mode === "signup" && t("auth.signupTitle")}
+            {!awaitingMfaCode && mode === "reset" && t("auth.resetTitle")}
           </h1>
           <p className="text-base-content/70 text-sm">
-            {mode === "login" && t("auth.loginSubtitle")}
-            {mode === "signup" && t("auth.signupSubtitle")}
-            {mode === "reset" && t("auth.resetSubtitle")}
+            {awaitingMfaCode && t("auth.mfa.subtitle")}
+            {!awaitingMfaCode && mode === "login" && t("auth.loginSubtitle")}
+            {!awaitingMfaCode && mode === "signup" && t("auth.signupSubtitle")}
+            {!awaitingMfaCode && mode === "reset" && t("auth.resetSubtitle")}
           </p>
 
-          {mode === "reset" ? (
+          {awaitingMfaCode ? (
+            <form onSubmit={handleMfaSubmit} className="mt-4 flex flex-col gap-3">
+              <fieldset className="fieldset">
+                <legend className="fieldset-legend">{t("auth.mfa.codeLabel")}</legend>
+                <input
+                  type="text"
+                  inputMode="numeric"
+                  autoComplete="one-time-code"
+                  className="input input-bordered w-full"
+                  value={mfaCode}
+                  onChange={(event) => setMfaCode(event.target.value)}
+                  autoFocus
+                  required
+                />
+              </fieldset>
+
+              {error && <p className="text-error text-sm">{error}</p>}
+
+              <button type="submit" className="btn btn-primary mt-1" disabled={submitting}>
+                {submitting ? <span className="loading loading-spinner loading-xs" /> : t("auth.mfa.submit")}
+              </button>
+              <button type="button" className="btn btn-ghost btn-sm" onClick={handleMfaCancel}>
+                {t("auth.mfa.cancel")}
+              </button>
+            </form>
+          ) : mode === "reset" ? (
             resetLinkSent ? (
               <div className="alert alert-success mt-4">
                 <span>{t("auth.resetLinkSent")}</span>

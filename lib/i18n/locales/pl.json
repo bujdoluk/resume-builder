@@ -374,11 +374,20 @@
       "weakPassword": "Hasło musi mieć co najmniej 6 znaków.",
       "passwordMismatch": "Hasła się nie zgadzają.",
       "generic": "Coś poszło nie tak. Spróbuj ponownie.",
-      "oauth": "Logowanie przez Google nie powiodło się. Spróbuj ponownie."
+      "oauth": "Logowanie przez Google nie powiodło się. Spróbuj ponownie.",
+      "mfaInvalidCode": "Ten kod jest nieprawidłowy. Sprawdź aplikację uwierzytelniającą i spróbuj ponownie.",
+      "mfaNotEnabled": "Uwierzytelnianie dwuskładnikowe jest obecnie niedostępne. Spróbuj ponownie później."
     },
     "rememberMe": "Zapamiętaj mnie",
     "captchaRequired": "Ukończ weryfikację CAPTCHA.",
-    "signupAgreement": "Rejestrując się, akceptujesz nasze <termsLink>warunki korzystania z usługi</termsLink> oraz <privacyLink>politykę prywatności</privacyLink>."
+    "signupAgreement": "Rejestrując się, akceptujesz nasze <termsLink>warunki korzystania z usługi</termsLink> oraz <privacyLink>politykę prywatności</privacyLink>.",
+    "mfa": {
+      "title": "Wprowadź kod z aplikacji uwierzytelniającej",
+      "subtitle": "Otwórz aplikację uwierzytelniającą i wprowadź 6-cyfrowy kod, aby dokończyć logowanie.",
+      "codeLabel": "6-cyfrowy kod",
+      "submit": "Zweryfikuj",
+      "cancel": "Anuluj i wyloguj się"
+    }
   },
   "pricing": {
     "title": "Proste, przejrzyste ceny",
@@ -436,7 +445,30 @@
     "deleteAccount": "Usuń moje konto",
     "confirmDelete": "Spowoduje to trwałe usunięcie Twojego konta, wszystkich zapisanych CV i listów motywacyjnych oraz anulowanie każdej aktywnej subskrypcji. Tej czynności nie można odwrócić.",
     "deleteFailed": "Nie udało się usunąć konta. Spróbuj ponownie lub skontaktuj się z pomocą techniczną.",
-    "goBack": "Wstecz"
+    "goBack": "Wstecz",
+    "mfa": {
+      "sectionTitle": "Uwierzytelnianie dwuskładnikowe",
+      "description": "Konta administratora muszą korzystać z aplikacji uwierzytelniającej dla dodatkowego bezpieczeństwa.",
+      "help": {
+        "intro": "Będziesz potrzebować aplikacji uwierzytelniającej w telefonie — Google Authenticator, Microsoft Authenticator, Authy lub 1Password — wszystkie działają.",
+        "step1": "Zeskanuj kod QR tą aplikacją lub skopiuj klucz konfiguracyjny i dodaj go ręcznie, jeśli nie możesz skanować.",
+        "step2": "Aplikacja pokaże 6-cyfrowy kod, który odświeża się co 30 sekund — wpisz ten kod (nie klucz konfiguracyjny) poniżej, aby potwierdzić.",
+        "step3": "Od tej pory przy każdym logowaniu będziesz wpisywać nowy kod z tej aplikacji."
+      },
+      "enable": "Włącz uwierzytelnianie dwuskładnikowe",
+      "scanInstructions": "Zeskanuj ten kod QR w aplikacji uwierzytelniającej (np. Google Authenticator, 1Password) lub wprowadź kod ręcznie.",
+      "secretLabel": "Klucz konfiguracyjny",
+      "copySecret": "Kopiuj",
+      "copied": "Skopiowano!",
+      "codeLabel": "Wprowadź 6-cyfrowy kod, aby potwierdzić",
+      "confirm": "Potwierdź i włącz",
+      "cancelSetup": "Anuluj",
+      "enabledStatus": "Włączone od {{date}}",
+      "disable": "Wyłącz",
+      "confirmDisable": "Spowoduje to usunięcie uwierzytelniania dwuskładnikowego z Twojego konta. Jako administrator będziesz musiał skonfigurować je ponownie, zanim będziesz mógł korzystać z funkcji administratora.",
+      "enrollFailed": "Nie udało się rozpocząć konfiguracji uwierzytelniania dwuskładnikowego. Spróbuj ponownie.",
+      "disableFailed": "Nie udało się wyłączyć uwierzytelniania dwuskładnikowego. Spróbuj ponownie."
+    }
   },
   "cookieConsent": {
     "title": "Używamy plików cookie",
@@ -472,6 +504,7 @@
   "apiErrors": {
     "loginRequired": "Wymagane jest zalogowanie.",
     "adminLoginRequired": "Wymagane jest zalogowanie administratora.",
+    "mfaRequired": "Wymagana jest weryfikacja dwuskładnikowa. Wyloguj się i zaloguj ponownie za pomocą kodu z aplikacji uwierzytelniającej.",
     "invalidInput": "Nieprawidłowe dane wejściowe.",
     "failedToCreatePost": "Nie udało się utworzyć wpisu.",
     "captchaVerificationFailed": "Weryfikacja captcha nie powiodła się.",

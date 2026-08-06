@@ -1,6 +1,7 @@
 
 import { NextResponse } from "next/server";
 import * as Sentry from "@sentry/nextjs";
+import { getStepUpRequired } from "@/lib/supabase/auth";
 import { createClient } from "@/lib/supabase/server";
 
 export async function GET(request: Request) {
@@ -13,6 +14,13 @@ export async function GET(request: Request) {
       const supabase = await createClient();
       const { error } = await supabase.auth.exchangeCodeForSession(code);
       if (!error) {
+        // OAuth sign-in only ever establishes aal1 — an account with a
+        // verified TOTP factor (currently only admins) must still complete
+        // the step-up challenge before reaching `next`, same as password
+        // login. LoginPage detects this on mount and shows the code form.
+        if (await getStepUpRequired(supabase)) {
+          return NextResponse.redirect(`${origin}/login?next=${encodeURIComponent(next)}`);
+        }
         return NextResponse.redirect(`${origin}${next}`);
       }
       console.error("OAuth code exchange failed:", error);

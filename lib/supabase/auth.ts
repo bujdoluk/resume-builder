@@ -6,7 +6,9 @@ export type AuthErrorCode =
   | "emailInUse"
   | "weakPassword"
   | "oauth"
-  | "generic";
+  | "generic"
+  | "mfaInvalidCode"
+  | "mfaNotEnabled";
 
 export class AuthActionError extends Error {
   code: AuthErrorCode;
@@ -30,6 +32,16 @@ function mapSignUpError(error: AuthError): AuthActionError {
   }
   if (error.code === "weak_password") {
     return new AuthActionError("weakPassword", error);
+  }
+  return new AuthActionError("generic", error);
+}
+
+function mapMfaError(error: AuthError): AuthActionError {
+  if (error.code === "mfa_verification_failed" || error.code === "mfa_verification_rejected") {
+    return new AuthActionError("mfaInvalidCode", error);
+  }
+  if (error.code === "mfa_totp_enroll_not_enabled" || error.code === "mfa_totp_verify_not_enabled") {
+    return new AuthActionError("mfaNotEnabled", error);
   }
   return new AuthActionError("generic", error);
 }
@@ -93,4 +105,61 @@ export async function updatePassword(supabase: SupabaseClient, password: string)
 
 export async function logOut(supabase: SupabaseClient): Promise<void> {
   await supabase.auth.signOut();
+}
+
+// True once a password sign-in has established an aal1 session but the user
+// has a verified TOTP factor — i.e. LoginPage must prompt for the 6-digit
+// code before the session actually reaches aal2.
+export async function getStepUpRequired(supabase: SupabaseClient): Promise<boolean> {
+  const { data } = await supabase.auth.mfa.getAuthenticatorAssuranceLevel();
+  return data?.nextLevel === "aal2" && data.currentLevel !== "aal2";
+}
+
+export async function verifyStepUpChallenge(supabase: SupabaseClient, code: string): Promise<void> {
+  const factor = await getTotpFactor(supabase);
+  if (!factor) throw new AuthActionError("mfaNotEnabled");
+
+  const { error } = await supabase.auth.mfa.challengeAndVerify({ factorId: factor.id, code });
+  if (error) throw mapMfaError(error);
+}
+
+export interface TotpEnrollment {
+  factorId: string;
+  qrCode: string;
+  secret: string;
+}
+
+export async function enrollTotp(supabase: SupabaseClient, issuer: string): Promise<TotpEnrollment> {
+  const { data, error } = await supabase.auth.mfa.enroll({ factorType: "totp", issuer });
+  if (error) throw mapMfaError(error);
+  return { factorId: data.id, qrCode: data.totp.qr_code, secret: data.totp.secret };
+}
+
+export async function confirmTotpEnrollment(
+  supabase: SupabaseClient,
+  factorId: string,
+  code: string,
+): Promise<void> {
+  const { error } = await supabase.auth.mfa.challengeAndVerify({ factorId, code });
+  if (error) throw mapMfaError(error);
+}
+
+export interface TotpFactor {
+  id: string;
+  createdAt: string;
+}
+
+// Only ever returns a *verified* factor — Supabase's listFactors() already
+// filters its `totp` array to verified entries, so an abandoned/unconfirmed
+// enrollment never shows up here as "enabled".
+export async function getTotpFactor(supabase: SupabaseClient): Promise<TotpFactor | null> {
+  const { data, error } = await supabase.auth.mfa.listFactors();
+  if (error) throw mapMfaError(error);
+  const factor = data.totp[0];
+  return factor ? { id: factor.id, createdAt: factor.created_at } : null;
+}
+
+export async function unenrollTotp(supabase: SupabaseClient, factorId: string): Promise<void> {
+  const { error } = await supabase.auth.mfa.unenroll({ factorId });
+  if (error) throw mapMfaError(error);
 }

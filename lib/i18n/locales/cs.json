@@ -374,11 +374,20 @@
       "weakPassword": "Heslo musí mít alespoň 6 znaků.",
       "passwordMismatch": "Hesla se neshodují.",
       "generic": "Něco se pokazilo. Zkuste to znovu.",
-      "oauth": "Přihlášení přes Google se nezdařilo. Zkuste to znovu."
+      "oauth": "Přihlášení přes Google se nezdařilo. Zkuste to znovu.",
+      "mfaInvalidCode": "Tento kód není správný. Zkontrolujte aplikaci Authenticator a zkuste to znovu.",
+      "mfaNotEnabled": "Dvoufaktorové ověření momentálně není k dispozici. Zkuste to prosím později."
     },
     "rememberMe": "Zapamatovat si mě",
     "captchaRequired": "Dokončete prosím ověření CAPTCHA.",
-    "signupAgreement": "Registrací souhlasíte s našimi <termsLink>podmínkami služby</termsLink> a <privacyLink>zásadami ochrany osobních údajů</privacyLink>."
+    "signupAgreement": "Registrací souhlasíte s našimi <termsLink>podmínkami služby</termsLink> a <privacyLink>zásadami ochrany osobních údajů</privacyLink>.",
+    "mfa": {
+      "title": "Zadejte kód z aplikace Authenticator",
+      "subtitle": "Otevřete svou aplikaci Authenticator a zadejte 6místný kód pro dokončení přihlášení.",
+      "codeLabel": "6místný kód",
+      "submit": "Ověřit",
+      "cancel": "Zrušit a odhlásit se"
+    }
   },
   "pricing": {
     "title": "Jednoduché, transparentní ceny",
@@ -436,7 +445,30 @@
     "deleteAccount": "Smazat můj účet",
     "confirmDelete": "Tímto trvale odstraníte svůj účet, všechny uložené životopisy a motivační dopisy a zrušíte veškeré aktivní předplatné. Tuto akci nelze vrátit zpět.",
     "deleteFailed": "Smazání účtu se nezdařilo. Zkuste to prosím znovu nebo kontaktujte podporu.",
-    "goBack": "Zpět"
+    "goBack": "Zpět",
+    "mfa": {
+      "sectionTitle": "Dvoufaktorové ověření",
+      "description": "Administrátorské účty musí kvůli vyšší bezpečnosti používat aplikaci Authenticator.",
+      "help": {
+        "intro": "Budete potřebovat aplikaci Authenticator ve svém telefonu — funguje Google Authenticator, Microsoft Authenticator, Authy nebo 1Password.",
+        "step1": "Naskenujte QR kód touto aplikací, nebo zkopírujte instalační klíč a přidejte jej ručně, pokud nemůžete skenovat.",
+        "step2": "Aplikace zobrazí 6místný kód, který se obnovuje každých 30 sekund — zadejte tento kód (ne instalační klíč) níže pro potvrzení.",
+        "step3": "Od té chvíle budete při každém přihlášení zadávat nový kód z této aplikace."
+      },
+      "enable": "Zapnout dvoufaktorové ověření",
+      "scanInstructions": "Naskenujte tento QR kód ve své aplikaci Authenticator (např. Google Authenticator, 1Password), nebo zadejte kód ručně.",
+      "secretLabel": "Instalační klíč",
+      "copySecret": "Kopírovat",
+      "copied": "Zkopírováno!",
+      "codeLabel": "Zadejte 6místný kód pro potvrzení",
+      "confirm": "Potvrdit a zapnout",
+      "cancelSetup": "Zrušit",
+      "enabledStatus": "Zapnuto od {{date}}",
+      "disable": "Vypnout",
+      "confirmDisable": "Tímto odstraníte dvoufaktorové ověření z vašeho účtu. Jako administrátor jej budete muset před dalším použitím administrátorských funkcí znovu nastavit.",
+      "enrollFailed": "Nepodařilo se spustit nastavení dvoufaktorového ověření. Zkuste to znovu.",
+      "disableFailed": "Nepodařilo se vypnout dvoufaktorové ověření. Zkuste to znovu."
+    }
   },
   "cookieConsent": {
     "title": "Používáme cookies",
@@ -472,6 +504,7 @@
   "apiErrors": {
     "loginRequired": "Je vyžadováno přihlášení.",
     "adminLoginRequired": "Je vyžadováno přihlášení správce.",
+    "mfaRequired": "Je vyžadováno dvoufaktorové ověření. Odhlaste se a znovu se přihlaste s kódem z aplikace Authenticator.",
     "invalidInput": "Neplatný vstup.",
     "failedToCreatePost": "Vytvoření příspěvku se nezdařilo.",
     "captchaVerificationFailed": "Ověření captcha se nezdařilo.",

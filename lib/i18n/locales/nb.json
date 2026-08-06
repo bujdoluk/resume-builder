@@ -374,11 +374,20 @@
       "weakPassword": "Passordet må være minst 6 tegn langt.",
       "passwordMismatch": "Passordene stemmer ikke overens.",
       "generic": "Noe gikk galt. Prøv igjen.",
-      "oauth": "Innlogging med Google mislyktes. Prøv igjen."
+      "oauth": "Innlogging med Google mislyktes. Prøv igjen.",
+      "mfaInvalidCode": "Koden stemmer ikke. Sjekk autentiseringsappen din og prøv igjen.",
+      "mfaNotEnabled": "Tofaktorautentisering er ikke tilgjengelig akkurat nå. Prøv igjen senere."
     },
     "rememberMe": "Husk meg",
     "captchaRequired": "Fullfør CAPTCHA-verifiseringen.",
-    "signupAgreement": "Ved å registrere deg godtar du våre <termsLink>bruksvilkår</termsLink> og vår <privacyLink>personvernerklæring</privacyLink>."
+    "signupAgreement": "Ved å registrere deg godtar du våre <termsLink>bruksvilkår</termsLink> og vår <privacyLink>personvernerklæring</privacyLink>.",
+    "mfa": {
+      "title": "Angi autentiseringskoden din",
+      "subtitle": "Åpne autentiseringsappen din og skriv inn den 6-sifrede koden for å fullføre innloggingen.",
+      "codeLabel": "6-sifret kode",
+      "submit": "Bekreft",
+      "cancel": "Avbryt og logg ut"
+    }
   },
   "pricing": {
     "title": "Enkle, gjennomsiktige priser",
@@ -436,7 +445,30 @@
     "deleteAccount": "Slett kontoen min",
     "confirmDelete": "Dette vil permanent slette kontoen din, alle lagrede CV-er og søknadsbrev, og kansellere eventuelle aktive abonnementer. Dette kan ikke reverseres.",
     "deleteFailed": "Kunne ikke slette kontoen din. Prøv igjen eller kontakt support.",
-    "goBack": "Tilbake"
+    "goBack": "Tilbake",
+    "mfa": {
+      "sectionTitle": "Tofaktorautentisering",
+      "description": "Administratorkontoer må bruke en autentiseringsapp for ekstra sikkerhet.",
+      "help": {
+        "intro": "Du trenger en autentiseringsapp på telefonen din — Google Authenticator, Microsoft Authenticator, Authy eller 1Password fungerer alle.",
+        "step1": "Skann QR-koden med den appen, eller kopier oppsettsnøkkelen og legg den til manuelt hvis du ikke kan skanne.",
+        "step2": "Appen viser en 6-sifret kode som fornyes hvert 30. sekund — skriv inn den koden (ikke oppsettsnøkkelen) nedenfor for å bekrefte.",
+        "step3": "Deretter må du skrive inn en ny kode fra appen hver gang du logger inn."
+      },
+      "enable": "Aktiver tofaktorautentisering",
+      "scanInstructions": "Skann denne QR-koden med autentiseringsappen din (f.eks. Google Authenticator, 1Password), eller angi koden manuelt.",
+      "secretLabel": "Oppsettsnøkkel",
+      "copySecret": "Kopier",
+      "copied": "Kopiert!",
+      "codeLabel": "Angi den 6-sifrede koden for å bekrefte",
+      "confirm": "Bekreft og aktiver",
+      "cancelSetup": "Avbryt",
+      "enabledStatus": "Aktivert siden {{date}}",
+      "disable": "Deaktiver",
+      "confirmDisable": "Dette fjerner tofaktorautentisering fra kontoen din. Som administrator må du sette den opp på nytt før du kan bruke administratorfunksjoner.",
+      "enrollFailed": "Kunne ikke starte oppsett av tofaktorautentisering. Prøv igjen.",
+      "disableFailed": "Kunne ikke deaktivere tofaktorautentisering. Prøv igjen."
+    }
   },
   "cookieConsent": {
     "title": "Vi bruker informasjonskapsler",
@@ -472,6 +504,7 @@
   "apiErrors": {
     "loginRequired": "Innlogging kreves.",
     "adminLoginRequired": "Admin-innlogging kreves.",
+    "mfaRequired": "Tofaktorbekreftelse kreves. Logg ut og logg inn igjen med autentiseringskoden din.",
     "invalidInput": "Ugyldig inndata.",
     "failedToCreatePost": "Kunne ikke opprette innlegget.",
     "captchaVerificationFailed": "Captcha-verifisering mislyktes.",

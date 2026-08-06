@@ -374,11 +374,20 @@
       "weakPassword": "La password deve contenere almeno 6 caratteri.",
       "passwordMismatch": "Le password non corrispondono.",
       "generic": "Qualcosa è andato storto. Riprova.",
-      "oauth": "Accesso con Google non riuscito. Riprova."
+      "oauth": "Accesso con Google non riuscito. Riprova.",
+      "mfaInvalidCode": "Il codice non è corretto. Controlla la tua app di autenticazione e riprova.",
+      "mfaNotEnabled": "L'autenticazione a due fattori non è disponibile al momento. Riprova più tardi."
     },
     "rememberMe": "Ricordami",
     "captchaRequired": "Completa la verifica CAPTCHA.",
-    "signupAgreement": "Registrandoti, accetti i nostri <termsLink>Termini di servizio</termsLink> e la nostra <privacyLink>Informativa sulla privacy</privacyLink>."
+    "signupAgreement": "Registrandoti, accetti i nostri <termsLink>Termini di servizio</termsLink> e la nostra <privacyLink>Informativa sulla privacy</privacyLink>.",
+    "mfa": {
+      "title": "Inserisci il codice di autenticazione",
+      "subtitle": "Apri la tua app di autenticazione e inserisci il codice a 6 cifre per completare l'accesso.",
+      "codeLabel": "Codice a 6 cifre",
+      "submit": "Verifica",
+      "cancel": "Annulla ed esci"
+    }
   },
   "pricing": {
     "title": "Prezzi semplici e trasparenti",
@@ -436,7 +445,30 @@
     "deleteAccount": "Elimina il mio account",
     "confirmDelete": "Questa azione eliminerà definitivamente il tuo account, tutti i curriculum e le lettere di presentazione salvati e annullerà qualsiasi abbonamento attivo. Non può essere annullata.",
     "deleteFailed": "Impossibile eliminare il tuo account. Riprova o contatta l'assistenza.",
-    "goBack": "Indietro"
+    "goBack": "Indietro",
+    "mfa": {
+      "sectionTitle": "Autenticazione a due fattori",
+      "description": "Gli account amministratore devono utilizzare un'app di autenticazione per una maggiore sicurezza.",
+      "help": {
+        "intro": "Ti servirà un'app di autenticazione sul telefono — vanno bene Google Authenticator, Microsoft Authenticator, Authy o 1Password.",
+        "step1": "Scansiona il codice QR con quell'app, oppure copia la chiave di configurazione e aggiungila manualmente se non puoi scansionare.",
+        "step2": "L'app mostrerà un codice a 6 cifre che si rinnova ogni 30 secondi — inserisci quel codice (non la chiave di configurazione) qui sotto per confermare.",
+        "step3": "Da quel momento, dovrai inserire un nuovo codice da quell'app ogni volta che accedi."
+      },
+      "enable": "Attiva l'autenticazione a due fattori",
+      "scanInstructions": "Scansiona questo codice QR con la tua app di autenticazione (ad es. Google Authenticator, 1Password), oppure inserisci il codice manualmente.",
+      "secretLabel": "Chiave di configurazione",
+      "copySecret": "Copia",
+      "copied": "Copiato!",
+      "codeLabel": "Inserisci il codice a 6 cifre per confermare",
+      "confirm": "Conferma e attiva",
+      "cancelSetup": "Annulla",
+      "enabledStatus": "Attivato dal {{date}}",
+      "disable": "Disattiva",
+      "confirmDisable": "Questa azione rimuoverà l'autenticazione a due fattori dal tuo account. Come amministratore, dovrai configurarla di nuovo prima di poter utilizzare le funzionalità di amministrazione.",
+      "enrollFailed": "Impossibile avviare la configurazione dell'autenticazione a due fattori. Riprova.",
+      "disableFailed": "Impossibile disattivare l'autenticazione a due fattori. Riprova."
+    }
   },
   "cookieConsent": {
     "title": "Utilizziamo i cookie",
@@ -472,6 +504,7 @@
   "apiErrors": {
     "loginRequired": "Accesso richiesto.",
     "adminLoginRequired": "Accesso amministratore richiesto.",
+    "mfaRequired": "È richiesta la verifica a due fattori. Esci e accedi di nuovo con il tuo codice di autenticazione.",
     "invalidInput": "Input non valido.",
     "failedToCreatePost": "Impossibile creare l'articolo.",
     "captchaVerificationFailed": "Verifica captcha non riuscita.",

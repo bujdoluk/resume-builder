@@ -1,18 +1,14 @@
 
+import { requireAdmin } from "@/lib/adminAuth";
 import { errorResponse } from "@/lib/apiErrors";
-import { HTTP_BAD_REQUEST, HTTP_FORBIDDEN, HTTP_INTERNAL_SERVER_ERROR } from "@/lib/constants";
+import { HTTP_BAD_REQUEST, HTTP_INTERNAL_SERVER_ERROR } from "@/lib/constants";
 import { createClient } from "@/lib/supabase/server";
 import { blogCategories, createBlogPost } from "@/lib/supabase/blogPosts";
 
 export async function POST(request: Request) {
   const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user || user.is_anonymous || user.app_metadata?.role !== "admin") {
-    return errorResponse(HTTP_FORBIDDEN, "adminLoginRequired", request);
-  }
+  const auth = await requireAdmin(supabase, request);
+  if (auth instanceof Response) return auth;
 
   const body = await request.json().catch(() => null);
   const { category, title, subtitle, content, authorName, authorAvatarUrl, readTime, publishedAt } =

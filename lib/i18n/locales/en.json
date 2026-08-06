@@ -374,11 +374,20 @@
       "weakPassword": "Password must be at least 6 characters.",
       "passwordMismatch": "Passwords don't match.",
       "generic": "Something went wrong. Please try again.",
-      "oauth": "Google sign-in failed. Please try again."
+      "oauth": "Google sign-in failed. Please try again.",
+      "mfaInvalidCode": "That code isn't right. Check your authenticator app and try again.",
+      "mfaNotEnabled": "Two-factor authentication isn't available right now. Please try again later."
     },
     "rememberMe": "Remember me",
     "captchaRequired": "Please complete the CAPTCHA verification.",
-    "signupAgreement": "By signing up, you agree to our <termsLink>Terms of Service</termsLink> and <privacyLink>Privacy Policy</privacyLink>."
+    "signupAgreement": "By signing up, you agree to our <termsLink>Terms of Service</termsLink> and <privacyLink>Privacy Policy</privacyLink>.",
+    "mfa": {
+      "title": "Enter your authenticator code",
+      "subtitle": "Open your authenticator app and enter the 6-digit code to finish logging in.",
+      "codeLabel": "6-digit code",
+      "submit": "Verify",
+      "cancel": "Cancel and log out"
+    }
   },
   "pricing": {
     "title": "Simple, transparent pricing",
@@ -436,7 +445,30 @@
     "deleteAccount": "Delete my account",
     "confirmDelete": "This will permanently delete your account, all saved resumes and cover letters, and cancel any active subscription. This can't be undone.",
     "deleteFailed": "Failed to delete your account. Please try again or contact support.",
-    "goBack": "Go back"
+    "goBack": "Go back",
+    "mfa": {
+      "sectionTitle": "Two-Factor Authentication",
+      "description": "Admin accounts are required to use an authenticator app for extra security.",
+      "help": {
+        "intro": "You'll need an authenticator app on your phone — Google Authenticator, Microsoft Authenticator, Authy, or 1Password all work.",
+        "step1": "Scan the QR code with that app, or copy the setup key and add it manually if you can't scan.",
+        "step2": "The app will show a 6-digit code that refreshes every 30 seconds — enter that code (not the setup key) below to confirm.",
+        "step3": "From then on, you'll enter a fresh code from that app each time you log in."
+      },
+      "enable": "Enable Two-Factor Authentication",
+      "scanInstructions": "Scan this QR code with your authenticator app (e.g. Google Authenticator, 1Password), or enter the code manually.",
+      "secretLabel": "Setup key",
+      "copySecret": "Copy",
+      "copied": "Copied!",
+      "codeLabel": "Enter the 6-digit code to confirm",
+      "confirm": "Confirm and Enable",
+      "cancelSetup": "Cancel",
+      "enabledStatus": "Enabled since {{date}}",
+      "disable": "Disable",
+      "confirmDisable": "This will remove two-factor authentication from your account. As an admin, you'll be required to set it up again before you can use admin features.",
+      "enrollFailed": "Couldn't start two-factor setup. Please try again.",
+      "disableFailed": "Couldn't disable two-factor authentication. Please try again."
+    }
   },
   "cookieConsent": {
     "title": "We use cookies",
@@ -472,6 +504,7 @@
   "apiErrors": {
     "loginRequired": "Login required.",
     "adminLoginRequired": "Admin login required.",
+    "mfaRequired": "Two-factor verification required. Please log out and log back in with your authenticator code.",
     "invalidInput": "Invalid input.",
     "failedToCreatePost": "Failed to create post.",
     "captchaVerificationFailed": "Captcha verification failed.",

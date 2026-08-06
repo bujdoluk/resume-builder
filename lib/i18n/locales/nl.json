@@ -374,11 +374,20 @@
       "weakPassword": "Het wachtwoord moet minstens 6 tekens lang zijn.",
       "passwordMismatch": "Wachtwoorden komen niet overeen.",
       "generic": "Er is iets misgegaan. Probeer het opnieuw.",
-      "oauth": "Inloggen met Google is mislukt. Probeer het opnieuw."
+      "oauth": "Inloggen met Google is mislukt. Probeer het opnieuw.",
+      "mfaInvalidCode": "Die code klopt niet. Controleer je authenticator-app en probeer het opnieuw.",
+      "mfaNotEnabled": "Tweefactorauthenticatie is momenteel niet beschikbaar. Probeer het later opnieuw."
     },
     "rememberMe": "Onthoud mij",
     "captchaRequired": "Voltooi de CAPTCHA-verificatie.",
-    "signupAgreement": "Door je te registreren ga je akkoord met onze <termsLink>servicevoorwaarden</termsLink> en ons <privacyLink>privacybeleid</privacyLink>."
+    "signupAgreement": "Door je te registreren ga je akkoord met onze <termsLink>servicevoorwaarden</termsLink> en ons <privacyLink>privacybeleid</privacyLink>.",
+    "mfa": {
+      "title": "Voer je authenticatiecode in",
+      "subtitle": "Open je authenticator-app en voer de 6-cijferige code in om het inloggen te voltooien.",
+      "codeLabel": "6-cijferige code",
+      "submit": "Verifiëren",
+      "cancel": "Annuleren en uitloggen"
+    }
   },
   "pricing": {
     "title": "Eenvoudige, transparante prijzen",
@@ -436,7 +445,30 @@
     "deleteAccount": "Mijn account verwijderen",
     "confirmDelete": "Dit verwijdert je account, alle opgeslagen cv's en motivatiebrieven permanent en zegt elk actief abonnement op. Dit kan niet ongedaan worden gemaakt.",
     "deleteFailed": "Het is niet gelukt om je account te verwijderen. Probeer het opnieuw of neem contact op met support.",
-    "goBack": "Terug"
+    "goBack": "Terug",
+    "mfa": {
+      "sectionTitle": "Tweefactorauthenticatie",
+      "description": "Beheerdersaccounts moeten voor extra beveiliging een authenticator-app gebruiken.",
+      "help": {
+        "intro": "Je hebt een authenticator-app op je telefoon nodig — Google Authenticator, Microsoft Authenticator, Authy of 1Password werken allemaal.",
+        "step1": "Scan de QR-code met die app, of kopieer de installatiesleutel en voeg deze handmatig toe als je niet kunt scannen.",
+        "step2": "De app toont een 6-cijferige code die elke 30 seconden vernieuwt — voer die code (niet de installatiesleutel) hieronder in om te bevestigen.",
+        "step3": "Daarna voer je elke keer dat je inlogt een nieuwe code uit die app in."
+      },
+      "enable": "Tweefactorauthenticatie inschakelen",
+      "scanInstructions": "Scan deze QR-code met je authenticator-app (bijv. Google Authenticator, 1Password), of voer de code handmatig in.",
+      "secretLabel": "Installatiesleutel",
+      "copySecret": "Kopiëren",
+      "copied": "Gekopieerd!",
+      "codeLabel": "Voer de 6-cijferige code in ter bevestiging",
+      "confirm": "Bevestigen en inschakelen",
+      "cancelSetup": "Annuleren",
+      "enabledStatus": "Ingeschakeld sinds {{date}}",
+      "disable": "Uitschakelen",
+      "confirmDisable": "Hierdoor wordt tweefactorauthenticatie van je account verwijderd. Als beheerder moet je het opnieuw instellen voordat je beheerdersfuncties kunt gebruiken.",
+      "enrollFailed": "Het instellen van tweefactorauthenticatie kon niet worden gestart. Probeer het opnieuw.",
+      "disableFailed": "Tweefactorauthenticatie kon niet worden uitgeschakeld. Probeer het opnieuw."
+    }
   },
   "cookieConsent": {
     "title": "Wij gebruiken cookies",
@@ -472,6 +504,7 @@
   "apiErrors": {
     "loginRequired": "Inloggen vereist.",
     "adminLoginRequired": "Beheerderslogin vereist.",
+    "mfaRequired": "Tweefactorverificatie vereist. Log uit en log opnieuw in met je authenticatiecode.",
     "invalidInput": "Ongeldige invoer.",
     "failedToCreatePost": "Bericht kon niet worden aangemaakt.",
     "captchaVerificationFailed": "Captcha-verificatie mislukt.",

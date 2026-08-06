@@ -28,6 +28,7 @@ A free, in-browser resume and cover letter builder built with Next.js. Fill in y
 - **Custom field** — one arbitrary value (e.g. Nationality, Driver's License) under a renameable section heading, reflected in the step tracker.
 - **Export to PDF, Word, or plain text**, plus print and full-page preview.
 - **Email export** — sends the exported file via [Resend](https://resend.com), hCaptcha-protected.
+- **Shareable links** — generate a public, unauthenticated link (random token, 30-day expiration) that renders the document's PDF for anyone who has it; revocable anytime.
 - **13 languages**, switchable on the fly (i18next).
 - **ATS Checker** — a "Check ATS Score" button opens a format-parseability checklist, an optional keyword-match score against a pasted job description (deterministic, no LLM), and an optional AI coherence check (via Groq) that flags placeholder/gibberish content the deterministic checks can't catch. All scores are heuristic guides, not guarantees of real ATS behavior.
 
@@ -61,6 +62,7 @@ A free, in-browser resume and cover letter builder built with Next.js. Fill in y
 
 ### Role-based authorization
 - **Admin role** via a JWT `app_metadata.role` claim, enforced at the database level (RLS), not just hidden in the UI. Gates both blog post creation and the config-health endpoint below.
+- **Mandatory 2FA for admins** — a TOTP factor (via Supabase Auth MFA) is required to actually reach admin-gated routes, not just the role claim; a compromised password alone isn't enough. Enrolled from `/account`; enforced server-side (`lib/adminAuth.ts`) via the session's Authenticator Assurance Level, with a step-up code prompt on login (password or Google) whenever a verified factor exists. Recovery for a lost device: `scripts/reset-admin-mfa.mjs`.
 
 ### Security & monitoring
 - **Security headers** — CSP, HSTS, X-Frame-Options, and friends, built in `lib/securityHeaders.ts` (unit-tested) and applied in `next.config.ts`, scoped to the exact third-party origins the app loads (Supabase, hCaptcha, Tawk.to, Sentry).
@@ -88,7 +90,7 @@ Open [http://localhost:3000](http://localhost:3000). Fill in your Supabase crede
 - **Email delivery** — Supabase's built-in email is dev-only/rate-limited. For real emails, point custom SMTP (**Authentication → Emails → SMTP Settings**) at `smtp.resend.com` using your `RESEND_API_KEY`.
 
 ### Database setup (Supabase SQL Editor)
-Run every file under `supabase/migrations/` in order (`0001`–`0008`) — there's no linked CLI project, so this isn't automatic. Then set `SUPABASE_SERVICE_ROLE_KEY` (Project Settings → API) — never expose this to the browser.
+Run every file under `supabase/migrations/` in order (`0001`–`0010`) — there's no linked CLI project, so this isn't automatic. Then set `SUPABASE_SERVICE_ROLE_KEY` (Project Settings → API) — never expose this to the browser.
 
 ### Billing setup (Stripe)
 1. Set `STRIPE_SECRET_KEY` in `.env.local`.
@@ -106,6 +108,14 @@ Create a project at [sentry.io](https://sentry.io), set `NEXT_PUBLIC_SENTRY_DSN`
 1. Run migration `0006` (see Database setup).
 2. `node scripts/set-admin.mjs you@example.com` to grant yourself the admin role.
 3. Log out and back in — the role only lands in your session on login/refresh.
+4. Enroll two-factor authentication (see below) — admin routes 403 until you do.
+
+### Two-factor authentication (Admin)
+Admin routes require a completed 2FA challenge, not just the role claim (see Role-based authorization above).
+1. In **Supabase Dashboard → Authentication → Multi-Factor Authentication**, make sure TOTP is enabled — enrollment fails otherwise.
+2. Log in as the admin account, go to `/account`, and enroll under "Two-Factor Authentication" (an authenticator app like Google Authenticator, Microsoft Authenticator, Authy, or 1Password is required — scan the QR code or paste the setup key manually, then confirm with the 6-digit code it generates).
+3. From then on, both password and Google login prompt for a fresh code from that app before reaching admin-gated pages.
+4. Lost the device? `node scripts/reset-admin-mfa.mjs you@example.com` clears the factor (via service role) so you can re-enroll; it does not touch the admin role itself.
 
 ### Bot protection (hCaptcha)
 1. Sign up at [hCaptcha](https://www.hcaptcha.com), add your domain(s), and grab the **Site Key**/**Secret Key**.
@@ -124,35 +134,40 @@ A daily [Vercel Cron Job](https://vercel.com/docs/cron-jobs) (configured in `ver
 
 ## Project Structure
 
-- **`app/`** — Next.js App Router pages and API routes. Notable routes: `/app` (resume editor), `/cover-letter` (editor), `/my-resumes`/`/my-cover-letters` (saved lists), `/templates` (gallery), `/account`/`/billing`/`/support` (account pages), `/blog`, `/login`, `/reset-password`, `/privacy`/`/terms`. API routes mirror the features above (`/api/send-email`, `/api/stripe/*`, `/api/account/*`, `/api/ats-coherence`, `/api/ai-rewrite`, `/api/blog`, `/api/admin/config-health`, `/api/cron/*`).
+- **`app/`** — Next.js App Router pages and API routes. Notable routes: `/app` (resume editor), `/cover-letter` (editor), `/my-resumes`/`/my-cover-letters` (saved lists), `/templates` (gallery), `/account`/`/billing`/`/support` (account pages), `/blog`, `/login`, `/reset-password`, `/privacy`/`/terms`, `/shared/resume/[token]`/`/shared/cover-letter/[token]` (public shared-link view + its `pdf/route.tsx` sibling). API routes mirror the features above (`/api/send-email`, `/api/stripe/*`, `/api/account/*`, `/api/ats-coherence`, `/api/ai-rewrite`, `/api/blog`, `/api/admin/config-health`, `/api/cron/*`).
 - **`components/`**
   - `resumes/`, `cover-letter/` — builder pages, editing canvases, and per-template `desktop-templates/`/`mobile-templates/`.
-  - `pdf/` — `@react-pdf/renderer` templates, used by `DownloadButton.tsx`/`EmailButton.tsx`.
+  - `pdf/` — `@react-pdf/renderer` templates, used by `DownloadButton.tsx`/`EmailButton.tsx`/the shared-link PDF routes.
   - `navbar/` — customization dropdowns and `AuthButton.tsx`.
   - `landing-page/` — `LandingPage.tsx`, `PricingSection.tsx`.
   - `AtsCheckerDialog.tsx` — shared report dialog for both builders; scoring logic lives in `lib/atsChecker/`.
+  - `ShareDialog.tsx`/`SharedDocumentView.tsx` — create/revoke a shareable link from either builder; render its PDF (via `pdfjs-dist` canvas rendering, for mobile-browser compatibility) on the public `/shared/*` page.
   - `Toast.tsx`, `CookieConsent.tsx`/`ConsentedAnalytics.tsx` — global providers mounted in `app/layout.tsx`.
   - Shared UI: `PreviewModal.tsx` (+ `ScaleToFit.tsx`), `SaveResumeDialog.tsx`, `ConfirmDialog.tsx`, `Sortable.tsx`, `Sidebar.tsx`, and other primitives reused by both builders.
+  - `AccountPage.tsx` — includes the admin-only Two-Factor Authentication enrollment section; `LoginPage.tsx` includes the post-login 2FA step-up prompt.
 - **`lib/`**
   - `resumeData.ts`/`coverLetterData.ts` — data types; `templates.ts`/`coverLetterTemplates.ts` — template registries.
   - `atsChecker/` — `checkResumeFormat.ts`/`checkCoverLetterFormat.ts` (format checklists), `matchKeywords.ts` (keyword matching), `checkCoherence.ts` (Groq call, server-only).
   - `apiResponse.ts`/`apiErrors.ts` — client/server halves of the localized, status-coded error/toast system.
+  - `adminAuth.ts` — `requireAdmin()`, the shared server-side gate (role + 2FA) for admin-only routes.
+  - `shareLink.ts` — `isShareLinkActive()`, expiry check shared by both builders' shareable-link UI.
   - `rateLimit.ts` — Upstash-backed rate limiter, fails open if unconfigured.
   - `securityHeaders.ts` — CSP/security-header construction, imported by `next.config.ts`; kept as a separate module specifically so it's unit-testable.
   - `configHealth.ts` — boolean-only report of which optional integrations are configured, backing `/api/admin/config-health`.
   - `constants.ts` — shared numeric constants (status codes, limits, timings).
-  - `supabase/` — `client.ts`/`server.ts`/`proxy.ts` (client factories), `session.ts` (anonymous sessions), `invisibleCaptcha.ts`/`hcaptcha.ts`, `auth.ts`, `resumes.ts`/`coverLetters.ts`, `subscriptions.ts`, `blogPosts.ts`.
+  - `supabase/` — `client.ts`/`server.ts`/`proxy.ts` (client factories), `serviceRole.ts` (server-only, bypasses RLS), `session.ts` (anonymous sessions), `invisibleCaptcha.ts`/`hcaptcha.ts`, `auth.ts` (incl. TOTP enroll/verify/step-up), `resumes.ts`/`coverLetters.ts` (incl. share-token issuing/lookup), `subscriptions.ts`, `blogPosts.ts`.
   - `email/` — Resend-backed senders, lazily instantiated like `stripe.ts`.
-  - `text/`, `docx/`, `pdf/` — the three non-editor export renderers per document type.
+  - `text/`, `docx/`, `pdf/` — the three non-editor export renderers per document type; `pdf/streamToBuffer.ts` drains `@react-pdf/renderer`'s stream output for the shared-link PDF routes.
+  - `i18n/i18nCore.ts` — a React-free i18next instance used by the PDF templates, since they're reachable from Route Handlers where the React-bound `i18n.ts` instance can't be imported; kept in sync with the app-wide instance in `AppState.tsx`.
 - **`__tests__/`** — Vitest tests, mirroring the source tree (see Testing below).
-- **`scripts/`** — `setup-stripe.mjs`, `set-admin.mjs` (one-time setup scripts, see Getting Started above).
+- **`scripts/`** — `setup-stripe.mjs`, `set-admin.mjs`, `reset-admin-mfa.mjs` (one-time/recovery setup scripts, see Getting Started above), `copy-pdf-worker.mjs` (runs on every `npm install` via `postinstall`, copies the `pdfjs-dist` worker into `public/`).
 - **`resume-builder.code-workspace`** — shared VS Code workspace file: recommended extensions + editor settings matching `.editorconfig`. Open via **File → Open Workspace from File…**.
 - **`supabase/migrations/`** — numbered SQL migrations, applied manually.
 
 ## Testing
 Unit tests use [Vitest](https://vitest.dev), set up per the [official Next.js guide](https://nextjs.org/docs/app/guides/testing/vitest). Test files live under `__tests__/`, mirroring the source tree (e.g. `__tests__/lib/color.test.ts` tests `lib/color.ts`). `npm test` runs in watch mode; `npm run test:run` runs once (what CI uses).
 
-Coverage focuses on the critical path rather than chasing 100%: every `app/api/**/route.ts` handler (auth/anonymous/rate-limit guards, Stripe billing, admin authorization, input validation), the Supabase save/load mapping layer, PDF/DOCX/plain-text export generation, the ATS Checker's format-check scoring, rate limiting, i18n locale key parity, and CSP/security-header construction — plus two full-form component tests (`ResumeBuilder`/`CoverLetterBuilder`) that fill every field and exercise the real save flow end to end. Not covered: the session-refresh proxy (`proxy.ts`), and most UI beyond the two builders (templates gallery, account/billing pages, blog admin UI) — those remain a manual/E2E concern.
+Coverage focuses on the critical path rather than chasing 100%: every `app/api/**/route.ts` handler (auth/anonymous/rate-limit guards, Stripe billing, role+2FA admin authorization, input validation) including the public shared-link PDF routes, the Supabase save/load mapping layer (incl. share-token issuing and expiry), PDF/DOCX/plain-text export generation, the ATS Checker's format-check scoring, rate limiting, i18n locale key parity, and CSP/security-header construction — plus two full-form component tests (`ResumeBuilder`/`CoverLetterBuilder`) that fill every field and exercise the real save flow end to end. Not covered: the session-refresh proxy (`proxy.ts`), and most UI beyond the two builders (templates gallery, account/billing pages, blog admin UI, the 2FA enrollment flow, the login step-up flow) — those remain a manual/E2E concern.
 
 End-to-end tests use [Playwright](https://playwright.dev) and live under `e2e/` — `anonymous-resume-flow.spec.ts` and `anonymous-cover-letter-flow.spec.ts` each drive a full anonymous-user journey (landing page or direct navigation → builder → fill every section → save → assert the saved-document URL). `npm run test:e2e` runs headless and auto-starts the dev server on `http://localhost:3000` if it isn't already running; `npm run test:e2e:headed` runs the same tests in a visible browser window so you can watch each step. First-time setup needs the browser binary once: `npx playwright install chromium`.
 

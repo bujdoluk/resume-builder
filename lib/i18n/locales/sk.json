@@ -374,11 +374,20 @@
       "weakPassword": "Heslo musí mať aspoň 6 znakov.",
       "passwordMismatch": "Heslá sa nezhodujú.",
       "generic": "Niečo sa pokazilo. Skúste to znova.",
-      "oauth": "Prihlásenie cez Google zlyhalo. Skúste to znova."
+      "oauth": "Prihlásenie cez Google zlyhalo. Skúste to znova.",
+      "mfaInvalidCode": "Tento kód nie je správny. Skontrolujte aplikáciu Authenticator a skúste to znova.",
+      "mfaNotEnabled": "Dvojfaktorové overenie momentálne nie je k dispozícii. Skúste to prosím neskôr."
     },
     "rememberMe": "Zapamätať si ma",
     "captchaRequired": "Dokončite overenie CAPTCHA.",
-    "signupAgreement": "Registráciou súhlasíte s našimi <termsLink>podmienkami služby</termsLink> a <privacyLink>zásadami ochrany osobných údajov</privacyLink>."
+    "signupAgreement": "Registráciou súhlasíte s našimi <termsLink>podmienkami služby</termsLink> a <privacyLink>zásadami ochrany osobných údajov</privacyLink>.",
+    "mfa": {
+      "title": "Zadajte kód z aplikácie Authenticator",
+      "subtitle": "Otvorte svoju aplikáciu Authenticator a zadajte 6-miestny kód na dokončenie prihlásenia.",
+      "codeLabel": "6-miestny kód",
+      "submit": "Overiť",
+      "cancel": "Zrušiť a odhlásiť sa"
+    }
   },
   "pricing": {
     "title": "Jednoduché, transparentné ceny",
@@ -436,7 +445,30 @@
     "deleteAccount": "Odstrániť môj účet",
     "confirmDelete": "Týmto trvalo odstránite svoj účet, všetky uložené životopisy a motivačné listy a zrušíte akékoľvek aktívne predplatné. Túto akciu nie je možné vrátiť späť.",
     "deleteFailed": "Odstránenie účtu sa nepodarilo. Skúste to znova alebo kontaktujte podporu.",
-    "goBack": "Späť"
+    "goBack": "Späť",
+    "mfa": {
+      "sectionTitle": "Dvojfaktorové overenie",
+      "description": "Administrátorské účty musia na zvýšenie bezpečnosti používať aplikáciu Authenticator.",
+      "help": {
+        "intro": "Budete potrebovať aplikáciu Authenticator vo svojom telefóne — funguje Google Authenticator, Microsoft Authenticator, Authy alebo 1Password.",
+        "step1": "Naskenujte QR kód touto aplikáciou, alebo skopírujte nastavovací kľúč a pridajte ho ručne, ak nemôžete skenovať.",
+        "step2": "Aplikácia zobrazí 6-miestny kód, ktorý sa obnovuje každých 30 sekúnd — zadajte tento kód (nie nastavovací kľúč) nižšie na potvrdenie.",
+        "step3": "Odvtedy budete pri každom prihlásení zadávať nový kód z tejto aplikácie."
+      },
+      "enable": "Zapnúť dvojfaktorové overenie",
+      "scanInstructions": "Naskenujte tento QR kód vo svojej aplikácii Authenticator (napr. Google Authenticator, 1Password), alebo zadajte kód ručne.",
+      "secretLabel": "Nastavovací kľúč",
+      "copySecret": "Kopírovať",
+      "copied": "Skopírované!",
+      "codeLabel": "Zadajte 6-miestny kód na potvrdenie",
+      "confirm": "Potvrdiť a zapnúť",
+      "cancelSetup": "Zrušiť",
+      "enabledStatus": "Zapnuté od {{date}}",
+      "disable": "Vypnúť",
+      "confirmDisable": "Týmto odstránite dvojfaktorové overenie z vášho účtu. Ako administrátor ho budete musieť pred ďalším použitím administrátorských funkcií znova nastaviť.",
+      "enrollFailed": "Nepodarilo sa spustiť nastavenie dvojfaktorového overenia. Skúste to znova.",
+      "disableFailed": "Nepodarilo sa vypnúť dvojfaktorové overenie. Skúste to znova."
+    }
   },
   "cookieConsent": {
     "title": "Používame cookies",
@@ -472,6 +504,7 @@
   "apiErrors": {
     "loginRequired": "Je potrebné prihlásenie.",
     "adminLoginRequired": "Je potrebné prihlásenie správcu.",
+    "mfaRequired": "Vyžaduje sa dvojfaktorové overenie. Odhláste sa a znova sa prihláste s kódom z aplikácie Authenticator.",
     "invalidInput": "Neplatný vstup.",
     "failedToCreatePost": "Vytvorenie príspevku sa nepodarilo.",
     "captchaVerificationFailed": "Overenie captcha zlyhalo.",

@@ -374,11 +374,20 @@
       "weakPassword": "Lösenordet måste vara minst 6 tecken långt.",
       "passwordMismatch": "Lösenorden matchar inte.",
       "generic": "Något gick fel. Försök igen.",
-      "oauth": "Inloggning med Google misslyckades. Försök igen."
+      "oauth": "Inloggning med Google misslyckades. Försök igen.",
+      "mfaInvalidCode": "Koden stämmer inte. Kontrollera din autentiseringsapp och försök igen.",
+      "mfaNotEnabled": "Tvåfaktorsautentisering är inte tillgänglig just nu. Försök igen senare."
     },
     "rememberMe": "Kom ihåg mig",
     "captchaRequired": "Slutför CAPTCHA-verifieringen.",
-    "signupAgreement": "Genom att registrera dig godkänner du våra <termsLink>användarvillkor</termsLink> och vår <privacyLink>integritetspolicy</privacyLink>."
+    "signupAgreement": "Genom att registrera dig godkänner du våra <termsLink>användarvillkor</termsLink> och vår <privacyLink>integritetspolicy</privacyLink>.",
+    "mfa": {
+      "title": "Ange din autentiseringskod",
+      "subtitle": "Öppna din autentiseringsapp och ange 6-siffriga koden för att slutföra inloggningen.",
+      "codeLabel": "6-siffrig kod",
+      "submit": "Verifiera",
+      "cancel": "Avbryt och logga ut"
+    }
   },
   "pricing": {
     "title": "Enkla, transparenta priser",
@@ -436,7 +445,30 @@
     "deleteAccount": "Radera mitt konto",
     "confirmDelete": "Detta kommer permanent att radera ditt konto, alla sparade CV:n och personliga brev, och avsluta eventuella aktiva prenumerationer. Detta kan inte ångras.",
     "deleteFailed": "Det gick inte att radera ditt konto. Försök igen eller kontakta supporten.",
-    "goBack": "Tillbaka"
+    "goBack": "Tillbaka",
+    "mfa": {
+      "sectionTitle": "Tvåfaktorsautentisering",
+      "description": "Administratörskonton måste använda en autentiseringsapp för extra säkerhet.",
+      "help": {
+        "intro": "Du behöver en autentiseringsapp i telefonen — Google Authenticator, Microsoft Authenticator, Authy eller 1Password fungerar alla.",
+        "step1": "Skanna QR-koden med appen, eller kopiera inställningsnyckeln och lägg till den manuellt om du inte kan skanna.",
+        "step2": "Appen visar en 6-siffrig kod som förnyas var 30:e sekund — ange den koden (inte inställningsnyckeln) nedan för att bekräfta.",
+        "step3": "Därefter anger du en ny kod från appen varje gång du loggar in."
+      },
+      "enable": "Aktivera tvåfaktorsautentisering",
+      "scanInstructions": "Skanna den här QR-koden med din autentiseringsapp (t.ex. Google Authenticator, 1Password), eller ange koden manuellt.",
+      "secretLabel": "Inställningsnyckel",
+      "copySecret": "Kopiera",
+      "copied": "Kopierat!",
+      "codeLabel": "Ange 6-siffriga koden för att bekräfta",
+      "confirm": "Bekräfta och aktivera",
+      "cancelSetup": "Avbryt",
+      "enabledStatus": "Aktiverad sedan {{date}}",
+      "disable": "Inaktivera",
+      "confirmDisable": "Detta tar bort tvåfaktorsautentisering från ditt konto. Som administratör måste du konfigurera den igen innan du kan använda administratörsfunktioner.",
+      "enrollFailed": "Det gick inte att starta konfigurationen av tvåfaktorsautentisering. Försök igen.",
+      "disableFailed": "Det gick inte att inaktivera tvåfaktorsautentisering. Försök igen."
+    }
   },
   "cookieConsent": {
     "title": "Vi använder cookies",
@@ -472,6 +504,7 @@
   "apiErrors": {
     "loginRequired": "Inloggning krävs.",
     "adminLoginRequired": "Admin-inloggning krävs.",
+    "mfaRequired": "Tvåfaktorsverifiering krävs. Logga ut och logga in igen med din autentiseringskod.",
     "invalidInput": "Ogiltig inmatning.",
     "failedToCreatePost": "Det gick inte att skapa inlägget.",
     "captchaVerificationFailed": "Captcha-verifieringen misslyckades.",

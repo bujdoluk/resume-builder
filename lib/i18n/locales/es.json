@@ -374,11 +374,20 @@
       "weakPassword": "La contraseña debe tener al menos 6 caracteres.",
       "passwordMismatch": "Las contraseñas no coinciden.",
       "generic": "Algo salió mal. Inténtalo de nuevo.",
-      "oauth": "No se pudo iniciar sesión con Google. Inténtalo de nuevo."
+      "oauth": "No se pudo iniciar sesión con Google. Inténtalo de nuevo.",
+      "mfaInvalidCode": "Ese código no es correcto. Comprueba tu aplicación de autenticación e inténtalo de nuevo.",
+      "mfaNotEnabled": "La autenticación de dos factores no está disponible en este momento. Inténtalo de nuevo más tarde."
     },
     "rememberMe": "Recordarme",
     "captchaRequired": "Completa la verificación CAPTCHA.",
-    "signupAgreement": "Al registrarte, aceptas nuestros <termsLink>Términos de servicio</termsLink> y nuestra <privacyLink>Política de privacidad</privacyLink>."
+    "signupAgreement": "Al registrarte, aceptas nuestros <termsLink>Términos de servicio</termsLink> y nuestra <privacyLink>Política de privacidad</privacyLink>.",
+    "mfa": {
+      "title": "Introduce tu código de autenticación",
+      "subtitle": "Abre tu aplicación de autenticación e introduce el código de 6 dígitos para terminar de iniciar sesión.",
+      "codeLabel": "Código de 6 dígitos",
+      "submit": "Verificar",
+      "cancel": "Cancelar y cerrar sesión"
+    }
   },
   "pricing": {
     "title": "Precios simples y transparentes",
@@ -436,7 +445,30 @@
     "deleteAccount": "Eliminar mi cuenta",
     "confirmDelete": "Esto eliminará permanentemente tu cuenta, todos los currículums y cartas de presentación guardados, y cancelará cualquier suscripción activa. Esta acción no se puede deshacer.",
     "deleteFailed": "No se pudo eliminar tu cuenta. Inténtalo de nuevo o contacta con soporte.",
-    "goBack": "Volver"
+    "goBack": "Volver",
+    "mfa": {
+      "sectionTitle": "Autenticación de dos factores",
+      "description": "Las cuentas de administrador deben usar una aplicación de autenticación para mayor seguridad.",
+      "help": {
+        "intro": "Necesitarás una aplicación de autenticación en tu teléfono — Google Authenticator, Microsoft Authenticator, Authy o 1Password funcionan bien.",
+        "step1": "Escanea el código QR con esa aplicación, o copia la clave de configuración y añádela manualmente si no puedes escanear.",
+        "step2": "La aplicación mostrará un código de 6 dígitos que se renueva cada 30 segundos — introduce ese código (no la clave de configuración) abajo para confirmar.",
+        "step3": "A partir de entonces, introducirás un código nuevo de esa aplicación cada vez que inicies sesión."
+      },
+      "enable": "Activar autenticación de dos factores",
+      "scanInstructions": "Escanea este código QR con tu aplicación de autenticación (por ejemplo, Google Authenticator, 1Password), o introduce el código manualmente.",
+      "secretLabel": "Clave de configuración",
+      "copySecret": "Copiar",
+      "copied": "¡Copiado!",
+      "codeLabel": "Introduce el código de 6 dígitos para confirmar",
+      "confirm": "Confirmar y activar",
+      "cancelSetup": "Cancelar",
+      "enabledStatus": "Activado desde {{date}}",
+      "disable": "Desactivar",
+      "confirmDisable": "Esto eliminará la autenticación de dos factores de tu cuenta. Como administrador, tendrás que configurarla de nuevo antes de poder usar las funciones de administrador.",
+      "enrollFailed": "No se pudo iniciar la configuración de la autenticación de dos factores. Inténtalo de nuevo.",
+      "disableFailed": "No se pudo desactivar la autenticación de dos factores. Inténtalo de nuevo."
+    }
   },
   "cookieConsent": {
     "title": "Usamos cookies",
@@ -472,6 +504,7 @@
   "apiErrors": {
     "loginRequired": "Se requiere iniciar sesión.",
     "adminLoginRequired": "Se requiere inicio de sesión de administrador.",
+    "mfaRequired": "Se requiere verificación de dos factores. Cierra sesión y vuelve a iniciarla con tu código de autenticación.",
     "invalidInput": "Entrada no válida.",
     "failedToCreatePost": "No se pudo crear la entrada.",
     "captchaVerificationFailed": "La verificación captcha ha fallado.",

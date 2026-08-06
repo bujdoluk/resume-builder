@@ -3,12 +3,13 @@ import en from "@/lib/i18n/locales/en.json";
 
 const mocks = vi.hoisted(() => ({
   getUser: vi.fn(),
+  getAal: vi.fn(),
   getConfigHealth: vi.fn(),
 }));
 
 vi.mock("@/lib/supabase/server", () => ({
   createClient: async () => ({
-    auth: { getUser: mocks.getUser },
+    auth: { getUser: mocks.getUser, mfa: { getAuthenticatorAssuranceLevel: mocks.getAal } },
   }),
 }));
 
@@ -43,6 +44,7 @@ const fakeHealth = {
 beforeEach(() => {
   vi.clearAllMocks();
   mocks.getUser.mockResolvedValue({ data: { user: adminUser() } });
+  mocks.getAal.mockResolvedValue({ data: { currentLevel: "aal2" } });
   mocks.getConfigHealth.mockReturnValue(fakeHealth);
 });
 
@@ -90,5 +92,17 @@ describe("GET /api/admin/config-health", () => {
     expect(response.status).toBe(200);
     expect(await response.json()).toEqual(fakeHealth);
     expect(mocks.getConfigHealth).toHaveBeenCalledTimes(1);
+    expect(mocks.getAal).toHaveBeenCalledTimes(1);
+  });
+
+  it("returns 403 mfaRequired for an admin who hasn't completed a 2FA challenge this session", async () => {
+    mocks.getAal.mockResolvedValue({ data: { currentLevel: "aal1" } });
+
+    const { GET } = await import("@/app/api/admin/config-health/route");
+    const response = await GET(healthRequest());
+
+    expect(response.status).toBe(403);
+    expect((await response.json()).error).toBe(en.apiErrors.mfaRequired);
+    expect(mocks.getConfigHealth).not.toHaveBeenCalled();
   });
 });

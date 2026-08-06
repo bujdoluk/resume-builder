@@ -374,11 +374,20 @@
       "weakPassword": "A palavra-passe deve ter pelo menos 6 caracteres.",
       "passwordMismatch": "As palavras-passe não coincidem.",
       "generic": "Ocorreu um erro. Tente novamente.",
-      "oauth": "Não foi possível iniciar sessão com o Google. Tente novamente."
+      "oauth": "Não foi possível iniciar sessão com o Google. Tente novamente.",
+      "mfaInvalidCode": "Esse código não está correto. Verifique a sua aplicação de autenticação e tente novamente.",
+      "mfaNotEnabled": "A autenticação de dois fatores não está disponível de momento. Tente novamente mais tarde."
     },
     "rememberMe": "Lembrar-me",
     "captchaRequired": "Conclua a verificação CAPTCHA.",
-    "signupAgreement": "Ao registar-se, aceita os nossos <termsLink>Termos de serviço</termsLink> e a nossa <privacyLink>Política de privacidade</privacyLink>."
+    "signupAgreement": "Ao registar-se, aceita os nossos <termsLink>Termos de serviço</termsLink> e a nossa <privacyLink>Política de privacidade</privacyLink>.",
+    "mfa": {
+      "title": "Introduza o seu código de autenticação",
+      "subtitle": "Abra a sua aplicação de autenticação e introduza o código de 6 dígitos para concluir o início de sessão.",
+      "codeLabel": "Código de 6 dígitos",
+      "submit": "Verificar",
+      "cancel": "Cancelar e terminar sessão"
+    }
   },
   "pricing": {
     "title": "Preços simples e transparentes",
@@ -436,7 +445,30 @@
     "deleteAccount": "Eliminar a minha conta",
     "confirmDelete": "Isto irá eliminar permanentemente a sua conta, todos os currículos e cartas de apresentação guardados, e cancelar qualquer subscrição ativa. Esta ação não pode ser anulada.",
     "deleteFailed": "Não foi possível eliminar a sua conta. Tente novamente ou contacte o suporte.",
-    "goBack": "Voltar"
+    "goBack": "Voltar",
+    "mfa": {
+      "sectionTitle": "Autenticação de dois fatores",
+      "description": "As contas de administrador têm de utilizar uma aplicação de autenticação para maior segurança.",
+      "help": {
+        "intro": "Vai precisar de uma aplicação de autenticação no seu telemóvel — Google Authenticator, Microsoft Authenticator, Authy ou 1Password, todas funcionam.",
+        "step1": "Digitalize o código QR com essa aplicação, ou copie a chave de configuração e adicione-a manualmente se não conseguir digitalizar.",
+        "step2": "A aplicação irá mostrar um código de 6 dígitos que se renova a cada 30 segundos — introduza esse código (não a chave de configuração) abaixo para confirmar.",
+        "step3": "A partir daí, terá de introduzir um novo código dessa aplicação sempre que iniciar sessão."
+      },
+      "enable": "Ativar autenticação de dois fatores",
+      "scanInstructions": "Digitalize este código QR na sua aplicação de autenticação (por exemplo, Google Authenticator, 1Password), ou introduza o código manualmente.",
+      "secretLabel": "Chave de configuração",
+      "copySecret": "Copiar",
+      "copied": "Copiado!",
+      "codeLabel": "Introduza o código de 6 dígitos para confirmar",
+      "confirm": "Confirmar e ativar",
+      "cancelSetup": "Cancelar",
+      "enabledStatus": "Ativado desde {{date}}",
+      "disable": "Desativar",
+      "confirmDisable": "Isto irá remover a autenticação de dois fatores da sua conta. Como administrador, terá de a configurar novamente antes de poder utilizar funcionalidades de administrador.",
+      "enrollFailed": "Não foi possível iniciar a configuração da autenticação de dois fatores. Tente novamente.",
+      "disableFailed": "Não foi possível desativar a autenticação de dois fatores. Tente novamente."
+    }
   },
   "cookieConsent": {
     "title": "Usamos cookies",
@@ -472,6 +504,7 @@
   "apiErrors": {
     "loginRequired": "É necessário iniciar sessão.",
     "adminLoginRequired": "É necessário iniciar sessão como administrador.",
+    "mfaRequired": "É necessária verificação de dois fatores. Termine a sessão e inicie sessão novamente com o seu código de autenticação.",
     "invalidInput": "Entrada inválida.",
     "failedToCreatePost": "Não foi possível criar a publicação.",
     "captchaVerificationFailed": "A verificação captcha falhou.",

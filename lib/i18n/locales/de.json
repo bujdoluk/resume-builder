@@ -374,11 +374,20 @@
       "weakPassword": "Das Passwort muss mindestens 6 Zeichen lang sein.",
       "passwordMismatch": "Die Passwörter stimmen nicht überein.",
       "generic": "Etwas ist schiefgelaufen. Bitte versuche es erneut.",
-      "oauth": "Die Anmeldung mit Google ist fehlgeschlagen. Bitte versuche es erneut."
+      "oauth": "Die Anmeldung mit Google ist fehlgeschlagen. Bitte versuche es erneut.",
+      "mfaInvalidCode": "Der Code ist nicht richtig. Überprüfe deine Authenticator-App und versuche es erneut.",
+      "mfaNotEnabled": "Zwei-Faktor-Authentifizierung ist momentan nicht verfügbar. Bitte versuche es später erneut."
     },
     "rememberMe": "Angemeldet bleiben",
     "captchaRequired": "Bitte schließen Sie die CAPTCHA-Überprüfung ab.",
-    "signupAgreement": "Mit der Registrierung stimmen Sie unseren <termsLink>Nutzungsbedingungen</termsLink> und unserer <privacyLink>Datenschutzerklärung</privacyLink> zu."
+    "signupAgreement": "Mit der Registrierung stimmen Sie unseren <termsLink>Nutzungsbedingungen</termsLink> und unserer <privacyLink>Datenschutzerklärung</privacyLink> zu.",
+    "mfa": {
+      "title": "Gib deinen Authenticator-Code ein",
+      "subtitle": "Öffne deine Authenticator-App und gib den 6-stelligen Code ein, um die Anmeldung abzuschließen.",
+      "codeLabel": "6-stelliger Code",
+      "submit": "Verifizieren",
+      "cancel": "Abbrechen und abmelden"
+    }
   },
   "pricing": {
     "title": "Einfache, transparente Preise",
@@ -436,7 +445,30 @@
     "deleteAccount": "Mein Konto löschen",
     "confirmDelete": "Dadurch werden Ihr Konto, alle gespeicherten Lebensläufe und Anschreiben dauerhaft gelöscht und ein aktives Abonnement gekündigt. Dies kann nicht rückgängig gemacht werden.",
     "deleteFailed": "Ihr Konto konnte nicht gelöscht werden. Bitte versuchen Sie es erneut oder kontaktieren Sie den Support.",
-    "goBack": "Zurück"
+    "goBack": "Zurück",
+    "mfa": {
+      "sectionTitle": "Zwei-Faktor-Authentifizierung",
+      "description": "Admin-Konten müssen aus Sicherheitsgründen eine Authenticator-App verwenden.",
+      "help": {
+        "intro": "Du benötigst eine Authenticator-App auf deinem Handy — Google Authenticator, Microsoft Authenticator, Authy oder 1Password funktionieren alle.",
+        "step1": "Scanne den QR-Code mit dieser App, oder kopiere den Setup-Schlüssel und füge ihn manuell hinzu, falls du nicht scannen kannst.",
+        "step2": "Die App zeigt einen 6-stelligen Code, der sich alle 30 Sekunden erneuert — gib diesen Code (nicht den Setup-Schlüssel) unten zur Bestätigung ein.",
+        "step3": "Ab dann gibst du bei jeder Anmeldung einen neuen Code aus dieser App ein."
+      },
+      "enable": "Zwei-Faktor-Authentifizierung aktivieren",
+      "scanInstructions": "Scanne diesen QR-Code mit deiner Authenticator-App (z. B. Google Authenticator, 1Password) oder gib den Code manuell ein.",
+      "secretLabel": "Setup-Schlüssel",
+      "copySecret": "Kopieren",
+      "copied": "Kopiert!",
+      "codeLabel": "Gib den 6-stelligen Code zur Bestätigung ein",
+      "confirm": "Bestätigen und aktivieren",
+      "cancelSetup": "Abbrechen",
+      "enabledStatus": "Aktiviert seit {{date}}",
+      "disable": "Deaktivieren",
+      "confirmDisable": "Dies entfernt die Zwei-Faktor-Authentifizierung von deinem Konto. Als Admin musst du sie erneut einrichten, bevor du Admin-Funktionen nutzen kannst.",
+      "enrollFailed": "Die Einrichtung der Zwei-Faktor-Authentifizierung konnte nicht gestartet werden. Bitte versuche es erneut.",
+      "disableFailed": "Die Zwei-Faktor-Authentifizierung konnte nicht deaktiviert werden. Bitte versuche es erneut."
+    }
   },
   "cookieConsent": {
     "title": "Wir verwenden Cookies",
@@ -472,6 +504,7 @@
   "apiErrors": {
     "loginRequired": "Anmeldung erforderlich.",
     "adminLoginRequired": "Admin-Anmeldung erforderlich.",
+    "mfaRequired": "Zwei-Faktor-Verifizierung erforderlich. Bitte melde dich ab und mit deinem Authenticator-Code wieder an.",
     "invalidInput": "Ungültige Eingabe.",
     "failedToCreatePost": "Beitrag konnte nicht erstellt werden.",
     "captchaVerificationFailed": "Captcha-Überprüfung fehlgeschlagen.",

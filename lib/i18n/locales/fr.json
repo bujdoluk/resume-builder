@@ -374,11 +374,20 @@
       "weakPassword": "Le mot de passe doit contenir au moins 6 caractères.",
       "passwordMismatch": "Les mots de passe ne correspondent pas.",
       "generic": "Une erreur est survenue. Veuillez réessayer.",
-      "oauth": "La connexion avec Google a échoué. Veuillez réessayer."
+      "oauth": "La connexion avec Google a échoué. Veuillez réessayer.",
+      "mfaInvalidCode": "Ce code n'est pas correct. Vérifiez votre application d'authentification et réessayez.",
+      "mfaNotEnabled": "L'authentification à deux facteurs n'est pas disponible pour le moment. Veuillez réessayer plus tard."
     },
     "rememberMe": "Se souvenir de moi",
     "captchaRequired": "Veuillez compléter la vérification CAPTCHA.",
-    "signupAgreement": "En vous inscrivant, vous acceptez nos <termsLink>Conditions d'utilisation</termsLink> et notre <privacyLink>Politique de confidentialité</privacyLink>."
+    "signupAgreement": "En vous inscrivant, vous acceptez nos <termsLink>Conditions d'utilisation</termsLink> et notre <privacyLink>Politique de confidentialité</privacyLink>.",
+    "mfa": {
+      "title": "Entrez votre code d'authentification",
+      "subtitle": "Ouvrez votre application d'authentification et entrez le code à 6 chiffres pour terminer la connexion.",
+      "codeLabel": "Code à 6 chiffres",
+      "submit": "Vérifier",
+      "cancel": "Annuler et se déconnecter"
+    }
   },
   "pricing": {
     "title": "Des tarifs simples et transparents",
@@ -436,7 +445,30 @@
     "deleteAccount": "Supprimer mon compte",
     "confirmDelete": "Cette action supprimera définitivement votre compte, tous vos CV et lettres de motivation enregistrés, et annulera tout abonnement actif. Cette action est irréversible.",
     "deleteFailed": "Impossible de supprimer votre compte. Veuillez réessayer ou contacter le support.",
-    "goBack": "Retour"
+    "goBack": "Retour",
+    "mfa": {
+      "sectionTitle": "Authentification à deux facteurs",
+      "description": "Les comptes administrateur doivent utiliser une application d'authentification pour plus de sécurité.",
+      "help": {
+        "intro": "Vous aurez besoin d'une application d'authentification sur votre téléphone — Google Authenticator, Microsoft Authenticator, Authy ou 1Password fonctionnent toutes.",
+        "step1": "Scannez le code QR avec cette application, ou copiez la clé de configuration et ajoutez-la manuellement si vous ne pouvez pas scanner.",
+        "step2": "L'application affichera un code à 6 chiffres qui se renouvelle toutes les 30 secondes — saisissez ce code (pas la clé de configuration) ci-dessous pour confirmer.",
+        "step3": "Par la suite, vous devrez saisir un nouveau code de cette application à chaque connexion."
+      },
+      "enable": "Activer l'authentification à deux facteurs",
+      "scanInstructions": "Scannez ce code QR avec votre application d'authentification (par ex. Google Authenticator, 1Password), ou saisissez le code manuellement.",
+      "secretLabel": "Clé de configuration",
+      "copySecret": "Copier",
+      "copied": "Copié !",
+      "codeLabel": "Saisissez le code à 6 chiffres pour confirmer",
+      "confirm": "Confirmer et activer",
+      "cancelSetup": "Annuler",
+      "enabledStatus": "Activé depuis le {{date}}",
+      "disable": "Désactiver",
+      "confirmDisable": "Cela supprimera l'authentification à deux facteurs de votre compte. En tant qu'administrateur, vous devrez la reconfigurer avant de pouvoir utiliser les fonctionnalités d'administration.",
+      "enrollFailed": "Impossible de démarrer la configuration de l'authentification à deux facteurs. Veuillez réessayer.",
+      "disableFailed": "Impossible de désactiver l'authentification à deux facteurs. Veuillez réessayer."
+    }
   },
   "cookieConsent": {
     "title": "Nous utilisons des cookies",
@@ -472,6 +504,7 @@
   "apiErrors": {
     "loginRequired": "Connexion requise.",
     "adminLoginRequired": "Connexion administrateur requise.",
+    "mfaRequired": "Vérification à deux facteurs requise. Veuillez vous déconnecter et vous reconnecter avec votre code d'authentification.",
     "invalidInput": "Saisie invalide.",
     "failedToCreatePost": "Échec de la création de l'article.",
     "captchaVerificationFailed": "Échec de la vérification captcha.",

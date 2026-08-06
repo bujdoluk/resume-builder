@@ -3,12 +3,13 @@ import en from "@/lib/i18n/locales/en.json";
 
 const mocks = vi.hoisted(() => ({
   getUser: vi.fn(),
+  getAal: vi.fn(),
   createBlogPost: vi.fn(),
 }));
 
 vi.mock("@/lib/supabase/server", () => ({
   createClient: async () => ({
-    auth: { getUser: mocks.getUser },
+    auth: { getUser: mocks.getUser, mfa: { getAuthenticatorAssuranceLevel: mocks.getAal } },
   }),
 }));
 
@@ -53,6 +54,7 @@ const fakePost = { id: "post-1", slug: "how-to-write-a-resume", ...validBody };
 beforeEach(() => {
   vi.clearAllMocks();
   mocks.getUser.mockResolvedValue({ data: { user: adminUser() } });
+  mocks.getAal.mockResolvedValue({ data: { currentLevel: "aal2" } });
   mocks.createBlogPost.mockResolvedValue(fakePost);
 });
 
@@ -115,6 +117,17 @@ describe("POST /api/blog — role-based authorization", () => {
 
     expect(response.status).toBe(200);
     expect(mocks.createBlogPost).toHaveBeenCalledTimes(1);
+  });
+
+  it("returns 403 mfaRequired for an admin who hasn't completed a 2FA challenge this session", async () => {
+    mocks.getAal.mockResolvedValue({ data: { currentLevel: "aal1" } });
+
+    const { POST } = await import("@/app/api/blog/route");
+    const response = await POST(jsonRequest(validBody));
+
+    expect(response.status).toBe(403);
+    expect((await response.json()).error).toBe(en.apiErrors.mfaRequired);
+    expect(mocks.createBlogPost).not.toHaveBeenCalled();
   });
 });
 
