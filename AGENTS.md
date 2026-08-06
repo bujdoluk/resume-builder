@@ -114,7 +114,7 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 │   ├── components/                 # ResumeBuilder.tsx, CoverLetterBuilder.tsx — full-form fill-and-save flows
 │   └── lib/                        # atsChecker, docx, i18n, pdf, supabase (incl. share-token/MFA), text — plus adminAuth,
 │                                    # shareLink, color, rateLimit, securityHeaders, configHealth, apiErrors as standalone tests
-├── e2e/                            # Playwright, real-browser user-journey flows (not wired into CI — see Testing Practices)
+├── e2e/                            # Playwright, real-browser user-journey flows, wired into CI (.github/workflows/e2e.yml)
 ├── supabase/migrations/            # 10 numbered SQL migrations, applied manually (no linked CLI project)
 ├── scripts/                        # set-admin.mjs, reset-admin-mfa.mjs (2FA recovery), setup-stripe.mjs,
 │                                    # copy-pdf-worker.mjs (runs on every install via postinstall)
@@ -126,7 +126,8 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 ├── eslint.config.mjs
 ├── vercel.json                     # cron job schedule
 ├── resume-builder.code-workspace   # shared VS Code workspace: recommended extensions + editor settings
-├── .github/workflows/              # dev.yml, prod.yml — typecheck, lint, npm audit, test (prod.yml also builds)
+├── .github/workflows/              # dev.yml, prod.yml — typecheck, lint, npm audit, test (prod.yml also builds);
+│                                    # e2e.yml — Playwright, on push/PR to main; release.yml — release-please, on push to main
 └── package.json
 ```
 
@@ -181,7 +182,7 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
   - Command: `npm run test:e2e` (headless) / `npm run test:e2e:headed` (visible browser window, useful for watching/debugging a flow)
   - Tests live under `e2e/` (`anonymous-resume-flow.spec.ts`, `anonymous-cover-letter-flow.spec.ts`), separate from the Vitest `__tests__/` tree since these represent flows, not source-file-mirrored units
   - `webServer` in the config auto-starts `npm run dev` against `http://localhost:3000` if nothing is already listening there — no need to manually start the dev server first
-  - Not wired into CI yet (`.github/workflows/*.yml` only run the Vitest suite) — running E2E tests is currently a local/manual step
+  - Wired into CI via `.github/workflows/e2e.yml`, on push/PR to `main` — reuses the same Supabase project as production (the anonymous test accounts each run creates are exactly what the retention cron cleans up), Chromium is cached keyed on `package-lock.json`, and a trace artifact is uploaded on failure
   - Browser binaries are a one-time local setup: `npx playwright install chromium`
 
 ## 🧱 Component & Styling Guidelines

@@ -171,10 +171,12 @@ Coverage focuses on the critical path rather than chasing 100%: every `app/api/*
 
 End-to-end tests use [Playwright](https://playwright.dev) and live under `e2e/` — `anonymous-resume-flow.spec.ts` and `anonymous-cover-letter-flow.spec.ts` each drive a full anonymous-user journey (landing page or direct navigation → builder → fill every section → save → assert the saved-document URL). `npm run test:e2e` runs headless and auto-starts the dev server on `http://localhost:3000` if it isn't already running; `npm run test:e2e:headed` runs the same tests in a visible browser window so you can watch each step. First-time setup needs the browser binary once: `npx playwright install chromium`.
 
+`.github/workflows/e2e.yml` runs these on every push/PR to `main`, against the same Supabase project as production (the anonymous accounts each run creates are exactly what the retention cron cleans up) — Chromium is cached between runs keyed on `package-lock.json`, and a trace is uploaded as a build artifact on failure for debugging.
+
 ## Updating Dependencies
 This repo pins **exact** versions for `dependencies` (no `^`/`~`) so installs are reproducible — `npm outdated`/`npm update` behave differently here than in a typically `^`-ranged project (`npm update` only moves a package within its declared range, so an exact-pinned package needs its `package.json` entry edited directly). A handful of foundational `devDependencies` (`@types/node`, `@types/react`, `@types/react-dom`, `eslint`, `tailwindcss`, `@tailwindcss/postcss`, `typescript`) intentionally use a bare major-version string instead (e.g. `"24"` not `"24.9.2"`) so they auto-pick-up patch/minor releases on a plain `npm install`, but still require an explicit edit to cross a major version.
 
-**Node.js version** is pinned via `"engines"` in `package.json` and `.nvmrc` — both must stay in sync with what `.github/workflows/dev.yml`/`prod.yml` run (`actions/setup-node` `node-version`) and with the Node.js version configured in the Vercel project settings (Dashboard → Settings → Node.js Version), since that last one isn't visible from the repo.
+**Node.js version** is pinned via `"engines"` in `package.json` and `.nvmrc` — both must stay in sync with what `.github/workflows/dev.yml`/`prod.yml`/`e2e.yml` run (`actions/setup-node` `node-version`) and with the Node.js version configured in the Vercel project settings (Dashboard → Settings → Node.js Version), since that last one isn't visible from the repo.
 
 **Recommended process for future updates** (don't big-bang everything at once):
 1. Run `npm outdated` and split the results into two buckets: patch/minor bumps (low risk) and major-version bumps (real breaking-change risk).
