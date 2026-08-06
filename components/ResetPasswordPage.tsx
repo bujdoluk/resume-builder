@@ -31,8 +31,8 @@ export default function ResetPasswordPage() {
     try {
       await updatePassword(supabase, password);
       router.push("/app");
-    } catch (thrown) {
-      const code = thrown instanceof AuthActionError ? thrown.code : "generic";
+    } catch (error) {
+      const code = error instanceof AuthActionError ? error.code : "generic";
       setError(t(`auth.errors.${code}`));
     } finally {
       setSubmitting(false);

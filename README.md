@@ -190,6 +190,30 @@ This repo pins **exact** versions for `dependencies` (no `^`/`~`) so installs ar
 
 **This repo specifically**: because this is a modified/future version of Next.js and its ecosystem (see the warning at the top of `AGENTS.md`), don't assume standard upstream upgrade behavior even for a minor-version bump — check `node_modules/<package>/dist/docs` or the package's own CHANGELOG first. This isn't theoretical: this session alone found real, undocumented-to-training-data differences (CSP/proxy handling, and `next dev` auto-regenerating part of `AGENTS.md` on Next.js 16.3+).
 
+## Releases
+Deployment already happens automatically (Vercel deploys every push to `main`) — releases are just about getting a human-readable changelog and a tagged reference point for what's actually live at any given time.
+
+**Automated (default)**: [`release-please`](https://github.com/googleapis/release-please) (`.github/workflows/release.yml`) watches every push to `main`. Since commit messages here already follow [Conventional Commits](https://www.conventionalcommits.org) (`feat:`, `fix:`, `refactor:`, etc.), it derives the next version automatically (`feat` → minor, `fix` → patch, a `BREAKING CHANGE:` footer → major) and keeps a single standing pull request open — something like "chore: release 0.2.0" — containing the regenerated `CHANGELOG.md` and the bumped `package.json`/`package-lock.json`. It never merges that PR itself; **merging it is what cuts the release** — the next Action run detects the merge and creates the git tag plus the GitHub Release with the changelog as its notes. Its config lives in `release-config.json` (renamed from the tool's `release-please-config.json` default, pointed at via the workflow's `config-file` input) and `.release-manifest.json` (similarly renamed from `.release-please-manifest.json`, tracking the currently-released version so the bot knows what's new).
+
+**Manual (fallback)** — e.g. the Action is down, or a release is needed before the bot's PR is ready:
+```bash
+git checkout main && git pull
+
+# See what's changed since the last tag, to pick patch/minor/major
+git log $(git describe --tags --abbrev=0)..HEAD --oneline
+
+# Bumps package.json + package-lock.json, commits, and creates an annotated tag — pick one:
+npm version patch   # bug fixes only
+npm version minor   # new features, no breaking changes
+npm version major   # breaking changes
+
+git push && git push --tags
+
+# Publishes the GitHub Release, with notes auto-generated from commits since the last tag
+gh release create $(git describe --tags --abbrev=0) --generate-notes
+```
+Afterward, update `.release-manifest.json` to match the new version and commit it — otherwise `release-please`'s next run is working off a stale baseline and either misses these commits or tries to re-propose them.
+
 ## Available Scripts
 - `npm run dev` — start the dev server (Turbopack).
 - `npm run build` — production build.

@@ -95,8 +95,8 @@ function LoginForm() {
           setConfirmEmailSent(true);
         }
       }
-    } catch (thrown) {
-      const code = thrown instanceof AuthActionError ? thrown.code : "generic";
+    } catch (error) {
+      const code = error instanceof AuthActionError ? error.code : "generic";
       setError(t(`auth.errors.${code}`));
     } finally {
       setSubmitting(false);
@@ -138,8 +138,8 @@ function LoginForm() {
       const redirectTo = `${window.location.origin}/auth/callback?next=${encodeURIComponent("/reset-password")}`;
       await resetPassword(supabase, email, redirectTo, captchaToken ?? undefined);
       setResetLinkSent(true);
-    } catch (thrown) {
-      const code = thrown instanceof AuthActionError ? thrown.code : "generic";
+    } catch (error) {
+      const code = error instanceof AuthActionError ? error.code : "generic";
       setError(t(`auth.errors.${code}`));
     } finally {
       setSubmitting(false);

@@ -147,6 +147,21 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 - **Test (watch)**: `npm test`
 - **Test (single run, what CI uses)**: `npm run test:run`
 
+## 🚀 Releases
+
+- Deployment is already automatic (Vercel deploys every push to `main`) — releasing is purely about generating a changelog and tagging what's live, not shipping.
+- **Default flow**: `.github/workflows/release.yml` runs `release-please` on every push to `main`. It reads commit messages, maintains a single standing "chore: release X.Y.Z" PR with the changelog + version bump, and only cuts the actual git tag + GitHub Release when that PR is merged. Config: `release-config.json` / `.release-manifest.json` (renamed from the tool's `release-please-config.json`/`.release-please-manifest.json` defaults — see the `config-file`/`manifest-file` inputs in the workflow if either needs touching).
+- **This depends on commit messages staying [Conventional Commits](https://www.conventionalcommits.org)-formatted** (`feat:`, `fix:`, `refactor:`, `ci:`, `test:`, `style:`, `chore:`, `docs:`) — release-please's version bump and changelog derive directly from these prefixes. This repo already has a strong track record here (see the git commit guidance elsewhere in this file); don't break it.
+- **Manual fallback** (Action down, or a release needed immediately):
+  ```bash
+  git checkout main && git pull
+  git log $(git describe --tags --abbrev=0)..HEAD --oneline   # review what's new, pick a bump
+  npm version patch   # or minor / major
+  git push && git push --tags
+  gh release create $(git describe --tags --abbrev=0) --generate-notes
+  ```
+  Then update `.release-manifest.json` to match and commit it, or the next automated run works off a stale baseline.
+
 ## 🧠 Claude Code Usage
 
 - Run `claude` in the root of the repo
