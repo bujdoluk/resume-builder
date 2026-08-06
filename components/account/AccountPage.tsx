@@ -16,6 +16,7 @@ import {
   enrollTotp,
   getTotpFactor,
   unenrollTotp,
+  verifyStepUpChallenge,
   type TotpEnrollment,
   type TotpFactor,
 } from "@/lib/supabase/auth";
@@ -42,7 +43,8 @@ export default function AccountPage() {
   const [mfaBusy, setMfaBusy] = useState(false);
   const [mfaError, setMfaError] = useState<string | null>(null);
   const [mfaCopied, setMfaCopied] = useState(false);
-  const mfaDisableDialogRef = useRef<ConfirmDialogHandle>(null);
+  const [mfaDisableConfirming, setMfaDisableConfirming] = useState(false);
+  const [mfaDisableCode, setMfaDisableCode] = useState("");
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -113,20 +115,35 @@ export default function AccountPage() {
     setMfaCopied(true);
   }
 
-  async function handleDisableMfa() {
+  function handleDisableMfa() {
     if (!mfaFactor) return;
-    const confirmed = await mfaDisableDialogRef.current?.open({
-      message: t("account.mfa.confirmDisable"),
-      confirmLabel: t("account.mfa.disable"),
-    });
-    if (!confirmed) return;
+    setMfaError(null);
+    setMfaDisableCode("");
+    setMfaDisableConfirming(true);
+  }
 
+  function handleCancelDisableMfa() {
+    setMfaDisableConfirming(false);
+    setMfaDisableCode("");
+    setMfaError(null);
+  }
+
+  async function handleConfirmDisableMfa(event: React.FormEvent) {
+    event.preventDefault();
+    if (!mfaFactor || mfaBusy) return;
     setMfaBusy(true);
+    setMfaError(null);
     try {
+      // Re-verifying possession of the factor here (rather than a plain
+      // confirm) prevents a hijacked-but-not-yet-stepped-up session from
+      // stripping 2FA off the account without the authenticator device.
+      await verifyStepUpChallenge(supabase, mfaDisableCode);
       await unenrollTotp(supabase, mfaFactor.id);
       setMfaFactor(null);
+      setMfaDisableConfirming(false);
+      setMfaDisableCode("");
     } catch (error) {
-      showToast(mfaErrorMessage(error, "account.mfa.disableFailed"), "error");
+      setMfaError(mfaErrorMessage(error, "account.mfa.disableFailed"));
     } finally {
       setMfaBusy(false);
     }
@@ -280,6 +297,37 @@ export default function AccountPage() {
                     </button>
                   </div>
                 </form>
+              ) : mfaDisableConfirming ? (
+                <form onSubmit={handleConfirmDisableMfa} className="mt-2 flex flex-col gap-3">
+                  <p className="text-base-content/70 text-sm">{t("account.mfa.confirmDisable")}</p>
+                  <fieldset className="fieldset">
+                    <legend className="fieldset-legend">{t("account.mfa.codeLabel")}</legend>
+                    <input
+                      type="text"
+                      inputMode="numeric"
+                      autoComplete="one-time-code"
+                      className="input input-bordered w-full"
+                      value={mfaDisableCode}
+                      onChange={(event) => setMfaDisableCode(event.target.value)}
+                      autoFocus
+                      required
+                    />
+                  </fieldset>
+                  {mfaError && <p className="text-error text-sm">{mfaError}</p>}
+                  <div className="flex gap-2">
+                    <button type="submit" className="btn btn-error flex-1" disabled={mfaBusy}>
+                      {mfaBusy ? <span className="loading loading-spinner loading-xs" /> : t("account.mfa.disable")}
+                    </button>
+                    <button
+                      type="button"
+                      className="btn"
+                      disabled={mfaBusy}
+                      onClick={handleCancelDisableMfa}
+                    >
+                      {t("account.mfa.cancelSetup")}
+                    </button>
+                  </div>
+                </form>
               ) : mfaFactor ? (
                 <div className="mt-2 flex items-center justify-between">
                   <span className="text-base-content/60 text-sm">
@@ -291,7 +339,7 @@ export default function AccountPage() {
                     disabled={mfaBusy}
                     onClick={handleDisableMfa}
                   >
-                    {mfaBusy ? <span className="loading loading-spinner loading-xs" /> : t("account.mfa.disable")}
+                    {t("account.mfa.disable")}
                   </button>
                 </div>
               ) : (
@@ -348,7 +396,6 @@ export default function AccountPage() {
       </div>
 
       <ConfirmDialog ref={deleteDialogRef} />
-      <ConfirmDialog ref={mfaDisableDialogRef} />
     </div>
   );
 }
