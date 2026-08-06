@@ -58,8 +58,10 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 │   │   └── pdf/route.tsx           # streams the PDF via @react-pdf/renderer, rate-limited by IP
 │   ├── error.tsx global-error.tsx not-found.tsx   # error boundaries
 │   └── layout.tsx page.tsx globals.css robots.ts sitemap.ts
-├── components/
-│   ├── resumes/                    # ResumeBuilder.tsx (state), Resume.tsx (desktop canvas)
+├── components/                     # grouped into one feature folder per concern; a handful of
+│   │                                # app-wide primitives (state, icons, generic dialogs) stay at the root
+│   ├── resumes/                    # ResumeBuilder.tsx (state), Resume.tsx (desktop canvas),
+│   │   │                            # useModernZoneLayout.ts/useResumeFormHandlers.ts (resume-template-only hooks)
 │   │   ├── desktop-templates/      # 5 templates: Basic, Modern, Minimal, Elegant, Classic
 │   │   └── mobile-templates/       # matching mobile variant per template
 │   ├── cover-letter/                # same pattern, 2 templates: Basic, Modern
@@ -68,20 +70,27 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 │   ├── pdf/                        # @react-pdf/renderer templates, one per resume/cover-letter template
 │   ├── navbar/                     # customization dropdowns, AuthButton.tsx
 │   ├── landing-page/                # LandingPage.tsx, PricingSection.tsx
+│   ├── ai-tools/                    # AtsCheckerDialog.tsx, AiRewriteButton.tsx — shared across both builders
+│   ├── share/                      # ShareDialog.tsx (create/revoke a shareable link, both builders),
+│   │   │                            # SharedDocumentView.tsx (public /shared/* page: renders the PDF client-side
+│   │   │                            # via pdfjs-dist canvas, not <embed>, for mobile-browser compatibility, plus a download link)
+│   ├── preview/                    # PreviewModal.tsx + ScaleToFit.tsx (its scaling helper, no other consumer)
+│   ├── sidebar/                    # Sidebar.tsx (app-shell nav) + CompletionSteps.tsx (the step tracker it renders)
+│   ├── exports/                    # DownloadButton.tsx, EmailButton.tsx, PrintButton.tsx, ExportFormatMenu.tsx
+│   ├── cookies/                    # CookieConsent.tsx, ConsentedAnalytics.tsx — global providers, mounted in app/layout.tsx
+│   ├── auth/                       # LoginPage.tsx (incl. the post-login 2FA step-up code prompt), ResetPasswordPage.tsx
+│   ├── account/                    # AccountPage.tsx (incl. admin-only 2FA (TOTP) enrollment/disable section),
+│   │   │                            # BillingPage.tsx, SupportPage.tsx
+│   ├── blog/                       # BlogPageContent.tsx, BlogPostContent.tsx, AddBlogPostDialog.tsx
+│   ├── theme/                      # ThemeToggle.tsx
+│   ├── hcaptcha/                   # InvisibleCaptcha.tsx (client component; lib/hcaptcha.ts holds the server-side client)
+│   ├── languages/                  # LanguageSelect.tsx
 │   ├── AppState.tsx                 # shared builder state context (template/color/font/section order/...)
-│   ├── AtsCheckerDialog.tsx, AiRewriteButton.tsx        # shared across both builders
-│   ├── ShareDialog.tsx              # create/revoke a shareable link (both builders)
-│   ├── SharedDocumentView.tsx       # public /shared/* page: renders the PDF client-side via pdfjs-dist canvas
-│   │   │                            # (not <embed>, for mobile-browser compatibility) plus a download link
-│   ├── DownloadButton.tsx, EmailButton.tsx, PrintButton.tsx, ExportFormatMenu.tsx
-│   ├── SaveResumeDialog.tsx, ConfirmDialog.tsx, PreviewModal.tsx (+ ScaleToFit.tsx)
-│   ├── Sortable.tsx, Sidebar.tsx, SortableColumnHeader.tsx, TableFillerRows.tsx
-│   ├── Toast.tsx, CookieConsent.tsx, ConsentedAnalytics.tsx, TawkChat.tsx   # global providers, mounted in app/layout.tsx
-│   ├── AccountPage.tsx              # incl. admin-only 2FA (TOTP) enrollment/disable section
-│   ├── LoginPage.tsx                # incl. the post-login 2FA step-up code prompt
-│   ├── BillingPage.tsx, ResetPasswordPage.tsx, SupportPage.tsx, BlogPageContent.tsx,
-│   │   BlogPostContent.tsx, AddBlogPostDialog.tsx
-│   └── useIsAdmin.ts, useHasMounted.ts, useModernZoneLayout.ts, useResumeFormHandlers.ts   # shared hooks
+│   ├── Toast.tsx, TawkChat.tsx      # global providers, mounted in app/layout.tsx
+│   ├── SaveResumeDialog.tsx, ConfirmDialog.tsx   # generic dialogs reused well beyond one feature
+│   ├── Sortable.tsx, SortableColumnHeader.tsx, TableFillerRows.tsx
+│   ├── Navbar.tsx, TemplateThumbnail.tsx, Icons.tsx, AutoResizeTextarea.tsx
+│   └── useIsAdmin.ts, useHasMounted.ts   # shared hooks used across multiple feature folders
 ├── lib/
 │   ├── resumeData.ts / coverLetterData.ts        # data types + empty-state constants
 │   ├── templates.ts / coverLetterTemplates.ts    # template ID registries
