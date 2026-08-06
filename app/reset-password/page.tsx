@@ -1,6 +1,6 @@
 
 import type { Metadata } from "next";
-import ResetPasswordPage from "@/components/ResetPasswordPage";
+import ResetPasswordPage from "@/components/auth/ResetPasswordPage";
 
 const title = "Reset password — QuickResumeBuilder.online";
 const description = "Choose a new password for your account.";

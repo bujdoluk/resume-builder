@@ -1,6 +1,6 @@
 
 import type { Metadata } from "next";
-import AccountPage from "@/components/AccountPage";
+import AccountPage from "@/components/account/AccountPage";
 
 const title = "My Account — QuickResumeBuilder.online";
 const description = "View and manage your QuickResumeBuilder.online subscription.";

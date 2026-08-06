@@ -17,9 +17,9 @@ import {
   Space_Mono,
 } from "next/font/google";
 import { AppStateProvider } from "@/components/AppState";
-import ConsentedAnalytics from "@/components/ConsentedAnalytics";
-import { CookieConsentProvider } from "@/components/CookieConsent";
-import InvisibleCaptcha from "@/components/InvisibleCaptcha";
+import ConsentedAnalytics from "@/components/cookies/ConsentedAnalytics";
+import { CookieConsentProvider } from "@/components/cookies/CookieConsent";
+import InvisibleCaptcha from "@/components/hcaptcha/InvisibleCaptcha";
 import Navbar from "@/components/Navbar";
 import TawkChat from "@/components/TawkChat";
 import { ToastProvider } from "@/components/Toast";

@@ -2,7 +2,7 @@
 
 import Script from "next/script";
 import { usePathname } from "next/navigation";
-import { useCookieConsent } from "@/components/CookieConsent";
+import { useCookieConsent } from "@/components/cookies/CookieConsent";
 
 export default function TawkChat() {
   const { consent } = useCookieConsent();

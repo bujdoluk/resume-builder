@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslation } from "react-i18next";
-import AiRewriteButton from "@/components/AiRewriteButton";
+import AiRewriteButton from "@/components/ai-tools/AiRewriteButton";
 import AutoResizeTextarea from "@/components/AutoResizeTextarea";
 import {
   SortableBlock,

@@ -3,7 +3,7 @@
 import { rectSortingStrategy } from "@dnd-kit/sortable";
 import { Fragment, useState, type Dispatch, type SetStateAction } from "react";
 import { useTranslation } from "react-i18next";
-import AiRewriteButton from "@/components/AiRewriteButton";
+import AiRewriteButton from "@/components/ai-tools/AiRewriteButton";
 import type { FieldKey } from "@/components/AppState";
 import AutoResizeTextarea from "@/components/AutoResizeTextarea";
 import { AboutMeIcon } from "@/components/Icons";
@@ -15,7 +15,7 @@ import {
   SortableZone,
   SortableZones,
 } from "@/components/Sortable";
-import { useModernZoneLayout } from "@/components/useModernZoneLayout";
+import { useModernZoneLayout } from "@/components/resumes/useModernZoneLayout";
 import { getContrastTextColor } from "@/lib/color";
 import { getFontSizeStyle, type FontSizeKey } from "@/lib/fontSize";
 import { generateId } from "@/lib/generateId";

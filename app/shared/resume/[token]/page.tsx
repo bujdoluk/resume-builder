@@ -2,7 +2,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { cache } from "react";
-import SharedDocumentView from "@/components/SharedDocumentView";
+import SharedDocumentView from "@/components/share/SharedDocumentView";
 import { getResumeByShareToken } from "@/lib/supabase/resumes";
 import { createServiceRoleClient } from "@/lib/supabase/serviceRole";
 

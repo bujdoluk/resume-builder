@@ -2,7 +2,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Footer from "@/components/landing-page/Footer";
-import BlogPostContent from "@/components/BlogPostContent";
+import BlogPostContent from "@/components/blog/BlogPostContent";
 import { createClient } from "@/lib/supabase/server";
 import { getBlogPostBySlug } from "@/lib/supabase/blogPosts";
 

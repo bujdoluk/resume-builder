@@ -1,6 +1,6 @@
 
 import type { Metadata } from "next";
-import SupportPage from "@/components/SupportPage";
+import SupportPage from "@/components/account/SupportPage";
 
 const title = "Support — QuickResumeBuilder.online";
 const description = "Get help with QuickResumeBuilder.online.";

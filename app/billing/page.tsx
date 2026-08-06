@@ -1,6 +1,6 @@
 
 import type { Metadata } from "next";
-import BillingPage from "@/components/BillingPage";
+import BillingPage from "@/components/account/BillingPage";
 
 const title = "Billing — QuickResumeBuilder.online";
 const description = "View and manage your QuickResumeBuilder.online subscription.";

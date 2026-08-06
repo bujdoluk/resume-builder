@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
 import * as Sentry from "@sentry/nextjs";
-import CompletionSteps from "@/components/CompletionSteps";
+import CompletionSteps from "@/components/sidebar/CompletionSteps";
 import {
   EmailIcon,
   MyCoverLettersIcon,

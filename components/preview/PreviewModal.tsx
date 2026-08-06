@@ -2,7 +2,7 @@
 
 import { useImperativeHandle, useRef, type ComponentType, type Ref } from "react";
 import { createPortal } from "react-dom";
-import ScaleToFit from "@/components/ScaleToFit";
+import ScaleToFit from "@/components/preview/ScaleToFit";
 import { useHasMounted } from "@/components/useHasMounted";
 
 export interface PreviewModalHandle {

@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useRef } from "react";
 import { useTranslation } from "react-i18next";
-import AddBlogPostDialog, { type AddBlogPostDialogHandle } from "@/components/AddBlogPostDialog";
+import AddBlogPostDialog, { type AddBlogPostDialogHandle } from "@/components/blog/AddBlogPostDialog";
 import { useIsAdmin } from "@/components/useIsAdmin";
 import { categoryBadgeClass, type BlogPost } from "@/lib/supabase/blogPosts";
 

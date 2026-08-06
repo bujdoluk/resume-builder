@@ -11,8 +11,8 @@ import FeaturesDropdown from "@/components/navbar/FeaturesDropdown";
 import FontSizeDropdown from "@/components/navbar/FontSizeDropdown";
 import TemplatesDropdown from "@/components/navbar/TemplatesDropdown";
 import TypographyDropdown from "@/components/navbar/TypographyDropdown";
-import LanguageSelect from "@/components/LanguageSelect";
-import ThemeToggle from "@/components/ThemeToggle";
+import LanguageSelect from "@/components/languages/LanguageSelect";
+import ThemeToggle from "@/components/theme/ThemeToggle";
 
 export default function Navbar() {
   const { t } = useTranslation();

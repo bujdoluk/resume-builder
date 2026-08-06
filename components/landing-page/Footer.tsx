@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
 import { Temporal } from "temporal-polyfill";
-import { useCookieConsent } from "@/components/CookieConsent";
+import { useCookieConsent } from "@/components/cookies/CookieConsent";
 
 export default function Footer() {
   const { t } = useTranslation();

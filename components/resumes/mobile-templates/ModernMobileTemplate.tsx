@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import AiRewriteButton from "@/components/AiRewriteButton";
+import AiRewriteButton from "@/components/ai-tools/AiRewriteButton";
 import AutoResizeTextarea from "@/components/AutoResizeTextarea";
 import type { MobileTemplateProps } from "@/components/resumes/mobile-templates/BasicMobileTemplate";
 import { AboutMeIcon } from "@/components/Icons";
@@ -13,8 +13,8 @@ import {
   SortableZone,
   SortableZones,
 } from "@/components/Sortable";
-import { createResumeFormHandlers } from "@/components/useResumeFormHandlers";
-import { useModernZoneLayout } from "@/components/useModernZoneLayout";
+import { createResumeFormHandlers } from "@/components/resumes/useResumeFormHandlers";
+import { useModernZoneLayout } from "@/components/resumes/useModernZoneLayout";
 import { getContrastTextColor } from "@/lib/color";
 import { type FieldKey } from "@/lib/fields";
 import { formatPhoneAsYouType } from "@/lib/phone";

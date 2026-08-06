@@ -3,7 +3,7 @@
 import type { RefObject } from "react";
 import { useTranslation } from "react-i18next";
 import { PrintIcon } from "@/components/Icons";
-import type { PreviewModalHandle } from "@/components/PreviewModal";
+import type { PreviewModalHandle } from "@/components/preview/PreviewModal";
 
 export default function PrintButton({
   previewRef,

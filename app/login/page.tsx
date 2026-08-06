@@ -1,6 +1,6 @@
 
 import type { Metadata } from "next";
-import LoginPage from "@/components/LoginPage";
+import LoginPage from "@/components/auth/LoginPage";
 
 const title = "Log in — QuickResumeBuilder.online";
 const description = "Log in or create an account to save your resumes and cover letters.";

@@ -5,21 +5,21 @@ import { useRouter } from "next/navigation";
 import { useTranslation } from "react-i18next";
 import * as Sentry from "@sentry/nextjs";
 import { useAppState } from "@/components/AppState";
-import AtsCheckerDialog, { type AtsCheckerDialogHandle } from "@/components/AtsCheckerDialog";
-import CompletionSteps from "@/components/CompletionSteps";
+import AtsCheckerDialog, { type AtsCheckerDialogHandle } from "@/components/ai-tools/AtsCheckerDialog";
+import CompletionSteps from "@/components/sidebar/CompletionSteps";
 import ConfirmDialog, { type ConfirmDialogHandle } from "@/components/ConfirmDialog";
-import DownloadButton from "@/components/DownloadButton";
-import EmailButton from "@/components/EmailButton";
-import ExportFormatMenu from "@/components/ExportFormatMenu";
+import DownloadButton from "@/components/exports/DownloadButton";
+import EmailButton from "@/components/exports/EmailButton";
+import ExportFormatMenu from "@/components/exports/ExportFormatMenu";
 import { SaveIcon, ShareIcon } from "@/components/Icons";
 import PreviewModal, {
   type PreviewModalHandle,
-} from "@/components/PreviewModal";
-import PrintButton from "@/components/PrintButton";
+} from "@/components/preview/PreviewModal";
+import PrintButton from "@/components/exports/PrintButton";
 import SaveResumeDialog, {
   type SaveResumeDialogHandle,
 } from "@/components/SaveResumeDialog";
-import ShareDialog, { type ShareDialogHandle } from "@/components/ShareDialog";
+import ShareDialog, { type ShareDialogHandle } from "@/components/share/ShareDialog";
 import CoverLetter from "@/components/cover-letter/CoverLetter";
 import { emptyCoverLetterData, type CoverLetterData } from "@/lib/coverLetterData";
 import { isCoverLetterFieldFilled } from "@/lib/coverLetterFields";
