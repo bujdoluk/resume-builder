@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.1](https://github.com/bujdoluk/resume-builder/compare/QuickResumeBuilder.online-v0.5.0...QuickResumeBuilder.online-v0.5.1) (2026-08-07)
+
+
+### Bug Fixes
+
+* use Temporal instead of Date for the health endpoint timestamp ([b3c964f](https://github.com/bujdoluk/resume-builder/commit/b3c964fbd55e7a390f990caa497a12edbc758b5b))
+
 ## [0.5.0](https://github.com/bujdoluk/resume-builder/compare/QuickResumeBuilder.online-v0.4.0...QuickResumeBuilder.online-v0.5.0) (2026-08-07)
 
 
