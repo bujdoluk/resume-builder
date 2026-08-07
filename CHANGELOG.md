@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.5.0](https://github.com/bujdoluk/resume-builder/compare/QuickResumeBuilder.online-v0.4.0...QuickResumeBuilder.online-v0.5.0) (2026-08-07)
+
+
+### Features
+
+* added new script to generate types from db ([1cdf8aa](https://github.com/bujdoluk/resume-builder/commit/1cdf8aacf212dfd9ee05e63a9ce0d88895396368))
+* added security.md file, added vitest coverage, added zod validation schemas ([4ae3298](https://github.com/bujdoluk/resume-builder/commit/4ae329881daaaa86a2f9d16b150d2bd78d315c2e))
+
 ## [0.4.0](https://github.com/bujdoluk/resume-builder/compare/QuickResumeBuilder.online-v0.3.1...QuickResumeBuilder.online-v0.4.0) (2026-08-07)
 
 
