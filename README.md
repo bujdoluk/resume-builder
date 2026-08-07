@@ -95,6 +95,8 @@ Run every file under `supabase/migrations/` in order (`0001`–`0010`) — there
 
 After running new migrations, regenerate `lib/supabase/database.types.ts` so the app's TypeScript types stay in sync with the real schema: `npx supabase login` once per machine (opens a browser, needs a [personal access token](https://supabase.com/dashboard/account/tokens); this is a one-time local auth step, separate from `supabase link` — no project-linking or remote config happens), then `npm run db:types`. This overwrites the file with the CLI's real generated output, so don't hand-edit it — if the CLI login isn't available, hand-editing to match the migration SQL is the fallback, but the generated version is authoritative when you have it.
 
+`.github/workflows/db-types-check.yml` enforces this in CI — it regenerates the types and fails the build if they differ from what's committed (on push/PR touching `supabase/migrations/**` or the types file itself, plus a weekly cron to catch schema changes made directly in the Dashboard SQL Editor with no matching commit). It needs a `SUPABASE_ACCESS_TOKEN` **repository secret** (Settings → Secrets and variables → Actions) — a personal access token, same as the local login above, just stored for CI instead of on a developer's machine.
+
 ### Billing setup (Stripe)
 1. Set `STRIPE_SECRET_KEY` in `.env.local`.
 2. Run `node scripts/setup-stripe.mjs` — creates the Pro Product/Prices and prints `STRIPE_PRICE_ID_MONTHLY`/`STRIPE_PRICE_ID_ANNUAL`.
