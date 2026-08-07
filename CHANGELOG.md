@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.4.0](https://github.com/bujdoluk/resume-builder/compare/QuickResumeBuilder.online-v0.3.1...QuickResumeBuilder.online-v0.4.0) (2026-08-07)
+
+
+### Features
+
+* add pre-commit lint hook and public health-check endpoint ([6126e50](https://github.com/bujdoluk/resume-builder/commit/6126e50f20f8a1b485cd05370699eab2c92e90be))
+* add pre-commit lint hook and public health-check endpoint ([077e948](https://github.com/bujdoluk/resume-builder/commit/077e948e6b70f1a6a2c40776f3ba28dae42d0ec6))
+
 ## [0.3.1](https://github.com/bujdoluk/resume-builder/compare/QuickResumeBuilder.online-v0.3.0...QuickResumeBuilder.online-v0.3.1) (2026-08-07)
 
 
