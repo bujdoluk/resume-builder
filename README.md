@@ -166,7 +166,7 @@ A daily [Vercel Cron Job](https://vercel.com/docs/cron-jobs) (configured in `ver
 - **`supabase/migrations/`** — numbered SQL migrations, applied manually.
 
 ## Testing
-Unit tests use [Vitest](https://vitest.dev), set up per the [official Next.js guide](https://nextjs.org/docs/app/guides/testing/vitest). Test files live under `__tests__/`, mirroring the source tree (e.g. `__tests__/lib/color.test.ts` tests `lib/color.ts`). `npm test` runs in watch mode; `npm run test:run` runs once (what CI uses).
+Unit tests use [Vitest](https://vitest.dev), set up per the [official Next.js guide](https://nextjs.org/docs/app/guides/testing/vitest). Test files live under `__tests__/`, mirroring the source tree (e.g. `__tests__/lib/color.test.ts` tests `lib/color.ts`). `npm test` runs in watch mode; `npm run test:run` runs once (what CI uses); `npm run test:coverage` runs once with a v8 coverage report (text summary in the terminal, plus HTML/lcov under `coverage/`, gitignored). Coverage isn't gated in CI — the project deliberately doesn't chase 100% (see below), so a percentage alone isn't a useful pass/fail signal here.
 
 Coverage focuses on the critical path rather than chasing 100%: every `app/api/**/route.ts` handler (auth/anonymous/rate-limit guards, Stripe billing, role+2FA admin authorization, input validation) including the public shared-link PDF routes, the Supabase save/load mapping layer (incl. share-token issuing and expiry), PDF/DOCX/plain-text export generation, the ATS Checker's format-check scoring, rate limiting, i18n locale key parity, and CSP/security-header construction — plus two full-form component tests (`ResumeBuilder`/`CoverLetterBuilder`) that fill every field and exercise the real save flow end to end. Not covered: the session-refresh proxy (`proxy.ts`), and most UI beyond the two builders (templates gallery, account/billing pages, blog admin UI, the 2FA enrollment flow, the login step-up flow) — those remain a manual/E2E concern.
 
@@ -234,6 +234,7 @@ Afterward, update `.release-manifest.json` to match the new version and commit i
 - `npm run start` — run the production build.
 - `npm run lint` — ESLint.
 - `npm test` / `npm run test:run` — Vitest, watch mode / single run.
+- `npm run test:coverage` — Vitest single run with a v8 coverage report.
 - `npm run test:e2e` / `npm run test:e2e:headed` — Playwright, headless / visible browser.
 
 ## Learn More

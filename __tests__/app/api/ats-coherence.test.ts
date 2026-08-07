@@ -91,6 +91,20 @@ describe("POST /api/ats-coherence", () => {
     expect(mocks.checkCoherence).not.toHaveBeenCalled();
   });
 
+  it("rejects a malformed JSON body", async () => {
+    const { POST } = await import("@/app/api/ats-coherence/route");
+    const request = new Request("https://example.com/api/ats-coherence", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: "not valid json",
+    });
+    const response = await POST(request);
+
+    expect(response.status).toBe(400);
+    expect((await response.json()).error).toBe(en.apiErrors.invalidTextData);
+    expect(mocks.checkCoherence).not.toHaveBeenCalled();
+  });
+
   it("returns 502 without calling Groq when GROQ_API_KEY isn't configured", async () => {
     delete process.env.GROQ_API_KEY;
 

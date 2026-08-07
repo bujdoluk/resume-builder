@@ -59,6 +59,21 @@ describe("POST /api/stripe/cancel", () => {
     expect(mocks.subscriptionsUpdate).not.toHaveBeenCalled();
   });
 
+  it("rejects a malformed JSON body without touching auth or Stripe", async () => {
+    const { POST } = await import("@/app/api/stripe/cancel/route");
+    const request = new Request("https://example.com/api/stripe/cancel", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: "not valid json",
+    });
+    const response = await POST(request);
+
+    expect(response.status).toBe(400);
+    expect((await response.json()).error).toBe(en.apiErrors.invalidAction);
+    expect(mocks.getUser).not.toHaveBeenCalled();
+    expect(mocks.subscriptionsUpdate).not.toHaveBeenCalled();
+  });
+
   it("requires a logged-in user", async () => {
     mocks.getUser.mockResolvedValue({ data: { user: null } });
 

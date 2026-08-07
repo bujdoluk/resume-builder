@@ -100,6 +100,9 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 │   ├── aiRewrite/rewriteText.ts    # Groq — "Rewrite with AI"
 │   ├── adminAuth.ts                # requireAdmin() — shared server-side gate (role + aal2 2FA) for admin routes
 │   ├── shareLink.ts                # isShareLinkActive() — expiry check for shareable-link tokens
+│   ├── apiValidation.ts            # validateBody() — runs a Zod schema, maps a failure straight to the ApiErrorKey
+│   │                                # set as that field's schema message (see lib/validation/*)
+│   ├── validation/                 # one Zod schema file per app/api/**/route.ts POST body that needs one
 │   ├── pdf/ docx/ text/            # the 3 export renderers per document type (PDF/@react-pdf, DOCX/`docx`, plain text)
 │   │   │                            # pdf/streamToBuffer.ts drains @react-pdf/renderer's stream for the shared-link routes
 │   ├── email/                      # Resend-backed senders (sendPdfEmail/sendDocxEmail/sendTextEmail/sendWelcomeEmail),
@@ -118,12 +121,12 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 │   ├── configHealth.ts             # boolean-only report of which optional integrations are configured
 │   ├── stripe.ts / groq.ts / hcaptcha.ts   # lazily-instantiated third-party clients, all fail gracefully if unconfigured
 │   └── constants.ts                # shared numeric constants (HTTP status codes, rate limits, retention windows, ...)
-├── __tests__/                      # Vitest, mirrors the source tree (35 files as of this writing)
+├── __tests__/                      # Vitest, mirrors the source tree (36 files as of this writing)
 │   ├── app/api/                    # every API route: account, admin, ai-rewrite, ats-coherence, blog, cron, send-email, stripe
 │   ├── app/shared/                 # the two shared-link PDF routes (rate limit, 404 on missing/expired token, valid PDF)
 │   ├── components/                 # ResumeBuilder.tsx, CoverLetterBuilder.tsx — full-form fill-and-save flows
 │   └── lib/                        # atsChecker, docx, i18n, pdf, supabase (incl. share-token/MFA), text — plus adminAuth,
-│                                    # shareLink, color, rateLimit, securityHeaders, configHealth, apiErrors as standalone tests
+│                                    # shareLink, color, rateLimit, securityHeaders, configHealth, apiErrors, apiValidation as standalone tests
 ├── e2e/                            # Playwright, real-browser user-journey flows, wired into CI (.github/workflows/e2e.yml)
 ├── supabase/migrations/            # 10 numbered SQL migrations, applied manually (no linked CLI project)
 ├── scripts/                        # set-admin.mjs, reset-admin-mfa.mjs (2FA recovery), setup-stripe.mjs,
@@ -157,6 +160,7 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 - **Generate route types**: `npx next typegen` (fast, no full build — matches what CI runs before typecheck)
 - **Test (watch)**: `npm test`
 - **Test (single run, what CI uses)**: `npm run test:run`
+- **Test (with coverage)**: `npm run test:coverage`
 
 ## 🚀 Releases
 
@@ -183,7 +187,7 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 ## 🧪 Testing Practices
 
 - **Unit testing**: Vitest + Testing Library (`@testing-library/react`, `@testing-library/dom`, `@testing-library/jest-dom`, `@testing-library/user-event`), config in `vitest.config.mts`, jsdom environment, `vite-tsconfig-paths` for `@/*` aliases
-  - Command: `npm test` (watch) / `npm run test:run` (single run, used by CI)
+  - Command: `npm test` (watch) / `npm run test:run` (single run, used by CI) / `npm run test:coverage` (single run + v8 coverage report; not gated in CI — this repo deliberately doesn't chase 100%)
   - Tests live under `__tests__/`, mirroring the source tree (e.g. `__tests__/lib/color.test.ts` tests `lib/color.ts`)
   - Coverage is broad on the critical path: every `app/api/**/route.ts` handler including the public shared-link PDF routes, the shared `requireAdmin()` role+2FA gate (`lib/adminAuth.ts`), the Supabase save/load mapping layer (`lib/supabase/resumes.ts`/`coverLetters.ts`/`subscriptions.ts`, incl. share-token issuing/expiry), PDF/DOCX/plain-text export generation, the ATS format-check scoring, rate limiting, i18n locale key parity, and CSP/security-header construction — plus two full-form component tests (`ResumeBuilder`/`CoverLetterBuilder`) that fill every field and exercise the real save flow. Not covered: `proxy.ts`/session-refresh middleware, and most UI beyond the two builders (templates, account/billing pages, blog admin UI, the 2FA enrollment UI, the login step-up flow) — those remain a manual/E2E concern
   - No mocking library (e.g. MSW) is set up; API route tests mock their immediate dependencies directly via `vi.mock` (Supabase client wrappers, Stripe, Groq, rate limiting) and exercise the real Web APIs (`Request`/`Response`) end to end
@@ -218,7 +222,7 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 ## 🔐 Security
 
-- Validate all inputs in API routes (`app/api/**/route.ts`); use `errorResponse()` from `lib/apiErrors.ts` for localized error responses
+- Validate all inputs in API routes (`app/api/**/route.ts`) with a Zod schema in `lib/validation/` (message on each field set to the exact `ApiErrorKey` to return), parsed via `validateBody()` from `lib/apiValidation.ts`; use `errorResponse()` from `lib/apiErrors.ts` for localized error responses. Routes with no request body (`GET`, or auth/header-only `POST`s like the cron and account-delete routes) don't need a schema. Byte-size checks on decoded attachments (e.g. `send-email`'s base64 payloads) stay outside the schema — they're a business rule on the decoded buffer, not the input shape
 - Free-tier limits are enforced server-side via Supabase RLS policies, not just client-side checks
 - Admin-only routes (`/api/blog`, `/api/admin/config-health`) gate through `lib/adminAuth.ts`'s `requireAdmin()`, which requires both `user.app_metadata?.role === "admin"` (never `user_metadata`, which a regular user can self-modify — grant the role via `scripts/set-admin.mjs`, never by hand) AND a completed TOTP 2FA challenge this session (`aal2`, checked via Supabase Auth MFA's `getAuthenticatorAssuranceLevel()`) — a compromised password alone doesn't reach these routes. Enrolled from `/account`; login (password or Google) prompts for the code whenever a verified factor exists. Lost-device recovery: `scripts/reset-admin-mfa.mjs` (service role, doesn't touch the role claim)
 - Cron endpoints (`app/api/cron/**`) require a `CRON_SECRET` bearer token and fail closed

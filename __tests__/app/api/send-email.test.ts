@@ -69,6 +69,20 @@ describe("POST /api/send-email", () => {
     expect(mocks.sendPdfEmail).not.toHaveBeenCalled();
   });
 
+  it("rejects a malformed JSON body", async () => {
+    const { POST } = await import("@/app/api/send-email/route");
+    const request = new Request("https://example.com/api/send-email", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: "not valid json",
+    });
+    const response = await POST(request);
+
+    expect(response.status).toBe(400);
+    expect((await response.json()).error).toBe(en.apiErrors.invalidEmailAddress);
+    expect(mocks.sendPdfEmail).not.toHaveBeenCalled();
+  });
+
   it("rejects a malformed recipient address", async () => {
     const { POST } = await import("@/app/api/send-email/route");
     const response = await POST(

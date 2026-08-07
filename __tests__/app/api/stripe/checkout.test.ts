@@ -64,6 +64,20 @@ describe("POST /api/stripe/checkout", () => {
     expect((await response.json()).error).toBe(en.apiErrors.invalidPlan);
   });
 
+  it("rejects a malformed JSON body without touching Stripe", async () => {
+    const { POST } = await import("@/app/api/stripe/checkout/route");
+    const request = new Request("https://example.com/api/stripe/checkout", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: "not valid json",
+    });
+    const response = await POST(request);
+
+    expect(response.status).toBe(400);
+    expect((await response.json()).error).toBe(en.apiErrors.invalidPlan);
+    expect(mocks.sessionsCreate).not.toHaveBeenCalled();
+  });
+
   it("requires a logged-in user", async () => {
     mocks.getUser.mockResolvedValue({ data: { user: null } });
 

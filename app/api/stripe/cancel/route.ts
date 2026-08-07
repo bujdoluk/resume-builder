@@ -1,6 +1,7 @@
 
 import { Temporal } from "temporal-polyfill";
 import { errorResponse } from "@/lib/apiErrors";
+import { validateBody } from "@/lib/apiValidation";
 import {
   HTTP_BAD_REQUEST,
   HTTP_NOT_FOUND,
@@ -12,12 +13,15 @@ import {
 import { checkRateLimit } from "@/lib/rateLimit";
 import { getStripe } from "@/lib/stripe";
 import { createClient } from "@/lib/supabase/server";
+import { stripeCancelBodySchema } from "@/lib/validation/stripeCancel";
 
 export async function POST(request: Request) {
-  const { action } = await request.json();
-  if (action !== "cancel" && action !== "resume") {
-    return errorResponse(HTTP_BAD_REQUEST, "invalidAction", request);
+  const body = await request.json().catch(() => null);
+  const parsed = validateBody(stripeCancelBodySchema, body ?? {});
+  if (!parsed.success) {
+    return errorResponse(HTTP_BAD_REQUEST, parsed.key, request);
   }
+  const { action } = parsed.data;
 
   const supabase = await createClient();
   const {
