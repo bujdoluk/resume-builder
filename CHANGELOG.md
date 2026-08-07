@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.3.1](https://github.com/bujdoluk/resume-builder/compare/QuickResumeBuilder.online-v0.3.0...QuickResumeBuilder.online-v0.3.1) (2026-08-07)
+
+
+### Bug Fixes
+
+* bump transitive js-yaml to 4.3.1 to resolve CVE-2026-59870 ([f623b08](https://github.com/bujdoluk/resume-builder/commit/f623b08900e0a049ee9e219b6b85a3eb2cc471c5))
+* bump transitive js-yaml to 4.3.1 to resolve CVE-2026-59870 ([ef78407](https://github.com/bujdoluk/resume-builder/commit/ef78407606dc1bffd596c81fabd891f89da6a5d2))
+
 ## [0.3.0](https://github.com/bujdoluk/resume-builder/compare/QuickResumeBuilder.online-v0.2.0...QuickResumeBuilder.online-v0.3.0) (2026-08-06)
 
 
