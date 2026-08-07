@@ -50,6 +50,9 @@ export default function MyResumesPage() {
   const [resumes, setResumes] = useState<ResumeRow[] | null>(null);
   const [loadFailed, setLoadFailed] = useState(false);
   const [duplicatingId, setDuplicatingId] = useState<string | null>(null);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [renamingId, setRenamingId] = useState<string | null>(null);
+  const [isBulkDeleting, setIsBulkDeleting] = useState(false);
   const [page, setPage] = useState(1);
   const [totalCount, setTotalCount] = useState(0);
   const [sort, setSort] = useState<ResumeSort>({
@@ -105,11 +108,16 @@ export default function MyResumesPage() {
       confirmLabel: t("myResumes.deleteSelected"),
     });
     if (!confirmed) return;
-    await deleteResumes(supabase, Array.from(selectedIds));
-    notifyResumeListChanged();
-    const remainingOnPage = (resumes?.length ?? 0) - selectedIds.size;
-    const targetPage = remainingOnPage <= 0 && page > 1 ? page - 1 : page;
-    await loadPage(targetPage);
+    setIsBulkDeleting(true);
+    try {
+      await deleteResumes(supabase, Array.from(selectedIds));
+      notifyResumeListChanged();
+      const remainingOnPage = (resumes?.length ?? 0) - selectedIds.size;
+      const targetPage = remainingOnPage <= 0 && page > 1 ? page - 1 : page;
+      await loadPage(targetPage);
+    } finally {
+      setIsBulkDeleting(false);
+    }
   }
 
   function handleSort(column: ResumeSort["column"]) {
@@ -130,17 +138,27 @@ export default function MyResumesPage() {
       confirmLabel: t("myResumes.delete"),
     });
     if (!confirmed) return;
-    await deleteResume(supabase, id);
-    notifyResumeListChanged();
-    const isLastRowOnPage = resumes?.length === 1 && page > 1;
-    await loadPage(isLastRowOnPage ? page - 1 : page);
+    setDeletingId(id);
+    try {
+      await deleteResume(supabase, id);
+      notifyResumeListChanged();
+      const isLastRowOnPage = resumes?.length === 1 && page > 1;
+      await loadPage(isLastRowOnPage ? page - 1 : page);
+    } finally {
+      setDeletingId(null);
+    }
   }
 
   async function handleRename(row: ResumeRow) {
     const newName = await renameDialogRef.current?.open(row.name);
     if (!newName) return;
-    await renameResume(supabase, row.id, newName);
-    await loadPage(page);
+    setRenamingId(row.id);
+    try {
+      await renameResume(supabase, row.id, newName);
+      await loadPage(page);
+    } finally {
+      setRenamingId(null);
+    }
   }
 
   async function handleDuplicate(id: string) {
@@ -190,9 +208,14 @@ export default function MyResumesPage() {
                 <button
                   type="button"
                   className="btn btn-error btn-sm"
+                  disabled={isBulkDeleting}
                   onClick={handleBulkDelete}
                 >
-                  <TrashIcon className="h-4 w-4 stroke-current" />
+                  {isBulkDeleting ? (
+                    <span className="loading loading-spinner loading-xs" />
+                  ) : (
+                    <TrashIcon className="h-4 w-4 stroke-current" />
+                  )}
                   {t("myResumes.deleteSelected")}
                 </button>
               </>
@@ -205,6 +228,12 @@ export default function MyResumesPage() {
 
         {loadFailed && (
           <p className="text-error">{t("myResumes.loadFailed")}</p>
+        )}
+
+        {!loadFailed && resumes === null && (
+          <div className="flex flex-1 items-center justify-center">
+            <span className="loading loading-spinner loading-lg" />
+          </div>
         )}
 
         {!loadFailed && resumes && resumes.length === 0 && (
@@ -285,9 +314,14 @@ export default function MyResumesPage() {
                       <button
                         type="button"
                         className="btn btn-outline btn-sm"
+                        disabled={renamingId === row.id}
                         onClick={() => handleRename(row)}
                       >
-                        <PencilIcon className="h-4 w-4 stroke-current" />
+                        {renamingId === row.id ? (
+                          <span className="loading loading-spinner loading-xs" />
+                        ) : (
+                          <PencilIcon className="h-4 w-4 stroke-current" />
+                        )}
                         {t("myResumes.rename")}
                       </button>
                     </td>
@@ -319,9 +353,14 @@ export default function MyResumesPage() {
                       <button
                         type="button"
                         className="btn btn-outline btn-sm btn-error"
+                        disabled={deletingId === row.id}
                         onClick={() => handleDelete(row.id)}
                       >
-                        <TrashIcon className="h-4 w-4 stroke-current" />
+                        {deletingId === row.id ? (
+                          <span className="loading loading-spinner loading-xs" />
+                        ) : (
+                          <TrashIcon className="h-4 w-4 stroke-current" />
+                        )}
                         {t("myResumes.delete")}
                       </button>
                     </td>

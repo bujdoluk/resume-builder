@@ -76,6 +76,9 @@ export default function CoverLetterBuilder({
   const [coverLetterId, setCoverLetterId] = useState<string | null>(
     initialCoverLetterId ?? null,
   );
+  const [loadedCoverLetterId, setLoadedCoverLetterId] = useState<string | null>(null);
+  const isLoadingInitialCoverLetter =
+    !!initialCoverLetterId && loadedCoverLetterId !== initialCoverLetterId;
   const [name, setName] = useState("");
   const [shareToken, setShareToken] = useState<string | null>(null);
   const [shareTokenExpiresAt, setShareTokenExpiresAt] = useState<string | null>(null);
@@ -113,11 +116,14 @@ export default function CoverLetterBuilder({
     let cancelled = false;
 
     getCoverLetter(supabase, initialCoverLetterId).then((row) => {
-      if (!row || cancelled) return;
-      setData(row.data);
-      setName(row.name);
-      setShareToken(isShareLinkActive(row.shareTokenExpiresAt) ? row.shareToken : null);
-      setShareTokenExpiresAt(isShareLinkActive(row.shareTokenExpiresAt) ? row.shareTokenExpiresAt : null);
+      if (cancelled) return;
+      if (row) {
+        setData(row.data);
+        setName(row.name);
+        setShareToken(isShareLinkActive(row.shareTokenExpiresAt) ? row.shareToken : null);
+        setShareTokenExpiresAt(isShareLinkActive(row.shareTokenExpiresAt) ? row.shareTokenExpiresAt : null);
+      }
+      setLoadedCoverLetterId(initialCoverLetterId);
     });
 
     return () => {
@@ -398,6 +404,14 @@ export default function CoverLetterBuilder({
         >
           {t("atsChecker.buttonLabel")}
         </button>
+      </div>
+    );
+  }
+
+  if (isLoadingInitialCoverLetter) {
+    return (
+      <div className="bg-base-200 flex flex-1 items-center justify-center p-6">
+        <span className="loading loading-spinner loading-lg" />
       </div>
     );
   }
