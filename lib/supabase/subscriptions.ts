@@ -1,7 +1,9 @@
 
 import type { SupabaseClient } from "@supabase/supabase-js";
+import type { Database } from "@/lib/supabase/database.types";
 
 export type Plan = "free" | "pro" | "annual";
+const KNOWN_PLANS: Plan[] = ["free", "pro", "annual"];
 
 export interface Subscription {
   plan: Plan;
@@ -17,15 +19,12 @@ const FREE_SUBSCRIPTION: Subscription = {
   cancelAtPeriodEnd: false,
 };
 
-interface SubscriptionTableRow {
-  plan: Plan;
-  status: string;
-  current_period_end: string | null;
-  cancel_at_period_end: boolean;
+function toPlan(value: string): Plan {
+  return (KNOWN_PLANS as string[]).includes(value) ? (value as Plan) : "free";
 }
 
 export async function getSubscription(
-  supabase: SupabaseClient,
+  supabase: SupabaseClient<Database>,
   userId: string,
 ): Promise<Subscription> {
   const { data, error } = await supabase
@@ -37,15 +36,13 @@ export async function getSubscription(
   if (error) throw error;
   if (!data) return FREE_SUBSCRIPTION;
 
-  const row = data as SubscriptionTableRow;
-
-  if (row.status !== "active" && row.status !== "trialing") return FREE_SUBSCRIPTION;
+  if (data.status !== "active" && data.status !== "trialing") return FREE_SUBSCRIPTION;
 
   return {
-    plan: row.plan,
-    status: row.status,
-    currentPeriodEnd: row.current_period_end,
-    cancelAtPeriodEnd: row.cancel_at_period_end,
+    plan: toPlan(data.plan),
+    status: data.status,
+    currentPeriodEnd: data.current_period_end,
+    cancelAtPeriodEnd: data.cancel_at_period_end,
   };
 }
 

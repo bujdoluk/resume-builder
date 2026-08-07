@@ -17,7 +17,8 @@
     "test:coverage": "vitest run --coverage",
     "test:e2e": "playwright test",
     "test:e2e:headed": "playwright test --headed",
-    "prepare": "husky"
+    "prepare": "husky",
+    "db:types": "npx supabase gen types typescript --project-id xjgpwpiievwgjqjoewhr --schema public > lib/supabase/database.types.ts"
   },
   "lint-staged": {
     "*.{js,jsx,mjs,ts,tsx}": "eslint --fix"

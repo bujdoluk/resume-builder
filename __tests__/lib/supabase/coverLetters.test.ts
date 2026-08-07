@@ -1,6 +1,6 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { describe, expect, it, vi } from "vitest";
-import { emptyCoverLetterData } from "@/lib/coverLetterData";
+import { COVER_LETTER_SCHEMA_VERSION, emptyCoverLetterData } from "@/lib/coverLetterData";
 import {
   countCoverLetters,
   disableCoverLetterSharing,
@@ -11,10 +11,6 @@ import {
   type SaveCoverLetterParams,
 } from "@/lib/supabase/coverLetters";
 
-// A minimal fake of supabase-js's fluent query builder: every chain method
-// returns the same object, and the object is directly awaitable (mirroring
-// how the real builder resolves without an explicit terminal call in
-// countCoverLetters) as well as exposing .single()/.maybeSingle() terminals.
 function createQueryBuilder(result: { data?: unknown; error?: unknown; count?: number | null }) {
   const builder = {
     select: vi.fn(() => builder),
@@ -66,7 +62,7 @@ describe("saveCoverLetter", () => {
       expect.objectContaining({
         user_id: "user-1",
         name: "My Cover Letter",
-        data: saveParams.data,
+        data: { ...saveParams.data, __schemaVersion: COVER_LETTER_SCHEMA_VERSION },
       }),
     );
     expect(builder.update).not.toHaveBeenCalled();

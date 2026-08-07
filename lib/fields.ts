@@ -1,16 +1,7 @@
 
-export type FieldKey =
-  | "photo"
-  | "name"
-  | "jobTitle"
-  | "phone"
-  | "email"
-  | "address"
-  | "website"
-  | "linkedin"
-  | "aboutMe";
+import { z } from "zod";
 
-export const allFields: FieldKey[] = [
+const FIELD_KEYS = [
   "photo",
   "name",
   "jobTitle",
@@ -20,7 +11,19 @@ export const allFields: FieldKey[] = [
   "website",
   "linkedin",
   "aboutMe",
-];
+] as const;
+
+export type FieldKey = (typeof FIELD_KEYS)[number];
+export const fieldKeySchema = z.enum(FIELD_KEYS);
+
+// Drops individually-invalid entries rather than discarding the whole list —
+// one corrupted field key shouldn't hide every other still-valid one.
+export const visibleFieldsSchema: z.ZodType<FieldKey[]> = z
+  .array(z.unknown())
+  .catch([])
+  .transform((items) => items.filter((item): item is FieldKey => fieldKeySchema.safeParse(item).success));
+
+export const allFields: FieldKey[] = [...FIELD_KEYS];
 
 export const fieldLabels: Record<FieldKey, string> = {
   photo: "Photo",

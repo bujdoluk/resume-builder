@@ -91,7 +91,9 @@ Open [http://localhost:3000](http://localhost:3000). Fill in your Supabase crede
 - **Email delivery** — Supabase's built-in email is dev-only/rate-limited. For real emails, point custom SMTP (**Authentication → Emails → SMTP Settings**) at `smtp.resend.com` using your `RESEND_API_KEY`.
 
 ### Database setup (Supabase SQL Editor)
-Run every file under `supabase/migrations/` in order (`0001`–`0010`) — there's no linked CLI project, so this isn't automatic. Then set `SUPABASE_SERVICE_ROLE_KEY` (Project Settings → API) — never expose this to the browser.
+Run every file under `supabase/migrations/` in order (`0001`–`0010`) — there's no linked CLI project (no `supabase link` has been run against this project), so this isn't automatic. Then set `SUPABASE_SERVICE_ROLE_KEY` (Project Settings → API) — never expose this to the browser.
+
+After running new migrations, regenerate `lib/supabase/database.types.ts` so the app's TypeScript types stay in sync with the real schema: `npx supabase login` once per machine (opens a browser, needs a [personal access token](https://supabase.com/dashboard/account/tokens); this is a one-time local auth step, separate from `supabase link` — no project-linking or remote config happens), then `npm run db:types`. This overwrites the file with the CLI's real generated output, so don't hand-edit it — if the CLI login isn't available, hand-editing to match the migration SQL is the fallback, but the generated version is authoritative when you have it.
 
 ### Billing setup (Stripe)
 1. Set `STRIPE_SECRET_KEY` in `.env.local`.
@@ -236,6 +238,7 @@ Afterward, update `.release-manifest.json` to match the new version and commit i
 - `npm test` / `npm run test:run` — Vitest, watch mode / single run.
 - `npm run test:coverage` — Vitest single run with a v8 coverage report.
 - `npm run test:e2e` / `npm run test:e2e:headed` — Playwright, headless / visible browser.
+- `npm run db:types` — regenerates `lib/supabase/database.types.ts` from the live schema (needs `supabase login` first — see Database setup above).
 
 ## Learn More
 Built with Next.js 16, React 19, Tailwind CSS v4, and daisyUI 5. See the [Next.js Documentation](https://nextjs.org/docs) for framework details.

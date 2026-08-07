@@ -1,9 +1,10 @@
 
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { Temporal } from "temporal-polyfill";
-import { emptyCoverLetterData, type CoverLetterData } from "@/lib/coverLetterData";
+import { parseStoredCoverLetterData, stampCoverLetterData, type CoverLetterData } from "@/lib/coverLetterData";
 import { COVER_LETTERS_PAGE_SIZE, SHARE_LINK_EXPIRATION_DAYS } from "@/lib/constants";
 import { nextCopyName, type EnableSharingResult } from "@/lib/supabase/resumes";
+import type { Database, Json, Tables } from "@/lib/supabase/database.types";
 
 export interface CoverLetterRow {
   id: string;
@@ -15,21 +16,11 @@ export interface CoverLetterRow {
   updatedAt: string;
 }
 
-interface CoverLetterTableRow {
-  id: string;
-  name: string;
-  data: CoverLetterData;
-  share_token: string | null;
-  share_token_expires_at: string | null;
-  created_at: string;
-  updated_at: string;
-}
-
-function fromTableRow(row: CoverLetterTableRow): CoverLetterRow {
+function fromTableRow(row: Tables<"cover_letters">): CoverLetterRow {
   return {
     id: row.id,
     name: row.name,
-    data: { ...emptyCoverLetterData, ...row.data },
+    data: parseStoredCoverLetterData(row.data),
     shareToken: row.share_token,
     shareTokenExpiresAt: row.share_token_expires_at,
     createdAt: row.created_at,
@@ -45,13 +36,15 @@ export interface SaveCoverLetterParams {
 }
 
 export async function saveCoverLetter(
-  supabase: SupabaseClient,
+  supabase: SupabaseClient<Database>,
   params: SaveCoverLetterParams,
 ): Promise<CoverLetterRow> {
   const payload = {
     user_id: params.userId,
     name: params.name,
-    data: params.data,
+    // See the matching comment in resumes.ts's saveResume — same cast, same
+    // reason (stampCoverLetterData's return type is intentionally broad).
+    data: stampCoverLetterData(params.data) as Json,
     updated_at: Temporal.Now.instant().toString(),
   };
 
@@ -61,11 +54,11 @@ export async function saveCoverLetter(
 
   const { data, error } = await query;
   if (error || !data) throw error ?? new Error("Failed to save cover letter");
-  return fromTableRow(data as CoverLetterTableRow);
+  return fromTableRow(data);
 }
 
 export async function getCoverLetter(
-  supabase: SupabaseClient,
+  supabase: SupabaseClient<Database>,
   id: string,
 ): Promise<CoverLetterRow | null> {
   const { data, error } = await supabase
@@ -75,14 +68,17 @@ export async function getCoverLetter(
     .maybeSingle();
 
   if (error) throw error;
-  return data ? fromTableRow(data as CoverLetterTableRow) : null;
+  return data ? fromTableRow(data) : null;
 }
 
 // Generates a new public share token and saves it on the caller's own
 // (owner-scoped, RLS-protected) row — never called with a service-role
 // client. Overwrites any existing token, invalidating a previously shared
 // link.
-export async function enableCoverLetterSharing(supabase: SupabaseClient, id: string): Promise<EnableSharingResult> {
+export async function enableCoverLetterSharing(
+  supabase: SupabaseClient<Database>,
+  id: string,
+): Promise<EnableSharingResult> {
   const token = crypto.randomUUID();
   const expiresAt = Temporal.Now.instant().add({ hours: SHARE_LINK_EXPIRATION_DAYS * 24 }).toString({ fractionalSecondDigits: 3 });
   const { error } = await supabase
@@ -93,7 +89,7 @@ export async function enableCoverLetterSharing(supabase: SupabaseClient, id: str
   return { token, expiresAt };
 }
 
-export async function disableCoverLetterSharing(supabase: SupabaseClient, id: string): Promise<void> {
+export async function disableCoverLetterSharing(supabase: SupabaseClient<Database>, id: string): Promise<void> {
   const { error } = await supabase
     .from("cover_letters")
     .update({ share_token: null, share_token_expires_at: null })
@@ -106,7 +102,7 @@ export async function disableCoverLetterSharing(supabase: SupabaseClient, id: st
 // getResumeByShareToken in resumes.ts for why. The expiry filter makes an
 // expired token behave identically to an unknown one.
 export async function getCoverLetterByShareToken(
-  supabase: SupabaseClient,
+  supabase: SupabaseClient<Database>,
   token: string,
 ): Promise<CoverLetterRow | null> {
   const { data, error } = await supabase
@@ -117,11 +113,11 @@ export async function getCoverLetterByShareToken(
     .maybeSingle();
 
   if (error) throw error;
-  return data ? fromTableRow(data as CoverLetterTableRow) : null;
+  return data ? fromTableRow(data) : null;
 }
 
 export async function listAllCoverLetters(
-  supabase: SupabaseClient,
+  supabase: SupabaseClient<Database>,
   userId: string,
 ): Promise<CoverLetterRow[]> {
   const { data, error } = await supabase
@@ -131,10 +127,10 @@ export async function listAllCoverLetters(
     .order("created_at", { ascending: true });
 
   if (error) throw error;
-  return (data as CoverLetterTableRow[]).map(fromTableRow);
+  return data.map(fromTableRow);
 }
 
-export async function countCoverLetters(supabase: SupabaseClient, userId: string): Promise<number> {
+export async function countCoverLetters(supabase: SupabaseClient<Database>, userId: string): Promise<number> {
   const { count, error } = await supabase
     .from("cover_letters")
     .select("id", { count: "exact", head: true })
@@ -155,7 +151,7 @@ const DEFAULT_COVER_LETTER_SORT: CoverLetterSort = {
 };
 
 export async function listCoverLetters(
-  supabase: SupabaseClient,
+  supabase: SupabaseClient<Database>,
   userId: string,
   page = 1,
   pageSize = COVER_LETTERS_PAGE_SIZE,
@@ -172,20 +168,20 @@ export async function listCoverLetters(
     .range(from, to);
 
   if (error) throw error;
-  return (data as CoverLetterTableRow[]).map(fromTableRow);
+  return data.map(fromTableRow);
 }
 
-export async function deleteCoverLetter(supabase: SupabaseClient, id: string): Promise<void> {
+export async function deleteCoverLetter(supabase: SupabaseClient<Database>, id: string): Promise<void> {
   const { error } = await supabase.from("cover_letters").delete().eq("id", id);
   if (error) throw error;
 }
 
-export async function deleteCoverLetters(supabase: SupabaseClient, ids: string[]): Promise<void> {
+export async function deleteCoverLetters(supabase: SupabaseClient<Database>, ids: string[]): Promise<void> {
   const { error } = await supabase.from("cover_letters").delete().in("id", ids);
   if (error) throw error;
 }
 
-export async function renameCoverLetter(supabase: SupabaseClient, id: string, name: string): Promise<void> {
+export async function renameCoverLetter(supabase: SupabaseClient<Database>, id: string, name: string): Promise<void> {
   const { error } = await supabase
     .from("cover_letters")
     .update({ name, updated_at: Temporal.Now.instant().toString() })
@@ -195,7 +191,7 @@ export async function renameCoverLetter(supabase: SupabaseClient, id: string, na
 }
 
 export async function duplicateCoverLetter(
-  supabase: SupabaseClient,
+  supabase: SupabaseClient<Database>,
   id: string,
   userId: string,
 ): Promise<CoverLetterRow> {

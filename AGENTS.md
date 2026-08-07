@@ -93,7 +93,11 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 │   ├── Navbar.tsx, TemplateThumbnail.tsx, Icons.tsx, AutoResizeTextarea.tsx
 │   └── useIsAdmin.ts, useHasMounted.ts   # shared hooks used across multiple feature folders
 ├── lib/
-│   ├── resumeData.ts / coverLetterData.ts        # data types + empty-state constants
+│   ├── resumeData.ts / coverLetterData.ts        # Zod schemas (ResumeData/CoverLetterData types + empty-state
+│   │                                # constants derived via z.infer/schema.parse({})), schema-version scaffold
+│   │                                # (parseStoredResumeData/stampResumeData, see lib/schemaVersion.ts)
+│   ├── schemaVersion.ts            # createVersionedCodec() — versioning scaffold for a jsonb blob's stored
+│   │                                # shape, shared by resumeData.ts/coverLetterData.ts
 │   ├── templates.ts / coverLetterTemplates.ts    # template ID registries
 │   ├── atsChecker/                 # checkResumeFormat.ts / checkCoverLetterFormat.ts (format checklists),
 │   │                                # matchKeywords.ts (deterministic score), checkCoherence.ts (Groq, server-only)
@@ -121,12 +125,13 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 │   ├── configHealth.ts             # boolean-only report of which optional integrations are configured
 │   ├── stripe.ts / groq.ts / hcaptcha.ts   # lazily-instantiated third-party clients, all fail gracefully if unconfigured
 │   └── constants.ts                # shared numeric constants (HTTP status codes, rate limits, retention windows, ...)
-├── __tests__/                      # Vitest, mirrors the source tree (36 files as of this writing)
+├── __tests__/                      # Vitest, mirrors the source tree (40 files as of this writing)
 │   ├── app/api/                    # every API route: account, admin, ai-rewrite, ats-coherence, blog, cron, send-email, stripe
 │   ├── app/shared/                 # the two shared-link PDF routes (rate limit, 404 on missing/expired token, valid PDF)
 │   ├── components/                 # ResumeBuilder.tsx, CoverLetterBuilder.tsx — full-form fill-and-save flows
 │   └── lib/                        # atsChecker, docx, i18n, pdf, supabase (incl. share-token/MFA), text — plus adminAuth,
-│                                    # shareLink, color, rateLimit, securityHeaders, configHealth, apiErrors, apiValidation as standalone tests
+│                                    # shareLink, color, rateLimit, securityHeaders, configHealth, apiErrors, apiValidation,
+│                                    # resumeData, coverLetterData, fields, schemaVersion as standalone tests
 ├── e2e/                            # Playwright, real-browser user-journey flows, wired into CI (.github/workflows/e2e.yml)
 ├── supabase/migrations/            # 10 numbered SQL migrations, applied manually (no linked CLI project)
 ├── scripts/                        # set-admin.mjs, reset-admin-mfa.mjs (2FA recovery), setup-stripe.mjs,
@@ -148,7 +153,12 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 - Tailwind v4 is wired through `postcss.config.mjs` + `@tailwindcss/postcss`; theme/plugins are declared in CSS (`app/globals.css`), not a JS/TS config file
 - daisyUI is registered as a CSS plugin (`@plugin "daisyui";`) — theme colors are oklch-based, which complicates naive `getComputedStyle` color extraction (canvas pixel read-back is the reliable workaround)
-- Supabase clients are split by context: `lib/supabase/client.ts` (browser), `server.ts` (RSC/route handlers, cookie-based session), `serviceRole.ts` (service-role, server-only, bypasses RLS), `proxy.ts` (session refresh in `proxy.ts`)
+- Supabase clients are split by context: `lib/supabase/client.ts` (browser), `server.ts` (RSC/route handlers, cookie-based session), `serviceRole.ts` (service-role, server-only, bypasses RLS), `proxy.ts` (session refresh in `proxy.ts`) — all three are typed `SupabaseClient<Database>` (`lib/supabase/database.types.ts`)
+- **Keeping the DB schema and app-level types consistent** — three layers, don't skip one when adding a column/field:
+  1. **Postgres columns ⇄ TS types**: `lib/supabase/database.types.ts` is real `supabase gen types typescript` output (`npm run db:types`), not hand-written — regenerate it after every new migration rather than hand-editing, or every `Tables<"resumes">`-typed read/write silently falls out of sync with reality. Generating needs a one-time-per-machine `npx supabase login` (personal access token, separate from `supabase link` — this repo still has no linked CLI project, see the migrations note above, so login only enables `gen types`, not `db push`/`db pull`). If login genuinely isn't available, hand-deriving the file from `supabase/migrations/*.sql` (matching the same `Database`/`Tables`/`Json` shape) is the documented fallback, but treat the generated version as authoritative once you have it.
+  2. **A `jsonb` column's actual shape**: `jsonb` columns (`resumes.data`, `cover_letters.data`, `resumes.section_order`/`visible_fields`/`modern_section_zones`) are typed `Json` in `database.types.ts` — Postgres enforces nothing about their contents, so that's all a generated type could ever say. `lib/resumeData.ts`/`coverLetterData.ts` hold the real Zod schemas (`resumeDataSchema`/`coverLetterDataSchema`, plus `sectionOrderSchema`/`visibleFieldsSchema`/`modernSectionZonesSchema`); `ResumeData`/`WorkEntry`/etc. are `z.infer`'d from them rather than hand-declared, and `emptyResumeData`/`emptyCoverLetterData` are `schema.parse({})` rather than a separately-maintained literal. Every field schema carries a `.catch(default)` (fresh `crypto.randomUUID()` for `id` fields, `""`/`[]` otherwise) so a corrupted or partially-shaped stored value degrades field-by-field instead of the whole read either throwing or falling back to nothing.
+  3. **Schema evolution over time**: a `jsonb` value, once written, is frozen in whatever shape it had at write time — Postgres never migrates it for you. `lib/schemaVersion.ts`'s `createVersionedCodec()` stamps a `__schemaVersion` onto data on write (`stampResumeData`/`stampCoverLetterData`) and walks a `migrations` registry keyed by "version being upgraded from" on read, before the Zod schema ever sees it (`parseStoredResumeData`/`parseStoredCoverLetterData` in `lib/resumeData.ts`/`coverLetterData.ts` — this is the one path that should turn a stored `data` value back into a trustworthy `ResumeData`/`CoverLetterData`, not a manual spread-merge). A missing migration step isn't fatal — the per-field `.catch()` defaults are the fallback safety net either way. Add a migration entry (never mutate or remove an existing one) whenever a breaking change is made to the stored shape; there's nothing registered yet since this is the first version.
+  - `template_id`/`font`/`font_size` on `resumes` are deliberately left as plain casts, not schema-validated like the above — they're flat text columns (no jsonb nesting), and validating them would need a value import from `lib/templates.ts`, which pulls in every template's React component tree. `lib/supabase/resumes.ts` is reachable from the public shared-link PDF route handler (see the PDF/`i18nCore` note above), so that import isn't worth it for 3 columns that only affect cosmetic rendering, not data integrity.
 
 ## ⚙️ Dev Commands
 
@@ -158,6 +168,7 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 - **Lint**: `npm run lint`
 - **Type check**: `npx tsc --noEmit -p .`
 - **Generate route types**: `npx next typegen` (fast, no full build — matches what CI runs before typecheck)
+- **Generate Supabase DB types**: `npm run db:types` (needs `npx supabase login` once per machine first — see "Keeping the DB schema and app-level types consistent" above)
 - **Test (watch)**: `npm test`
 - **Test (single run, what CI uses)**: `npm run test:run`
 - **Test (with coverage)**: `npm run test:coverage`

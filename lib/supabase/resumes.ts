@@ -2,10 +2,19 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { Temporal } from "temporal-polyfill";
 import { RESUMES_PAGE_SIZE, SHARE_LINK_EXPIRATION_DAYS } from "@/lib/constants";
-import type { FieldKey } from "@/lib/fields";
+import { visibleFieldsSchema, type FieldKey } from "@/lib/fields";
 import { defaultFontSizeKey, type FontSizeKey } from "@/lib/fontSize";
 import type { FontKey } from "@/lib/fonts";
-import { emptyResumeData, type ModernSectionZones, type ResumeData, type SectionKey } from "@/lib/resumeData";
+import {
+  modernSectionZonesSchema,
+  parseStoredResumeData,
+  sectionOrderSchema,
+  stampResumeData,
+  type ModernSectionZones,
+  type ResumeData,
+  type SectionKey,
+} from "@/lib/resumeData";
+import type { Database, Json, Tables } from "@/lib/supabase/database.types";
 import type { TemplateId } from "@/lib/templates";
 
 export interface ResumeRow {
@@ -25,24 +34,7 @@ export interface ResumeRow {
   updatedAt: string;
 }
 
-interface ResumeTableRow {
-  id: string;
-  name: string;
-  template_id: string;
-  color: string | null;
-  font: string | null;
-  font_size: string | null;
-  section_order: SectionKey[];
-  visible_fields: FieldKey[];
-  modern_section_zones: ModernSectionZones | null;
-  data: ResumeData;
-  share_token: string | null;
-  share_token_expires_at: string | null;
-  created_at: string;
-  updated_at: string;
-}
-
-function fromTableRow(row: ResumeTableRow): ResumeRow {
+function fromTableRow(row: Tables<"resumes">): ResumeRow {
   return {
     id: row.id,
     name: row.name,
@@ -50,10 +42,10 @@ function fromTableRow(row: ResumeTableRow): ResumeRow {
     color: row.color,
     font: row.font as FontKey | null,
     fontSize: row.font_size as FontSizeKey | null,
-    sectionOrder: row.section_order,
-    visibleFields: row.visible_fields,
-    modernSectionZones: row.modern_section_zones ?? {},
-    data: { ...emptyResumeData, ...row.data },
+    sectionOrder: sectionOrderSchema.parse(row.section_order),
+    visibleFields: visibleFieldsSchema.parse(row.visible_fields),
+    modernSectionZones: modernSectionZonesSchema.parse(row.modern_section_zones),
+    data: parseStoredResumeData(row.data),
     shareToken: row.share_token,
     shareTokenExpiresAt: row.share_token_expires_at,
     createdAt: row.created_at,
@@ -75,7 +67,10 @@ export interface SaveResumeParams {
   data: ResumeData;
 }
 
-export async function saveResume(supabase: SupabaseClient, params: SaveResumeParams): Promise<ResumeRow> {
+export async function saveResume(
+  supabase: SupabaseClient<Database>,
+  params: SaveResumeParams,
+): Promise<ResumeRow> {
   const payload = {
     user_id: params.userId,
     name: params.name,
@@ -86,7 +81,7 @@ export async function saveResume(supabase: SupabaseClient, params: SaveResumePar
     section_order: params.sectionOrder,
     visible_fields: params.visibleFields,
     modern_section_zones: params.modernSectionZones,
-    data: params.data,
+    data: stampResumeData(params.data) as Json,
     updated_at: Temporal.Now.instant().toString(),
   };
 
@@ -101,10 +96,10 @@ export async function saveResume(supabase: SupabaseClient, params: SaveResumePar
 
   const { data, error } = await query;
   if (error || !data) throw error ?? new Error("Failed to save resume");
-  return fromTableRow(data as ResumeTableRow);
+  return fromTableRow(data);
 }
 
-export async function countResumes(supabase: SupabaseClient, userId: string): Promise<number> {
+export async function countResumes(supabase: SupabaseClient<Database>, userId: string): Promise<number> {
   const { count, error } = await supabase
     .from("resumes")
     .select("id", { count: "exact", head: true })
@@ -122,7 +117,7 @@ export interface ResumeSort {
 const DEFAULT_RESUME_SORT: ResumeSort = { column: "updated_at", ascending: true };
 
 export async function listResumes(
-  supabase: SupabaseClient,
+  supabase: SupabaseClient<Database>,
   userId: string,
   page = 1,
   pageSize = RESUMES_PAGE_SIZE,
@@ -139,10 +134,10 @@ export async function listResumes(
     .range(from, to);
 
   if (error) throw error;
-  return (data as ResumeTableRow[]).map(fromTableRow);
+  return data.map(fromTableRow);
 }
 
-export async function listAllResumes(supabase: SupabaseClient, userId: string): Promise<ResumeRow[]> {
+export async function listAllResumes(supabase: SupabaseClient<Database>, userId: string): Promise<ResumeRow[]> {
   const { data, error } = await supabase
     .from("resumes")
     .select()
@@ -150,10 +145,10 @@ export async function listAllResumes(supabase: SupabaseClient, userId: string): 
     .order("created_at", { ascending: true });
 
   if (error) throw error;
-  return (data as ResumeTableRow[]).map(fromTableRow);
+  return data.map(fromTableRow);
 }
 
-export async function getResume(supabase: SupabaseClient, id: string): Promise<ResumeRow | null> {
+export async function getResume(supabase: SupabaseClient<Database>, id: string): Promise<ResumeRow | null> {
   const { data, error } = await supabase
     .from("resumes")
     .select()
@@ -161,7 +156,7 @@ export async function getResume(supabase: SupabaseClient, id: string): Promise<R
     .maybeSingle();
 
   if (error) throw error;
-  return data ? fromTableRow(data as ResumeTableRow) : null;
+  return data ? fromTableRow(data) : null;
 }
 
 export interface EnableSharingResult {
@@ -169,11 +164,10 @@ export interface EnableSharingResult {
   expiresAt: string;
 }
 
-// Generates a new public share token and saves it on the caller's own
-// (owner-scoped, RLS-protected) row — never called with a service-role
-// client. Overwrites any existing token, invalidating a previously shared
-// link.
-export async function enableResumeSharing(supabase: SupabaseClient, id: string): Promise<EnableSharingResult> {
+export async function enableResumeSharing(
+  supabase: SupabaseClient<Database>,
+  id: string,
+): Promise<EnableSharingResult> {
   const token = crypto.randomUUID();
   const expiresAt = Temporal.Now.instant().add({ hours: SHARE_LINK_EXPIRATION_DAYS * 24 }).toString({ fractionalSecondDigits: 3 });
   const { error } = await supabase
@@ -184,7 +178,7 @@ export async function enableResumeSharing(supabase: SupabaseClient, id: string):
   return { token, expiresAt };
 }
 
-export async function disableResumeSharing(supabase: SupabaseClient, id: string): Promise<void> {
+export async function disableResumeSharing(supabase: SupabaseClient<Database>, id: string): Promise<void> {
   const { error } = await supabase
     .from("resumes")
     .update({ share_token: null, share_token_expires_at: null })
@@ -192,13 +186,8 @@ export async function disableResumeSharing(supabase: SupabaseClient, id: string)
   if (error) throw error;
 }
 
-// Public, unauthenticated lookup for the /shared/resume/[token] page — only
-// ever called with a service-role client from a server-only route, since an
-// anon-key client would need a public RLS SELECT policy that could let
-// anyone list every shared resume, not just the one matching this token. The
-// expiry filter makes an expired token behave identically to an unknown one.
 export async function getResumeByShareToken(
-  supabase: SupabaseClient,
+  supabase: SupabaseClient<Database>,
   token: string,
 ): Promise<ResumeRow | null> {
   const { data, error } = await supabase
@@ -209,20 +198,20 @@ export async function getResumeByShareToken(
     .maybeSingle();
 
   if (error) throw error;
-  return data ? fromTableRow(data as ResumeTableRow) : null;
+  return data ? fromTableRow(data) : null;
 }
 
-export async function deleteResume(supabase: SupabaseClient, id: string): Promise<void> {
+export async function deleteResume(supabase: SupabaseClient<Database>, id: string): Promise<void> {
   const { error } = await supabase.from("resumes").delete().eq("id", id);
   if (error) throw error;
 }
 
-export async function deleteResumes(supabase: SupabaseClient, ids: string[]): Promise<void> {
+export async function deleteResumes(supabase: SupabaseClient<Database>, ids: string[]): Promise<void> {
   const { error } = await supabase.from("resumes").delete().in("id", ids);
   if (error) throw error;
 }
 
-export async function renameResume(supabase: SupabaseClient, id: string, name: string): Promise<void> {
+export async function renameResume(supabase: SupabaseClient<Database>, id: string, name: string): Promise<void> {
   const { error } = await supabase
     .from("resumes")
     .update({ name, updated_at: Temporal.Now.instant().toString() })
@@ -240,7 +229,11 @@ export function nextCopyName(name: string): string {
   return `${base} (Copy) ${nextCount}`;
 }
 
-export async function duplicateResume(supabase: SupabaseClient, id: string, userId: string): Promise<ResumeRow> {
+export async function duplicateResume(
+  supabase: SupabaseClient<Database>,
+  id: string,
+  userId: string,
+): Promise<ResumeRow> {
   const original = await getResume(supabase, id);
   if (!original) throw new Error("Resume not found");
 

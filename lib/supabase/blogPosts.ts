@@ -1,6 +1,7 @@
 
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { MAX_SLUG_ATTEMPTS } from "@/lib/constants";
+import type { Database, Tables } from "@/lib/supabase/database.types";
 
 export type BlogCategoryKey =
   | "resumeTips"
@@ -38,27 +39,39 @@ export interface BlogPost {
   publishedAt: string;
 }
 
-interface BlogPostTableRow {
-  id: string;
-  slug: string;
-  category: BlogCategoryKey;
-  title: string;
-  subtitle: string;
-  content: string;
-  author_name: string;
-  author_avatar_url: string | null;
-  read_time: string;
-  published_at: string;
-}
-
 const SELECT_COLUMNS =
   "id, slug, category, title, subtitle, content, author_name, author_avatar_url, read_time, published_at";
 
-function mapRow(row: BlogPostTableRow): BlogPost {
+// The exact columns SELECT_COLUMNS asks for, picked from the generated Row
+// type — Supabase's typed client can't reliably infer a narrowed shape from
+// a hand-written column-list string, so this cast target is kept in sync
+// with the real table schema explicitly instead.
+type BlogPostSelectedRow = Pick<
+  Tables<"blog_posts">,
+  | "id"
+  | "slug"
+  | "category"
+  | "title"
+  | "subtitle"
+  | "content"
+  | "author_name"
+  | "author_avatar_url"
+  | "read_time"
+  | "published_at"
+>;
+
+// `category` is a plain text column with a Postgres CHECK constraint (see
+// supabase/migrations/0006_create_blog_posts.sql) — same caveat as `plan` in
+// subscriptions.ts: the generated type is `string`, narrowed here.
+function toCategory(value: string): BlogCategoryKey {
+  return (blogCategories as string[]).includes(value) ? (value as BlogCategoryKey) : "resumeTips";
+}
+
+function mapRow(row: BlogPostSelectedRow): BlogPost {
   return {
     id: row.id,
     slug: row.slug,
-    category: row.category,
+    category: toCategory(row.category),
     title: row.title,
     subtitle: row.subtitle,
     content: row.content,
@@ -69,17 +82,20 @@ function mapRow(row: BlogPostTableRow): BlogPost {
   };
 }
 
-export async function getBlogPosts(supabase: SupabaseClient): Promise<BlogPost[]> {
+export async function getBlogPosts(supabase: SupabaseClient<Database>): Promise<BlogPost[]> {
   const { data, error } = await supabase
     .from("blog_posts")
     .select(SELECT_COLUMNS)
     .order("published_at", { ascending: false });
 
   if (error) throw error;
-  return (data as BlogPostTableRow[]).map(mapRow);
+  return (data as BlogPostSelectedRow[]).map(mapRow);
 }
 
-export async function getBlogPostBySlug(supabase: SupabaseClient, slug: string): Promise<BlogPost | null> {
+export async function getBlogPostBySlug(
+  supabase: SupabaseClient<Database>,
+  slug: string,
+): Promise<BlogPost | null> {
   const { data, error } = await supabase
     .from("blog_posts")
     .select(SELECT_COLUMNS)
@@ -87,7 +103,7 @@ export async function getBlogPostBySlug(supabase: SupabaseClient, slug: string):
     .maybeSingle();
 
   if (error) throw error;
-  return data ? mapRow(data as BlogPostTableRow) : null;
+  return data ? mapRow(data as BlogPostSelectedRow) : null;
 }
 
 function slugify(title: string): string {
@@ -106,7 +122,7 @@ export interface NewBlogPostInput {
 }
 
 export async function createBlogPost(
-  supabase: SupabaseClient,
+  supabase: SupabaseClient<Database>,
   input: NewBlogPostInput,
 ): Promise<BlogPost> {
   const base = slugify(input.title);
@@ -129,7 +145,7 @@ export async function createBlogPost(
       .select(SELECT_COLUMNS)
       .single();
 
-    if (!error) return mapRow(data as BlogPostTableRow);
+    if (!error) return mapRow(data as BlogPostSelectedRow);
     if (error.code !== "23505") throw error;
   }
 

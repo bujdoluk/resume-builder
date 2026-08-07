@@ -1,6 +1,6 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { describe, expect, it, vi } from "vitest";
-import { emptyResumeData } from "@/lib/resumeData";
+import { emptyResumeData, RESUME_SCHEMA_VERSION } from "@/lib/resumeData";
 import {
   countResumes,
   disableResumeSharing,
@@ -12,10 +12,6 @@ import {
   type SaveResumeParams,
 } from "@/lib/supabase/resumes";
 
-// A minimal fake of supabase-js's fluent query builder: every chain method
-// returns the same object, and the object is directly awaitable (mirroring
-// how the real builder resolves without an explicit terminal call in
-// countResumes) as well as exposing .single()/.maybeSingle() terminals.
 function createQueryBuilder(result: { data?: unknown; error?: unknown; count?: number | null }) {
   const builder = {
     select: vi.fn(() => builder),
@@ -102,7 +98,7 @@ describe("saveResume", () => {
         section_order: saveParams.sectionOrder,
         visible_fields: saveParams.visibleFields,
         modern_section_zones: saveParams.modernSectionZones,
-        data: saveParams.data,
+        data: { ...saveParams.data, __schemaVersion: RESUME_SCHEMA_VERSION },
       }),
     );
     expect(builder.update).not.toHaveBeenCalled();
@@ -136,8 +132,6 @@ describe("saveResume", () => {
       sectionOrder: saveParams.sectionOrder,
       visibleFields: saveParams.visibleFields,
       modernSectionZones: saveParams.modernSectionZones,
-      // fakeTableRow.data only has `name` — everything else must come from
-      // emptyResumeData rather than being missing/undefined.
       data: { ...emptyResumeData, name: "Jane Doe" },
       createdAt: "2026-01-01T00:00:00.000Z",
       updatedAt: "2026-01-02T00:00:00.000Z",
