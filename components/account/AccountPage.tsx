@@ -380,7 +380,11 @@ export default function AccountPage() {
               disabled={actionLoading || exportLoading}
               onClick={handleDelete}
             >
-              {t("account.deleteAccount")}
+              {actionLoading ? (
+                <span className="loading loading-spinner loading-xs" />
+              ) : (
+                t("account.deleteAccount")
+              )}
             </button>
           </div>
 

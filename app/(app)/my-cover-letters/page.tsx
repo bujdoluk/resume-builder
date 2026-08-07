@@ -50,6 +50,9 @@ export default function MyCoverLettersPage() {
   const [coverLetters, setCoverLetters] = useState<CoverLetterRow[] | null>(null);
   const [loadFailed, setLoadFailed] = useState(false);
   const [duplicatingId, setDuplicatingId] = useState<string | null>(null);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [renamingId, setRenamingId] = useState<string | null>(null);
+  const [isBulkDeleting, setIsBulkDeleting] = useState(false);
   const [page, setPage] = useState(1);
   const [totalCount, setTotalCount] = useState(0);
   const [sort, setSort] = useState<CoverLetterSort>({
@@ -107,11 +110,16 @@ export default function MyCoverLettersPage() {
       confirmLabel: t("myCoverLetters.deleteSelected"),
     });
     if (!confirmed) return;
-    await deleteCoverLetters(supabase, Array.from(selectedIds));
-    notifyCoverLetterListChanged();
-    const remainingOnPage = (coverLetters?.length ?? 0) - selectedIds.size;
-    const targetPage = remainingOnPage <= 0 && page > 1 ? page - 1 : page;
-    await loadPage(targetPage);
+    setIsBulkDeleting(true);
+    try {
+      await deleteCoverLetters(supabase, Array.from(selectedIds));
+      notifyCoverLetterListChanged();
+      const remainingOnPage = (coverLetters?.length ?? 0) - selectedIds.size;
+      const targetPage = remainingOnPage <= 0 && page > 1 ? page - 1 : page;
+      await loadPage(targetPage);
+    } finally {
+      setIsBulkDeleting(false);
+    }
   }
 
   function handleSort(column: CoverLetterSort["column"]) {
@@ -132,17 +140,27 @@ export default function MyCoverLettersPage() {
       confirmLabel: t("myCoverLetters.delete"),
     });
     if (!confirmed) return;
-    await deleteCoverLetter(supabase, id);
-    notifyCoverLetterListChanged();
-    const isLastRowOnPage = coverLetters?.length === 1 && page > 1;
-    await loadPage(isLastRowOnPage ? page - 1 : page);
+    setDeletingId(id);
+    try {
+      await deleteCoverLetter(supabase, id);
+      notifyCoverLetterListChanged();
+      const isLastRowOnPage = coverLetters?.length === 1 && page > 1;
+      await loadPage(isLastRowOnPage ? page - 1 : page);
+    } finally {
+      setDeletingId(null);
+    }
   }
 
   async function handleRename(row: CoverLetterRow) {
     const newName = await renameDialogRef.current?.open(row.name);
     if (!newName) return;
-    await renameCoverLetter(supabase, row.id, newName);
-    await loadPage(page);
+    setRenamingId(row.id);
+    try {
+      await renameCoverLetter(supabase, row.id, newName);
+      await loadPage(page);
+    } finally {
+      setRenamingId(null);
+    }
   }
 
   async function handleDuplicate(id: string) {
@@ -192,9 +210,14 @@ export default function MyCoverLettersPage() {
                 <button
                   type="button"
                   className="btn btn-error btn-sm"
+                  disabled={isBulkDeleting}
                   onClick={handleBulkDelete}
                 >
-                  <TrashIcon className="h-4 w-4 stroke-current" />
+                  {isBulkDeleting ? (
+                    <span className="loading loading-spinner loading-xs" />
+                  ) : (
+                    <TrashIcon className="h-4 w-4 stroke-current" />
+                  )}
                   {t("myCoverLetters.deleteSelected")}
                 </button>
               </>
@@ -207,6 +230,12 @@ export default function MyCoverLettersPage() {
 
         {loadFailed && (
           <p className="text-error">{t("myCoverLetters.loadFailed")}</p>
+        )}
+
+        {!loadFailed && coverLetters === null && (
+          <div className="flex flex-1 items-center justify-center">
+            <span className="loading loading-spinner loading-lg" />
+          </div>
         )}
 
         {!loadFailed && coverLetters && coverLetters.length === 0 && (
@@ -287,9 +316,14 @@ export default function MyCoverLettersPage() {
                       <button
                         type="button"
                         className="btn btn-outline btn-sm"
+                        disabled={renamingId === row.id}
                         onClick={() => handleRename(row)}
                       >
-                        <PencilIcon className="h-4 w-4 stroke-current" />
+                        {renamingId === row.id ? (
+                          <span className="loading loading-spinner loading-xs" />
+                        ) : (
+                          <PencilIcon className="h-4 w-4 stroke-current" />
+                        )}
                         {t("myCoverLetters.rename")}
                       </button>
                     </td>
@@ -321,9 +355,14 @@ export default function MyCoverLettersPage() {
                       <button
                         type="button"
                         className="btn btn-outline btn-sm btn-error"
+                        disabled={deletingId === row.id}
                         onClick={() => handleDelete(row.id)}
                       >
-                        <TrashIcon className="h-4 w-4 stroke-current" />
+                        {deletingId === row.id ? (
+                          <span className="loading loading-spinner loading-xs" />
+                        ) : (
+                          <TrashIcon className="h-4 w-4 stroke-current" />
+                        )}
                         {t("myCoverLetters.delete")}
                       </button>
                     </td>

@@ -13,6 +13,7 @@ export default function AuthButton() {
   const router = useRouter();
   const [supabase] = useState(() => createClient());
   const [email, setEmail] = useState<string | null>(null);
+  const [isSigningOut, setIsSigningOut] = useState(false);
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -32,9 +33,15 @@ export default function AuthButton() {
   }
 
   async function handleLogOut() {
+    if (isSigningOut) return;
     (document.activeElement as HTMLElement | null)?.blur();
-    await logOut(supabase);
-    router.push("/");
+    setIsSigningOut(true);
+    try {
+      await logOut(supabase);
+      router.push("/");
+    } finally {
+      setIsSigningOut(false);
+    }
   }
 
   if (!email) {
@@ -77,8 +84,12 @@ export default function AuthButton() {
           </Link>
         </li>
         <li>
-          <button type="button" onClick={handleLogOut}>
-            {t("auth.navLogout")}
+          <button type="button" disabled={isSigningOut} onClick={handleLogOut}>
+            {isSigningOut ? (
+              <span className="loading loading-spinner loading-xs" />
+            ) : (
+              t("auth.navLogout")
+            )}
           </button>
         </li>
       </ul>

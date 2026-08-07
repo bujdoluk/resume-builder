@@ -120,6 +120,8 @@ export default function ResumeBuilder({
   const [resumeId, setResumeId] = useState<string | null>(
     initialResumeId ?? null,
   );
+  const [loadedResumeId, setLoadedResumeId] = useState<string | null>(null);
+  const isLoadingInitialResume = !!initialResumeId && loadedResumeId !== initialResumeId;
   const [isSaving, setIsSaving] = useState(false);
   const [justSaved, setJustSaved] = useState(false);
   const [resumeName, setResumeName] = useState("");
@@ -160,18 +162,21 @@ export default function ResumeBuilder({
     let cancelled = false;
 
     getResume(supabase, initialResumeId).then((row) => {
-      if (!row || cancelled) return;
-      setData(row.data);
-      setTemplateId(row.templateId);
-      setColor(row.color);
-      setFont(row.font);
-      setFontSize(row.fontSize ?? defaultFontSizeKey);
-      setSectionOrder(row.sectionOrder);
-      setVisibleFields(row.visibleFields);
-      setModernSectionZones(row.modernSectionZones);
-      setResumeName(row.name);
-      setShareToken(isShareLinkActive(row.shareTokenExpiresAt) ? row.shareToken : null);
-      setShareTokenExpiresAt(isShareLinkActive(row.shareTokenExpiresAt) ? row.shareTokenExpiresAt : null);
+      if (cancelled) return;
+      if (row) {
+        setData(row.data);
+        setTemplateId(row.templateId);
+        setColor(row.color);
+        setFont(row.font);
+        setFontSize(row.fontSize ?? defaultFontSizeKey);
+        setSectionOrder(row.sectionOrder);
+        setVisibleFields(row.visibleFields);
+        setModernSectionZones(row.modernSectionZones);
+        setResumeName(row.name);
+        setShareToken(isShareLinkActive(row.shareTokenExpiresAt) ? row.shareToken : null);
+        setShareTokenExpiresAt(isShareLinkActive(row.shareTokenExpiresAt) ? row.shareTokenExpiresAt : null);
+      }
+      setLoadedResumeId(initialResumeId);
     });
 
     return () => {
@@ -647,6 +652,14 @@ export default function ResumeBuilder({
         >
           {t("atsChecker.buttonLabel")}
         </button>
+      </div>
+    );
+  }
+
+  if (isLoadingInitialResume) {
+    return (
+      <div className="bg-base-200 flex flex-1 items-center justify-center p-6">
+        <span className="loading loading-spinner loading-lg" />
       </div>
     );
   }
