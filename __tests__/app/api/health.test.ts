@@ -1,3 +1,4 @@
+import { Temporal } from "temporal-polyfill";
 import { describe, expect, it } from "vitest";
 
 describe("GET /api/health", () => {
@@ -10,6 +11,6 @@ describe("GET /api/health", () => {
     expect(response.status).toBe(200);
     expect(response.headers.get("Cache-Control")).toBe("no-store");
     expect(body.status).toBe("ok");
-    expect(new Date(body.timestamp).toString()).not.toBe("Invalid Date");
+    expect(() => Temporal.Instant.from(body.timestamp)).not.toThrow();
   });
 });
