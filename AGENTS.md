@@ -49,6 +49,7 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 │   │   ├── ats-coherence/route.ts           # Groq — ATS Checker's "Check Coherence" button
 │   │   ├── blog/route.ts                    # admin-only blog post creation
 │   │   ├── cron/cleanup-anonymous-users/route.ts
+│   │   ├── health/route.ts                  # public: liveness check for uptime monitors, no auth
 │   │   ├── send-email/route.ts              # Resend — email export (pdf/docx/txt)
 │   │   └── stripe/{cancel,checkout,webhook}/route.ts
 │   ├── account/ auth/callback/ billing/ blog/[slug]/ login/
@@ -117,7 +118,7 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 │   ├── configHealth.ts             # boolean-only report of which optional integrations are configured
 │   ├── stripe.ts / groq.ts / hcaptcha.ts   # lazily-instantiated third-party clients, all fail gracefully if unconfigured
 │   └── constants.ts                # shared numeric constants (HTTP status codes, rate limits, retention windows, ...)
-├── __tests__/                      # Vitest, mirrors the source tree (34 files as of this writing)
+├── __tests__/                      # Vitest, mirrors the source tree (35 files as of this writing)
 │   ├── app/api/                    # every API route: account, admin, ai-rewrite, ats-coherence, blog, cron, send-email, stripe
 │   ├── app/shared/                 # the two shared-link PDF routes (rate limit, 404 on missing/expired token, valid PDF)
 │   ├── components/                 # ResumeBuilder.tsx, CoverLetterBuilder.tsx — full-form fill-and-save flows
