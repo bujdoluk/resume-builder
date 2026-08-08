@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.1](https://github.com/bujdoluk/resume-builder/compare/QuickResumeBuilder.online-v0.6.0...QuickResumeBuilder.online-v0.6.1) (2026-08-08)
+
+
+### Bug Fixes
+
+* udpated readme ([9411e55](https://github.com/bujdoluk/resume-builder/commit/9411e55e104353c70bfe00f5ec0e742cda4a4144))
+
 ## [0.6.0](https://github.com/bujdoluk/resume-builder/compare/QuickResumeBuilder.online-v0.5.1...QuickResumeBuilder.online-v0.6.0) (2026-08-08)
 
 
