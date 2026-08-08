@@ -390,7 +390,7 @@ export default function MyCoverLettersPage() {
                 </button>
                 <button
                   type="button"
-                  className="btn btn-error btn-sm"
+                  className="btn btn-error btn-sm whitespace-nowrap"
                   disabled={isBulkDeletingForever}
                   onClick={handleBulkDeleteForever}
                 >
@@ -409,7 +409,7 @@ export default function MyCoverLettersPage() {
           </div>
         </div>
 
-        <div role="tablist" className="tabs tabs-box mb-6 w-fit">
+        <div role="tablist" className="tabs tabs-lift mb-6 w-fit">
           <button
             type="button"
             role="tab"
@@ -660,7 +660,7 @@ export default function MyCoverLettersPage() {
                     <td className="w-px">
                       <button
                         type="button"
-                        className="btn btn-outline btn-sm btn-error"
+                        className="btn btn-outline btn-sm btn-error whitespace-nowrap"
                         disabled={deletingForeverId === row.id}
                         onClick={() => handleDeleteForever(row.id)}
                       >
