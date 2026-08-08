@@ -8,6 +8,7 @@ export const HTTP_CONFLICT = 409;
 export const HTTP_TOO_MANY_REQUESTS = 429;
 export const HTTP_INTERNAL_SERVER_ERROR = 500;
 export const HTTP_BAD_GATEWAY = 502;
+export const HTTP_SERVICE_UNAVAILABLE = 503;
 
 export const TESTIMONIAL_PULSE_START_DELAY_MS = 3000;
 export const TESTIMONIAL_PULSE_INTERVAL_MS = 7000;
@@ -24,6 +25,10 @@ export const CAPTCHA_POLL_ATTEMPTS = 20;
 // Delay before retrying an anonymous sign-in once after a captcha failure
 // (see lib/supabase/session.ts).
 export const CAPTCHA_RETRY_DELAY_MS = 750;
+
+// lib/health.ts — how long a single dependency check (DB/Redis) may run
+// before /api/health treats it as down rather than hanging the response.
+export const HEALTH_CHECK_TIMEOUT_MS = 3000;
 
 // app/api/send-email/route.ts request validation limits.
 export const MAX_ATTACHMENT_BYTES = 10 * 1024 * 1024;

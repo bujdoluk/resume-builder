@@ -7,7 +7,7 @@ import { Redis } from "@upstash/redis";
 // Upstash account, same as this app's other optional integrations).
 let redis: Redis | null | undefined;
 
-function getRedis(): Redis | null {
+export function getRedis(): Redis | null {
   if (redis === undefined) {
     redis =
       process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN
