@@ -3,10 +3,18 @@ import { describe, expect, it, vi } from "vitest";
 import { COVER_LETTER_SCHEMA_VERSION, emptyCoverLetterData } from "@/lib/coverLetterData";
 import {
   countCoverLetters,
+  countDeletedCoverLetters,
+  deleteCoverLetter,
+  deleteCoverLetters,
   disableCoverLetterSharing,
   enableCoverLetterSharing,
   getCoverLetter,
   getCoverLetterByShareToken,
+  listDeletedCoverLetters,
+  permanentlyDeleteCoverLetter,
+  permanentlyDeleteCoverLetters,
+  restoreCoverLetter,
+  restoreCoverLetters,
   saveCoverLetter,
   type SaveCoverLetterParams,
 } from "@/lib/supabase/coverLetters";
@@ -19,6 +27,8 @@ function createQueryBuilder(result: { data?: unknown; error?: unknown; count?: n
     delete: vi.fn(() => builder),
     eq: vi.fn(() => builder),
     gt: vi.fn(() => builder),
+    is: vi.fn(() => builder),
+    not: vi.fn(() => builder),
     in: vi.fn(() => builder),
     order: vi.fn(() => builder),
     range: vi.fn(() => builder),
@@ -119,6 +129,14 @@ describe("getCoverLetter", () => {
     await expect(getCoverLetter(supabase, "missing-id")).resolves.toBeNull();
   });
 
+  it("filters out soft-deleted rows", async () => {
+    const { supabase, builder } = createSupabaseMock({ data: fakeTableRow, error: null });
+
+    await getCoverLetter(supabase, "cover-letter-1");
+
+    expect(builder.is).toHaveBeenCalledWith("deleted_at", null);
+  });
+
   it("merges defaults into partially-saved data", async () => {
     const { supabase } = createSupabaseMock({ data: fakeTableRow, error: null });
 
@@ -141,6 +159,7 @@ describe("countCoverLetters", () => {
     await expect(countCoverLetters(supabase, "user-1")).resolves.toBe(2);
     expect(builder.select).toHaveBeenCalledWith("id", { count: "exact", head: true });
     expect(builder.eq).toHaveBeenCalledWith("user_id", "user-1");
+    expect(builder.is).toHaveBeenCalledWith("deleted_at", null);
   });
 
   it("returns 0 when Supabase returns a null count", async () => {
@@ -224,6 +243,7 @@ describe("getCoverLetterByShareToken", () => {
 
     expect(builder.eq).toHaveBeenCalledWith("share_token", "a-token");
     expect(builder.gt).toHaveBeenCalledWith("share_token_expires_at", expect.any(String));
+    expect(builder.is).toHaveBeenCalledWith("deleted_at", null);
     expect(row?.id).toBe("cover-letter-1");
   });
 
@@ -237,5 +257,172 @@ describe("getCoverLetterByShareToken", () => {
     const { supabase } = createSupabaseMock({ data: null, error: new Error("select failed") });
 
     await expect(getCoverLetterByShareToken(supabase, "a-token")).rejects.toThrow("select failed");
+  });
+});
+
+describe("deleteCoverLetter", () => {
+  it("soft-deletes via an owner-scoped update instead of removing the row", async () => {
+    const { supabase, builder } = createSupabaseMock({ data: null, error: null });
+
+    await deleteCoverLetter(supabase, "cover-letter-1");
+
+    expect(builder.update).toHaveBeenCalledWith(
+      expect.objectContaining({
+        deleted_at: expect.any(String),
+        share_token: null,
+        share_token_expires_at: null,
+      }),
+    );
+    expect(builder.eq).toHaveBeenCalledWith("id", "cover-letter-1");
+    expect(builder.delete).not.toHaveBeenCalled();
+  });
+
+  it("throws when Supabase returns an error", async () => {
+    const { supabase } = createSupabaseMock({ data: null, error: new Error("update failed") });
+
+    await expect(deleteCoverLetter(supabase, "cover-letter-1")).rejects.toThrow("update failed");
+  });
+});
+
+describe("deleteCoverLetters", () => {
+  it("soft-deletes every id in one owner-scoped update instead of removing the rows", async () => {
+    const { supabase, builder } = createSupabaseMock({ data: null, error: null });
+
+    await deleteCoverLetters(supabase, ["cover-letter-1", "cover-letter-2"]);
+
+    expect(builder.update).toHaveBeenCalledWith(
+      expect.objectContaining({
+        deleted_at: expect.any(String),
+        share_token: null,
+        share_token_expires_at: null,
+      }),
+    );
+    expect(builder.in).toHaveBeenCalledWith("id", ["cover-letter-1", "cover-letter-2"]);
+    expect(builder.delete).not.toHaveBeenCalled();
+  });
+
+  it("throws when Supabase returns an error", async () => {
+    const { supabase } = createSupabaseMock({ data: null, error: new Error("update failed") });
+
+    await expect(deleteCoverLetters(supabase, ["cover-letter-1"])).rejects.toThrow("update failed");
+  });
+});
+
+describe("listDeletedCoverLetters", () => {
+  it("lists only soft-deleted rows, sorted by deletion date by default", async () => {
+    const { supabase, builder } = createSupabaseMock({ data: [fakeTableRow], error: null });
+
+    const rows = await listDeletedCoverLetters(supabase, "user-1");
+
+    expect(builder.eq).toHaveBeenCalledWith("user_id", "user-1");
+    expect(builder.not).toHaveBeenCalledWith("deleted_at", "is", null);
+    expect(builder.order).toHaveBeenCalledWith("deleted_at", { ascending: false });
+    expect(rows).toHaveLength(1);
+  });
+
+  it("throws when Supabase returns an error", async () => {
+    const { supabase } = createSupabaseMock({ data: null, error: new Error("select failed") });
+
+    await expect(listDeletedCoverLetters(supabase, "user-1")).rejects.toThrow("select failed");
+  });
+});
+
+describe("countDeletedCoverLetters", () => {
+  it("counts only soft-deleted rows", async () => {
+    const { supabase, builder } = createSupabaseMock({ count: 1, error: null });
+
+    await expect(countDeletedCoverLetters(supabase, "user-1")).resolves.toBe(1);
+    expect(builder.eq).toHaveBeenCalledWith("user_id", "user-1");
+    expect(builder.not).toHaveBeenCalledWith("deleted_at", "is", null);
+  });
+
+  it("returns 0 when Supabase returns a null count", async () => {
+    const { supabase } = createSupabaseMock({ count: null, error: null });
+
+    await expect(countDeletedCoverLetters(supabase, "user-1")).resolves.toBe(0);
+  });
+
+  it("throws when Supabase returns an error", async () => {
+    const { supabase } = createSupabaseMock({ count: null, error: new Error("count failed") });
+
+    await expect(countDeletedCoverLetters(supabase, "user-1")).rejects.toThrow("count failed");
+  });
+});
+
+describe("restoreCoverLetter", () => {
+  it("clears deleted_at via an owner-scoped update, only targeting already-deleted rows", async () => {
+    const { supabase, builder } = createSupabaseMock({ data: null, error: null });
+
+    await restoreCoverLetter(supabase, "cover-letter-1");
+
+    expect(builder.update).toHaveBeenCalledWith({ deleted_at: null });
+    expect(builder.eq).toHaveBeenCalledWith("id", "cover-letter-1");
+    expect(builder.not).toHaveBeenCalledWith("deleted_at", "is", null);
+    expect(builder.delete).not.toHaveBeenCalled();
+  });
+
+  it("throws when Supabase returns an error", async () => {
+    const { supabase } = createSupabaseMock({ data: null, error: new Error("update failed") });
+
+    await expect(restoreCoverLetter(supabase, "cover-letter-1")).rejects.toThrow("update failed");
+  });
+});
+
+describe("restoreCoverLetters", () => {
+  it("clears deleted_at for every id in one owner-scoped update, only targeting already-deleted rows", async () => {
+    const { supabase, builder } = createSupabaseMock({ data: null, error: null });
+
+    await restoreCoverLetters(supabase, ["cover-letter-1", "cover-letter-2"]);
+
+    expect(builder.update).toHaveBeenCalledWith({ deleted_at: null });
+    expect(builder.in).toHaveBeenCalledWith("id", ["cover-letter-1", "cover-letter-2"]);
+    expect(builder.not).toHaveBeenCalledWith("deleted_at", "is", null);
+  });
+
+  it("throws when Supabase returns an error", async () => {
+    const { supabase } = createSupabaseMock({ data: null, error: new Error("update failed") });
+
+    await expect(restoreCoverLetters(supabase, ["cover-letter-1"])).rejects.toThrow("update failed");
+  });
+});
+
+describe("permanentlyDeleteCoverLetter", () => {
+  it("hard-deletes via an owner-scoped delete, only targeting already-deleted rows", async () => {
+    const { supabase, builder } = createSupabaseMock({ data: null, error: null });
+
+    await permanentlyDeleteCoverLetter(supabase, "cover-letter-1");
+
+    expect(builder.delete).toHaveBeenCalled();
+    expect(builder.eq).toHaveBeenCalledWith("id", "cover-letter-1");
+    expect(builder.not).toHaveBeenCalledWith("deleted_at", "is", null);
+    expect(builder.update).not.toHaveBeenCalled();
+  });
+
+  it("throws when Supabase returns an error", async () => {
+    const { supabase } = createSupabaseMock({ data: null, error: new Error("delete failed") });
+
+    await expect(permanentlyDeleteCoverLetter(supabase, "cover-letter-1")).rejects.toThrow(
+      "delete failed",
+    );
+  });
+});
+
+describe("permanentlyDeleteCoverLetters", () => {
+  it("hard-deletes every id in one owner-scoped delete, only targeting already-deleted rows", async () => {
+    const { supabase, builder } = createSupabaseMock({ data: null, error: null });
+
+    await permanentlyDeleteCoverLetters(supabase, ["cover-letter-1", "cover-letter-2"]);
+
+    expect(builder.delete).toHaveBeenCalled();
+    expect(builder.in).toHaveBeenCalledWith("id", ["cover-letter-1", "cover-letter-2"]);
+    expect(builder.not).toHaveBeenCalledWith("deleted_at", "is", null);
+  });
+
+  it("throws when Supabase returns an error", async () => {
+    const { supabase } = createSupabaseMock({ data: null, error: new Error("delete failed") });
+
+    await expect(permanentlyDeleteCoverLetters(supabase, ["cover-letter-1"])).rejects.toThrow(
+      "delete failed",
+    );
   });
 });

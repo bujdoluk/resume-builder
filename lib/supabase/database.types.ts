@@ -63,6 +63,7 @@ export type Database = {
         Row: {
           created_at: string
           data: Json
+          deleted_at: string | null
           id: string
           name: string
           share_token: string | null
@@ -73,6 +74,7 @@ export type Database = {
         Insert: {
           created_at?: string
           data: Json
+          deleted_at?: string | null
           id?: string
           name?: string
           share_token?: string | null
@@ -83,6 +85,7 @@ export type Database = {
         Update: {
           created_at?: string
           data?: Json
+          deleted_at?: string | null
           id?: string
           name?: string
           share_token?: string | null
@@ -97,6 +100,7 @@ export type Database = {
           color: string | null
           created_at: string
           data: Json
+          deleted_at: string | null
           font: string | null
           font_size: string | null
           id: string
@@ -114,6 +118,7 @@ export type Database = {
           color?: string | null
           created_at?: string
           data: Json
+          deleted_at?: string | null
           font?: string | null
           font_size?: string | null
           id?: string
@@ -131,6 +136,7 @@ export type Database = {
           color?: string | null
           created_at?: string
           data?: Json
+          deleted_at?: string | null
           font?: string | null
           font_size?: string | null
           id?: string

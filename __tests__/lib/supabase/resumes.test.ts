@@ -2,12 +2,20 @@ import type { SupabaseClient } from "@supabase/supabase-js";
 import { describe, expect, it, vi } from "vitest";
 import { emptyResumeData, RESUME_SCHEMA_VERSION } from "@/lib/resumeData";
 import {
+  countDeletedResumes,
   countResumes,
+  deleteResume,
+  deleteResumes,
   disableResumeSharing,
   enableResumeSharing,
   getResume,
   getResumeByShareToken,
+  listDeletedResumes,
   nextCopyName,
+  permanentlyDeleteResume,
+  permanentlyDeleteResumes,
+  restoreResume,
+  restoreResumes,
   saveResume,
   type SaveResumeParams,
 } from "@/lib/supabase/resumes";
@@ -20,6 +28,8 @@ function createQueryBuilder(result: { data?: unknown; error?: unknown; count?: n
     delete: vi.fn(() => builder),
     eq: vi.fn(() => builder),
     gt: vi.fn(() => builder),
+    is: vi.fn(() => builder),
+    not: vi.fn(() => builder),
     in: vi.fn(() => builder),
     order: vi.fn(() => builder),
     range: vi.fn(() => builder),
@@ -158,6 +168,14 @@ describe("getResume", () => {
     await expect(getResume(supabase, "missing-id")).resolves.toBeNull();
   });
 
+  it("filters out soft-deleted rows", async () => {
+    const { supabase, builder } = createSupabaseMock({ data: fakeTableRow, error: null });
+
+    await getResume(supabase, "resume-1");
+
+    expect(builder.is).toHaveBeenCalledWith("deleted_at", null);
+  });
+
   it("merges defaults into partially-saved data", async () => {
     const { supabase } = createSupabaseMock({ data: fakeTableRow, error: null });
 
@@ -191,6 +209,7 @@ describe("countResumes", () => {
     await expect(countResumes(supabase, "user-1")).resolves.toBe(3);
     expect(builder.select).toHaveBeenCalledWith("id", { count: "exact", head: true });
     expect(builder.eq).toHaveBeenCalledWith("user_id", "user-1");
+    expect(builder.is).toHaveBeenCalledWith("deleted_at", null);
   });
 
   it("returns 0 when Supabase returns a null count", async () => {
@@ -270,6 +289,7 @@ describe("getResumeByShareToken", () => {
 
     expect(builder.eq).toHaveBeenCalledWith("share_token", "a-token");
     expect(builder.gt).toHaveBeenCalledWith("share_token_expires_at", expect.any(String));
+    expect(builder.is).toHaveBeenCalledWith("deleted_at", null);
     expect(row?.id).toBe("resume-1");
   });
 
@@ -283,5 +303,168 @@ describe("getResumeByShareToken", () => {
     const { supabase } = createSupabaseMock({ data: null, error: new Error("select failed") });
 
     await expect(getResumeByShareToken(supabase, "a-token")).rejects.toThrow("select failed");
+  });
+});
+
+describe("deleteResume", () => {
+  it("soft-deletes via an owner-scoped update instead of removing the row", async () => {
+    const { supabase, builder } = createSupabaseMock({ data: null, error: null });
+
+    await deleteResume(supabase, "resume-1");
+
+    expect(builder.update).toHaveBeenCalledWith(
+      expect.objectContaining({
+        deleted_at: expect.any(String),
+        share_token: null,
+        share_token_expires_at: null,
+      }),
+    );
+    expect(builder.eq).toHaveBeenCalledWith("id", "resume-1");
+    expect(builder.delete).not.toHaveBeenCalled();
+  });
+
+  it("throws when Supabase returns an error", async () => {
+    const { supabase } = createSupabaseMock({ data: null, error: new Error("update failed") });
+
+    await expect(deleteResume(supabase, "resume-1")).rejects.toThrow("update failed");
+  });
+});
+
+describe("deleteResumes", () => {
+  it("soft-deletes every id in one owner-scoped update instead of removing the rows", async () => {
+    const { supabase, builder } = createSupabaseMock({ data: null, error: null });
+
+    await deleteResumes(supabase, ["resume-1", "resume-2"]);
+
+    expect(builder.update).toHaveBeenCalledWith(
+      expect.objectContaining({
+        deleted_at: expect.any(String),
+        share_token: null,
+        share_token_expires_at: null,
+      }),
+    );
+    expect(builder.in).toHaveBeenCalledWith("id", ["resume-1", "resume-2"]);
+    expect(builder.delete).not.toHaveBeenCalled();
+  });
+
+  it("throws when Supabase returns an error", async () => {
+    const { supabase } = createSupabaseMock({ data: null, error: new Error("update failed") });
+
+    await expect(deleteResumes(supabase, ["resume-1"])).rejects.toThrow("update failed");
+  });
+});
+
+describe("listDeletedResumes", () => {
+  it("lists only soft-deleted rows, sorted by deletion date by default", async () => {
+    const { supabase, builder } = createSupabaseMock({ data: [fakeTableRow], error: null });
+
+    const rows = await listDeletedResumes(supabase, "user-1");
+
+    expect(builder.eq).toHaveBeenCalledWith("user_id", "user-1");
+    expect(builder.not).toHaveBeenCalledWith("deleted_at", "is", null);
+    expect(builder.order).toHaveBeenCalledWith("deleted_at", { ascending: false });
+    expect(rows).toHaveLength(1);
+  });
+
+  it("throws when Supabase returns an error", async () => {
+    const { supabase } = createSupabaseMock({ data: null, error: new Error("select failed") });
+
+    await expect(listDeletedResumes(supabase, "user-1")).rejects.toThrow("select failed");
+  });
+});
+
+describe("countDeletedResumes", () => {
+  it("counts only soft-deleted rows", async () => {
+    const { supabase, builder } = createSupabaseMock({ count: 2, error: null });
+
+    await expect(countDeletedResumes(supabase, "user-1")).resolves.toBe(2);
+    expect(builder.eq).toHaveBeenCalledWith("user_id", "user-1");
+    expect(builder.not).toHaveBeenCalledWith("deleted_at", "is", null);
+  });
+
+  it("returns 0 when Supabase returns a null count", async () => {
+    const { supabase } = createSupabaseMock({ count: null, error: null });
+
+    await expect(countDeletedResumes(supabase, "user-1")).resolves.toBe(0);
+  });
+
+  it("throws when Supabase returns an error", async () => {
+    const { supabase } = createSupabaseMock({ count: null, error: new Error("count failed") });
+
+    await expect(countDeletedResumes(supabase, "user-1")).rejects.toThrow("count failed");
+  });
+});
+
+describe("restoreResume", () => {
+  it("clears deleted_at via an owner-scoped update, only targeting already-deleted rows", async () => {
+    const { supabase, builder } = createSupabaseMock({ data: null, error: null });
+
+    await restoreResume(supabase, "resume-1");
+
+    expect(builder.update).toHaveBeenCalledWith({ deleted_at: null });
+    expect(builder.eq).toHaveBeenCalledWith("id", "resume-1");
+    expect(builder.not).toHaveBeenCalledWith("deleted_at", "is", null);
+    expect(builder.delete).not.toHaveBeenCalled();
+  });
+
+  it("throws when Supabase returns an error", async () => {
+    const { supabase } = createSupabaseMock({ data: null, error: new Error("update failed") });
+
+    await expect(restoreResume(supabase, "resume-1")).rejects.toThrow("update failed");
+  });
+});
+
+describe("restoreResumes", () => {
+  it("clears deleted_at for every id in one owner-scoped update, only targeting already-deleted rows", async () => {
+    const { supabase, builder } = createSupabaseMock({ data: null, error: null });
+
+    await restoreResumes(supabase, ["resume-1", "resume-2"]);
+
+    expect(builder.update).toHaveBeenCalledWith({ deleted_at: null });
+    expect(builder.in).toHaveBeenCalledWith("id", ["resume-1", "resume-2"]);
+    expect(builder.not).toHaveBeenCalledWith("deleted_at", "is", null);
+  });
+
+  it("throws when Supabase returns an error", async () => {
+    const { supabase } = createSupabaseMock({ data: null, error: new Error("update failed") });
+
+    await expect(restoreResumes(supabase, ["resume-1"])).rejects.toThrow("update failed");
+  });
+});
+
+describe("permanentlyDeleteResume", () => {
+  it("hard-deletes via an owner-scoped delete, only targeting already-deleted rows", async () => {
+    const { supabase, builder } = createSupabaseMock({ data: null, error: null });
+
+    await permanentlyDeleteResume(supabase, "resume-1");
+
+    expect(builder.delete).toHaveBeenCalled();
+    expect(builder.eq).toHaveBeenCalledWith("id", "resume-1");
+    expect(builder.not).toHaveBeenCalledWith("deleted_at", "is", null);
+    expect(builder.update).not.toHaveBeenCalled();
+  });
+
+  it("throws when Supabase returns an error", async () => {
+    const { supabase } = createSupabaseMock({ data: null, error: new Error("delete failed") });
+
+    await expect(permanentlyDeleteResume(supabase, "resume-1")).rejects.toThrow("delete failed");
+  });
+});
+
+describe("permanentlyDeleteResumes", () => {
+  it("hard-deletes every id in one owner-scoped delete, only targeting already-deleted rows", async () => {
+    const { supabase, builder } = createSupabaseMock({ data: null, error: null });
+
+    await permanentlyDeleteResumes(supabase, ["resume-1", "resume-2"]);
+
+    expect(builder.delete).toHaveBeenCalled();
+    expect(builder.in).toHaveBeenCalledWith("id", ["resume-1", "resume-2"]);
+    expect(builder.not).toHaveBeenCalledWith("deleted_at", "is", null);
+  });
+
+  it("throws when Supabase returns an error", async () => {
+    const { supabase } = createSupabaseMock({ data: null, error: new Error("delete failed") });
+
+    await expect(permanentlyDeleteResumes(supabase, ["resume-1"])).rejects.toThrow("delete failed");
   });
 });

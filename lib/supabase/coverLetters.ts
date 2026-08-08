@@ -14,6 +14,7 @@ export interface CoverLetterRow {
   shareTokenExpiresAt: string | null;
   createdAt: string;
   updatedAt: string;
+  deletedAt: string | null;
 }
 
 function fromTableRow(row: Tables<"cover_letters">): CoverLetterRow {
@@ -25,6 +26,7 @@ function fromTableRow(row: Tables<"cover_letters">): CoverLetterRow {
     shareTokenExpiresAt: row.share_token_expires_at,
     createdAt: row.created_at,
     updatedAt: row.updated_at,
+    deletedAt: row.deleted_at,
   };
 }
 
@@ -65,6 +67,7 @@ export async function getCoverLetter(
     .from("cover_letters")
     .select()
     .eq("id", id)
+    .is("deleted_at", null)
     .maybeSingle();
 
   if (error) throw error;
@@ -110,6 +113,7 @@ export async function getCoverLetterByShareToken(
     .select()
     .eq("share_token", token)
     .gt("share_token_expires_at", Temporal.Now.instant().toString())
+    .is("deleted_at", null)
     .maybeSingle();
 
   if (error) throw error;
@@ -124,6 +128,7 @@ export async function listAllCoverLetters(
     .from("cover_letters")
     .select()
     .eq("user_id", userId)
+    .is("deleted_at", null)
     .order("created_at", { ascending: true });
 
   if (error) throw error;
@@ -134,20 +139,26 @@ export async function countCoverLetters(supabase: SupabaseClient<Database>, user
   const { count, error } = await supabase
     .from("cover_letters")
     .select("id", { count: "exact", head: true })
-    .eq("user_id", userId);
+    .eq("user_id", userId)
+    .is("deleted_at", null);
 
   if (error) throw error;
   return count ?? 0;
 }
 
 export interface CoverLetterSort {
-  column: "name" | "created_at" | "updated_at";
+  column: "name" | "created_at" | "updated_at" | "deleted_at";
   ascending: boolean;
 }
 
 const DEFAULT_COVER_LETTER_SORT: CoverLetterSort = {
   column: "updated_at",
   ascending: true,
+};
+
+const DEFAULT_DELETED_COVER_LETTER_SORT: CoverLetterSort = {
+  column: "deleted_at",
+  ascending: false,
 };
 
 export async function listCoverLetters(
@@ -164,6 +175,7 @@ export async function listCoverLetters(
     .from("cover_letters")
     .select()
     .eq("user_id", userId)
+    .is("deleted_at", null)
     .order(sort.column, { ascending: sort.ascending })
     .range(from, to);
 
@@ -171,13 +183,96 @@ export async function listCoverLetters(
   return data.map(fromTableRow);
 }
 
+export async function listDeletedCoverLetters(
+  supabase: SupabaseClient<Database>,
+  userId: string,
+  page = 1,
+  pageSize = COVER_LETTERS_PAGE_SIZE,
+  sort: CoverLetterSort = DEFAULT_DELETED_COVER_LETTER_SORT,
+): Promise<CoverLetterRow[]> {
+  const from = (page - 1) * pageSize;
+  const to = from + pageSize - 1;
+
+  const { data, error } = await supabase
+    .from("cover_letters")
+    .select()
+    .eq("user_id", userId)
+    .not("deleted_at", "is", null)
+    .order(sort.column, { ascending: sort.ascending })
+    .range(from, to);
+
+  if (error) throw error;
+  return data.map(fromTableRow);
+}
+
+export async function countDeletedCoverLetters(supabase: SupabaseClient<Database>, userId: string): Promise<number> {
+  const { count, error } = await supabase
+    .from("cover_letters")
+    .select("id", { count: "exact", head: true })
+    .eq("user_id", userId)
+    .not("deleted_at", "is", null);
+
+  if (error) throw error;
+  return count ?? 0;
+}
+
 export async function deleteCoverLetter(supabase: SupabaseClient<Database>, id: string): Promise<void> {
-  const { error } = await supabase.from("cover_letters").delete().eq("id", id);
+  const { error } = await supabase
+    .from("cover_letters")
+    .update({
+      deleted_at: Temporal.Now.instant().toString(),
+      share_token: null,
+      share_token_expires_at: null,
+    })
+    .eq("id", id);
   if (error) throw error;
 }
 
 export async function deleteCoverLetters(supabase: SupabaseClient<Database>, ids: string[]): Promise<void> {
-  const { error } = await supabase.from("cover_letters").delete().in("id", ids);
+  const { error } = await supabase
+    .from("cover_letters")
+    .update({
+      deleted_at: Temporal.Now.instant().toString(),
+      share_token: null,
+      share_token_expires_at: null,
+    })
+    .in("id", ids);
+  if (error) throw error;
+}
+
+export async function restoreCoverLetter(supabase: SupabaseClient<Database>, id: string): Promise<void> {
+  const { error } = await supabase
+    .from("cover_letters")
+    .update({ deleted_at: null })
+    .eq("id", id)
+    .not("deleted_at", "is", null);
+  if (error) throw error;
+}
+
+export async function restoreCoverLetters(supabase: SupabaseClient<Database>, ids: string[]): Promise<void> {
+  const { error } = await supabase
+    .from("cover_letters")
+    .update({ deleted_at: null })
+    .in("id", ids)
+    .not("deleted_at", "is", null);
+  if (error) throw error;
+}
+
+export async function permanentlyDeleteCoverLetter(supabase: SupabaseClient<Database>, id: string): Promise<void> {
+  const { error } = await supabase
+    .from("cover_letters")
+    .delete()
+    .eq("id", id)
+    .not("deleted_at", "is", null);
+  if (error) throw error;
+}
+
+export async function permanentlyDeleteCoverLetters(supabase: SupabaseClient<Database>, ids: string[]): Promise<void> {
+  const { error } = await supabase
+    .from("cover_letters")
+    .delete()
+    .in("id", ids)
+    .not("deleted_at", "is", null);
   if (error) throw error;
 }
 

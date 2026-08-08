@@ -32,6 +32,7 @@ export interface ResumeRow {
   shareTokenExpiresAt: string | null;
   createdAt: string;
   updatedAt: string;
+  deletedAt: string | null;
 }
 
 function fromTableRow(row: Tables<"resumes">): ResumeRow {
@@ -50,6 +51,7 @@ function fromTableRow(row: Tables<"resumes">): ResumeRow {
     shareTokenExpiresAt: row.share_token_expires_at,
     createdAt: row.created_at,
     updatedAt: row.updated_at,
+    deletedAt: row.deleted_at,
   };
 }
 
@@ -103,18 +105,20 @@ export async function countResumes(supabase: SupabaseClient<Database>, userId: s
   const { count, error } = await supabase
     .from("resumes")
     .select("id", { count: "exact", head: true })
-    .eq("user_id", userId);
+    .eq("user_id", userId)
+    .is("deleted_at", null);
 
   if (error) throw error;
   return count ?? 0;
 }
 
 export interface ResumeSort {
-  column: "name" | "created_at" | "updated_at";
+  column: "name" | "created_at" | "updated_at" | "deleted_at";
   ascending: boolean;
 }
 
 const DEFAULT_RESUME_SORT: ResumeSort = { column: "updated_at", ascending: true };
+const DEFAULT_DELETED_RESUME_SORT: ResumeSort = { column: "deleted_at", ascending: false };
 
 export async function listResumes(
   supabase: SupabaseClient<Database>,
@@ -130,6 +134,7 @@ export async function listResumes(
     .from("resumes")
     .select()
     .eq("user_id", userId)
+    .is("deleted_at", null)
     .order(sort.column, { ascending: sort.ascending })
     .range(from, to);
 
@@ -142,10 +147,44 @@ export async function listAllResumes(supabase: SupabaseClient<Database>, userId:
     .from("resumes")
     .select()
     .eq("user_id", userId)
+    .is("deleted_at", null)
     .order("created_at", { ascending: true });
 
   if (error) throw error;
   return data.map(fromTableRow);
+}
+
+export async function listDeletedResumes(
+  supabase: SupabaseClient<Database>,
+  userId: string,
+  page = 1,
+  pageSize = RESUMES_PAGE_SIZE,
+  sort: ResumeSort = DEFAULT_DELETED_RESUME_SORT,
+): Promise<ResumeRow[]> {
+  const from = (page - 1) * pageSize;
+  const to = from + pageSize - 1;
+
+  const { data, error } = await supabase
+    .from("resumes")
+    .select()
+    .eq("user_id", userId)
+    .not("deleted_at", "is", null)
+    .order(sort.column, { ascending: sort.ascending })
+    .range(from, to);
+
+  if (error) throw error;
+  return data.map(fromTableRow);
+}
+
+export async function countDeletedResumes(supabase: SupabaseClient<Database>, userId: string): Promise<number> {
+  const { count, error } = await supabase
+    .from("resumes")
+    .select("id", { count: "exact", head: true })
+    .eq("user_id", userId)
+    .not("deleted_at", "is", null);
+
+  if (error) throw error;
+  return count ?? 0;
 }
 
 export async function getResume(supabase: SupabaseClient<Database>, id: string): Promise<ResumeRow | null> {
@@ -153,6 +192,7 @@ export async function getResume(supabase: SupabaseClient<Database>, id: string):
     .from("resumes")
     .select()
     .eq("id", id)
+    .is("deleted_at", null)
     .maybeSingle();
 
   if (error) throw error;
@@ -195,6 +235,7 @@ export async function getResumeByShareToken(
     .select()
     .eq("share_token", token)
     .gt("share_token_expires_at", Temporal.Now.instant().toString())
+    .is("deleted_at", null)
     .maybeSingle();
 
   if (error) throw error;
@@ -202,12 +243,62 @@ export async function getResumeByShareToken(
 }
 
 export async function deleteResume(supabase: SupabaseClient<Database>, id: string): Promise<void> {
-  const { error } = await supabase.from("resumes").delete().eq("id", id);
+  const { error } = await supabase
+    .from("resumes")
+    .update({
+      deleted_at: Temporal.Now.instant().toString(),
+      share_token: null,
+      share_token_expires_at: null,
+    })
+    .eq("id", id);
   if (error) throw error;
 }
 
 export async function deleteResumes(supabase: SupabaseClient<Database>, ids: string[]): Promise<void> {
-  const { error } = await supabase.from("resumes").delete().in("id", ids);
+  const { error } = await supabase
+    .from("resumes")
+    .update({
+      deleted_at: Temporal.Now.instant().toString(),
+      share_token: null,
+      share_token_expires_at: null,
+    })
+    .in("id", ids);
+  if (error) throw error;
+}
+
+export async function restoreResume(supabase: SupabaseClient<Database>, id: string): Promise<void> {
+  const { error } = await supabase
+    .from("resumes")
+    .update({ deleted_at: null })
+    .eq("id", id)
+    .not("deleted_at", "is", null);
+  if (error) throw error;
+}
+
+export async function restoreResumes(supabase: SupabaseClient<Database>, ids: string[]): Promise<void> {
+  const { error } = await supabase
+    .from("resumes")
+    .update({ deleted_at: null })
+    .in("id", ids)
+    .not("deleted_at", "is", null);
+  if (error) throw error;
+}
+
+export async function permanentlyDeleteResume(supabase: SupabaseClient<Database>, id: string): Promise<void> {
+  const { error } = await supabase
+    .from("resumes")
+    .delete()
+    .eq("id", id)
+    .not("deleted_at", "is", null);
+  if (error) throw error;
+}
+
+export async function permanentlyDeleteResumes(supabase: SupabaseClient<Database>, ids: string[]): Promise<void> {
+  const { error } = await supabase
+    .from("resumes")
+    .delete()
+    .in("id", ids)
+    .not("deleted_at", "is", null);
   if (error) throw error;
 }
 
