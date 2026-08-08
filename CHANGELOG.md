@@ -1,5 +1,21 @@
 # Changelog
 
+## [0.6.0](https://github.com/bujdoluk/resume-builder/compare/QuickResumeBuilder.online-v0.5.1...QuickResumeBuilder.online-v0.6.0) (2026-08-08)
+
+
+### Features
+
+* add missing loading indicators for slow API calls ([053d79c](https://github.com/bujdoluk/resume-builder/commit/053d79c56e116571af28ba295389c7e59403fb60))
+* add missing loading indicators for slow API calls ([c83859f](https://github.com/bujdoluk/resume-builder/commit/c83859fc18df62186e31ba7ada9f9efe6f1909e5))
+* added db, redis healthchecks ([80ac4fc](https://github.com/bujdoluk/resume-builder/commit/80ac4fcb66615ad07a53748a8cb2cfd4dd07f0f3))
+* added soft delete to resumes and cover letters ([fd06c3f](https://github.com/bujdoluk/resume-builder/commit/fd06c3fc926350a468075f3e1a118d81b771550e))
+
+
+### Bug Fixes
+
+* bump transitive nanoid to patch high-severity npm audit finding ([6f37bd0](https://github.com/bujdoluk/resume-builder/commit/6f37bd031b60a93a37cc56f1a67ecb6ba666c6f8))
+* fixed tabs in my resumes page ([29adc95](https://github.com/bujdoluk/resume-builder/commit/29adc95d5984faa6ed535fe04d2c5d48eaf2437a))
+
 ## [0.5.1](https://github.com/bujdoluk/resume-builder/compare/QuickResumeBuilder.online-v0.5.0...QuickResumeBuilder.online-v0.5.1) (2026-08-07)
 
 
