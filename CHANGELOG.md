@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.8.0](https://github.com/bujdoluk/resume-builder/compare/QuickResumeBuilder.online-v0.7.0...QuickResumeBuilder.online-v0.8.0) (2026-08-09)
+
+
+### Features
+
+* added edit for blog ([11893b1](https://github.com/bujdoluk/resume-builder/commit/11893b17b1506e87d8b3b43dbc5263eba1c7f639))
+
 ## [0.7.0](https://github.com/bujdoluk/resume-builder/compare/QuickResumeBuilder.online-v0.6.1...QuickResumeBuilder.online-v0.7.0) (2026-08-09)
 
 
