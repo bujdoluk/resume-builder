@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useRef } from "react";
 import { useTranslation } from "react-i18next";
-import AddBlogPostDialog, { type AddBlogPostDialogHandle } from "@/components/blog/AddBlogPostDialog";
+import BlogPostFormDialog, { type BlogPostFormDialogHandle } from "@/components/blog/BlogPostFormDialog";
 import { useIsAdmin } from "@/components/useIsAdmin";
 import { categoryBadgeClass, type BlogPost } from "@/lib/supabase/blogPosts";
 
@@ -12,7 +12,7 @@ export default function BlogPageContent({ posts }: { posts: BlogPost[] }) {
   const { t } = useTranslation();
   const router = useRouter();
   const isAdmin = useIsAdmin();
-  const dialogRef = useRef<AddBlogPostDialogHandle>(null);
+  const dialogRef = useRef<BlogPostFormDialogHandle>(null);
 
   async function handleAddPost() {
     const created = await dialogRef.current?.open();
@@ -54,7 +54,7 @@ export default function BlogPageContent({ posts }: { posts: BlogPost[] }) {
         ))}
       </div>
 
-      <AddBlogPostDialog ref={dialogRef} />
+      <BlogPostFormDialog ref={dialogRef} />
     </div>
   );
 }

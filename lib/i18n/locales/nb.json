@@ -339,6 +339,7 @@
     "comingSoon": "Kommer snart — se innom for CV-tips, jobbsøkerråd og karriereguider.",
     "backToBlog": "Tilbake til bloggen",
     "addPost": "Legg til blogginnlegg",
+    "edit": "Rediger innlegg",
     "delete": "Slett innlegg",
     "confirmDelete": "Slette dette innlegget? Dette kan ikke angres.",
     "categories": {
@@ -350,6 +351,7 @@
     },
     "dialog": {
       "title": "Legg til blogginnlegg",
+      "editTitle": "Rediger blogginnlegg",
       "titleLabel": "Tittel",
       "subtitleLabel": "Undertittel",
       "contentLabel": "Innhold",
@@ -361,6 +363,7 @@
       "readTimeLabel": "Lesetid",
       "readTimePlaceholder": "5 min lesing",
       "publish": "Publiser",
+      "save": "Lagre endringer",
       "submitError": "Noe gikk galt. Prøv igjen."
     }
   },
@@ -537,6 +540,7 @@
     "invalidInput": "Ugyldig inndata.",
     "failedToCreatePost": "Kunne ikke opprette innlegget.",
     "failedToDeletePost": "Kunne ikke slette innlegget.",
+    "failedToUpdatePost": "Kunne ikke oppdatere innlegget.",
     "captchaVerificationFailed": "Captcha-verifisering mislyktes.",
     "invalidEmailAddress": "Ugyldig e-postadresse.",
     "invalidTextData": "Ugyldige tekstdata.",

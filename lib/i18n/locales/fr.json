@@ -339,6 +339,7 @@
     "comingSoon": "Bientôt disponible — revenez pour des conseils de CV, des astuces de recherche d'emploi et des guides de carrière.",
     "backToBlog": "Retour au blog",
     "addPost": "Ajouter un article",
+    "edit": "Modifier l'article",
     "delete": "Supprimer l'article",
     "confirmDelete": "Supprimer cet article ? Cette action est irréversible.",
     "categories": {
@@ -350,6 +351,7 @@
     },
     "dialog": {
       "title": "Ajouter un article de blog",
+      "editTitle": "Modifier l'article de blog",
       "titleLabel": "Titre",
       "subtitleLabel": "Sous-titre",
       "contentLabel": "Contenu",
@@ -361,6 +363,7 @@
       "readTimeLabel": "Temps de lecture",
       "readTimePlaceholder": "5 min de lecture",
       "publish": "Publier",
+      "save": "Enregistrer les modifications",
       "submitError": "Une erreur s'est produite. Veuillez réessayer."
     }
   },
@@ -537,6 +540,7 @@
     "invalidInput": "Saisie invalide.",
     "failedToCreatePost": "Échec de la création de l'article.",
     "failedToDeletePost": "Échec de la suppression de l'article.",
+    "failedToUpdatePost": "Échec de la mise à jour de l'article.",
     "captchaVerificationFailed": "Échec de la vérification captcha.",
     "invalidEmailAddress": "Adresse e-mail invalide.",
     "invalidTextData": "Données texte invalides.",

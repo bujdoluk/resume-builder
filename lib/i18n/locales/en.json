@@ -339,6 +339,7 @@
     "comingSoon": "Coming soon — check back for resume tips, job search advice, and career guides.",
     "backToBlog": "Back to blog",
     "addPost": "Add Blog",
+    "edit": "Edit Post",
     "delete": "Delete Post",
     "confirmDelete": "Delete this post? This can't be undone.",
     "categories": {
@@ -350,6 +351,7 @@
     },
     "dialog": {
       "title": "Add Blog Post",
+      "editTitle": "Edit Blog Post",
       "titleLabel": "Title",
       "subtitleLabel": "Subtitle",
       "contentLabel": "Content",
@@ -361,6 +363,7 @@
       "readTimeLabel": "Read time",
       "readTimePlaceholder": "5 min read",
       "publish": "Publish",
+      "save": "Save Changes",
       "submitError": "Something went wrong. Please try again."
     }
   },
@@ -537,6 +540,7 @@
     "invalidInput": "Invalid input.",
     "failedToCreatePost": "Failed to create post.",
     "failedToDeletePost": "Failed to delete post.",
+    "failedToUpdatePost": "Failed to update post.",
     "captchaVerificationFailed": "Captcha verification failed.",
     "invalidEmailAddress": "Invalid email address.",
     "invalidTextData": "Invalid text data.",

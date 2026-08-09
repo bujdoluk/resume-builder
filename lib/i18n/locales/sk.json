@@ -339,6 +339,7 @@
     "comingSoon": "Už čoskoro — sledujte tipy na životopis, rady na hľadanie práce a kariérne návody.",
     "backToBlog": "Späť na blog",
     "addPost": "Pridať článok",
+    "edit": "Upraviť článok",
     "delete": "Odstrániť článok",
     "confirmDelete": "Odstrániť tento článok? Túto akciu nemožno vrátiť späť.",
     "categories": {
@@ -350,6 +351,7 @@
     },
     "dialog": {
       "title": "Pridať článok na blog",
+      "editTitle": "Upraviť článok na blogu",
       "titleLabel": "Nadpis",
       "subtitleLabel": "Podnadpis",
       "contentLabel": "Obsah",
@@ -361,6 +363,7 @@
       "readTimeLabel": "Čas čítania",
       "readTimePlaceholder": "5 min čítania",
       "publish": "Publikovať",
+      "save": "Uložiť zmeny",
       "submitError": "Niečo sa pokazilo. Skúste to znova."
     }
   },
@@ -537,6 +540,7 @@
     "invalidInput": "Neplatný vstup.",
     "failedToCreatePost": "Vytvorenie príspevku sa nepodarilo.",
     "failedToDeletePost": "Odstránenie príspevku sa nepodarilo.",
+    "failedToUpdatePost": "Aktualizácia príspevku sa nepodarila.",
     "captchaVerificationFailed": "Overenie captcha zlyhalo.",
     "invalidEmailAddress": "Neplatná e-mailová adresa.",
     "invalidTextData": "Neplatné textové údaje.",

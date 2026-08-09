@@ -339,6 +339,7 @@
     "comingSoon": "Скоро — заходите за советами по резюме, поиску работы и карьере.",
     "backToBlog": "Назад к блогу",
     "addPost": "Добавить статью",
+    "edit": "Редактировать статью",
     "delete": "Удалить статью",
     "confirmDelete": "Удалить эту статью? Это действие нельзя отменить.",
     "categories": {
@@ -350,6 +351,7 @@
     },
     "dialog": {
       "title": "Добавить статью блога",
+      "editTitle": "Редактировать статью блога",
       "titleLabel": "Заголовок",
       "subtitleLabel": "Подзаголовок",
       "contentLabel": "Содержание",
@@ -361,6 +363,7 @@
       "readTimeLabel": "Время чтения",
       "readTimePlaceholder": "5 мин чтения",
       "publish": "Опубликовать",
+      "save": "Сохранить изменения",
       "submitError": "Что-то пошло не так. Попробуйте ещё раз."
     }
   },
@@ -537,6 +540,7 @@
     "invalidInput": "Недопустимые данные.",
     "failedToCreatePost": "Не удалось создать запись.",
     "failedToDeletePost": "Не удалось удалить запись.",
+    "failedToUpdatePost": "Не удалось обновить запись.",
     "captchaVerificationFailed": "Проверка captcha не пройдена.",
     "invalidEmailAddress": "Недопустимый адрес электронной почты.",
     "invalidTextData": "Недопустимые текстовые данные.",

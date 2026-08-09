@@ -339,6 +339,7 @@
     "comingSoon": "Binnenkort beschikbaar — kom terug voor cv-tips, sollicitatieadvies en carrièregidsen.",
     "backToBlog": "Terug naar de blog",
     "addPost": "Blogpost toevoegen",
+    "edit": "Blogpost bewerken",
     "delete": "Blogpost verwijderen",
     "confirmDelete": "Deze blogpost verwijderen? Dit kan niet ongedaan worden gemaakt.",
     "categories": {
@@ -350,6 +351,7 @@
     },
     "dialog": {
       "title": "Blogpost toevoegen",
+      "editTitle": "Blogpost bewerken",
       "titleLabel": "Titel",
       "subtitleLabel": "Ondertitel",
       "contentLabel": "Inhoud",
@@ -361,6 +363,7 @@
       "readTimeLabel": "Leestijd",
       "readTimePlaceholder": "5 min leestijd",
       "publish": "Publiceren",
+      "save": "Wijzigingen opslaan",
       "submitError": "Er is iets misgegaan. Probeer het opnieuw."
     }
   },
@@ -537,6 +540,7 @@
     "invalidInput": "Ongeldige invoer.",
     "failedToCreatePost": "Bericht kon niet worden aangemaakt.",
     "failedToDeletePost": "Bericht kon niet worden verwijderd.",
+    "failedToUpdatePost": "Bericht kon niet worden bijgewerkt.",
     "captchaVerificationFailed": "Captcha-verificatie mislukt.",
     "invalidEmailAddress": "Ongeldig e-mailadres.",
     "invalidTextData": "Ongeldige tekstgegevens.",

@@ -5,8 +5,9 @@ import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Temporal } from "temporal-polyfill";
-import { ArrowLeftIcon, TrashIcon } from "@/components/Icons";
+import { ArrowLeftIcon, PencilIcon, TrashIcon } from "@/components/Icons";
 import ConfirmDialog, { type ConfirmDialogHandle } from "@/components/ConfirmDialog";
+import BlogPostFormDialog, { type BlogPostFormDialogHandle } from "@/components/blog/BlogPostFormDialog";
 import { useToast } from "@/components/Toast";
 import { useIsAdmin } from "@/components/useIsAdmin";
 import { API_LOCALE_HEADER } from "@/lib/apiLocaleHeader";
@@ -20,10 +21,16 @@ export default function BlogPostContent({ post }: { post: BlogPost }) {
   const isAdmin = useIsAdmin();
   const [deleting, setDeleting] = useState(false);
   const confirmDialogRef = useRef<ConfirmDialogHandle>(null);
+  const editDialogRef = useRef<BlogPostFormDialogHandle>(null);
   const formattedDate = Temporal.PlainDate.from(post.publishedAt).toLocaleString(i18n.language, {
     dateStyle: "long",
   });
   const paragraphs = post.content.split(/\n\s*\n/);
+
+  async function handleEdit() {
+    const saved = await editDialogRef.current?.open(post);
+    if (saved) router.refresh();
+  }
 
   async function handleDelete() {
     const confirmed = await confirmDialogRef.current?.open({
@@ -59,19 +66,25 @@ export default function BlogPostContent({ post }: { post: BlogPost }) {
             </Link>
 
             {isAdmin && (
-              <button
-                type="button"
-                className="btn btn-outline btn-sm btn-error"
-                disabled={deleting}
-                onClick={handleDelete}
-              >
-                {deleting ? (
-                  <span className="loading loading-spinner loading-xs" />
-                ) : (
-                  <TrashIcon className="h-4 w-4 stroke-current" />
-                )}
-                {t("blog.delete")}
-              </button>
+              <div className="flex items-center gap-2">
+                <button type="button" className="btn btn-outline btn-sm" onClick={handleEdit}>
+                  <PencilIcon className="h-4 w-4 stroke-current" />
+                  {t("blog.edit")}
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-outline btn-sm btn-error"
+                  disabled={deleting}
+                  onClick={handleDelete}
+                >
+                  {deleting ? (
+                    <span className="loading loading-spinner loading-xs" />
+                  ) : (
+                    <TrashIcon className="h-4 w-4 stroke-current" />
+                  )}
+                  {t("blog.delete")}
+                </button>
+              </div>
             )}
           </div>
 
@@ -116,6 +129,7 @@ export default function BlogPostContent({ post }: { post: BlogPost }) {
       </article>
 
       <ConfirmDialog ref={confirmDialogRef} />
+      <BlogPostFormDialog ref={editDialogRef} />
     </div>
   );
 }

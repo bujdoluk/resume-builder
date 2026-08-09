@@ -1,5 +1,6 @@
 
 import type { SupabaseClient } from "@supabase/supabase-js";
+import { Temporal } from "temporal-polyfill";
 import { MAX_SLUG_ATTEMPTS } from "@/lib/constants";
 import type { Database, Tables } from "@/lib/supabase/database.types";
 
@@ -110,7 +111,9 @@ function slugify(title: string): string {
   return title.toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "") || "post";
 }
 
-export interface NewBlogPostInput {
+// Shared by createBlogPost and updateBlogPost — same fields either way,
+// just insert vs. update (and updateBlogPost never touches slug, see below).
+export interface Blog {
   category: BlogCategoryKey;
   title: string;
   subtitle: string;
@@ -123,9 +126,9 @@ export interface NewBlogPostInput {
 
 export async function createBlogPost(
   supabase: SupabaseClient<Database>,
-  input: NewBlogPostInput,
+  blog: Blog,
 ): Promise<BlogPost> {
-  const base = slugify(input.title);
+  const base = slugify(blog.title);
 
   for (let attempt = 0; attempt < MAX_SLUG_ATTEMPTS; attempt++) {
     const slug = attempt === 0 ? base : `${base}-${attempt + 1}`;
@@ -133,14 +136,14 @@ export async function createBlogPost(
       .from("blog_posts")
       .insert({
         slug,
-        category: input.category,
-        title: input.title,
-        subtitle: input.subtitle,
-        content: input.content,
-        author_name: input.authorName,
-        author_avatar_url: input.authorAvatarUrl,
-        read_time: input.readTime,
-        published_at: input.publishedAt,
+        category: blog.category,
+        title: blog.title,
+        subtitle: blog.subtitle,
+        content: blog.content,
+        author_name: blog.authorName,
+        author_avatar_url: blog.authorAvatarUrl,
+        read_time: blog.readTime,
+        published_at: blog.publishedAt,
       })
       .select(SELECT_COLUMNS)
       .single();
@@ -150,6 +153,32 @@ export async function createBlogPost(
   }
 
   throw new Error("Could not generate a unique slug.");
+}
+
+export async function updateBlogPost(
+  supabase: SupabaseClient<Database>,
+  id: string,
+  blog: Blog,
+): Promise<BlogPost | null> {
+  const { data, error } = await supabase
+    .from("blog_posts")
+    .update({
+      category: blog.category,
+      title: blog.title,
+      subtitle: blog.subtitle,
+      content: blog.content,
+      author_name: blog.authorName,
+      author_avatar_url: blog.authorAvatarUrl,
+      read_time: blog.readTime,
+      published_at: blog.publishedAt,
+      updated_at: Temporal.Now.instant().toString(),
+    })
+    .eq("id", id)
+    .select(SELECT_COLUMNS)
+    .maybeSingle();
+
+  if (error) throw error;
+  return data ? mapRow(data as BlogPostSelectedRow) : null;
 }
 
 // Returns the deleted row (or null if nothing matched that id — already

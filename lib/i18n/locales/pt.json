@@ -339,6 +339,7 @@
     "comingSoon": "Brevemente — volte para dicas de currículo, conselhos de procura de emprego e guias de carreira.",
     "backToBlog": "Voltar ao blog",
     "addPost": "Adicionar artigo",
+    "edit": "Editar artigo",
     "delete": "Eliminar artigo",
     "confirmDelete": "Eliminar este artigo? Esta ação não pode ser revertida.",
     "categories": {
@@ -350,6 +351,7 @@
     },
     "dialog": {
       "title": "Adicionar artigo do blog",
+      "editTitle": "Editar artigo do blog",
       "titleLabel": "Título",
       "subtitleLabel": "Subtítulo",
       "contentLabel": "Conteúdo",
@@ -361,6 +363,7 @@
       "readTimeLabel": "Tempo de leitura",
       "readTimePlaceholder": "5 min de leitura",
       "publish": "Publicar",
+      "save": "Guardar alterações",
       "submitError": "Algo correu mal. Tente novamente."
     }
   },
@@ -537,6 +540,7 @@
     "invalidInput": "Entrada inválida.",
     "failedToCreatePost": "Não foi possível criar a publicação.",
     "failedToDeletePost": "Não foi possível eliminar a publicação.",
+    "failedToUpdatePost": "Não foi possível atualizar a publicação.",
     "captchaVerificationFailed": "A verificação captcha falhou.",
     "invalidEmailAddress": "Endereço de e-mail inválido.",
     "invalidTextData": "Dados de texto inválidos.",

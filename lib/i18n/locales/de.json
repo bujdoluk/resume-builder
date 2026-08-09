@@ -339,6 +339,7 @@
     "comingSoon": "Demnächst verfügbar — schauen Sie bald wieder vorbei für Lebenslauf-Tipps, Jobsuche-Ratschläge und Karriereratgeber.",
     "backToBlog": "Zurück zum Blog",
     "addPost": "Blogbeitrag hinzufügen",
+    "edit": "Beitrag bearbeiten",
     "delete": "Beitrag löschen",
     "confirmDelete": "Diesen Beitrag löschen? Dies kann nicht rückgängig gemacht werden.",
     "categories": {
@@ -350,6 +351,7 @@
     },
     "dialog": {
       "title": "Blogbeitrag hinzufügen",
+      "editTitle": "Blogbeitrag bearbeiten",
       "titleLabel": "Titel",
       "subtitleLabel": "Untertitel",
       "contentLabel": "Inhalt",
@@ -361,6 +363,7 @@
       "readTimeLabel": "Lesezeit",
       "readTimePlaceholder": "5 Min. Lesezeit",
       "publish": "Veröffentlichen",
+      "save": "Änderungen speichern",
       "submitError": "Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut."
     }
   },
@@ -537,6 +540,7 @@
     "invalidInput": "Ungültige Eingabe.",
     "failedToCreatePost": "Beitrag konnte nicht erstellt werden.",
     "failedToDeletePost": "Beitrag konnte nicht gelöscht werden.",
+    "failedToUpdatePost": "Beitrag konnte nicht aktualisiert werden.",
     "captchaVerificationFailed": "Captcha-Überprüfung fehlgeschlagen.",
     "invalidEmailAddress": "Ungültige E-Mail-Adresse.",
     "invalidTextData": "Ungültige Textdaten.",

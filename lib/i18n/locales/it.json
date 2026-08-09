@@ -339,6 +339,7 @@
     "comingSoon": "Prossimamente — torna presto per consigli sul curriculum, suggerimenti per la ricerca di lavoro e guide di carriera.",
     "backToBlog": "Torna al blog",
     "addPost": "Aggiungi articolo",
+    "edit": "Modifica articolo",
     "delete": "Elimina articolo",
     "confirmDelete": "Eliminare questo articolo? Questa azione non può essere annullata.",
     "categories": {
@@ -350,6 +351,7 @@
     },
     "dialog": {
       "title": "Aggiungi articolo del blog",
+      "editTitle": "Modifica articolo del blog",
       "titleLabel": "Titolo",
       "subtitleLabel": "Sottotitolo",
       "contentLabel": "Contenuto",
@@ -361,6 +363,7 @@
       "readTimeLabel": "Tempo di lettura",
       "readTimePlaceholder": "5 min di lettura",
       "publish": "Pubblica",
+      "save": "Salva modifiche",
       "submitError": "Qualcosa è andato storto. Riprova."
     }
   },
@@ -537,6 +540,7 @@
     "invalidInput": "Input non valido.",
     "failedToCreatePost": "Impossibile creare l'articolo.",
     "failedToDeletePost": "Impossibile eliminare l'articolo.",
+    "failedToUpdatePost": "Impossibile aggiornare l'articolo.",
     "captchaVerificationFailed": "Verifica captcha non riuscita.",
     "invalidEmailAddress": "Indirizzo e-mail non valido.",
     "invalidTextData": "Dati di testo non validi.",

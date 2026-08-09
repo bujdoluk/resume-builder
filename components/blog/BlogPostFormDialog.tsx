@@ -6,10 +6,10 @@ import { Temporal } from "temporal-polyfill";
 import { useToast } from "@/components/Toast";
 import { API_LOCALE_HEADER } from "@/lib/apiLocaleHeader";
 import { handleApiResponse } from "@/lib/apiResponse";
-import { blogCategories, type BlogCategoryKey } from "@/lib/supabase/blogPosts";
+import { blogCategories, type BlogCategoryKey, type BlogPost } from "@/lib/supabase/blogPosts";
 
-export interface AddBlogPostDialogHandle {
-  open: () => Promise<boolean>;
+export interface BlogPostFormDialogHandle {
+  open: (existingPost?: BlogPost) => Promise<boolean>;
 }
 
 const EMPTY_FORM = {
@@ -23,17 +23,38 @@ const EMPTY_FORM = {
   readTime: "",
 };
 
-export default function AddBlogPostDialog({ ref }: { ref?: Ref<AddBlogPostDialogHandle> }) {
+function formFromPost(post: BlogPost): typeof EMPTY_FORM {
+  return {
+    title: post.title,
+    subtitle: post.subtitle,
+    content: post.content,
+    category: post.category,
+    publishedAt: post.publishedAt,
+    authorName: post.authorName,
+    authorAvatarUrl: post.authorAvatarUrl ?? "",
+    readTime: post.readTime,
+  };
+}
+
+export default function BlogPostFormDialog({ ref }: { ref?: Ref<BlogPostFormDialogHandle> }) {
   const { t, i18n } = useTranslation();
   const { showToast } = useToast();
   const dialogRef = useRef<HTMLDialogElement>(null);
-  const resolveRef = useRef<((created: boolean) => void) | null>(null);
+  const resolveRef = useRef<((saved: boolean) => void) | null>(null);
   const [form, setForm] = useState(EMPTY_FORM);
+  const [editingId, setEditingId] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
+  const isEditing = editingId !== null;
 
   useImperativeHandle(ref, () => ({
-    open() {
-      setForm({ ...EMPTY_FORM, publishedAt: Temporal.Now.plainDateISO().toString() });
+    open(existingPost) {
+      if (existingPost) {
+        setForm(formFromPost(existingPost));
+        setEditingId(existingPost.id);
+      } else {
+        setForm({ ...EMPTY_FORM, publishedAt: Temporal.Now.plainDateISO().toString() });
+        setEditingId(null);
+      }
       dialogRef.current?.showModal();
       return new Promise<boolean>((resolve) => {
         resolveRef.current = resolve;
@@ -55,8 +76,8 @@ export default function AddBlogPostDialog({ ref }: { ref?: Ref<AddBlogPostDialog
     event.preventDefault();
     setSubmitting(true);
     try {
-      const response = await fetch("/api/blog", {
-        method: "POST",
+      const response = await fetch(isEditing ? `/api/blog/${editingId}` : "/api/blog", {
+        method: isEditing ? "PATCH" : "POST",
         headers: { "Content-Type": "application/json", [API_LOCALE_HEADER]: i18n.language },
         body: JSON.stringify({
           ...form,
@@ -74,7 +95,9 @@ export default function AddBlogPostDialog({ ref }: { ref?: Ref<AddBlogPostDialog
   return (
     <dialog ref={dialogRef} className="modal">
       <div className="modal-box max-w-2xl">
-        <h3 className="text-lg font-bold">{t("blog.dialog.title")}</h3>
+        <h3 className="text-lg font-bold">
+          {isEditing ? t("blog.dialog.editTitle") : t("blog.dialog.title")}
+        </h3>
         <form onSubmit={handleSubmit}>
           <fieldset className="fieldset mt-4">
             <label className="label" htmlFor="blog-title">
@@ -197,7 +220,13 @@ export default function AddBlogPostDialog({ ref }: { ref?: Ref<AddBlogPostDialog
               {t("buttons.cancel")}
             </button>
             <button type="submit" className="btn btn-primary" disabled={submitting}>
-              {submitting ? <span className="loading loading-spinner loading-xs" /> : t("blog.dialog.publish")}
+              {submitting ? (
+                <span className="loading loading-spinner loading-xs" />
+              ) : isEditing ? (
+                t("blog.dialog.save")
+              ) : (
+                t("blog.dialog.publish")
+              )}
             </button>
           </div>
         </form>
