@@ -339,6 +339,8 @@
     "comingSoon": "Demnächst verfügbar — schauen Sie bald wieder vorbei für Lebenslauf-Tipps, Jobsuche-Ratschläge und Karriereratgeber.",
     "backToBlog": "Zurück zum Blog",
     "addPost": "Blogbeitrag hinzufügen",
+    "delete": "Beitrag löschen",
+    "confirmDelete": "Diesen Beitrag löschen? Dies kann nicht rückgängig gemacht werden.",
     "categories": {
       "resumeTips": "Tipps für den Lebenslauf",
       "coverLetters": "Anschreiben",
@@ -534,6 +536,7 @@
     "mfaRequired": "Zwei-Faktor-Verifizierung erforderlich. Bitte melde dich ab und mit deinem Authenticator-Code wieder an.",
     "invalidInput": "Ungültige Eingabe.",
     "failedToCreatePost": "Beitrag konnte nicht erstellt werden.",
+    "failedToDeletePost": "Beitrag konnte nicht gelöscht werden.",
     "captchaVerificationFailed": "Captcha-Überprüfung fehlgeschlagen.",
     "invalidEmailAddress": "Ungültige E-Mail-Adresse.",
     "invalidTextData": "Ungültige Textdaten.",

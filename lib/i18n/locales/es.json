@@ -339,6 +339,8 @@
     "comingSoon": "Muy pronto — vuelve para ver consejos de currículum, asesoramiento de búsqueda de empleo y guías profesionales.",
     "backToBlog": "Volver al blog",
     "addPost": "Añadir entrada",
+    "delete": "Eliminar entrada",
+    "confirmDelete": "¿Eliminar esta entrada? Esta acción no se puede deshacer.",
     "categories": {
       "resumeTips": "Consejos para el currículum",
       "coverLetters": "Cartas de presentación",
@@ -534,6 +536,7 @@
     "mfaRequired": "Se requiere verificación de dos factores. Cierra sesión y vuelve a iniciarla con tu código de autenticación.",
     "invalidInput": "Entrada no válida.",
     "failedToCreatePost": "No se pudo crear la entrada.",
+    "failedToDeletePost": "No se pudo eliminar la entrada.",
     "captchaVerificationFailed": "La verificación captcha ha fallado.",
     "invalidEmailAddress": "Dirección de correo electrónico no válida.",
     "invalidTextData": "Datos de texto no válidos.",

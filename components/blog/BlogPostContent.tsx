@@ -1,29 +1,79 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Temporal } from "temporal-polyfill";
-import { ArrowLeftIcon } from "@/components/Icons";
+import { ArrowLeftIcon, TrashIcon } from "@/components/Icons";
+import ConfirmDialog, { type ConfirmDialogHandle } from "@/components/ConfirmDialog";
+import { useToast } from "@/components/Toast";
+import { useIsAdmin } from "@/components/useIsAdmin";
+import { API_LOCALE_HEADER } from "@/lib/apiLocaleHeader";
+import { handleApiResponse } from "@/lib/apiResponse";
 import { categoryBadgeClass, type BlogPost } from "@/lib/supabase/blogPosts";
 
 export default function BlogPostContent({ post }: { post: BlogPost }) {
   const { t, i18n } = useTranslation();
+  const router = useRouter();
+  const { showToast } = useToast();
+  const isAdmin = useIsAdmin();
+  const [deleting, setDeleting] = useState(false);
+  const confirmDialogRef = useRef<ConfirmDialogHandle>(null);
   const formattedDate = Temporal.PlainDate.from(post.publishedAt).toLocaleString(i18n.language, {
     dateStyle: "long",
   });
   const paragraphs = post.content.split(/\n\s*\n/);
 
+  async function handleDelete() {
+    const confirmed = await confirmDialogRef.current?.open({
+      message: t("blog.confirmDelete"),
+      confirmLabel: t("blog.delete"),
+    });
+    if (!confirmed) return;
+    setDeleting(true);
+    try {
+      const response = await fetch(`/api/blog/${post.id}`, {
+        method: "DELETE",
+        headers: { [API_LOCALE_HEADER]: i18n.language },
+      });
+      const body = await handleApiResponse(response, showToast, t);
+      if (!body) return;
+      router.push("/blog");
+    } finally {
+      setDeleting(false);
+    }
+  }
+
   return (
     <div className="flex-1">
       <div className="bg-base-200 border-base-300 border-b px-8 py-12">
         <div className="mx-auto max-w-2xl">
-          <Link
-            href="/blog"
-            className="link link-hover text-base-content/60 mb-6 flex w-fit items-center gap-1 text-sm"
-          >
-            <ArrowLeftIcon className="h-4 w-4 stroke-current" />
-            {t("blog.backToBlog")}
-          </Link>
+          <div className="mb-6 flex items-center justify-between gap-4">
+            <Link
+              href="/blog"
+              className="link link-hover text-base-content/60 flex w-fit items-center gap-1 text-sm"
+            >
+              <ArrowLeftIcon className="h-4 w-4 stroke-current" />
+              {t("blog.backToBlog")}
+            </Link>
+
+            {isAdmin && (
+              <button
+                type="button"
+                className="btn btn-outline btn-sm btn-error"
+                disabled={deleting}
+                onClick={handleDelete}
+              >
+                {deleting ? (
+                  <span className="loading loading-spinner loading-xs" />
+                ) : (
+                  <TrashIcon className="h-4 w-4 stroke-current" />
+                )}
+                {t("blog.delete")}
+              </button>
+            )}
+          </div>
 
           <span className={`badge ${categoryBadgeClass[post.category]}`}>
             {t(`blog.categories.${post.category}`)}
@@ -64,6 +114,8 @@ export default function BlogPostContent({ post }: { post: BlogPost }) {
           </p>
         ))}
       </article>
+
+      <ConfirmDialog ref={confirmDialogRef} />
     </div>
   );
 }

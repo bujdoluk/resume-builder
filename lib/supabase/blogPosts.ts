@@ -151,3 +151,21 @@ export async function createBlogPost(
 
   throw new Error("Could not generate a unique slug.");
 }
+
+// Returns the deleted row (or null if nothing matched that id — already
+// deleted, or a bad id) so callers can use its slug/title without a
+// separate fetch, e.g. for an audit log entry.
+export async function deleteBlogPost(
+  supabase: SupabaseClient<Database>,
+  id: string,
+): Promise<BlogPost | null> {
+  const { data, error } = await supabase
+    .from("blog_posts")
+    .delete()
+    .eq("id", id)
+    .select(SELECT_COLUMNS)
+    .maybeSingle();
+
+  if (error) throw error;
+  return data ? mapRow(data as BlogPostSelectedRow) : null;
+}

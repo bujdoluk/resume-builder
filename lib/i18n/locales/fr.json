@@ -339,6 +339,8 @@
     "comingSoon": "Bientôt disponible — revenez pour des conseils de CV, des astuces de recherche d'emploi et des guides de carrière.",
     "backToBlog": "Retour au blog",
     "addPost": "Ajouter un article",
+    "delete": "Supprimer l'article",
+    "confirmDelete": "Supprimer cet article ? Cette action est irréversible.",
     "categories": {
       "resumeTips": "Conseils CV",
       "coverLetters": "Lettres de motivation",
@@ -534,6 +536,7 @@
     "mfaRequired": "Vérification à deux facteurs requise. Veuillez vous déconnecter et vous reconnecter avec votre code d'authentification.",
     "invalidInput": "Saisie invalide.",
     "failedToCreatePost": "Échec de la création de l'article.",
+    "failedToDeletePost": "Échec de la suppression de l'article.",
     "captchaVerificationFailed": "Échec de la vérification captcha.",
     "invalidEmailAddress": "Adresse e-mail invalide.",
     "invalidTextData": "Données texte invalides.",

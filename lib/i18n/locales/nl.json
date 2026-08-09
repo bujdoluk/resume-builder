@@ -339,6 +339,8 @@
     "comingSoon": "Binnenkort beschikbaar — kom terug voor cv-tips, sollicitatieadvies en carrièregidsen.",
     "backToBlog": "Terug naar de blog",
     "addPost": "Blogpost toevoegen",
+    "delete": "Blogpost verwijderen",
+    "confirmDelete": "Deze blogpost verwijderen? Dit kan niet ongedaan worden gemaakt.",
     "categories": {
       "resumeTips": "Cv-tips",
       "coverLetters": "Motivatiebrieven",
@@ -534,6 +536,7 @@
     "mfaRequired": "Tweefactorverificatie vereist. Log uit en log opnieuw in met je authenticatiecode.",
     "invalidInput": "Ongeldige invoer.",
     "failedToCreatePost": "Bericht kon niet worden aangemaakt.",
+    "failedToDeletePost": "Bericht kon niet worden verwijderd.",
     "captchaVerificationFailed": "Captcha-verificatie mislukt.",
     "invalidEmailAddress": "Ongeldig e-mailadres.",
     "invalidTextData": "Ongeldige tekstgegevens.",

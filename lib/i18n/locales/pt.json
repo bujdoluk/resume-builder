@@ -339,6 +339,8 @@
     "comingSoon": "Brevemente — volte para dicas de currículo, conselhos de procura de emprego e guias de carreira.",
     "backToBlog": "Voltar ao blog",
     "addPost": "Adicionar artigo",
+    "delete": "Eliminar artigo",
+    "confirmDelete": "Eliminar este artigo? Esta ação não pode ser revertida.",
     "categories": {
       "resumeTips": "Dicas de currículo",
       "coverLetters": "Cartas de apresentação",
@@ -534,6 +536,7 @@
     "mfaRequired": "É necessária verificação de dois fatores. Termine a sessão e inicie sessão novamente com o seu código de autenticação.",
     "invalidInput": "Entrada inválida.",
     "failedToCreatePost": "Não foi possível criar a publicação.",
+    "failedToDeletePost": "Não foi possível eliminar a publicação.",
     "captchaVerificationFailed": "A verificação captcha falhou.",
     "invalidEmailAddress": "Endereço de e-mail inválido.",
     "invalidTextData": "Dados de texto inválidos.",

@@ -339,6 +339,8 @@
     "comingSoon": "Kommer snart — kom tillbaka för CV-tips, jobbsökarråd och karriärguider.",
     "backToBlog": "Tillbaka till bloggen",
     "addPost": "Lägg till blogginlägg",
+    "delete": "Ta bort inlägg",
+    "confirmDelete": "Ta bort detta inlägg? Detta kan inte ångras.",
     "categories": {
       "resumeTips": "CV-tips",
       "coverLetters": "Personligt brev",
@@ -534,6 +536,7 @@
     "mfaRequired": "Tvåfaktorsverifiering krävs. Logga ut och logga in igen med din autentiseringskod.",
     "invalidInput": "Ogiltig inmatning.",
     "failedToCreatePost": "Det gick inte att skapa inlägget.",
+    "failedToDeletePost": "Det gick inte att ta bort inlägget.",
     "captchaVerificationFailed": "Captcha-verifieringen misslyckades.",
     "invalidEmailAddress": "Ogiltig e-postadress.",
     "invalidTextData": "Ogiltiga textdata.",

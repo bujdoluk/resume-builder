@@ -5,6 +5,7 @@ const mocks = vi.hoisted(() => ({
   getUser: vi.fn(),
   getAal: vi.fn(),
   createBlogPost: vi.fn(),
+  deleteBlogPost: vi.fn(),
   logAuditEvent: vi.fn(),
 }));
 
@@ -19,7 +20,7 @@ vi.mock("@/lib/supabase/server", () => ({
 // write.
 vi.mock("@/lib/supabase/blogPosts", async (importOriginal) => {
   const actual = await importOriginal<typeof import("@/lib/supabase/blogPosts")>();
-  return { ...actual, createBlogPost: mocks.createBlogPost };
+  return { ...actual, createBlogPost: mocks.createBlogPost, deleteBlogPost: mocks.deleteBlogPost };
 });
 
 // Keeps the real AUDIT_ACTIONS constants (so assertions below check the
@@ -59,11 +60,20 @@ const validBody = {
 
 const fakePost = { id: "post-1", slug: "how-to-write-a-resume", ...validBody };
 
+function deleteRequest(): Request {
+  return new Request("https://example.com/api/blog/post-1", { method: "DELETE" });
+}
+
+function deleteContext(id = "post-1") {
+  return { params: Promise.resolve({ id }) };
+}
+
 beforeEach(() => {
   vi.clearAllMocks();
   mocks.getUser.mockResolvedValue({ data: { user: adminUser() } });
   mocks.getAal.mockResolvedValue({ data: { currentLevel: "aal2" } });
   mocks.createBlogPost.mockResolvedValue(fakePost);
+  mocks.deleteBlogPost.mockResolvedValue(fakePost);
 });
 
 describe("POST /api/blog — role-based authorization", () => {
@@ -232,6 +242,86 @@ describe("POST /api/blog — create", () => {
 
     expect(response.status).toBe(500);
     expect((await response.json()).error).toBe(en.apiErrors.failedToCreatePost);
+    expect(mocks.logAuditEvent).not.toHaveBeenCalled();
+  });
+});
+
+describe("DELETE /api/blog/[id] — role-based authorization", () => {
+  it("returns 403 when there is no logged-in user", async () => {
+    mocks.getUser.mockResolvedValue({ data: { user: null } });
+
+    const { DELETE } = await import("@/app/api/blog/[id]/route");
+    const response = await DELETE(deleteRequest(), deleteContext());
+
+    expect(response.status).toBe(403);
+    expect((await response.json()).error).toBe(en.apiErrors.adminLoginRequired);
+    expect(mocks.deleteBlogPost).not.toHaveBeenCalled();
+  });
+
+  it("returns 403 for a non-admin role", async () => {
+    mocks.getUser.mockResolvedValue({ data: { user: adminUser({ app_metadata: {} }) } });
+
+    const { DELETE } = await import("@/app/api/blog/[id]/route");
+    const response = await DELETE(deleteRequest(), deleteContext());
+
+    expect(response.status).toBe(403);
+    expect(mocks.deleteBlogPost).not.toHaveBeenCalled();
+  });
+
+  it("returns 403 mfaRequired for an admin who hasn't completed a 2FA challenge this session", async () => {
+    mocks.getAal.mockResolvedValue({ data: { currentLevel: "aal1" } });
+
+    const { DELETE } = await import("@/app/api/blog/[id]/route");
+    const response = await DELETE(deleteRequest(), deleteContext());
+
+    expect(response.status).toBe(403);
+    expect((await response.json()).error).toBe(en.apiErrors.mfaRequired);
+    expect(mocks.deleteBlogPost).not.toHaveBeenCalled();
+  });
+});
+
+describe("DELETE /api/blog/[id] — delete", () => {
+  it("deletes the post by the id from the route params and returns ok", async () => {
+    const { DELETE } = await import("@/app/api/blog/[id]/route");
+    const response = await DELETE(deleteRequest(), deleteContext("post-1"));
+
+    expect(mocks.deleteBlogPost).toHaveBeenCalledWith(expect.anything(), "post-1");
+    expect(response.status).toBe(200);
+    expect(await response.json()).toEqual({ ok: true });
+  });
+
+  it("logs an audit event with the deleted post's slug/title/category", async () => {
+    const { DELETE } = await import("@/app/api/blog/[id]/route");
+    await DELETE(deleteRequest(), deleteContext());
+
+    expect(mocks.logAuditEvent).toHaveBeenCalledWith({
+      userId: "admin-1",
+      actorEmail: null,
+      action: "blog.delete",
+      target: fakePost.slug,
+      metadata: { title: fakePost.title, category: fakePost.category },
+    });
+  });
+
+  it("returns 500 and does not log when nothing matched that id", async () => {
+    mocks.deleteBlogPost.mockResolvedValue(null);
+
+    const { DELETE } = await import("@/app/api/blog/[id]/route");
+    const response = await DELETE(deleteRequest(), deleteContext("missing-id"));
+
+    expect(response.status).toBe(500);
+    expect((await response.json()).error).toBe(en.apiErrors.failedToDeletePost);
+    expect(mocks.logAuditEvent).not.toHaveBeenCalled();
+  });
+
+  it("returns 500 and does not log when the delete throws", async () => {
+    mocks.deleteBlogPost.mockRejectedValue(new Error("delete failed"));
+
+    const { DELETE } = await import("@/app/api/blog/[id]/route");
+    const response = await DELETE(deleteRequest(), deleteContext());
+
+    expect(response.status).toBe(500);
+    expect((await response.json()).error).toBe(en.apiErrors.failedToDeletePost);
     expect(mocks.logAuditEvent).not.toHaveBeenCalled();
   });
 });

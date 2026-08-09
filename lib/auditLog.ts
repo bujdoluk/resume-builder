@@ -5,6 +5,7 @@ import type { Json } from "@/lib/supabase/database.types";
 
 export const AUDIT_ACTIONS = {
   BLOG_CREATE: "blog.create",
+  BLOG_DELETE: "blog.delete",
   ACCOUNT_DELETE: "account.delete",
   SUBSCRIPTION_CREATED: "subscription.created",
   SUBSCRIPTION_UPDATED: "subscription.updated",

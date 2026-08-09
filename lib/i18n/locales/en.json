@@ -339,6 +339,8 @@
     "comingSoon": "Coming soon — check back for resume tips, job search advice, and career guides.",
     "backToBlog": "Back to blog",
     "addPost": "Add Blog",
+    "delete": "Delete Post",
+    "confirmDelete": "Delete this post? This can't be undone.",
     "categories": {
       "resumeTips": "Resume Tips",
       "coverLetters": "Cover Letters",
@@ -534,6 +536,7 @@
     "mfaRequired": "Two-factor verification required. Please log out and log back in with your authenticator code.",
     "invalidInput": "Invalid input.",
     "failedToCreatePost": "Failed to create post.",
+    "failedToDeletePost": "Failed to delete post.",
     "captchaVerificationFailed": "Captcha verification failed.",
     "invalidEmailAddress": "Invalid email address.",
     "invalidTextData": "Invalid text data.",

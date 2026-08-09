@@ -339,6 +339,8 @@
     "comingSoon": "Kommer snart — se innom for CV-tips, jobbsøkerråd og karriereguider.",
     "backToBlog": "Tilbake til bloggen",
     "addPost": "Legg til blogginnlegg",
+    "delete": "Slett innlegg",
+    "confirmDelete": "Slette dette innlegget? Dette kan ikke angres.",
     "categories": {
       "resumeTips": "CV-tips",
       "coverLetters": "Søknadsbrev",
@@ -534,6 +536,7 @@
     "mfaRequired": "Tofaktorbekreftelse kreves. Logg ut og logg inn igjen med autentiseringskoden din.",
     "invalidInput": "Ugyldig inndata.",
     "failedToCreatePost": "Kunne ikke opprette innlegget.",
+    "failedToDeletePost": "Kunne ikke slette innlegget.",
     "captchaVerificationFailed": "Captcha-verifisering mislyktes.",
     "invalidEmailAddress": "Ugyldig e-postadresse.",
     "invalidTextData": "Ugyldige tekstdata.",

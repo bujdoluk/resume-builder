@@ -339,6 +339,8 @@
     "comingSoon": "Prossimamente — torna presto per consigli sul curriculum, suggerimenti per la ricerca di lavoro e guide di carriera.",
     "backToBlog": "Torna al blog",
     "addPost": "Aggiungi articolo",
+    "delete": "Elimina articolo",
+    "confirmDelete": "Eliminare questo articolo? Questa azione non può essere annullata.",
     "categories": {
       "resumeTips": "Consigli per il CV",
       "coverLetters": "Lettere di presentazione",
@@ -534,6 +536,7 @@
     "mfaRequired": "È richiesta la verifica a due fattori. Esci e accedi di nuovo con il tuo codice di autenticazione.",
     "invalidInput": "Input non valido.",
     "failedToCreatePost": "Impossibile creare l'articolo.",
+    "failedToDeletePost": "Impossibile eliminare l'articolo.",
     "captchaVerificationFailed": "Verifica captcha non riuscita.",
     "invalidEmailAddress": "Indirizzo e-mail non valido.",
     "invalidTextData": "Dati di testo non validi.",

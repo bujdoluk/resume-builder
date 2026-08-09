@@ -339,6 +339,8 @@
     "comingSoon": "Již brzy — sledujte tipy na životopis, rady pro hledání práce a kariérní průvodce.",
     "backToBlog": "Zpět na blog",
     "addPost": "Přidat článek",
+    "delete": "Smazat článek",
+    "confirmDelete": "Smazat tento článek? Tuto akci nelze vrátit zpět.",
     "categories": {
       "resumeTips": "Tipy na životopis",
       "coverLetters": "Motivační dopisy",
@@ -534,6 +536,7 @@
     "mfaRequired": "Je vyžadováno dvoufaktorové ověření. Odhlaste se a znovu se přihlaste s kódem z aplikace Authenticator.",
     "invalidInput": "Neplatný vstup.",
     "failedToCreatePost": "Vytvoření příspěvku se nezdařilo.",
+    "failedToDeletePost": "Smazání příspěvku se nezdařilo.",
     "captchaVerificationFailed": "Ověření captcha se nezdařilo.",
     "invalidEmailAddress": "Neplatná e-mailová adresa.",
     "invalidTextData": "Neplatná textová data.",

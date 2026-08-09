@@ -339,6 +339,8 @@
     "comingSoon": "Już wkrótce — zajrzyj po wskazówki dotyczące CV, porady dotyczące szukania pracy i poradniki kariery.",
     "backToBlog": "Powrót do bloga",
     "addPost": "Dodaj wpis",
+    "delete": "Usuń wpis",
+    "confirmDelete": "Usunąć ten wpis? Tej czynności nie można cofnąć.",
     "categories": {
       "resumeTips": "Porady dotyczące CV",
       "coverLetters": "Listy motywacyjne",
@@ -534,6 +536,7 @@
     "mfaRequired": "Wymagana jest weryfikacja dwuskładnikowa. Wyloguj się i zaloguj ponownie za pomocą kodu z aplikacji uwierzytelniającej.",
     "invalidInput": "Nieprawidłowe dane wejściowe.",
     "failedToCreatePost": "Nie udało się utworzyć wpisu.",
+    "failedToDeletePost": "Nie udało się usunąć wpisu.",
     "captchaVerificationFailed": "Weryfikacja captcha nie powiodła się.",
     "invalidEmailAddress": "Nieprawidłowy adres e-mail.",
     "invalidTextData": "Nieprawidłowe dane tekstowe.",
