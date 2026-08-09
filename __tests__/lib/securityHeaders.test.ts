@@ -24,6 +24,12 @@ describe("buildContentSecurityPolicy", () => {
     expect(csp["script-src"]).toContain("'unsafe-eval'");
   });
 
+  it("allows jsdelivr, which Tawk.to's widget bundle loads its emoji-picker library from", () => {
+    const csp = parseCsp(buildContentSecurityPolicy({ isDev: false }));
+
+    expect(csp["script-src"]).toContain("https://cdn.jsdelivr.net");
+  });
+
   it("falls back to a wildcard Supabase origin when no URL is configured", () => {
     const csp = parseCsp(buildContentSecurityPolicy({ isDev: false }));
 

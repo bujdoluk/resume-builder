@@ -16,6 +16,7 @@ export function buildContentSecurityPolicy({ isDev, supabaseUrl }: SecurityHeade
       "'wasm-unsafe-eval'",
       ...(isDev ? ["'unsafe-eval'"] : []),
       "https://embed.tawk.to",
+      "https://cdn.jsdelivr.net",
       "https://*.hcaptcha.com",
       "https://va.vercel-scripts.com",
     ],
