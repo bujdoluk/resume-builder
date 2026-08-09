@@ -8,80 +8,97 @@ A free, in-browser resume and cover letter builder built with Next.js. Fill in y
 | -------------------------------------------------- | ---------------------------------------------------------- | ------------------------------------------------------------ |
 | ![Landing page](public/images/landing-page.webp)     | ![Resume editor](public/images/resume-builder-editor.webp)  | ![Template picker](public/images/template-feature-open.webp)  |
 | Landing page                                        | Resume builder editor                                      | Template picker                                               |
+| ![Blog](public/images/blog-page.webp)                | ![My Resumes](public/images/my-resumes-page.webp)           |                                                                |
+| Blog                                                | My Resumes                                                  |                                                                |
 
 ## Features
 
 ### Resume Builder
-- **Five templates** — Basic, Modern, Minimal, Elegant, Classic (`/templates`).
-- **Live drag-and-drop editing** — reorder fields, sections, and repeatable entries, with a touch-friendly mobile form (via [dnd-kit](https://dndkit.com/)).
-- **Completion tracking** — a step list plus a radial progress indicator.
-- **Save & manage** — 2 resumes free, unlimited on Pro/Annual, from `/my-resumes` (sortable, paginated, bulk-delete).
-- **New Resume** resets the canvas without losing your template/colour/font choices.
+- Five templates
+- Live drag-and-drop editing
+- Completion tracking
+- Save & manage resumes
+- Recently Deleted (restore or permanently delete)
+- New Resume
 
 ### Cover Letter Builder
-- **Two templates** — Basic and Modern (draggable sidebar/main sections, mirroring the resume Modern template).
-- **Five draggable sections** — sender, recipient, date, subject, body.
-- **Completion tracking** and **save & manage**, same pattern as the Resume Builder, via `/my-cover-letters`.
+- Two templates
+- Five draggable sections
+- Completion tracking
+- Save & manage cover letters
+- Recently Deleted (restore or permanently delete)
 
 ### Shared across both builders
-- **Customization navbar** — accent colour, font, font size, field/section visibility.
-- **Custom field** — one arbitrary value (e.g. Nationality, Driver's License) under a renameable section heading, reflected in the step tracker.
-- **Export to PDF, Word, or plain text**, plus print and full-page preview.
-- **Email export** — sends the exported file via [Resend](https://resend.com), hCaptcha-protected.
-- **Shareable links** — generate a public, unauthenticated link (random token, 30-day expiration) that renders the document's PDF for anyone who has it; revocable anytime.
-- **13 languages**, switchable on the fly (i18next).
-- **ATS Checker** — a "Check ATS Score" button opens a format-parseability checklist, an optional keyword-match score against a pasted job description (deterministic, no LLM), and an optional AI coherence check (via Groq) that flags placeholder/gibberish content the deterministic checks can't catch. All scores are heuristic guides, not guarantees of real ATS behavior.
+- Customization navbar (colour, font, size, field/section visibility)
+- Custom field
+- Export to PDF, Word, or plain text
+- Print & full-page preview
+- Email export
+- Shareable links
+- 13 languages
+- ATS Checker (format check, keyword match, AI coherence check)
 
 ### Accounts & Authentication
-- **Anonymous by default** — a silent Supabase session on first save, no sign-up needed.
-- **Email/password or Google login** (`/login`) — email signup carries over your anonymous data; Google signup starts a fresh account.
-- **Remember me** — unchecked, downgrades the session to browser-only.
-- **Password reset** via `/reset-password`.
-- **hCaptcha** on login, signup, and password reset.
-- **Account page** (`/account`) — profile info, full data export, account deletion.
+- Anonymous by default
+- Email/password or Google login
+- Remember me
+- Password reset
+- hCaptcha
+- Account page (profile, data export, account deletion)
 
 ### Subscriptions & Billing
-- **Free** ($0, 2 resumes + 2 cover letters), **Pro** ($19.99/mo), **Annual** ($167.99/yr) — Pro/Annual unlock the same unlimited saves, modeled in Stripe as one Product with two Prices.
-- **Stripe Checkout** upgrade flow; requires a real (non-anonymous) account.
-- **Free-tier limit prompt** — an upgrade dialog instead of a hard error, everywhere a save could happen.
-- **Self-service billing** (`/billing`) — view plan, cancel/resume anytime.
-- **Webhook-driven state** — the Stripe webhook is the only writer of subscription data, and sends a one-time welcome email on first subscribe.
+- Free / Pro / Annual plans
+- Stripe Checkout
+- Free-tier limit prompt
+- Self-service billing (view plan, cancel/resume)
+- Webhook-driven subscription state
 
 ### Support
-- **Support page** (`/support`) — support email plus a live-chat button.
-- **Tawk.to** widget, site-wide, opt-in via cookie consent.
+- Support page
+- Tawk.to live chat
 
 ### Privacy & feedback
-- **Cookie consent** banner — necessary / analytics / support-chat categories.
-- **Privacy Policy & Terms of Service** pages.
-- **Toast notifications** — colour-coded by HTTP status (yellow 4xx, red 5xx), localized.
+- Cookie consent banner
+- Privacy Policy & Terms of Service
+- Toast notifications
 
 ### Marketing site
-- **Landing page** (`/`) — hero, feature grid, pricing table, testimonials.
-- **Blog** (`/blog`) — Supabase-backed, admin-only posting, public reading.
+- Landing page
+- Blog (admin create/edit/delete, public reading)
 
 ### Role-based authorization
-- **Admin role** via a JWT `app_metadata.role` claim, enforced at the database level (RLS), not just hidden in the UI. Gates both blog post creation and the config-health endpoint below.
-- **Mandatory 2FA for admins** — a TOTP factor (via Supabase Auth MFA) is required to actually reach admin-gated routes, not just the role claim; a compromised password alone isn't enough. Enrolled from `/account`; enforced server-side (`lib/adminAuth.ts`) via the session's Authenticator Assurance Level, with a step-up code prompt on login (password or Google) whenever a verified factor exists. Recovery for a lost device: `scripts/reset-admin-mfa.mjs`.
+- Admin role (RLS-enforced)
+- Mandatory 2FA for admins
 
 ### Security & monitoring
-- **Security headers** — CSP, HSTS, X-Frame-Options, and friends, built in `lib/securityHeaders.ts` (unit-tested) and applied in `next.config.ts`, scoped to the exact third-party origins the app loads (Supabase, hCaptcha, Tawk.to, Sentry).
-- **Error monitoring** — Sentry, opt-in via `NEXT_PUBLIC_SENTRY_DSN`.
-- **Config health check** (`/api/admin/config-health`, admin-only) — reports which optional integrations (rate limiting, hCaptcha, Groq, Stripe, Resend, Sentry) are actually configured, as booleans only, never secret values. Several of these fail open by design when unconfigured (see below), so this is the way to notice a missing production env var before it's discovered via abuse.
-- **Health check** (`/api/health`, public) — lightweight liveness endpoint (`{ status: "ok", timestamp }`, `Cache-Control: no-store`, no auth) for external uptime monitors. Unlike the config-health endpoint above, it doesn't check any integration, it only confirms the app is up and responding.
-- **Dependency vulnerability scanning** — `npm audit --audit-level=high` runs in CI on every push/PR, failing the build on high/critical vulnerabilities.
-- **Automatic cleanup of abandoned anonymous accounts** — a daily cron job deletes anonymous sessions (and their resumes/cover letters) that were never converted into a real account after 7 days, matching the retention policy in the Privacy Policy.
+- Security headers (CSP, HSTS, and friends)
+- Error monitoring (Sentry)
+- Config health check
+- Health check (DB, Redis)
+- Audit log (admin actions, account deletion, subscription changes)
+- Dependency vulnerability scanning
+- Automatic cleanup of abandoned anonymous accounts
+- Migrations gated in the deploy pipeline
 
-## Getting Started
+## Prerequisites
+- [Node.js](https://nodejs.org) `>=24.19.0` (pinned in `.nvmrc`/`package.json`'s `engines` — run `nvm use` if you use nvm)
+- npm (bundled with Node.js)
+- Git
+- A [Supabase](https://supabase.com) project — the only required external service; everything else (Resend, Stripe, Tawk.to, hCaptcha, Upstash, Groq) is optional and fails gracefully when unset
 
-Requires Node.js `>=24.19.0` (pinned in `.nvmrc`/`package.json`'s `engines` — run `nvm use` if you use nvm).
+## How to Run
 
 ```bash
+git clone https://github.com/bujdoluk/resume-builder.git
+cd resume-builder
+npm install
 cp .env.example .env.local
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000). Fill in your Supabase credentials at minimum — everything else below (Resend, Stripe, Tawk.to, hCaptcha, Upstash, Groq) is optional and fails gracefully when unset, so you can add it incrementally.
+Open [http://localhost:3000](http://localhost:3000).
+
+Fill in your Supabase credentials in `.env.local`, then add the optional integrations incrementally — see the setup subsections below for each.
 
 **Editor setup (optional):** open `resume-builder.code-workspace` in VS Code (**File → Open Workspace from File…**) for the project's recommended extensions and shared editor settings (2-space/LF/trim-whitespace to match `.editorconfig`, ESLint fix-on-save, the workspace's own pinned TypeScript version).
 
@@ -170,7 +187,7 @@ Production deploys are triggered by `.github/workflows/prod.yml`'s `deploy` job,
   - `text/`, `docx/`, `pdf/` — the three non-editor export renderers per document type; `pdf/streamToBuffer.ts` drains `@react-pdf/renderer`'s stream output for the shared-link PDF routes.
   - `i18n/i18nCore.ts` — a React-free i18next instance used by the PDF templates, since they're reachable from Route Handlers where the React-bound `i18n.ts` instance can't be imported; kept in sync with the app-wide instance in `AppState.tsx`.
 - **`__tests__/`** — Vitest tests, mirroring the source tree (see Testing below).
-- **`scripts/`** — `setup-stripe.mjs`, `set-admin.mjs`, `reset-admin-mfa.mjs` (one-time/recovery setup scripts, see Getting Started above), `copy-pdf-worker.mjs` (runs on every `npm install` via `postinstall`, copies the `pdfjs-dist` worker into `public/`).
+- **`scripts/`** — `setup-stripe.mjs`, `set-admin.mjs`, `reset-admin-mfa.mjs` (one-time/recovery setup scripts, see How to Run above), `copy-pdf-worker.mjs` (runs on every `npm install` via `postinstall`, copies the `pdfjs-dist` worker into `public/`).
 - **`resume-builder.code-workspace`** — shared VS Code workspace file: recommended extensions + editor settings matching `.editorconfig`. Open via **File → Open Workspace from File…**.
 - **`supabase/migrations/`** — numbered SQL migrations, applied to production by `prod.yml`'s `migrate` job.
 
