@@ -38,8 +38,8 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 │   ├── (app)/                      # Authenticated/app-shell routes (group, not part of the URL)
 │   │   ├── app/                    # /app — resume builder editor
 │   │   ├── cover-letter/           # /cover-letter — cover letter builder editor
-│   │   ├── my-resumes/             # /my-resumes — saved resumes list
-│   │   ├── my-cover-letters/       # /my-cover-letters — saved cover letters list
+│   │   ├── my-resumes/             # /my-resumes — saved resumes list (Active / Recently Deleted tabs, restore + permanent delete)
+│   │   ├── my-cover-letters/       # /my-cover-letters — saved cover letters list (same restore UI)
 │   │   ├── templates/              # /templates — template gallery
 │   │   └── layout.tsx
 │   ├── api/
@@ -48,6 +48,7 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 │   │   ├── ai-rewrite/route.ts              # Groq — "Rewrite with AI" button
 │   │   ├── ats-coherence/route.ts           # Groq — ATS Checker's "Check Coherence" button
 │   │   ├── blog/route.ts                    # admin-only blog post creation
+│   │   ├── blog/[id]/route.ts               # admin-only: edit (PATCH) / delete (DELETE) a post, both audit-logged
 │   │   ├── cron/cleanup-anonymous-users/route.ts
 │   │   ├── health/route.ts                  # public: liveness check for uptime monitors, no auth
 │   │   ├── send-email/route.ts              # Resend — email export (pdf/docx/txt)
@@ -103,6 +104,11 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 │   │                                # matchKeywords.ts (deterministic score), checkCoherence.ts (Groq, server-only)
 │   ├── aiRewrite/rewriteText.ts    # Groq — "Rewrite with AI"
 │   ├── adminAuth.ts                # requireAdmin() — shared server-side gate (role + aal2 2FA) for admin routes
+│   ├── auditLog.ts                 # logAuditEvent() — append-only audit trail (service-role insert, fails open with
+│   │                                # Sentry capture on error), wired into blog create/update/delete, account deletion,
+│   │                                # and Stripe subscription webhook events
+│   ├── health.ts                   # checkDatabase()/checkRedis() — real dependency checks with a timeout wrapper,
+│   │                                # behind GET /api/health
 │   ├── shareLink.ts                # isShareLinkActive() — expiry check for shareable-link tokens
 │   ├── apiValidation.ts            # validateBody() — runs a Zod schema, maps a failure straight to the ApiErrorKey
 │   │                                # set as that field's schema message (see lib/validation/*)
@@ -125,18 +131,22 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 │   ├── configHealth.ts             # boolean-only report of which optional integrations are configured
 │   ├── stripe.ts / groq.ts / hcaptcha.ts   # lazily-instantiated third-party clients, all fail gracefully if unconfigured
 │   └── constants.ts                # shared numeric constants (HTTP status codes, rate limits, retention windows, ...)
-├── __tests__/                      # Vitest, mirrors the source tree (40 files as of this writing)
-│   ├── app/api/                    # every API route: account, admin, ai-rewrite, ats-coherence, blog, cron, send-email, stripe
+├── __tests__/                      # Vitest, mirrors the source tree (42 files as of this writing)
+│   ├── app/api/                    # every API route: account, admin, ai-rewrite, ats-coherence, blog (incl. PATCH/DELETE),
+│   │                                # cron, health, send-email, stripe
 │   ├── app/shared/                 # the two shared-link PDF routes (rate limit, 404 on missing/expired token, valid PDF)
 │   ├── components/                 # ResumeBuilder.tsx, CoverLetterBuilder.tsx — full-form fill-and-save flows
 │   └── lib/                        # atsChecker, docx, i18n, pdf, supabase (incl. share-token/MFA), text — plus adminAuth,
-│                                    # shareLink, color, rateLimit, securityHeaders, configHealth, apiErrors, apiValidation,
-│                                    # resumeData, coverLetterData, fields, schemaVersion as standalone tests
+│                                    # auditLog, health, shareLink, color, rateLimit, securityHeaders, configHealth,
+│                                    # apiErrors, apiValidation, resumeData, coverLetterData, fields, schemaVersion
 ├── e2e/                            # Playwright, real-browser user-journey flows, wired into CI (.github/workflows/e2e.yml)
 ├── supabase/migrations/            # 14 numbered SQL migrations, applied to production by prod.yml's `migrate` job
 ├── scripts/                        # set-admin.mjs, reset-admin-mfa.mjs (2FA recovery), setup-stripe.mjs,
 │                                    # copy-pdf-worker.mjs (runs on every install via postinstall)
 ├── public/                         # incl. pdf.worker.min.mjs (gitignored, generated by copy-pdf-worker.mjs)
+├── .agents/skills/                 # bundled Claude Code Skills (stripe-best-practices, stripe-directory, stripe-projects,
+│                                    # upgrade-stripe, supabase, supabase-postgres-best-practices) — vendored reference
+│                                    # material, not authored by this project
 ├── proxy.ts                        # Next.js "Proxy" (formerly middleware) — refreshes Supabase session on every request
 ├── instrumentation.ts / instrumentation-client.ts   # Sentry init (server / client)
 ├── next.config.ts                  # security headers/CSP (delegates to lib/securityHeaders.ts), Sentry wrapping

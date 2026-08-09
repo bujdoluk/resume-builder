@@ -161,35 +161,71 @@ Production deploys are triggered by `.github/workflows/prod.yml`'s `deploy` job,
 
 ## Project Structure
 
-- **`app/`** — Next.js App Router pages and API routes. Notable routes: `/app` (resume editor), `/cover-letter` (editor), `/my-resumes`/`/my-cover-letters` (saved lists), `/templates` (gallery), `/account`/`/billing`/`/support` (account pages), `/blog`, `/login`, `/reset-password`, `/privacy`/`/terms`, `/shared/resume/[token]`/`/shared/cover-letter/[token]` (public shared-link view + its `pdf/route.tsx` sibling). API routes mirror the features above (`/api/send-email`, `/api/stripe/*`, `/api/account/*`, `/api/ats-coherence`, `/api/ai-rewrite`, `/api/blog`, `/api/admin/config-health`, `/api/cron/*`).
-- **`components/`**
-  - `resumes/`, `cover-letter/` — builder pages, editing canvases, and per-template `desktop-templates/`/`mobile-templates/`.
-  - `pdf/` — `@react-pdf/renderer` templates, used by `DownloadButton.tsx`/`EmailButton.tsx`/the shared-link PDF routes.
-  - `navbar/` — customization dropdowns and `AuthButton.tsx`.
-  - `landing-page/` — `LandingPage.tsx`, `PricingSection.tsx`.
-  - `AtsCheckerDialog.tsx` — shared report dialog for both builders; scoring logic lives in `lib/atsChecker/`.
-  - `ShareDialog.tsx`/`SharedDocumentView.tsx` — create/revoke a shareable link from either builder; render its PDF (via `pdfjs-dist` canvas rendering, for mobile-browser compatibility) on the public `/shared/*` page.
-  - `Toast.tsx`, `CookieConsent.tsx`/`ConsentedAnalytics.tsx` — global providers mounted in `app/layout.tsx`.
-  - Shared UI: `PreviewModal.tsx` (+ `ScaleToFit.tsx`), `SaveResumeDialog.tsx`, `ConfirmDialog.tsx`, `Sortable.tsx`, `Sidebar.tsx`, and other primitives reused by both builders.
-  - `AccountPage.tsx` — includes the admin-only Two-Factor Authentication enrollment section; `LoginPage.tsx` includes the post-login 2FA step-up prompt.
-- **`lib/`**
-  - `resumeData.ts`/`coverLetterData.ts` — data types; `templates.ts`/`coverLetterTemplates.ts` — template registries.
-  - `atsChecker/` — `checkResumeFormat.ts`/`checkCoverLetterFormat.ts` (format checklists), `matchKeywords.ts` (keyword matching), `checkCoherence.ts` (Groq call, server-only).
-  - `apiResponse.ts`/`apiErrors.ts` — client/server halves of the localized, status-coded error/toast system.
-  - `adminAuth.ts` — `requireAdmin()`, the shared server-side gate (role + 2FA) for admin-only routes.
-  - `shareLink.ts` — `isShareLinkActive()`, expiry check shared by both builders' shareable-link UI.
-  - `rateLimit.ts` — Upstash-backed rate limiter, fails open if unconfigured.
-  - `securityHeaders.ts` — CSP/security-header construction, imported by `next.config.ts`; kept as a separate module specifically so it's unit-testable.
-  - `configHealth.ts` — boolean-only report of which optional integrations are configured, backing `/api/admin/config-health`.
-  - `constants.ts` — shared numeric constants (status codes, limits, timings).
-  - `supabase/` — `client.ts`/`server.ts`/`proxy.ts` (client factories), `serviceRole.ts` (server-only, bypasses RLS), `session.ts` (anonymous sessions), `invisibleCaptcha.ts`/`hcaptcha.ts`, `auth.ts` (incl. TOTP enroll/verify/step-up), `resumes.ts`/`coverLetters.ts` (incl. share-token issuing/lookup), `subscriptions.ts`, `blogPosts.ts`.
-  - `email/` — Resend-backed senders, lazily instantiated like `stripe.ts`.
-  - `text/`, `docx/`, `pdf/` — the three non-editor export renderers per document type; `pdf/streamToBuffer.ts` drains `@react-pdf/renderer`'s stream output for the shared-link PDF routes.
-  - `i18n/i18nCore.ts` — a React-free i18next instance used by the PDF templates, since they're reachable from Route Handlers where the React-bound `i18n.ts` instance can't be imported; kept in sync with the app-wide instance in `AppState.tsx`.
-- **`__tests__/`** — Vitest tests, mirroring the source tree (see Testing below).
-- **`scripts/`** — `setup-stripe.mjs`, `set-admin.mjs`, `reset-admin-mfa.mjs` (one-time/recovery setup scripts, see How to Run above), `copy-pdf-worker.mjs` (runs on every `npm install` via `postinstall`, copies the `pdfjs-dist` worker into `public/`).
-- **`resume-builder.code-workspace`** — shared VS Code workspace file: recommended extensions + editor settings matching `.editorconfig`. Open via **File → Open Workspace from File…**.
-- **`supabase/migrations/`** — numbered SQL migrations, applied to production by `prod.yml`'s `migrate` job.
+```
+.
+├── app/                            # App Router — pages + API route handlers
+│   ├── (app)/                      # Authenticated/app-shell routes (group, not part of the URL)
+│   │   ├── app/                    # /app — resume builder editor
+│   │   ├── cover-letter/           # /cover-letter — cover letter builder editor
+│   │   ├── my-resumes/             # /my-resumes — saved resumes (Active / Recently Deleted tabs, restore + permanent delete)
+│   │   ├── my-cover-letters/       # /my-cover-letters — saved cover letters (same restore UI)
+│   │   └── templates/              # /templates — template gallery
+│   ├── api/
+│   │   ├── account/{delete,export}/route.ts
+│   │   ├── admin/config-health/route.ts     # admin-only: which optional integrations are configured
+│   │   ├── ai-rewrite/route.ts              # Groq — "Rewrite with AI" button
+│   │   ├── ats-coherence/route.ts           # Groq — ATS Checker's "Check Coherence" button
+│   │   ├── blog/route.ts                    # admin-only blog post creation
+│   │   ├── blog/[id]/route.ts               # admin-only: edit (PATCH) / delete (DELETE) a post, both audit-logged
+│   │   ├── cron/cleanup-anonymous-users/route.ts
+│   │   ├── health/route.ts                  # public: DB + Redis liveness check for uptime monitors, no auth
+│   │   ├── send-email/route.ts              # Resend — email export (pdf/docx/txt)
+│   │   └── stripe/{cancel,checkout,webhook}/route.ts
+│   ├── account/ auth/callback/ billing/ blog/[slug]/ login/ privacy/ reset-password/ support/ terms/
+│   └── shared/{resume,cover-letter}/[token]/          # public, unauthenticated shareable-link view
+│       ├── page.tsx                # renders SharedDocumentView
+│       └── pdf/route.tsx           # streams the PDF via @react-pdf/renderer, rate-limited by IP
+├── components/                     # one feature folder per concern, plus a handful of app-wide primitives at the root
+│   ├── resumes/ cover-letter/      # builder pages, editing canvases, per-template desktop-templates/ + mobile-templates/
+│   ├── pdf/                        # @react-pdf/renderer templates — DownloadButton/EmailButton/the shared-link PDF routes
+│   ├── navbar/                     # customization dropdowns, AuthButton.tsx
+│   ├── landing-page/                # LandingPage.tsx, PricingSection.tsx
+│   ├── ai-tools/                    # AtsCheckerDialog.tsx, AiRewriteButton.tsx — shared across both builders
+│   ├── share/                      # ShareDialog.tsx (create/revoke a link), SharedDocumentView.tsx (public PDF preview)
+│   ├── blog/                       # BlogPageContent.tsx, BlogPostContent.tsx, BlogPostFormDialog.tsx (create + edit)
+│   ├── account/                    # AccountPage.tsx (incl. admin 2FA enrollment), BillingPage.tsx, SupportPage.tsx
+│   ├── auth/                       # LoginPage.tsx (incl. 2FA step-up prompt), ResetPasswordPage.tsx
+│   ├── sidebar/ preview/ exports/ cookies/ theme/ hcaptcha/ languages/
+│   └── AppState.tsx, Toast.tsx, SaveResumeDialog.tsx, ConfirmDialog.tsx, Sortable.tsx, Icons.tsx, ...
+├── lib/
+│   ├── resumeData.ts / coverLetterData.ts   # Zod schemas + schema-version scaffold (see schemaVersion.ts)
+│   ├── templates.ts / coverLetterTemplates.ts    # template ID registries
+│   ├── atsChecker/                 # format checklists, keyword matching, Groq coherence check
+│   ├── aiRewrite/                  # Groq — "Rewrite with AI"
+│   ├── adminAuth.ts                # requireAdmin() — role + 2FA gate for admin routes
+│   ├── auditLog.ts                 # logAuditEvent() — append-only audit trail (blog edits/deletes, account deletion,
+│   │                                # Stripe subscription events)
+│   ├── health.ts                   # checkDatabase()/checkRedis() — real dependency checks behind GET /api/health
+│   ├── shareLink.ts                # isShareLinkActive() — expiry check for shareable-link tokens
+│   ├── apiValidation.ts / validation/   # Zod request validation per API route
+│   ├── pdf/ docx/ text/            # the three export renderers per document type
+│   ├── email/                      # Resend-backed senders
+│   ├── supabase/                   # client.ts/server.ts/proxy.ts, serviceRole.ts, resumes.ts/coverLetters.ts,
+│   │                                # subscriptions.ts, blogPosts.ts, auth.ts (incl. TOTP)
+│   ├── i18n/                       # i18n.ts (app-wide) / i18nCore.ts (React-free, for PDF templates) / locales/ (13 files)
+│   ├── apiErrors.ts / apiResponse.ts   # localized, status-coded error/toast system
+│   ├── rateLimit.ts                # Upstash-backed rate limiter, fails open if unconfigured
+│   ├── securityHeaders.ts          # CSP/security-header construction, imported by next.config.ts
+│   ├── configHealth.ts             # boolean-only report of which optional integrations are configured
+│   └── constants.ts                # shared numeric constants (status codes, limits, timings)
+├── __tests__/                      # Vitest, mirrors the source tree (42 files as of this writing)
+├── e2e/                            # Playwright, real-browser user-journey flows
+├── supabase/migrations/            # 14 numbered SQL migrations, applied to production by prod.yml's `migrate` job
+├── scripts/                        # setup-stripe.mjs, set-admin.mjs, reset-admin-mfa.mjs, copy-pdf-worker.mjs (postinstall)
+├── public/                         # incl. pdf.worker.min.mjs (gitignored, generated by copy-pdf-worker.mjs)
+├── resume-builder.code-workspace   # shared VS Code workspace: recommended extensions + editor settings
+└── .github/workflows/              # dev.yml, prod.yml (checks → migrate → deploy), e2e.yml, release.yml, db-types-check.yml
+```
 
 ## Testing
 Unit tests use [Vitest](https://vitest.dev), set up per the [official Next.js guide](https://nextjs.org/docs/app/guides/testing/vitest). Test files live under `__tests__/`, mirroring the source tree (e.g. `__tests__/lib/color.test.ts` tests `lib/color.ts`). `npm test` runs in watch mode; `npm run test:run` runs once (what CI uses); `npm run test:coverage` runs once with a v8 coverage report (text summary in the terminal, plus HTML/lcov under `coverage/`, gitignored). Coverage isn't gated in CI — the project deliberately doesn't chase 100% (see below), so a percentage alone isn't a useful pass/fail signal here.
