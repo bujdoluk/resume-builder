@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.7.0](https://github.com/bujdoluk/resume-builder/compare/QuickResumeBuilder.online-v0.6.1...QuickResumeBuilder.online-v0.7.0) (2026-08-09)
+
+
+### Features
+
+* added audit log ([8b2807e](https://github.com/bujdoluk/resume-builder/commit/8b2807e821352b68f21bb200a98526ca3d397195))
+* added delete blog functionality ([d90dccf](https://github.com/bujdoluk/resume-builder/commit/d90dccfeb7584266478ea3d8503f2a0af1225a13))
+
+
+### Bug Fixes
+
+* fixed csp headers ([9af5de4](https://github.com/bujdoluk/resume-builder/commit/9af5de46bf3d92f2dbf60163975ed2ee09b3c91a))
+
 ## [0.6.1](https://github.com/bujdoluk/resume-builder/compare/QuickResumeBuilder.online-v0.6.0...QuickResumeBuilder.online-v0.6.1) (2026-08-08)
 
 
