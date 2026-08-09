@@ -8,6 +8,7 @@ const mocks = vi.hoisted(() => ({
   subscriptionsCancel: vi.fn(),
   deleteUser: vi.fn(),
   captureException: vi.fn(),
+  logAuditEvent: vi.fn(),
 }));
 
 vi.mock("@/lib/supabase/server", () => ({
@@ -36,6 +37,11 @@ vi.mock("@/lib/stripe", () => ({
 vi.mock("@sentry/nextjs", () => ({
   captureException: mocks.captureException,
 }));
+
+vi.mock("@/lib/auditLog", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("@/lib/auditLog")>();
+  return { ...actual, logAuditEvent: mocks.logAuditEvent };
+});
 
 const fakeUser = { id: "user-1", email: "jane@example.com", is_anonymous: false };
 
@@ -96,6 +102,12 @@ describe("POST /api/account/delete", () => {
     expect(mocks.deleteUser).toHaveBeenCalledWith("user-1");
     expect(response.status).toBe(200);
     expect(await response.json()).toEqual({ ok: true });
+    expect(mocks.logAuditEvent).toHaveBeenCalledWith({
+      userId: "user-1",
+      actorEmail: "jane@example.com",
+      action: "account.delete",
+      metadata: { hadSubscription: false },
+    });
   });
 
   it("cancels the Stripe subscription before deleting the account", async () => {
@@ -107,6 +119,9 @@ describe("POST /api/account/delete", () => {
     expect(mocks.subscriptionsCancel).toHaveBeenCalledWith("sub_123");
     expect(mocks.deleteUser).toHaveBeenCalledWith("user-1");
     expect(response.status).toBe(200);
+    expect(mocks.logAuditEvent).toHaveBeenCalledWith(
+      expect.objectContaining({ metadata: { hadSubscription: true } }),
+    );
   });
 
   it("aborts before deleting the account when the Stripe cancellation fails", async () => {
@@ -122,6 +137,7 @@ describe("POST /api/account/delete", () => {
     // Deleting the account after a failed cancellation would orphan an
     // active paid Stripe subscription with no user left to manage it.
     expect(mocks.deleteUser).not.toHaveBeenCalled();
+    expect(mocks.logAuditEvent).not.toHaveBeenCalled();
   });
 
   it("returns 500 and reports to Sentry when the Supabase user deletion fails", async () => {
@@ -133,5 +149,6 @@ describe("POST /api/account/delete", () => {
     expect(response.status).toBe(500);
     expect((await response.json()).error).toBe(en.apiErrors.failedToDeleteAccount);
     expect(mocks.captureException).toHaveBeenCalled();
+    expect(mocks.logAuditEvent).not.toHaveBeenCalled();
   });
 });

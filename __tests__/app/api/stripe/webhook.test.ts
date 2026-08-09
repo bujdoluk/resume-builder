@@ -8,6 +8,7 @@ const mocks = vi.hoisted(() => ({
   createServiceRoleClient: vi.fn(),
   sendWelcomeEmail: vi.fn(),
   captureException: vi.fn(),
+  logAuditEvent: vi.fn(),
 }));
 
 vi.mock("@/lib/stripe", () => ({
@@ -28,6 +29,11 @@ vi.mock("@/lib/email/sendWelcomeEmail", () => ({
 vi.mock("@sentry/nextjs", () => ({
   captureException: mocks.captureException,
 }));
+
+vi.mock("@/lib/auditLog", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("@/lib/auditLog")>();
+  return { ...actual, logAuditEvent: mocks.logAuditEvent };
+});
 
 // A minimal fake of supabase-js's fluent query builder covering exactly
 // what the webhook route uses: `.from("subscriptions").upsert(...)` and
@@ -149,6 +155,13 @@ describe("POST /api/stripe/webhook", () => {
       { onConflict: "user_id" },
     );
     expect(mocks.sendWelcomeEmail).toHaveBeenCalledWith("jane@example.com", "pro", "https://example.com");
+    expect(mocks.logAuditEvent).toHaveBeenCalledWith(
+      expect.objectContaining({
+        userId: "user-1",
+        actorEmail: "jane@example.com",
+        action: "subscription.created",
+      }),
+    );
   });
 
   it("does not send a welcome email when the customer already has a subscription row", async () => {
@@ -162,6 +175,9 @@ describe("POST /api/stripe/webhook", () => {
 
     expect(upsert).toHaveBeenCalled();
     expect(mocks.sendWelcomeEmail).not.toHaveBeenCalled();
+    expect(mocks.logAuditEvent).toHaveBeenCalledWith(
+      expect.objectContaining({ action: "subscription.updated" }),
+    );
   });
 
   it("maps the annual price ID to the annual plan", async () => {
@@ -206,6 +222,9 @@ describe("POST /api/stripe/webhook", () => {
       }),
       { onConflict: "user_id" },
     );
+    expect(mocks.logAuditEvent).toHaveBeenCalledWith(
+      expect.objectContaining({ action: "subscription.canceled" }),
+    );
   });
 
   it("updates plan and status directly from a customer.subscription.updated event", async () => {
@@ -222,6 +241,9 @@ describe("POST /api/stripe/webhook", () => {
       expect.objectContaining({ plan: "pro", status: "past_due" }),
       { onConflict: "user_id" },
     );
+    expect(mocks.logAuditEvent).toHaveBeenCalledWith(
+      expect.objectContaining({ action: "subscription.updated", actorEmail: null }),
+    );
   });
 
   it("ignores events with no userId in metadata", async () => {
@@ -237,6 +259,7 @@ describe("POST /api/stripe/webhook", () => {
 
     expect(response.status).toBe(200);
     expect(upsert).not.toHaveBeenCalled();
+    expect(mocks.logAuditEvent).not.toHaveBeenCalled();
   });
 
   it("returns 200 and does nothing for unhandled event types", async () => {
@@ -253,6 +276,7 @@ describe("POST /api/stripe/webhook", () => {
     expect(response.status).toBe(200);
     expect(await response.text()).toBe("ok");
     expect(upsert).not.toHaveBeenCalled();
+    expect(mocks.logAuditEvent).not.toHaveBeenCalled();
   });
 
   it("returns 500 and reports to Sentry when the Supabase upsert fails", async () => {
@@ -271,5 +295,9 @@ describe("POST /api/stripe/webhook", () => {
       expect.any(Error),
       expect.objectContaining({ tags: { stripeEventType: "customer.subscription.updated" } }),
     );
+    // upsertSubscription throws before reaching its own logAuditEvent call
+    // when the upsert itself fails — a failed write must never be recorded
+    // as a successful subscription change.
+    expect(mocks.logAuditEvent).not.toHaveBeenCalled();
   });
 });

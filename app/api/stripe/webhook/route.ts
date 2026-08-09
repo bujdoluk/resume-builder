@@ -2,6 +2,7 @@
 import type Stripe from "stripe";
 import { Temporal } from "temporal-polyfill";
 import * as Sentry from "@sentry/nextjs";
+import { AUDIT_ACTIONS, logAuditEvent, type AuditAction } from "@/lib/auditLog";
 import { HTTP_BAD_REQUEST, HTTP_INTERNAL_SERVER_ERROR, HTTP_OK } from "@/lib/constants";
 import { sendWelcomeEmail } from "@/lib/email/sendWelcomeEmail";
 import { getStripe } from "@/lib/stripe";
@@ -19,6 +20,8 @@ async function upsertSubscription(params: {
   status: string;
   currentPeriodEnd: string | null;
   cancelAtPeriodEnd: boolean;
+  action: AuditAction;
+  actorEmail?: string | null;
 }) {
   const supabase = createServiceRoleClient();
   const { error } = await supabase.from("subscriptions").upsert(
@@ -35,6 +38,18 @@ async function upsertSubscription(params: {
     { onConflict: "user_id" },
   );
   if (error) throw error;
+
+  await logAuditEvent({
+    userId: params.userId,
+    actorEmail: params.actorEmail ?? null,
+    action: params.action,
+    metadata: {
+      plan: params.plan,
+      status: params.status,
+      stripeCustomerId: params.stripeCustomerId,
+      stripeSubscriptionId: params.stripeSubscriptionId,
+    },
+  });
 }
 
 function periodEndFromSubscription(subscription: Stripe.Subscription): string | null {
@@ -80,6 +95,8 @@ export async function POST(request: Request) {
           .eq("user_id", userId)
           .maybeSingle();
 
+        const email = session.customer_details?.email ?? session.customer_email;
+
         await upsertSubscription({
           userId,
           stripeCustomerId: session.customer,
@@ -88,9 +105,10 @@ export async function POST(request: Request) {
           status: subscription?.status ?? "active",
           currentPeriodEnd: subscription ? periodEndFromSubscription(subscription) : null,
           cancelAtPeriodEnd: subscription?.cancel_at_period_end ?? false,
+          action: existingRow ? AUDIT_ACTIONS.SUBSCRIPTION_UPDATED : AUDIT_ACTIONS.SUBSCRIPTION_CREATED,
+          actorEmail: email,
         });
 
-        const email = session.customer_details?.email ?? session.customer_email;
         if (!existingRow && email) {
           const { origin } = new URL(request.url);
           await sendWelcomeEmail(email, plan, origin);
@@ -115,6 +133,11 @@ export async function POST(request: Request) {
           status: isDeleted ? "canceled" : subscription.status,
           currentPeriodEnd: isDeleted ? null : periodEndFromSubscription(subscription),
           cancelAtPeriodEnd: isDeleted ? false : subscription.cancel_at_period_end,
+          // No actor email here — Stripe doesn't include it on the
+          // subscription payload, and looking it up would mean an extra
+          // API call on every webhook just for this field. metadata's
+          // stripeCustomerId is enough to identify the account if needed.
+          action: isDeleted ? AUDIT_ACTIONS.SUBSCRIPTION_CANCELED : AUDIT_ACTIONS.SUBSCRIPTION_UPDATED,
         });
         break;
       }

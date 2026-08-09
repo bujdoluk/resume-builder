@@ -5,6 +5,7 @@ const mocks = vi.hoisted(() => ({
   getUser: vi.fn(),
   getAal: vi.fn(),
   createBlogPost: vi.fn(),
+  logAuditEvent: vi.fn(),
 }));
 
 vi.mock("@/lib/supabase/server", () => ({
@@ -19,6 +20,13 @@ vi.mock("@/lib/supabase/server", () => ({
 vi.mock("@/lib/supabase/blogPosts", async (importOriginal) => {
   const actual = await importOriginal<typeof import("@/lib/supabase/blogPosts")>();
   return { ...actual, createBlogPost: mocks.createBlogPost };
+});
+
+// Keeps the real AUDIT_ACTIONS constants (so assertions below check the
+// real action string) while replacing only the Supabase-backed write.
+vi.mock("@/lib/auditLog", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("@/lib/auditLog")>();
+  return { ...actual, logAuditEvent: mocks.logAuditEvent };
 });
 
 function adminUser(overrides: Record<string, unknown> = {}) {
@@ -193,6 +201,19 @@ describe("POST /api/blog — create", () => {
     expect(await response.json()).toEqual({ post: fakePost });
   });
 
+  it("logs an audit event for the created post", async () => {
+    const { POST } = await import("@/app/api/blog/route");
+    await POST(jsonRequest(validBody));
+
+    expect(mocks.logAuditEvent).toHaveBeenCalledWith({
+      userId: "admin-1",
+      actorEmail: null,
+      action: "blog.create",
+      target: fakePost.slug,
+      metadata: { title: fakePost.title, category: fakePost.category },
+    });
+  });
+
   it("stores a null authorAvatarUrl when none is given", async () => {
     const { POST } = await import("@/app/api/blog/route");
     await POST(jsonRequest({ ...validBody, authorAvatarUrl: undefined }));
@@ -211,5 +232,6 @@ describe("POST /api/blog — create", () => {
 
     expect(response.status).toBe(500);
     expect((await response.json()).error).toBe(en.apiErrors.failedToCreatePost);
+    expect(mocks.logAuditEvent).not.toHaveBeenCalled();
   });
 });
