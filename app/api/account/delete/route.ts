@@ -1,6 +1,7 @@
 
 import * as Sentry from "@sentry/nextjs";
 import { errorResponse } from "@/lib/apiErrors";
+import { AUDIT_ACTIONS, logAuditEvent } from "@/lib/auditLog";
 import {
   HTTP_BAD_GATEWAY,
   HTTP_INTERNAL_SERVER_ERROR,
@@ -56,6 +57,13 @@ export async function POST(request: Request) {
     Sentry.captureException(error);
     return errorResponse(HTTP_INTERNAL_SERVER_ERROR, "failedToDeleteAccount", request);
   }
+
+  await logAuditEvent({
+    userId: user.id,
+    actorEmail: user.email ?? null,
+    action: AUDIT_ACTIONS.ACCOUNT_DELETE,
+    metadata: { hadSubscription: Boolean(subscriptionRow?.stripe_subscription_id) },
+  });
 
   return Response.json({ ok: true });
 }
