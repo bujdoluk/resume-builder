@@ -339,6 +339,7 @@
     "comingSoon": "Kommer snart — kom tillbaka för CV-tips, jobbsökarråd och karriärguider.",
     "backToBlog": "Tillbaka till bloggen",
     "addPost": "Lägg till blogginlägg",
+    "edit": "Redigera inlägg",
     "delete": "Ta bort inlägg",
     "confirmDelete": "Ta bort detta inlägg? Detta kan inte ångras.",
     "categories": {
@@ -350,6 +351,7 @@
     },
     "dialog": {
       "title": "Lägg till blogginlägg",
+      "editTitle": "Redigera blogginlägg",
       "titleLabel": "Titel",
       "subtitleLabel": "Underrubrik",
       "contentLabel": "Innehåll",
@@ -361,6 +363,7 @@
       "readTimeLabel": "Lästid",
       "readTimePlaceholder": "5 min läsning",
       "publish": "Publicera",
+      "save": "Spara ändringar",
       "submitError": "Något gick fel. Försök igen."
     }
   },
@@ -537,6 +540,7 @@
     "invalidInput": "Ogiltig inmatning.",
     "failedToCreatePost": "Det gick inte att skapa inlägget.",
     "failedToDeletePost": "Det gick inte att ta bort inlägget.",
+    "failedToUpdatePost": "Det gick inte att uppdatera inlägget.",
     "captchaVerificationFailed": "Captcha-verifieringen misslyckades.",
     "invalidEmailAddress": "Ogiltig e-postadress.",
     "invalidTextData": "Ogiltiga textdata.",

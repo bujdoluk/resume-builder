@@ -339,6 +339,7 @@
     "comingSoon": "Już wkrótce — zajrzyj po wskazówki dotyczące CV, porady dotyczące szukania pracy i poradniki kariery.",
     "backToBlog": "Powrót do bloga",
     "addPost": "Dodaj wpis",
+    "edit": "Edytuj wpis",
     "delete": "Usuń wpis",
     "confirmDelete": "Usunąć ten wpis? Tej czynności nie można cofnąć.",
     "categories": {
@@ -350,6 +351,7 @@
     },
     "dialog": {
       "title": "Dodaj wpis na blogu",
+      "editTitle": "Edytuj wpis na blogu",
       "titleLabel": "Tytuł",
       "subtitleLabel": "Podtytuł",
       "contentLabel": "Treść",
@@ -361,6 +363,7 @@
       "readTimeLabel": "Czas czytania",
       "readTimePlaceholder": "5 min czytania",
       "publish": "Opublikuj",
+      "save": "Zapisz zmiany",
       "submitError": "Coś poszło nie tak. Spróbuj ponownie."
     }
   },
@@ -537,6 +540,7 @@
     "invalidInput": "Nieprawidłowe dane wejściowe.",
     "failedToCreatePost": "Nie udało się utworzyć wpisu.",
     "failedToDeletePost": "Nie udało się usunąć wpisu.",
+    "failedToUpdatePost": "Nie udało się zaktualizować wpisu.",
     "captchaVerificationFailed": "Weryfikacja captcha nie powiodła się.",
     "invalidEmailAddress": "Nieprawidłowy adres e-mail.",
     "invalidTextData": "Nieprawidłowe dane tekstowe.",

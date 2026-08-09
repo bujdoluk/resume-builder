@@ -5,6 +5,7 @@ const mocks = vi.hoisted(() => ({
   getUser: vi.fn(),
   getAal: vi.fn(),
   createBlogPost: vi.fn(),
+  updateBlogPost: vi.fn(),
   deleteBlogPost: vi.fn(),
   logAuditEvent: vi.fn(),
 }));
@@ -20,7 +21,12 @@ vi.mock("@/lib/supabase/server", () => ({
 // write.
 vi.mock("@/lib/supabase/blogPosts", async (importOriginal) => {
   const actual = await importOriginal<typeof import("@/lib/supabase/blogPosts")>();
-  return { ...actual, createBlogPost: mocks.createBlogPost, deleteBlogPost: mocks.deleteBlogPost };
+  return {
+    ...actual,
+    createBlogPost: mocks.createBlogPost,
+    updateBlogPost: mocks.updateBlogPost,
+    deleteBlogPost: mocks.deleteBlogPost,
+  };
 });
 
 // Keeps the real AUDIT_ACTIONS constants (so assertions below check the
@@ -64,7 +70,15 @@ function deleteRequest(): Request {
   return new Request("https://example.com/api/blog/post-1", { method: "DELETE" });
 }
 
-function deleteContext(id = "post-1") {
+function patchRequest(body: unknown): Request {
+  return new Request("https://example.com/api/blog/post-1", {
+    method: "PATCH",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify(body),
+  });
+}
+
+function idContext(id = "post-1") {
   return { params: Promise.resolve({ id }) };
 }
 
@@ -73,6 +87,7 @@ beforeEach(() => {
   mocks.getUser.mockResolvedValue({ data: { user: adminUser() } });
   mocks.getAal.mockResolvedValue({ data: { currentLevel: "aal2" } });
   mocks.createBlogPost.mockResolvedValue(fakePost);
+  mocks.updateBlogPost.mockResolvedValue(fakePost);
   mocks.deleteBlogPost.mockResolvedValue(fakePost);
 });
 
@@ -251,7 +266,7 @@ describe("DELETE /api/blog/[id] — role-based authorization", () => {
     mocks.getUser.mockResolvedValue({ data: { user: null } });
 
     const { DELETE } = await import("@/app/api/blog/[id]/route");
-    const response = await DELETE(deleteRequest(), deleteContext());
+    const response = await DELETE(deleteRequest(), idContext());
 
     expect(response.status).toBe(403);
     expect((await response.json()).error).toBe(en.apiErrors.adminLoginRequired);
@@ -262,7 +277,7 @@ describe("DELETE /api/blog/[id] — role-based authorization", () => {
     mocks.getUser.mockResolvedValue({ data: { user: adminUser({ app_metadata: {} }) } });
 
     const { DELETE } = await import("@/app/api/blog/[id]/route");
-    const response = await DELETE(deleteRequest(), deleteContext());
+    const response = await DELETE(deleteRequest(), idContext());
 
     expect(response.status).toBe(403);
     expect(mocks.deleteBlogPost).not.toHaveBeenCalled();
@@ -272,7 +287,7 @@ describe("DELETE /api/blog/[id] — role-based authorization", () => {
     mocks.getAal.mockResolvedValue({ data: { currentLevel: "aal1" } });
 
     const { DELETE } = await import("@/app/api/blog/[id]/route");
-    const response = await DELETE(deleteRequest(), deleteContext());
+    const response = await DELETE(deleteRequest(), idContext());
 
     expect(response.status).toBe(403);
     expect((await response.json()).error).toBe(en.apiErrors.mfaRequired);
@@ -283,7 +298,7 @@ describe("DELETE /api/blog/[id] — role-based authorization", () => {
 describe("DELETE /api/blog/[id] — delete", () => {
   it("deletes the post by the id from the route params and returns ok", async () => {
     const { DELETE } = await import("@/app/api/blog/[id]/route");
-    const response = await DELETE(deleteRequest(), deleteContext("post-1"));
+    const response = await DELETE(deleteRequest(), idContext("post-1"));
 
     expect(mocks.deleteBlogPost).toHaveBeenCalledWith(expect.anything(), "post-1");
     expect(response.status).toBe(200);
@@ -292,7 +307,7 @@ describe("DELETE /api/blog/[id] — delete", () => {
 
   it("logs an audit event with the deleted post's slug/title/category", async () => {
     const { DELETE } = await import("@/app/api/blog/[id]/route");
-    await DELETE(deleteRequest(), deleteContext());
+    await DELETE(deleteRequest(), idContext());
 
     expect(mocks.logAuditEvent).toHaveBeenCalledWith({
       userId: "admin-1",
@@ -307,7 +322,7 @@ describe("DELETE /api/blog/[id] — delete", () => {
     mocks.deleteBlogPost.mockResolvedValue(null);
 
     const { DELETE } = await import("@/app/api/blog/[id]/route");
-    const response = await DELETE(deleteRequest(), deleteContext("missing-id"));
+    const response = await DELETE(deleteRequest(), idContext("missing-id"));
 
     expect(response.status).toBe(500);
     expect((await response.json()).error).toBe(en.apiErrors.failedToDeletePost);
@@ -318,10 +333,126 @@ describe("DELETE /api/blog/[id] — delete", () => {
     mocks.deleteBlogPost.mockRejectedValue(new Error("delete failed"));
 
     const { DELETE } = await import("@/app/api/blog/[id]/route");
-    const response = await DELETE(deleteRequest(), deleteContext());
+    const response = await DELETE(deleteRequest(), idContext());
 
     expect(response.status).toBe(500);
     expect((await response.json()).error).toBe(en.apiErrors.failedToDeletePost);
+    expect(mocks.logAuditEvent).not.toHaveBeenCalled();
+  });
+});
+
+describe("PATCH /api/blog/[id] — role-based authorization", () => {
+  it("returns 403 when there is no logged-in user", async () => {
+    mocks.getUser.mockResolvedValue({ data: { user: null } });
+
+    const { PATCH } = await import("@/app/api/blog/[id]/route");
+    const response = await PATCH(patchRequest(validBody), idContext());
+
+    expect(response.status).toBe(403);
+    expect((await response.json()).error).toBe(en.apiErrors.adminLoginRequired);
+    expect(mocks.updateBlogPost).not.toHaveBeenCalled();
+  });
+
+  it("returns 403 for a non-admin role", async () => {
+    mocks.getUser.mockResolvedValue({ data: { user: adminUser({ app_metadata: {} }) } });
+
+    const { PATCH } = await import("@/app/api/blog/[id]/route");
+    const response = await PATCH(patchRequest(validBody), idContext());
+
+    expect(response.status).toBe(403);
+    expect(mocks.updateBlogPost).not.toHaveBeenCalled();
+  });
+
+  it("returns 403 mfaRequired for an admin who hasn't completed a 2FA challenge this session", async () => {
+    mocks.getAal.mockResolvedValue({ data: { currentLevel: "aal1" } });
+
+    const { PATCH } = await import("@/app/api/blog/[id]/route");
+    const response = await PATCH(patchRequest(validBody), idContext());
+
+    expect(response.status).toBe(403);
+    expect((await response.json()).error).toBe(en.apiErrors.mfaRequired);
+    expect(mocks.updateBlogPost).not.toHaveBeenCalled();
+  });
+});
+
+describe("PATCH /api/blog/[id] — input validation", () => {
+  it.each([
+    ["title", { ...validBody, title: "" }],
+    ["subtitle", { ...validBody, subtitle: "   " }],
+    ["content", { ...validBody, content: undefined }],
+    ["authorName", { ...validBody, authorName: "" }],
+    ["readTime", { ...validBody, readTime: undefined }],
+    ["publishedAt", { ...validBody, publishedAt: "" }],
+  ])("rejects a missing/blank %s", async (_field, body) => {
+    const { PATCH } = await import("@/app/api/blog/[id]/route");
+    const response = await PATCH(patchRequest(body), idContext());
+
+    expect(response.status).toBe(400);
+    expect((await response.json()).error).toBe(en.apiErrors.invalidInput);
+    expect(mocks.updateBlogPost).not.toHaveBeenCalled();
+  });
+
+  it("rejects a malformed JSON body", async () => {
+    const request = new Request("https://example.com/api/blog/post-1", {
+      method: "PATCH",
+      headers: { "content-type": "application/json" },
+      body: "not valid json",
+    });
+    const { PATCH } = await import("@/app/api/blog/[id]/route");
+    const response = await PATCH(request, idContext());
+
+    expect(response.status).toBe(400);
+    expect((await response.json()).error).toBe(en.apiErrors.invalidInput);
+    expect(mocks.updateBlogPost).not.toHaveBeenCalled();
+  });
+});
+
+describe("PATCH /api/blog/[id] — update", () => {
+  it("updates the post by the id from the route params and returns it", async () => {
+    const { PATCH } = await import("@/app/api/blog/[id]/route");
+    const response = await PATCH(patchRequest(validBody), idContext("post-1"));
+
+    expect(mocks.updateBlogPost).toHaveBeenCalledWith(
+      expect.anything(),
+      "post-1",
+      expect.objectContaining({ title: validBody.title, category: validBody.category }),
+    );
+    expect(response.status).toBe(200);
+    expect(await response.json()).toEqual({ post: fakePost });
+  });
+
+  it("logs an audit event with the updated post's slug/title/category", async () => {
+    const { PATCH } = await import("@/app/api/blog/[id]/route");
+    await PATCH(patchRequest(validBody), idContext());
+
+    expect(mocks.logAuditEvent).toHaveBeenCalledWith({
+      userId: "admin-1",
+      actorEmail: null,
+      action: "blog.update",
+      target: fakePost.slug,
+      metadata: { title: fakePost.title, category: fakePost.category },
+    });
+  });
+
+  it("returns 500 and does not log when nothing matched that id", async () => {
+    mocks.updateBlogPost.mockResolvedValue(null);
+
+    const { PATCH } = await import("@/app/api/blog/[id]/route");
+    const response = await PATCH(patchRequest(validBody), idContext("missing-id"));
+
+    expect(response.status).toBe(500);
+    expect((await response.json()).error).toBe(en.apiErrors.failedToUpdatePost);
+    expect(mocks.logAuditEvent).not.toHaveBeenCalled();
+  });
+
+  it("returns 500 and does not log when the update throws", async () => {
+    mocks.updateBlogPost.mockRejectedValue(new Error("update failed"));
+
+    const { PATCH } = await import("@/app/api/blog/[id]/route");
+    const response = await PATCH(patchRequest(validBody), idContext());
+
+    expect(response.status).toBe(500);
+    expect((await response.json()).error).toBe(en.apiErrors.failedToUpdatePost);
     expect(mocks.logAuditEvent).not.toHaveBeenCalled();
   });
 });
