@@ -558,6 +558,12 @@
     "coherenceCheckFailed": "Vi kunne ikke fullføre koherenssjekken. Prøv igjen.",
     "aiRewriteUnavailable": "AI-omskriving er ikke satt opp akkurat nå.",
     "aiRewriteFailed": "Vi kunne ikke omskrive teksten. Prøv igjen.",
+    "missingImportFile": "Velg en CV-fil du vil importere.",
+    "invalidImportFileType": "Bare PDF- og Word-filer (.docx) støttes.",
+    "importFileTooLarge": "Denne filen er for stor til å importeres.",
+    "importParsingFailed": "Vi kunne ikke lese denne filen. Sørg for at den ikke er skadet, passordbeskyttet eller et skannet bilde.",
+    "importUnavailable": "CV-import er ikke satt opp akkurat nå.",
+    "resumeImportFailed": "Vi kunne ikke importere denne CV-en. Prøv igjen.",
     "unauthorized": "Ikke autorisert.",
     "cleanupQueryFailed": "Kunne ikke hente utdaterte kontoer for opprydding."
   },
@@ -595,6 +601,20 @@
       "hasSubject": "Emnelinje er fylt ut",
       "bodyLongEnough": "Brevteksten har nok innhold"
     }
+  },
+  "importResume": {
+    "buttonLabel": "Importer CV",
+    "title": "Importer CV",
+    "description": "Last opp en eksisterende CV (PDF eller Word), så fyller vi ut opplysningene dine automatisk.",
+    "chooseFileButton": "Velg fil",
+    "noFileChosen": "Ingen fil valgt",
+    "importButton": "Importer",
+    "unsupportedFileType": "Bare PDF- og Word-filer (.docx) støttes.",
+    "fileTooLarge": "Denne filen er for stor til å importeres.",
+    "reviewDescription": "Dette vil erstatte CV-en du redigerer nå. Her er hva vi fant:",
+    "nothingFound": "Vi fant ikke noe CV-innhold i den filen.",
+    "chooseAnotherFile": "Velg en annen fil",
+    "applyButton": "Bruk disse dataene"
   },
   "share": {
     "title": "Del dette dokumentet",

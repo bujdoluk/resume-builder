@@ -12,6 +12,9 @@ import DownloadButton from "@/components/exports/DownloadButton";
 import EmailButton from "@/components/exports/EmailButton";
 import ExportFormatMenu from "@/components/exports/ExportFormatMenu";
 import { SaveIcon, ShareIcon } from "@/components/Icons";
+import ImportResumeDialog, {
+  type ImportResumeDialogHandle,
+} from "@/components/resumes/ImportResumeDialog";
 import PreviewModal, {
   type PreviewModalHandle,
 } from "@/components/preview/PreviewModal";
@@ -132,6 +135,7 @@ export default function ResumeBuilder({
   const saveDialogRef = useRef<SaveResumeDialogHandle>(null);
   const upgradeDialogRef = useRef<ConfirmDialogHandle>(null);
   const atsCheckerRef = useRef<AtsCheckerDialogHandle>(null);
+  const importDialogRef = useRef<ImportResumeDialogHandle>(null);
   const shareDialogRef = useRef<ShareDialogHandle>(null);
   const [supabase] = useState(() => createClient());
   const exportText = generateResumeText({ data, sectionOrder, visibleFields });
@@ -550,6 +554,17 @@ export default function ResumeBuilder({
 
         <button
           type="button"
+          className="btn btn-outline hover:border-primary flex-1 md:flex-none md:w-48"
+          onClick={async () => {
+            const imported = await importDialogRef.current?.open();
+            if (imported) setData(imported);
+          }}
+        >
+          {t("importResume.buttonLabel")}
+        </button>
+
+        <button
+          type="button"
           className="btn btn-primary btn-lg flex-1 md:flex-none md:w-48"
           onClick={() => previewRef.current?.open()}
         >
@@ -737,6 +752,7 @@ export default function ResumeBuilder({
       <SaveResumeDialog ref={saveDialogRef} />
       <ConfirmDialog ref={upgradeDialogRef} />
       <AtsCheckerDialog ref={atsCheckerRef} />
+      <ImportResumeDialog ref={importDialogRef} />
       <ShareDialog
         ref={shareDialogRef}
         onTokenChange={(token, expiresAt) => {

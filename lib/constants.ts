@@ -84,6 +84,18 @@ export const MAX_AI_REWRITE_TEXT_LENGTH = 10_000;
 export const RATE_LIMIT_AI_REWRITE_REQUESTS = 10;
 export const RATE_LIMIT_AI_REWRITE_WINDOW = "10 m";
 
+// app/api/import-resume/route.ts — resumes are text-heavy documents, so 5MB
+// comfortably covers a real file without matching the 10MB generic
+// attachment ceiling above. Extracted text is capped separately before it's
+// sent to Groq (see lib/resumeImport/parseResumeText.ts for how this size
+// was picked to fit the account's shared per-request Groq token budget
+// alongside a generous completion-token ceiling — a real 8000 TPM limit
+// was hit in testing at the previous, more generous 15,000 char cap).
+export const MAX_IMPORT_FILE_BYTES = 5 * 1024 * 1024;
+export const MAX_IMPORT_EXTRACTED_TEXT_LENGTH = 8_000;
+export const RATE_LIMIT_IMPORT_RESUME_REQUESTS = 5;
+export const RATE_LIMIT_IMPORT_RESUME_WINDOW = "10 m";
+
 // app/api/cron/cleanup-anonymous-users/route.ts — matches the retention
 // promise in app/privacy/page.tsx's "Data retention" section.
 export const ANONYMOUS_ACCOUNT_RETENTION_DAYS = 7;

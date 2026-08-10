@@ -558,6 +558,12 @@
     "coherenceCheckFailed": "Vi kunde inte slutföra koherenskontrollen. Försök igen.",
     "aiRewriteUnavailable": "AI-omskrivning är inte konfigurerad just nu.",
     "aiRewriteFailed": "Vi kunde inte skriva om texten. Försök igen.",
+    "missingImportFile": "Välj en CV-fil att importera.",
+    "invalidImportFileType": "Endast PDF- och Word-filer (.docx) stöds.",
+    "importFileTooLarge": "Den filen är för stor för att importeras.",
+    "importParsingFailed": "Vi kunde inte läsa filen. Kontrollera att den inte är skadad, lösenordsskyddad eller en skannad bild.",
+    "importUnavailable": "CV-import är inte konfigurerad just nu.",
+    "resumeImportFailed": "Vi kunde inte importera det CV:t. Försök igen.",
     "unauthorized": "Ej auktoriserad.",
     "cleanupQueryFailed": "Det gick inte att hämta inaktuella konton för rensning."
   },
@@ -595,6 +601,20 @@
       "hasSubject": "Ämnesraden är ifylld",
       "bodyLongEnough": "Brevtexten har tillräckligt med innehåll"
     }
+  },
+  "importResume": {
+    "buttonLabel": "Importera CV",
+    "title": "Importera CV",
+    "description": "Ladda upp ett befintligt CV (PDF eller Word) så fyller vi i dina uppgifter automatiskt.",
+    "chooseFileButton": "Välj fil",
+    "noFileChosen": "Ingen fil vald",
+    "importButton": "Importera",
+    "unsupportedFileType": "Endast PDF- och Word-filer (.docx) stöds.",
+    "fileTooLarge": "Den filen är för stor för att importeras.",
+    "reviewDescription": "Detta ersätter CV:t du redigerar just nu. Här är vad vi hittade:",
+    "nothingFound": "Vi kunde inte hitta något CV-innehåll i den filen.",
+    "chooseAnotherFile": "Välj en annan fil",
+    "applyButton": "Använd dessa uppgifter"
   },
   "share": {
     "title": "Dela det här dokumentet",

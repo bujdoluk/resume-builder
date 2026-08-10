@@ -558,6 +558,12 @@
     "coherenceCheckFailed": "Nous n'avons pas pu terminer la vérification de cohérence. Veuillez réessayer.",
     "aiRewriteUnavailable": "La réécriture par IA n'est pas configurée actuellement.",
     "aiRewriteFailed": "Nous n'avons pas pu réécrire ce texte. Veuillez réessayer.",
+    "missingImportFile": "Veuillez choisir un fichier de CV à importer.",
+    "invalidImportFileType": "Seuls les fichiers PDF et Word (.docx) sont pris en charge.",
+    "importFileTooLarge": "Ce fichier est trop volumineux pour être importé.",
+    "importParsingFailed": "Nous n'avons pas pu lire ce fichier. Vérifiez qu'il n'est ni corrompu, ni protégé par mot de passe, ni une image numérisée.",
+    "importUnavailable": "L'import de CV n'est pas configuré pour le moment.",
+    "resumeImportFailed": "Nous n'avons pas pu importer ce CV. Veuillez réessayer.",
     "unauthorized": "Non autorisé.",
     "cleanupQueryFailed": "Échec de la recherche des comptes obsolètes à nettoyer."
   },
@@ -595,6 +601,20 @@
       "hasSubject": "La ligne d'objet est renseignée",
       "bodyLongEnough": "Le corps de la lettre contient suffisamment de contenu"
     }
+  },
+  "importResume": {
+    "buttonLabel": "Importer un CV",
+    "title": "Importer un CV",
+    "description": "Téléversez un CV existant (PDF ou Word) et nous remplirons vos informations automatiquement.",
+    "chooseFileButton": "Choisir un fichier",
+    "noFileChosen": "Aucun fichier choisi",
+    "importButton": "Importer",
+    "unsupportedFileType": "Seuls les fichiers PDF et Word (.docx) sont pris en charge.",
+    "fileTooLarge": "Ce fichier est trop volumineux pour être importé.",
+    "reviewDescription": "Cela remplacera le CV que vous êtes en train de modifier. Voici ce que nous avons trouvé :",
+    "nothingFound": "Nous n'avons trouvé aucun contenu de CV dans ce fichier.",
+    "chooseAnotherFile": "Choisir un autre fichier",
+    "applyButton": "Utiliser ces données"
   },
   "share": {
     "title": "Partager ce document",

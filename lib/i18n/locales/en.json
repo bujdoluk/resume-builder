@@ -558,6 +558,12 @@
     "coherenceCheckFailed": "We couldn't complete the coherence check. Please try again.",
     "aiRewriteUnavailable": "AI rewriting isn't set up right now.",
     "aiRewriteFailed": "We couldn't rewrite that text. Please try again.",
+    "missingImportFile": "Please choose a resume file to import.",
+    "invalidImportFileType": "Only PDF and Word (.docx) files are supported.",
+    "importFileTooLarge": "That file is too large to import.",
+    "importParsingFailed": "We couldn't read that file. Make sure it isn't corrupted, password-protected, or a scanned image.",
+    "importUnavailable": "Resume import isn't set up right now.",
+    "resumeImportFailed": "We couldn't import that resume. Please try again.",
     "unauthorized": "Unauthorized.",
     "cleanupQueryFailed": "Failed to query stale accounts for cleanup."
   },
@@ -595,6 +601,20 @@
       "hasSubject": "Subject line is filled in",
       "bodyLongEnough": "Letter body has enough content"
     }
+  },
+  "importResume": {
+    "buttonLabel": "Import Resume",
+    "title": "Import Resume",
+    "description": "Upload an existing resume (PDF or Word) and we'll fill in your details automatically.",
+    "chooseFileButton": "Choose File",
+    "noFileChosen": "No file chosen",
+    "importButton": "Import",
+    "unsupportedFileType": "Only PDF and Word (.docx) files are supported.",
+    "fileTooLarge": "That file is too large to import.",
+    "reviewDescription": "This will replace the resume you're currently editing. Here's what we found:",
+    "nothingFound": "We couldn't find any resume content in that file.",
+    "chooseAnotherFile": "Choose a Different File",
+    "applyButton": "Use This Data"
   },
   "share": {
     "title": "Share this document",

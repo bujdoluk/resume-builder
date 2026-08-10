@@ -558,6 +558,12 @@
     "coherenceCheckFailed": "Non siamo riusciti a completare il controllo di coerenza. Riprova.",
     "aiRewriteUnavailable": "La riscrittura con l'IA non è configurata al momento.",
     "aiRewriteFailed": "Non siamo riusciti a riscrivere il testo. Riprova.",
+    "missingImportFile": "Scegli un file di curriculum da importare.",
+    "invalidImportFileType": "Sono supportati solo i file PDF e Word (.docx).",
+    "importFileTooLarge": "Questo file è troppo grande per essere importato.",
+    "importParsingFailed": "Non siamo riusciti a leggere questo file. Assicurati che non sia danneggiato, protetto da password o un'immagine scansionata.",
+    "importUnavailable": "L'importazione del curriculum non è configurata al momento.",
+    "resumeImportFailed": "Non siamo riusciti a importare questo curriculum. Riprova.",
     "unauthorized": "Non autorizzato.",
     "cleanupQueryFailed": "Impossibile recuperare gli account obsoleti da eliminare."
   },
@@ -595,6 +601,20 @@
       "hasSubject": "La riga dell'oggetto è compilata",
       "bodyLongEnough": "Il corpo della lettera ha contenuto sufficiente"
     }
+  },
+  "importResume": {
+    "buttonLabel": "Importa curriculum",
+    "title": "Importa curriculum",
+    "description": "Carica un curriculum esistente (PDF o Word) e compileremo automaticamente i tuoi dati.",
+    "chooseFileButton": "Scegli file",
+    "noFileChosen": "Nessun file scelto",
+    "importButton": "Importa",
+    "unsupportedFileType": "Sono supportati solo i file PDF e Word (.docx).",
+    "fileTooLarge": "Questo file è troppo grande per essere importato.",
+    "reviewDescription": "Questo sostituirà il curriculum che stai modificando. Ecco cosa abbiamo trovato:",
+    "nothingFound": "Non siamo riusciti a trovare contenuti del curriculum in questo file.",
+    "chooseAnotherFile": "Scegli un altro file",
+    "applyButton": "Usa questi dati"
   },
   "share": {
     "title": "Condividi questo documento",

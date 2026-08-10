@@ -558,6 +558,12 @@
     "coherenceCheckFailed": "We konden de coherentiecontrole niet voltooien. Probeer het opnieuw.",
     "aiRewriteUnavailable": "Herschrijven met AI is momenteel niet ingesteld.",
     "aiRewriteFailed": "We konden die tekst niet herschrijven. Probeer het opnieuw.",
+    "missingImportFile": "Kies een cv-bestand om te importeren.",
+    "invalidImportFileType": "Alleen PDF- en Word-bestanden (.docx) worden ondersteund.",
+    "importFileTooLarge": "Dat bestand is te groot om te importeren.",
+    "importParsingFailed": "We konden dat bestand niet lezen. Controleer of het niet beschadigd, met een wachtwoord beveiligd of een gescande afbeelding is.",
+    "importUnavailable": "Cv importeren is momenteel niet ingesteld.",
+    "resumeImportFailed": "We konden dat cv niet importeren. Probeer het opnieuw.",
     "unauthorized": "Niet geautoriseerd.",
     "cleanupQueryFailed": "Kon de verlopen accounts niet opvragen voor opschoning."
   },
@@ -595,6 +601,20 @@
       "hasSubject": "Onderwerpregel is ingevuld",
       "bodyLongEnough": "De brief heeft voldoende inhoud"
     }
+  },
+  "importResume": {
+    "buttonLabel": "Cv importeren",
+    "title": "Cv importeren",
+    "description": "Upload een bestaand cv (PDF of Word) en we vullen je gegevens automatisch in.",
+    "chooseFileButton": "Bestand kiezen",
+    "noFileChosen": "Geen bestand gekozen",
+    "importButton": "Importeren",
+    "unsupportedFileType": "Alleen PDF- en Word-bestanden (.docx) worden ondersteund.",
+    "fileTooLarge": "Dat bestand is te groot om te importeren.",
+    "reviewDescription": "Dit vervangt het cv dat je nu bewerkt. Dit hebben we gevonden:",
+    "nothingFound": "We konden geen cv-inhoud vinden in dat bestand.",
+    "chooseAnotherFile": "Ander bestand kiezen",
+    "applyButton": "Deze gegevens gebruiken"
   },
   "share": {
     "title": "Dit document delen",

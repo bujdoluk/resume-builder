@@ -558,6 +558,12 @@
     "coherenceCheckFailed": "Nie udało się zakończyć kontroli spójności. Spróbuj ponownie.",
     "aiRewriteUnavailable": "Przepisywanie przez AI nie jest obecnie skonfigurowane.",
     "aiRewriteFailed": "Nie udało się przepisać tego tekstu. Spróbuj ponownie.",
+    "missingImportFile": "Wybierz plik CV do zaimportowania.",
+    "invalidImportFileType": "Obsługiwane są tylko pliki PDF i Word (.docx).",
+    "importFileTooLarge": "Ten plik jest zbyt duży do zaimportowania.",
+    "importParsingFailed": "Nie udało się odczytać tego pliku. Upewnij się, że nie jest uszkodzony, zabezpieczony hasłem ani zeskanowany jako obraz.",
+    "importUnavailable": "Import CV nie jest obecnie skonfigurowany.",
+    "resumeImportFailed": "Nie udało się zaimportować tego CV. Spróbuj ponownie.",
     "unauthorized": "Brak autoryzacji.",
     "cleanupQueryFailed": "Nie udało się pobrać nieaktywnych kont do wyczyszczenia."
   },
@@ -595,6 +601,20 @@
       "hasSubject": "Temat jest uzupełniony",
       "bodyLongEnough": "Treść listu zawiera wystarczającą ilość treści"
     }
+  },
+  "importResume": {
+    "buttonLabel": "Importuj CV",
+    "title": "Importuj CV",
+    "description": "Prześlij istniejące CV (PDF lub Word), a my automatycznie uzupełnimy Twoje dane.",
+    "chooseFileButton": "Wybierz plik",
+    "noFileChosen": "Nie wybrano pliku",
+    "importButton": "Importuj",
+    "unsupportedFileType": "Obsługiwane są tylko pliki PDF i Word (.docx).",
+    "fileTooLarge": "Ten plik jest zbyt duży do zaimportowania.",
+    "reviewDescription": "Spowoduje to zastąpienie CV, które właśnie edytujesz. Oto co znaleźliśmy:",
+    "nothingFound": "Nie udało się znaleźć żadnej zawartości CV w tym pliku.",
+    "chooseAnotherFile": "Wybierz inny plik",
+    "applyButton": "Użyj tych danych"
   },
   "share": {
     "title": "Udostępnij ten dokument",

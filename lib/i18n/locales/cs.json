@@ -558,6 +558,12 @@
     "coherenceCheckFailed": "Kontrolu srozumitelnosti se nepodařilo dokončit. Zkuste to prosím znovu.",
     "aiRewriteUnavailable": "Přepis pomocí AI není nyní nastaven.",
     "aiRewriteFailed": "Text se nepodařilo přepsat. Zkuste to prosím znovu.",
+    "missingImportFile": "Vyberte prosím soubor životopisu k importu.",
+    "invalidImportFileType": "Podporovány jsou pouze soubory PDF a Word (.docx).",
+    "importFileTooLarge": "Tento soubor je pro import příliš velký.",
+    "importParsingFailed": "Tento soubor se nepodařilo přečíst. Ujistěte se, že není poškozený, chráněný heslem ani naskenovaný jako obrázek.",
+    "importUnavailable": "Import životopisu momentálně není k dispozici.",
+    "resumeImportFailed": "Tento životopis se nepodařilo importovat. Zkuste to prosím znovu.",
     "unauthorized": "Neautorizováno.",
     "cleanupQueryFailed": "Nepodařilo se načíst neaktivní účty k vyčištění."
   },
@@ -595,6 +601,20 @@
       "hasSubject": "Předmět je vyplněn",
       "bodyLongEnough": "Text dopisu má dostatečný obsah"
     }
+  },
+  "importResume": {
+    "buttonLabel": "Importovat životopis",
+    "title": "Importovat životopis",
+    "description": "Nahrajte existující životopis (PDF nebo Word) a my automaticky vyplníme vaše údaje.",
+    "chooseFileButton": "Vybrat soubor",
+    "noFileChosen": "Není vybrán žádný soubor",
+    "importButton": "Importovat",
+    "unsupportedFileType": "Podporovány jsou pouze soubory PDF a Word (.docx).",
+    "fileTooLarge": "Tento soubor je pro import příliš velký.",
+    "reviewDescription": "Tímto nahradíte životopis, který právě upravujete. Tohle jsme našli:",
+    "nothingFound": "V tomto souboru se nám nepodařilo najít žádný obsah životopisu.",
+    "chooseAnotherFile": "Vybrat jiný soubor",
+    "applyButton": "Použít tato data"
   },
   "share": {
     "title": "Sdílet tento dokument",
