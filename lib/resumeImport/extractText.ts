@@ -1,6 +1,5 @@
 import mammoth from "mammoth";
-
-export type ImportFileType = "pdf" | "docx";
+import type { ImportFileType } from "@/types/resume";
 
 export class ResumeImportExtractionError extends Error {
   constructor(message: string, options?: ErrorOptions) {

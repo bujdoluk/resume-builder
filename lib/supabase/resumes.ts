@@ -16,24 +16,8 @@ import {
 } from "@/lib/resumeData";
 import type { Database, Json, Tables } from "@/lib/supabase/database.types";
 import type { TemplateId } from "@/lib/templates";
-
-export interface ResumeRow {
-  id: string;
-  name: string;
-  templateId: TemplateId;
-  color: string | null;
-  font: FontKey | null;
-  fontSize: FontSizeKey | null;
-  sectionOrder: SectionKey[];
-  visibleFields: FieldKey[];
-  modernSectionZones: ModernSectionZones;
-  data: ResumeData;
-  shareToken: string | null;
-  shareTokenExpiresAt: string | null;
-  createdAt: string;
-  updatedAt: string;
-  deletedAt: string | null;
-}
+import type { EnableSharingResult } from "@/types/share";
+import type { ResumeRow, ResumeSort } from "@/types/resume";
 
 function fromTableRow(row: Tables<"resumes">): ResumeRow {
   return {
@@ -110,11 +94,6 @@ export async function countResumes(supabase: SupabaseClient<Database>, userId: s
 
   if (error) throw error;
   return count ?? 0;
-}
-
-export interface ResumeSort {
-  column: "name" | "created_at" | "updated_at" | "deleted_at";
-  ascending: boolean;
 }
 
 const DEFAULT_RESUME_SORT: ResumeSort = { column: "updated_at", ascending: true };
@@ -197,11 +176,6 @@ export async function getResume(supabase: SupabaseClient<Database>, id: string):
 
   if (error) throw error;
   return data ? fromTableRow(data) : null;
-}
-
-export interface EnableSharingResult {
-  token: string;
-  expiresAt: string;
 }
 
 export async function enableResumeSharing(

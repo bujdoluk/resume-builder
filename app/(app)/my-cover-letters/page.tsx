@@ -37,14 +37,12 @@ import {
   renameCoverLetter,
   restoreCoverLetter,
   restoreCoverLetters,
-  type CoverLetterRow,
-  type CoverLetterSort,
 } from "@/lib/supabase/coverLetters";
 import { createClient } from "@/lib/supabase/client";
 import { ensureUserId } from "@/lib/supabase/session";
 import { getSubscription, isPaidPlan } from "@/lib/supabase/subscriptions";
-
-type Tab = "active" | "deleted";
+import type { CoverLetterRow, CoverLetterSort } from "@/types/coverLetter";
+import type { ListTab } from "@/types/ui";
 
 const DEFAULT_ACTIVE_SORT: CoverLetterSort = { column: "updated_at", ascending: true };
 const DEFAULT_DELETED_SORT: CoverLetterSort = { column: "deleted_at", ascending: false };
@@ -61,7 +59,7 @@ export default function MyCoverLettersPage() {
   const { showToast } = useToast();
   const { notifyCoverLetterListChanged } = useAppState();
   const [supabase] = useState(() => createClient());
-  const [activeTab, setActiveTab] = useState<Tab>("active");
+  const [activeTab, setActiveTab] = useState<ListTab>("active");
   const [coverLetters, setCoverLetters] = useState<CoverLetterRow[] | null>(null);
   const [loadFailed, setLoadFailed] = useState(false);
   const [duplicatingId, setDuplicatingId] = useState<string | null>(null);
@@ -85,7 +83,7 @@ export default function MyCoverLettersPage() {
   async function loadPage(
     pageNumber: number,
     sortOverride: CoverLetterSort = sort,
-    tab: Tab = activeTab,
+    tab: ListTab = activeTab,
   ) {
     const requestId = ++requestIdRef.current;
     try {
@@ -119,7 +117,7 @@ export default function MyCoverLettersPage() {
     setDeletedCount(await countDeletedCoverLetters(supabase, userId));
   }
 
-  function handleTabChange(tab: Tab) {
+  function handleTabChange(tab: ListTab) {
     if (tab === activeTab) return;
     setActiveTab(tab);
     loadPage(1, tab === "active" ? DEFAULT_ACTIVE_SORT : DEFAULT_DELETED_SORT, tab);

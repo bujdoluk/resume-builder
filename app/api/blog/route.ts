@@ -5,8 +5,9 @@ import { validateBody } from "@/lib/apiValidation";
 import { AUDIT_ACTIONS, logAuditEvent } from "@/lib/auditLog";
 import { HTTP_BAD_REQUEST, HTTP_INTERNAL_SERVER_ERROR } from "@/lib/constants";
 import { createClient } from "@/lib/supabase/server";
-import { createBlogPost, type BlogCategoryKey } from "@/lib/supabase/blogPosts";
+import { createBlogPost } from "@/lib/supabase/blogPosts";
 import { blogPostBodySchema } from "@/lib/validation/blog";
+import type { BlogCategoryKey } from "@/types/blog";
 
 export async function POST(request: Request) {
   const supabase = await createClient();

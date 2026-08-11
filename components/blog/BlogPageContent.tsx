@@ -6,7 +6,8 @@ import { useRef } from "react";
 import { useTranslation } from "react-i18next";
 import BlogPostFormDialog, { type BlogPostFormDialogHandle } from "@/components/blog/BlogPostFormDialog";
 import { useIsAdmin } from "@/components/useIsAdmin";
-import { categoryBadgeClass, type BlogPost } from "@/lib/supabase/blogPosts";
+import { categoryBadgeClass } from "@/lib/supabase/blogPosts";
+import type { BlogPost } from "@/types/blog";
 
 export default function BlogPageContent({ posts }: { posts: BlogPost[] }) {
   const { t } = useTranslation();

@@ -3,13 +3,7 @@ import type { SupabaseClient } from "@supabase/supabase-js";
 import { Temporal } from "temporal-polyfill";
 import { MAX_SLUG_ATTEMPTS } from "@/lib/constants";
 import type { Database, Tables } from "@/lib/supabase/database.types";
-
-export type BlogCategoryKey =
-  | "resumeTips"
-  | "coverLetters"
-  | "interviewPrep"
-  | "careerAdvice"
-  | "jobSearch";
+import type { Blog, BlogCategoryKey, BlogPost } from "@/types/blog";
 
 export const blogCategories: BlogCategoryKey[] = [
   "resumeTips",
@@ -26,19 +20,6 @@ export const categoryBadgeClass: Record<BlogCategoryKey, string> = {
   careerAdvice: "badge-info",
   jobSearch: "badge-success",
 };
-
-export interface BlogPost {
-  id: string;
-  slug: string;
-  category: BlogCategoryKey;
-  title: string;
-  subtitle: string;
-  content: string;
-  authorName: string;
-  authorAvatarUrl: string | null;
-  readTime: string;
-  publishedAt: string;
-}
 
 const SELECT_COLUMNS =
   "id, slug, category, title, subtitle, content, author_name, author_avatar_url, read_time, published_at";
@@ -109,19 +90,6 @@ export async function getBlogPostBySlug(
 
 function slugify(title: string): string {
   return title.toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "") || "post";
-}
-
-// Shared by createBlogPost and updateBlogPost — same fields either way,
-// just insert vs. update (and updateBlogPost never touches slug, see below).
-export interface Blog {
-  category: BlogCategoryKey;
-  title: string;
-  subtitle: string;
-  content: string;
-  authorName: string;
-  authorAvatarUrl: string | null;
-  readTime: string;
-  publishedAt: string;
 }
 
 export async function createBlogPost(

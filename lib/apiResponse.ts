@@ -1,5 +1,4 @@
 import type { TFunction } from "i18next";
-import type { ToastVariant } from "@/components/Toast";
 import {
   HTTP_BAD_REQUEST,
   HTTP_CONFLICT,
@@ -10,6 +9,7 @@ import {
   HTTP_TOO_MANY_REQUESTS,
   HTTP_UNAUTHORIZED,
 } from "@/lib/constants";
+import type { ToastVariant } from "@/types/ui";
 
 export type StatusCategory = "success" | "redirect" | "clientError" | "serverError";
 

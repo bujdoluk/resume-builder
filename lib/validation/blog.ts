@@ -1,5 +1,6 @@
 import { z } from "zod";
-import { blogCategories, type BlogCategoryKey } from "@/lib/supabase/blogPosts";
+import { blogCategories } from "@/lib/supabase/blogPosts";
+import type { BlogCategoryKey } from "@/types/blog";
 
 const trimmedRequired = () => z.string("invalidInput").trim().min(1, "invalidInput");
 

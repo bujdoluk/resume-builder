@@ -8,7 +8,7 @@ import ConfirmDialog, { type ConfirmDialogHandle } from "@/components/ConfirmDia
 import { ArrowLeftIcon, InfoIcon } from "@/components/Icons";
 import { useToast } from "@/components/Toast";
 import { useIsAdmin } from "@/components/useIsAdmin";
-import { API_LOCALE_HEADER } from "@/lib/apiLocaleHeader";
+import { requestAccountDelete, requestAccountExport } from "@/lib/api/account";
 import { handleApiResponse } from "@/lib/apiResponse";
 import {
   AuthActionError,
@@ -17,10 +17,9 @@ import {
   getTotpFactor,
   unenrollTotp,
   verifyStepUpChallenge,
-  type TotpEnrollment,
-  type TotpFactor,
 } from "@/lib/supabase/auth";
 import { createClient } from "@/lib/supabase/client";
+import type { TotpEnrollment, TotpFactor } from "@/types/auth";
 
 function formatDate(iso: string, locale: string): string {
   return Temporal.Instant.from(iso).toLocaleString(locale, { dateStyle: "medium" });
@@ -152,9 +151,7 @@ export default function AccountPage() {
   async function handleExport() {
     setExportLoading(true);
     try {
-      const response = await fetch("/api/account/export", {
-        headers: { [API_LOCALE_HEADER]: i18n.language },
-      });
+      const response = await requestAccountExport(i18n.language);
       const data = await handleApiResponse(response, showToast, t);
       if (!data) return;
 
@@ -178,10 +175,7 @@ export default function AccountPage() {
     if (!confirmed) return;
 
     setActionLoading(true);
-    const response = await fetch("/api/account/delete", {
-      method: "POST",
-      headers: { [API_LOCALE_HEADER]: i18n.language },
-    });
+    const response = await requestAccountDelete(i18n.language);
     const result = await handleApiResponse(response, showToast, t);
     if (!result) {
       setActionLoading(false);

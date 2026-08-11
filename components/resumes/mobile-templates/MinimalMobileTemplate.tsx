@@ -21,13 +21,8 @@ import {
   type SectionKey,
   type WorkEntry,
 } from "@/lib/resumeData";
+import type { EducationEntryFieldKey, WorkEntryFieldKey } from "@/types/resume";
 
-type WorkEntryFieldKey =
-  | "position"
-  | "dateFrom"
-  | "dateTo"
-  | "location"
-  | "jobDescription";
 const defaultWorkFieldOrder: WorkEntryFieldKey[] = [
   "position",
   "dateFrom",
@@ -36,13 +31,6 @@ const defaultWorkFieldOrder: WorkEntryFieldKey[] = [
   "jobDescription",
 ];
 
-type EducationEntryFieldKey =
-  | "school"
-  | "subject"
-  | "dateFrom"
-  | "dateTo"
-  | "location"
-  | "description";
 const defaultEducationFieldOrder: EducationEntryFieldKey[] = [
   "subject",
   "school",

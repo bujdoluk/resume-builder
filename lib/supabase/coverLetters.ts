@@ -3,19 +3,10 @@ import type { SupabaseClient } from "@supabase/supabase-js";
 import { Temporal } from "temporal-polyfill";
 import { parseStoredCoverLetterData, stampCoverLetterData, type CoverLetterData } from "@/lib/coverLetterData";
 import { COVER_LETTERS_PAGE_SIZE, SHARE_LINK_EXPIRATION_DAYS } from "@/lib/constants";
-import { nextCopyName, type EnableSharingResult } from "@/lib/supabase/resumes";
+import { nextCopyName } from "@/lib/supabase/resumes";
 import type { Database, Json, Tables } from "@/lib/supabase/database.types";
-
-export interface CoverLetterRow {
-  id: string;
-  name: string;
-  data: CoverLetterData;
-  shareToken: string | null;
-  shareTokenExpiresAt: string | null;
-  createdAt: string;
-  updatedAt: string;
-  deletedAt: string | null;
-}
+import type { CoverLetterRow, CoverLetterSort } from "@/types/coverLetter";
+import type { EnableSharingResult } from "@/types/share";
 
 function fromTableRow(row: Tables<"cover_letters">): CoverLetterRow {
   return {
@@ -144,11 +135,6 @@ export async function countCoverLetters(supabase: SupabaseClient<Database>, user
 
   if (error) throw error;
   return count ?? 0;
-}
-
-export interface CoverLetterSort {
-  column: "name" | "created_at" | "updated_at" | "deleted_at";
-  ascending: boolean;
 }
 
 const DEFAULT_COVER_LETTER_SORT: CoverLetterSort = {

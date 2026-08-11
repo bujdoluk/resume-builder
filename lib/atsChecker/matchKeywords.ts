@@ -1,5 +1,5 @@
-import type { KeywordMatchResult } from "@/lib/atsChecker/types";
 import { KEYWORD_EXTRACTION_LIMIT } from "@/lib/constants";
+import type { KeywordMatchResult } from "@/types/atsChecker";
 
 const STOPWORDS = new Set([
   "a", "about", "above", "after", "again", "all", "am", "an", "and", "any",

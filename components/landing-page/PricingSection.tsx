@@ -6,20 +6,18 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { CheckIcon } from "@/components/Icons";
 import { useToast } from "@/components/Toast";
-import { API_LOCALE_HEADER } from "@/lib/apiLocaleHeader";
+import { requestStripeCheckout, type StripePlan } from "@/lib/api/stripe";
 import { handleApiResponse } from "@/lib/apiResponse";
 import { createClient } from "@/lib/supabase/client";
-
-type PaidPlan = "monthly" | "annual";
 
 export default function PricingSection() {
   const { t, i18n } = useTranslation();
   const router = useRouter();
   const { showToast } = useToast();
   const [supabase] = useState(() => createClient());
-  const [loadingPlan, setLoadingPlan] = useState<PaidPlan | null>(null);
+  const [loadingPlan, setLoadingPlan] = useState<StripePlan | null>(null);
 
-  async function handleUpgrade(plan: PaidPlan) {
+  async function handleUpgrade(plan: StripePlan) {
     if (loadingPlan) return;
     setLoadingPlan(plan);
     try {
@@ -32,11 +30,7 @@ export default function PricingSection() {
         return;
       }
 
-      const response = await fetch("/api/stripe/checkout", {
-        method: "POST",
-        headers: { "Content-Type": "application/json", [API_LOCALE_HEADER]: i18n.language },
-        body: JSON.stringify({ plan }),
-      });
+      const response = await requestStripeCheckout(plan, i18n.language);
       const body = await handleApiResponse<{ url: string }>(response, showToast, t);
       if (body?.url) {
         window.location.href = body.url;

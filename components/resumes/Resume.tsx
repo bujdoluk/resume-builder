@@ -36,6 +36,7 @@ import {
   type WorkEntry,
 } from "@/lib/resumeData";
 import type { TemplateId } from "@/lib/templates";
+import type { EducationEntryFieldKey, WorkEntryFieldKey } from "@/types/resume";
 
 export {
   emptyResumeData,
@@ -74,12 +75,6 @@ interface ResumeProps {
 
 const modernMainFieldKeys: FieldKey[] = ["aboutMe"];
 
-type WorkEntryFieldKey =
-  | "position"
-  | "dateFrom"
-  | "dateTo"
-  | "location"
-  | "jobDescription";
 const defaultWorkHistoryFieldOrder: WorkEntryFieldKey[] = [
   "position",
   "dateFrom",
@@ -88,13 +83,6 @@ const defaultWorkHistoryFieldOrder: WorkEntryFieldKey[] = [
   "jobDescription",
 ];
 
-type EducationEntryFieldKey =
-  | "school"
-  | "subject"
-  | "dateFrom"
-  | "dateTo"
-  | "location"
-  | "description";
 const defaultEducationFieldOrder: EducationEntryFieldKey[] = [
   "subject",
   "school",

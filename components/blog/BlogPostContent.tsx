@@ -10,9 +10,10 @@ import ConfirmDialog, { type ConfirmDialogHandle } from "@/components/ConfirmDia
 import BlogPostFormDialog, { type BlogPostFormDialogHandle } from "@/components/blog/BlogPostFormDialog";
 import { useToast } from "@/components/Toast";
 import { useIsAdmin } from "@/components/useIsAdmin";
-import { API_LOCALE_HEADER } from "@/lib/apiLocaleHeader";
+import { requestDeleteBlogPost } from "@/lib/api/blog";
 import { handleApiResponse } from "@/lib/apiResponse";
-import { categoryBadgeClass, type BlogPost } from "@/lib/supabase/blogPosts";
+import { categoryBadgeClass } from "@/lib/supabase/blogPosts";
+import type { BlogPost } from "@/types/blog";
 
 export default function BlogPostContent({ post }: { post: BlogPost }) {
   const { t, i18n } = useTranslation();
@@ -40,10 +41,7 @@ export default function BlogPostContent({ post }: { post: BlogPost }) {
     if (!confirmed) return;
     setDeleting(true);
     try {
-      const response = await fetch(`/api/blog/${post.id}`, {
-        method: "DELETE",
-        headers: { [API_LOCALE_HEADER]: i18n.language },
-      });
+      const response = await requestDeleteBlogPost(post.id, i18n.language);
       const body = await handleApiResponse(response, showToast, t);
       if (!body) return;
       router.push("/blog");

@@ -1,5 +1,6 @@
 
 import type { AuthError, SupabaseClient } from "@supabase/supabase-js";
+import type { TotpEnrollment, TotpFactor } from "@/types/auth";
 
 export type AuthErrorCode =
   | "invalidCredentials"
@@ -123,12 +124,6 @@ export async function verifyStepUpChallenge(supabase: SupabaseClient, code: stri
   if (error) throw mapMfaError(error);
 }
 
-export interface TotpEnrollment {
-  factorId: string;
-  qrCode: string;
-  secret: string;
-}
-
 export async function enrollTotp(supabase: SupabaseClient, issuer: string): Promise<TotpEnrollment> {
   const { data, error } = await supabase.auth.mfa.enroll({ factorType: "totp", issuer });
   if (error) throw mapMfaError(error);
@@ -142,11 +137,6 @@ export async function confirmTotpEnrollment(
 ): Promise<void> {
   const { error } = await supabase.auth.mfa.challengeAndVerify({ factorId, code });
   if (error) throw mapMfaError(error);
-}
-
-export interface TotpFactor {
-  id: string;
-  createdAt: string;
 }
 
 // Only ever returns a *verified* factor — Supabase's listFactors() already

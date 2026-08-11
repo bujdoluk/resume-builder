@@ -4,9 +4,10 @@ import { useImperativeHandle, useRef, useState, type Ref } from "react";
 import { useTranslation } from "react-i18next";
 import { Temporal } from "temporal-polyfill";
 import { useToast } from "@/components/Toast";
-import { API_LOCALE_HEADER } from "@/lib/apiLocaleHeader";
+import { requestCreateBlogPost, requestUpdateBlogPost } from "@/lib/api/blog";
 import { handleApiResponse } from "@/lib/apiResponse";
-import { blogCategories, type BlogCategoryKey, type BlogPost } from "@/lib/supabase/blogPosts";
+import { blogCategories } from "@/lib/supabase/blogPosts";
+import type { BlogCategoryKey, BlogPost } from "@/types/blog";
 
 export interface BlogPostFormDialogHandle {
   open: (existingPost?: BlogPost) => Promise<boolean>;
@@ -76,14 +77,11 @@ export default function BlogPostFormDialog({ ref }: { ref?: Ref<BlogPostFormDial
     event.preventDefault();
     setSubmitting(true);
     try {
-      const response = await fetch(isEditing ? `/api/blog/${editingId}` : "/api/blog", {
-        method: isEditing ? "PATCH" : "POST",
-        headers: { "Content-Type": "application/json", [API_LOCALE_HEADER]: i18n.language },
-        body: JSON.stringify({
-          ...form,
-          authorAvatarUrl: form.authorAvatarUrl.trim() || null,
-        }),
-      });
+      const input = { ...form, authorAvatarUrl: form.authorAvatarUrl.trim() || null };
+      const response =
+        editingId !== null
+          ? await requestUpdateBlogPost(editingId, input, i18n.language)
+          : await requestCreateBlogPost(input, i18n.language);
       const body = await handleApiResponse(response, showToast, t);
       if (!body) return;
       close(true);

@@ -5,11 +5,11 @@ import { useTranslation } from "react-i18next";
 import AutoResizeTextarea from "@/components/AutoResizeTextarea";
 import { CheckIcon } from "@/components/Icons";
 import { useToast } from "@/components/Toast";
-import { API_LOCALE_HEADER } from "@/lib/apiLocaleHeader";
+import { requestCoherenceCheck } from "@/lib/api/atsCoherence";
 import { handleApiResponse } from "@/lib/apiResponse";
 import { matchKeywords } from "@/lib/atsChecker/matchKeywords";
-import type { FormatCheckItem, KeywordMatchResult } from "@/lib/atsChecker/types";
 import { getAnonymousCaptchaToken } from "@/lib/supabase/invisibleCaptcha";
+import type { FormatCheckItem, KeywordMatchResult } from "@/types/atsChecker";
 
 export interface AtsCheckerDialogHandle {
   open: (params: { formatChecks: FormatCheckItem[]; documentText: string }) => void;
@@ -56,11 +56,7 @@ export default function AtsCheckerDialog({ ref }: { ref?: Ref<AtsCheckerDialogHa
     setIsCheckingCoherence(true);
     try {
       const captchaToken = await getAnonymousCaptchaToken();
-      const response = await fetch("/api/ats-coherence", {
-        method: "POST",
-        headers: { "Content-Type": "application/json", [API_LOCALE_HEADER]: i18n.language },
-        body: JSON.stringify({ captchaToken, documentText }),
-      });
+      const response = await requestCoherenceCheck({ captchaToken, documentText }, i18n.language);
       const result = await handleApiResponse<CoherenceResult>(response, showToast, t);
       if (result) setCoherenceResult(result);
     } finally {

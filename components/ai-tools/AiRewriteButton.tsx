@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { SparkleIcon } from "@/components/Icons";
 import { useToast } from "@/components/Toast";
-import { API_LOCALE_HEADER } from "@/lib/apiLocaleHeader";
+import { requestAiRewrite } from "@/lib/api/aiRewrite";
 import { handleApiResponse } from "@/lib/apiResponse";
 import { getAnonymousCaptchaToken } from "@/lib/supabase/invisibleCaptcha";
 
@@ -28,11 +28,7 @@ export default function AiRewriteButton({
     setIsRewriting(true);
     try {
       const captchaToken = await getAnonymousCaptchaToken();
-      const response = await fetch("/api/ai-rewrite", {
-        method: "POST",
-        headers: { "Content-Type": "application/json", [API_LOCALE_HEADER]: i18n.language },
-        body: JSON.stringify({ captchaToken, text, style }),
-      });
+      const response = await requestAiRewrite({ captchaToken, text, style }, i18n.language);
       const result = await handleApiResponse<{ rewritten: string }>(response, showToast, t);
       if (result) onRewrite(result.rewritten);
     } finally {

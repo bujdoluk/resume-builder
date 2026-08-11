@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import { EmailIcon } from "@/components/Icons";
 import { useToast } from "@/components/Toast";
 import type { ExportFormat } from "@/lib/exportFormat";
-import { API_LOCALE_HEADER } from "@/lib/apiLocaleHeader";
+import { requestSendEmail, type SendEmailParams } from "@/lib/api/sendEmail";
 import { handleApiResponse } from "@/lib/apiResponse";
 import { EMAIL_SENT_DIALOG_CLOSE_DELAY_MS } from "@/lib/constants";
 import { registerPdfFonts } from "@/lib/pdf/fonts";
@@ -60,7 +60,7 @@ export default function EmailButton<T extends object>({
     setIsSending(true);
     try {
       const captchaToken = await getAnonymousCaptchaToken();
-      const body: Record<string, string> = { to, fileName, format };
+      const body: SendEmailParams = { to, fileName, format };
       if (captchaToken) body.captchaToken = captchaToken;
 
       if (format === "txt") {
@@ -74,11 +74,7 @@ export default function EmailButton<T extends object>({
         body.pdfBase64 = await blobToBase64(blob);
       }
 
-      const response = await fetch("/api/send-email", {
-        method: "POST",
-        headers: { "Content-Type": "application/json", [API_LOCALE_HEADER]: i18n.language },
-        body: JSON.stringify(body),
-      });
+      const response = await requestSendEmail(body, i18n.language);
 
       const result = await handleApiResponse(response, showToast, t);
       if (!result) return;

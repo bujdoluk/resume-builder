@@ -1,7 +1,7 @@
 import type { CoverLetterData } from "@/lib/coverLetterData";
 import type { CoverLetterTemplateId } from "@/lib/coverLetterTemplates";
-import type { FormatCheckItem } from "@/lib/atsChecker/types";
 import { MIN_COVER_LETTER_BODY_LENGTH } from "@/lib/constants";
+import type { FormatCheckItem } from "@/types/atsChecker";
 
 const MULTI_COLUMN_TEMPLATES: CoverLetterTemplateId[] = ["modern"];
 const QUANTIFIED_PATTERN = /\d|%/;

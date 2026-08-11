@@ -8,10 +8,11 @@ import { Temporal } from "temporal-polyfill";
 import ConfirmDialog, { type ConfirmDialogHandle } from "@/components/ConfirmDialog";
 import { ArrowLeftIcon } from "@/components/Icons";
 import { useToast } from "@/components/Toast";
-import { API_LOCALE_HEADER } from "@/lib/apiLocaleHeader";
+import { requestStripeCancel, type StripeCancelAction } from "@/lib/api/stripe";
 import { handleApiResponse } from "@/lib/apiResponse";
 import { createClient } from "@/lib/supabase/client";
-import { getSubscription, type Subscription } from "@/lib/supabase/subscriptions";
+import { getSubscription } from "@/lib/supabase/subscriptions";
+import type { Subscription } from "@/types/subscription";
 
 function formatDate(iso: string, locale: string): string {
   return Temporal.Instant.from(iso).toLocaleString(locale, { dateStyle: "medium" });
@@ -50,14 +51,10 @@ export default function BillingPage() {
     await runAction("resume");
   }
 
-  async function runAction(action: "cancel" | "resume") {
+  async function runAction(action: StripeCancelAction) {
     setActionLoading(true);
     try {
-      const response = await fetch("/api/stripe/cancel", {
-        method: "POST",
-        headers: { "Content-Type": "application/json", [API_LOCALE_HEADER]: i18n.language },
-        body: JSON.stringify({ action }),
-      });
+      const response = await requestStripeCancel(action, i18n.language);
       const body = await handleApiResponse<{
         status: string;
         cancelAtPeriodEnd: boolean;

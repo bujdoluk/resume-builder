@@ -8,8 +8,7 @@ import {
   type ReactNode,
 } from "react";
 import { generateId } from "@/lib/generateId";
-
-export type ToastVariant = "success" | "info" | "warning" | "error";
+import type { ToastVariant } from "@/types/ui";
 
 interface ToastMessage {
   id: string;

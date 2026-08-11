@@ -4,17 +4,16 @@ import { useImperativeHandle, useRef, useState, type Ref } from "react";
 import { useTranslation } from "react-i18next";
 import { CheckIcon } from "@/components/Icons";
 import { useToast } from "@/components/Toast";
-import { API_LOCALE_HEADER } from "@/lib/apiLocaleHeader";
+import { requestResumeImport } from "@/lib/api/importResume";
 import { handleApiResponse } from "@/lib/apiResponse";
 import { MAX_IMPORT_FILE_BYTES } from "@/lib/constants";
 import { sectionKeySchema, type ResumeData, type SectionKey } from "@/lib/resumeData";
 import { getAnonymousCaptchaToken } from "@/lib/supabase/invisibleCaptcha";
+import type { ImportFileType } from "@/types/resume";
 
 export interface ImportResumeDialogHandle {
   open: () => Promise<ResumeData | null>;
 }
-
-type ImportFileType = "pdf" | "docx";
 
 const ACCEPTED_EXTENSIONS: Record<ImportFileType, string> = {
   pdf: ".pdf",
@@ -116,11 +115,7 @@ export default function ImportResumeDialog({ ref }: { ref?: Ref<ImportResumeDial
     try {
       const fileBase64 = await readAsBase64(selectedFile);
       const captchaToken = await getAnonymousCaptchaToken();
-      const response = await fetch("/api/import-resume", {
-        method: "POST",
-        headers: { "Content-Type": "application/json", [API_LOCALE_HEADER]: i18n.language },
-        body: JSON.stringify({ captchaToken, fileBase64, fileType }),
-      });
+      const response = await requestResumeImport({ captchaToken, fileBase64, fileType }, i18n.language);
       const result = await handleApiResponse<{ data: ResumeData }>(response, showToast, t);
       if (result) setImportedData(result.data);
     } finally {

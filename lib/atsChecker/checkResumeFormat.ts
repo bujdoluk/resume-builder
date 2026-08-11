@@ -1,6 +1,6 @@
 import type { ResumeData } from "@/lib/resumeData";
-import type { FormatCheckItem } from "@/lib/atsChecker/types";
 import type { TemplateId } from "@/lib/templates";
+import type { FormatCheckItem } from "@/types/atsChecker";
 
 const MULTI_COLUMN_TEMPLATES: TemplateId[] = ["modern", "elegant"];
 const QUANTIFIED_PATTERN = /\d|%/;

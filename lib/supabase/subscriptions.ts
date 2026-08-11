@@ -1,16 +1,10 @@
 
 import type { SupabaseClient } from "@supabase/supabase-js";
 import type { Database } from "@/lib/supabase/database.types";
+import type { Subscription } from "@/types/subscription";
 
 export type Plan = "free" | "pro" | "annual";
 const KNOWN_PLANS: Plan[] = ["free", "pro", "annual"];
-
-export interface Subscription {
-  plan: Plan;
-  status: string;
-  currentPeriodEnd: string | null;
-  cancelAtPeriodEnd: boolean;
-}
 
 const FREE_SUBSCRIPTION: Subscription = {
   plan: "free",
