@@ -7,6 +7,7 @@ import { useTranslation } from "react-i18next";
 import { Temporal } from "temporal-polyfill";
 import ConfirmDialog, { type ConfirmDialogHandle } from "@/components/ConfirmDialog";
 import { ArrowLeftIcon } from "@/components/Icons";
+import LoadingSpinner from "@/components/LoadingSpinner";
 import { useToast } from "@/components/Toast";
 import { requestStripeCancel, type StripeCancelAction } from "@/lib/api/stripe";
 import { handleApiResponse } from "@/lib/apiResponse";
@@ -77,11 +78,7 @@ export default function BillingPage() {
   }
 
   if (!subscription) {
-    return (
-      <div className="bg-base-200 flex flex-1 items-center justify-center p-6">
-        <span className="loading loading-spinner loading-lg" />
-      </div>
-    );
+    return <LoadingSpinner />;
   }
 
   const planName = t(`pricing.${subscription.plan}.name`);

@@ -17,6 +17,7 @@ import {
   RestoreIcon,
   TrashIcon,
 } from "@/components/Icons";
+import LoadingSpinner from "@/components/LoadingSpinner";
 import SaveResumeDialog, {
   type SaveResumeDialogHandle,
 } from "@/components/SaveResumeDialog";
@@ -431,11 +432,7 @@ export default function MyCoverLettersPageContent() {
           <p className="text-error">{t("myCoverLetters.loadFailed")}</p>
         )}
 
-        {!loadFailed && coverLetters === null && (
-          <div className="flex flex-1 items-center justify-center">
-            <span className="loading loading-spinner loading-lg" />
-          </div>
-        )}
+        {!loadFailed && coverLetters === null && <LoadingSpinner />}
 
         {!loadFailed && coverLetters && coverLetters.length === 0 && (
           <p className="text-base-content/60">

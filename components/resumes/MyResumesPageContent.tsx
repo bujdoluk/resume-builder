@@ -17,6 +17,7 @@ import {
   RestoreIcon,
   TrashIcon,
 } from "@/components/Icons";
+import LoadingSpinner from "@/components/LoadingSpinner";
 import SaveResumeDialog, {
   type SaveResumeDialogHandle,
 } from "@/components/SaveResumeDialog";
@@ -429,11 +430,7 @@ export default function MyResumesPageContent() {
           <p className="text-error">{t("myResumes.loadFailed")}</p>
         )}
 
-        {!loadFailed && resumes === null && (
-          <div className="flex flex-1 items-center justify-center">
-            <span className="loading loading-spinner loading-lg" />
-          </div>
-        )}
+        {!loadFailed && resumes === null && <LoadingSpinner />}
 
         {!loadFailed && resumes && resumes.length === 0 && (
           <p className="text-base-content/60">

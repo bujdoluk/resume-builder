@@ -3,7 +3,12 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Footer from "@/components/landing-page/Footer";
 import BlogPostContent from "@/components/blog/BlogPostContent";
-import { getCachedBlogPostBySlug } from "@/lib/supabase/blogPosts";
+import { getCachedBlogPosts, getCachedBlogPostBySlug } from "@/lib/supabase/blogPosts";
+
+export async function generateStaticParams() {
+  const posts = await getCachedBlogPosts();
+  return posts.map((post) => ({ slug: post.slug }));
+}
 
 export async function generateMetadata(
   props: PageProps<"/blog/[slug]">,
