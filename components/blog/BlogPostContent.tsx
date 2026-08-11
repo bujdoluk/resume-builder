@@ -99,7 +99,13 @@ export default function BlogPostContent({ post }: { post: BlogPost }) {
             {post.authorAvatarUrl ? (
               <div className="avatar">
                 <div className="w-9 rounded-full">
-                  <Image src={post.authorAvatarUrl} alt={post.authorName} width={36} height={36} />
+                  <Image
+                    src={post.authorAvatarUrl}
+                    alt={post.authorName}
+                    width={36}
+                    height={36}
+                    unoptimized
+                  />
                 </div>
               </div>
             ) : (
