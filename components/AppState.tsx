@@ -47,22 +47,18 @@ const defaultVisibleFields: FieldKey[] = [...allFields];
 const defaultCoverLetterFieldOrder: CoverLetterFieldKey[] = [
   ...allCoverLetterFields,
 ];
-
 export interface ResumeStepsSummary {
-
   stepKeys: string[];
   incompleteKeys: string[];
   completionPercent: number;
   customFieldsTitle?: string;
 }
-
 export interface CoverLetterStepsSummary {
   stepKeys: CoverLetterSectionKey[];
   incompleteKeys: CoverLetterSectionKey[];
   completionPercent: number;
   customFieldsTitle?: string;
 }
-
 interface AppStateValue {
   templateId: TemplateId;
   setTemplateId: Dispatch<SetStateAction<TemplateId>>;
@@ -74,14 +70,12 @@ interface AppStateValue {
   setSectionOrder: Dispatch<SetStateAction<SectionKey[]>>;
   visibleFields: FieldKey[];
   setVisibleFields: Dispatch<SetStateAction<FieldKey[]>>;
-
   coverLetterFieldOrder: CoverLetterFieldKey[];
   setCoverLetterFieldOrder: Dispatch<SetStateAction<CoverLetterFieldKey[]>>;
   coverLetterTemplateId: CoverLetterTemplateId;
   setCoverLetterTemplateId: Dispatch<SetStateAction<CoverLetterTemplateId>>;
   modernSectionZones: ModernSectionZones;
   setModernSectionZones: Dispatch<SetStateAction<ModernSectionZones>>;
-
   coverLetterSectionZones: CoverLetterSectionZones;
   setCoverLetterSectionZones: Dispatch<SetStateAction<CoverLetterSectionZones>>;
   language: string;

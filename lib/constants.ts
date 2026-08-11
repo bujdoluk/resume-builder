@@ -118,3 +118,5 @@ export const SHARE_LINK_EXPIRATION_DAYS = 30;
 // can't drift apart.
 export const BLOG_POSTS_CACHE_TAG = "blog-posts";
 export const BLOG_POSTS_CACHE_REVALIDATE_SECONDS = 3600;
+
+export const SUPPORT_EMAIL = "support@quickresumebuilder.online";

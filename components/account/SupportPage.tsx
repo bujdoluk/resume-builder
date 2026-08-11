@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useTranslation } from "react-i18next";
 import { ArrowLeftIcon } from "@/components/Icons";
-import { SUPPORT_EMAIL } from "@/lib/supportEmail";
+import { SUPPORT_EMAIL } from "@/lib/constants";
 import { openSupportChat } from "@/lib/tawkChat";
 
 export default function SupportPage() {

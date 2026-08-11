@@ -1,5 +1,5 @@
 import Footer from "@/components/landing-page/Footer";
-import { SUPPORT_EMAIL } from "@/lib/supportEmail";
+import { SUPPORT_EMAIL } from "@/lib/constants";
 
 const lastUpdated = "20 July 2026";
 
