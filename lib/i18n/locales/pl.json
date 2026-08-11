@@ -564,6 +564,12 @@
     "importParsingFailed": "Nie udało się odczytać tego pliku. Upewnij się, że nie jest uszkodzony, zabezpieczony hasłem ani zeskanowany jako obraz.",
     "importUnavailable": "Import CV nie jest obecnie skonfigurowany.",
     "resumeImportFailed": "Nie udało się zaimportować tego CV. Spróbuj ponownie.",
+    "missingImportCoverLetterFile": "Wybierz plik listu motywacyjnego do zaimportowania.",
+    "invalidImportCoverLetterFileType": "Obsługiwane są tylko pliki PDF i Word (.docx).",
+    "importCoverLetterFileTooLarge": "Ten plik jest zbyt duży do zaimportowania.",
+    "importCoverLetterParsingFailed": "Nie udało się odczytać tego pliku. Upewnij się, że nie jest uszkodzony, zabezpieczony hasłem ani zeskanowany jako obraz.",
+    "importCoverLetterUnavailable": "Import listu motywacyjnego nie jest obecnie skonfigurowany.",
+    "coverLetterImportFailed": "Nie udało się zaimportować tego listu motywacyjnego. Spróbuj ponownie.",
     "unauthorized": "Brak autoryzacji.",
     "cleanupQueryFailed": "Nie udało się pobrać nieaktywnych kont do wyczyszczenia."
   },
@@ -613,6 +619,20 @@
     "fileTooLarge": "Ten plik jest zbyt duży do zaimportowania.",
     "reviewDescription": "Spowoduje to zastąpienie CV, które właśnie edytujesz. Oto co znaleźliśmy:",
     "nothingFound": "Nie udało się znaleźć żadnej zawartości CV w tym pliku.",
+    "chooseAnotherFile": "Wybierz inny plik",
+    "applyButton": "Użyj tych danych"
+  },
+  "importCoverLetter": {
+    "buttonLabel": "Importuj list motywacyjny",
+    "title": "Importuj list motywacyjny",
+    "description": "Prześlij istniejący list motywacyjny (PDF lub Word), a my automatycznie uzupełnimy Twoje dane.",
+    "chooseFileButton": "Wybierz plik",
+    "noFileChosen": "Nie wybrano pliku",
+    "importButton": "Importuj",
+    "unsupportedFileType": "Obsługiwane są tylko pliki PDF i Word (.docx).",
+    "fileTooLarge": "Ten plik jest zbyt duży do zaimportowania.",
+    "reviewDescription": "Spowoduje to zastąpienie listu motywacyjnego, który właśnie edytujesz. Oto co znaleźliśmy:",
+    "nothingFound": "Nie udało się znaleźć żadnej zawartości listu motywacyjnego w tym pliku.",
     "chooseAnotherFile": "Wybierz inny plik",
     "applyButton": "Użyj tych danych"
   },

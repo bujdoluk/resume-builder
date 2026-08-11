@@ -564,6 +564,12 @@
     "importParsingFailed": "Tento súbor sa nepodarilo prečítať. Uistite sa, že nie je poškodený, chránený heslom ani naskenovaný ako obrázok.",
     "importUnavailable": "Import životopisu momentálne nie je k dispozícii.",
     "resumeImportFailed": "Tento životopis sa nepodarilo importovať. Skúste to znova.",
+    "missingImportCoverLetterFile": "Vyberte, prosím, súbor motivačného listu na import.",
+    "invalidImportCoverLetterFileType": "Podporované sú iba súbory PDF a Word (.docx).",
+    "importCoverLetterFileTooLarge": "Tento súbor je na import príliš veľký.",
+    "importCoverLetterParsingFailed": "Tento súbor sa nepodarilo prečítať. Uistite sa, že nie je poškodený, chránený heslom ani naskenovaný ako obrázok.",
+    "importCoverLetterUnavailable": "Import motivačného listu momentálne nie je k dispozícii.",
+    "coverLetterImportFailed": "Tento motivačný list sa nepodarilo importovať. Skúste to znova.",
     "unauthorized": "Neautorizované.",
     "cleanupQueryFailed": "Nepodarilo sa načítať neaktívne účty na vyčistenie."
   },
@@ -613,6 +619,20 @@
     "fileTooLarge": "Tento súbor je na import príliš veľký.",
     "reviewDescription": "Týmto nahradíte životopis, ktorý práve upravujete. Toto sme našli:",
     "nothingFound": "V tomto súbore sa nám nepodarilo nájsť žiadny obsah životopisu.",
+    "chooseAnotherFile": "Vybrať iný súbor",
+    "applyButton": "Použiť tieto údaje"
+  },
+  "importCoverLetter": {
+    "buttonLabel": "Importovať motivačný list",
+    "title": "Importovať motivačný list",
+    "description": "Nahrajte existujúci motivačný list (PDF alebo Word) a my automaticky vyplníme vaše údaje.",
+    "chooseFileButton": "Vybrať súbor",
+    "noFileChosen": "Nie je vybraný žiadny súbor",
+    "importButton": "Importovať",
+    "unsupportedFileType": "Podporované sú iba súbory PDF a Word (.docx).",
+    "fileTooLarge": "Tento súbor je na import príliš veľký.",
+    "reviewDescription": "Týmto nahradíte motivačný list, ktorý práve upravujete. Toto sme našli:",
+    "nothingFound": "V tomto súbore sa nám nepodarilo nájsť žiadny obsah motivačného listu.",
     "chooseAnotherFile": "Vybrať iný súbor",
     "applyButton": "Použiť tieto údaje"
   },

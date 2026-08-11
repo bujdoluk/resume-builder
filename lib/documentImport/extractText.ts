@@ -1,10 +1,10 @@
 import mammoth from "mammoth";
-import type { ImportFileType } from "@/types/resume";
+import type { ImportFileType } from "@/types/documentImport";
 
-export class ResumeImportExtractionError extends Error {
+export class DocumentImportExtractionError extends Error {
   constructor(message: string, options?: ErrorOptions) {
     super(message, options);
-    this.name = "ResumeImportExtractionError";
+    this.name = "DocumentImportExtractionError";
   }
 }
 
@@ -47,25 +47,25 @@ async function extractDocxText(buffer: Buffer): Promise<string> {
 }
 
 /**
- * Extracts plain text from an uploaded resume file. Throws
- * ResumeImportExtractionError for a corrupt file or one with no extractable
- * text (e.g. a scanned/image-only PDF) — the caller maps that to a clean
- * user-facing error rather than sending empty input to Groq.
+ * Extracts plain text from an uploaded document (resume or cover letter).
+ * Throws DocumentImportExtractionError for a corrupt file or one with no
+ * extractable text (e.g. a scanned/image-only PDF) — the caller maps that
+ * to a clean user-facing error rather than sending empty input to Groq.
  */
-export async function extractResumeText(buffer: Buffer, fileType: ImportFileType): Promise<string> {
+export async function extractDocumentText(buffer: Buffer, fileType: ImportFileType): Promise<string> {
   let text: string;
   try {
     text = fileType === "pdf" ? await extractPdfText(buffer) : await extractDocxText(buffer);
   } catch (error) {
-    if (error instanceof ResumeImportExtractionError) throw error;
-    throw new ResumeImportExtractionError(
+    if (error instanceof DocumentImportExtractionError) throw error;
+    throw new DocumentImportExtractionError(
       `Failed to extract text from the uploaded ${fileType.toUpperCase()} file.`,
       { cause: error },
     );
   }
 
   if (!text) {
-    throw new ResumeImportExtractionError(
+    throw new DocumentImportExtractionError(
       `The uploaded ${fileType.toUpperCase()} file has no extractable text.`,
     );
   }

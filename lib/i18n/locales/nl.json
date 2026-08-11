@@ -564,6 +564,12 @@
     "importParsingFailed": "We konden dat bestand niet lezen. Controleer of het niet beschadigd, met een wachtwoord beveiligd of een gescande afbeelding is.",
     "importUnavailable": "Cv importeren is momenteel niet ingesteld.",
     "resumeImportFailed": "We konden dat cv niet importeren. Probeer het opnieuw.",
+    "missingImportCoverLetterFile": "Kies een motivatiebriefbestand om te importeren.",
+    "invalidImportCoverLetterFileType": "Alleen PDF- en Word-bestanden (.docx) worden ondersteund.",
+    "importCoverLetterFileTooLarge": "Dat bestand is te groot om te importeren.",
+    "importCoverLetterParsingFailed": "We konden dat bestand niet lezen. Controleer of het niet beschadigd, met een wachtwoord beveiligd of een gescande afbeelding is.",
+    "importCoverLetterUnavailable": "Motivatiebrief importeren is momenteel niet ingesteld.",
+    "coverLetterImportFailed": "We konden die motivatiebrief niet importeren. Probeer het opnieuw.",
     "unauthorized": "Niet geautoriseerd.",
     "cleanupQueryFailed": "Kon de verlopen accounts niet opvragen voor opschoning."
   },
@@ -613,6 +619,20 @@
     "fileTooLarge": "Dat bestand is te groot om te importeren.",
     "reviewDescription": "Dit vervangt het cv dat je nu bewerkt. Dit hebben we gevonden:",
     "nothingFound": "We konden geen cv-inhoud vinden in dat bestand.",
+    "chooseAnotherFile": "Ander bestand kiezen",
+    "applyButton": "Deze gegevens gebruiken"
+  },
+  "importCoverLetter": {
+    "buttonLabel": "Motivatiebrief importeren",
+    "title": "Motivatiebrief importeren",
+    "description": "Upload een bestaande motivatiebrief (PDF of Word) en we vullen je gegevens automatisch in.",
+    "chooseFileButton": "Bestand kiezen",
+    "noFileChosen": "Geen bestand gekozen",
+    "importButton": "Importeren",
+    "unsupportedFileType": "Alleen PDF- en Word-bestanden (.docx) worden ondersteund.",
+    "fileTooLarge": "Dat bestand is te groot om te importeren.",
+    "reviewDescription": "Dit vervangt de motivatiebrief die je nu bewerkt. Dit hebben we gevonden:",
+    "nothingFound": "We konden geen motivatiebrief-inhoud vinden in dat bestand.",
     "chooseAnotherFile": "Ander bestand kiezen",
     "applyButton": "Deze gegevens gebruiken"
   },

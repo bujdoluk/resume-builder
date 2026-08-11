@@ -564,6 +564,12 @@
     "importParsingFailed": "Diese Datei konnte nicht gelesen werden. Stellen Sie sicher, dass sie nicht beschädigt, passwortgeschützt oder ein gescanntes Bild ist.",
     "importUnavailable": "Der Lebenslauf-Import ist derzeit nicht eingerichtet.",
     "resumeImportFailed": "Dieser Lebenslauf konnte nicht importiert werden. Bitte versuchen Sie es erneut.",
+    "missingImportCoverLetterFile": "Bitte wählen Sie eine Anschreiben-Datei zum Importieren aus.",
+    "invalidImportCoverLetterFileType": "Es werden nur PDF- und Word-Dateien (.docx) unterstützt.",
+    "importCoverLetterFileTooLarge": "Diese Datei ist zum Importieren zu groß.",
+    "importCoverLetterParsingFailed": "Diese Datei konnte nicht gelesen werden. Stellen Sie sicher, dass sie nicht beschädigt, passwortgeschützt oder ein gescanntes Bild ist.",
+    "importCoverLetterUnavailable": "Der Anschreiben-Import ist derzeit nicht eingerichtet.",
+    "coverLetterImportFailed": "Dieses Anschreiben konnte nicht importiert werden. Bitte versuchen Sie es erneut.",
     "unauthorized": "Nicht autorisiert.",
     "cleanupQueryFailed": "Abfrage der abgelaufenen Konten für die Bereinigung fehlgeschlagen."
   },
@@ -613,6 +619,20 @@
     "fileTooLarge": "Diese Datei ist zum Importieren zu groß.",
     "reviewDescription": "Dadurch wird der Lebenslauf ersetzt, den Sie gerade bearbeiten. Das haben wir gefunden:",
     "nothingFound": "In dieser Datei konnten wir keine Lebenslaufinhalte finden.",
+    "chooseAnotherFile": "Andere Datei wählen",
+    "applyButton": "Diese Daten verwenden"
+  },
+  "importCoverLetter": {
+    "buttonLabel": "Anschreiben importieren",
+    "title": "Anschreiben importieren",
+    "description": "Laden Sie ein vorhandenes Anschreiben (PDF oder Word) hoch, und wir füllen Ihre Angaben automatisch aus.",
+    "chooseFileButton": "Datei auswählen",
+    "noFileChosen": "Keine Datei ausgewählt",
+    "importButton": "Importieren",
+    "unsupportedFileType": "Es werden nur PDF- und Word-Dateien (.docx) unterstützt.",
+    "fileTooLarge": "Diese Datei ist zum Importieren zu groß.",
+    "reviewDescription": "Dadurch wird das Anschreiben ersetzt, das Sie gerade bearbeiten. Das haben wir gefunden:",
+    "nothingFound": "In dieser Datei konnten wir keine Anschreiben-Inhalte finden.",
     "chooseAnotherFile": "Andere Datei wählen",
     "applyButton": "Diese Daten verwenden"
   },

@@ -564,6 +564,12 @@
     "importParsingFailed": "We couldn't read that file. Make sure it isn't corrupted, password-protected, or a scanned image.",
     "importUnavailable": "Resume import isn't set up right now.",
     "resumeImportFailed": "We couldn't import that resume. Please try again.",
+    "missingImportCoverLetterFile": "Please choose a cover letter file to import.",
+    "invalidImportCoverLetterFileType": "Only PDF and Word (.docx) files are supported.",
+    "importCoverLetterFileTooLarge": "That file is too large to import.",
+    "importCoverLetterParsingFailed": "We couldn't read that file. Make sure it isn't corrupted, password-protected, or a scanned image.",
+    "importCoverLetterUnavailable": "Cover letter import isn't set up right now.",
+    "coverLetterImportFailed": "We couldn't import that cover letter. Please try again.",
     "unauthorized": "Unauthorized.",
     "cleanupQueryFailed": "Failed to query stale accounts for cleanup."
   },
@@ -613,6 +619,20 @@
     "fileTooLarge": "That file is too large to import.",
     "reviewDescription": "This will replace the resume you're currently editing. Here's what we found:",
     "nothingFound": "We couldn't find any resume content in that file.",
+    "chooseAnotherFile": "Choose a Different File",
+    "applyButton": "Use This Data"
+  },
+  "importCoverLetter": {
+    "buttonLabel": "Import Cover Letter",
+    "title": "Import Cover Letter",
+    "description": "Upload an existing cover letter (PDF or Word) and we'll fill in your details automatically.",
+    "chooseFileButton": "Choose File",
+    "noFileChosen": "No file chosen",
+    "importButton": "Import",
+    "unsupportedFileType": "Only PDF and Word (.docx) files are supported.",
+    "fileTooLarge": "That file is too large to import.",
+    "reviewDescription": "This will replace the cover letter you're currently editing. Here's what we found:",
+    "nothingFound": "We couldn't find any cover letter content in that file.",
     "chooseAnotherFile": "Choose a Different File",
     "applyButton": "Use This Data"
   },

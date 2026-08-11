@@ -4,8 +4,6 @@ import type { FontSizeKey } from "@/lib/fontSize";
 import type { ModernSectionZones, ResumeData, SectionKey } from "@/lib/resumeData";
 import type { TemplateId } from "@/lib/templates";
 
-export type ImportFileType = "pdf" | "docx";
-
 export type WorkEntryFieldKey = "position" | "dateFrom" | "dateTo" | "location" | "jobDescription";
 export type EducationEntryFieldKey =
   | "school"

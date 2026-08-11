@@ -564,6 +564,12 @@
     "importParsingFailed": "Tento soubor se nepodařilo přečíst. Ujistěte se, že není poškozený, chráněný heslem ani naskenovaný jako obrázek.",
     "importUnavailable": "Import životopisu momentálně není k dispozici.",
     "resumeImportFailed": "Tento životopis se nepodařilo importovat. Zkuste to prosím znovu.",
+    "missingImportCoverLetterFile": "Vyberte prosím soubor motivačního dopisu k importu.",
+    "invalidImportCoverLetterFileType": "Podporovány jsou pouze soubory PDF a Word (.docx).",
+    "importCoverLetterFileTooLarge": "Tento soubor je pro import příliš velký.",
+    "importCoverLetterParsingFailed": "Tento soubor se nepodařilo přečíst. Ujistěte se, že není poškozený, chráněný heslem ani naskenovaný jako obrázek.",
+    "importCoverLetterUnavailable": "Import motivačního dopisu momentálně není k dispozici.",
+    "coverLetterImportFailed": "Tento motivační dopis se nepodařilo importovat. Zkuste to prosím znovu.",
     "unauthorized": "Neautorizováno.",
     "cleanupQueryFailed": "Nepodařilo se načíst neaktivní účty k vyčištění."
   },
@@ -613,6 +619,20 @@
     "fileTooLarge": "Tento soubor je pro import příliš velký.",
     "reviewDescription": "Tímto nahradíte životopis, který právě upravujete. Tohle jsme našli:",
     "nothingFound": "V tomto souboru se nám nepodařilo najít žádný obsah životopisu.",
+    "chooseAnotherFile": "Vybrat jiný soubor",
+    "applyButton": "Použít tato data"
+  },
+  "importCoverLetter": {
+    "buttonLabel": "Importovat motivační dopis",
+    "title": "Importovat motivační dopis",
+    "description": "Nahrajte existující motivační dopis (PDF nebo Word) a my automaticky vyplníme vaše údaje.",
+    "chooseFileButton": "Vybrat soubor",
+    "noFileChosen": "Není vybrán žádný soubor",
+    "importButton": "Importovat",
+    "unsupportedFileType": "Podporovány jsou pouze soubory PDF a Word (.docx).",
+    "fileTooLarge": "Tento soubor je pro import příliš velký.",
+    "reviewDescription": "Tímto nahradíte motivační dopis, který právě upravujete. Tohle jsme našli:",
+    "nothingFound": "V tomto souboru se nám nepodařilo najít žádný obsah motivačního dopisu.",
     "chooseAnotherFile": "Vybrat jiný soubor",
     "applyButton": "Použít tato data"
   },

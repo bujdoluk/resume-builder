@@ -564,6 +564,12 @@
     "importParsingFailed": "Não foi possível ler esse arquivo. Verifique se ele não está corrompido, protegido por senha ou é uma imagem digitalizada.",
     "importUnavailable": "A importação de currículo não está configurada no momento.",
     "resumeImportFailed": "Não foi possível importar esse currículo. Tente novamente.",
+    "missingImportCoverLetterFile": "Selecione um arquivo de carta de apresentação para importar.",
+    "invalidImportCoverLetterFileType": "Apenas arquivos PDF e Word (.docx) são compatíveis.",
+    "importCoverLetterFileTooLarge": "Esse arquivo é grande demais para importar.",
+    "importCoverLetterParsingFailed": "Não foi possível ler esse arquivo. Verifique se ele não está corrompido, protegido por senha ou é uma imagem digitalizada.",
+    "importCoverLetterUnavailable": "A importação de carta de apresentação não está configurada no momento.",
+    "coverLetterImportFailed": "Não foi possível importar essa carta de apresentação. Tente novamente.",
     "unauthorized": "Não autorizado.",
     "cleanupQueryFailed": "Não foi possível consultar as contas inativas para limpeza."
   },
@@ -613,6 +619,20 @@
     "fileTooLarge": "Esse arquivo é grande demais para importar.",
     "reviewDescription": "Isso substituirá o currículo que você está editando. Veja o que encontramos:",
     "nothingFound": "Não encontramos nenhum conteúdo de currículo nesse arquivo.",
+    "chooseAnotherFile": "Escolher outro arquivo",
+    "applyButton": "Usar estes dados"
+  },
+  "importCoverLetter": {
+    "buttonLabel": "Importar carta de apresentação",
+    "title": "Importar carta de apresentação",
+    "description": "Envie uma carta de apresentação existente (PDF ou Word) e preencheremos seus dados automaticamente.",
+    "chooseFileButton": "Escolher arquivo",
+    "noFileChosen": "Nenhum arquivo selecionado",
+    "importButton": "Importar",
+    "unsupportedFileType": "Apenas arquivos PDF e Word (.docx) são compatíveis.",
+    "fileTooLarge": "Esse arquivo é grande demais para importar.",
+    "reviewDescription": "Isso substituirá a carta de apresentação que você está editando. Veja o que encontramos:",
+    "nothingFound": "Não encontramos nenhum conteúdo de carta de apresentação nesse arquivo.",
     "chooseAnotherFile": "Escolher outro arquivo",
     "applyButton": "Usar estes dados"
   },

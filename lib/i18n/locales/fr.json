@@ -564,6 +564,12 @@
     "importParsingFailed": "Nous n'avons pas pu lire ce fichier. Vérifiez qu'il n'est ni corrompu, ni protégé par mot de passe, ni une image numérisée.",
     "importUnavailable": "L'import de CV n'est pas configuré pour le moment.",
     "resumeImportFailed": "Nous n'avons pas pu importer ce CV. Veuillez réessayer.",
+    "missingImportCoverLetterFile": "Veuillez choisir un fichier de lettre de motivation à importer.",
+    "invalidImportCoverLetterFileType": "Seuls les fichiers PDF et Word (.docx) sont pris en charge.",
+    "importCoverLetterFileTooLarge": "Ce fichier est trop volumineux pour être importé.",
+    "importCoverLetterParsingFailed": "Nous n'avons pas pu lire ce fichier. Vérifiez qu'il n'est ni corrompu, ni protégé par mot de passe, ni une image numérisée.",
+    "importCoverLetterUnavailable": "L'import de lettre de motivation n'est pas configuré pour le moment.",
+    "coverLetterImportFailed": "Nous n'avons pas pu importer cette lettre de motivation. Veuillez réessayer.",
     "unauthorized": "Non autorisé.",
     "cleanupQueryFailed": "Échec de la recherche des comptes obsolètes à nettoyer."
   },
@@ -613,6 +619,20 @@
     "fileTooLarge": "Ce fichier est trop volumineux pour être importé.",
     "reviewDescription": "Cela remplacera le CV que vous êtes en train de modifier. Voici ce que nous avons trouvé :",
     "nothingFound": "Nous n'avons trouvé aucun contenu de CV dans ce fichier.",
+    "chooseAnotherFile": "Choisir un autre fichier",
+    "applyButton": "Utiliser ces données"
+  },
+  "importCoverLetter": {
+    "buttonLabel": "Importer une lettre de motivation",
+    "title": "Importer une lettre de motivation",
+    "description": "Téléversez une lettre de motivation existante (PDF ou Word) et nous remplirons vos informations automatiquement.",
+    "chooseFileButton": "Choisir un fichier",
+    "noFileChosen": "Aucun fichier choisi",
+    "importButton": "Importer",
+    "unsupportedFileType": "Seuls les fichiers PDF et Word (.docx) sont pris en charge.",
+    "fileTooLarge": "Ce fichier est trop volumineux pour être importé.",
+    "reviewDescription": "Cela remplacera la lettre de motivation que vous êtes en train de modifier. Voici ce que nous avons trouvé :",
+    "nothingFound": "Nous n'avons trouvé aucun contenu de lettre de motivation dans ce fichier.",
     "chooseAnotherFile": "Choisir un autre fichier",
     "applyButton": "Utiliser ces données"
   },

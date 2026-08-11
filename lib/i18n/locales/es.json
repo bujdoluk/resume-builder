@@ -564,6 +564,12 @@
     "importParsingFailed": "No pudimos leer ese archivo. Asegúrate de que no esté dañado, protegido con contraseña ni sea una imagen escaneada.",
     "importUnavailable": "La importación de currículums no está configurada en este momento.",
     "resumeImportFailed": "No pudimos importar ese currículum. Inténtalo de nuevo.",
+    "missingImportCoverLetterFile": "Elige un archivo de carta de presentación para importar.",
+    "invalidImportCoverLetterFileType": "Solo se admiten archivos PDF y Word (.docx).",
+    "importCoverLetterFileTooLarge": "Ese archivo es demasiado grande para importarlo.",
+    "importCoverLetterParsingFailed": "No pudimos leer ese archivo. Asegúrate de que no esté dañado, protegido con contraseña ni sea una imagen escaneada.",
+    "importCoverLetterUnavailable": "La importación de cartas de presentación no está configurada en este momento.",
+    "coverLetterImportFailed": "No pudimos importar esa carta de presentación. Inténtalo de nuevo.",
     "unauthorized": "No autorizado.",
     "cleanupQueryFailed": "No se pudieron consultar las cuentas obsoletas para su limpieza."
   },
@@ -613,6 +619,20 @@
     "fileTooLarge": "Ese archivo es demasiado grande para importarlo.",
     "reviewDescription": "Esto reemplazará el currículum que estás editando. Esto es lo que encontramos:",
     "nothingFound": "No pudimos encontrar contenido de currículum en ese archivo.",
+    "chooseAnotherFile": "Elegir otro archivo",
+    "applyButton": "Usar estos datos"
+  },
+  "importCoverLetter": {
+    "buttonLabel": "Importar carta de presentación",
+    "title": "Importar carta de presentación",
+    "description": "Sube una carta de presentación existente (PDF o Word) y completaremos tus datos automáticamente.",
+    "chooseFileButton": "Elegir archivo",
+    "noFileChosen": "Ningún archivo elegido",
+    "importButton": "Importar",
+    "unsupportedFileType": "Solo se admiten archivos PDF y Word (.docx).",
+    "fileTooLarge": "Ese archivo es demasiado grande para importarlo.",
+    "reviewDescription": "Esto reemplazará la carta de presentación que estás editando. Esto es lo que encontramos:",
+    "nothingFound": "No pudimos encontrar contenido de carta de presentación en ese archivo.",
     "chooseAnotherFile": "Elegir otro archivo",
     "applyButton": "Usar estos datos"
   },

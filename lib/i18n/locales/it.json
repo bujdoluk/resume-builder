@@ -564,6 +564,12 @@
     "importParsingFailed": "Non siamo riusciti a leggere questo file. Assicurati che non sia danneggiato, protetto da password o un'immagine scansionata.",
     "importUnavailable": "L'importazione del curriculum non è configurata al momento.",
     "resumeImportFailed": "Non siamo riusciti a importare questo curriculum. Riprova.",
+    "missingImportCoverLetterFile": "Scegli un file di lettera di presentazione da importare.",
+    "invalidImportCoverLetterFileType": "Sono supportati solo i file PDF e Word (.docx).",
+    "importCoverLetterFileTooLarge": "Questo file è troppo grande per essere importato.",
+    "importCoverLetterParsingFailed": "Non siamo riusciti a leggere questo file. Assicurati che non sia danneggiato, protetto da password o un'immagine scansionata.",
+    "importCoverLetterUnavailable": "L'importazione della lettera di presentazione non è configurata al momento.",
+    "coverLetterImportFailed": "Non siamo riusciti a importare questa lettera di presentazione. Riprova.",
     "unauthorized": "Non autorizzato.",
     "cleanupQueryFailed": "Impossibile recuperare gli account obsoleti da eliminare."
   },
@@ -613,6 +619,20 @@
     "fileTooLarge": "Questo file è troppo grande per essere importato.",
     "reviewDescription": "Questo sostituirà il curriculum che stai modificando. Ecco cosa abbiamo trovato:",
     "nothingFound": "Non siamo riusciti a trovare contenuti del curriculum in questo file.",
+    "chooseAnotherFile": "Scegli un altro file",
+    "applyButton": "Usa questi dati"
+  },
+  "importCoverLetter": {
+    "buttonLabel": "Importa lettera di presentazione",
+    "title": "Importa lettera di presentazione",
+    "description": "Carica una lettera di presentazione esistente (PDF o Word) e compileremo automaticamente i tuoi dati.",
+    "chooseFileButton": "Scegli file",
+    "noFileChosen": "Nessun file scelto",
+    "importButton": "Importa",
+    "unsupportedFileType": "Sono supportati solo i file PDF e Word (.docx).",
+    "fileTooLarge": "Questo file è troppo grande per essere importato.",
+    "reviewDescription": "Questo sostituirà la lettera di presentazione che stai modificando. Ecco cosa abbiamo trovato:",
+    "nothingFound": "Non siamo riusciti a trovare contenuti della lettera di presentazione in questo file.",
     "chooseAnotherFile": "Scegli un altro file",
     "applyButton": "Usa questi dati"
   },

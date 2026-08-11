@@ -564,6 +564,12 @@
     "importParsingFailed": "Vi kunde inte läsa filen. Kontrollera att den inte är skadad, lösenordsskyddad eller en skannad bild.",
     "importUnavailable": "CV-import är inte konfigurerad just nu.",
     "resumeImportFailed": "Vi kunde inte importera det CV:t. Försök igen.",
+    "missingImportCoverLetterFile": "Välj en fil med personligt brev att importera.",
+    "invalidImportCoverLetterFileType": "Endast PDF- och Word-filer (.docx) stöds.",
+    "importCoverLetterFileTooLarge": "Den filen är för stor för att importeras.",
+    "importCoverLetterParsingFailed": "Vi kunde inte läsa filen. Kontrollera att den inte är skadad, lösenordsskyddad eller en skannad bild.",
+    "importCoverLetterUnavailable": "Import av personligt brev är inte konfigurerad just nu.",
+    "coverLetterImportFailed": "Vi kunde inte importera det personliga brevet. Försök igen.",
     "unauthorized": "Ej auktoriserad.",
     "cleanupQueryFailed": "Det gick inte att hämta inaktuella konton för rensning."
   },
@@ -613,6 +619,20 @@
     "fileTooLarge": "Den filen är för stor för att importeras.",
     "reviewDescription": "Detta ersätter CV:t du redigerar just nu. Här är vad vi hittade:",
     "nothingFound": "Vi kunde inte hitta något CV-innehåll i den filen.",
+    "chooseAnotherFile": "Välj en annan fil",
+    "applyButton": "Använd dessa uppgifter"
+  },
+  "importCoverLetter": {
+    "buttonLabel": "Importera personligt brev",
+    "title": "Importera personligt brev",
+    "description": "Ladda upp ett befintligt personligt brev (PDF eller Word) så fyller vi i dina uppgifter automatiskt.",
+    "chooseFileButton": "Välj fil",
+    "noFileChosen": "Ingen fil vald",
+    "importButton": "Importera",
+    "unsupportedFileType": "Endast PDF- och Word-filer (.docx) stöds.",
+    "fileTooLarge": "Den filen är för stor för att importeras.",
+    "reviewDescription": "Detta ersätter det personliga brev du redigerar just nu. Här är vad vi hittade:",
+    "nothingFound": "Vi kunde inte hitta något innehåll för personligt brev i den filen.",
     "chooseAnotherFile": "Välj en annan fil",
     "applyButton": "Använd dessa uppgifter"
   },

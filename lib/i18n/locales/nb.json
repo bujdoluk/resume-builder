@@ -564,6 +564,12 @@
     "importParsingFailed": "Vi kunne ikke lese denne filen. Sørg for at den ikke er skadet, passordbeskyttet eller et skannet bilde.",
     "importUnavailable": "CV-import er ikke satt opp akkurat nå.",
     "resumeImportFailed": "Vi kunne ikke importere denne CV-en. Prøv igjen.",
+    "missingImportCoverLetterFile": "Velg en søknadsbrev-fil du vil importere.",
+    "invalidImportCoverLetterFileType": "Bare PDF- og Word-filer (.docx) støttes.",
+    "importCoverLetterFileTooLarge": "Denne filen er for stor til å importeres.",
+    "importCoverLetterParsingFailed": "Vi kunne ikke lese denne filen. Sørg for at den ikke er skadet, passordbeskyttet eller et skannet bilde.",
+    "importCoverLetterUnavailable": "Import av søknadsbrev er ikke satt opp akkurat nå.",
+    "coverLetterImportFailed": "Vi kunne ikke importere dette søknadsbrevet. Prøv igjen.",
     "unauthorized": "Ikke autorisert.",
     "cleanupQueryFailed": "Kunne ikke hente utdaterte kontoer for opprydding."
   },
@@ -613,6 +619,20 @@
     "fileTooLarge": "Denne filen er for stor til å importeres.",
     "reviewDescription": "Dette vil erstatte CV-en du redigerer nå. Her er hva vi fant:",
     "nothingFound": "Vi fant ikke noe CV-innhold i den filen.",
+    "chooseAnotherFile": "Velg en annen fil",
+    "applyButton": "Bruk disse dataene"
+  },
+  "importCoverLetter": {
+    "buttonLabel": "Importer søknadsbrev",
+    "title": "Importer søknadsbrev",
+    "description": "Last opp et eksisterende søknadsbrev (PDF eller Word), så fyller vi ut opplysningene dine automatisk.",
+    "chooseFileButton": "Velg fil",
+    "noFileChosen": "Ingen fil valgt",
+    "importButton": "Importer",
+    "unsupportedFileType": "Bare PDF- og Word-filer (.docx) støttes.",
+    "fileTooLarge": "Denne filen er for stor til å importeres.",
+    "reviewDescription": "Dette vil erstatte søknadsbrevet du redigerer nå. Her er hva vi fant:",
+    "nothingFound": "Vi fant ikke noe søknadsbrev-innhold i den filen.",
     "chooseAnotherFile": "Velg en annen fil",
     "applyButton": "Bruk disse dataene"
   },

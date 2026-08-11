@@ -4,15 +4,21 @@ import { useImperativeHandle, useRef, useState, type Ref } from "react";
 import { useTranslation } from "react-i18next";
 import { CheckIcon } from "@/components/Icons";
 import { useToast } from "@/components/Toast";
-import { requestResumeImport } from "@/lib/api/importResume";
+import { requestCoverLetterImport } from "@/lib/api/importCoverLetter";
 import { handleApiResponse } from "@/lib/apiResponse";
+import type { CoverLetterData } from "@/lib/coverLetterData";
+import { isCoverLetterFieldFilled } from "@/lib/coverLetterFields";
+import {
+  coverLetterSectionFieldKeys,
+  coverLetterSectionStepTitleKey,
+  type CoverLetterSectionKey,
+} from "@/lib/coverLetterSections";
 import { MAX_IMPORT_FILE_BYTES } from "@/lib/constants";
-import { sectionKeySchema, type ResumeData, type SectionKey } from "@/lib/resumeData";
 import { getAnonymousCaptchaToken } from "@/lib/supabase/invisibleCaptcha";
 import type { ImportFileType } from "@/types/documentImport";
 
-export interface ImportResumeDialogHandle {
-  open: () => Promise<ResumeData | null>;
+export interface ImportCoverLetterDialogHandle {
+  open: () => Promise<CoverLetterData | null>;
 }
 
 const ACCEPTED_EXTENSIONS: Record<ImportFileType, string> = {
@@ -43,34 +49,26 @@ function readAsBase64(file: File): Promise<string> {
   });
 }
 
-function populatedSections(data: ResumeData): SectionKey[] {
-  const arraySections: Partial<Record<SectionKey, unknown[]>> = {
-    workExperience: data.workExperience,
-    education: data.education,
-    skills: data.skills,
-    certifications: data.certifications,
-    languages: data.languages,
-    interests: data.interests,
-  };
-  return Object.entries(arraySections)
-    .filter(([, entries]) => (entries?.length ?? 0) > 0)
-    .map(([key]) => sectionKeySchema.parse(key));
+// A section counts as "found" if any of its fields came back non-empty —
+// unlike resume import, cover letter sections (sender/date/recipient/
+// subject/letter) already include the sender's personal info, so there's
+// no separate "personal info" badge needed here.
+function populatedSections(data: CoverLetterData): CoverLetterSectionKey[] {
+  return (Object.keys(coverLetterSectionFieldKeys) as CoverLetterSectionKey[]).filter((section) =>
+    coverLetterSectionFieldKeys[section].some((field) => isCoverLetterFieldFilled(field, data)),
+  );
 }
 
-function hasPersonalInfo(data: ResumeData): boolean {
-  return Boolean(data.name || data.jobTitle || data.email || data.phone || data.aboutMe);
-}
-
-export default function ImportResumeDialog({ ref }: { ref?: Ref<ImportResumeDialogHandle> }) {
+export default function ImportCoverLetterDialog({ ref }: { ref?: Ref<ImportCoverLetterDialogHandle> }) {
   const { t, i18n } = useTranslation();
   const { showToast } = useToast();
   const dialogRef = useRef<HTMLDialogElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const resolveRef = useRef<((data: ResumeData | null) => void) | null>(null);
+  const resolveRef = useRef<((data: CoverLetterData | null) => void) | null>(null);
 
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isImporting, setIsImporting] = useState(false);
-  const [importedData, setImportedData] = useState<ResumeData | null>(null);
+  const [importedData, setImportedData] = useState<CoverLetterData | null>(null);
 
   useImperativeHandle(ref, () => ({
     open() {
@@ -78,13 +76,13 @@ export default function ImportResumeDialog({ ref }: { ref?: Ref<ImportResumeDial
       setIsImporting(false);
       setImportedData(null);
       dialogRef.current?.showModal();
-      return new Promise<ResumeData | null>((resolve) => {
+      return new Promise<CoverLetterData | null>((resolve) => {
         resolveRef.current = resolve;
       });
     },
   }));
 
-  function finish(data: ResumeData | null) {
+  function finish(data: CoverLetterData | null) {
     dialogRef.current?.close();
     resolveRef.current?.(data);
     resolveRef.current = null;
@@ -96,11 +94,11 @@ export default function ImportResumeDialog({ ref }: { ref?: Ref<ImportResumeDial
     if (!file) return;
 
     if (!fileTypeFor(file)) {
-      showToast(t("importResume.unsupportedFileType"), "warning");
+      showToast(t("importCoverLetter.unsupportedFileType"), "warning");
       return;
     }
     if (file.size > MAX_IMPORT_FILE_BYTES) {
-      showToast(t("importResume.fileTooLarge"), "warning");
+      showToast(t("importCoverLetter.fileTooLarge"), "warning");
       return;
     }
     setSelectedFile(file);
@@ -115,8 +113,8 @@ export default function ImportResumeDialog({ ref }: { ref?: Ref<ImportResumeDial
     try {
       const fileBase64 = await readAsBase64(selectedFile);
       const captchaToken = await getAnonymousCaptchaToken();
-      const response = await requestResumeImport({ captchaToken, fileBase64, fileType }, i18n.language);
-      const result = await handleApiResponse<{ data: ResumeData }>(response, showToast, t);
+      const response = await requestCoverLetterImport({ captchaToken, fileBase64, fileType }, i18n.language);
+      const result = await handleApiResponse<{ data: CoverLetterData }>(response, showToast, t);
       if (result) setImportedData(result.data);
     } finally {
       setIsImporting(false);
@@ -124,17 +122,16 @@ export default function ImportResumeDialog({ ref }: { ref?: Ref<ImportResumeDial
   }
 
   const sections = importedData ? populatedSections(importedData) : [];
-  const foundPersonalInfo = importedData ? hasPersonalInfo(importedData) : false;
-  const foundNothing = importedData !== null && !foundPersonalInfo && sections.length === 0;
+  const foundNothing = importedData !== null && sections.length === 0;
 
   return (
     <dialog ref={dialogRef} className="modal">
       <div className="modal-box max-w-md">
-        <h3 className="text-lg font-bold">{t("importResume.title")}</h3>
+        <h3 className="text-lg font-bold">{t("importCoverLetter.title")}</h3>
 
         {!importedData ? (
           <>
-            <p className="text-base-content/60 mt-1 text-sm">{t("importResume.description")}</p>
+            <p className="text-base-content/60 mt-1 text-sm">{t("importCoverLetter.description")}</p>
 
             <div className="mt-4 flex items-center gap-2">
               <button
@@ -142,10 +139,10 @@ export default function ImportResumeDialog({ ref }: { ref?: Ref<ImportResumeDial
                 className="btn btn-outline btn-sm"
                 onClick={() => fileInputRef.current?.click()}
               >
-                {t("importResume.chooseFileButton")}
+                {t("importCoverLetter.chooseFileButton")}
               </button>
               <span className="text-sm opacity-70">
-                {selectedFile ? selectedFile.name : t("importResume.noFileChosen")}
+                {selectedFile ? selectedFile.name : t("importCoverLetter.noFileChosen")}
               </span>
               <input
                 ref={fileInputRef}
@@ -166,29 +163,27 @@ export default function ImportResumeDialog({ ref }: { ref?: Ref<ImportResumeDial
                 disabled={!selectedFile || isImporting}
                 onClick={handleImport}
               >
-                {isImporting ? <span className="loading loading-spinner loading-xs" /> : t("importResume.importButton")}
+                {isImporting ? (
+                  <span className="loading loading-spinner loading-xs" />
+                ) : (
+                  t("importCoverLetter.importButton")
+                )}
               </button>
             </div>
           </>
         ) : (
           <>
-            <p className="text-base-content/60 mt-1 text-sm">{t("importResume.reviewDescription")}</p>
+            <p className="text-base-content/60 mt-1 text-sm">{t("importCoverLetter.reviewDescription")}</p>
 
             <div className="mt-3">
               {foundNothing ? (
-                <p className="text-warning text-sm">{t("importResume.nothingFound")}</p>
+                <p className="text-warning text-sm">{t("importCoverLetter.nothingFound")}</p>
               ) : (
                 <div className="flex flex-wrap gap-1.5">
-                  {foundPersonalInfo && (
-                    <span className="badge badge-success badge-sm gap-1">
-                      <CheckIcon className="h-3 w-3 stroke-current" />
-                      {t("resumeSteps.personalInfo")}
-                    </span>
-                  )}
                   {sections.map((key) => (
                     <span key={key} className="badge badge-success badge-sm gap-1">
                       <CheckIcon className="h-3 w-3 stroke-current" />
-                      {t(`sections.${key}`)}
+                      {t(coverLetterSectionStepTitleKey[key])}
                     </span>
                   ))}
                 </div>
@@ -204,10 +199,10 @@ export default function ImportResumeDialog({ ref }: { ref?: Ref<ImportResumeDial
                   setSelectedFile(null);
                 }}
               >
-                {t("importResume.chooseAnotherFile")}
+                {t("importCoverLetter.chooseAnotherFile")}
               </button>
               <button type="button" className="btn btn-primary" onClick={() => finish(importedData)}>
-                {t("importResume.applyButton")}
+                {t("importCoverLetter.applyButton")}
               </button>
             </div>
           </>
