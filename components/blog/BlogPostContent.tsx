@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
@@ -98,7 +99,7 @@ export default function BlogPostContent({ post }: { post: BlogPost }) {
             {post.authorAvatarUrl ? (
               <div className="avatar">
                 <div className="w-9 rounded-full">
-                  <img src={post.authorAvatarUrl} alt={post.authorName} />
+                  <Image src={post.authorAvatarUrl} alt={post.authorName} width={36} height={36} />
                 </div>
               </div>
             ) : (

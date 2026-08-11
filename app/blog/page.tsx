@@ -2,8 +2,7 @@
 import type { Metadata } from "next";
 import Footer from "@/components/landing-page/Footer";
 import BlogPageContent from "@/components/blog/BlogPageContent";
-import { createClient } from "@/lib/supabase/server";
-import { getBlogPosts } from "@/lib/supabase/blogPosts";
+import { getCachedBlogPosts } from "@/lib/supabase/blogPosts";
 
 const title = "Blog — QuickResumeBuilder.online";
 const description = "Resume tips, job search advice, and career guides.";
@@ -29,8 +28,7 @@ export const metadata: Metadata = {
 };
 
 export default async function Page() {
-  const supabase = await createClient();
-  const posts = await getBlogPosts(supabase);
+  const posts = await getCachedBlogPosts();
 
   return (
     <div className="flex min-h-full flex-col">

@@ -8,6 +8,10 @@ import { buildSecurityHeaders } from "./lib/securityHeaders";
 const nextConfig: NextConfig = {
   allowedDevOrigins: ["dev.quickresumebuilder.online"],
 
+  images: {
+    remotePatterns: [{ protocol: "https", hostname: "**" }],
+  },
+
   async headers() {
     return [
       {

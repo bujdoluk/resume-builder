@@ -14,19 +14,7 @@ import sk from "@/lib/i18n/locales/sk.json";
 import sv from "@/lib/i18n/locales/sv.json";
 
 const RESOURCES: Record<string, { apiErrors: Record<string, string> }> = {
-  en,
-  sk,
-  cs,
-  de,
-  pl,
-  pt,
-  ru,
-  es,
-  it,
-  fr,
-  sv,
-  nb,
-  nl,
+  en, sk, cs, de, pl, pt, ru, es, it, fr, sv, nb, nl,
 };
 
 export type ApiErrorKey = keyof typeof en.apiErrors;

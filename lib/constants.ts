@@ -110,3 +110,11 @@ export const RATE_LIMIT_SHARED_DOCUMENT_WINDOW = "10 m";
 // link stays valid before getResumeByShareToken/getCoverLetterByShareToken
 // stop returning a match for it (same as an invalid/unknown token).
 export const SHARE_LINK_EXPIRATION_DAYS = 30;
+
+// lib/supabase/blogPosts.ts's unstable_cache-wrapped reads, tagged so
+// app/api/blog/route.ts and app/api/blog/[id]/route.ts can invalidate them
+// with revalidateTag() right after a successful admin write — kept as one
+// shared constant so the tag used to cache and the tag used to invalidate
+// can't drift apart.
+export const BLOG_POSTS_CACHE_TAG = "blog-posts";
+export const BLOG_POSTS_CACHE_REVALIDATE_SECONDS = 3600;

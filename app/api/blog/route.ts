@@ -1,9 +1,10 @@
 
+import { revalidateTag } from "next/cache";
 import { requireAdmin } from "@/lib/adminAuth";
 import { errorResponse } from "@/lib/apiErrors";
 import { validateBody } from "@/lib/apiValidation";
 import { AUDIT_ACTIONS, logAuditEvent } from "@/lib/auditLog";
-import { HTTP_BAD_REQUEST, HTTP_INTERNAL_SERVER_ERROR } from "@/lib/constants";
+import { BLOG_POSTS_CACHE_TAG, HTTP_BAD_REQUEST, HTTP_INTERNAL_SERVER_ERROR } from "@/lib/constants";
 import { createClient } from "@/lib/supabase/server";
 import { createBlogPost } from "@/lib/supabase/blogPosts";
 import { blogPostBodySchema } from "@/lib/validation/blog";
@@ -40,6 +41,7 @@ export async function POST(request: Request) {
       target: post.slug,
       metadata: { title: post.title, category: post.category },
     });
+    revalidateTag(BLOG_POSTS_CACHE_TAG, "max");
     return Response.json({ post });
   } catch {
     return errorResponse(HTTP_INTERNAL_SERVER_ERROR, "failedToCreatePost", request);

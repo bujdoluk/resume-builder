@@ -8,6 +8,7 @@ const mocks = vi.hoisted(() => ({
   updateBlogPost: vi.fn(),
   deleteBlogPost: vi.fn(),
   logAuditEvent: vi.fn(),
+  revalidateTag: vi.fn(),
 }));
 
 vi.mock("@/lib/supabase/server", () => ({
@@ -16,9 +17,11 @@ vi.mock("@/lib/supabase/server", () => ({
   }),
 }));
 
-// Keeps the real `blogCategories` list (so category validation stays in
-// sync with the actual module) while replacing only the Supabase-backed
-// write.
+vi.mock("next/cache", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("next/cache")>();
+  return { ...actual, revalidateTag: mocks.revalidateTag };
+});
+
 vi.mock("@/lib/supabase/blogPosts", async (importOriginal) => {
   const actual = await importOriginal<typeof import("@/lib/supabase/blogPosts")>();
   return {
@@ -29,8 +32,6 @@ vi.mock("@/lib/supabase/blogPosts", async (importOriginal) => {
   };
 });
 
-// Keeps the real AUDIT_ACTIONS constants (so assertions below check the
-// real action string) while replacing only the Supabase-backed write.
 vi.mock("@/lib/auditLog", async (importOriginal) => {
   const actual = await importOriginal<typeof import("@/lib/auditLog")>();
   return { ...actual, logAuditEvent: mocks.logAuditEvent };

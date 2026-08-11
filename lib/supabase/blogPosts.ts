@@ -1,8 +1,10 @@
 
 import type { SupabaseClient } from "@supabase/supabase-js";
+import { unstable_cache } from "next/cache";
 import { Temporal } from "temporal-polyfill";
-import { MAX_SLUG_ATTEMPTS } from "@/lib/constants";
+import { BLOG_POSTS_CACHE_TAG, BLOG_POSTS_CACHE_REVALIDATE_SECONDS, MAX_SLUG_ATTEMPTS } from "@/lib/constants";
 import type { Database, Tables } from "@/lib/supabase/database.types";
+import { createServiceRoleClient } from "@/lib/supabase/serviceRole";
 import type { Blog, BlogCategoryKey, BlogPost } from "@/types/blog";
 
 export const blogCategories: BlogCategoryKey[] = [
@@ -87,6 +89,18 @@ export async function getBlogPostBySlug(
   if (error) throw error;
   return data ? mapRow(data as BlogPostSelectedRow) : null;
 }
+
+export const getCachedBlogPosts = unstable_cache(
+  () => getBlogPosts(createServiceRoleClient()),
+  ["blog-posts"],
+  { tags: [BLOG_POSTS_CACHE_TAG], revalidate: BLOG_POSTS_CACHE_REVALIDATE_SECONDS },
+);
+
+export const getCachedBlogPostBySlug = unstable_cache(
+  (slug: string) => getBlogPostBySlug(createServiceRoleClient(), slug),
+  ["blog-post-by-slug"],
+  { tags: [BLOG_POSTS_CACHE_TAG], revalidate: BLOG_POSTS_CACHE_REVALIDATE_SECONDS },
+);
 
 function slugify(title: string): string {
   return title.toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "") || "post";

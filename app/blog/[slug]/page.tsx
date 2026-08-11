@@ -3,15 +3,13 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Footer from "@/components/landing-page/Footer";
 import BlogPostContent from "@/components/blog/BlogPostContent";
-import { createClient } from "@/lib/supabase/server";
-import { getBlogPostBySlug } from "@/lib/supabase/blogPosts";
+import { getCachedBlogPostBySlug } from "@/lib/supabase/blogPosts";
 
 export async function generateMetadata(
   props: PageProps<"/blog/[slug]">,
 ): Promise<Metadata> {
   const { slug } = await props.params;
-  const supabase = await createClient();
-  const post = await getBlogPostBySlug(supabase, slug);
+  const post = await getCachedBlogPostBySlug(slug);
   if (!post) return {};
 
   const title = `${post.title} — QuickResumeBuilder.online`;
@@ -40,8 +38,7 @@ export async function generateMetadata(
 
 export default async function Page(props: PageProps<"/blog/[slug]">) {
   const { slug } = await props.params;
-  const supabase = await createClient();
-  const post = await getBlogPostBySlug(supabase, slug);
+  const post = await getCachedBlogPostBySlug(slug);
   if (!post) notFound();
 
   return (
