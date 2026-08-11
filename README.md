@@ -299,6 +299,7 @@ Afterward, update `.release-manifest.json` to match the new version and commit i
 - `npm run test:coverage` — Vitest single run with a v8 coverage report.
 - `npm run test:e2e` / `npm run test:e2e:headed` — Playwright, headless / visible browser.
 - `npm run db:types` — regenerates `lib/supabase/database.types.ts` from the live schema (needs `supabase login` first — see Database setup above).
+- `npm run analyze` — opens Next's Turbopack-integrated bundle analyzer (`next experimental-analyze`) in the browser to inspect client/server bundle composition and import chains. Pass `-- --output` to write a static report to `.next/diagnostics/analyze` instead of starting the server.
 
 ## Learn More
 Built with Next.js 16, React 19, Tailwind CSS v4, and daisyUI 5. See the [Next.js Documentation](https://nextjs.org/docs) for framework details.

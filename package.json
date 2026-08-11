@@ -18,7 +18,8 @@
     "test:e2e": "playwright test",
     "test:e2e:headed": "playwright test --headed",
     "prepare": "husky",
-    "db:types": "npx supabase gen types typescript --project-id xjgpwpiievwgjqjoewhr --schema public > lib/supabase/database.types.ts"
+    "db:types": "npx supabase gen types typescript --project-id xjgpwpiievwgjqjoewhr --schema public > lib/supabase/database.types.ts",
+    "analyze": "next experimental-analyze"
   },
   "lint-staged": {
     "*.{js,jsx,mjs,ts,tsx}": "eslint --fix"
