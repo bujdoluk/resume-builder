@@ -2,7 +2,7 @@
 
 **Live:** [www.quickresumebuilder.online](https://www.quickresumebuilder.online)
 
-A free, in-browser resume and cover letter builder built with Next.js. Fill in your details, see a live preview, and export to PDF, Word, or plain text — no account required, though logging in syncs your saved documents across devices.
+A free, in-browser resume and cover letter builder. Fill in your details, see a live preview, and export to PDF, Word, or plain text — no account required, though logging in syncs your documents across devices.
 
 |                                                    |                                                            |                                                              |
 | -------------------------------------------------- | ---------------------------------------------------------- | ------------------------------------------------------------ |
@@ -13,80 +13,22 @@ A free, in-browser resume and cover letter builder built with Next.js. Fill in y
 
 ## Features
 
-### Resume Builder
-- Five templates
-- Live drag-and-drop editing
-- Completion tracking
-- Save & manage resumes
-- Recently Deleted (restore or permanently delete)
-- New Resume
-
-### Cover Letter Builder
-- Two templates
-- Five draggable sections
-- Completion tracking
-- Save & manage cover letters
-- Recently Deleted (restore or permanently delete)
-
-### Shared across both builders
-- Customization navbar (colour, font, size, field/section visibility)
-- Custom field
-- Export to PDF, Word, or plain text
-- Print & full-page preview
-- Email export
-- Shareable links
+- Resume builder (5 templates) and cover letter builder (2 templates), both with drag-and-drop sections, completion tracking, and save/restore/delete
+- Customization: colour, font, size, field visibility, custom fields
+- Export to PDF, Word, or plain text; print, email, and shareable links
+- ATS Checker — format check, keyword match, and an AI coherence check (Groq)
 - 13 languages
-- ATS Checker (format check, keyword match, AI coherence check)
-
-### Accounts & Authentication
-- Anonymous by default
-- Email/password or Google login
-- Remember me
-- Password reset
-- hCaptcha
-- Account page (profile, data export, account deletion)
-
-### Subscriptions & Billing
-- Free / Pro / Annual plans
-- Stripe Checkout
-- Free-tier limit prompt
-- Self-service billing (view plan, cancel/resume)
-- Webhook-driven subscription state
-
-### Support
-- Support page
-- Tawk.to live chat
-
-### Privacy & feedback
-- Cookie consent banner
-- Privacy Policy & Terms of Service
-- Toast notifications
-
-### Marketing site
-- Landing page
-- Blog (admin create/edit/delete, public reading)
-
-### Role-based authorization
-- Admin role (RLS-enforced)
-- Mandatory 2FA for admins
-
-### Security & monitoring
-- Security headers (CSP, HSTS, and friends)
-- Error monitoring (Sentry)
-- Config health check
-- Health check (DB, Redis)
-- Audit log (admin actions, account deletion, subscription changes)
-- Dependency vulnerability scanning
-- Automatic cleanup of abandoned anonymous accounts
-- Migrations gated in the deploy pipeline
+- Anonymous by default, or sign in with email/password or Google
+- Stripe subscriptions (Free / Pro / Annual)
+- Admin blog with role-based access and mandatory 2FA
+- Security headers, Sentry error tracking, health checks, audit log
 
 ## Prerequisites
-- [Node.js](https://nodejs.org) `>=24.19.0` (pinned in `.nvmrc`/`package.json`'s `engines` — run `nvm use` if you use nvm)
-- npm (bundled with Node.js)
-- Git
-- A [Supabase](https://supabase.com) project — the only required external service; everything else (Resend, Stripe, Tawk.to, hCaptcha, Upstash, Groq) is optional and fails gracefully when unset
+- [Node.js](https://nodejs.org) `>=24.19.0` (pinned in `.nvmrc` — run `nvm use`)
+- npm, Git
+- A [Supabase](https://supabase.com) project — the only required external service. Everything else (Resend, Stripe, Tawk.to, hCaptcha, Upstash, Groq) is optional and the app degrades gracefully without it.
 
-## How to Run
+## Getting Started
 
 ```bash
 git clone https://github.com/bujdoluk/resume-builder.git
@@ -96,210 +38,132 @@ cp .env.example .env.local
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000).
+Open [http://localhost:3000](http://localhost:3000), then fill in your Supabase credentials in `.env.local`. Add the optional integrations below as you need them.
 
-Fill in your Supabase credentials in `.env.local`, then add the optional integrations incrementally — see the setup subsections below for each.
+**VS Code:** open `resume-builder.code-workspace` for recommended extensions and shared editor settings.
 
-**Editor setup (optional):** open `resume-builder.code-workspace` in VS Code (**File → Open Workspace from File…**) for the project's recommended extensions and shared editor settings (2-space/LF/trim-whitespace to match `.editorconfig`, ESLint fix-on-save, the workspace's own pinned TypeScript version).
-
-### Auth setup (Supabase Dashboard)
-- **Google sign-in** — create an OAuth client in [Google Cloud Console](https://console.cloud.google.com/auth/clients/create), add the Client ID/Secret under **Authentication → Providers → Google**, and enable **manual linking** there too.
-- **Redirect URLs** — under **Authentication → URL Configuration**, add both your local (`http://localhost:3000/auth/callback`) and production callback URLs, and set **Site URL** to your production domain.
-- **Email delivery** — Supabase's built-in email is dev-only/rate-limited. For real emails, point custom SMTP (**Authentication → Emails → SMTP Settings**) at `smtp.resend.com` using your `RESEND_API_KEY`.
-
-### Database setup (Supabase)
-For a brand-new project, run every file under `supabase/migrations/` in order (`0001`–`0014`) once via the Supabase SQL Editor to establish the baseline schema. From then on, new migrations apply themselves: `.github/workflows/prod.yml`'s `migrate` job runs `supabase db push` against production on every push to `main`, *before* the `deploy` job runs — a failing migration blocks the deploy instead of shipping code the schema doesn't support yet. This needs a `SUPABASE_DB_URL` **repository secret** (Settings → Secrets and variables → Actions) — the project's **Session pooler** Postgres connection string from Project Settings → Database → Connection string → URI (username `postgres.<project-ref>`, port `5432`). Not the Direct connection — GitHub Actions runners have no outbound IPv6, and Supabase's direct-connection host is IPv6-only, so it fails with `ECONNREFUSED` from CI. Not the Transaction pooler either — its statement caching breaks some DDL patterns migrations need. Then set `SUPABASE_SERVICE_ROLE_KEY` (Project Settings → API) — never expose this to the browser.
-
-For local development against an existing project (or to adopt CI-driven migrations on a project whose schema was previously applied by hand), link the CLI once: `npx supabase login` (opens a browser, needs a [personal access token](https://supabase.com/dashboard/account/tokens)) then `npx supabase link --project-ref <ref>`. If the database already has migrations applied outside the CLI, run `npx supabase migration repair --status applied <versions...>` to mark them applied in Supabase's remote history table *without* re-running their SQL, then confirm with `npx supabase migration list` that nothing is pending before relying on `db push`.
-
-After adding a migration, regenerate `lib/supabase/database.types.ts` so the app's TypeScript types stay in sync with the real schema: `npm run db:types` (uses the same CLI login as above). This overwrites the file with the CLI's real generated output, so don't hand-edit it — if the CLI login isn't available, hand-editing to match the migration SQL is the fallback, but the generated version is authoritative when you have it.
-
-`.github/workflows/db-types-check.yml` enforces this in CI — it regenerates the types and fails the build if they differ from what's committed (on push/PR touching `supabase/migrations/**` or the types file itself, plus a weekly cron to catch schema changes made directly in the Dashboard SQL Editor with no matching commit). It needs a `SUPABASE_ACCESS_TOKEN` **repository secret** (Settings → Secrets and variables → Actions) — a personal access token, same as the local login above, just stored for CI instead of on a developer's machine.
-
-### Billing setup (Stripe)
-1. Set `STRIPE_SECRET_KEY` in `.env.local`.
-2. Run `node scripts/setup-stripe.mjs` — creates the Pro Product/Prices and prints `STRIPE_PRICE_ID_MONTHLY`/`STRIPE_PRICE_ID_ANNUAL`.
-3. Run the [Stripe CLI](https://stripe.com/docs/stripe-cli) locally (`stripe listen --forward-to localhost:3000/api/stripe/webhook`) or add a production webhook endpoint listening for `checkout.session.completed`, `customer.subscription.updated`, `customer.subscription.deleted` — either way, set `STRIPE_WEBHOOK_SECRET`.
-4. Add all Stripe vars in your host's environment settings too (e.g. Vercel project settings), not just `.env.local`.
-
-### Support (Tawk.to)
-Sign up at [tawk.to](https://www.tawk.to), create a property, and set `NEXT_PUBLIC_TAWKTO_PROPERTY_ID`/`NEXT_PUBLIC_TAWKTO_WIDGET_ID` from the embed snippet's URL.
-
-### Error monitoring (Sentry)
-Create a project at [sentry.io](https://sentry.io), set `NEXT_PUBLIC_SENTRY_DSN` to enable client/server error reporting, and `SENTRY_ORG`/`SENTRY_PROJECT`/`SENTRY_AUTH_TOKEN` to also upload source maps at build time. Unset = Sentry is never initialized, matching every other optional integration here.
-
-### Blog admin setup
-1. Run migration `0006` (see Database setup).
-2. `node scripts/set-admin.mjs you@example.com` to grant yourself the admin role.
-3. Log out and back in — the role only lands in your session on login/refresh.
-4. Enroll two-factor authentication (see below) — admin routes 403 until you do.
-
-### Two-factor authentication (Admin)
-Admin routes require a completed 2FA challenge, not just the role claim (see Role-based authorization above).
-1. In **Supabase Dashboard → Authentication → Multi-Factor Authentication**, make sure TOTP is enabled — enrollment fails otherwise.
-2. Log in as the admin account, go to `/account`, and enroll under "Two-Factor Authentication" (an authenticator app like Google Authenticator, Microsoft Authenticator, Authy, or 1Password is required — scan the QR code or paste the setup key manually, then confirm with the 6-digit code it generates).
-3. From then on, both password and Google login prompt for a fresh code from that app before reaching admin-gated pages.
-4. Lost the device? `node scripts/reset-admin-mfa.mjs you@example.com` clears the factor (via service role) so you can re-enroll; it does not touch the admin role itself.
-
-### Bot protection (hCaptcha)
-1. Sign up at [hCaptcha](https://www.hcaptcha.com), add your domain(s), and grab the **Site Key**/**Secret Key**.
-2. Set `NEXT_PUBLIC_HCAPTCHA_SITE_KEY`.
-3. In **Supabase Dashboard → Authentication → Attack Protection**, enable CAPTCHA protection with the same **Secret Key**.
-4. Also set `HCAPTCHA_SECRET_KEY` — required separately because `/api/send-email` verifies it directly rather than through Supabase.
-
-### Rate limiting (Upstash Redis)
-Guards `/api/send-email`, `/api/account/export`/`delete`, `/api/stripe/checkout`/`cancel`, and the Groq-backed `/api/ats-coherence`/`/api/ai-rewrite` against abuse. Create a free database at [Upstash](https://upstash.com) and set `UPSTASH_REDIS_REST_URL`/`UPSTASH_REDIS_REST_TOKEN`. Unset = no limiting, not an error.
-
-### AI features (Groq)
-Powers the ATS Checker's optional "Check Coherence" button and the "Rewrite with AI" button on resume/cover letter text fields. Sign up at [console.groq.com](https://console.groq.com) and set `GROQ_API_KEY`. Unset shows a clear "not configured" message instead of failing silently. Note: Groq's free tier (30 req/min, 14,400/day) is shared across your whole app, not per-user — fine for occasional use, worth watching under real traffic.
-
-### Scheduled cleanup (Cron)
-A daily [Vercel Cron Job](https://vercel.com/docs/cron-jobs) (configured in `vercel.json`) calls `/api/cron/cleanup-anonymous-users` to delete anonymous accounts older than `ANONYMOUS_ACCOUNT_RETENTION_DAYS` (`lib/constants.ts`, currently 7 days) that were never converted into a real account. Generate a random secret and set it as `CRON_SECRET` in your Vercel project's environment variables — Vercel then calls the endpoint on schedule and attaches it automatically as an `Authorization: Bearer` header, which the route requires (unlike this app's other optional integrations, it fails closed, not open, if unset — an unauthenticated request to this endpoint is rejected outright rather than silently skipped).
-
-### Production deploys (Vercel, via CI)
-Production deploys are triggered by `.github/workflows/prod.yml`'s `deploy` job, not by Vercel's git integration directly — that's deliberate: it lets the `migrate` job (see "Database setup" above) run first and block the deploy if it fails. Vercel's own git-triggered auto-deploy for `main` is disabled: Project Settings → Git → **Ignored Build Step** → `exit 0`, which makes Vercel always skip its own build and rely solely on the explicit `vercel deploy --prod` call from Actions. Three **repository secrets** are needed for that job: `VERCEL_TOKEN` (Vercel Dashboard → Account Settings → Tokens), and `VERCEL_ORG_ID`/`VERCEL_PROJECT_ID` (both readable from a local `vercel link`'s gitignored `.vercel/project.json`, or the project's Settings → General page).
+## Available Scripts
+- `npm run dev` — dev server (Turbopack)
+- `npm run build` / `npm run start` — production build / run it
+- `npm run lint` — ESLint
+- `npm test` / `npm run test:run` — Vitest, watch / single run
+- `npm run test:coverage` — Vitest with coverage report
+- `npm run test:e2e` / `npm run test:e2e:headed` — Playwright, headless / visible
+- `npm run db:types` — regenerate `lib/supabase/database.types.ts` (needs `supabase login`)
+- `npm run analyze` — bundle analyzer; add `-- --output` for a static report
 
 ## Project Structure
 
 ```
 .
-├── app/                            # App Router — pages + API route handlers
-│   ├── (app)/                      # Authenticated/app-shell routes (group, not part of the URL)
-│   │   ├── app/                    # /app — resume builder editor
-│   │   ├── cover-letter/           # /cover-letter — cover letter builder editor
-│   │   ├── my-resumes/             # /my-resumes — saved resumes (Active / Recently Deleted tabs, restore + permanent delete)
-│   │   ├── my-cover-letters/       # /my-cover-letters — saved cover letters (same restore UI)
-│   │   └── templates/              # /templates — template gallery
-│   ├── api/
-│   │   ├── account/{delete,export}/route.ts
-│   │   ├── admin/config-health/route.ts     # admin-only: which optional integrations are configured
-│   │   ├── ai-rewrite/route.ts              # Groq — "Rewrite with AI" button
-│   │   ├── ats-coherence/route.ts           # Groq — ATS Checker's "Check Coherence" button
-│   │   ├── blog/route.ts                    # admin-only blog post creation
-│   │   ├── blog/[id]/route.ts               # admin-only: edit (PATCH) / delete (DELETE) a post, both audit-logged
-│   │   ├── cron/cleanup-anonymous-users/route.ts
-│   │   ├── health/route.ts                  # public: DB + Redis liveness check for uptime monitors, no auth
-│   │   ├── send-email/route.ts              # Resend — email export (pdf/docx/txt)
-│   │   └── stripe/{cancel,checkout,webhook}/route.ts
-│   ├── account/ auth/callback/ billing/ blog/[slug]/ login/ privacy/ reset-password/ support/ terms/
-│   └── shared/{resume,cover-letter}/[token]/          # public, unauthenticated shareable-link view
-│       ├── page.tsx                # renders SharedDocumentView
-│       └── pdf/route.tsx           # streams the PDF via @react-pdf/renderer, rate-limited by IP
-├── components/                     # one feature folder per concern, plus a handful of app-wide primitives at the root
-│   ├── resumes/ cover-letter/      # builder pages, editing canvases, per-template desktop-templates/ + mobile-templates/
-│   ├── pdf/                        # @react-pdf/renderer templates — DownloadButton/EmailButton/the shared-link PDF routes
-│   ├── navbar/                     # customization dropdowns, AuthButton.tsx
-│   ├── landing-page/                # LandingPage.tsx, PricingSection.tsx
-│   ├── ai-tools/                    # AtsCheckerDialog.tsx, AiRewriteButton.tsx — shared across both builders
-│   ├── share/                      # ShareDialog.tsx (create/revoke a link), SharedDocumentView.tsx (public PDF preview)
-│   ├── blog/                       # BlogPageContent.tsx, BlogPostContent.tsx, BlogPostFormDialog.tsx (create + edit)
-│   ├── account/                    # AccountPage.tsx (incl. admin 2FA enrollment), BillingPage.tsx, SupportPage.tsx
-│   ├── auth/                       # LoginPage.tsx (incl. 2FA step-up prompt), ResetPasswordPage.tsx
-│   ├── sidebar/ preview/ exports/ cookies/ theme/ hcaptcha/ languages/
-│   └── AppState.tsx, Toast.tsx, SaveResumeDialog.tsx, ConfirmDialog.tsx, Sortable.tsx, Icons.tsx, ...
+├── app/                 # App Router — pages + API route handlers
+│   ├── (app)/            # /app, /cover-letter, /my-resumes, /my-cover-letters, /templates
+│   ├── api/               # account, admin, ai-rewrite, ats-coherence, blog, cron, health, send-email, stripe
+│   └── shared/            # public shareable-link view + PDF streaming
+├── components/          # one folder per feature area (resumes, cover-letter, pdf, navbar,
+│                         # landing-page, ai-tools, share, blog, account, auth, sidebar, ...)
 ├── lib/
-│   ├── resumeData.ts / coverLetterData.ts   # Zod schemas + schema-version scaffold (see schemaVersion.ts)
-│   ├── templates.ts / coverLetterTemplates.ts    # template ID registries
-│   ├── atsChecker/                 # format checklists, keyword matching, Groq coherence check
-│   ├── aiRewrite/                  # Groq — "Rewrite with AI"
-│   ├── adminAuth.ts                # requireAdmin() — role + 2FA gate for admin routes
-│   ├── auditLog.ts                 # logAuditEvent() — append-only audit trail (blog edits/deletes, account deletion,
-│   │                                # Stripe subscription events)
-│   ├── health.ts                   # checkDatabase()/checkRedis() — real dependency checks behind GET /api/health
-│   ├── shareLink.ts                # isShareLinkActive() — expiry check for shareable-link tokens
-│   ├── apiValidation.ts / validation/   # Zod request validation per API route
-│   ├── pdf/ docx/ text/            # the three export renderers per document type
-│   ├── email/                      # Resend-backed senders
-│   ├── supabase/                   # client.ts/server.ts/proxy.ts, serviceRole.ts, resumes.ts/coverLetters.ts,
-│   │                                # subscriptions.ts, blogPosts.ts, auth.ts (incl. TOTP)
-│   ├── i18n/                       # i18n.ts (app-wide) / i18nCore.ts (React-free, for PDF templates) / locales/ (13 files)
-│   ├── apiErrors.ts / apiResponse.ts   # localized, status-coded error/toast system
-│   ├── rateLimit.ts                # Upstash-backed rate limiter, fails open if unconfigured
-│   ├── securityHeaders.ts          # CSP/security-header construction, imported by next.config.ts
-│   ├── configHealth.ts             # boolean-only report of which optional integrations are configured
-│   └── constants.ts                # shared numeric constants (status codes, limits, timings)
-├── __tests__/                      # Vitest, mirrors the source tree (42 files as of this writing)
-├── e2e/                            # Playwright, real-browser user-journey flows
-├── supabase/migrations/            # 14 numbered SQL migrations, applied to production by prod.yml's `migrate` job
-├── scripts/                        # setup-stripe.mjs, set-admin.mjs, reset-admin-mfa.mjs, copy-pdf-worker.mjs (postinstall)
-├── public/                         # incl. pdf.worker.min.mjs (gitignored, generated by copy-pdf-worker.mjs)
-├── resume-builder.code-workspace   # shared VS Code workspace: recommended extensions + editor settings
-└── .github/workflows/              # dev.yml, prod.yml (checks → migrate → deploy), e2e.yml, release.yml, db-types-check.yml
+│   ├── resumeData.ts / coverLetterData.ts   # Zod schemas + schema versioning
+│   ├── templates.ts / coverLetterTemplates.ts
+│   ├── atsChecker/ aiRewrite/            # format checks, keyword matching, Groq calls
+│   ├── adminAuth.ts / auditLog.ts        # admin gate, audit trail
+│   ├── pdf/ docx/ text/                  # export renderers
+│   ├── supabase/                         # typed clients + table wrappers
+│   ├── i18n/                             # locales + i18next setup
+│   └── constants.ts
+├── __tests__/           # Vitest, mirrors the source tree
+├── e2e/                 # Playwright user-journey tests
+├── supabase/migrations/ # numbered SQL migrations
+├── scripts/             # setup-stripe, set-admin, reset-admin-mfa, copy-pdf-worker
+└── .github/workflows/   # dev, prod (checks → migrate → deploy), e2e, release, db-types-check
 ```
+
+## Setup
+
+### Auth (Supabase Dashboard)
+- **Google sign-in** — create an OAuth client in [Google Cloud Console](https://console.cloud.google.com/auth/clients/create), add the Client ID/Secret under Authentication → Providers → Google, and enable manual linking.
+- **Redirect URLs** — under Authentication → URL Configuration, add `http://localhost:3000/auth/callback` and your production callback, and set Site URL to your production domain.
+- **Email delivery** — Supabase's built-in email is dev-only. For production, point custom SMTP (Authentication → Emails → SMTP Settings) at `smtp.resend.com` with your `RESEND_API_KEY`.
+
+### Database (Supabase)
+For a new project, run every file in `supabase/migrations/` in order via the SQL Editor to set up the schema. After that, CI handles it: `prod.yml` runs `supabase db push` against production on every push to `main`, before deploying. You'll need a `SUPABASE_DB_URL` repo secret — use the **Session pooler** connection string (not Direct, which is IPv6-only and fails on GitHub Actions runners; not Transaction pooler, which breaks some migration DDL) — plus `SUPABASE_SERVICE_ROLE_KEY`.
+
+For local dev against an existing project: `npx supabase login`, then `npx supabase link --project-ref <ref>`. If the schema was already applied by hand, run `npx supabase migration repair --status applied <versions...>` first so the CLI's history matches reality.
+
+After adding a migration, run `npm run db:types` to regenerate `lib/supabase/database.types.ts` — don't hand-edit it. CI (`db-types-check.yml`) fails the build if the committed file drifts from the live schema.
+
+### Billing (Stripe)
+1. Set `STRIPE_SECRET_KEY` in `.env.local`.
+2. Run `node scripts/setup-stripe.mjs` to create the Pro Product/Prices and print `STRIPE_PRICE_ID_MONTHLY`/`STRIPE_PRICE_ID_ANNUAL`.
+3. Forward webhooks locally with the [Stripe CLI](https://stripe.com/docs/stripe-cli) (`stripe listen --forward-to localhost:3000/api/stripe/webhook`), or add a production endpoint for `checkout.session.completed`, `customer.subscription.updated`, `customer.subscription.deleted`. Set `STRIPE_WEBHOOK_SECRET` either way.
+4. Add the same Stripe env vars to your host (e.g. Vercel).
+
+### Support (Tawk.to)
+Create a property at [tawk.to](https://www.tawk.to) and set `NEXT_PUBLIC_TAWKTO_PROPERTY_ID`/`NEXT_PUBLIC_TAWKTO_WIDGET_ID` from the embed snippet.
+
+### Error monitoring (Sentry)
+Create a project at [sentry.io](https://sentry.io) and set `NEXT_PUBLIC_SENTRY_DSN`. Add `SENTRY_ORG`/`SENTRY_PROJECT`/`SENTRY_AUTH_TOKEN` to also upload source maps at build time.
+
+### Blog admin
+1. Run migration `0006`.
+2. `node scripts/set-admin.mjs you@example.com` to grant yourself admin.
+3. Log out and back in.
+4. Enroll 2FA (below) — admin routes 403 until you do.
+
+### Two-factor auth (admin)
+1. In Supabase Dashboard → Authentication → MFA, make sure TOTP is enabled.
+2. As the admin, go to `/account` and enroll under "Two-Factor Authentication" — scan the QR code with an authenticator app and confirm the code.
+3. From then on, both password and Google login prompt for a code before reaching admin pages.
+4. Lost the device? `node scripts/reset-admin-mfa.mjs you@example.com` clears the factor without touching the admin role.
+
+### Bot protection (hCaptcha)
+1. Sign up at [hCaptcha](https://www.hcaptcha.com), add your domain, get the Site Key/Secret Key.
+2. Set `NEXT_PUBLIC_HCAPTCHA_SITE_KEY` and `HCAPTCHA_SECRET_KEY`.
+3. Enable CAPTCHA protection in Supabase Dashboard → Authentication → Attack Protection with the same Secret Key.
+
+### Rate limiting (Upstash Redis)
+Create a free database at [Upstash](https://upstash.com) and set `UPSTASH_REDIS_REST_URL`/`UPSTASH_REDIS_REST_TOKEN`. Guards email/account/billing/AI endpoints; without it, those routes just aren't rate-limited.
+
+### AI features (Groq)
+Powers the ATS Checker's coherence check and "Rewrite with AI". Sign up at [console.groq.com](https://console.groq.com) and set `GROQ_API_KEY`. Note the free tier (30 req/min, 14,400/day) is shared across the whole app.
+
+### Scheduled cleanup
+A daily Vercel Cron Job (`vercel.json`) hits `/api/cron/cleanup-anonymous-users` to delete abandoned anonymous accounts after `ANONYMOUS_ACCOUNT_RETENTION_DAYS` (7 by default, `lib/constants.ts`). Set `CRON_SECRET` in Vercel's env vars — Vercel attaches it automatically as a bearer token.
+
+### Production deploys
+`prod.yml`'s `deploy` job runs `vercel deploy --prod` after migrations succeed, rather than relying on Vercel's own git integration (disabled via Ignored Build Step → `exit 0`), so a failing migration blocks the deploy. Needs `VERCEL_TOKEN`, `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID` as repo secrets.
 
 ## Testing
-Unit tests use [Vitest](https://vitest.dev), set up per the [official Next.js guide](https://nextjs.org/docs/app/guides/testing/vitest). Test files live under `__tests__/`, mirroring the source tree (e.g. `__tests__/lib/color.test.ts` tests `lib/color.ts`). `npm test` runs in watch mode; `npm run test:run` runs once (what CI uses); `npm run test:coverage` runs once with a v8 coverage report (text summary in the terminal, plus HTML/lcov under `coverage/`, gitignored). Coverage isn't gated in CI — the project deliberately doesn't chase 100% (see below), so a percentage alone isn't a useful pass/fail signal here.
 
-Coverage focuses on the critical path rather than chasing 100%: every `app/api/**/route.ts` handler (auth/anonymous/rate-limit guards, Stripe billing, role+2FA admin authorization, input validation) including the public shared-link PDF routes, the Supabase save/load mapping layer (incl. share-token issuing and expiry), PDF/DOCX/plain-text export generation, the ATS Checker's format-check scoring, rate limiting, i18n locale key parity, and CSP/security-header construction — plus two full-form component tests (`ResumeBuilder`/`CoverLetterBuilder`) that fill every field and exercise the real save flow end to end. Not covered: the session-refresh proxy (`proxy.ts`), and most UI beyond the two builders (templates gallery, account/billing pages, blog admin UI, the 2FA enrollment flow, the login step-up flow) — those remain a manual/E2E concern.
+Unit tests use [Vitest](https://vitest.dev) and live under `__tests__/`, mirroring the source tree. `npm test` (watch), `npm run test:run` (single run, what CI uses), `npm run test:coverage` (with a v8 report). Coverage isn't gated in CI — this project focuses on the critical path (API routes, auth/admin gates, export generation, ATS scoring, rate limiting) rather than 100%.
 
-End-to-end tests use [Playwright](https://playwright.dev) and live under `e2e/` — `anonymous-resume-flow.spec.ts` and `anonymous-cover-letter-flow.spec.ts` each drive a full anonymous-user journey (landing page or direct navigation → builder → fill every section → save → assert the saved-document URL). `npm run test:e2e` runs headless and auto-starts the dev server on `http://localhost:3000` if it isn't already running; `npm run test:e2e:headed` runs the same tests in a visible browser window so you can watch each step. First-time setup needs the browser binary once: `npx playwright install chromium`.
+End-to-end tests use [Playwright](https://playwright.dev) under `e2e/`, driving full anonymous-user journeys through both builders. `npm run test:e2e` (headless) / `npm run test:e2e:headed` (visible browser). First run `npx playwright install chromium`. Runs in CI on every push/PR to `main`.
 
-`.github/workflows/e2e.yml` runs these on every push/PR to `main`, against the same Supabase project as production (the anonymous accounts each run creates are exactly what the retention cron cleans up) — Chromium is cached between runs keyed on `package-lock.json`, and a trace is uploaded as a build artifact on failure for debugging.
-
-### Pre-commit hook
-[Husky](https://typicode.github.io/husky) + [lint-staged](https://github.com/lint-staged/lint-staged) run `eslint --fix` on staged `.js`/`.jsx`/`.mjs`/`.ts`/`.tsx` files before each commit (config: `.husky/pre-commit`, `lint-staged` key in `package.json`). This only catches lint issues, not type errors or test failures — those still surface in CI (`npx tsc --noEmit -p .`, `npm run test:run`), so a clean local commit isn't a substitute for waiting on CI. The hook installs itself automatically via the `prepare` script on `npm install`; if it's ever skipped (e.g. `git commit --no-verify`), just re-run `npm install` or `npx husky` to reinstall it.
+A pre-commit hook (Husky + lint-staged) runs `eslint --fix` on staged files — it doesn't catch type errors or test failures, so CI still checks those.
 
 ## Updating Dependencies
-This repo pins **exact** versions for `dependencies` (no `^`/`~`) so installs are reproducible — `npm outdated`/`npm update` behave differently here than in a typically `^`-ranged project (`npm update` only moves a package within its declared range, so an exact-pinned package needs its `package.json` entry edited directly). A handful of foundational `devDependencies` (`@types/node`, `@types/react`, `@types/react-dom`, `eslint`, `tailwindcss`, `@tailwindcss/postcss`, `typescript`) intentionally use a bare major-version string instead (e.g. `"24"` not `"24.9.2"`) so they auto-pick-up patch/minor releases on a plain `npm install`, but still require an explicit edit to cross a major version.
 
-**Node.js version** is pinned via `"engines"` in `package.json` and `.nvmrc` — both must stay in sync with what `.github/workflows/dev.yml`/`prod.yml`/`e2e.yml` run (`actions/setup-node` `node-version`) and with the Node.js version configured in the Vercel project settings (Dashboard → Settings → Node.js Version), since that last one isn't visible from the repo.
+Versions are pinned exactly (no `^`/`~`), so `npm update` won't move most packages — edit `package.json` directly. A few foundational devDependencies (`typescript`, `eslint`, `tailwindcss`, etc.) use a bare major version and pick up patches automatically.
 
-**Recommended process for future updates** (don't big-bang everything at once):
-1. Run `npm outdated` and split the results into two buckets: patch/minor bumps (low risk) and major-version bumps (real breaking-change risk).
-2. Update the patch/minor batch together — edit exact-pinned versions directly in `package.json`, then run `npm install` once (this also refreshes the bare-major-pinned packages to their latest compatible patch).
-3. Handle each major-version bump as its own separate pass with its own research (read the package's own changelog/release notes — see the note below) and its own verification cycle, not bundled with the safe batch.
-4. After each stage, run the full verification checklist: `npx next typegen`, `npx tsc --noEmit -p .`, `npm run lint`, `npm run test:run`, `npm run test:e2e`, then a manual smoke check (start the dev server, load the landing page and builder, watch for console errors).
-5. If the Node.js version itself changes, update `engines` in `package.json`, `.nvmrc`, and both GitHub Actions workflows together, and flag the Vercel project settings for a manual update.
+Recommended flow: bump patch/minor versions together, handle each major-version bump separately with its own changelog check, and run `npx tsc --noEmit -p .`, `npm run lint`, `npm run test:run`, `npm run test:e2e` after each change. Since this repo runs a modified/future version of Next.js (see `AGENTS.md`), don't assume standard upgrade behavior — check `node_modules/<package>/dist/docs` first.
 
-**Deferred major-version bumps** (available but not yet done — each needs its own pass per the process above):
-- `typescript` 5 → 7 (skips a full major generation; expect newly-enforced strictness across the codebase)
-- `eslint` 9 → 10 (flat config should mostly carry over, but `eslint-config-next` and any other plugins need a compatibility check first)
-- `apexcharts` 5 → 6 (check whether `react-apexcharts` needs a matching bump; used for chart rendering, so needs a visual check, not just a type check)
-
-**This repo specifically**: because this is a modified/future version of Next.js and its ecosystem (see the warning at the top of `AGENTS.md`), don't assume standard upstream upgrade behavior even for a minor-version bump — check `node_modules/<package>/dist/docs` or the package's own CHANGELOG first. This isn't theoretical: this session alone found real, undocumented-to-training-data differences (CSP/proxy handling, and `next dev` auto-regenerating part of `AGENTS.md` on Next.js 16.3+).
+Deferred major bumps: `typescript` 5→7, `eslint` 9→10, `apexcharts` 5→6.
 
 ## Releases
-Deployment already happens automatically on every push to `main` (see "Production deploys (Vercel, via CI)" above) — releases are just about getting a human-readable changelog and a tagged reference point for what's actually live at any given time.
 
-**Automated (default)**: [`release-please`](https://github.com/googleapis/release-please) (`.github/workflows/release.yml`) watches every push to `main`. Since commit messages here already follow [Conventional Commits](https://www.conventionalcommits.org) (`feat:`, `fix:`, `refactor:`, etc.), it derives the next version automatically and keeps a single standing pull request open — something like "chore: release 0.2.0" — containing the regenerated `CHANGELOG.md` and the bumped `package.json`/`package-lock.json`. It never merges that PR itself; **merging it is what cuts the release** — the next Action run detects the merge and creates the git tag plus the GitHub Release with the changelog as its notes.
+Deploys are automatic on every push to `main`; releases are just about tagging what's live. [`release-please`](https://github.com/googleapis/release-please) watches commits (which follow [Conventional Commits](https://www.conventionalcommits.org)) and keeps a standing "chore: release X.Y.Z" PR up to date. Merging that PR cuts the tag and GitHub Release.
 
-What triggers which bump (based on every commit merged since the last release, not just the latest one):
-- **Patch** — one or more `fix:` commits, no `feat:` or breaking change.
-- **Minor** — at least one `feat:` commit, no breaking change.
-- **Major** — any commit marked as breaking, *regardless of its type*: either a `!` right after the type/scope (`feat!:`, `fix(api)!:`, even `refactor!:`) or a `BREAKING CHANGE:` footer in the commit body. ⚠️ This repo is still pre-1.0 (`0.2.0`) and `release-config.json` doesn't set `bump-minor-pre-major`, so a breaking change jumps straight to `1.0.0` rather than staying in the `0.x` range — bump that setting first if you want breaking changes to stay minor until you deliberately cut 1.0.
-- **No bump, no release PR** — commits of any other type (`refactor:`, `ci:`, `test:`, `style:`, `chore:`, `docs:`) don't trigger a version change on their own. Per `release-config.json`'s `changelog-sections`, they're also marked `hidden` — folded silently into whatever release eventually happens, never itemized in `CHANGELOG.md`. If *every* commit since the last release is one of these types, `release-please`'s workflow run still succeeds, it just has nothing to propose — no PR appears until a `feat`/`fix`/breaking commit lands.
+`fix:` → patch, `feat:` → minor, anything with `!` or a `BREAKING CHANGE:` footer → major (this repo is pre-1.0, so a breaking change currently jumps straight to `1.0.0`). Other commit types (`refactor:`, `ci:`, `test:`, `chore:`, `docs:`) don't trigger a release on their own.
 
-Its config lives in `release-config.json` (renamed from the tool's `release-please-config.json` default, pointed at via the workflow's `config-file` input) and `.release-manifest.json` (similarly renamed from `.release-please-manifest.json`, tracking the currently-released version so the bot knows what's new).
-
-**Manual (fallback)** — e.g. the Action is down, or a release is needed before the bot's PR is ready:
+Manual fallback if the Action is down:
 ```bash
 git checkout main && git pull
-
-# See what's changed since the last tag, to pick patch/minor/major
 git log $(git describe --tags --abbrev=0)..HEAD --oneline
-
-# Bumps package.json + package-lock.json, commits, and creates an annotated tag — pick one:
-npm version patch   # bug fixes only
-npm version minor   # new features, no breaking changes
-npm version major   # breaking changes
-
+npm version patch   # or minor / major
 git push && git push --tags
-
-# Publishes the GitHub Release, with notes auto-generated from commits since the last tag
 gh release create $(git describe --tags --abbrev=0) --generate-notes
 ```
-Afterward, update `.release-manifest.json` to match the new version and commit it — otherwise `release-please`'s next run is working off a stale baseline and either misses these commits or tries to re-propose them.
-
-## Available Scripts
-- `npm run dev` — start the dev server (Turbopack).
-- `npm run build` — production build.
-- `npm run start` — run the production build.
-- `npm run lint` — ESLint.
-- `npm test` / `npm run test:run` — Vitest, watch mode / single run.
-- `npm run test:coverage` — Vitest single run with a v8 coverage report.
-- `npm run test:e2e` / `npm run test:e2e:headed` — Playwright, headless / visible browser.
-- `npm run db:types` — regenerates `lib/supabase/database.types.ts` from the live schema (needs `supabase login` first — see Database setup above).
-- `npm run analyze` — opens Next's Turbopack-integrated bundle analyzer (`next experimental-analyze`) in the browser to inspect client/server bundle composition and import chains. Pass `-- --output` to write a static report to `.next/diagnostics/analyze` instead of starting the server.
+Then update `.release-manifest.json` to match, or the next automated run works off a stale baseline.
 
 ## Learn More
 Built with Next.js 16, React 19, Tailwind CSS v4, and daisyUI 5. See the [Next.js Documentation](https://nextjs.org/docs) for framework details.
