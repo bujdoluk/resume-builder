@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.9.0](https://github.com/bujdoluk/resume-builder/compare/QuickResumeBuilder.online-v0.8.0...QuickResumeBuilder.online-v0.9.0) (2026-08-11)
+
+
+### Features
+
+* added caching for blog posts ([e6cede7](https://github.com/bujdoluk/resume-builder/commit/e6cede762ad34bdb114c412a68c871a5ec40918d))
+* added cover letter import ([14daddb](https://github.com/bujdoluk/resume-builder/commit/14daddb09268c8f88d5fccb26dc631932d6c799e))
+* added resume import ([b988aaf](https://github.com/bujdoluk/resume-builder/commit/b988aafa37e541cc0c26f17162f6c964877a5ab0))
+
 ## [0.8.0](https://github.com/bujdoluk/resume-builder/compare/QuickResumeBuilder.online-v0.7.0...QuickResumeBuilder.online-v0.8.0) (2026-08-09)
 
 
