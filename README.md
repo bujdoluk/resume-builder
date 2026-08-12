@@ -46,6 +46,7 @@ Open [http://localhost:3000](http://localhost:3000), then fill in your Supabase 
 - `npm run dev` — dev server (Turbopack)
 - `npm run build` / `npm run start` — production build / run it
 - `npm run lint` — ESLint
+- `npm run type-check` — `next typegen` (route types) then `tsc --noEmit`, without a full build
 - `npm test` / `npm run test:run` — Vitest, watch / single run
 - `npm run test:coverage` — Vitest with coverage report
 - `npm run test:e2e` / `npm run test:e2e:headed` — Playwright, headless / visible
@@ -139,6 +140,8 @@ Unit tests use [Vitest](https://vitest.dev) and live under `__tests__/`, mirrori
 
 End-to-end tests use [Playwright](https://playwright.dev) under `e2e/`, driving full anonymous-user journeys through both builders. `npm run test:e2e` (headless) / `npm run test:e2e:headed` (visible browser). First run `npx playwright install chromium`. Runs in CI on every push/PR to `main`.
 
+Some UI is E2E-only rather than unit-tested by design: Vitest doesn't support async Server Components, so pages built around them (most of the app shell beyond the two builders) are covered end-to-end instead.
+
 A pre-commit hook (Husky + lint-staged) runs `eslint --fix` on staged files — it doesn't catch type errors or test failures, so CI still checks those.
 
 ## Updating Dependencies
@@ -148,6 +151,8 @@ Versions are pinned exactly (no `^`/`~`), so `npm update` won't move most packag
 Recommended flow: bump patch/minor versions together, handle each major-version bump separately with its own changelog check, and run `npx tsc --noEmit -p .`, `npm run lint`, `npm run test:run`, `npm run test:e2e` after each change. Since this repo runs a modified/future version of Next.js (see `AGENTS.md`), don't assume standard upgrade behavior — check `node_modules/<package>/dist/docs` first.
 
 Deferred major bumps: `typescript` 5→7, `eslint` 9→10, `apexcharts` 5→6.
+
+To bump Next.js itself (and keep `eslint-config-next` in step), use `npx next upgrade` rather than hand-editing the pin.
 
 ## Releases
 
