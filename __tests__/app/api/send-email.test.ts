@@ -5,9 +5,7 @@ import en from "@/lib/i18n/locales/en.json";
 const mocks = vi.hoisted(() => ({
   checkRateLimit: vi.fn(),
   verifyCaptchaToken: vi.fn(),
-  sendPdfEmail: vi.fn(),
-  sendDocxEmail: vi.fn(),
-  sendTextEmail: vi.fn(),
+  sendExportEmail: vi.fn(),
 }));
 
 vi.mock("@/lib/rateLimit", () => ({
@@ -19,9 +17,9 @@ vi.mock("@/lib/hcaptcha", () => ({
   verifyCaptchaToken: mocks.verifyCaptchaToken,
 }));
 
-vi.mock("@/lib/email/sendPdfEmail", () => ({ sendPdfEmail: mocks.sendPdfEmail }));
-vi.mock("@/lib/email/sendDocxEmail", () => ({ sendDocxEmail: mocks.sendDocxEmail }));
-vi.mock("@/lib/email/sendTextEmail", () => ({ sendTextEmail: mocks.sendTextEmail }));
+vi.mock("@/lib/email/sendExportEmail", () => ({
+  sendExportEmail: mocks.sendExportEmail,
+}));
 
 function jsonRequest(body: unknown): Request {
   return new Request("https://example.com/api/send-email", {
@@ -41,9 +39,7 @@ beforeEach(() => {
   vi.clearAllMocks();
   mocks.checkRateLimit.mockResolvedValue(true);
   mocks.verifyCaptchaToken.mockResolvedValue(true);
-  mocks.sendPdfEmail.mockResolvedValue({ error: null });
-  mocks.sendDocxEmail.mockResolvedValue({ error: null });
-  mocks.sendTextEmail.mockResolvedValue({ error: null });
+  mocks.sendExportEmail.mockResolvedValue({ error: null });
 });
 
 describe("POST /api/send-email", () => {
@@ -66,7 +62,7 @@ describe("POST /api/send-email", () => {
 
     expect(response.status).toBe(400);
     expect((await response.json()).error).toBe(en.apiErrors.captchaVerificationFailed);
-    expect(mocks.sendPdfEmail).not.toHaveBeenCalled();
+    expect(mocks.sendExportEmail).not.toHaveBeenCalled();
   });
 
   it("rejects a malformed JSON body", async () => {
@@ -80,7 +76,7 @@ describe("POST /api/send-email", () => {
 
     expect(response.status).toBe(400);
     expect((await response.json()).error).toBe(en.apiErrors.invalidEmailAddress);
-    expect(mocks.sendPdfEmail).not.toHaveBeenCalled();
+    expect(mocks.sendExportEmail).not.toHaveBeenCalled();
   });
 
   it("rejects a malformed recipient address", async () => {
@@ -104,8 +100,8 @@ describe("POST /api/send-email", () => {
       }),
     );
 
-    expect(mocks.sendPdfEmail).toHaveBeenCalledWith(
-      expect.objectContaining({ fileName: "..-..-etc-passwd" }),
+    expect(mocks.sendExportEmail).toHaveBeenCalledWith(
+      expect.objectContaining({ fileName: "..-..-etc-passwd", extension: "pdf" }),
     );
   });
 
@@ -120,8 +116,8 @@ describe("POST /api/send-email", () => {
       }),
     );
 
-    expect(mocks.sendPdfEmail).toHaveBeenCalledWith(
-      expect.objectContaining({ fileName: "document" }),
+    expect(mocks.sendExportEmail).toHaveBeenCalledWith(
+      expect.objectContaining({ fileName: "document", extension: "pdf" }),
     );
   });
 
@@ -154,17 +150,18 @@ describe("POST /api/send-email", () => {
         jsonRequest({ ...validBody, format: "txt", textContent: "Hello, world!" }),
       );
 
-      expect(mocks.sendTextEmail).toHaveBeenCalledWith({
+      expect(mocks.sendExportEmail).toHaveBeenCalledWith({
         to: "jane@example.com",
         fileName: "My Resume",
-        textContent: "Hello, world!",
+        extension: "txt",
+        content: Buffer.from("Hello, world!", "utf-8"),
       });
       expect(response.status).toBe(200);
       expect(await response.json()).toEqual({ ok: true });
     });
 
     it("propagates a provider error as 502 with the raw error message", async () => {
-      mocks.sendTextEmail.mockResolvedValue({ error: "Resend rejected the request" });
+      mocks.sendExportEmail.mockResolvedValue({ error: "Resend rejected the request" });
 
       const { POST } = await import("@/app/api/send-email/route");
       const response = await POST(
@@ -195,7 +192,7 @@ describe("POST /api/send-email", () => {
 
       expect(response.status).toBe(400);
       expect((await response.json()).error).toBe(en.apiErrors.invalidWordData);
-      expect(mocks.sendDocxEmail).not.toHaveBeenCalled();
+      expect(mocks.sendExportEmail).not.toHaveBeenCalled();
     });
 
     it("sends the docx email with the decoded buffer", async () => {
@@ -208,10 +205,11 @@ describe("POST /api/send-email", () => {
         }),
       );
 
-      expect(mocks.sendDocxEmail).toHaveBeenCalledWith({
+      expect(mocks.sendExportEmail).toHaveBeenCalledWith({
         to: "jane@example.com",
         fileName: "My Resume",
-        docxBuffer: Buffer.from("docx-bytes"),
+        extension: "docx",
+        content: Buffer.from("docx-bytes"),
       });
       expect(response.status).toBe(200);
     });
@@ -234,7 +232,7 @@ describe("POST /api/send-email", () => {
 
       expect(response.status).toBe(400);
       expect((await response.json()).error).toBe(en.apiErrors.invalidPdfData);
-      expect(mocks.sendPdfEmail).not.toHaveBeenCalled();
+      expect(mocks.sendExportEmail).not.toHaveBeenCalled();
     });
 
     it("sends the pdf email with the decoded buffer", async () => {
@@ -243,17 +241,18 @@ describe("POST /api/send-email", () => {
         jsonRequest({ ...validBody, pdfBase64: Buffer.from("pdf-bytes").toString("base64") }),
       );
 
-      expect(mocks.sendPdfEmail).toHaveBeenCalledWith({
+      expect(mocks.sendExportEmail).toHaveBeenCalledWith({
         to: "jane@example.com",
         fileName: "My Resume",
-        pdfBuffer: Buffer.from("pdf-bytes"),
+        extension: "pdf",
+        content: Buffer.from("pdf-bytes"),
       });
       expect(response.status).toBe(200);
       expect(await response.json()).toEqual({ ok: true });
     });
 
     it("propagates a provider error as 502 with the raw error message", async () => {
-      mocks.sendPdfEmail.mockResolvedValue({ error: "Resend rejected the request" });
+      mocks.sendExportEmail.mockResolvedValue({ error: "Resend rejected the request" });
 
       const { POST } = await import("@/app/api/send-email/route");
       const response = await POST(
