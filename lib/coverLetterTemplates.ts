@@ -1,5 +1,5 @@
 
-import type { ComponentType } from "react";
+import type { TemplateDefinition } from "@/lib/templateDefinition";
 import CoverLetterBasicMobileTemplate, {
   type CoverLetterMobileTemplateProps,
 } from "@/components/cover-letter/mobile-templates/CoverLetterBasicMobileTemplate";
@@ -13,14 +13,11 @@ export type { CoverLetterTemplateProps, CoverLetterMobileTemplateProps };
 
 export type CoverLetterTemplateId = "basic" | "modern";
 
-export interface CoverLetterTemplateDefinition {
-  id: CoverLetterTemplateId;
-  name: string;
-  component: ComponentType<CoverLetterTemplateProps>;
-  mobileTemplateComponent: ComponentType<CoverLetterMobileTemplateProps>;
-}
-
-export const coverLetterTemplates: CoverLetterTemplateDefinition[] = [
+export const coverLetterTemplates: TemplateDefinition<
+  CoverLetterTemplateId,
+  CoverLetterTemplateProps,
+  CoverLetterMobileTemplateProps
+>[] = [
   {
     id: "basic",
     name: "Basic",

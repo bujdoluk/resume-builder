@@ -1,5 +1,5 @@
 
-import type { ComponentType } from "react";
+import type { TemplateDefinition } from "@/lib/templateDefinition";
 import BasicMobileTemplate, {
   type MobileTemplateProps,
 } from "@/components/resumes/mobile-templates/BasicMobileTemplate";
@@ -19,14 +19,7 @@ export type { TemplateProps, MobileTemplateProps };
 
 export type TemplateId = "basic" | "modern" | "minimal" | "elegant" | "classic";
 
-export interface TemplateDefinition {
-  id: TemplateId;
-  name: string;
-  component: ComponentType<TemplateProps>;
-  mobileTemplateComponent: ComponentType<MobileTemplateProps>;
-}
-
-export const templates: TemplateDefinition[] = [
+export const templates: TemplateDefinition<TemplateId, TemplateProps, MobileTemplateProps>[] = [
   {
     id: "basic",
     name: "Basic",

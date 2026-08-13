@@ -15,11 +15,9 @@ import {
 } from "@/lib/coverLetterSections";
 import { MAX_IMPORT_FILE_BYTES } from "@/lib/constants";
 import { getAnonymousCaptchaToken } from "@/lib/supabase/invisibleCaptcha";
-import type { ImportFileType } from "@/types/documentImport";
+import type { ImportDialogHandle, ImportFileType } from "@/types/documentImport";
 
-export interface ImportCoverLetterDialogHandle {
-  open: () => Promise<CoverLetterData | null>;
-}
+export type ImportCoverLetterDialogHandle = ImportDialogHandle<CoverLetterData>;
 
 const ACCEPTED_EXTENSIONS: Record<ImportFileType, string> = {
   pdf: ".pdf",

@@ -47,18 +47,14 @@ const defaultVisibleFields: FieldKey[] = [...allFields];
 const defaultCoverLetterFieldOrder: CoverLetterFieldKey[] = [
   ...allCoverLetterFields,
 ];
-export interface ResumeStepsSummary {
-  stepKeys: string[];
-  incompleteKeys: string[];
+export interface StepsSummary<K extends string> {
+  stepKeys: K[];
+  incompleteKeys: K[];
   completionPercent: number;
   customFieldsTitle?: string;
 }
-export interface CoverLetterStepsSummary {
-  stepKeys: CoverLetterSectionKey[];
-  incompleteKeys: CoverLetterSectionKey[];
-  completionPercent: number;
-  customFieldsTitle?: string;
-}
+export type ResumeStepsSummary = StepsSummary<string>;
+export type CoverLetterStepsSummary = StepsSummary<CoverLetterSectionKey>;
 interface AppStateValue {
   templateId: TemplateId;
   setTemplateId: Dispatch<SetStateAction<TemplateId>>;
