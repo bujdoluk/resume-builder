@@ -13,7 +13,7 @@ import {
 } from "@/lib/constants";
 import { parseCoverLetterText } from "@/lib/coverLetterImport/parseCoverLetterText";
 import { extractDocumentText, DocumentImportExtractionError } from "@/lib/documentImport/extractText";
-import { verifyCaptchaToken } from "@/lib/hcaptcha";
+// import { verifyCaptchaToken } from "@/lib/hcaptcha";
 import { checkRateLimit, getRequestIp } from "@/lib/rateLimit";
 import { importCoverLetterBodySchema } from "@/lib/validation/importCoverLetter";
 
@@ -29,11 +29,11 @@ export async function POST(request: Request) {
   }
 
   const body = await request.json().catch(() => null);
-  const { captchaToken } = body ?? {};
+  // const { captchaToken } = body ?? {};
 
-  if (!(await verifyCaptchaToken(captchaToken))) {
-    return errorResponse(HTTP_BAD_REQUEST, "captchaVerificationFailed", request);
-  }
+  // if (!(await verifyCaptchaToken(captchaToken))) {
+  //   return errorResponse(HTTP_BAD_REQUEST, "captchaVerificationFailed", request);
+  // }
 
   const parsed = validateBody(importCoverLetterBodySchema, body ?? {});
   if (!parsed.success) {

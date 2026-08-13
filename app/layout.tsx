@@ -19,7 +19,7 @@ import {
 import { AppStateProvider } from "@/components/AppState";
 import ConsentedAnalytics from "@/components/cookies/ConsentedAnalytics";
 import { CookieConsentProvider } from "@/components/cookies/CookieConsent";
-import InvisibleCaptcha from "@/components/hcaptcha/InvisibleCaptcha";
+// import InvisibleCaptcha from "@/components/hcaptcha/InvisibleCaptcha";
 import Navbar from "@/components/Navbar";
 import TawkChat from "@/components/TawkChat";
 import { ToastProvider } from "@/components/Toast";
@@ -158,7 +158,7 @@ export default function RootLayout({
         <ToastProvider>
           <CookieConsentProvider>
             <AppStateProvider>
-              <InvisibleCaptcha />
+              {/* <InvisibleCaptcha /> */}
               <Navbar />
               <div className="flex flex-1 flex-col">{children}</div>
               <ConsentedAnalytics />

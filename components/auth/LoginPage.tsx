@@ -20,7 +20,9 @@ import { forgetSessionOnBrowserClose } from "@/lib/supabase/rememberMe";
 
 type Mode = "login" | "signup" | "reset";
 
-const HCAPTCHA_SITE_KEY = process.env.NEXT_PUBLIC_HCAPTCHA_SITE_KEY;
+// Captcha disabled — see handleSubmit/handleResetSubmit and the two
+// commented-out <HCaptcha> renders below.
+// const HCAPTCHA_SITE_KEY = process.env.NEXT_PUBLIC_HCAPTCHA_SITE_KEY;
 
 function LoginForm() {
   const { t } = useTranslation();
@@ -67,10 +69,10 @@ function LoginForm() {
   async function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
     setError(null);
-    if (HCAPTCHA_SITE_KEY && !captchaToken) {
-      setError(t("auth.captchaRequired"));
-      return;
-    }
+    // if (HCAPTCHA_SITE_KEY && !captchaToken) {
+    //   setError(t("auth.captchaRequired"));
+    //   return;
+    // }
     setSubmitting(true);
     try {
       if (mode === "login") {
@@ -124,10 +126,10 @@ function LoginForm() {
   async function handleResetSubmit(event: React.FormEvent) {
     event.preventDefault();
     setError(null);
-    if (HCAPTCHA_SITE_KEY && !captchaToken) {
-      setError(t("auth.captchaRequired"));
-      return;
-    }
+    // if (HCAPTCHA_SITE_KEY && !captchaToken) {
+    //   setError(t("auth.captchaRequired"));
+    //   return;
+    // }
     setSubmitting(true);
     try {
       const redirectTo = `${window.location.origin}/auth/callback?next=${encodeURIComponent("/reset-password")}`;
@@ -215,14 +217,14 @@ function LoginForm() {
                   />
                 </fieldset>
 
-                {HCAPTCHA_SITE_KEY && (
+                {/* {HCAPTCHA_SITE_KEY && (
                   <HCaptcha
                     ref={hcaptchaRef}
                     sitekey={HCAPTCHA_SITE_KEY}
                     onVerify={setCaptchaToken}
                     onExpire={() => setCaptchaToken(null)}
                   />
-                )}
+                )} */}
 
                 {error && <p className="text-error text-sm">{error}</p>}
 
@@ -301,14 +303,14 @@ function LoginForm() {
                   </div>
                 )}
 
-                {HCAPTCHA_SITE_KEY && (
+                {/* {HCAPTCHA_SITE_KEY && (
                   <HCaptcha
                     ref={hcaptchaRef}
                     sitekey={HCAPTCHA_SITE_KEY}
                     onVerify={setCaptchaToken}
                     onExpire={() => setCaptchaToken(null)}
                   />
-                )}
+                )} */}
 
                 {error && <p className="text-error text-sm">{error}</p>}
 

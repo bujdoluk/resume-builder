@@ -1,20 +1,26 @@
 
-const VERIFY_URL = "https://api.hcaptcha.com/siteverify";
+// const VERIFY_URL = "https://api.hcaptcha.com/siteverify";
 
-export async function verifyCaptchaToken(token: unknown): Promise<boolean> {
-  const secret = process.env.HCAPTCHA_SECRET_KEY;
-  if (!secret) return true;
-  if (typeof token !== "string" || !token) return false;
-
-  try {
-    const response = await fetch(VERIFY_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: new URLSearchParams({ secret, response: token }),
-    });
-    const data = await response.json();
-    return Boolean(data.success);
-  } catch {
-    return false;
-  }
+// Captcha verification disabled — see below. Every call site is also
+// commented out, so this stub is never actually invoked right now.
+export async function verifyCaptchaToken(): Promise<boolean> {
+  return true;
 }
+
+// export async function verifyCaptchaToken(token: unknown): Promise<boolean> {
+//   const secret = process.env.HCAPTCHA_SECRET_KEY;
+//   if (!secret) return true;
+//   if (typeof token !== "string" || !token) return false;
+//
+//   try {
+//     const response = await fetch(VERIFY_URL, {
+//       method: "POST",
+//       headers: { "Content-Type": "application/x-www-form-urlencoded" },
+//       body: new URLSearchParams({ secret, response: token }),
+//     });
+//     const data = await response.json();
+//     return Boolean(data.success);
+//   } catch {
+//     return false;
+//   }
+// }
