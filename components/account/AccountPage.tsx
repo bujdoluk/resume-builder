@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -55,8 +56,7 @@ export default function AccountPage() {
       setEmail(session.user.email ?? "");
       setCreatedAt(session.user.created_at);
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [supabase]);
+  }, [supabase, router]);
 
   useEffect(() => {
     if (!isAdmin) return;
@@ -134,9 +134,6 @@ export default function AccountPage() {
     setMfaBusy(true);
     setMfaError(null);
     try {
-      // Re-verifying possession of the factor here (rather than a plain
-      // confirm) prevents a hijacked-but-not-yet-stepped-up session from
-      // stripping 2FA off the account without the authenticator device.
       await verifyStepUpChallenge(supabase, mfaDisableCode);
       await unenrollTotp(supabase, mfaFactor.id);
       setMfaFactor(null);
@@ -233,10 +230,13 @@ export default function AccountPage() {
               ) : mfaEnrollment ? (
                 <form onSubmit={handleConfirmMfaSetup} className="mt-2 flex flex-col gap-3">
                   <p className="text-base-content/70 text-sm">{t("account.mfa.scanInstructions")}</p>
-                  <img
+                  <Image
                     src={mfaEnrollment.qrCode}
                     alt={t("account.mfa.sectionTitle")}
+                    width={160}
+                    height={160}
                     className="mx-auto h-40 w-40 rounded-lg bg-white p-2"
+                    unoptimized
                   />
                   <fieldset className="fieldset">
                     <legend className="fieldset-legend">{t("account.mfa.secretLabel")}</legend>

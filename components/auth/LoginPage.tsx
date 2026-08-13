@@ -44,11 +44,6 @@ function LoginForm() {
   const [awaitingMfaCode, setAwaitingMfaCode] = useState(false);
   const [mfaCode, setMfaCode] = useState("");
 
-  // Covers the OAuth path: /auth/callback redirects here (rather than
-  // straight to `next`) whenever the session it just established still
-  // needs a step-up challenge — this is what actually shows the code form
-  // in that case, since handleSubmit's own check only runs for password
-  // login.
   useEffect(() => {
     getStepUpRequired(supabase).then((required) => {
       if (required) setAwaitingMfaCode(true);

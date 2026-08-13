@@ -123,7 +123,6 @@ describe("ResumeBuilder", () => {
     const desktopPaneEl = container.children[1] as HTMLElement;
     const desktopPane = within(desktopPaneEl);
 
-    // Personal information
     fillField(desktopPane.getByPlaceholderText("Your name"), "Jane Doe");
     fillField(
       desktopPane.getByPlaceholderText("Your job title"),
@@ -155,7 +154,6 @@ describe("ResumeBuilder", () => {
       expect(desktopPaneEl.querySelector('img[alt="Profile photo"]')).toBeInTheDocument(),
     );
 
-    // About Me
     fillField(
       desktopPane.getByPlaceholderText("Write a short summary about yourself..."),
       "Frontend engineer with 8 years of experience building accessible web applications.",
@@ -181,7 +179,6 @@ describe("ResumeBuilder", () => {
       "Led the migration to a component-driven design system, improving delivery speed by 30%.",
     );
 
-    // Education
     await user.click(desktopPane.getByRole("button", { name: "+ Add Education" }));
     fillField(desktopPane.getByPlaceholderText("School name"), "State University");
     fillField(desktopPane.getByPlaceholderText("Subject of study"), "Computer Science");
@@ -197,20 +194,16 @@ describe("ResumeBuilder", () => {
       "Graduated with honours; thesis on distributed systems.",
     );
 
-    // Skills
     await user.click(desktopPane.getByRole("button", { name: "+ Add Skill" }));
     fillField(desktopPane.getByPlaceholderText("Your skill"), "TypeScript");
 
-    // Languages
     await user.click(desktopPane.getByRole("button", { name: "+ Add Language" }));
     fillField(desktopPane.getByPlaceholderText("Your language"), "English");
     await user.click(desktopPane.getByRole("radio", { name: "Advanced" }));
 
-    // Interests
     await user.click(desktopPane.getByRole("button", { name: "+ Add Interest" }));
     fillField(desktopPane.getByPlaceholderText("Your interest"), "Rock climbing");
 
-    // Save
     await user.click(desktopPane.getByRole("button", { name: "Save" }));
 
     const dialog = within(await screen.findByRole("dialog"));

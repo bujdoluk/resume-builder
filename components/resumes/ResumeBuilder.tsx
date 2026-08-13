@@ -151,8 +151,7 @@ export default function ResumeBuilder({
 
   useEffect(() => {
     setTemplateId(resolveTemplateId(initialTemplateId));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [initialTemplateId]);
+  }, [initialTemplateId, setTemplateId]);
 
   useEffect(() => {
     setLastEditorPath(
@@ -187,13 +186,9 @@ export default function ResumeBuilder({
     return () => {
       cancelled = true;
     };
-    // Only ever re-run if the id in the URL changes (e.g. opening a
-    // different saved resume from "My resumes") — the setters are stable.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialResumeId, supabase]);
 
-  // Restore the unsaved scratch draft once on mount — only when we're not
-  // already loading a specific saved resume by id (the effect above).
   useEffect(() => {
     if (initialResumeId) return;
     const draft = loadDraft();
@@ -202,15 +197,6 @@ export default function ResumeBuilder({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Mirror every edit to localStorage so it survives switching templates
-  // (which navigates away from /app and remounts this component) and
-  // closing the browser, as long as it hasn't been explicitly saved yet.
-  // Skipping while `data` is still reference-equal to the initial empty
-  // value avoids a real race: this effect and the restore effect above both
-  // fire on mount, and in dev, React's Strict Mode invokes each of them
-  // twice before the restored `setData` has actually landed as a render —
-  // without this guard, one of those extra passes writes the stale empty
-  // value right over the draft it just read.
   useEffect(() => {
     if (initialResumeId) return;
     if (data === emptyResumeData) return;
@@ -350,11 +336,6 @@ export default function ResumeBuilder({
   const TemplateComponent = templateDefinition.component;
   const MobileTemplateComponent = templateDefinition.mobileTemplateComponent;
 
-  // Whether a step's underlying content is *fully* filled in — every
-  // visible personal-info field, or every entry's every field for a
-  // section — not just started. Drives the step-primary (purple, matching
-  // the Preview button) color. Requires at least one entry to exist too,
-  // so an empty section never counts as "complete".
   function isStepFilled(key: string): boolean {
     if (key === "personalInfo") {
       return (
@@ -414,10 +395,6 @@ export default function ResumeBuilder({
     }
   }
 
-  // Field-level completeness for the radial-progress percentage: unlike
-  // isStepFilled's all-or-nothing step check, this grades every individual
-  // field on every entry, so partially-filled sections contribute partial
-  // credit instead of counting as fully incomplete.
   function entryFieldStats<T>(
     entries: T[],
     fields: (keyof T)[],
@@ -475,15 +452,6 @@ export default function ResumeBuilder({
     }
   }
 
-  // One step per resume "part": personal info (name/contact/about me,
-  // whenever at least one such field is visible) followed by every
-  // currently-visible section in the user's own drag order — hidden
-  // sections (removed from `sectionOrder` via the Features toggle) don't
-  // get a step, since there's nothing to scroll to. Recomputed every render
-  // (cheap) and both rendered inline below *and* published to
-  // `AppState.resumeStepsSummary` (see the effect below) so `Sidebar.tsx`
-  // can show the identical checklist under "My Resumes" once the `lg`
-  // breakpoint takes over from this inline copy.
   const stepKeys: string[] = [
     ...(visibleFields.length > 0 ? ["personalInfo"] : []),
     ...sectionOrder,
@@ -495,18 +463,6 @@ export default function ResumeBuilder({
   const sectionCompletionPercent =
     totalStepFields > 0 ? Math.round((filledStepFields / totalStepFields) * 100) : 0;
 
-  // Publishes the current steps snapshot to shared state so Sidebar.tsx can
-  // render it too, and clears it on unmount so the sidebar shows nothing
-  // extra once the user navigates away from this editor.
-  //
-  // Deliberately depends on `data`/`sectionOrder`/`visibleFields` (the
-  // actual inputs) rather than `stepKeys`/`incompleteKeys` themselves:
-  // those are new array literals every render, so depending on them
-  // directly would make the effect's deps look "changed" on the very
-  // re-render its own `setResumeStepsSummary` call causes (this component
-  // reads other fields from the same AppState context it just wrote to) —
-  // an infinite update loop, not just a wasted render (see
-  // CoverLetterBuilder.tsx's identical effect for the same reasoning).
   useEffect(() => {
     setResumeStepsSummary(
       stepKeys.length === 0
@@ -523,8 +479,6 @@ export default function ResumeBuilder({
   }, [data, sectionOrder, visibleFields, setResumeStepsSummary]);
 
   function renderInlineSteps() {
-    // Hidden at `lg`+, where Sidebar.tsx takes over showing this same
-    // checklist under "My Resumes" instead.
     return (
       <div className="lg:hidden">
         <CompletionSteps

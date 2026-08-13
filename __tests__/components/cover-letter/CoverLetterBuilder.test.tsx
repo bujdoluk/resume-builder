@@ -134,10 +134,8 @@ describe("CoverLetterBuilder", () => {
     const expectedSenderPhone = formatPhoneAsYouType(rawSenderPhone);
     fillField(desktopPane.getByPlaceholderText("+1 555 0100"), rawSenderPhone);
 
-    // Date
     fillField(desktopPane.getByPlaceholderText("e.g. 01-06-2026"), "01-08-2026");
 
-    // Recipient Information
     fillField(desktopPane.getByPlaceholderText("Hiring Manager"), "Alex Recruiter");
     fillField(desktopPane.getByPlaceholderText("Acme Inc."), "Acme Inc.");
     fillField(desktopPane.getByPlaceholderText("e.g. Illinois"), "Illinois");
@@ -150,13 +148,11 @@ describe("CoverLetterBuilder", () => {
     );
     fillField(desktopPane.getByPlaceholderText("hr@acme.com"), "hr@acme.com");
 
-    // Subject
     fillField(
       desktopPane.getByPlaceholderText("Application for Frontend Developer"),
       "Application for Senior Frontend Engineer",
     );
 
-    // Letter
     fillField(desktopPane.getByPlaceholderText("Dear Hiring Manager,"), "Dear Alex,");
     fillField(
       desktopPane.getByPlaceholderText("Explain why you're a great fit for this role..."),
@@ -164,10 +160,8 @@ describe("CoverLetterBuilder", () => {
     );
     fillField(desktopPane.getByPlaceholderText("Sincerely,"), "Best regards,");
 
-    // Custom Field
     fillField(desktopPane.getByPlaceholderText("e.g. Slovak"), "Willing to relocate");
 
-    // Save
     await user.click(desktopPane.getByRole("button", { name: "Save" }));
 
     const dialog = within(await screen.findByRole("dialog"));

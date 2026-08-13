@@ -36,8 +36,7 @@ export default function BillingPage() {
       }
       setSubscription(await getSubscription(supabase, session.user.id));
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [supabase]);
+  }, [supabase, router]);
 
   async function handleCancel() {
     const confirmed = await cancelDialogRef.current?.open({
