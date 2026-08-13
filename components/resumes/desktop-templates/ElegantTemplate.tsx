@@ -23,6 +23,7 @@ import {
 import { getContrastTextColor } from "@/lib/color";
 import { fontsByKey } from "@/lib/fonts";
 import { getFontSizeStyle } from "@/lib/fontSize";
+import { renderFieldItems } from "@/lib/renderFieldItems";
 import {
   languageLevelKey,
   languageLevels,
@@ -109,10 +110,6 @@ function SectionHeader({
   );
 }
 
-// Renders each non-empty line of a description as its own numbered bullet
-// instead of a single whitespace-pre-line paragraph — Elegant's most
-// distinctive touch, borrowed from the reference resume this template was
-// modeled after.
 function NumberedLines({ text }: { text: string }) {
   const lines = text
     .split("\n")
@@ -126,60 +123,6 @@ function NumberedLines({ text }: { text: string }) {
       ))}
     </ol>
   );
-}
-
-// Contact fields pack onto a shared, wrapping row instead of stacking
-// one-per-line, matching how the reference resume shows its contact details.
-const contactFieldKeys: FieldKey[] = [
-  "phone",
-  "email",
-  "address",
-  "website",
-  "linkedin",
-];
-
-// Renders the main column's field order (photo is excluded — it's fixed to
-// the sidebar for this template — so no photo-pairing rule is needed here,
-// unlike Basic/Minimal's renderFieldItems).
-function renderMainFields(
-  order: FieldKey[],
-  fieldContent: Partial<Record<FieldKey, React.ReactNode>>,
-): React.ReactNode[] {
-  const nodes: React.ReactNode[] = [];
-  let i = 0;
-
-  while (i < order.length) {
-    const key = order[i];
-    if (key === undefined) break;
-
-    if (contactFieldKeys.includes(key)) {
-      const rowKeys: FieldKey[] = [];
-      let j = i;
-      while (j < order.length) {
-        const nextKey = order[j];
-        if (nextKey === undefined || !contactFieldKeys.includes(nextKey) || !fieldContent[nextKey]) break;
-        rowKeys.push(nextKey);
-        j++;
-      }
-
-      if (rowKeys.length > 1) {
-        nodes.push(
-          <div key={key} className="flex flex-wrap gap-x-4 gap-y-1">
-            {rowKeys.map((rowKey) => (
-              <Fragment key={rowKey}>{fieldContent[rowKey]}</Fragment>
-            ))}
-          </div>,
-        );
-        i = j;
-        continue;
-      }
-    }
-
-    nodes.push(<Fragment key={key}>{fieldContent[key]}</Fragment>);
-    i++;
-  }
-
-  return nodes;
 }
 
 export default function ElegantTemplate({
@@ -657,7 +600,10 @@ export default function ElegantTemplate({
     >
       <div className="p-6">
         <div className="flex flex-col gap-1">
-          {renderMainFields(mainFieldOrder, fieldContent)}
+          {renderFieldItems(mainFieldOrder, fieldContent, {
+            packContactFields: true,
+            contactRowClassName: "flex flex-wrap gap-x-4 gap-y-1",
+          })}
         </div>
 
         {aboutMeZone === "main" && isVisible("aboutMe") && fieldContent.aboutMe}

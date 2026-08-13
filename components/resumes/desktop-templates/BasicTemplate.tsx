@@ -20,6 +20,7 @@ import {
 } from "@/components/Icons";
 import { getFontSizeStyle, type FontSizeKey } from "@/lib/fontSize";
 import { fontsByKey, type FontKey } from "@/lib/fonts";
+import { renderFieldItems } from "@/lib/renderFieldItems";
 import {
   languageLevelKey,
   languageLevels,
@@ -36,50 +37,6 @@ export interface TemplateProps {
   fontSize?: FontSizeKey;
   visibleFields?: FieldKey[];
   sectionZones?: ModernSectionZones;
-}
-
-function renderFieldItems(
-  order: FieldKey[],
-  fieldContent: Partial<Record<FieldKey, React.ReactNode>>,
-): React.ReactNode[] {
-  const nodes: React.ReactNode[] = [];
-  let i = 0;
-
-  while (i < order.length) {
-    const key = order[i];
-    if (key === undefined) break;
-
-    if (key === "photo" && fieldContent.photo) {
-      const pairedKeys: FieldKey[] = [];
-      let j = i + 1;
-      while (j < order.length) {
-        const nextKey = order[j];
-        if ((nextKey !== "name" && nextKey !== "jobTitle") || !fieldContent[nextKey]) break;
-        pairedKeys.push(nextKey);
-        j++;
-      }
-
-      if (pairedKeys.length > 0) {
-        nodes.push(
-          <div key={key} className="flex items-stretch gap-4">
-            {fieldContent.photo}
-            <div className="flex flex-1 flex-col justify-center gap-1">
-              {pairedKeys.map((pairedKey) => (
-                <Fragment key={pairedKey}>{fieldContent[pairedKey]}</Fragment>
-              ))}
-            </div>
-          </div>,
-        );
-        i = j;
-        continue;
-      }
-    }
-
-    nodes.push(<Fragment key={key}>{fieldContent[key]}</Fragment>);
-    i++;
-  }
-
-  return nodes;
 }
 
 export default function BasicTemplate({
@@ -449,7 +406,10 @@ export default function BasicTemplate({
     >
       <div className="p-8">
         <div className="flex flex-col gap-1">
-          {renderFieldItems(fieldOrder, fieldContent)}
+          {renderFieldItems(fieldOrder, fieldContent, {
+            photoRowClassName: "flex items-stretch gap-4",
+            photoTextColClassName: "flex flex-1 flex-col justify-center gap-1",
+          })}
         </div>
 
         {sectionOrder.map((key) => (

@@ -1,5 +1,6 @@
 
 import { GB, SK, CZ, DE, PL, PT, RU, ES, IT, FR, SE, NO, NL } from "country-flag-icons/react/3x2";
+import { findOrFirst } from "@/lib/arrayUtils";
 
 const flags = { GB, SK, CZ, DE, PL, PT, RU, ES, IT, FR, SE, NO, NL };
 
@@ -38,5 +39,5 @@ export const languages: LanguageOption[] = languageDefinitions.map(
 export const defaultLanguageCode = "en";
 
 export function getLanguage(code: string): LanguageOption {
-  return languages.find((option) => option.code === code) ?? languages[0]!;
+  return findOrFirst(languages, "code", code);
 }

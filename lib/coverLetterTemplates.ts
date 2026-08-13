@@ -1,4 +1,5 @@
 
+import { findOrFirst } from "@/lib/arrayUtils";
 import type { TemplateDefinition } from "@/lib/templateDefinition";
 import CoverLetterBasicMobileTemplate, {
   type CoverLetterMobileTemplateProps,
@@ -37,5 +38,5 @@ export const defaultCoverLetterTemplateId: CoverLetterTemplateId = "basic";
 export function getCoverLetterTemplate(
   id: CoverLetterTemplateId,
 ): TemplateDefinition<CoverLetterTemplateId, CoverLetterTemplateProps, CoverLetterMobileTemplateProps> {
-  return coverLetterTemplates.find((template) => template.id === id) ?? coverLetterTemplates[0]!;
+  return findOrFirst(coverLetterTemplates, "id", id);
 }

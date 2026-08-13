@@ -21,6 +21,7 @@ import {
 import { CSS } from "@dnd-kit/utilities";
 import { useTranslation } from "react-i18next";
 import type { FieldKey } from "@/components/AppState";
+import { contactFieldKeys } from "@/lib/resumeContent";
 
 export function reorderEntries<T extends { id: string }>(
   entries: T[],
@@ -91,10 +92,6 @@ export function SortableBlock({
   );
 }
 
-// Hosts one DndContext + SortableContext for a single reorderable group of
-// blocks (a template's field list, or its section list). Each layout zone
-// (e.g. Modern's sidebar vs main column) gets its own instance so dragging
-// can't cross between zones that don't share a render order.
 export function SortableGroup<T extends string>({
   dndId,
   ids,
@@ -138,15 +135,6 @@ export function SortableGroup<T extends string>({
   );
 }
 
-// Hosts ONE DndContext shared by multiple zones (e.g. Modern's sidebar and
-// main column), so an item can be dragged out of one zone's array and into
-// another's — unlike SortableGroup, whose single SortableContext can only
-// reorder within one array. Resolves everything in onDragEnd only (same
-// "no live drag-over preview" convention as SortableGroup): finds which
-// zone currently holds the dragged id (source), finds the target zone from
-// `over.id` (either a SortableZone's own droppable id — dropped on empty
-// space — or another item's id, whose zone becomes the target), then either
-// reorders within one zone or splices the item from source into target.
 export function SortableZones<Z extends string, T extends string>({
   dndId,
   zones,
@@ -217,11 +205,6 @@ export function SortableZones<Z extends string, T extends string>({
   );
 }
 
-// One zone within a SortableZones — needs its own droppable id (via
-// useDroppable) so dropping on empty space inside an emptied zone still
-// resolves to it, not just onto another item. `className` should keep a
-// minimum size (e.g. a min-height) even when `ids` is empty, or an emptied
-// zone can become impossible to drop into.
 export function SortableZone<T extends string>({
   zoneId,
   ids,
@@ -246,24 +229,6 @@ export function SortableZone<T extends string>({
   );
 }
 
-// Contact fields that Minimal packs onto shared, wrapping rows instead of
-// stacking one-per-line — mirrors the read-only MinimalTemplate.tsx.
-export const contactFieldKeys: FieldKey[] = [
-  "phone",
-  "email",
-  "address",
-  "website",
-  "linkedin",
-];
-
-// Renders a field order as SortableBlocks, one per field — except Photo,
-// which visually pairs with Name/Job Title (photo left, text stacked right,
-// height-matched to the photo) whenever they immediately follow it in the
-// current order, and (when `wrapContactFields` is set, for Minimal) any
-// immediately-consecutive run of contact fields, which shares a flex-wrap
-// row instead of stacking. Each field keeps its own grip handle and stays
-// independently draggable; dragging a field away from its neighbors just
-// ends the pairing rather than disabling the drag.
 export function renderFieldItems(
   order: FieldKey[],
   fieldContent: Partial<Record<FieldKey, React.ReactNode>>,

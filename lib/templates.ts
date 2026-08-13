@@ -1,4 +1,5 @@
 
+import { findOrFirst } from "@/lib/arrayUtils";
 import type { TemplateDefinition } from "@/lib/templateDefinition";
 import BasicMobileTemplate, {
   type MobileTemplateProps,
@@ -57,5 +58,5 @@ export const defaultTemplateId: TemplateId = "basic";
 export function getTemplate(
   id: TemplateId,
 ): TemplateDefinition<TemplateId, TemplateProps, MobileTemplateProps> {
-  return templates.find((template) => template.id === id) ?? templates[0]!;
+  return findOrFirst(templates, "id", id);
 }

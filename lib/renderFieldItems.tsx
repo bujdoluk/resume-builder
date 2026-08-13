@@ -1,27 +1,26 @@
 
-import { View } from "@react-pdf/renderer";
-import type { Style as PdfStyle } from "@react-pdf/stylesheet";
+import { Fragment } from "react";
 import type { FieldKey } from "@/lib/fields";
-import { contactFieldKeys as defaultContactFieldKeys } from "@/lib/resumeContent";
+import { contactFieldKeys } from "@/lib/resumeContent";
 
-export interface RenderPdfFieldItemsOptions {
-  photoRowStyle?: PdfStyle;
-  photoTextColStyle?: PdfStyle;
+export interface RenderFieldItemsOptions {
+  photoRowClassName?: string;
+  photoTextColClassName?: string;
 
   packContactFields?: boolean;
-  contactRowStyle?: PdfStyle;
+  contactRowClassName?: string;
 }
 
-export function renderPdfFieldItems(
+export function renderFieldItems(
   order: FieldKey[],
   fieldContent: Partial<Record<FieldKey, React.ReactNode>>,
-  options: RenderPdfFieldItemsOptions = {},
+  options: RenderFieldItemsOptions = {},
 ): React.ReactNode[] {
   const {
-    photoRowStyle,
-    photoTextColStyle,
+    photoRowClassName,
+    photoTextColClassName,
     packContactFields = false,
-    contactRowStyle,
+    contactRowClassName,
   } = options;
 
   const nodes: React.ReactNode[] = [];
@@ -43,44 +42,44 @@ export function renderPdfFieldItems(
 
       if (pairedKeys.length > 0) {
         nodes.push(
-          <View key={key} style={photoRowStyle}>
+          <div key={key} className={photoRowClassName}>
             {fieldContent.photo}
-            <View style={photoTextColStyle}>
+            <div className={photoTextColClassName}>
               {pairedKeys.map((pairedKey) => (
-                <View key={pairedKey}>{fieldContent[pairedKey]}</View>
+                <Fragment key={pairedKey}>{fieldContent[pairedKey]}</Fragment>
               ))}
-            </View>
-          </View>,
+            </div>
+          </div>,
         );
         i = j;
         continue;
       }
     }
 
-    if (packContactFields && defaultContactFieldKeys.includes(key)) {
+    if (packContactFields && contactFieldKeys.includes(key)) {
       const rowKeys: FieldKey[] = [];
       let j = i;
       while (j < order.length) {
         const nextKey = order[j];
-        if (nextKey === undefined || !defaultContactFieldKeys.includes(nextKey) || !fieldContent[nextKey]) break;
+        if (nextKey === undefined || !contactFieldKeys.includes(nextKey) || !fieldContent[nextKey]) break;
         rowKeys.push(nextKey);
         j++;
       }
 
       if (rowKeys.length > 1) {
         nodes.push(
-          <View key={key} style={contactRowStyle}>
+          <div key={key} className={contactRowClassName}>
             {rowKeys.map((rowKey) => (
-              <View key={rowKey}>{fieldContent[rowKey]}</View>
+              <Fragment key={rowKey}>{fieldContent[rowKey]}</Fragment>
             ))}
-          </View>,
+          </div>,
         );
         i = j;
         continue;
       }
     }
 
-    nodes.push(<View key={key}>{fieldContent[key]}</View>);
+    nodes.push(<Fragment key={key}>{fieldContent[key]}</Fragment>);
     i++;
   }
 

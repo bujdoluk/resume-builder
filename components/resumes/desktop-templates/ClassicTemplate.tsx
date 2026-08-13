@@ -22,51 +22,8 @@ import {
 import { getContrastTextColor } from "@/lib/color";
 import { getFontSizeStyle } from "@/lib/fontSize";
 import { fontsByKey } from "@/lib/fonts";
+import { renderFieldItems } from "@/lib/renderFieldItems";
 import { languageLevelKey, languageLevels, type SectionKey } from "@/lib/resumeData";
-
-function renderFieldItems(
-  order: FieldKey[],
-  fieldContent: Partial<Record<FieldKey, React.ReactNode>>,
-): React.ReactNode[] {
-  const nodes: React.ReactNode[] = [];
-  let i = 0;
-
-  while (i < order.length) {
-    const key = order[i];
-    if (key === undefined) break;
-
-    if (key === "photo" && fieldContent.photo) {
-      const pairedKeys: FieldKey[] = [];
-      let j = i + 1;
-      while (j < order.length) {
-        const nextKey = order[j];
-        if ((nextKey !== "name" && nextKey !== "jobTitle") || !fieldContent[nextKey]) break;
-        pairedKeys.push(nextKey);
-        j++;
-      }
-
-      if (pairedKeys.length > 0) {
-        nodes.push(
-          <div key={key} className="flex items-stretch gap-4">
-            {fieldContent.photo}
-            <div className="flex flex-1 flex-col justify-center gap-1">
-              {pairedKeys.map((pairedKey) => (
-                <Fragment key={pairedKey}>{fieldContent[pairedKey]}</Fragment>
-              ))}
-            </div>
-          </div>,
-        );
-        i = j;
-        continue;
-      }
-    }
-
-    nodes.push(<Fragment key={key}>{fieldContent[key]}</Fragment>);
-    i++;
-  }
-
-  return nodes;
-}
 
 export default function ClassicTemplate({
   data,
@@ -428,7 +385,10 @@ export default function ClassicTemplate({
         className={`flex flex-col gap-1 p-8 ${headerBgClass}`}
         style={headerStyle}
       >
-        {renderFieldItems(headerFieldOrder, fieldContent)}
+        {renderFieldItems(headerFieldOrder, fieldContent, {
+          photoRowClassName: "flex items-stretch gap-4",
+          photoTextColClassName: "flex flex-1 flex-col justify-center gap-1",
+        })}
       </div>
 
       <div className="p-8">

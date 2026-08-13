@@ -13,6 +13,7 @@ import {
 } from "@/components/Icons";
 import { fontsByKey } from "@/lib/fonts";
 import { getFontSizeStyle } from "@/lib/fontSize";
+import { renderFieldItems } from "@/lib/renderFieldItems";
 import { languageLevelKey, type SectionKey } from "@/lib/resumeData";
 
 function SectionTitle({
@@ -30,84 +31,6 @@ function SectionTitle({
       {children}
     </h2>
   );
-}
-
-const contactFieldKeys: FieldKey[] = [
-  "phone",
-  "email",
-  "address",
-  "website",
-  "linkedin",
-];
-
-function renderFieldItems(
-  order: FieldKey[],
-  fieldContent: Partial<Record<FieldKey, React.ReactNode>>,
-): React.ReactNode[] {
-  const nodes: React.ReactNode[] = [];
-  let i = 0;
-
-  while (i < order.length) {
-    const key = order[i];
-    if (key === undefined) break;
-
-    if (key === "photo" && fieldContent.photo) {
-      const pairedKeys: FieldKey[] = [];
-      let j = i + 1;
-      while (j < order.length) {
-        const nextKey = order[j];
-        if ((nextKey !== "name" && nextKey !== "jobTitle") || !fieldContent[nextKey]) break;
-        pairedKeys.push(nextKey);
-        j++;
-      }
-
-      if (pairedKeys.length > 0) {
-        nodes.push(
-          <div key={key} className="flex items-stretch gap-4 text-left">
-            {fieldContent.photo}
-            <div className="flex flex-1 flex-col justify-center gap-1">
-              {pairedKeys.map((pairedKey) => (
-                <Fragment key={pairedKey}>{fieldContent[pairedKey]}</Fragment>
-              ))}
-            </div>
-          </div>,
-        );
-        i = j;
-        continue;
-      }
-    }
-
-    if (contactFieldKeys.includes(key)) {
-      const rowKeys: FieldKey[] = [];
-      let j = i;
-      while (j < order.length) {
-        const nextKey = order[j];
-        if (nextKey === undefined || !contactFieldKeys.includes(nextKey) || !fieldContent[nextKey]) break;
-        rowKeys.push(nextKey);
-        j++;
-      }
-
-      if (rowKeys.length > 1) {
-        nodes.push(
-          <div
-            key={key}
-            className="flex flex-wrap justify-center gap-x-4 gap-y-1"
-          >
-            {rowKeys.map((rowKey) => (
-              <Fragment key={rowKey}>{fieldContent[rowKey]}</Fragment>
-            ))}
-          </div>,
-        );
-        i = j;
-        continue;
-      }
-    }
-
-    nodes.push(<Fragment key={key}>{fieldContent[key]}</Fragment>);
-    i++;
-  }
-
-  return nodes;
 }
 
 export default function MinimalTemplate({
@@ -384,7 +307,12 @@ export default function MinimalTemplate({
     >
       <div className="p-10">
         <div className="flex flex-col items-center gap-1 text-center">
-          {renderFieldItems(fieldOrder, fieldContent)}
+          {renderFieldItems(fieldOrder, fieldContent, {
+            photoRowClassName: "flex items-stretch gap-4 text-left",
+            photoTextColClassName: "flex flex-1 flex-col justify-center gap-1",
+            packContactFields: true,
+            contactRowClassName: "flex flex-wrap justify-center gap-x-4 gap-y-1",
+          })}
         </div>
 
         {sectionOrder.map((key) => (
