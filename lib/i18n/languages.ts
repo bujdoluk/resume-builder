@@ -36,3 +36,7 @@ export const languages: LanguageOption[] = languageDefinitions.map(
 );
 
 export const defaultLanguageCode = "en";
+
+export function getLanguage(code: string): LanguageOption {
+  return languages.find((option) => option.code === code) ?? languages[0]!;
+}

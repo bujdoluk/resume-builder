@@ -51,7 +51,9 @@ function replaceSubsequence<T>(
 ): T[] {
   let i = 0;
   return fullOrder.map((key) =>
-    subsequenceKeys.includes(key) ? newSubsequence[i++] : key,
+    // `newSubsequence` is always a reorder of the same elements matched by
+    // `subsequenceKeys` (see call sites), so `i` never runs past its length.
+    subsequenceKeys.includes(key) ? newSubsequence[i++]! : key,
   );
 }
 

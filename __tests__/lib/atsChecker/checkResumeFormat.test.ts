@@ -82,7 +82,7 @@ describe("checkResumeFormat", () => {
   it("fails workDatesComplete when any filled entry is missing a start or end date", () => {
     const missingDate: ResumeData = {
       ...fullyFilled,
-      workExperience: [{ ...fullyFilled.workExperience[0], dateTo: "" }],
+      workExperience: [{ ...fullyFilled.workExperience[0]!, dateTo: "" }],
     };
 
     expect(passed(missingDate, "workDatesComplete")).toBe(false);
@@ -96,7 +96,7 @@ describe("checkResumeFormat", () => {
     const noNumbers: ResumeData = {
       ...fullyFilled,
       workExperience: [
-        { ...fullyFilled.workExperience[0], jobDescription: "Led the frontend team." },
+        { ...fullyFilled.workExperience[0]!, jobDescription: "Led the frontend team." },
       ],
     };
 
@@ -107,7 +107,7 @@ describe("checkResumeFormat", () => {
     const withDigit: ResumeData = {
       ...fullyFilled,
       workExperience: [
-        { ...fullyFilled.workExperience[0], jobDescription: "Managed a team of 5 engineers." },
+        { ...fullyFilled.workExperience[0]!, jobDescription: "Managed a team of 5 engineers." },
       ],
     };
 

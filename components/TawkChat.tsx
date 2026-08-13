@@ -9,11 +9,6 @@ export default function TawkChat() {
   const pathname = usePathname();
   const propertyId = process.env.NEXT_PUBLIC_TAWKTO_PROPERTY_ID;
   const widgetId = process.env.NEXT_PUBLIC_TAWKTO_WIDGET_ID;
-  // Skip on public share pages — visitors there have no support relationship
-  // with the app, and Tawk.to's own vendor bundle has a pre-existing
-  // "Illegal invocation" crash (document.createEvent) on some mobile
-  // browsers that isn't fixable from our side; simplest to just not load it
-  // on a page family where it doesn't belong anyway.
   const isSharedPage = pathname?.startsWith("/shared/");
   if (!propertyId || !widgetId || !consent.supportChat || isSharedPage) return null;
 

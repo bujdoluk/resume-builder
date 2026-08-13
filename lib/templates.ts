@@ -53,3 +53,9 @@ export const templates: TemplateDefinition<TemplateId, TemplateProps, MobileTemp
 ];
 
 export const defaultTemplateId: TemplateId = "basic";
+
+export function getTemplate(
+  id: TemplateId,
+): TemplateDefinition<TemplateId, TemplateProps, MobileTemplateProps> {
+  return templates.find((template) => template.id === id) ?? templates[0]!;
+}

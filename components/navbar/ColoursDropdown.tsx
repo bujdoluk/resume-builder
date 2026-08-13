@@ -24,7 +24,7 @@ export default function ColoursDropdown() {
     >
       <div className="flex flex-col gap-2">
         {rows.map((row, rowIndex) => (
-          <div key={row[0].name} className="flex gap-2">
+          <div key={rowIndex} className="flex gap-2">
             {row.map((swatch) => (
               <button
                 key={swatch.value}

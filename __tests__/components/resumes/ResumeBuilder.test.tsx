@@ -188,7 +188,7 @@ describe("ResumeBuilder", () => {
     );
     fillField(desktopPane.getByPlaceholderText("End date"), "06-2020");
     const locationInputs = desktopPane.getAllByPlaceholderText("Location");
-    fillField(locationInputs[1], "Springfield");
+    fillField(locationInputs[1]!, "Springfield");
     fillField(
       desktopPane.getByPlaceholderText("Describe your studies, thesis, honours..."),
       "Graduated with honours; thesis on distributed systems.",
@@ -214,7 +214,7 @@ describe("ResumeBuilder", () => {
     await user.click(dialog.getByRole("button", { name: "Save" }));
 
     await waitFor(() => expect(mocks.saveResume).toHaveBeenCalledTimes(1));
-    const [, savedParams] = mocks.saveResume.mock.calls[0];
+    const [, savedParams] = mocks.saveResume.mock.calls[0]!;
 
     expect(savedParams.name).toBe("My Test Resume");
     expect(savedParams.data).toMatchObject({

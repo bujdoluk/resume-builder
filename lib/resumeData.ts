@@ -17,6 +17,8 @@ export const languageLevels = [
   "Native Speaker",
 ];
 
+export const defaultLanguageLevel = languageLevels[0]!;
+
 const languageLevelTranslationKeys: Record<string, string> = {
   Beginner: "languageLevels.beginner",
   Advanced: "languageLevels.advanced",

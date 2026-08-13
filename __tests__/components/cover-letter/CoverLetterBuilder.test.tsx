@@ -121,7 +121,7 @@ describe("CoverLetterBuilder", () => {
     // section's "signature" field, which is a deliberate UI alias for the
     // same senderName data (not a separate field), so only the first match
     // needs to be filled.
-    fillField(desktopPane.getAllByPlaceholderText("Jane Doe")[0], "Jane Doe");
+    fillField(desktopPane.getAllByPlaceholderText("Jane Doe")[0]!, "Jane Doe");
     fillField(
       desktopPane.getByPlaceholderText("123 Main St, Springfield"),
       "456 Oak Ave, Metropolis",
@@ -172,7 +172,7 @@ describe("CoverLetterBuilder", () => {
     await user.click(dialog.getByRole("button", { name: "Save" }));
 
     await waitFor(() => expect(mocks.saveCoverLetter).toHaveBeenCalledTimes(1));
-    const [, savedParams] = mocks.saveCoverLetter.mock.calls[0];
+    const [, savedParams] = mocks.saveCoverLetter.mock.calls[0]!;
 
     expect(savedParams.name).toBe("My Test Cover Letter");
     expect(savedParams.data).toMatchObject({

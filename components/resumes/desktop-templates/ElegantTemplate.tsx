@@ -150,16 +150,15 @@ function renderMainFields(
 
   while (i < order.length) {
     const key = order[i];
+    if (key === undefined) break;
 
     if (contactFieldKeys.includes(key)) {
       const rowKeys: FieldKey[] = [];
       let j = i;
-      while (
-        j < order.length &&
-        contactFieldKeys.includes(order[j]) &&
-        fieldContent[order[j]]
-      ) {
-        rowKeys.push(order[j]);
+      while (j < order.length) {
+        const nextKey = order[j];
+        if (nextKey === undefined || !contactFieldKeys.includes(nextKey) || !fieldContent[nextKey]) break;
+        rowKeys.push(nextKey);
         j++;
       }
 

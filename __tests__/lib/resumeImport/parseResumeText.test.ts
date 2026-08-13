@@ -52,9 +52,9 @@ describe("parseResumeText", () => {
     expect(() => resumeDataSchema.parse(data)).not.toThrow();
     expect(data.name).toBe("Jane Doe");
     expect(data.workExperience).toHaveLength(1);
-    expect(data.workExperience[0].id).toBeTruthy();
+    expect(data.workExperience[0]!.id).toBeTruthy();
     expect(data.skills.map((s) => s.value)).toEqual(["React", "TypeScript"]);
-    expect(data.skills[0].id).toBeTruthy();
+    expect(data.skills[0]!.id).toBeTruthy();
     expect(data.languages[0]).toMatchObject({ language: "English", level: "Native Speaker" });
   });
 
@@ -84,8 +84,8 @@ describe("parseResumeText", () => {
     const { parseResumeText } = await import("@/lib/resumeImport/parseResumeText");
     const data = await parseResumeText("some text");
 
-    expect(data.workExperience[0].position).toBe("Engineer");
-    expect(data.workExperience[0].dateFrom).toBe("");
+    expect(data.workExperience[0]!.position).toBe("Engineer");
+    expect(data.workExperience[0]!.dateFrom).toBe("");
   });
 
   it("throws when Groq returns an empty response", async () => {

@@ -49,3 +49,5 @@ export const allFonts: FontOption[] = [
 export const fontsByKey: Record<FontKey, FontOption> = Object.fromEntries(
   allFonts.map((font) => [font.key, font]),
 ) as Record<FontKey, FontOption>;
+
+export const defaultFontKey: FontKey = allFonts[0]!.key;

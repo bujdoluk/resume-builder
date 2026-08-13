@@ -22,6 +22,7 @@ import { generateId } from "@/lib/generateId";
 import { formatPhoneAsYouType } from "@/lib/phone";
 import { fontsByKey, type FontKey } from "@/lib/fonts";
 import {
+  defaultLanguageLevel,
   emptyResumeData,
   languageLevelKey,
   languageLevels,
@@ -583,7 +584,7 @@ export default function Resume({
   function addLanguage() {
     onLanguagesChange([
       ...data.languages,
-      { id: generateId(), language: "", level: languageLevels[0] },
+      { id: generateId(), language: "", level: defaultLanguageLevel },
     ]);
   }
 

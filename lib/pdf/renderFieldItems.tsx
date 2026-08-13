@@ -36,16 +36,15 @@ export function renderPdfFieldItems(
 
   while (i < order.length) {
     const key = order[i];
+    if (key === undefined) break;
 
     if (key === "photo" && fieldContent.photo) {
       const pairedKeys: FieldKey[] = [];
       let j = i + 1;
-      while (
-        j < order.length &&
-        (order[j] === "name" || order[j] === "jobTitle") &&
-        fieldContent[order[j]]
-      ) {
-        pairedKeys.push(order[j]);
+      while (j < order.length) {
+        const nextKey = order[j];
+        if ((nextKey !== "name" && nextKey !== "jobTitle") || !fieldContent[nextKey]) break;
+        pairedKeys.push(nextKey);
         j++;
       }
 
@@ -68,12 +67,10 @@ export function renderPdfFieldItems(
     if (packContactFields && defaultContactFieldKeys.includes(key)) {
       const rowKeys: FieldKey[] = [];
       let j = i;
-      while (
-        j < order.length &&
-        defaultContactFieldKeys.includes(order[j]) &&
-        fieldContent[order[j]]
-      ) {
-        rowKeys.push(order[j]);
+      while (j < order.length) {
+        const nextKey = order[j];
+        if (nextKey === undefined || !defaultContactFieldKeys.includes(nextKey) || !fieldContent[nextKey]) break;
+        rowKeys.push(nextKey);
         j++;
       }
 

@@ -1,34 +1,19 @@
 "use client";
 
-import {
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-  type Dispatch,
-  type ReactNode,
-  type SetStateAction,
-} from "react";
+import { createContext, useContext, useEffect, useState, type Dispatch, type ReactNode, type SetStateAction } from "react";
 import { allCoverLetterFields, type CoverLetterFieldKey } from "@/lib/coverLetterFields";
-import type {
-  CoverLetterSectionKey,
-  CoverLetterSectionZones,
-} from "@/lib/coverLetterSections";
-import {
-  defaultCoverLetterTemplateId,
-  type CoverLetterTemplateId,
-} from "@/lib/coverLetterTemplates";
+import type { CoverLetterSectionKey, CoverLetterSectionZones } from "@/lib/coverLetterSections";
+import { defaultCoverLetterTemplateId, type CoverLetterTemplateId } from "@/lib/coverLetterTemplates";
 import { allFields, fieldLabels, type FieldKey } from "@/lib/fields";
 import { defaultFontSizeKey, type FontSizeKey } from "@/lib/fontSize";
-import { allFonts, type FontKey } from "@/lib/fonts";
+import { defaultFontKey, type FontKey } from "@/lib/fonts";
 import i18n from "@/lib/i18n/i18n";
 import i18nCore from "@/lib/i18n/i18nCore";
 import { defaultLanguageCode } from "@/lib/i18n/languages";
 import type { ModernSectionZones, SectionKey } from "@/lib/resumeData";
 import { defaultTemplateId, type TemplateId } from "@/lib/templates";
 
-const defaultFont: FontKey = allFonts[0].key;
-
+const defaultFont: FontKey = defaultFontKey;
 export { allFields, fieldLabels, type FieldKey };
 
 export const allSections: SectionKey[] = [
@@ -96,34 +81,21 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   const [templateId, setTemplateId] = useState<TemplateId>(defaultTemplateId);
   const [color, setColor] = useState<string | null>(null);
   const [font, setFont] = useState<FontKey | null>(defaultFont);
-  const [sectionOrder, setSectionOrder] =
-    useState<SectionKey[]>(defaultSectionOrder);
-  const [visibleFields, setVisibleFields] = useState<FieldKey[]>(
-    defaultVisibleFields,
-  );
-  const [coverLetterFieldOrder, setCoverLetterFieldOrder] = useState<
-    CoverLetterFieldKey[]
-  >(defaultCoverLetterFieldOrder);
-  const [coverLetterTemplateId, setCoverLetterTemplateId] =
-    useState<CoverLetterTemplateId>(defaultCoverLetterTemplateId);
-  const [modernSectionZones, setModernSectionZones] =
-    useState<ModernSectionZones>({});
-  const [coverLetterSectionZones, setCoverLetterSectionZones] =
-    useState<CoverLetterSectionZones>({});
+  const [sectionOrder, setSectionOrder] = useState<SectionKey[]>(defaultSectionOrder);
+  const [visibleFields, setVisibleFields] = useState<FieldKey[]>(defaultVisibleFields);
+  const [coverLetterFieldOrder, setCoverLetterFieldOrder] = useState<CoverLetterFieldKey[]>(defaultCoverLetterFieldOrder);
+  const [coverLetterTemplateId, setCoverLetterTemplateId] = useState<CoverLetterTemplateId>(defaultCoverLetterTemplateId);
+  const [modernSectionZones, setModernSectionZones] = useState<ModernSectionZones>({});
+  const [coverLetterSectionZones, setCoverLetterSectionZones] = useState<CoverLetterSectionZones>({});
   const [language, setLanguage] = useState<string>(defaultLanguageCode);
   const [fontSize, setFontSize] = useState<FontSizeKey>(defaultFontSizeKey);
   const [resumeListVersion, setResumeListVersion] = useState(0);
-  const notifyResumeListChanged = () =>
-    setResumeListVersion((version) => version + 1);
+  const notifyResumeListChanged = () => setResumeListVersion((version) => version + 1);
   const [coverLetterListVersion, setCoverLetterListVersion] = useState(0);
-  const notifyCoverLetterListChanged = () =>
-    setCoverLetterListVersion((version) => version + 1);
-
+  const notifyCoverLetterListChanged = () => setCoverLetterListVersion((version) => version + 1);
   const [lastEditorPath, setLastEditorPath] = useState("/app");
-  const [resumeStepsSummary, setResumeStepsSummary] =
-    useState<ResumeStepsSummary | null>(null);
-  const [coverLetterStepsSummary, setCoverLetterStepsSummary] =
-    useState<CoverLetterStepsSummary | null>(null);
+  const [resumeStepsSummary, setResumeStepsSummary] = useState<ResumeStepsSummary | null>(null);
+  const [coverLetterStepsSummary, setCoverLetterStepsSummary] = useState<CoverLetterStepsSummary | null>(null);
 
   useEffect(() => {
     i18n.changeLanguage(language);

@@ -4,12 +4,12 @@ import { useTranslation } from "react-i18next";
 import { useAppState } from "@/components/AppState";
 import { TypographyIcon } from "@/components/Icons";
 import NavbarDropdownButton from "@/components/navbar/NavbarDropdownButton";
-import { allFonts } from "@/lib/fonts";
+import { allFonts, defaultFontKey } from "@/lib/fonts";
 
 export default function TypographyDropdown() {
   const { t } = useTranslation();
   const { font, setFont } = useAppState();
-  const selectedFont = font ?? allFonts[0].key;
+  const selectedFont = font ?? defaultFontKey;
 
   return (
     <NavbarDropdownButton

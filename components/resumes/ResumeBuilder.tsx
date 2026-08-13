@@ -48,6 +48,7 @@ import { ensureUserId } from "@/lib/supabase/session";
 import { getSubscription, isPaidPlan } from "@/lib/supabase/subscriptions";
 import {
   defaultTemplateId,
+  getTemplate,
   templates,
   type TemplateId,
 } from "@/lib/templates";
@@ -331,8 +332,7 @@ export default function ResumeBuilder({
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
 
-  const templateDefinition =
-    templates.find((template) => template.id === templateId) ?? templates[0];
+  const templateDefinition = getTemplate(templateId);
   const TemplateComponent = templateDefinition.component;
   const MobileTemplateComponent = templateDefinition.mobileTemplateComponent;
 

@@ -33,7 +33,7 @@ import {
   defaultCoverLetterSectionOrder,
   type CoverLetterSectionKey,
 } from "@/lib/coverLetterSections";
-import { coverLetterTemplates } from "@/lib/coverLetterTemplates";
+import { getCoverLetterTemplate } from "@/lib/coverLetterTemplates";
 import { checkCoverLetterFormat } from "@/lib/atsChecker/checkCoverLetterFormat";
 import { FREE_TIER_LIMITS, SAVED_INDICATOR_DURATION_MS } from "@/lib/constants";
 import type { ExportFormat } from "@/lib/exportFormat";
@@ -71,9 +71,7 @@ export default function CoverLetterBuilder({
   const [sectionOrder, setSectionOrder] = useState<CoverLetterSectionKey[]>(
     defaultCoverLetterSectionOrder,
   );
-  const templateDefinition =
-    coverLetterTemplates.find((template) => template.id === coverLetterTemplateId) ??
-    coverLetterTemplates[0];
+  const templateDefinition = getCoverLetterTemplate(coverLetterTemplateId);
   const TemplateComponent = templateDefinition.component;
   const MobileTemplateComponent = templateDefinition.mobileTemplateComponent;
   const PdfTemplate = coverLetterPdfTemplates[coverLetterTemplateId];

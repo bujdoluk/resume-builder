@@ -3,13 +3,13 @@
 import { useTranslation } from "react-i18next";
 import { useAppState } from "@/components/AppState";
 import { ChevronDownIcon } from "@/components/Icons";
-import { languages } from "@/lib/i18n/languages";
+import { getLanguage, languages } from "@/lib/i18n/languages";
 
 export default function LanguageSelect() {
   const { language, setLanguage } = useAppState();
   const { t } = useTranslation();
 
-  const current = languages.find((option) => option.code === language) ?? languages[0];
+  const current = getLanguage(language);
   const CurrentFlag = current.flag;
 
   function selectLanguage(code: string) {

@@ -1,7 +1,7 @@
 
 import { generateId } from "@/lib/generateId";
 import {
-  languageLevels,
+  defaultLanguageLevel,
   type CertificationEntry,
   type EducationEntry,
   type LanguageEntry,
@@ -153,7 +153,7 @@ export function createResumeFormHandlers({
   function addLanguage() {
     onLanguagesChange([
       ...data.languages,
-      { id: generateId(), language: "", level: languageLevels[0] },
+      { id: generateId(), language: "", level: defaultLanguageLevel },
     ]);
   }
 

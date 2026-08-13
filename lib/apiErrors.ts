@@ -13,15 +13,17 @@ import ru from "@/lib/i18n/locales/ru.json";
 import sk from "@/lib/i18n/locales/sk.json";
 import sv from "@/lib/i18n/locales/sv.json";
 
-const RESOURCES: Record<string, { apiErrors: Record<string, string> }> = {
+type SupportedLocale = "en" | "sk" | "cs" | "de" | "pl" | "pt" | "ru" | "es" | "it" | "fr" | "sv" | "nb" | "nl";
+
+const RESOURCES: Record<SupportedLocale, { apiErrors: Record<string, string> }> = {
   en, sk, cs, de, pl, pt, ru, es, it, fr, sv, nb, nl,
 };
 
 export type ApiErrorKey = keyof typeof en.apiErrors;
 
-function localeFromRequest(request: Request): string {
+function localeFromRequest(request: Request): SupportedLocale {
   const requested = request.headers.get(API_LOCALE_HEADER);
-  return requested && requested in RESOURCES ? requested : "en";
+  return requested && requested in RESOURCES ? (requested as SupportedLocale) : "en";
 }
 
 export function errorResponse(status: number, key: ApiErrorKey, request: Request): Response {

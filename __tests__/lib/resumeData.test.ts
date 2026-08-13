@@ -35,9 +35,10 @@ describe("resumeDataSchema", () => {
     });
 
     expect(result.workExperience).toHaveLength(1);
-    expect(result.workExperience[0].position).toBe("Engineer");
-    expect(result.workExperience[0].dateFrom).toBe("");
-    expect(result.workExperience[0].id).toMatch(/^[0-9a-f-]{36}$/);
+    const entry = result.workExperience[0]!;
+    expect(entry.position).toBe("Engineer");
+    expect(entry.dateFrom).toBe("");
+    expect(entry.id).toMatch(/^[0-9a-f-]{36}$/);
   });
 
   it("strips unknown keys (e.g. a schema-version marker) rather than failing", () => {

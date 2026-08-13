@@ -47,16 +47,15 @@ function renderFieldItems(
 
   while (i < order.length) {
     const key = order[i];
+    if (key === undefined) break;
 
     if (key === "photo" && fieldContent.photo) {
       const pairedKeys: FieldKey[] = [];
       let j = i + 1;
-      while (
-        j < order.length &&
-        (order[j] === "name" || order[j] === "jobTitle") &&
-        fieldContent[order[j]]
-      ) {
-        pairedKeys.push(order[j]);
+      while (j < order.length) {
+        const nextKey = order[j];
+        if ((nextKey !== "name" && nextKey !== "jobTitle") || !fieldContent[nextKey]) break;
+        pairedKeys.push(nextKey);
         j++;
       }
 

@@ -33,3 +33,9 @@ export const coverLetterTemplates: TemplateDefinition<
 ];
 
 export const defaultCoverLetterTemplateId: CoverLetterTemplateId = "basic";
+
+export function getCoverLetterTemplate(
+  id: CoverLetterTemplateId,
+): TemplateDefinition<CoverLetterTemplateId, CoverLetterTemplateProps, CoverLetterMobileTemplateProps> {
+  return coverLetterTemplates.find((template) => template.id === id) ?? coverLetterTemplates[0]!;
+}
