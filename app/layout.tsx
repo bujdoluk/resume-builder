@@ -39,61 +39,73 @@ const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
   weight: ["400", "700"],
+  preload: false,
 });
 const roboto = Roboto({
   variable: "--font-roboto",
   subsets: ["latin"],
   weight: ["400", "700"],
+  preload: false,
 });
 const lato = Lato({
   variable: "--font-lato",
   subsets: ["latin"],
   weight: ["400", "700"],
+  preload: false,
 });
 const montserrat = Montserrat({
   variable: "--font-montserrat",
   subsets: ["latin"],
   weight: ["400", "700"],
+  preload: false,
 });
 const poppins = Poppins({
   variable: "--font-poppins",
   subsets: ["latin"],
   weight: ["400", "700"],
+  preload: false,
 });
 const merriweather = Merriweather({
   variable: "--font-merriweather",
   subsets: ["latin"],
   weight: ["400", "700"],
+  preload: false,
 });
 const playfairDisplay = Playfair_Display({
   variable: "--font-playfair",
   subsets: ["latin"],
   weight: ["400", "700"],
+  preload: false,
 });
 const lora = Lora({
   variable: "--font-lora",
   subsets: ["latin"],
   weight: ["400", "700"],
+  preload: false,
 });
 const nunito = Nunito({
   variable: "--font-nunito",
   subsets: ["latin"],
   weight: ["400", "700"],
+  preload: false,
 });
 const spaceMono = Space_Mono({
   variable: "--font-space-mono",
   subsets: ["latin"],
   weight: ["400", "700"],
+  preload: false,
 });
 const oswald = Oswald({
   variable: "--font-oswald",
   subsets: ["latin"],
   weight: ["400", "700"],
+  preload: false,
 });
 const raleway = Raleway({
   variable: "--font-raleway",
   subsets: ["latin"],
   weight: ["400", "700"],
+  preload: false,
 });
 
 const fontVariables = [

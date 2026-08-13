@@ -6,6 +6,7 @@ import { useTranslation } from "react-i18next";
 import { Temporal } from "temporal-polyfill";
 import ConfirmDialog, { type ConfirmDialogHandle } from "@/components/ConfirmDialog";
 import { ArrowLeftIcon, InfoIcon } from "@/components/Icons";
+import LoadingSpinner from "@/components/LoadingSpinner";
 import { useToast } from "@/components/Toast";
 import { useIsAdmin } from "@/components/useIsAdmin";
 import { requestAccountDelete, requestAccountExport } from "@/lib/api/account";
@@ -186,11 +187,7 @@ export default function AccountPage() {
   }
 
   if (!email) {
-    return (
-      <div className="bg-base-200 flex flex-1 items-center justify-center p-6">
-        <span className="loading loading-spinner loading-lg" />
-      </div>
-    );
+    return <LoadingSpinner />;
   }
 
   return (

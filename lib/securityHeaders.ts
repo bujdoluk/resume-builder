@@ -21,7 +21,7 @@ export function buildContentSecurityPolicy({ isDev, supabaseUrl }: SecurityHeade
       "https://va.vercel-scripts.com",
     ],
     "style-src": ["'self'", "'unsafe-inline'", "https://embed.tawk.to", "https://*.hcaptcha.com"],
-    "img-src": ["'self'", "data:", "blob:", "https://*.tawk.to"],
+    "img-src": ["'self'", "data:", "blob:", "https:"],
     "font-src": ["'self'", "data:", "https://embed.tawk.to"],
     "connect-src": [
       "'self'",

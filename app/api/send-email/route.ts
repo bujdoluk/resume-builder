@@ -10,9 +10,7 @@ import {
   RATE_LIMIT_SEND_EMAIL_WINDOW,
 } from "@/lib/constants";
 import { verifyCaptchaToken } from "@/lib/hcaptcha";
-import { sendDocxEmail } from "@/lib/email/sendDocxEmail";
-import { sendPdfEmail } from "@/lib/email/sendPdfEmail";
-import { sendTextEmail } from "@/lib/email/sendTextEmail";
+import { sendExportEmail } from "@/lib/email/sendExportEmail";
 import { checkRateLimit, getRequestIp } from "@/lib/rateLimit";
 import {
   docxBase64Schema,
@@ -53,10 +51,11 @@ export async function POST(request: Request) {
       return errorResponse(HTTP_BAD_REQUEST, parsedText.key, request);
     }
 
-    const { error } = await sendTextEmail({
+    const { error } = await sendExportEmail({
       to,
       fileName: safeFileName,
-      textContent: parsedText.data,
+      extension: "txt",
+      content: Buffer.from(parsedText.data, "utf-8"),
     });
     if (error) {
       return Response.json({ error }, { status: HTTP_BAD_GATEWAY });
@@ -75,7 +74,12 @@ export async function POST(request: Request) {
       return errorResponse(HTTP_BAD_REQUEST, "invalidWordData", request);
     }
 
-    const { error } = await sendDocxEmail({ to, fileName: safeFileName, docxBuffer });
+    const { error } = await sendExportEmail({
+      to,
+      fileName: safeFileName,
+      extension: "docx",
+      content: docxBuffer,
+    });
     if (error) {
       return Response.json({ error }, { status: HTTP_BAD_GATEWAY });
     }
@@ -92,7 +96,12 @@ export async function POST(request: Request) {
     return errorResponse(HTTP_BAD_REQUEST, "invalidPdfData", request);
   }
 
-  const { error } = await sendPdfEmail({ to, fileName: safeFileName, pdfBuffer });
+  const { error } = await sendExportEmail({
+    to,
+    fileName: safeFileName,
+    extension: "pdf",
+    content: pdfBuffer,
+  });
   if (error) {
     return Response.json({ error }, { status: HTTP_BAD_GATEWAY });
   }

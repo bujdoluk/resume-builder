@@ -9,11 +9,9 @@ import { handleApiResponse } from "@/lib/apiResponse";
 import { MAX_IMPORT_FILE_BYTES } from "@/lib/constants";
 import { sectionKeySchema, type ResumeData, type SectionKey } from "@/lib/resumeData";
 import { getAnonymousCaptchaToken } from "@/lib/supabase/invisibleCaptcha";
-import type { ImportFileType } from "@/types/documentImport";
+import type { ImportDialogHandle, ImportFileType } from "@/types/documentImport";
 
-export interface ImportResumeDialogHandle {
-  open: () => Promise<ResumeData | null>;
-}
+export type ImportResumeDialogHandle = ImportDialogHandle<ResumeData>;
 
 const ACCEPTED_EXTENSIONS: Record<ImportFileType, string> = {
   pdf: ".pdf",

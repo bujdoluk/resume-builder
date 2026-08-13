@@ -1,15 +1,13 @@
 
 import type { MetadataRoute } from "next";
 import { Temporal } from "temporal-polyfill";
-import { createClient } from "@/lib/supabase/server";
-import { getBlogPosts } from "@/lib/supabase/blogPosts";
+import { getCachedBlogPosts } from "@/lib/supabase/blogPosts";
 
 const baseUrl = "https://www.quickresumebuilder.online";
 const lastModified = Temporal.Now.instant().toString();
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const supabase = await createClient();
-  const posts = await getBlogPosts(supabase);
+  const posts = await getCachedBlogPosts();
 
   return [
     {

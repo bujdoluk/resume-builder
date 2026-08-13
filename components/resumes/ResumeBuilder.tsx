@@ -15,6 +15,7 @@ import { SaveIcon, ShareIcon } from "@/components/Icons";
 import ImportResumeDialog, {
   type ImportResumeDialogHandle,
 } from "@/components/resumes/ImportResumeDialog";
+import LoadingSpinner from "@/components/LoadingSpinner";
 import PreviewModal, {
   type PreviewModalHandle,
 } from "@/components/preview/PreviewModal";
@@ -672,11 +673,7 @@ export default function ResumeBuilder({
   }
 
   if (isLoadingInitialResume) {
-    return (
-      <div className="bg-base-200 flex flex-1 items-center justify-center p-6">
-        <span className="loading loading-spinner loading-lg" />
-      </div>
-    );
+    return <LoadingSpinner />;
   }
 
   return (
