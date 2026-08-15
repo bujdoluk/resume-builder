@@ -64,8 +64,8 @@ export function useCookieConsent(): CookieConsentContextValue {
 export function CookieConsentProvider({ children }: { children: ReactNode }) {
   const { t } = useTranslation();
   const [consent, setConsent] = useState<ConsentChoices>(DEFAULT_CHOICES);
-  const [hasDecided, setHasDecided] = useState(false);
-  const [preferencesOpen, setPreferencesOpen] = useState(false);
+  const [hasDecided, setHasDecided] = useState<boolean>(false);
+  const [preferencesOpen, setPreferencesOpen] = useState<boolean>(false);
   const [draft, setDraft] = useState<ConsentChoices>(DEFAULT_CHOICES);
   const dialogRef = useRef<HTMLDialogElement>(null);
   const mounted = useHasMounted();

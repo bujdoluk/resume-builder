@@ -31,7 +31,7 @@ export default function Sidebar() {
     resumeStepsSummary,
     coverLetterStepsSummary,
   } = useAppState();
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState<boolean>(false);
   const [supabase] = useState(() => createClient());
   const [resumeCount, setResumeCount] = useState<number | null>(null);
   const [coverLetterCount, setCoverLetterCount] = useState<number | null>(null);

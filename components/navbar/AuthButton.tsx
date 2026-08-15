@@ -13,7 +13,7 @@ export default function AuthButton() {
   const router = useRouter();
   const [supabase] = useState(() => createClient());
   const [email, setEmail] = useState<string | null>(null);
-  const [isSigningOut, setIsSigningOut] = useState(false);
+  const [isSigningOut, setIsSigningOut] = useState<boolean>(false);
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {

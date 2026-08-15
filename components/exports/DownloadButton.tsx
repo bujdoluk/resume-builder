@@ -35,7 +35,7 @@ export default function DownloadButton<T extends object>({
   className,
 }: DownloadButtonProps<T>) {
   const { t } = useTranslation();
-  const [isGenerating, setIsGenerating] = useState(false);
+  const [isGenerating, setIsGenerating] = useState<boolean>(false);
 
   async function handleDownload() {
     if (isGenerating) return;

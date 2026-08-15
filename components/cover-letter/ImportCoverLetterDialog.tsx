@@ -65,7 +65,7 @@ export default function ImportCoverLetterDialog({ ref }: { ref?: Ref<ImportCover
   const resolveRef = useRef<((data: CoverLetterData | null) => void) | null>(null);
 
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [isImporting, setIsImporting] = useState(false);
+  const [isImporting, setIsImporting] = useState<boolean>(false);
   const [importedData, setImportedData] = useState<CoverLetterData | null>(null);
 
   useImperativeHandle(ref, () => ({

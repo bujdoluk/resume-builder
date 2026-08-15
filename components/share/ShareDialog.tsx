@@ -45,8 +45,8 @@ export default function ShareDialog({ ref, onTokenChange }: ShareDialogProps) {
     token: string | null;
     expiresAt: string | null;
   } | null>(null);
-  const [isWorking, setIsWorking] = useState(false);
-  const [copied, setCopied] = useState(false);
+  const [isWorking, setIsWorking] = useState<boolean>(false);
+  const [copied, setCopied] = useState<boolean>(false);
 
   useImperativeHandle(ref, () => ({
     open(params) {

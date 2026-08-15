@@ -8,7 +8,7 @@ function applyTheme(dark: boolean) {
 }
 
 export default function ThemeToggle() {
-  const [isDark, setIsDark] = useState(false);
+  const [isDark, setIsDark] = useState<boolean>(false);
 
   useEffect(() => {
     const stored = localStorage.getItem("theme");

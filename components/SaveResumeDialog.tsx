@@ -24,7 +24,7 @@ export default function SaveResumeDialog({
   const { t } = useTranslation();
   const dialogRef = useRef<HTMLDialogElement>(null);
   const resolveRef = useRef<((name: string | null) => void) | null>(null);
-  const [name, setName] = useState("");
+  const [name, setName] = useState<string>("");
   const isTooLong = name.trim().length > MAX_SAVED_ITEM_NAME_LENGTH;
 
   useImperativeHandle(ref, () => ({

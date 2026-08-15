@@ -41,9 +41,9 @@ export default function EmailButton<T extends object>({
   const { t, i18n } = useTranslation();
   const { showToast } = useToast();
   const dialogRef = useRef<HTMLDialogElement>(null);
-  const [to, setTo] = useState("");
-  const [isSending, setIsSending] = useState(false);
-  const [sent, setSent] = useState(false);
+  const [to, setTo] = useState<string>("");
+  const [isSending, setIsSending] = useState<boolean>(false);
+  const [sent, setSent] = useState<boolean>(false);
 
   function openDialog() {
     setSent(false);

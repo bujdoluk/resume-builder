@@ -6,7 +6,7 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: "*",
       allow: "/",
-      disallow: "/my-resumes",
+      disallow: ["/my-resumes", "/my-cover-letters", "/account", "/billing", "/support"],
     },
     sitemap: "https://www.quickresumebuilder.online/sitemap.xml",
   };

@@ -164,6 +164,24 @@ describe("POST /api/stripe/webhook", () => {
     );
   });
 
+  it("still returns 200 and records the subscription when the welcome email fails", async () => {
+    mocks.constructEvent.mockReturnValue(checkoutCompletedEvent());
+    mocks.retrieveSubscription.mockResolvedValue(fakeSubscription({ status: "active" }));
+    const { from, upsert } = createSupabaseMock({ existingRow: null });
+    mocks.createServiceRoleClient.mockReturnValue({ from });
+    mocks.sendWelcomeEmail.mockRejectedValue(new Error("resend down"));
+
+    const { POST } = await import("@/app/api/stripe/webhook/route");
+    const response = await POST(postRequest("{}"));
+
+    expect(response.status).toBe(200);
+    expect(upsert).toHaveBeenCalled();
+    expect(mocks.captureException).toHaveBeenCalledWith(
+      expect.any(Error),
+      expect.objectContaining({ tags: { stripeEventType: "checkout.session.completed" } }),
+    );
+  });
+
   it("does not send a welcome email when the customer already has a subscription row", async () => {
     mocks.constructEvent.mockReturnValue(checkoutCompletedEvent());
     mocks.retrieveSubscription.mockResolvedValue(fakeSubscription());

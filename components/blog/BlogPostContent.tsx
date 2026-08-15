@@ -21,7 +21,7 @@ export default function BlogPostContent({ post }: { post: BlogPost }) {
   const router = useRouter();
   const { showToast } = useToast();
   const isAdmin = useIsAdmin();
-  const [deleting, setDeleting] = useState(false);
+  const [deleting, setDeleting] = useState<boolean>(false);
   const confirmDialogRef = useRef<ConfirmDialogHandle>(null);
   const editDialogRef = useRef<BlogPostFormDialogHandle>(null);
   const formattedDate = Temporal.PlainDate.from(post.publishedAt).toLocaleString(i18n.language, {

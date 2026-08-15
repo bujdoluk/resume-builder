@@ -5,7 +5,7 @@ import { createClient } from "@/lib/supabase/client";
 
 export function useIsAdmin(): boolean {
   const [supabase] = useState(() => createClient());
-  const [isAdmin, setIsAdmin] = useState(false);
+  const [isAdmin, setIsAdmin] = useState<boolean>(false);
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {

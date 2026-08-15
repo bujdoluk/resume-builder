@@ -25,7 +25,7 @@ export default function BillingPage() {
   const { showToast } = useToast();
   const [supabase] = useState(() => createClient());
   const [subscription, setSubscription] = useState<Subscription | null>(null);
-  const [actionLoading, setActionLoading] = useState(false);
+  const [actionLoading, setActionLoading] = useState<boolean>(false);
   const cancelDialogRef = useRef<ConfirmDialogHandle>(null);
 
   useEffect(() => {

@@ -44,7 +44,7 @@ export default function BlogPostFormDialog({ ref }: { ref?: Ref<BlogPostFormDial
   const resolveRef = useRef<((saved: boolean) => void) | null>(null);
   const [form, setForm] = useState(EMPTY_FORM);
   const [editingId, setEditingId] = useState<string | null>(null);
-  const [submitting, setSubmitting] = useState(false);
+  const [submitting, setSubmitting] = useState<boolean>(false);
   const isEditing = editingId !== null;
 
   useImperativeHandle(ref, () => ({

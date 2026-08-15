@@ -25,10 +25,10 @@ export default function AtsCheckerDialog({ ref }: { ref?: Ref<AtsCheckerDialogHa
   const { showToast } = useToast();
   const dialogRef = useRef<HTMLDialogElement>(null);
   const [formatChecks, setFormatChecks] = useState<FormatCheckItem[]>([]);
-  const [documentText, setDocumentText] = useState("");
-  const [jobDescription, setJobDescription] = useState("");
+  const [documentText, setDocumentText] = useState<string>("");
+  const [jobDescription, setJobDescription] = useState<string>("");
   const [matchResult, setMatchResult] = useState<KeywordMatchResult | null>(null);
-  const [isCheckingCoherence, setIsCheckingCoherence] = useState(false);
+  const [isCheckingCoherence, setIsCheckingCoherence] = useState<boolean>(false);
   const [coherenceResult, setCoherenceResult] = useState<CoherenceResult | null>(null);
 
   useImperativeHandle(ref, () => ({

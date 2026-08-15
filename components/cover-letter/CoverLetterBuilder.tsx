@@ -81,11 +81,11 @@ export default function CoverLetterBuilder({
   const [loadedCoverLetterId, setLoadedCoverLetterId] = useState<string | null>(null);
   const isLoadingInitialCoverLetter =
     !!initialCoverLetterId && loadedCoverLetterId !== initialCoverLetterId;
-  const [name, setName] = useState("");
+  const [name, setName] = useState<string>("");
   const [shareToken, setShareToken] = useState<string | null>(null);
   const [shareTokenExpiresAt, setShareTokenExpiresAt] = useState<string | null>(null);
-  const [isSaving, setIsSaving] = useState(false);
-  const [justSaved, setJustSaved] = useState(false);
+  const [isSaving, setIsSaving] = useState<boolean>(false);
+  const [justSaved, setJustSaved] = useState<boolean>(false);
   const [exportFormat, setExportFormat] = useState<ExportFormat>("pdf");
   const previewRef = useRef<PreviewModalHandle>(null);
   const saveDialogRef = useRef<SaveResumeDialogHandle>(null);

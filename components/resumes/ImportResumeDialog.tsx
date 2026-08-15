@@ -67,7 +67,7 @@ export default function ImportResumeDialog({ ref }: { ref?: Ref<ImportResumeDial
   const resolveRef = useRef<((data: ResumeData | null) => void) | null>(null);
 
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [isImporting, setIsImporting] = useState(false);
+  const [isImporting, setIsImporting] = useState<boolean>(false);
   const [importedData, setImportedData] = useState<ResumeData | null>(null);
 
   useImperativeHandle(ref, () => ({

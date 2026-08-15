@@ -111,7 +111,12 @@ export async function POST(request: Request) {
 
         if (!existingRow && email) {
           const { origin } = new URL(request.url);
-          await sendWelcomeEmail(email, plan, origin);
+          try {
+            await sendWelcomeEmail(email, plan, origin);
+          } catch (error) {
+            console.error("Failed to send welcome email:", error);
+            Sentry.captureException(error, { tags: { stripeEventType: event.type } });
+          }
         }
         break;
       }

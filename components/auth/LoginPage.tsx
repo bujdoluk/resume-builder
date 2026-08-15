@@ -32,19 +32,19 @@ function LoginForm() {
 
   const [supabase] = useState(() => createClient());
   const [mode, setMode] = useState<Mode>("login");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
-  const [rememberMe, setRememberMe] = useState(true);
-  const [submitting, setSubmitting] = useState(false);
-  const [googleSubmitting, setGoogleSubmitting] = useState(false);
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [rememberMe, setRememberMe] = useState<boolean>(true);
+  const [submitting, setSubmitting] = useState<boolean>(false);
+  const [googleSubmitting, setGoogleSubmitting] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(searchParams.get("error") === "oauth" ? t("auth.errors.oauth") : null);
-  const [confirmEmailSent, setConfirmEmailSent] = useState(false);
-  const [resetLinkSent, setResetLinkSent] = useState(false);
+  const [confirmEmailSent, setConfirmEmailSent] = useState<boolean>(false);
+  const [resetLinkSent, setResetLinkSent] = useState<boolean>(false);
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
   const hcaptchaRef = useRef<HCaptcha>(null);
-  const [awaitingMfaCode, setAwaitingMfaCode] = useState(false);
-  const [mfaCode, setMfaCode] = useState("");
+  const [awaitingMfaCode, setAwaitingMfaCode] = useState<boolean>(false);
+  const [mfaCode, setMfaCode] = useState<string>("");
 
   useEffect(() => {
     getStepUpRequired(supabase).then((required) => {

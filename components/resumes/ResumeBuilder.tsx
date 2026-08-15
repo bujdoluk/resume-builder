@@ -127,9 +127,9 @@ export default function ResumeBuilder({
   );
   const [loadedResumeId, setLoadedResumeId] = useState<string | null>(null);
   const isLoadingInitialResume = !!initialResumeId && loadedResumeId !== initialResumeId;
-  const [isSaving, setIsSaving] = useState(false);
-  const [justSaved, setJustSaved] = useState(false);
-  const [resumeName, setResumeName] = useState("");
+  const [isSaving, setIsSaving] = useState<boolean>(false);
+  const [justSaved, setJustSaved] = useState<boolean>(false);
+  const [resumeName, setResumeName] = useState<string>("");
   const [shareToken, setShareToken] = useState<string | null>(null);
   const [shareTokenExpiresAt, setShareTokenExpiresAt] = useState<string | null>(null);
   const [exportFormat, setExportFormat] = useState<ExportFormat>("pdf");

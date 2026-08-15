@@ -21,7 +21,7 @@ export default function AiRewriteButton({
 }) {
   const { t, i18n } = useTranslation();
   const { showToast } = useToast();
-  const [isRewriting, setIsRewriting] = useState(false);
+  const [isRewriting, setIsRewriting] = useState<boolean>(false);
 
   async function handleClick() {
     if (isRewriting || !text.trim()) return;

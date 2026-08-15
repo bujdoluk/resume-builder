@@ -34,18 +34,18 @@ export default function AccountPage() {
   const [supabase] = useState(() => createClient());
   const [email, setEmail] = useState<string | null>(null);
   const [createdAt, setCreatedAt] = useState<string | null>(null);
-  const [actionLoading, setActionLoading] = useState(false);
-  const [exportLoading, setExportLoading] = useState(false);
+  const [actionLoading, setActionLoading] = useState<boolean>(false);
+  const [exportLoading, setExportLoading] = useState<boolean>(false);
   const deleteDialogRef = useRef<ConfirmDialogHandle>(null);
   const isAdmin = useIsAdmin();
   const [mfaFactor, setMfaFactor] = useState<TotpFactor | null | undefined>(undefined);
   const [mfaEnrollment, setMfaEnrollment] = useState<TotpEnrollment | null>(null);
-  const [mfaCode, setMfaCode] = useState("");
-  const [mfaBusy, setMfaBusy] = useState(false);
+  const [mfaCode, setMfaCode] = useState<string>("");
+  const [mfaBusy, setMfaBusy] = useState<boolean>(false);
   const [mfaError, setMfaError] = useState<string | null>(null);
-  const [mfaCopied, setMfaCopied] = useState(false);
-  const [mfaDisableConfirming, setMfaDisableConfirming] = useState(false);
-  const [mfaDisableCode, setMfaDisableCode] = useState("");
+  const [mfaCopied, setMfaCopied] = useState<boolean>(false);
+  const [mfaDisableConfirming, setMfaDisableConfirming] = useState<boolean>(false);
+  const [mfaDisableCode, setMfaDisableCode] = useState<string>("");
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
