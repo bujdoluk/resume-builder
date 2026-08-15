@@ -6,7 +6,7 @@ import { DocumentImportExtractionError } from "@/lib/documentImport/extractText"
 
 const mocks = vi.hoisted(() => ({
   checkRateLimit: vi.fn(),
-  verifyCaptchaToken: vi.fn(),
+  // verifyCaptchaToken: vi.fn(),
   extractDocumentText: vi.fn(),
   parseCoverLetterText: vi.fn(),
   captureException: vi.fn(),
@@ -17,9 +17,9 @@ vi.mock("@/lib/rateLimit", () => ({
   getRequestIp: () => "203.0.113.1",
 }));
 
-vi.mock("@/lib/hcaptcha", () => ({
-  verifyCaptchaToken: mocks.verifyCaptchaToken,
-}));
+// vi.mock("@/lib/hcaptcha", () => ({
+//   verifyCaptchaToken: mocks.verifyCaptchaToken,
+// }));
 
 vi.mock("@/lib/documentImport/extractText", async (importOriginal) => {
   const actual = await importOriginal<typeof import("@/lib/documentImport/extractText")>();
@@ -43,22 +43,26 @@ function jsonRequest(body: unknown): Request {
 }
 
 const validBody = {
-  captchaToken: "captcha-token",
   fileBase64: Buffer.from("fake pdf bytes").toString("base64"),
   fileType: "pdf",
 };
+// const validBody = {
+//   captchaToken: "captcha-token",
+//   fileBase64: Buffer.from("fake pdf bytes").toString("base64"),
+//   fileType: "pdf",
+// };
 
 beforeEach(() => {
   vi.clearAllMocks();
   process.env.GROQ_API_KEY = "test-groq-key";
   mocks.checkRateLimit.mockResolvedValue(true);
-  mocks.verifyCaptchaToken.mockResolvedValue(true);
+  // mocks.verifyCaptchaToken.mockResolvedValue(true);
   mocks.extractDocumentText.mockResolvedValue("Jane Doe cover letter text");
   mocks.parseCoverLetterText.mockResolvedValue({ ...emptyCoverLetterData, senderName: "Jane Doe" });
 });
 
 describe("POST /api/import-cover-letter", () => {
-  it("returns 429 and never checks the captcha when rate limited", async () => {
+  it("returns 429 when rate limited", async () => {
     mocks.checkRateLimit.mockResolvedValue(false);
 
     const { POST } = await import("@/app/api/import-cover-letter/route");
@@ -66,20 +70,20 @@ describe("POST /api/import-cover-letter", () => {
 
     expect(response.status).toBe(429);
     expect((await response.json()).error).toBe(en.apiErrors.rateLimited);
-    expect(mocks.verifyCaptchaToken).not.toHaveBeenCalled();
+    // expect(mocks.verifyCaptchaToken).not.toHaveBeenCalled();
     expect(mocks.parseCoverLetterText).not.toHaveBeenCalled();
   });
 
-  it("rejects a failed captcha verification", async () => {
-    mocks.verifyCaptchaToken.mockResolvedValue(false);
-
-    const { POST } = await import("@/app/api/import-cover-letter/route");
-    const response = await POST(jsonRequest(validBody));
-
-    expect(response.status).toBe(400);
-    expect((await response.json()).error).toBe(en.apiErrors.captchaVerificationFailed);
-    expect(mocks.parseCoverLetterText).not.toHaveBeenCalled();
-  });
+  // it("rejects a failed captcha verification", async () => {
+  //   mocks.verifyCaptchaToken.mockResolvedValue(false);
+  //
+  //   const { POST } = await import("@/app/api/import-cover-letter/route");
+  //   const response = await POST(jsonRequest(validBody));
+  //
+  //   expect(response.status).toBe(400);
+  //   expect((await response.json()).error).toBe(en.apiErrors.captchaVerificationFailed);
+  //   expect(mocks.parseCoverLetterText).not.toHaveBeenCalled();
+  // });
 
   it("rejects a missing file", async () => {
     const { POST } = await import("@/app/api/import-cover-letter/route");

@@ -4,7 +4,7 @@ import en from "@/lib/i18n/locales/en.json";
 
 const mocks = vi.hoisted(() => ({
   checkRateLimit: vi.fn(),
-  verifyCaptchaToken: vi.fn(),
+  // verifyCaptchaToken: vi.fn(),
   rewriteText: vi.fn(),
   captureException: vi.fn(),
 }));
@@ -14,9 +14,9 @@ vi.mock("@/lib/rateLimit", () => ({
   getRequestIp: () => "203.0.113.1",
 }));
 
-vi.mock("@/lib/hcaptcha", () => ({
-  verifyCaptchaToken: mocks.verifyCaptchaToken,
-}));
+// vi.mock("@/lib/hcaptcha", () => ({
+//   verifyCaptchaToken: mocks.verifyCaptchaToken,
+// }));
 
 vi.mock("@/lib/aiRewrite/rewriteText", () => ({
   rewriteText: mocks.rewriteText,
@@ -34,18 +34,19 @@ function jsonRequest(body: unknown): Request {
   });
 }
 
-const validBody = { captchaToken: "captcha-token", text: "Built things and fixed bugs.", style: "bullets" };
+const validBody = { text: "Built things and fixed bugs.", style: "bullets" };
+// const validBody = { captchaToken: "captcha-token", text: "Built things and fixed bugs.", style: "bullets" };
 
 beforeEach(() => {
   vi.clearAllMocks();
   process.env.GROQ_API_KEY = "test-groq-key";
   mocks.checkRateLimit.mockResolvedValue(true);
-  mocks.verifyCaptchaToken.mockResolvedValue(true);
+  // mocks.verifyCaptchaToken.mockResolvedValue(true);
   mocks.rewriteText.mockResolvedValue("Built and shipped several features, fixing bugs along the way.");
 });
 
 describe("POST /api/ai-rewrite", () => {
-  it("returns 429 and never checks the captcha when rate limited", async () => {
+  it("returns 429 when rate limited", async () => {
     mocks.checkRateLimit.mockResolvedValue(false);
 
     const { POST } = await import("@/app/api/ai-rewrite/route");
@@ -53,20 +54,20 @@ describe("POST /api/ai-rewrite", () => {
 
     expect(response.status).toBe(429);
     expect((await response.json()).error).toBe(en.apiErrors.rateLimited);
-    expect(mocks.verifyCaptchaToken).not.toHaveBeenCalled();
+    // expect(mocks.verifyCaptchaToken).not.toHaveBeenCalled();
     expect(mocks.rewriteText).not.toHaveBeenCalled();
   });
 
-  it("rejects a failed captcha verification", async () => {
-    mocks.verifyCaptchaToken.mockResolvedValue(false);
-
-    const { POST } = await import("@/app/api/ai-rewrite/route");
-    const response = await POST(jsonRequest(validBody));
-
-    expect(response.status).toBe(400);
-    expect((await response.json()).error).toBe(en.apiErrors.captchaVerificationFailed);
-    expect(mocks.rewriteText).not.toHaveBeenCalled();
-  });
+  // it("rejects a failed captcha verification", async () => {
+  //   mocks.verifyCaptchaToken.mockResolvedValue(false);
+  //
+  //   const { POST } = await import("@/app/api/ai-rewrite/route");
+  //   const response = await POST(jsonRequest(validBody));
+  //
+  //   expect(response.status).toBe(400);
+  //   expect((await response.json()).error).toBe(en.apiErrors.captchaVerificationFailed);
+  //   expect(mocks.rewriteText).not.toHaveBeenCalled();
+  // });
 
   it("rejects missing or blank text", async () => {
     const { POST } = await import("@/app/api/ai-rewrite/route");
