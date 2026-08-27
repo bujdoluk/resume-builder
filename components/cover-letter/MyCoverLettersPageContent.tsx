@@ -1,11 +1,11 @@
 "use client";
 
-import { useAppState } from "@/components/AppState";
 import SavedDocumentsPageContent, {
   type SavedDocumentsApi,
   type SavedDocumentsLabels,
 } from "@/components/SavedDocumentsPageContent";
 import { COVER_LETTERS_PAGE_SIZE, FREE_TIER_LIMITS } from "@/lib/constants";
+import { queryKeys } from "@/lib/queries/keys";
 import {
   countCoverLetters,
   countDeletedCoverLetters,
@@ -75,17 +75,15 @@ const api: SavedDocumentsApi<CoverLetterRow, CoverLetterSort> = {
 };
 
 export default function MyCoverLettersPageContent() {
-  const { notifyCoverLetterListChanged } = useAppState();
-
   return (
     <SavedDocumentsPageContent<CoverLetterRow, CoverLetterSort>
       labels={labels}
       api={api}
+      queryKeys={queryKeys.coverLetters}
       pageSize={COVER_LETTERS_PAGE_SIZE}
       freeTierLimit={FREE_TIER_LIMITS.coverLetters}
       newDocumentHref="/cover-letter"
       getEditHref={(row) => `/cover-letter?id=${row.id}`}
-      notifyListChanged={notifyCoverLetterListChanged}
     />
   );
 }

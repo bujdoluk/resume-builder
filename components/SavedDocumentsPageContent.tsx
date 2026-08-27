@@ -2,9 +2,9 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
-import * as Sentry from "@sentry/nextjs";
+import { keepPreviousData, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Temporal } from "temporal-polyfill";
 import ConfirmDialog, { type ConfirmDialogHandle } from "@/components/ConfirmDialog";
 import {
@@ -19,9 +19,11 @@ import SaveResumeDialog, { type SaveResumeDialogHandle } from "@/components/Save
 import SortableColumnHeader from "@/components/SortableColumnHeader";
 import TableFillerRows from "@/components/TableFillerRows";
 import { useToast } from "@/components/Toast";
+import type { DocumentQueryKeys } from "@/lib/queries/keys";
+import { useSubscriptionQuery } from "@/lib/queries/subscriptions";
+import { useUserIdQuery } from "@/lib/queries/session";
 import { createClient } from "@/lib/supabase/client";
-import { ensureUserId } from "@/lib/supabase/session";
-import { getSubscription, isPaidPlan } from "@/lib/supabase/subscriptions";
+import { isPaidPlan } from "@/lib/supabase/subscriptions";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import type { Database } from "@/lib/supabase/database.types";
 import type { ListTab } from "@/types/ui";
@@ -109,11 +111,11 @@ export interface SavedDocumentsPageContentProps<
 > {
   labels: SavedDocumentsLabels;
   api: SavedDocumentsApi<Row, Sort>;
+  queryKeys: DocumentQueryKeys;
   pageSize: number;
   freeTierLimit: number;
   newDocumentHref: string;
   getEditHref: (row: Row) => string;
-  notifyListChanged: () => void;
 }
 
 const DEFAULT_ACTIVE_SORT: SavedDocumentSort = { column: "updated_at", ascending: true };
@@ -129,74 +131,75 @@ export default function SavedDocumentsPageContent<
 >({
   labels,
   api,
+  queryKeys,
   pageSize,
   freeTierLimit,
   newDocumentHref,
   getEditHref,
-  notifyListChanged,
 }: SavedDocumentsPageContentProps<Row, Sort>) {
   const { t, i18n } = useTranslation();
   const router = useRouter();
   const { showToast } = useToast();
+  const queryClient = useQueryClient();
   const [supabase] = useState(() => createClient());
+  const { data: userId } = useUserIdQuery(supabase);
+  const { data: subscription } = useSubscriptionQuery(supabase, userId);
   const [activeTab, setActiveTab] = useState<ListTab>("active");
-  const [documents, setDocuments] = useState<Row[] | null>(null);
-  const [loadFailed, setLoadFailed] = useState<boolean>(false);
-  const [duplicatingId, setDuplicatingId] = useState<string | null>(null);
-  const [deletingId, setDeletingId] = useState<string | null>(null);
-  const [renamingId, setRenamingId] = useState<string | null>(null);
-  const [restoringId, setRestoringId] = useState<string | null>(null);
-  const [deletingForeverId, setDeletingForeverId] = useState<string | null>(null);
-  const [isBulkDeleting, setIsBulkDeleting] = useState<boolean>(false);
-  const [isBulkRestoring, setIsBulkRestoring] = useState<boolean>(false);
-  const [isBulkDeletingForever, setIsBulkDeletingForever] = useState<boolean>(false);
   const [page, setPage] = useState(1);
-  const [totalCount, setTotalCount] = useState(0);
-  const [deletedCount, setDeletedCount] = useState(0);
   const [sort, setSort] = useState<Sort>(DEFAULT_ACTIVE_SORT as Sort);
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const confirmDialogRef = useRef<ConfirmDialogHandle>(null);
   const renameDialogRef = useRef<SaveResumeDialogHandle>(null);
-  const requestIdRef = useRef(0);
+
+  const countQuery = useQuery({
+    queryKey: queryKeys.count(userId ?? ""),
+    queryFn: () => api.count(supabase, userId!),
+    enabled: !!userId,
+  });
+  const deletedCountQuery = useQuery({
+    queryKey: queryKeys.deletedCount(userId ?? ""),
+    queryFn: () => api.countDeleted(supabase, userId!),
+    enabled: !!userId,
+  });
+  const listQuery = useQuery({
+    queryKey: queryKeys.list(userId ?? "", activeTab, sort, page),
+    queryFn: () =>
+      activeTab === "active"
+        ? api.list(supabase, userId!, page, pageSize, sort)
+        : api.listDeleted(supabase, userId!, page, pageSize, sort),
+    enabled: !!userId,
+    placeholderData: keepPreviousData,
+  });
+
+  const documents = listQuery.data ?? null;
+  const loadFailed = listQuery.isError || countQuery.isError || deletedCountQuery.isError;
+  const deletedCount = deletedCountQuery.data ?? 0;
+  const totalCount = activeTab === "active" ? (countQuery.data ?? 0) : deletedCount;
   const totalPages = Math.max(1, Math.ceil(totalCount / pageSize));
 
-  async function loadPage(pageNumber: number, sortOverride: Sort = sort, tab: ListTab = activeTab) {
-    const requestId = ++requestIdRef.current;
-    try {
-      const userId = await ensureUserId(supabase);
-      const [rows, count] =
-        tab === "active"
-          ? await Promise.all([
-              api.list(supabase, userId, pageNumber, pageSize, sortOverride),
-              api.count(supabase, userId),
-            ])
-          : await Promise.all([
-              api.listDeleted(supabase, userId, pageNumber, pageSize, sortOverride),
-              api.countDeleted(supabase, userId),
-            ]);
-      if (requestId !== requestIdRef.current) return;
-      setDocuments(rows);
-      setTotalCount(count);
-      setPage(pageNumber);
-      setSort(sortOverride);
-      setSelectedIds(new Set());
-      if (tab === "deleted") setDeletedCount(count);
-    } catch (error) {
-      console.error(error);
-      Sentry.captureException(error);
-      if (requestId === requestIdRef.current) setLoadFailed(true);
-    }
+  function invalidateAll() {
+    if (!userId) return;
+    queryClient.invalidateQueries({ queryKey: queryKeys.all(userId) });
   }
 
-  async function refreshDeletedCount() {
-    const userId = await ensureUserId(supabase);
-    setDeletedCount(await api.countDeleted(supabase, userId));
+  function goToPage(pageNumber: number) {
+    setPage(pageNumber);
+    setSelectedIds(new Set());
   }
 
   function handleTabChange(tab: ListTab) {
     if (tab === activeTab) return;
     setActiveTab(tab);
-    loadPage(1, (tab === "active" ? DEFAULT_ACTIVE_SORT : DEFAULT_DELETED_SORT) as Sort, tab);
+    setSort((tab === "active" ? DEFAULT_ACTIVE_SORT : DEFAULT_DELETED_SORT) as Sort);
+    setPage(1);
+    setSelectedIds(new Set());
+  }
+
+  function handleSort(column: Sort["column"]) {
+    const ascending = sort.column === column ? !sort.ascending : true;
+    setSort({ column, ascending } as Sort);
+    setPage(1);
+    setSelectedIds(new Set());
   }
 
   function toggleSelect(id: string) {
@@ -215,52 +218,128 @@ export default function SavedDocumentsPageContent<
     });
   }
 
+  const deleteMutation = useMutation({
+    mutationFn: (id: string) => api.deleteOne(supabase, id),
+    onSuccess: invalidateAll,
+  });
+
+  const bulkDeleteMutation = useMutation({
+    mutationFn: (ids: string[]) => api.deleteMany(supabase, ids),
+    onSuccess: invalidateAll,
+  });
+
+  const restoreMutation = useMutation({
+    mutationFn: async (id: string): Promise<{ restored: boolean }> => {
+      if (!userId) return { restored: false };
+      const activeCount = countQuery.data ?? 0;
+      if (subscription && !isPaidPlan(subscription.plan) && activeCount >= freeTierLimit) {
+        const viewPlans = await confirmDialogRef.current?.open({
+          message: t(labels.limitReached, { limit: freeTierLimit }),
+          confirmLabel: t("pricing.viewPlans"),
+        });
+        if (viewPlans) router.push("/#pricing");
+        return { restored: false };
+      }
+      await api.restoreOne(supabase, id);
+      return { restored: true };
+    },
+    onSuccess: (result) => {
+      if (!result.restored) return;
+      invalidateAll();
+      showToast(t(labels.restored), "success");
+    },
+    onError: () => showToast(t(labels.restoreFailed), "error"),
+  });
+
+  const bulkRestoreMutation = useMutation({
+    mutationFn: async (ids: string[]): Promise<{ restored: boolean }> => {
+      if (!userId) return { restored: false };
+      const activeCount = countQuery.data ?? 0;
+      if (subscription && !isPaidPlan(subscription.plan) && activeCount + ids.length > freeTierLimit) {
+        const viewPlans = await confirmDialogRef.current?.open({
+          message: t(labels.limitReached, { limit: freeTierLimit }),
+          confirmLabel: t("pricing.viewPlans"),
+        });
+        if (viewPlans) router.push("/#pricing");
+        return { restored: false };
+      }
+      await api.restoreMany(supabase, ids);
+      return { restored: true };
+    },
+    onSuccess: (result) => {
+      if (!result.restored) return;
+      invalidateAll();
+      showToast(t(labels.restored), "success");
+    },
+    onError: () => showToast(t(labels.restoreFailed), "error"),
+  });
+
+  const permanentlyDeleteMutation = useMutation({
+    mutationFn: (id: string) => api.permanentlyDeleteOne(supabase, id),
+    onSuccess: invalidateAll,
+    onError: () => showToast(t(labels.deleteForeverFailed), "error"),
+  });
+
+  const bulkPermanentlyDeleteMutation = useMutation({
+    mutationFn: (ids: string[]) => api.permanentlyDeleteMany(supabase, ids),
+    onSuccess: invalidateAll,
+    onError: () => showToast(t(labels.deleteForeverFailed), "error"),
+  });
+
+  const renameMutation = useMutation({
+    mutationFn: ({ id, name }: { id: string; name: string }) => api.rename(supabase, id, name),
+    onSuccess: invalidateAll,
+  });
+
+  const duplicateMutation = useMutation({
+    mutationFn: async (id: string): Promise<{ duplicated: boolean }> => {
+      if (!userId) return { duplicated: false };
+      const existingCount = countQuery.data ?? 0;
+      if (subscription && !isPaidPlan(subscription.plan) && existingCount >= freeTierLimit) {
+        const viewPlans = await confirmDialogRef.current?.open({
+          message: t(labels.limitReached, { limit: freeTierLimit }),
+          confirmLabel: t("pricing.viewPlans"),
+        });
+        if (viewPlans) router.push("/#pricing");
+        return { duplicated: false };
+      }
+      await api.duplicate(supabase, id, userId);
+      return { duplicated: true };
+    },
+    onSuccess: (result) => {
+      if (!result.duplicated) return;
+      invalidateAll();
+    },
+    onError: () => alert(t(labels.duplicateFailed)),
+  });
+
   async function handleBulkDelete() {
     const confirmed = await confirmDialogRef.current?.open({
       message: t(labels.confirmBulkDelete, { count: selectedIds.size }),
       confirmLabel: t(labels.deleteSelected),
     });
     if (!confirmed) return;
-    setIsBulkDeleting(true);
+    const ids = Array.from(selectedIds);
     try {
-      await api.deleteMany(supabase, Array.from(selectedIds));
-      notifyListChanged();
-      const remainingOnPage = (documents?.length ?? 0) - selectedIds.size;
-      const targetPage = remainingOnPage <= 0 && page > 1 ? page - 1 : page;
-      await Promise.all([loadPage(targetPage), refreshDeletedCount()]);
-    } finally {
-      setIsBulkDeleting(false);
+      await bulkDeleteMutation.mutateAsync(ids);
+      const remainingOnPage = (documents?.length ?? 0) - ids.length;
+      setSelectedIds(new Set());
+      if (remainingOnPage <= 0 && page > 1) setPage(page - 1);
+    } catch {
+      // Reported centrally via the query client's mutation cache.
     }
   }
 
   async function handleBulkRestore() {
-    setIsBulkRestoring(true);
+    const ids = Array.from(selectedIds);
     try {
-      const userId = await ensureUserId(supabase);
-      const [subscription, activeCount] = await Promise.all([
-        getSubscription(supabase, userId),
-        api.count(supabase, userId),
-      ]);
-      if (!isPaidPlan(subscription.plan) && activeCount + selectedIds.size > freeTierLimit) {
-        const viewPlans = await confirmDialogRef.current?.open({
-          message: t(labels.limitReached, { limit: freeTierLimit }),
-          confirmLabel: t("pricing.viewPlans"),
-        });
-        if (viewPlans) router.push("/#pricing");
-        return;
-      }
-      await api.restoreMany(supabase, Array.from(selectedIds));
-      notifyListChanged();
-      showToast(t(labels.restored), "success");
-      const remainingOnPage = (documents?.length ?? 0) - selectedIds.size;
-      const targetPage = remainingOnPage <= 0 && page > 1 ? page - 1 : page;
-      await loadPage(targetPage, sort, "deleted");
-    } catch (error) {
-      console.error(error);
-      Sentry.captureException(error);
-      showToast(t(labels.restoreFailed), "error");
-    } finally {
-      setIsBulkRestoring(false);
+      const result = await bulkRestoreMutation.mutateAsync(ids);
+      if (!result.restored) return;
+      const remainingOnPage = (documents?.length ?? 0) - ids.length;
+      setSelectedIds(new Set());
+      if (remainingOnPage <= 0 && page > 1) setPage(page - 1);
+    } catch {
+      // Reported centrally via the query client's mutation cache.
     }
   }
 
@@ -270,32 +349,16 @@ export default function SavedDocumentsPageContent<
       confirmLabel: t(labels.deleteForeverSelected),
     });
     if (!confirmed) return;
-    setIsBulkDeletingForever(true);
+    const ids = Array.from(selectedIds);
     try {
-      await api.permanentlyDeleteMany(supabase, Array.from(selectedIds));
-      const remainingOnPage = (documents?.length ?? 0) - selectedIds.size;
-      const targetPage = remainingOnPage <= 0 && page > 1 ? page - 1 : page;
-      await loadPage(targetPage, sort, "deleted");
-    } catch (error) {
-      console.error(error);
-      Sentry.captureException(error);
-      showToast(t(labels.deleteForeverFailed), "error");
-    } finally {
-      setIsBulkDeletingForever(false);
+      await bulkPermanentlyDeleteMutation.mutateAsync(ids);
+      const remainingOnPage = (documents?.length ?? 0) - ids.length;
+      setSelectedIds(new Set());
+      if (remainingOnPage <= 0 && page > 1) setPage(page - 1);
+    } catch {
+      // Reported centrally via the query client's mutation cache.
     }
   }
-
-  function handleSort(column: Sort["column"]) {
-    const ascending = sort.column === column ? !sort.ascending : true;
-    loadPage(1, { column, ascending } as Sort, activeTab);
-  }
-
-  useEffect(() => {
-    (async () => {
-      await Promise.all([loadPage(1), refreshDeletedCount()]);
-    })();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [supabase]);
 
   async function handleDelete(id: string) {
     const confirmed = await confirmDialogRef.current?.open({
@@ -303,44 +366,23 @@ export default function SavedDocumentsPageContent<
       confirmLabel: t(labels.delete),
     });
     if (!confirmed) return;
-    setDeletingId(id);
     try {
-      await api.deleteOne(supabase, id);
-      notifyListChanged();
+      await deleteMutation.mutateAsync(id);
       const isLastRowOnPage = documents?.length === 1 && page > 1;
-      await Promise.all([loadPage(isLastRowOnPage ? page - 1 : page), refreshDeletedCount()]);
-    } finally {
-      setDeletingId(null);
+      if (isLastRowOnPage) setPage(page - 1);
+    } catch {
+      // Reported centrally via the query client's mutation cache.
     }
   }
 
   async function handleRestore(id: string) {
-    setRestoringId(id);
     try {
-      const userId = await ensureUserId(supabase);
-      const [subscription, activeCount] = await Promise.all([
-        getSubscription(supabase, userId),
-        api.count(supabase, userId),
-      ]);
-      if (!isPaidPlan(subscription.plan) && activeCount >= freeTierLimit) {
-        const viewPlans = await confirmDialogRef.current?.open({
-          message: t(labels.limitReached, { limit: freeTierLimit }),
-          confirmLabel: t("pricing.viewPlans"),
-        });
-        if (viewPlans) router.push("/#pricing");
-        return;
-      }
-      await api.restoreOne(supabase, id);
-      notifyListChanged();
-      showToast(t(labels.restored), "success");
+      const result = await restoreMutation.mutateAsync(id);
+      if (!result.restored) return;
       const isLastRowOnPage = documents?.length === 1 && page > 1;
-      await loadPage(isLastRowOnPage ? page - 1 : page, sort, "deleted");
-    } catch (error) {
-      console.error(error);
-      Sentry.captureException(error);
-      showToast(t(labels.restoreFailed), "error");
-    } finally {
-      setRestoringId(null);
+      if (isLastRowOnPage) setPage(page - 1);
+    } catch {
+      // Reported centrally via the query client's mutation cache.
     }
   }
 
@@ -350,58 +392,33 @@ export default function SavedDocumentsPageContent<
       confirmLabel: t(labels.deleteForever),
     });
     if (!confirmed) return;
-    setDeletingForeverId(id);
     try {
-      await api.permanentlyDeleteOne(supabase, id);
+      await permanentlyDeleteMutation.mutateAsync(id);
       const isLastRowOnPage = documents?.length === 1 && page > 1;
-      await loadPage(isLastRowOnPage ? page - 1 : page, sort, "deleted");
-    } catch (error) {
-      console.error(error);
-      Sentry.captureException(error);
-      showToast(t(labels.deleteForeverFailed), "error");
-    } finally {
-      setDeletingForeverId(null);
+      if (isLastRowOnPage) setPage(page - 1);
+    } catch {
+      // Reported centrally via the query client's mutation cache.
     }
   }
 
   async function handleRename(row: Row) {
     const newName = await renameDialogRef.current?.open(row.name);
     if (!newName) return;
-    setRenamingId(row.id);
     try {
-      await api.rename(supabase, row.id, newName);
-      await loadPage(page);
-    } finally {
-      setRenamingId(null);
+      await renameMutation.mutateAsync({ id: row.id, name: newName });
+    } catch {
+      // Reported centrally via the query client's mutation cache.
     }
   }
 
   async function handleDuplicate(id: string) {
-    if (duplicatingId) return;
-    setDuplicatingId(id);
+    if (duplicateMutation.isPending) return;
     try {
-      const userId = await ensureUserId(supabase);
-      const [subscription, existingCount] = await Promise.all([
-        getSubscription(supabase, userId),
-        api.count(supabase, userId),
-      ]);
-      if (!isPaidPlan(subscription.plan) && existingCount >= freeTierLimit) {
-        const viewPlans = await confirmDialogRef.current?.open({
-          message: t(labels.limitReached, { limit: freeTierLimit }),
-          confirmLabel: t("pricing.viewPlans"),
-        });
-        if (viewPlans) router.push("/#pricing");
-        return;
-      }
-      await api.duplicate(supabase, id, userId);
-      notifyListChanged();
-      await loadPage(1);
-    } catch (error) {
-      console.error(error);
-      Sentry.captureException(error);
-      alert(t(labels.duplicateFailed));
-    } finally {
-      setDuplicatingId(null);
+      const result = await duplicateMutation.mutateAsync(id);
+      if (result.duplicated) goToPage(1);
+    } catch {
+      // Reported centrally via the query client's mutation cache; the user
+      // already saw the alert() in onError above.
     }
   }
 
@@ -423,10 +440,10 @@ export default function SavedDocumentsPageContent<
                 <button
                   type="button"
                   className="btn btn-error btn-sm"
-                  disabled={isBulkDeleting}
+                  disabled={bulkDeleteMutation.isPending}
                   onClick={handleBulkDelete}
                 >
-                  {isBulkDeleting ? (
+                  {bulkDeleteMutation.isPending ? (
                     <span className="loading loading-spinner loading-xs" />
                   ) : (
                     <TrashIcon className="h-4 w-4 stroke-current" />
@@ -447,10 +464,10 @@ export default function SavedDocumentsPageContent<
                 <button
                   type="button"
                   className="btn btn-outline btn-sm"
-                  disabled={isBulkRestoring}
+                  disabled={bulkRestoreMutation.isPending}
                   onClick={handleBulkRestore}
                 >
-                  {isBulkRestoring ? (
+                  {bulkRestoreMutation.isPending ? (
                     <span className="loading loading-spinner loading-xs" />
                   ) : (
                     <RestoreIcon className="h-4 w-4 stroke-current" />
@@ -460,10 +477,10 @@ export default function SavedDocumentsPageContent<
                 <button
                   type="button"
                   className="btn btn-error btn-sm whitespace-nowrap"
-                  disabled={isBulkDeletingForever}
+                  disabled={bulkPermanentlyDeleteMutation.isPending}
                   onClick={handleBulkDeleteForever}
                 >
-                  {isBulkDeletingForever ? (
+                  {bulkPermanentlyDeleteMutation.isPending ? (
                     <span className="loading loading-spinner loading-xs" />
                   ) : (
                     <TrashIcon className="h-4 w-4 stroke-current" />
@@ -580,10 +597,10 @@ export default function SavedDocumentsPageContent<
                       <button
                         type="button"
                         className="btn btn-outline btn-sm"
-                        disabled={renamingId === row.id}
+                        disabled={renameMutation.isPending && renameMutation.variables?.id === row.id}
                         onClick={() => handleRename(row)}
                       >
-                        {renamingId === row.id ? (
+                        {renameMutation.isPending && renameMutation.variables?.id === row.id ? (
                           <span className="loading loading-spinner loading-xs" />
                         ) : (
                           <PencilIcon className="h-4 w-4 stroke-current" />
@@ -595,10 +612,10 @@ export default function SavedDocumentsPageContent<
                       <button
                         type="button"
                         className="btn btn-outline btn-sm"
-                        disabled={duplicatingId === row.id}
+                        disabled={duplicateMutation.isPending && duplicateMutation.variables === row.id}
                         onClick={() => handleDuplicate(row.id)}
                       >
-                        {duplicatingId === row.id ? (
+                        {duplicateMutation.isPending && duplicateMutation.variables === row.id ? (
                           <span className="loading loading-spinner loading-xs" />
                         ) : (
                           <DuplicateIcon className="h-4 w-4 stroke-current" />
@@ -616,10 +633,10 @@ export default function SavedDocumentsPageContent<
                       <button
                         type="button"
                         className="btn btn-outline btn-sm btn-error"
-                        disabled={deletingId === row.id}
+                        disabled={deleteMutation.isPending && deleteMutation.variables === row.id}
                         onClick={() => handleDelete(row.id)}
                       >
-                        {deletingId === row.id ? (
+                        {deleteMutation.isPending && deleteMutation.variables === row.id ? (
                           <span className="loading loading-spinner loading-xs" />
                         ) : (
                           <TrashIcon className="h-4 w-4 stroke-current" />
@@ -700,10 +717,10 @@ export default function SavedDocumentsPageContent<
                       <button
                         type="button"
                         className="btn btn-outline btn-sm"
-                        disabled={restoringId === row.id}
+                        disabled={restoreMutation.isPending && restoreMutation.variables === row.id}
                         onClick={() => handleRestore(row.id)}
                       >
-                        {restoringId === row.id ? (
+                        {restoreMutation.isPending && restoreMutation.variables === row.id ? (
                           <span className="loading loading-spinner loading-xs" />
                         ) : (
                           <RestoreIcon className="h-4 w-4 stroke-current" />
@@ -715,10 +732,14 @@ export default function SavedDocumentsPageContent<
                       <button
                         type="button"
                         className="btn btn-outline btn-sm btn-error whitespace-nowrap"
-                        disabled={deletingForeverId === row.id}
+                        disabled={
+                          permanentlyDeleteMutation.isPending &&
+                          permanentlyDeleteMutation.variables === row.id
+                        }
                         onClick={() => handleDeleteForever(row.id)}
                       >
-                        {deletingForeverId === row.id ? (
+                        {permanentlyDeleteMutation.isPending &&
+                        permanentlyDeleteMutation.variables === row.id ? (
                           <span className="loading loading-spinner loading-xs" />
                         ) : (
                           <TrashIcon className="h-4 w-4 stroke-current" />
@@ -748,7 +769,7 @@ export default function SavedDocumentsPageContent<
               className="join-item btn"
               aria-label={t("aria.previousPage")}
               disabled={page === 1}
-              onClick={() => loadPage(page - 1)}
+              onClick={() => goToPage(page - 1)}
             >
               «
             </button>
@@ -757,7 +778,7 @@ export default function SavedDocumentsPageContent<
                 key={pageNumber}
                 type="button"
                 className={`join-item btn ${pageNumber === page ? "btn-primary" : ""}`}
-                onClick={() => loadPage(pageNumber)}
+                onClick={() => goToPage(pageNumber)}
               >
                 {pageNumber}
               </button>
@@ -767,7 +788,7 @@ export default function SavedDocumentsPageContent<
               className="join-item btn"
               aria-label={t("aria.nextPage")}
               disabled={page === totalPages}
-              onClick={() => loadPage(page + 1)}
+              onClick={() => goToPage(page + 1)}
             >
               »
             </button>

@@ -63,10 +63,6 @@ interface AppStateValue {
   setLanguage: Dispatch<SetStateAction<string>>;
   fontSize: FontSizeKey;
   setFontSize: Dispatch<SetStateAction<FontSizeKey>>;
-  resumeListVersion: number;
-  notifyResumeListChanged: () => void;
-  coverLetterListVersion: number;
-  notifyCoverLetterListChanged: () => void;
   lastEditorPath: string;
   setLastEditorPath: Dispatch<SetStateAction<string>>;
   resumeStepsSummary: ResumeStepsSummary | null;
@@ -89,10 +85,6 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   const [coverLetterSectionZones, setCoverLetterSectionZones] = useState<CoverLetterSectionZones>({});
   const [language, setLanguage] = useState<string>(defaultLanguageCode);
   const [fontSize, setFontSize] = useState<FontSizeKey>(defaultFontSizeKey);
-  const [resumeListVersion, setResumeListVersion] = useState(0);
-  const notifyResumeListChanged = () => setResumeListVersion((version) => version + 1);
-  const [coverLetterListVersion, setCoverLetterListVersion] = useState(0);
-  const notifyCoverLetterListChanged = () => setCoverLetterListVersion((version) => version + 1);
   const [lastEditorPath, setLastEditorPath] = useState("/app");
   const [resumeStepsSummary, setResumeStepsSummary] = useState<ResumeStepsSummary | null>(null);
   const [coverLetterStepsSummary, setCoverLetterStepsSummary] = useState<CoverLetterStepsSummary | null>(null);
@@ -131,10 +123,6 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
         setLanguage,
         fontSize,
         setFontSize,
-        resumeListVersion,
-        notifyResumeListChanged,
-        coverLetterListVersion,
-        notifyCoverLetterListChanged,
         lastEditorPath,
         setLastEditorPath,
         resumeStepsSummary,

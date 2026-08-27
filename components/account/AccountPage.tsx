@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Temporal } from "temporal-polyfill";
 import ConfirmDialog, { type ConfirmDialogHandle } from "@/components/ConfirmDialog";
 import { ArrowLeftIcon, InfoIcon } from "@/components/Icons";
@@ -12,16 +13,18 @@ import { useToast } from "@/components/Toast";
 import { useIsAdmin } from "@/components/useIsAdmin";
 import { requestAccountDelete, requestAccountExport } from "@/lib/api/account";
 import { handleApiResponse } from "@/lib/apiResponse";
+import { useMfaFactorQuery } from "@/lib/queries/account";
+import { queryKeys } from "@/lib/queries/keys";
+import { useSessionQuery } from "@/lib/queries/session";
 import {
   AuthActionError,
   confirmTotpEnrollment,
   enrollTotp,
-  getTotpFactor,
   unenrollTotp,
   verifyStepUpChallenge,
 } from "@/lib/supabase/auth";
 import { createClient } from "@/lib/supabase/client";
-import type { TotpEnrollment, TotpFactor } from "@/types/auth";
+import type { TotpEnrollment } from "@/types/auth";
 
 function formatDate(iso: string, locale: string): string {
   return Temporal.Instant.from(iso).toLocaleString(locale, { dateStyle: "medium" });
@@ -31,14 +34,12 @@ export default function AccountPage() {
   const { t, i18n } = useTranslation();
   const router = useRouter();
   const { showToast } = useToast();
+  const queryClient = useQueryClient();
   const [supabase] = useState(() => createClient());
-  const [email, setEmail] = useState<string | null>(null);
-  const [createdAt, setCreatedAt] = useState<string | null>(null);
-  const [actionLoading, setActionLoading] = useState<boolean>(false);
-  const [exportLoading, setExportLoading] = useState<boolean>(false);
+  const { data: session, isSuccess: isSessionLoaded } = useSessionQuery(supabase);
   const deleteDialogRef = useRef<ConfirmDialogHandle>(null);
   const isAdmin = useIsAdmin();
-  const [mfaFactor, setMfaFactor] = useState<TotpFactor | null | undefined>(undefined);
+  const { data: mfaFactor } = useMfaFactorQuery(supabase, isAdmin);
   const [mfaEnrollment, setMfaEnrollment] = useState<TotpEnrollment | null>(null);
   const [mfaCode, setMfaCode] = useState<string>("");
   const [mfaBusy, setMfaBusy] = useState<boolean>(false);
@@ -46,22 +47,23 @@ export default function AccountPage() {
   const [mfaCopied, setMfaCopied] = useState<boolean>(false);
   const [mfaDisableConfirming, setMfaDisableConfirming] = useState<boolean>(false);
   const [mfaDisableCode, setMfaDisableCode] = useState<string>("");
+  const email = session?.user && !session.user.is_anonymous ? (session.user.email ?? "") : null;
+  const createdAt = session?.user && !session.user.is_anonymous ? session.user.created_at : null;
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      if (!session?.user || session.user.is_anonymous) {
-        router.replace("/login?next=%2Faccount");
-        return;
-      }
-      setEmail(session.user.email ?? "");
-      setCreatedAt(session.user.created_at);
-    });
-  }, [supabase, router]);
+    if (!isSessionLoaded) return;
+    if (!session?.user || session.user.is_anonymous) {
+      router.replace("/login?next=%2Faccount");
+    }
+  }, [isSessionLoaded, session, router]);
 
-  useEffect(() => {
-    if (!isAdmin) return;
-    getTotpFactor(supabase).then(setMfaFactor);
-  }, [isAdmin, supabase]);
+  const exportMutation = useMutation({
+    mutationFn: () => requestAccountExport(i18n.language),
+  });
+
+  const deleteMutation = useMutation({
+    mutationFn: () => requestAccountDelete(i18n.language),
+  });
 
   function mfaErrorMessage(error: unknown, fallbackKey: string): string {
     return error instanceof AuthActionError ? t(`auth.errors.${error.code}`) : t(fallbackKey);
@@ -98,8 +100,7 @@ export default function AccountPage() {
     setMfaError(null);
     try {
       await confirmTotpEnrollment(supabase, mfaEnrollment.factorId, mfaCode);
-      const factor = await getTotpFactor(supabase);
-      setMfaFactor(factor);
+      await queryClient.invalidateQueries({ queryKey: queryKeys.mfaFactor() });
       setMfaEnrollment(null);
       setMfaCode("");
     } catch (error) {
@@ -136,7 +137,7 @@ export default function AccountPage() {
     try {
       await verifyStepUpChallenge(supabase, mfaDisableCode);
       await unenrollTotp(supabase, mfaFactor.id);
-      setMfaFactor(null);
+      queryClient.setQueryData(queryKeys.mfaFactor(), null);
       setMfaDisableConfirming(false);
       setMfaDisableCode("");
     } catch (error) {
@@ -147,22 +148,17 @@ export default function AccountPage() {
   }
 
   async function handleExport() {
-    setExportLoading(true);
-    try {
-      const response = await requestAccountExport(i18n.language);
-      const data = await handleApiResponse(response, showToast, t);
-      if (!data) return;
+    const response = await exportMutation.mutateAsync();
+    const data = await handleApiResponse(response, showToast, t);
+    if (!data) return;
 
-      const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = `quickresumebuilder-data-${Temporal.Now.plainDateISO().toString()}.json`;
-      link.click();
-      URL.revokeObjectURL(url);
-    } finally {
-      setExportLoading(false);
-    }
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `quickresumebuilder-data-${Temporal.Now.plainDateISO().toString()}.json`;
+    link.click();
+    URL.revokeObjectURL(url);
   }
 
   async function handleDelete() {
@@ -172,13 +168,9 @@ export default function AccountPage() {
     });
     if (!confirmed) return;
 
-    setActionLoading(true);
-    const response = await requestAccountDelete(i18n.language);
+    const response = await deleteMutation.mutateAsync();
     const result = await handleApiResponse(response, showToast, t);
-    if (!result) {
-      setActionLoading(false);
-      return;
-    }
+    if (!result) return;
     await supabase.auth.signOut();
     router.push("/");
   }
@@ -356,10 +348,10 @@ export default function AccountPage() {
             <button
               type="button"
               className="btn btn-outline btn-sm"
-              disabled={exportLoading || actionLoading}
+              disabled={exportMutation.isPending || deleteMutation.isPending}
               onClick={handleExport}
             >
-              {exportLoading ? (
+              {exportMutation.isPending ? (
                 <span className="loading loading-spinner loading-xs" />
               ) : (
                 t("account.exportData")
@@ -368,10 +360,10 @@ export default function AccountPage() {
             <button
               type="button"
               className="btn btn-outline btn-error btn-sm"
-              disabled={actionLoading || exportLoading}
+              disabled={deleteMutation.isPending || exportMutation.isPending}
               onClick={handleDelete}
             >
-              {actionLoading ? (
+              {deleteMutation.isPending ? (
                 <span className="loading loading-spinner loading-xs" />
               ) : (
                 t("account.deleteAccount")

@@ -1,11 +1,11 @@
 "use client";
 
-import { useAppState } from "@/components/AppState";
 import SavedDocumentsPageContent, {
   type SavedDocumentsApi,
   type SavedDocumentsLabels,
 } from "@/components/SavedDocumentsPageContent";
 import { FREE_TIER_LIMITS, RESUMES_PAGE_SIZE } from "@/lib/constants";
+import { queryKeys } from "@/lib/queries/keys";
 import {
   countDeletedResumes,
   countResumes,
@@ -75,17 +75,15 @@ const api: SavedDocumentsApi<ResumeRow, ResumeSort> = {
 };
 
 export default function MyResumesPageContent() {
-  const { notifyResumeListChanged } = useAppState();
-
   return (
     <SavedDocumentsPageContent<ResumeRow, ResumeSort>
       labels={labels}
       api={api}
+      queryKeys={queryKeys.resumes}
       pageSize={RESUMES_PAGE_SIZE}
       freeTierLimit={FREE_TIER_LIMITS.resumes}
       newDocumentHref="/app"
       getEditHref={(row) => `/app?resumeId=${row.id}&template=${row.templateId}`}
-      notifyListChanged={notifyResumeListChanged}
     />
   );
 }

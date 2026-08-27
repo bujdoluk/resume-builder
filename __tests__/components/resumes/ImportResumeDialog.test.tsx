@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom/vitest";
 import "@/lib/i18n/i18n";
-import { cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { cleanup, fireEvent, screen, waitFor } from "@testing-library/react";
 import { useRef } from "react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import ImportResumeDialog, {
@@ -9,6 +9,7 @@ import ImportResumeDialog, {
 import { ToastProvider } from "@/components/Toast";
 import { MAX_IMPORT_FILE_BYTES } from "@/lib/constants";
 import { emptyResumeData, type ResumeData } from "@/lib/resumeData";
+import { renderWithQueryClient } from "@/__tests__/test-utils/renderWithProviders";
 
 vi.mock("@/lib/supabase/invisibleCaptcha", () => ({
   getAnonymousCaptchaToken: vi.fn().mockResolvedValue("captcha-token"),
@@ -49,7 +50,7 @@ beforeEach(() => {
 describe("ImportResumeDialog", () => {
   it("uploads a chosen file, shows a review summary, and resolves with the parsed data on apply", async () => {
     const onResult = vi.fn();
-    render(<Harness onResult={onResult} />);
+    renderWithQueryClient(<Harness onResult={onResult} />);
 
     fireEvent.click(screen.getByText("open"));
 
@@ -72,7 +73,7 @@ describe("ImportResumeDialog", () => {
 
   it("resolves with null on cancel without calling the API", async () => {
     const onResult = vi.fn();
-    render(<Harness onResult={onResult} />);
+    renderWithQueryClient(<Harness onResult={onResult} />);
 
     fireEvent.click(screen.getByText("open"));
     fireEvent.click(screen.getByText("Cancel"));
@@ -83,7 +84,7 @@ describe("ImportResumeDialog", () => {
 
   it("rejects a file over the size limit before ever calling the API", async () => {
     const onResult = vi.fn();
-    render(<Harness onResult={onResult} />);
+    renderWithQueryClient(<Harness onResult={onResult} />);
 
     fireEvent.click(screen.getByText("open"));
 

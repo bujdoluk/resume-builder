@@ -2,6 +2,7 @@
 
 import { useImperativeHandle, useRef, useState, type Ref } from "react";
 import { useTranslation } from "react-i18next";
+import { useMutation } from "@tanstack/react-query";
 import { CheckIcon } from "@/components/Icons";
 import { useToast } from "@/components/Toast";
 import { requestCoverLetterImport } from "@/lib/api/importCoverLetter";
@@ -65,13 +66,22 @@ export default function ImportCoverLetterDialog({ ref }: { ref?: Ref<ImportCover
   const resolveRef = useRef<((data: CoverLetterData | null) => void) | null>(null);
 
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [isImporting, setIsImporting] = useState<boolean>(false);
   const [importedData, setImportedData] = useState<CoverLetterData | null>(null);
+
+  const importMutation = useMutation({
+    mutationFn: async (file: File) => {
+      const fileType = fileTypeFor(file);
+      if (!fileType) throw new Error("Unsupported file type");
+      const fileBase64 = await readAsBase64(file);
+      const captchaToken = await getAnonymousCaptchaToken();
+      return requestCoverLetterImport({ captchaToken, fileBase64, fileType }, i18n.language);
+    },
+  });
 
   useImperativeHandle(ref, () => ({
     open() {
       setSelectedFile(null);
-      setIsImporting(false);
+      importMutation.reset();
       setImportedData(null);
       dialogRef.current?.showModal();
       return new Promise<CoverLetterData | null>((resolve) => {
@@ -103,20 +113,12 @@ export default function ImportCoverLetterDialog({ ref }: { ref?: Ref<ImportCover
   }
 
   async function handleImport() {
-    if (!selectedFile || isImporting) return;
-    const fileType = fileTypeFor(selectedFile);
-    if (!fileType) return;
+    if (!selectedFile || importMutation.isPending) return;
+    if (!fileTypeFor(selectedFile)) return;
 
-    setIsImporting(true);
-    try {
-      const fileBase64 = await readAsBase64(selectedFile);
-      const captchaToken = await getAnonymousCaptchaToken();
-      const response = await requestCoverLetterImport({ captchaToken, fileBase64, fileType }, i18n.language);
-      const result = await handleApiResponse<{ data: CoverLetterData }>(response, showToast, t);
-      if (result) setImportedData(result.data);
-    } finally {
-      setIsImporting(false);
-    }
+    const response = await importMutation.mutateAsync(selectedFile);
+    const result = await handleApiResponse<{ data: CoverLetterData }>(response, showToast, t);
+    if (result) setImportedData(result.data);
   }
 
   const sections = importedData ? populatedSections(importedData) : [];
@@ -158,10 +160,10 @@ export default function ImportCoverLetterDialog({ ref }: { ref?: Ref<ImportCover
               <button
                 type="button"
                 className="btn btn-primary"
-                disabled={!selectedFile || isImporting}
+                disabled={!selectedFile || importMutation.isPending}
                 onClick={handleImport}
               >
-                {isImporting ? (
+                {importMutation.isPending ? (
                   <span className="loading loading-spinner loading-xs" />
                 ) : (
                   t("importCoverLetter.importButton")

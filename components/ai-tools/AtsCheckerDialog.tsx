@@ -2,6 +2,7 @@
 
 import { useImperativeHandle, useRef, useState, type Ref } from "react";
 import { useTranslation } from "react-i18next";
+import { useMutation } from "@tanstack/react-query";
 import AutoResizeTextarea from "@/components/AutoResizeTextarea";
 import { CheckIcon } from "@/components/Icons";
 import { useToast } from "@/components/Toast";
@@ -28,8 +29,14 @@ export default function AtsCheckerDialog({ ref }: { ref?: Ref<AtsCheckerDialogHa
   const [documentText, setDocumentText] = useState<string>("");
   const [jobDescription, setJobDescription] = useState<string>("");
   const [matchResult, setMatchResult] = useState<KeywordMatchResult | null>(null);
-  const [isCheckingCoherence, setIsCheckingCoherence] = useState<boolean>(false);
   const [coherenceResult, setCoherenceResult] = useState<CoherenceResult | null>(null);
+
+  const coherenceMutation = useMutation({
+    mutationFn: async () => {
+      const captchaToken = await getAnonymousCaptchaToken();
+      return requestCoherenceCheck({ captchaToken, documentText }, i18n.language);
+    },
+  });
 
   useImperativeHandle(ref, () => ({
     open({ formatChecks: nextChecks, documentText: nextText }) {
@@ -52,16 +59,10 @@ export default function AtsCheckerDialog({ ref }: { ref?: Ref<AtsCheckerDialogHa
   }
 
   async function handleCheckCoherence() {
-    if (isCheckingCoherence) return;
-    setIsCheckingCoherence(true);
-    try {
-      const captchaToken = await getAnonymousCaptchaToken();
-      const response = await requestCoherenceCheck({ captchaToken, documentText }, i18n.language);
-      const result = await handleApiResponse<CoherenceResult>(response, showToast, t);
-      if (result) setCoherenceResult(result);
-    } finally {
-      setIsCheckingCoherence(false);
-    }
+    if (coherenceMutation.isPending) return;
+    const response = await coherenceMutation.mutateAsync();
+    const result = await handleApiResponse<CoherenceResult>(response, showToast, t);
+    if (result) setCoherenceResult(result);
   }
 
   const passedCount = formatChecks.filter((item) => item.passed).length;
@@ -179,10 +180,10 @@ export default function AtsCheckerDialog({ ref }: { ref?: Ref<AtsCheckerDialogHa
           <button
             type="button"
             className="btn btn-outline btn-sm mt-2"
-            disabled={isCheckingCoherence}
+            disabled={coherenceMutation.isPending}
             onClick={handleCheckCoherence}
           >
-            {isCheckingCoherence ? (
+            {coherenceMutation.isPending ? (
               <span className="loading loading-spinner loading-xs" />
             ) : (
               t("atsChecker.checkCoherenceButton")

@@ -1,11 +1,14 @@
 import "@testing-library/jest-dom/vitest";
-import { fireEvent, render, screen, waitFor, within } from "@testing-library/react";
+import { cleanup, fireEvent, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { AppStateProvider } from "@/components/AppState";
 import ResumeBuilder from "@/components/resumes/ResumeBuilder";
 import { ToastProvider } from "@/components/Toast";
+import { allFields } from "@/lib/fields";
 import { formatPhoneAsYouType } from "@/lib/phone";
+import { emptyResumeData } from "@/lib/resumeData";
+import { renderWithQueryClient } from "@/__tests__/test-utils/renderWithProviders";
 
 const mocks = vi.hoisted(() => ({
   replace: vi.fn(),
@@ -62,6 +65,8 @@ function fillField(element: HTMLElement, value: string) {
   fireEvent.change(element, { target: { value } });
 }
 
+afterEach(cleanup);
+
 beforeEach(() => {
   // jsdom doesn't implement <dialog>'s showModal/close; the save-name dialog
   // and testing-library's visibility checks both rely on the `open` attribute.
@@ -108,7 +113,7 @@ describe("ResumeBuilder", () => {
     // this runs alongside the rest of the suite under load. Even 15000ms
     // has proven flaky as the suite has grown — 30000ms gives real headroom.
 
-    const { container } = render(
+    const { container } = renderWithQueryClient(
       <AppStateProvider>
         <ToastProvider>
           <ResumeBuilder />
@@ -262,4 +267,42 @@ describe("ResumeBuilder", () => {
       expect(desktopPane.getByRole("button", { name: "Saved" })).toBeInTheDocument(),
     );
   }, 30000);
+
+  it("loads an existing resume by id", async () => {
+    mocks.getResume.mockResolvedValue({
+      id: "resume-1",
+      name: "Existing Resume",
+      templateId: "basic",
+      color: null,
+      font: null,
+      fontSize: null,
+      sectionOrder: ["workExperience", "education", "skills", "languages", "certifications", "interests", "customFields"],
+      visibleFields: allFields,
+      modernSectionZones: {},
+      data: { ...emptyResumeData, name: "Jane Doe" },
+      shareToken: null,
+      shareTokenExpiresAt: null,
+      createdAt: "2026-01-01T00:00:00.000Z",
+      updatedAt: "2026-01-01T00:00:00.000Z",
+      deletedAt: null,
+    });
+
+    renderWithQueryClient(
+      <AppStateProvider>
+        <ToastProvider>
+          <ResumeBuilder initialResumeId="resume-1" />
+        </ToastProvider>
+      </AppStateProvider>,
+    );
+
+    // ResumeBuilder renders a mobile pane and a desktop pane at once (see the
+    // "fills out every resume section" test above) — [0] is the mobile input,
+    // [1] is the desktop one, both populated once the load effect resolves.
+    const nameInputs = await waitFor(() => {
+      const inputs = screen.getAllByPlaceholderText("Your name") as HTMLInputElement[];
+      expect(inputs).toHaveLength(2);
+      return inputs;
+    });
+    await waitFor(() => expect(nameInputs[1]).toHaveValue("Jane Doe"));
+  });
 });

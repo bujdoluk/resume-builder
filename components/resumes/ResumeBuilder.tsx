@@ -39,11 +39,12 @@ import {
   type WorkEntry,
 } from "@/lib/resumeData";
 import { checkResumeFormat } from "@/lib/atsChecker/checkResumeFormat";
+import { useResumeQuery, useSaveResumeMutation } from "@/lib/queries/resumes";
 import { pdfTemplates } from "@/lib/pdf/templates";
 import { scrollToSectionAnchor } from "@/lib/scrollToSectionAnchor";
 import { isShareLinkActive } from "@/lib/shareLink";
 import { createClient } from "@/lib/supabase/client";
-import { countResumes, getResume, saveResume } from "@/lib/supabase/resumes";
+import { countResumes } from "@/lib/supabase/resumes";
 import { ensureUserId } from "@/lib/supabase/session";
 import { getSubscription, isPaidPlan } from "@/lib/supabase/subscriptions";
 import {
@@ -118,7 +119,6 @@ export default function ResumeBuilder({
     modernSectionZones,
     setModernSectionZones,
     setResumeStepsSummary,
-    notifyResumeListChanged,
     setLastEditorPath,
   } = useAppState();
   const [data, setData] = useState<ResumeData>(emptyResumeData);
@@ -127,7 +127,6 @@ export default function ResumeBuilder({
   );
   const [loadedResumeId, setLoadedResumeId] = useState<string | null>(null);
   const isLoadingInitialResume = !!initialResumeId && loadedResumeId !== initialResumeId;
-  const [isSaving, setIsSaving] = useState<boolean>(false);
   const [justSaved, setJustSaved] = useState<boolean>(false);
   const [resumeName, setResumeName] = useState<string>("");
   const [shareToken, setShareToken] = useState<string | null>(null);
@@ -140,6 +139,8 @@ export default function ResumeBuilder({
   const importDialogRef = useRef<ImportResumeDialogHandle>(null);
   const shareDialogRef = useRef<ShareDialogHandle>(null);
   const [supabase] = useState(() => createClient());
+  const resumeQuery = useResumeQuery(supabase, initialResumeId ?? null);
+  const saveResumeMutation = useSaveResumeMutation(supabase);
   const exportText = generateResumeText({ data, sectionOrder, visibleFields });
 
   async function buildResumeDocxBlob(): Promise<Blob> {
@@ -164,31 +165,26 @@ export default function ResumeBuilder({
 
   useEffect(() => {
     if (!initialResumeId) return;
-    let cancelled = false;
+    if (!resumeQuery.isSuccess && !resumeQuery.isError) return;
 
-    getResume(supabase, initialResumeId).then((row) => {
-      if (cancelled) return;
-      if (row) {
-        setData(row.data);
-        setTemplateId(row.templateId);
-        setColor(row.color);
-        setFont(row.font);
-        setFontSize(row.fontSize ?? defaultFontSizeKey);
-        setSectionOrder(row.sectionOrder);
-        setVisibleFields(row.visibleFields);
-        setModernSectionZones(row.modernSectionZones);
-        setResumeName(row.name);
-        setShareToken(isShareLinkActive(row.shareTokenExpiresAt) ? row.shareToken : null);
-        setShareTokenExpiresAt(isShareLinkActive(row.shareTokenExpiresAt) ? row.shareTokenExpiresAt : null);
-      }
-      setLoadedResumeId(initialResumeId);
-    });
-
-    return () => {
-      cancelled = true;
-    };
+    const row = resumeQuery.data;
+    if (row) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setData(row.data);
+      setTemplateId(row.templateId);
+      setColor(row.color);
+      setFont(row.font);
+      setFontSize(row.fontSize ?? defaultFontSizeKey);
+      setSectionOrder(row.sectionOrder);
+      setVisibleFields(row.visibleFields);
+      setModernSectionZones(row.modernSectionZones);
+      setResumeName(row.name);
+      setShareToken(isShareLinkActive(row.shareTokenExpiresAt) ? row.shareToken : null);
+      setShareTokenExpiresAt(isShareLinkActive(row.shareTokenExpiresAt) ? row.shareTokenExpiresAt : null);
+    }
+    setLoadedResumeId(initialResumeId);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [initialResumeId, supabase]);
+  }, [initialResumeId, resumeQuery.isSuccess, resumeQuery.isError, resumeQuery.data]);
 
   useEffect(() => {
     if (initialResumeId) return;
@@ -257,7 +253,7 @@ export default function ResumeBuilder({
   }
 
   async function handleSave() {
-    if (isSaving) return;
+    if (saveResumeMutation.isPending) return;
 
     let nameToSave = resumeName;
     if (!nameToSave) {
@@ -284,8 +280,7 @@ export default function ResumeBuilder({
         }
       }
 
-      setIsSaving(true);
-      const row = await saveResume(supabase, {
+      const row = await saveResumeMutation.mutateAsync({
         id: resumeId,
         userId,
         name: nameToSave,
@@ -304,15 +299,12 @@ export default function ResumeBuilder({
       setShareTokenExpiresAt(isShareLinkActive(row.shareTokenExpiresAt) ? row.shareTokenExpiresAt : null);
       router.replace(`/app?resumeId=${row.id}&template=${templateId}`);
       clearDraft();
-      notifyResumeListChanged();
       setJustSaved(true);
       setTimeout(() => setJustSaved(false), SAVED_INDICATOR_DURATION_MS);
     } catch (error) {
       console.error(error);
       Sentry.captureException(error);
       alert(t("myResumes.saveFailed"));
-    } finally {
-      setIsSaving(false);
     }
   }
 
@@ -529,10 +521,10 @@ export default function ResumeBuilder({
         <button
           type="button"
           className="btn btn-outline hover:border-primary flex-1 md:flex-none md:w-48"
-          disabled={isSaving}
+          disabled={saveResumeMutation.isPending}
           onClick={handleSave}
         >
-          {isSaving ? (
+          {saveResumeMutation.isPending ? (
             <span className="loading loading-spinner loading-sm" />
           ) : justSaved ? (
             t("buttons.saved")

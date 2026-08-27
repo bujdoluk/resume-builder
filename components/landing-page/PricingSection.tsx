@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useMutation } from "@tanstack/react-query";
 import { CheckIcon } from "@/components/Icons";
 import { useToast } from "@/components/Toast";
 import { requestStripeCheckout, type StripePlan } from "@/lib/api/stripe";
@@ -15,31 +16,30 @@ export default function PricingSection() {
   const router = useRouter();
   const { showToast } = useToast();
   const [supabase] = useState(() => createClient());
-  const [loadingPlan, setLoadingPlan] = useState<StripePlan | null>(null);
 
-  async function handleUpgrade(plan: StripePlan) {
-    if (loadingPlan) return;
-    setLoadingPlan(plan);
-    try {
+  const checkoutMutation = useMutation({
+    mutationFn: async (plan: StripePlan) => {
       const {
         data: { session },
       } = await supabase.auth.getSession();
-
       if (!session?.user || session.user.is_anonymous) {
-        router.push("/login?next=%2F%23pricing");
-        return;
+        return { needsLogin: true as const };
       }
-
       const response = await requestStripeCheckout(plan, i18n.language);
-      const body = await handleApiResponse<{ url: string }>(response, showToast, t);
-      if (body?.url) {
-        window.location.href = body.url;
-      } else {
-        setLoadingPlan(null);
-      }
-    } catch {
-      setLoadingPlan(null);
+      return { needsLogin: false as const, response };
+    },
+  });
+  const loadingPlan = checkoutMutation.isPending ? checkoutMutation.variables : null;
+
+  async function handleUpgrade(plan: StripePlan) {
+    if (checkoutMutation.isPending) return;
+    const result = await checkoutMutation.mutateAsync(plan);
+    if (result.needsLogin) {
+      router.push("/login?next=%2F%23pricing");
+      return;
     }
+    const body = await handleApiResponse<{ url: string }>(result.response, showToast, t);
+    if (body?.url) window.location.href = body.url;
   }
 
   const featureRows = t("pricing.featureRows", { returnObjects: true }) as string[];

@@ -2,6 +2,7 @@
 
 import { useImperativeHandle, useRef, useState, type Ref } from "react";
 import { useTranslation } from "react-i18next";
+import { useMutation } from "@tanstack/react-query";
 import { CheckIcon } from "@/components/Icons";
 import { useToast } from "@/components/Toast";
 import { requestResumeImport } from "@/lib/api/importResume";
@@ -67,13 +68,22 @@ export default function ImportResumeDialog({ ref }: { ref?: Ref<ImportResumeDial
   const resolveRef = useRef<((data: ResumeData | null) => void) | null>(null);
 
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [isImporting, setIsImporting] = useState<boolean>(false);
   const [importedData, setImportedData] = useState<ResumeData | null>(null);
+
+  const importMutation = useMutation({
+    mutationFn: async (file: File) => {
+      const fileType = fileTypeFor(file);
+      if (!fileType) throw new Error("Unsupported file type");
+      const fileBase64 = await readAsBase64(file);
+      const captchaToken = await getAnonymousCaptchaToken();
+      return requestResumeImport({ captchaToken, fileBase64, fileType }, i18n.language);
+    },
+  });
 
   useImperativeHandle(ref, () => ({
     open() {
       setSelectedFile(null);
-      setIsImporting(false);
+      importMutation.reset();
       setImportedData(null);
       dialogRef.current?.showModal();
       return new Promise<ResumeData | null>((resolve) => {
@@ -105,20 +115,12 @@ export default function ImportResumeDialog({ ref }: { ref?: Ref<ImportResumeDial
   }
 
   async function handleImport() {
-    if (!selectedFile || isImporting) return;
-    const fileType = fileTypeFor(selectedFile);
-    if (!fileType) return;
+    if (!selectedFile || importMutation.isPending) return;
+    if (!fileTypeFor(selectedFile)) return;
 
-    setIsImporting(true);
-    try {
-      const fileBase64 = await readAsBase64(selectedFile);
-      const captchaToken = await getAnonymousCaptchaToken();
-      const response = await requestResumeImport({ captchaToken, fileBase64, fileType }, i18n.language);
-      const result = await handleApiResponse<{ data: ResumeData }>(response, showToast, t);
-      if (result) setImportedData(result.data);
-    } finally {
-      setIsImporting(false);
-    }
+    const response = await importMutation.mutateAsync(selectedFile);
+    const result = await handleApiResponse<{ data: ResumeData }>(response, showToast, t);
+    if (result) setImportedData(result.data);
   }
 
   const sections = importedData ? populatedSections(importedData) : [];
@@ -161,10 +163,10 @@ export default function ImportResumeDialog({ ref }: { ref?: Ref<ImportResumeDial
               <button
                 type="button"
                 className="btn btn-primary"
-                disabled={!selectedFile || isImporting}
+                disabled={!selectedFile || importMutation.isPending}
                 onClick={handleImport}
               >
-                {isImporting ? <span className="loading loading-spinner loading-xs" /> : t("importResume.importButton")}
+                {importMutation.isPending ? <span className="loading loading-spinner loading-xs" /> : t("importResume.importButton")}
               </button>
             </div>
           </>

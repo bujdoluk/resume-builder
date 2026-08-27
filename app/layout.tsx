@@ -21,6 +21,8 @@ import ConsentedAnalytics from "@/components/cookies/ConsentedAnalytics";
 import { CookieConsentProvider } from "@/components/cookies/CookieConsent";
 // import InvisibleCaptcha from "@/components/hcaptcha/InvisibleCaptcha";
 import Navbar from "@/components/Navbar";
+import QueryAuthSync from "@/components/QueryAuthSync";
+import { QueryProvider } from "@/components/QueryProvider";
 import TawkChat from "@/components/TawkChat";
 import { ToastProvider } from "@/components/Toast";
 import "./globals.css";
@@ -155,17 +157,20 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${fontVariables} h-full antialiased`}>
       <body className="min-h-full flex flex-col">
-        <ToastProvider>
-          <CookieConsentProvider>
-            <AppStateProvider>
-              {/* <InvisibleCaptcha /> */}
-              <Navbar />
-              <div className="flex flex-1 flex-col">{children}</div>
-              <ConsentedAnalytics />
-              <TawkChat />
-            </AppStateProvider>
-          </CookieConsentProvider>
-        </ToastProvider>
+        <QueryProvider>
+          <QueryAuthSync />
+          <ToastProvider>
+            <CookieConsentProvider>
+              <AppStateProvider>
+                {/* <InvisibleCaptcha /> */}
+                <Navbar />
+                <div className="flex flex-1 flex-col">{children}</div>
+                <ConsentedAnalytics />
+                <TawkChat />
+              </AppStateProvider>
+            </CookieConsentProvider>
+          </ToastProvider>
+        </QueryProvider>
       </body>
     </html>
   );

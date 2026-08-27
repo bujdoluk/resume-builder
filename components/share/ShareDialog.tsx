@@ -2,13 +2,17 @@
 
 import { useImperativeHandle, useRef, useState, type Ref } from "react";
 import { useTranslation } from "react-i18next";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Temporal } from "temporal-polyfill";
+import { queryKeys } from "@/lib/queries/keys";
 import {
   disableCoverLetterSharing,
   enableCoverLetterSharing,
 } from "@/lib/supabase/coverLetters";
 import { disableResumeSharing, enableResumeSharing } from "@/lib/supabase/resumes";
 import { createClient } from "@/lib/supabase/client";
+import type { CoverLetterRow } from "@/types/coverLetter";
+import type { ResumeRow } from "@/types/resume";
 
 export type ShareKind = "resume" | "coverLetter";
 
@@ -39,14 +43,43 @@ export default function ShareDialog({ ref, onTokenChange }: ShareDialogProps) {
   const { t, i18n } = useTranslation();
   const dialogRef = useRef<HTMLDialogElement>(null);
   const [supabase] = useState(() => createClient());
+  const queryClient = useQueryClient();
   const [state, setState] = useState<{
     kind: ShareKind;
     id: string;
     token: string | null;
     expiresAt: string | null;
   } | null>(null);
-  const [isWorking, setIsWorking] = useState<boolean>(false);
   const [copied, setCopied] = useState<boolean>(false);
+
+  const enableMutation = useMutation({
+    mutationFn: (params: { kind: ShareKind; id: string }) =>
+      params.kind === "resume"
+        ? enableResumeSharing(supabase, params.id)
+        : enableCoverLetterSharing(supabase, params.id),
+  });
+
+  const disableMutation = useMutation({
+    mutationFn: (params: { kind: ShareKind; id: string }) =>
+      params.kind === "resume"
+        ? disableResumeSharing(supabase, params.id)
+        : disableCoverLetterSharing(supabase, params.id),
+  });
+
+  const isWorking = enableMutation.isPending || disableMutation.isPending;
+
+  function syncDetailCache(token: string | null, expiresAt: string | null) {
+    if (!state) return;
+    if (state.kind === "resume") {
+      queryClient.setQueryData<ResumeRow | null>(queryKeys.resumes.detail(state.id), (prev) =>
+        prev ? { ...prev, shareToken: token, shareTokenExpiresAt: expiresAt } : prev,
+      );
+    } else {
+      queryClient.setQueryData<CoverLetterRow | null>(queryKeys.coverLetters.detail(state.id), (prev) =>
+        prev ? { ...prev, shareToken: token, shareTokenExpiresAt: expiresAt } : prev,
+      );
+    }
+  }
 
   useImperativeHandle(ref, () => ({
     open(params) {
@@ -65,33 +98,18 @@ export default function ShareDialog({ ref, onTokenChange }: ShareDialogProps) {
 
   async function handleEnable() {
     if (!state || isWorking) return;
-    setIsWorking(true);
-    try {
-      const { token, expiresAt } =
-        state.kind === "resume"
-          ? await enableResumeSharing(supabase, state.id)
-          : await enableCoverLetterSharing(supabase, state.id);
-      setState((prev) => (prev ? { ...prev, token, expiresAt } : prev));
-      onTokenChange?.(token, expiresAt);
-    } finally {
-      setIsWorking(false);
-    }
+    const { token, expiresAt } = await enableMutation.mutateAsync({ kind: state.kind, id: state.id });
+    setState((prev) => (prev ? { ...prev, token, expiresAt } : prev));
+    syncDetailCache(token, expiresAt);
+    onTokenChange?.(token, expiresAt);
   }
 
   async function handleDisable() {
     if (!state || isWorking) return;
-    setIsWorking(true);
-    try {
-      if (state.kind === "resume") {
-        await disableResumeSharing(supabase, state.id);
-      } else {
-        await disableCoverLetterSharing(supabase, state.id);
-      }
-      setState((prev) => (prev ? { ...prev, token: null, expiresAt: null } : prev));
-      onTokenChange?.(null, null);
-    } finally {
-      setIsWorking(false);
-    }
+    await disableMutation.mutateAsync({ kind: state.kind, id: state.id });
+    setState((prev) => (prev ? { ...prev, token: null, expiresAt: null } : prev));
+    syncDetailCache(null, null);
+    onTokenChange?.(null, null);
   }
 
   async function handleCopy() {

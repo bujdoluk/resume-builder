@@ -38,10 +38,11 @@ import { checkCoverLetterFormat } from "@/lib/atsChecker/checkCoverLetterFormat"
 import { FREE_TIER_LIMITS, SAVED_INDICATOR_DURATION_MS } from "@/lib/constants";
 import type { ExportFormat } from "@/lib/exportFormat";
 import { coverLetterPdfTemplates } from "@/lib/pdf/coverLetterTemplates";
+import { useCoverLetterQuery, useSaveCoverLetterMutation } from "@/lib/queries/coverLetters";
 import { scrollToSectionAnchor } from "@/lib/scrollToSectionAnchor";
 import { isShareLinkActive } from "@/lib/shareLink";
 import { createClient } from "@/lib/supabase/client";
-import { countCoverLetters, getCoverLetter, saveCoverLetter } from "@/lib/supabase/coverLetters";
+import { countCoverLetters } from "@/lib/supabase/coverLetters";
 import { ensureUserId } from "@/lib/supabase/session";
 import { getSubscription, isPaidPlan } from "@/lib/supabase/subscriptions";
 import { generateCoverLetterText } from "@/lib/text/coverLetterText";
@@ -65,7 +66,6 @@ export default function CoverLetterBuilder({
     coverLetterSectionZones,
     setCoverLetterSectionZones,
     setCoverLetterStepsSummary,
-    notifyCoverLetterListChanged,
   } = useAppState();
   const [data, setData] = useState<CoverLetterData>(emptyCoverLetterData);
   const [sectionOrder, setSectionOrder] = useState<CoverLetterSectionKey[]>(
@@ -84,7 +84,6 @@ export default function CoverLetterBuilder({
   const [name, setName] = useState<string>("");
   const [shareToken, setShareToken] = useState<string | null>(null);
   const [shareTokenExpiresAt, setShareTokenExpiresAt] = useState<string | null>(null);
-  const [isSaving, setIsSaving] = useState<boolean>(false);
   const [justSaved, setJustSaved] = useState<boolean>(false);
   const [exportFormat, setExportFormat] = useState<ExportFormat>("pdf");
   const previewRef = useRef<PreviewModalHandle>(null);
@@ -94,6 +93,8 @@ export default function CoverLetterBuilder({
   const shareDialogRef = useRef<ShareDialogHandle>(null);
   const importDialogRef = useRef<ImportCoverLetterDialogHandle>(null);
   const [supabase] = useState(() => createClient());
+  const coverLetterQuery = useCoverLetterQuery(supabase, initialCoverLetterId ?? null);
+  const saveCoverLetterMutation = useSaveCoverLetterMutation(supabase);
   const exportText = generateCoverLetterText({
     data,
     sectionOrder,
@@ -116,23 +117,18 @@ export default function CoverLetterBuilder({
 
   useEffect(() => {
     if (!initialCoverLetterId) return;
-    let cancelled = false;
+    if (!coverLetterQuery.isSuccess && !coverLetterQuery.isError) return;
 
-    getCoverLetter(supabase, initialCoverLetterId).then((row) => {
-      if (cancelled) return;
-      if (row) {
-        setData(row.data);
-        setName(row.name);
-        setShareToken(isShareLinkActive(row.shareTokenExpiresAt) ? row.shareToken : null);
-        setShareTokenExpiresAt(isShareLinkActive(row.shareTokenExpiresAt) ? row.shareTokenExpiresAt : null);
-      }
-      setLoadedCoverLetterId(initialCoverLetterId);
-    });
-
-    return () => {
-      cancelled = true;
-    };
-  }, [initialCoverLetterId, supabase]);
+    const row = coverLetterQuery.data;
+    if (row) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setData(row.data);
+      setName(row.name);
+      setShareToken(isShareLinkActive(row.shareTokenExpiresAt) ? row.shareToken : null);
+      setShareTokenExpiresAt(isShareLinkActive(row.shareTokenExpiresAt) ? row.shareTokenExpiresAt : null);
+    }
+    setLoadedCoverLetterId(initialCoverLetterId);
+  }, [initialCoverLetterId, coverLetterQuery.isSuccess, coverLetterQuery.isError, coverLetterQuery.data]);
 
   function handleChange(field: keyof CoverLetterData, value: string) {
     setData((prev) => ({ ...prev, [field]: value }));
@@ -225,7 +221,7 @@ export default function CoverLetterBuilder({
   }
 
   async function handleSave() {
-    if (isSaving) return;
+    if (saveCoverLetterMutation.isPending) return;
 
     let nameToSave = name;
     if (!nameToSave) {
@@ -252,8 +248,7 @@ export default function CoverLetterBuilder({
         }
       }
 
-      setIsSaving(true);
-      const row = await saveCoverLetter(supabase, {
+      const row = await saveCoverLetterMutation.mutateAsync({
         id: coverLetterId,
         userId,
         name: nameToSave,
@@ -264,15 +259,12 @@ export default function CoverLetterBuilder({
       setShareToken(isShareLinkActive(row.shareTokenExpiresAt) ? row.shareToken : null);
       setShareTokenExpiresAt(isShareLinkActive(row.shareTokenExpiresAt) ? row.shareTokenExpiresAt : null);
       router.replace(`/cover-letter?id=${row.id}`);
-      notifyCoverLetterListChanged();
       setJustSaved(true);
       setTimeout(() => setJustSaved(false), SAVED_INDICATOR_DURATION_MS);
     } catch (error) {
       console.error(error);
       Sentry.captureException(error);
       alert(t("coverLetter.saveFailed"));
-    } finally {
-      setIsSaving(false);
     }
   }
 
@@ -325,10 +317,10 @@ export default function CoverLetterBuilder({
         <button
           type="button"
           className="btn btn-outline hover:border-primary flex-1 md:flex-none md:w-48"
-          disabled={isSaving}
+          disabled={saveCoverLetterMutation.isPending}
           onClick={handleSave}
         >
-          {isSaving ? (
+          {saveCoverLetterMutation.isPending ? (
             <span className="loading loading-spinner loading-sm" />
           ) : justSaved ? (
             t("buttons.saved")

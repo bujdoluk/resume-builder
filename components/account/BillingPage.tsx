@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Temporal } from "temporal-polyfill";
 import ConfirmDialog, { type ConfirmDialogHandle } from "@/components/ConfirmDialog";
 import { ArrowLeftIcon } from "@/components/Icons";
@@ -11,9 +12,10 @@ import LoadingSpinner from "@/components/LoadingSpinner";
 import { useToast } from "@/components/Toast";
 import { requestStripeCancel, type StripeCancelAction } from "@/lib/api/stripe";
 import { handleApiResponse } from "@/lib/apiResponse";
+import { queryKeys } from "@/lib/queries/keys";
+import { useSessionQuery } from "@/lib/queries/session";
+import { useSubscriptionQuery } from "@/lib/queries/subscriptions";
 import { createClient } from "@/lib/supabase/client";
-import { getSubscription } from "@/lib/supabase/subscriptions";
-import type { Subscription } from "@/types/subscription";
 
 function formatDate(iso: string, locale: string): string {
   return Temporal.Instant.from(iso).toLocaleString(locale, { dateStyle: "medium" });
@@ -23,20 +25,23 @@ export default function BillingPage() {
   const { t, i18n } = useTranslation();
   const router = useRouter();
   const { showToast } = useToast();
+  const queryClient = useQueryClient();
   const [supabase] = useState(() => createClient());
-  const [subscription, setSubscription] = useState<Subscription | null>(null);
-  const [actionLoading, setActionLoading] = useState<boolean>(false);
+  const { data: session, isSuccess: isSessionLoaded } = useSessionQuery(supabase);
+  const userId = session?.user && !session.user.is_anonymous ? session.user.id : undefined;
+  const { data: subscription } = useSubscriptionQuery(supabase, userId);
   const cancelDialogRef = useRef<ConfirmDialogHandle>(null);
 
   useEffect(() => {
-    supabase.auth.getSession().then(async ({ data: { session } }) => {
-      if (!session?.user || session.user.is_anonymous) {
-        router.replace("/login?next=%2Fbilling");
-        return;
-      }
-      setSubscription(await getSubscription(supabase, session.user.id));
-    });
-  }, [supabase, router]);
+    if (!isSessionLoaded) return;
+    if (!session?.user || session.user.is_anonymous) {
+      router.replace("/login?next=%2Fbilling");
+    }
+  }, [isSessionLoaded, session, router]);
+
+  const cancelActionMutation = useMutation({
+    mutationFn: (action: StripeCancelAction) => requestStripeCancel(action, i18n.language),
+  });
 
   async function handleCancel() {
     const confirmed = await cancelDialogRef.current?.open({
@@ -52,28 +57,23 @@ export default function BillingPage() {
   }
 
   async function runAction(action: StripeCancelAction) {
-    setActionLoading(true);
-    try {
-      const response = await requestStripeCancel(action, i18n.language);
-      const body = await handleApiResponse<{
-        status: string;
-        cancelAtPeriodEnd: boolean;
-        currentPeriodEnd: string | null;
-      }>(response, showToast, t);
-      if (!body) return;
-      setSubscription((prev) =>
-        prev
-          ? {
-              ...prev,
-              status: body.status,
-              cancelAtPeriodEnd: body.cancelAtPeriodEnd,
-              currentPeriodEnd: body.currentPeriodEnd,
-            }
-          : prev,
-      );
-    } finally {
-      setActionLoading(false);
-    }
+    const response = await cancelActionMutation.mutateAsync(action);
+    const body = await handleApiResponse<{
+      status: string;
+      cancelAtPeriodEnd: boolean;
+      currentPeriodEnd: string | null;
+    }>(response, showToast, t);
+    if (!body || !userId) return;
+    queryClient.setQueryData(queryKeys.subscription(userId), (prev: typeof subscription) =>
+      prev
+        ? {
+            ...prev,
+            status: body.status,
+            cancelAtPeriodEnd: body.cancelAtPeriodEnd,
+            currentPeriodEnd: body.currentPeriodEnd,
+          }
+        : prev,
+    );
   }
 
   if (!subscription) {
@@ -126,10 +126,10 @@ export default function BillingPage() {
               <button
                 type="button"
                 className="btn btn-outline btn-sm"
-                disabled={actionLoading}
+                disabled={cancelActionMutation.isPending}
                 onClick={handleResume}
               >
-                {actionLoading ? (
+                {cancelActionMutation.isPending ? (
                   <span className="loading loading-spinner loading-xs" />
                 ) : (
                   t("account.resumeSubscription")
@@ -139,10 +139,10 @@ export default function BillingPage() {
               <button
                 type="button"
                 className="btn btn-outline btn-error btn-sm"
-                disabled={actionLoading}
+                disabled={cancelActionMutation.isPending}
                 onClick={handleCancel}
               >
-                {actionLoading ? (
+                {cancelActionMutation.isPending ? (
                   <span className="loading loading-spinner loading-xs" />
                 ) : (
                   t("account.cancelSubscription")

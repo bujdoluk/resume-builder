@@ -3,8 +3,9 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { useTranslation } from "react-i18next";
+import { useMutation } from "@tanstack/react-query";
 import { Temporal } from "temporal-polyfill";
 import { ArrowLeftIcon, PencilIcon, TrashIcon } from "@/components/Icons";
 import ConfirmDialog, { type ConfirmDialogHandle } from "@/components/ConfirmDialog";
@@ -21,13 +22,16 @@ export default function BlogPostContent({ post }: { post: BlogPost }) {
   const router = useRouter();
   const { showToast } = useToast();
   const isAdmin = useIsAdmin();
-  const [deleting, setDeleting] = useState<boolean>(false);
   const confirmDialogRef = useRef<ConfirmDialogHandle>(null);
   const editDialogRef = useRef<BlogPostFormDialogHandle>(null);
   const formattedDate = Temporal.PlainDate.from(post.publishedAt).toLocaleString(i18n.language, {
     dateStyle: "long",
   });
   const paragraphs = post.content.split(/\n\s*\n/);
+
+  const deleteMutation = useMutation({
+    mutationFn: () => requestDeleteBlogPost(post.id, i18n.language),
+  });
 
   async function handleEdit() {
     const saved = await editDialogRef.current?.open(post);
@@ -40,15 +44,10 @@ export default function BlogPostContent({ post }: { post: BlogPost }) {
       confirmLabel: t("blog.delete"),
     });
     if (!confirmed) return;
-    setDeleting(true);
-    try {
-      const response = await requestDeleteBlogPost(post.id, i18n.language);
-      const body = await handleApiResponse(response, showToast, t);
-      if (!body) return;
-      router.push("/blog");
-    } finally {
-      setDeleting(false);
-    }
+    const response = await deleteMutation.mutateAsync();
+    const body = await handleApiResponse(response, showToast, t);
+    if (!body) return;
+    router.push("/blog");
   }
 
   return (
@@ -73,10 +72,10 @@ export default function BlogPostContent({ post }: { post: BlogPost }) {
                 <button
                   type="button"
                   className="btn btn-outline btn-sm btn-error"
-                  disabled={deleting}
+                  disabled={deleteMutation.isPending}
                   onClick={handleDelete}
                 >
-                  {deleting ? (
+                  {deleteMutation.isPending ? (
                     <span className="loading loading-spinner loading-xs" />
                   ) : (
                     <TrashIcon className="h-4 w-4 stroke-current" />

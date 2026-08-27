@@ -1,11 +1,13 @@
 import "@testing-library/jest-dom/vitest";
-import { fireEvent, render, screen, waitFor, within } from "@testing-library/react";
+import { cleanup, fireEvent, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { AppStateProvider } from "@/components/AppState";
 import CoverLetterBuilder from "@/components/cover-letter/CoverLetterBuilder";
 import { ToastProvider } from "@/components/Toast";
+import { emptyCoverLetterData } from "@/lib/coverLetterData";
 import { formatPhoneAsYouType } from "@/lib/phone";
+import { renderWithQueryClient } from "@/__tests__/test-utils/renderWithProviders";
 
 const mocks = vi.hoisted(() => ({
   replace: vi.fn(),
@@ -62,6 +64,8 @@ function fillField(element: HTMLElement, value: string) {
   fireEvent.change(element, { target: { value } });
 }
 
+afterEach(cleanup);
+
 beforeEach(() => {
   // jsdom doesn't implement <dialog>'s showModal/close; the save-name dialog
   // and testing-library's visibility checks both rely on the `open` attribute.
@@ -100,7 +104,7 @@ describe("CoverLetterBuilder", () => {
     // suite has grown — 30000ms gives real headroom.
     const user = userEvent.setup();
 
-    const { container } = render(
+    const { container } = renderWithQueryClient(
       <AppStateProvider>
         <ToastProvider>
           <CoverLetterBuilder />
@@ -201,4 +205,36 @@ describe("CoverLetterBuilder", () => {
       expect(desktopPane.getByRole("button", { name: "Saved" })).toBeInTheDocument(),
     );
   }, 30000);
+
+  it("loads an existing cover letter by id", async () => {
+    mocks.getCoverLetter.mockResolvedValue({
+      id: "cover-letter-1",
+      name: "Existing Cover Letter",
+      data: { ...emptyCoverLetterData, recipientCompany: "Acme Inc." },
+      shareToken: null,
+      shareTokenExpiresAt: null,
+      createdAt: "2026-01-01T00:00:00.000Z",
+      updatedAt: "2026-01-01T00:00:00.000Z",
+      deletedAt: null,
+    });
+
+    renderWithQueryClient(
+      <AppStateProvider>
+        <ToastProvider>
+          <CoverLetterBuilder initialCoverLetterId="cover-letter-1" />
+        </ToastProvider>
+      </AppStateProvider>,
+    );
+
+    // CoverLetterBuilder renders a mobile pane and a desktop pane at once
+    // (see the "fills out every cover letter section" test above) — [0] is
+    // the mobile input, [1] is the desktop one, both populated once the load
+    // effect resolves.
+    const companyInputs = await waitFor(() => {
+      const inputs = screen.getAllByPlaceholderText("Acme Inc.") as HTMLInputElement[];
+      expect(inputs).toHaveLength(2);
+      return inputs;
+    });
+    await waitFor(() => expect(companyInputs[1]).toHaveValue("Acme Inc."));
+  });
 });

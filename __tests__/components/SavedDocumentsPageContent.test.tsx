@@ -1,13 +1,15 @@
 import "@testing-library/jest-dom/vitest";
 import "@/lib/i18n/i18n";
-import { cleanup, fireEvent, render, screen, waitFor, within } from "@testing-library/react";
+import { cleanup, fireEvent, screen, waitFor, within } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import SavedDocumentsPageContent, {
   type SavedDocumentRow,
   type SavedDocumentsApi,
   type SavedDocumentsLabels,
 } from "@/components/SavedDocumentsPageContent";
+import type { DocumentQueryKeys } from "@/lib/queries/keys";
 import { ToastProvider } from "@/components/Toast";
+import { renderWithQueryClient } from "@/__tests__/test-utils/renderWithProviders";
 
 const mocks = vi.hoisted(() => ({
   push: vi.fn(),
@@ -105,22 +107,29 @@ const api: SavedDocumentsApi<SavedDocumentRow, { column: "name" | "created_at" |
   duplicate: mocks.duplicate,
 };
 
+const testQueryKeys: DocumentQueryKeys = {
+  all: (userId) => ["test", userId],
+  count: (userId) => ["test", userId, "count"],
+  deletedCount: (userId) => ["test", userId, "deletedCount"],
+  list: (userId, tab, sort, page) => ["test", userId, "list", tab, sort.column, sort.ascending, page],
+};
+
 const rows: SavedDocumentRow[] = [
   { id: "doc-1", name: "First Document", createdAt: "2026-01-01T00:00:00Z", updatedAt: "2026-01-02T00:00:00Z", deletedAt: null },
   { id: "doc-2", name: "Second Document", createdAt: "2026-01-03T00:00:00Z", updatedAt: "2026-01-04T00:00:00Z", deletedAt: null },
 ];
 
 function renderPage() {
-  return render(
+  return renderWithQueryClient(
     <ToastProvider>
       <SavedDocumentsPageContent
         labels={labels}
         api={api}
+        queryKeys={testQueryKeys}
         pageSize={12}
         freeTierLimit={2}
         newDocumentHref="/app"
         getEditHref={(row) => `/app?id=${row.id}`}
-        notifyListChanged={vi.fn()}
       />
     </ToastProvider>,
   );
@@ -155,7 +164,10 @@ describe("SavedDocumentsPageContent", () => {
     fireEvent.click(screen.getByText("Recently Deleted"));
 
     await waitFor(() => expect(mocks.listDeleted).toHaveBeenCalled());
-    expect(screen.queryByText("First Document")).not.toBeInTheDocument();
+    // The previous tab's rows stay on screen (React Query's keepPreviousData,
+    // avoiding a loading-spinner flash) until the deleted-tab query resolves,
+    // so wait for the transition rather than asserting synchronously.
+    await waitFor(() => expect(screen.queryByText("First Document")).not.toBeInTheDocument());
   });
 
   it("deletes a single document after confirming", async () => {

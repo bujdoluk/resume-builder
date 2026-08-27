@@ -2,6 +2,7 @@
 
 import { useRef, useState, type ComponentType } from "react";
 import { useTranslation } from "react-i18next";
+import { useMutation } from "@tanstack/react-query";
 import { EmailIcon } from "@/components/Icons";
 import { useToast } from "@/components/Toast";
 import type { ExportFormat } from "@/lib/exportFormat";
@@ -42,25 +43,12 @@ export default function EmailButton<T extends object>({
   const { showToast } = useToast();
   const dialogRef = useRef<HTMLDialogElement>(null);
   const [to, setTo] = useState<string>("");
-  const [isSending, setIsSending] = useState<boolean>(false);
   const [sent, setSent] = useState<boolean>(false);
 
-  function openDialog() {
-    setSent(false);
-    dialogRef.current?.showModal();
-  }
-
-  function closeDialog() {
-    dialogRef.current?.close();
-  }
-
-  async function handleSubmit(event: React.FormEvent) {
-    event.preventDefault();
-    if (isSending) return;
-    setIsSending(true);
-    try {
+  const sendEmailMutation = useMutation({
+    mutationFn: async (recipient: string) => {
       const captchaToken = await getAnonymousCaptchaToken();
-      const body: SendEmailParams = { to, fileName, format };
+      const body: SendEmailParams = { to: recipient, fileName, format };
       if (captchaToken) body.captchaToken = captchaToken;
 
       if (format === "txt") {
@@ -74,17 +62,30 @@ export default function EmailButton<T extends object>({
         body.pdfBase64 = await blobToBase64(blob);
       }
 
-      const response = await requestSendEmail(body, i18n.language);
+      return requestSendEmail(body, i18n.language);
+    },
+  });
 
-      const result = await handleApiResponse(response, showToast, t);
-      if (!result) return;
+  function openDialog() {
+    setSent(false);
+    dialogRef.current?.showModal();
+  }
 
-      setSent(true);
-      setTo("");
-      setTimeout(closeDialog, EMAIL_SENT_DIALOG_CLOSE_DELAY_MS);
-    } finally {
-      setIsSending(false);
-    }
+  function closeDialog() {
+    dialogRef.current?.close();
+  }
+
+  async function handleSubmit(event: React.FormEvent) {
+    event.preventDefault();
+    if (sendEmailMutation.isPending) return;
+
+    const response = await sendEmailMutation.mutateAsync(to);
+    const result = await handleApiResponse(response, showToast, t);
+    if (!result) return;
+
+    setSent(true);
+    setTo("");
+    setTimeout(closeDialog, EMAIL_SENT_DIALOG_CLOSE_DELAY_MS);
   }
 
   return (
@@ -121,8 +122,8 @@ export default function EmailButton<T extends object>({
               <button type="button" className="btn" onClick={closeDialog}>
                 {t("buttons.cancel")}
               </button>
-              <button type="submit" className="btn btn-primary" disabled={isSending}>
-                {isSending ? (
+              <button type="submit" className="btn btn-primary" disabled={sendEmailMutation.isPending}>
+                {sendEmailMutation.isPending ? (
                   <span className="loading loading-spinner loading-sm" />
                 ) : (
                   t("emailDialog.send")

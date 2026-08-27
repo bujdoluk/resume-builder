@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useRef, useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import HCaptcha from "@hcaptcha/react-hcaptcha";
+import { useQuery } from "@tanstack/react-query";
 import { ArrowLeftIcon, EyeIcon, EyeSlashIcon } from "@/components/Icons";
 import {
   AuthActionError,
@@ -46,11 +47,15 @@ function LoginForm() {
   const [awaitingMfaCode, setAwaitingMfaCode] = useState<boolean>(false);
   const [mfaCode, setMfaCode] = useState<string>("");
 
+  const stepUpRequiredQuery = useQuery({
+    queryKey: ["auth", "stepUpRequired"] as const,
+    queryFn: () => getStepUpRequired(supabase),
+  });
+
   useEffect(() => {
-    getStepUpRequired(supabase).then((required) => {
-      if (required) setAwaitingMfaCode(true);
-    });
-  }, [supabase]);
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    if (stepUpRequiredQuery.data) setAwaitingMfaCode(true);
+  }, [stepUpRequiredQuery.data]);
 
   function switchMode(nextMode: Mode) {
     setMode(nextMode);

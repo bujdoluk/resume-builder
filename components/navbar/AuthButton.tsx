@@ -1,10 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useTranslation } from "react-i18next";
 import { ChevronDownIcon, LoginIcon } from "@/components/Icons";
+import { useSessionQuery } from "@/lib/queries/session";
 import { logOut } from "@/lib/supabase/auth";
 import { createClient } from "@/lib/supabase/client";
 
@@ -12,20 +13,9 @@ export default function AuthButton() {
   const { t } = useTranslation();
   const router = useRouter();
   const [supabase] = useState(() => createClient());
-  const [email, setEmail] = useState<string | null>(null);
   const [isSigningOut, setIsSigningOut] = useState<boolean>(false);
-
-  useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setEmail(session?.user && !session.user.is_anonymous ? session.user.email ?? "" : null);
-    });
-
-    const { data } = supabase.auth.onAuthStateChange((_event, session) => {
-      setEmail(session?.user && !session.user.is_anonymous ? session.user.email ?? "" : null);
-    });
-
-    return () => data.subscription.unsubscribe();
-  }, [supabase]);
+  const { data: session } = useSessionQuery(supabase);
+  const email = session?.user && !session.user.is_anonymous ? (session.user.email ?? "") : null;
 
   function handleKeyDown(event: React.KeyboardEvent<HTMLDivElement>) {
     if (event.key !== "Escape") return;

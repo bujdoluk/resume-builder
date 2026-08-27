@@ -2,6 +2,7 @@
 
 import { useImperativeHandle, useRef, useState, type Ref } from "react";
 import { useTranslation } from "react-i18next";
+import { useMutation } from "@tanstack/react-query";
 import { Temporal } from "temporal-polyfill";
 import { useToast } from "@/components/Toast";
 import { requestCreateBlogPost, requestUpdateBlogPost } from "@/lib/api/blog";
@@ -44,8 +45,14 @@ export default function BlogPostFormDialog({ ref }: { ref?: Ref<BlogPostFormDial
   const resolveRef = useRef<((saved: boolean) => void) | null>(null);
   const [form, setForm] = useState(EMPTY_FORM);
   const [editingId, setEditingId] = useState<string | null>(null);
-  const [submitting, setSubmitting] = useState<boolean>(false);
   const isEditing = editingId !== null;
+
+  const submitMutation = useMutation({
+    mutationFn: (input: Omit<typeof EMPTY_FORM, "authorAvatarUrl"> & { authorAvatarUrl: string | null }) =>
+      editingId !== null
+        ? requestUpdateBlogPost(editingId, input, i18n.language)
+        : requestCreateBlogPost(input, i18n.language),
+  });
 
   useImperativeHandle(ref, () => ({
     open(existingPost) {
@@ -75,19 +82,11 @@ export default function BlogPostFormDialog({ ref }: { ref?: Ref<BlogPostFormDial
 
   async function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
-    setSubmitting(true);
-    try {
-      const input = { ...form, authorAvatarUrl: form.authorAvatarUrl.trim() || null };
-      const response =
-        editingId !== null
-          ? await requestUpdateBlogPost(editingId, input, i18n.language)
-          : await requestCreateBlogPost(input, i18n.language);
-      const body = await handleApiResponse(response, showToast, t);
-      if (!body) return;
-      close(true);
-    } finally {
-      setSubmitting(false);
-    }
+    const input = { ...form, authorAvatarUrl: form.authorAvatarUrl.trim() || null };
+    const response = await submitMutation.mutateAsync(input);
+    const body = await handleApiResponse(response, showToast, t);
+    if (!body) return;
+    close(true);
   }
 
   return (
@@ -217,8 +216,8 @@ export default function BlogPostFormDialog({ ref }: { ref?: Ref<BlogPostFormDial
             <button type="button" className="btn" onClick={() => close(false)}>
               {t("buttons.cancel")}
             </button>
-            <button type="submit" className="btn btn-primary" disabled={submitting}>
-              {submitting ? (
+            <button type="submit" className="btn btn-primary" disabled={submitMutation.isPending}>
+              {submitMutation.isPending ? (
                 <span className="loading loading-spinner loading-xs" />
               ) : isEditing ? (
                 t("blog.dialog.save")

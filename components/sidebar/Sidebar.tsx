@@ -1,9 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
-import * as Sentry from "@sentry/nextjs";
 import CompletionSteps from "@/components/sidebar/CompletionSteps";
 import {
   EmailIcon,
@@ -15,64 +14,21 @@ import {
   coverLetterSectionStepTitleKey,
   type CoverLetterSectionKey,
 } from "@/lib/coverLetterSections";
+import { useCoverLetterCountQuery } from "@/lib/queries/coverLetters";
+import { useResumeCountQuery } from "@/lib/queries/resumes";
+import { useUserIdQuery } from "@/lib/queries/session";
 import { scrollToSectionAnchor } from "@/lib/scrollToSectionAnchor";
 import { createClient } from "@/lib/supabase/client";
-import { countCoverLetters } from "@/lib/supabase/coverLetters";
-import { countResumes } from "@/lib/supabase/resumes";
-import { ensureUserId } from "@/lib/supabase/session";
 import { useAppState } from "@/components/AppState";
 
 export default function Sidebar() {
   const { t } = useTranslation();
-  const {
-    resumeListVersion,
-    coverLetterListVersion,
-    lastEditorPath,
-    resumeStepsSummary,
-    coverLetterStepsSummary,
-  } = useAppState();
+  const { lastEditorPath, resumeStepsSummary, coverLetterStepsSummary } = useAppState();
   const [collapsed, setCollapsed] = useState<boolean>(false);
   const [supabase] = useState(() => createClient());
-  const [resumeCount, setResumeCount] = useState<number | null>(null);
-  const [coverLetterCount, setCoverLetterCount] = useState<number | null>(null);
-
-  useEffect(() => {
-    let cancelled = false;
-
-    (async () => {
-      try {
-        const userId = await ensureUserId(supabase);
-        const count = await countResumes(supabase, userId);
-        if (!cancelled) setResumeCount(count);
-      } catch (error) {
-        console.error(error);
-        Sentry.captureException(error);
-      }
-    })();
-
-    return () => {
-      cancelled = true;
-    };
-  }, [supabase, resumeListVersion]);
-
-  useEffect(() => {
-    let cancelled = false;
-
-    (async () => {
-      try {
-        const userId = await ensureUserId(supabase);
-        const count = await countCoverLetters(supabase, userId);
-        if (!cancelled) setCoverLetterCount(count);
-      } catch (error) {
-        console.error(error);
-        Sentry.captureException(error);
-      }
-    })();
-
-    return () => {
-      cancelled = true;
-    };
-  }, [supabase, coverLetterListVersion]);
+  const { data: userId } = useUserIdQuery(supabase);
+  const { data: resumeCount = null } = useResumeCountQuery(supabase, userId);
+  const { data: coverLetterCount = null } = useCoverLetterCountQuery(supabase, userId);
 
   return (
     <div className="bg-base-100 border-base-300 flex w-full flex-col border-b lg:h-full lg:w-auto lg:border-r lg:border-b-0">

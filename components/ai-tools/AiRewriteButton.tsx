@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useMutation } from "@tanstack/react-query";
 import { SparkleIcon } from "@/components/Icons";
 import { useToast } from "@/components/Toast";
 import { requestAiRewrite } from "@/lib/api/aiRewrite";
@@ -21,29 +21,29 @@ export default function AiRewriteButton({
 }) {
   const { t, i18n } = useTranslation();
   const { showToast } = useToast();
-  const [isRewriting, setIsRewriting] = useState<boolean>(false);
+
+  const rewriteMutation = useMutation({
+    mutationFn: async () => {
+      const captchaToken = await getAnonymousCaptchaToken();
+      return requestAiRewrite({ captchaToken, text, style }, i18n.language);
+    },
+  });
 
   async function handleClick() {
-    if (isRewriting || !text.trim()) return;
-    setIsRewriting(true);
-    try {
-      const captchaToken = await getAnonymousCaptchaToken();
-      const response = await requestAiRewrite({ captchaToken, text, style }, i18n.language);
-      const result = await handleApiResponse<{ rewritten: string }>(response, showToast, t);
-      if (result) onRewrite(result.rewritten);
-    } finally {
-      setIsRewriting(false);
-    }
+    if (rewriteMutation.isPending || !text.trim()) return;
+    const response = await rewriteMutation.mutateAsync();
+    const result = await handleApiResponse<{ rewritten: string }>(response, showToast, t);
+    if (result) onRewrite(result.rewritten);
   }
 
   return (
     <button
       type="button"
       className={`btn btn-ghost btn-sm ${className ?? ""}`}
-      disabled={isRewriting || !text.trim()}
+      disabled={rewriteMutation.isPending || !text.trim()}
       onClick={handleClick}
     >
-      {isRewriting ? (
+      {rewriteMutation.isPending ? (
         <span className="loading loading-spinner loading-xs" />
       ) : (
         <SparkleIcon className="h-4 w-4 stroke-current" />
