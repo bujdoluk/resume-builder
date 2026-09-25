@@ -12,6 +12,7 @@ export type EducationEntryFieldKey =
   | "dateTo"
   | "location"
   | "description";
+export type HonorAwardEntryFieldKey = "name" | "issuer" | "dateFrom" | "dateTo";
 
 export interface ResumeRow {
   id: string;

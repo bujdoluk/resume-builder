@@ -13,7 +13,7 @@ A free, in-browser resume and cover letter builder. Fill in your details, see a 
 
 ## Features
 
-- Resume builder (5 templates) and cover letter builder (2 templates), both with drag-and-drop sections, completion tracking, and save/restore/delete
+- Resume builder (6 templates) and cover letter builder (3 templates), both with drag-and-drop sections, completion tracking, and save/restore/delete
 - Customization: colour, font, size, field visibility, custom fields
 - Export to PDF, Word, or plain text; print, email, and shareable links
 - ATS Checker — format check, keyword match, and an AI coherence check (Groq)

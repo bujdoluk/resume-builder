@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   emptyResumeData,
+  honorAwardEntrySchema,
   modernSectionZonesSchema,
   parseStoredResumeData,
   RESUME_SCHEMA_VERSION,
@@ -63,6 +64,51 @@ describe("workEntrySchema", () => {
 
   it("keeps an existing id untouched", () => {
     expect(workEntrySchema.parse({ id: "custom-id" }).id).toBe("custom-id");
+  });
+});
+
+describe("honorAwardEntrySchema", () => {
+  it("generates a fresh id when one is missing", () => {
+    const result = honorAwardEntrySchema.parse({ name: "Design Excellence Award" });
+    expect(result.id).toMatch(/^[0-9a-f-]{36}$/);
+  });
+
+  it("keeps an existing id untouched", () => {
+    expect(honorAwardEntrySchema.parse({ id: "custom-id" }).id).toBe("custom-id");
+  });
+
+  it("recovers from wrong-typed fields instead of throwing", () => {
+    expect(honorAwardEntrySchema.parse({ name: 12345, issuer: null })).toMatchObject({
+      name: "",
+      issuer: "",
+      dateFrom: "",
+      dateTo: "",
+    });
+  });
+});
+
+describe("resumeDataSchema — Harvard-only bonus sections", () => {
+  it("defaults leadershipExperience and honorsAwards to empty arrays", () => {
+    expect(emptyResumeData.leadershipExperience).toEqual([]);
+    expect(emptyResumeData.honorsAwards).toEqual([]);
+  });
+
+  it("parses leadershipExperience with the same shape as workExperience", () => {
+    const result = resumeDataSchema.parse({
+      leadershipExperience: [{ position: "Club President", dateFrom: 42 }],
+    });
+    expect(result.leadershipExperience).toHaveLength(1);
+    expect(result.leadershipExperience[0]!.position).toBe("Club President");
+    expect(result.leadershipExperience[0]!.dateFrom).toBe("");
+  });
+
+  it("recovers honorsAwards entry fields individually rather than dropping the whole entry", () => {
+    const result = resumeDataSchema.parse({
+      honorsAwards: [{ name: "Dean's List", issuer: 999 }],
+    });
+    expect(result.honorsAwards).toHaveLength(1);
+    expect(result.honorsAwards[0]!.name).toBe("Dean's List");
+    expect(result.honorsAwards[0]!.issuer).toBe("");
   });
 });
 

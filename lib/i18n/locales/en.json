@@ -16,7 +16,8 @@
     "myResumes": "My Resumes",
     "resumeBuilder": "Resume",
     "coverLetterBuilder": "Cover Letter",
-    "myCoverLetters": "My Cover Letters"
+    "myCoverLetters": "My Cover Letters",
+    "harvardLockedTooltip": "Harvard style uses fixed formatting"
   },
   "fields": {
     "photo": "Photo",
@@ -42,7 +43,9 @@
     "certifications": "Certifications",
     "languages": "Languages",
     "interests": "Interests",
-    "customFields": "Custom Field"
+    "customFields": "Custom Field",
+    "leadershipExperience": "Leadership Experience",
+    "honorsAwards": "Honors & Awards"
   },
   "resumeSteps": {
     "personalInfo": "Personal Info",
@@ -83,7 +86,9 @@
     "certificationDateTo": "Expiry date (optional)",
     "yourLanguage": "Your language",
     "yourInterest": "Your interest",
-    "customFieldValue": "e.g. Slovak"
+    "customFieldValue": "e.g. Slovak",
+    "honorAwardName": "Award or honor name",
+    "honorAwardIssuer": "Issuing organization"
   },
   "buttons": {
     "addWorkExperience": "+ Add Work Experience",
@@ -104,7 +109,9 @@
     "cancel": "Cancel",
     "confirm": "Confirm",
     "aiAssistant": "AI Assistant",
-    "share": "Share"
+    "share": "Share",
+    "addLeadershipExperience": "+ Add Leadership Experience",
+    "addHonorAward": "+ Add Honor or Award"
   },
   "aria": {
     "removeWorkExperience": "Remove work experience",
@@ -130,7 +137,9 @@
     "selectRow": "Select {{name}}",
     "accountMenu": "Account menu",
     "showPassword": "Show password",
-    "hidePassword": "Hide password"
+    "hidePassword": "Hide password",
+    "removeLeadershipExperience": "Remove leadership experience",
+    "removeHonorAward": "Remove honor or award"
   },
   "templates": {
     "basic": "Basic",
@@ -138,7 +147,8 @@
     "minimal": "Minimal",
     "elegant": "Elegant",
     "classic": "Classic",
-    "pageTitle": "Templates"
+    "pageTitle": "Templates",
+    "harvard": "Harvard"
   },
   "myResumes": {
     "pageTitle": "My Resumes",
@@ -275,8 +285,8 @@
     "ctaStart": "Create Resume",
     "features": {
       "templates": {
-        "title": "5 professional templates",
-        "description": "Basic, Modern, Minimal, Elegant, and Classic — pick the look that fits you."
+        "title": "6 professional templates",
+        "description": "Basic, Modern, Minimal, Elegant, Classic, and Harvard — pick the look that fits you."
       },
       "coverLetter": {
         "title": "Matching cover letters",
@@ -435,7 +445,7 @@
       "name": "Free",
       "price": "$0",
       "cta": "Get Started",
-      "savedItemsValue": "Up to 2 each"
+      "savedItemsValue": "Up to 10 each"
     },
     "pro": {
       "name": "Pro",

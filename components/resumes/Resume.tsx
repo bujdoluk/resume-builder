@@ -29,6 +29,7 @@ import {
   sectionLabels,
   type CertificationEntry,
   type EducationEntry,
+  type HonorAwardEntry,
   type LanguageEntry,
   type ModernSectionZones,
   type ResumeData,
@@ -37,7 +38,12 @@ import {
   type WorkEntry,
 } from "@/lib/resumeData";
 import type { TemplateId } from "@/lib/templates";
-import type { EducationEntryFieldKey, WorkEntryFieldKey } from "@/types/resume";
+import { createHarvardFormHandlers } from "@/components/resumes/useResumeFormHandlers";
+import type {
+  EducationEntryFieldKey,
+  HonorAwardEntryFieldKey,
+  WorkEntryFieldKey,
+} from "@/types/resume";
 
 export {
   emptyResumeData,
@@ -62,6 +68,11 @@ interface ResumeProps {
   onCertificationsChange: (certifications: CertificationEntry[]) => void;
   onLanguagesChange: (languages: LanguageEntry[]) => void;
   onInterestsChange: (interests: SimpleEntry[]) => void;
+  // Harvard-only bonus sections (see the comment above honorAwardEntrySchema
+  // in lib/resumeData.ts) — only ever read/rendered when templateId ===
+  // "harvard", but always passed since Resume.tsx has a single caller.
+  onLeadershipChange: (leadershipExperience: WorkEntry[]) => void;
+  onHonorsChange: (honorsAwards: HonorAwardEntry[]) => void;
   sectionOrder: SectionKey[];
   onReorderSections: (order: SectionKey[]) => void;
   templateId: TemplateId;
@@ -211,10 +222,12 @@ export default function Resume({
   onCertificationsChange,
   onLanguagesChange,
   onInterestsChange,
+  onLeadershipChange,
+  onHonorsChange,
   sectionOrder,
   onReorderSections,
   templateId,
-  color,
+  color: rawColor,
   font,
   fontSize,
   visibleFields,
@@ -223,8 +236,29 @@ export default function Resume({
   onChangeModernSectionZones,
 }: ResumeProps) {
   const { t } = useTranslation();
-  const fontFamily = font ? fontsByKey[font].variable : undefined;
+  const isHarvard = templateId === "harvard";
+  // Harvard's style is locked — shadowing `color` here (rather than
+  // threading a second "effectiveColor" through every call site below)
+  // means every existing color={color}/style={color ? ... : ...} usage in
+  // this file automatically goes inert for Harvard with no further changes.
+  const color = isHarvard ? null : rawColor;
+  const fontFamily = isHarvard
+    ? '"Times New Roman", Times, serif'
+    : font
+      ? fontsByKey[font].variable
+      : undefined;
   const fontSizeStyle = getFontSizeStyle(fontSize);
+  const harvardHandlers = createHarvardFormHandlers({
+    data,
+    onLeadershipChange,
+    onHonorsChange,
+  });
+  const [harvardLeadershipFieldOrder, setHarvardLeadershipFieldOrder] = useState(
+    defaultWorkHistoryFieldOrder,
+  );
+  const [harvardHonorFieldOrder, setHarvardHonorFieldOrder] = useState<
+    HonorAwardEntryFieldKey[]
+  >(["name", "issuer", "dateFrom", "dateTo"]);
 
   const [workHistoryFieldOrder, setWorkHistoryFieldOrder] = useState(
     defaultWorkHistoryFieldOrder,
@@ -365,6 +399,88 @@ export default function Resume({
             value={entry.jobDescription}
             onChange={(e) =>
               updateWorkEntry(entry.id, "jobDescription", e.target.value)
+            }
+          />
+        </fieldset>
+      ),
+    };
+  }
+
+  // Harvard-only bonus section, same shape as workExperience — see the
+  // comment above honorAwardEntrySchema in lib/resumeData.ts.
+  function leadershipEntryFields(
+    entry: WorkEntry,
+  ): Record<WorkEntryFieldKey, React.ReactNode> {
+    return {
+      position: (
+        <fieldset className="fieldset">
+          <input
+            type="text"
+            placeholder={t("placeholders.yourPosition")}
+            className="input input-plain w-full"
+            value={entry.position}
+            onChange={(e) =>
+              harvardHandlers.updateLeadershipEntry(entry.id, "position", e.target.value)
+            }
+          />
+        </fieldset>
+      ),
+      dateFrom: (
+        <fieldset className="fieldset">
+          <input
+            type="text"
+            placeholder={t("placeholders.startDateWork")}
+            className="input input-plain w-full"
+            value={entry.dateFrom}
+            onChange={(e) =>
+              harvardHandlers.updateLeadershipEntry(entry.id, "dateFrom", e.target.value)
+            }
+          />
+        </fieldset>
+      ),
+      dateTo: (
+        <fieldset className="fieldset">
+          <input
+            type="text"
+            placeholder={t("placeholders.endDateWork")}
+            className="input input-plain w-full"
+            value={entry.dateTo}
+            onChange={(e) =>
+              harvardHandlers.updateLeadershipEntry(entry.id, "dateTo", e.target.value)
+            }
+          />
+        </fieldset>
+      ),
+      location: (
+        <fieldset className="fieldset">
+          <input
+            type="text"
+            placeholder="Location"
+            className="input input-plain w-full"
+            value={entry.location}
+            onChange={(e) =>
+              harvardHandlers.updateLeadershipEntry(entry.id, "location", e.target.value)
+            }
+          />
+        </fieldset>
+      ),
+      jobDescription: (
+        <fieldset className="fieldset">
+          <div className="flex justify-end">
+            <AiRewriteButton
+              text={entry.jobDescription}
+              style="bullets"
+              onRewrite={(newText) =>
+                harvardHandlers.updateLeadershipEntry(entry.id, "jobDescription", newText)
+              }
+            />
+          </div>
+          <AutoResizeTextarea
+            placeholder={t("placeholders.describeResponsibilities")}
+            className="textarea input-plain w-full"
+            value={entry.jobDescription}
+            onChange={(e) =>
+              harvardHandlers.updateLeadershipEntry(entry.id, "jobDescription", e.target.value)
             }
           />
         </fieldset>
@@ -574,6 +690,67 @@ export default function Resume({
             value={entry.dateTo}
             onChange={(e) =>
               updateCertification(entry.id, "dateTo", e.target.value)
+            }
+          />
+        </fieldset>
+      ),
+    };
+  }
+
+  // Harvard-only bonus section — see the comment above honorAwardEntrySchema
+  // in lib/resumeData.ts.
+  function honorAwardEntryFields(
+    entry: HonorAwardEntry,
+  ): Record<HonorAwardEntryFieldKey, React.ReactNode> {
+    return {
+      name: (
+        <fieldset className="fieldset">
+          <input
+            type="text"
+            placeholder={t("placeholders.honorAwardName")}
+            className="input w-full"
+            value={entry.name}
+            onChange={(e) =>
+              harvardHandlers.updateHonorAward(entry.id, "name", e.target.value)
+            }
+          />
+        </fieldset>
+      ),
+      issuer: (
+        <fieldset className="fieldset">
+          <input
+            type="text"
+            placeholder={t("placeholders.honorAwardIssuer")}
+            className="input w-full"
+            value={entry.issuer}
+            onChange={(e) =>
+              harvardHandlers.updateHonorAward(entry.id, "issuer", e.target.value)
+            }
+          />
+        </fieldset>
+      ),
+      dateFrom: (
+        <fieldset className="fieldset">
+          <input
+            type="text"
+            placeholder={t("placeholders.certificationDateFrom")}
+            className="input w-full"
+            value={entry.dateFrom}
+            onChange={(e) =>
+              harvardHandlers.updateHonorAward(entry.id, "dateFrom", e.target.value)
+            }
+          />
+        </fieldset>
+      ),
+      dateTo: (
+        <fieldset className="fieldset">
+          <input
+            type="text"
+            placeholder={t("placeholders.certificationDateTo")}
+            className="input w-full"
+            value={entry.dateTo}
+            onChange={(e) =>
+              harvardHandlers.updateHonorAward(entry.id, "dateTo", e.target.value)
             }
           />
         </fieldset>
@@ -1199,7 +1376,7 @@ export default function Resume({
       ? { backgroundColor: getContrastTextColor(color), color }
       : undefined;
 
-  const avatar = !visibleFields.includes("photo") ? null : (
+  const avatar = !visibleFields.includes("photo") || isHarvard ? null : (
     <div
       className={
         templateId === "modern" || templateId === "elegant"
@@ -1755,6 +1932,144 @@ export default function Resume({
               </SortableBlock>
             ))}
           </SortableGroup>
+        </div>
+      </div>
+    );
+  }
+
+  if (templateId === "harvard") {
+    const harvardFieldOrder = visibleFields.filter((key) => key !== "photo");
+
+    return (
+      <div
+        className="resume-scalable w-[280mm] min-h-[297mm] bg-white text-black shadow-xl print:shadow-none"
+        style={{ fontFamily, ...fontSizeStyle }}
+      >
+        <div className="p-10 pl-12">
+          <div data-section-anchor="personalInfo">
+            <SortableGroup
+              dndId="harvard-fields"
+              ids={harvardFieldOrder}
+              onReorder={onReorderFields}
+              strategy={rectSortingStrategy}
+            >
+              <div className="flex flex-col">
+                {renderFieldItems(harvardFieldOrder, fieldContent, {
+                  wrapContactFields: true,
+                })}
+              </div>
+            </SortableGroup>
+          </div>
+
+          <SortableGroup
+            dndId="harvard-sections"
+            ids={sectionOrder}
+            onReorder={onReorderSections}
+          >
+            {sectionOrder.map((key) => (
+              <SortableBlock key={key} id={key} anchor>
+                {sectionContent[key]}
+              </SortableBlock>
+            ))}
+          </SortableGroup>
+
+          <div>
+            <SectionHeader
+              icon={null}
+              title={t("sections.leadershipExperience")}
+            />
+            <div className="flex flex-col">
+              <SortableGroup
+                dndId="harvard-leadership-entries"
+                ids={data.leadershipExperience.map((entry) => entry.id)}
+                onReorder={(order) =>
+                  onLeadershipChange(reorderEntries(data.leadershipExperience, order))
+                }
+              >
+                {data.leadershipExperience.map((entry) => {
+                  const fields = leadershipEntryFields(entry);
+                  return (
+                    <SortableBlock
+                      key={entry.id}
+                      id={entry.id}
+                      className="flex flex-col rounded-lg p-4"
+                    >
+                      <div className="flex justify-end">
+                        <RemoveButton
+                          label={t("aria.removeLeadershipExperience")}
+                          onClick={() => harvardHandlers.removeLeadershipEntry(entry.id)}
+                        />
+                      </div>
+                      <SortableGroup
+                        dndId={`harvard-leadership-fields-${entry.id}`}
+                        ids={harvardLeadershipFieldOrder}
+                        onReorder={setHarvardLeadershipFieldOrder}
+                      >
+                        {harvardLeadershipFieldOrder.map((key) => (
+                          <SortableBlock key={key} id={key}>
+                            {fields[key]}
+                          </SortableBlock>
+                        ))}
+                      </SortableGroup>
+                    </SortableBlock>
+                  );
+                })}
+              </SortableGroup>
+              <button
+                type="button"
+                className="btn btn-outline btn-sm w-fit"
+                onClick={harvardHandlers.addLeadershipEntry}
+              >
+                {t("buttons.addLeadershipExperience")}
+              </button>
+            </div>
+          </div>
+
+          <div>
+            <SectionHeader icon={null} title={t("sections.honorsAwards")} />
+            <div className="flex flex-col">
+              <SortableGroup
+                dndId="harvard-honors-entries"
+                ids={data.honorsAwards.map((entry) => entry.id)}
+                onReorder={(order) =>
+                  onHonorsChange(reorderEntries(data.honorsAwards, order))
+                }
+              >
+                {data.honorsAwards.map((entry) => (
+                  <SortableBlock
+                    key={entry.id}
+                    id={entry.id}
+                    className="flex flex-col rounded-lg p-4"
+                  >
+                    <div className="flex justify-end">
+                      <RemoveButton
+                        label={t("aria.removeHonorAward")}
+                        onClick={() => harvardHandlers.removeHonorAward(entry.id)}
+                      />
+                    </div>
+                    <SortableGroup
+                      dndId={`harvard-honors-fields-${entry.id}`}
+                      ids={harvardHonorFieldOrder}
+                      onReorder={setHarvardHonorFieldOrder}
+                    >
+                      {harvardHonorFieldOrder.map((key) => (
+                        <SortableBlock key={key} id={key}>
+                          {honorAwardEntryFields(entry)[key]}
+                        </SortableBlock>
+                      ))}
+                    </SortableGroup>
+                  </SortableBlock>
+                ))}
+              </SortableGroup>
+              <button
+                type="button"
+                className="btn btn-outline btn-sm w-fit"
+                onClick={harvardHandlers.addHonorAward}
+              >
+                {t("buttons.addHonorAward")}
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     );

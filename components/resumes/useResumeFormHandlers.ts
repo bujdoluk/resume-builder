@@ -4,6 +4,7 @@ import {
   defaultLanguageLevel,
   type CertificationEntry,
   type EducationEntry,
+  type HonorAwardEntry,
   type LanguageEntry,
   type ResumeData,
   type SimpleEntry,
@@ -213,5 +214,84 @@ export function createResumeFormHandlers({
     addInterest,
     updateInterest,
     removeInterest,
+  };
+}
+
+// Harvard-only bonus sections (see the comment above honorAwardEntrySchema in
+// lib/resumeData.ts) — kept as a separate factory rather than folding into
+// ResumeFormHandlersProps above so every other template's mobile component
+// doesn't need to start passing (and ignoring) two more callbacks it has no
+// use for.
+export interface HarvardFormHandlersProps {
+  data: ResumeData;
+  onLeadershipChange: (leadershipExperience: WorkEntry[]) => void;
+  onHonorsChange: (honorsAwards: HonorAwardEntry[]) => void;
+}
+
+export function createHarvardFormHandlers({
+  data,
+  onLeadershipChange,
+  onHonorsChange,
+}: HarvardFormHandlersProps) {
+  function addLeadershipEntry() {
+    onLeadershipChange([
+      ...data.leadershipExperience,
+      {
+        id: generateId(),
+        position: "",
+        dateFrom: "",
+        dateTo: "",
+        location: "",
+        jobDescription: "",
+      },
+    ]);
+  }
+
+  function updateLeadershipEntry(
+    id: string,
+    field: Exclude<keyof WorkEntry, "id">,
+    value: string,
+  ) {
+    onLeadershipChange(
+      data.leadershipExperience.map((entry) =>
+        entry.id === id ? { ...entry, [field]: value } : entry,
+      ),
+    );
+  }
+
+  function removeLeadershipEntry(id: string) {
+    onLeadershipChange(data.leadershipExperience.filter((entry) => entry.id !== id));
+  }
+
+  function addHonorAward() {
+    onHonorsChange([
+      ...data.honorsAwards,
+      { id: generateId(), name: "", issuer: "", dateFrom: "", dateTo: "" },
+    ]);
+  }
+
+  function updateHonorAward(
+    id: string,
+    field: Exclude<keyof HonorAwardEntry, "id">,
+    value: string,
+  ) {
+    onHonorsChange(
+      data.honorsAwards.map((entry) =>
+        entry.id === id ? { ...entry, [field]: value } : entry,
+      ),
+    );
+  }
+
+  function removeHonorAward(id: string) {
+    onHonorsChange(data.honorsAwards.filter((entry) => entry.id !== id));
+  }
+
+  return {
+    addLeadershipEntry,
+    updateLeadershipEntry,
+    removeLeadershipEntry,
+    addHonorAward,
+    updateHonorAward,
+    removeHonorAward,
   };
 }

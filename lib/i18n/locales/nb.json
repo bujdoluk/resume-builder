@@ -16,7 +16,8 @@
     "myResumes": "Mine CV-er",
     "resumeBuilder": "CV",
     "coverLetterBuilder": "Søknadsbrev",
-    "myCoverLetters": "Mine søknadsbrev"
+    "myCoverLetters": "Mine søknadsbrev",
+    "harvardLockedTooltip": "Harvard-stilen bruker fast formatering"
   },
   "fields": {
     "photo": "Bilde",
@@ -42,7 +43,9 @@
     "certifications": "Sertifiseringer",
     "languages": "Språk",
     "interests": "Interesser",
-    "customFields": "Egendefinert felt"
+    "customFields": "Egendefinert felt",
+    "leadershipExperience": "Ledererfaring",
+    "honorsAwards": "Utmerkelser og priser"
   },
   "resumeSteps": {
     "personalInfo": "Personlig informasjon",
@@ -83,7 +86,9 @@
     "certificationDateTo": "Utløpsdato (valgfritt)",
     "yourLanguage": "Ditt språk",
     "yourInterest": "Din interesse",
-    "customFieldValue": "f.eks. Norsk"
+    "customFieldValue": "f.eks. Norsk",
+    "honorAwardName": "Navn på utmerkelsen",
+    "honorAwardIssuer": "Utstedende organisasjon"
   },
   "buttons": {
     "addWorkExperience": "+ Legg til arbeidserfaring",
@@ -104,7 +109,9 @@
     "cancel": "Avbryt",
     "confirm": "Bekreft",
     "aiAssistant": "AI-assistent",
-    "share": "Del"
+    "share": "Del",
+    "addLeadershipExperience": "+ Legg til ledererfaring",
+    "addHonorAward": "+ Legg til utmerkelse"
   },
   "aria": {
     "removeWorkExperience": "Fjern arbeidserfaring",
@@ -130,7 +137,9 @@
     "selectRow": "Velg {{name}}",
     "accountMenu": "Kontomeny",
     "showPassword": "Vis passord",
-    "hidePassword": "Skjul passord"
+    "hidePassword": "Skjul passord",
+    "removeLeadershipExperience": "Fjern ledererfaring",
+    "removeHonorAward": "Fjern utmerkelse"
   },
   "templates": {
     "basic": "Enkel",
@@ -138,7 +147,8 @@
     "minimal": "Minimalistisk",
     "elegant": "Elegant",
     "classic": "Klassisk",
-    "pageTitle": "Maler"
+    "pageTitle": "Maler",
+    "harvard": "Harvard"
   },
   "myResumes": {
     "pageTitle": "Mine CV-er",
@@ -275,8 +285,8 @@
     "ctaStart": "Opprett CV",
     "features": {
       "templates": {
-        "title": "5 profesjonelle maler",
-        "description": "Basic, Modern, Minimal, Elegant og Classic – velg stilen som passer deg."
+        "title": "6 profesjonelle maler",
+        "description": "Basic, Modern, Minimal, Elegant, Classic og Harvard — velg stilen som passer deg."
       },
       "coverLetter": {
         "title": "Matchende søknadsbrev",
@@ -435,7 +445,7 @@
       "name": "Gratis",
       "price": "0 kr",
       "cta": "Kom i gang",
-      "savedItemsValue": "Opptil 2 av hver"
+      "savedItemsValue": "Opptil 10 av hver"
     },
     "pro": {
       "name": "Pro",

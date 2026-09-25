@@ -16,7 +16,8 @@
     "myResumes": "Meine Lebensläufe",
     "resumeBuilder": "Lebenslauf",
     "coverLetterBuilder": "Anschreiben",
-    "myCoverLetters": "Meine Anschreiben"
+    "myCoverLetters": "Meine Anschreiben",
+    "harvardLockedTooltip": "Der Harvard-Stil verwendet ein festes Format"
   },
   "fields": {
     "photo": "Foto",
@@ -42,7 +43,9 @@
     "certifications": "Zertifikate",
     "languages": "Sprachen",
     "interests": "Interessen",
-    "customFields": "Benutzerdefiniertes Feld"
+    "customFields": "Benutzerdefiniertes Feld",
+    "leadershipExperience": "Führungserfahrung",
+    "honorsAwards": "Auszeichnungen"
   },
   "resumeSteps": {
     "personalInfo": "Persönliche Daten",
@@ -83,7 +86,9 @@
     "certificationDateTo": "Ablaufdatum (optional)",
     "yourLanguage": "Ihre Sprache",
     "yourInterest": "Ihr Interesse",
-    "customFieldValue": "z. B. Deutsch"
+    "customFieldValue": "z. B. Deutsch",
+    "honorAwardName": "Name der Auszeichnung",
+    "honorAwardIssuer": "Verleihende Organisation"
   },
   "buttons": {
     "addWorkExperience": "+ Berufserfahrung hinzufügen",
@@ -104,7 +109,9 @@
     "cancel": "Abbrechen",
     "confirm": "Bestätigen",
     "aiAssistant": "KI-Assistent",
-    "share": "Teilen"
+    "share": "Teilen",
+    "addLeadershipExperience": "+ Führungserfahrung hinzufügen",
+    "addHonorAward": "+ Auszeichnung hinzufügen"
   },
   "aria": {
     "removeWorkExperience": "Berufserfahrung entfernen",
@@ -130,7 +137,9 @@
     "selectRow": "{{name}} auswählen",
     "accountMenu": "Kontomenü",
     "showPassword": "Passwort anzeigen",
-    "hidePassword": "Passwort verbergen"
+    "hidePassword": "Passwort verbergen",
+    "removeLeadershipExperience": "Führungserfahrung entfernen",
+    "removeHonorAward": "Auszeichnung entfernen"
   },
   "templates": {
     "basic": "Einfach",
@@ -138,7 +147,8 @@
     "minimal": "Minimalistisch",
     "elegant": "Elegant",
     "classic": "Klassisch",
-    "pageTitle": "Vorlagen"
+    "pageTitle": "Vorlagen",
+    "harvard": "Harvard"
   },
   "myResumes": {
     "pageTitle": "Meine Lebensläufe",
@@ -275,8 +285,8 @@
     "ctaStart": "Lebenslauf erstellen",
     "features": {
       "templates": {
-        "title": "5 professionelle Vorlagen",
-        "description": "Basic, Modern, Minimal, Elegant und Classic – wähle den Stil, der zu dir passt."
+        "title": "6 professionelle Vorlagen",
+        "description": "Basic, Modern, Minimal, Elegant, Classic und Harvard – wähle den Stil, der zu dir passt."
       },
       "coverLetter": {
         "title": "Passende Anschreiben",
@@ -435,7 +445,7 @@
       "name": "Kostenlos",
       "price": "0 €",
       "cta": "Loslegen",
-      "savedItemsValue": "Bis zu 2 pro Typ"
+      "savedItemsValue": "Bis zu 10 pro Typ"
     },
     "pro": {
       "name": "Pro",

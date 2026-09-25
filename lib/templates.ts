@@ -6,6 +6,7 @@ import BasicMobileTemplate, {
 } from "@/components/resumes/mobile-templates/BasicMobileTemplate";
 import ClassicMobileTemplate from "@/components/resumes/mobile-templates/ClassicMobileTemplate";
 import ElegantMobileTemplate from "@/components/resumes/mobile-templates/ElegantMobileTemplate";
+import HarvardMobileTemplate from "@/components/resumes/mobile-templates/HarvardMobileTemplate";
 import ModernMobileTemplate from "@/components/resumes/mobile-templates/ModernMobileTemplate";
 import MinimalMobileTemplate from "@/components/resumes/mobile-templates/MinimalMobileTemplate";
 import BasicTemplate, {
@@ -13,12 +14,13 @@ import BasicTemplate, {
 } from "@/components/resumes/desktop-templates/BasicTemplate";
 import ClassicTemplate from "@/components/resumes/desktop-templates/ClassicTemplate";
 import ElegantTemplate from "@/components/resumes/desktop-templates/ElegantTemplate";
+import HarvardTemplate from "@/components/resumes/desktop-templates/HarvardTemplate";
 import MinimalTemplate from "@/components/resumes/desktop-templates/MinimalTemplate";
 import ModernTemplate from "@/components/resumes/desktop-templates/ModernTemplate";
 
 export type { TemplateProps, MobileTemplateProps };
 
-export type TemplateId = "basic" | "modern" | "minimal" | "elegant" | "classic";
+export type TemplateId = "basic" | "modern" | "minimal" | "elegant" | "classic" | "harvard";
 
 export const templates: TemplateDefinition<TemplateId, TemplateProps, MobileTemplateProps>[] = [
   {
@@ -50,6 +52,12 @@ export const templates: TemplateDefinition<TemplateId, TemplateProps, MobileTemp
     name: "Classic",
     component: ClassicTemplate,
     mobileTemplateComponent: ClassicMobileTemplate,
+  },
+  {
+    id: "harvard",
+    name: "Harvard",
+    component: HarvardTemplate,
+    mobileTemplateComponent: HarvardMobileTemplate,
   },
 ];
 

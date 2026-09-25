@@ -65,6 +65,20 @@ export const certificationEntrySchema = z.object({
 });
 export type CertificationEntry = z.infer<typeof certificationEntrySchema>;
 
+// Harvard-only bonus sections (see resumeDataSchema below) — deliberately
+// NOT part of SECTION_KEYS: they're excluded from sectionOrder,
+// modernSectionZones, and every other template's rendering by design, not
+// oversight, so they don't need to appear in the switches/records keyed by
+// SectionKey elsewhere in the codebase.
+export const honorAwardEntrySchema = z.object({
+  id: idSchema,
+  name: z.string().catch(""),
+  issuer: z.string().catch(""),
+  dateFrom: z.string().catch(""),
+  dateTo: z.string().catch(""),
+});
+export type HonorAwardEntry = z.infer<typeof honorAwardEntrySchema>;
+
 const SECTION_KEYS = [
   "workExperience",
   "education",
@@ -94,6 +108,15 @@ export const sectionLabels: Record<SectionKey, string> = {
   interests: "Interests",
   customFields: "Custom Field",
 };
+
+// Fixed-English labels for the Harvard-only bonus sections, used by the
+// three exporters (PDF/DOCX/text) the same way sectionLabels is above — kept
+// here once so the PDF template, docx generator, and text generator can't
+// drift apart on the exact wording.
+export const harvardSectionLabels = {
+  leadershipExperience: "Leadership Experience",
+  honorsAwards: "Honors & Awards",
+} as const;
 
 export type ModernZoneItem = SectionKey | "aboutMe";
 export type ModernSectionZone = "sidebar" | "main";
@@ -172,6 +195,8 @@ export const resumeDataSchema = z.object({
   interests: z.array(simpleEntrySchema).catch([]),
   customFieldValue: z.string().catch(""),
   customFieldsTitle: z.string().catch(""),
+  leadershipExperience: z.array(workEntrySchema).catch([]),
+  honorsAwards: z.array(honorAwardEntrySchema).catch([]),
 });
 export type ResumeData = z.infer<typeof resumeDataSchema>;
 

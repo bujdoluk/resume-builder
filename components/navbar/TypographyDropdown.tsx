@@ -1,5 +1,6 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import { useTranslation } from "react-i18next";
 import { useAppState } from "@/components/AppState";
 import { TypographyIcon } from "@/components/Icons";
@@ -8,8 +9,14 @@ import { allFonts, defaultFontKey } from "@/lib/fonts";
 
 export default function TypographyDropdown() {
   const { t } = useTranslation();
-  const { font, setFont } = useAppState();
+  const pathname = usePathname();
+  const { font, setFont, templateId, coverLetterTemplateId } = useAppState();
   const selectedFont = font ?? defaultFontKey;
+
+  // Harvard's style is locked — see ColoursDropdown.tsx for why this checks
+  // both templateId and coverLetterTemplateId.
+  const isHarvardActive =
+    pathname === "/app" ? templateId === "harvard" : coverLetterTemplateId === "harvard";
 
   return (
     <NavbarDropdownButton
@@ -17,6 +24,8 @@ export default function TypographyDropdown() {
       label={t("sidebar.typography")}
       panelClassName="w-80"
       align="start"
+      disabled={isHarvardActive}
+      disabledTitle={t("sidebar.harvardLockedTooltip")}
     >
       <div className="grid grid-cols-2 gap-2">
         {allFonts.map((option) => {

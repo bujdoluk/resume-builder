@@ -16,7 +16,8 @@
     "myResumes": "Meus currículos",
     "resumeBuilder": "Currículo",
     "coverLetterBuilder": "Carta de apresentação",
-    "myCoverLetters": "Minhas cartas de apresentação"
+    "myCoverLetters": "Minhas cartas de apresentação",
+    "harvardLockedTooltip": "O estilo Harvard usa formatação fixa"
   },
   "fields": {
     "photo": "Foto",
@@ -42,7 +43,9 @@
     "certifications": "Certificações",
     "languages": "Idiomas",
     "interests": "Interesses",
-    "customFields": "Campo personalizado"
+    "customFields": "Campo personalizado",
+    "leadershipExperience": "Experiência de Liderança",
+    "honorsAwards": "Prémios e Distinções"
   },
   "resumeSteps": {
     "personalInfo": "Informações pessoais",
@@ -83,7 +86,9 @@
     "certificationDateTo": "Data de validade (opcional)",
     "yourLanguage": "O seu idioma",
     "yourInterest": "O seu interesse",
-    "customFieldValue": "por ex. Portuguesa"
+    "customFieldValue": "por ex. Portuguesa",
+    "honorAwardName": "Nome do prémio",
+    "honorAwardIssuer": "Entidade atribuidora"
   },
   "buttons": {
     "addWorkExperience": "+ Adicionar experiência profissional",
@@ -104,7 +109,9 @@
     "cancel": "Cancelar",
     "confirm": "Confirmar",
     "aiAssistant": "Assistente de IA",
-    "share": "Compartilhar"
+    "share": "Compartilhar",
+    "addLeadershipExperience": "+ Adicionar experiência de liderança",
+    "addHonorAward": "+ Adicionar prémio"
   },
   "aria": {
     "removeWorkExperience": "Remover experiência profissional",
@@ -130,7 +137,9 @@
     "selectRow": "Selecionar {{name}}",
     "accountMenu": "Menu da conta",
     "showPassword": "Mostrar palavra-passe",
-    "hidePassword": "Ocultar palavra-passe"
+    "hidePassword": "Ocultar palavra-passe",
+    "removeLeadershipExperience": "Remover experiência de liderança",
+    "removeHonorAward": "Remover prémio"
   },
   "templates": {
     "basic": "Básico",
@@ -138,7 +147,8 @@
     "minimal": "Minimalista",
     "elegant": "Elegante",
     "classic": "Clássico",
-    "pageTitle": "Modelos"
+    "pageTitle": "Modelos",
+    "harvard": "Harvard"
   },
   "myResumes": {
     "pageTitle": "Meus currículos",
@@ -275,8 +285,8 @@
     "ctaStart": "Criar currículo",
     "features": {
       "templates": {
-        "title": "5 modelos profissionais",
-        "description": "Basic, Modern, Minimal, Elegant e Classic – escolha o estilo que mais lhe convém."
+        "title": "6 modelos profissionais",
+        "description": "Basic, Modern, Minimal, Elegant, Classic e Harvard — escolha o estilo que mais lhe agrada."
       },
       "coverLetter": {
         "title": "Cartas de apresentação a condizer",
@@ -435,7 +445,7 @@
       "name": "Grátis",
       "price": "0 €",
       "cta": "Começar",
-      "savedItemsValue": "Até 2 de cada"
+      "savedItemsValue": "Até 10 de cada"
     },
     "pro": {
       "name": "Pro",

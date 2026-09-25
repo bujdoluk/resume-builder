@@ -16,7 +16,8 @@
     "myResumes": "Mes CV",
     "resumeBuilder": "CV",
     "coverLetterBuilder": "Lettre de motivation",
-    "myCoverLetters": "Mes lettres de motivation"
+    "myCoverLetters": "Mes lettres de motivation",
+    "harvardLockedTooltip": "Le style Harvard utilise une mise en forme fixe"
   },
   "fields": {
     "photo": "Photo",
@@ -42,7 +43,9 @@
     "certifications": "Certifications",
     "languages": "Langues",
     "interests": "Centres d'intérêt",
-    "customFields": "Champ personnalisé"
+    "customFields": "Champ personnalisé",
+    "leadershipExperience": "Expérience de Leadership",
+    "honorsAwards": "Distinctions et Récompenses"
   },
   "resumeSteps": {
     "personalInfo": "Informations personnelles",
@@ -83,7 +86,9 @@
     "certificationDateTo": "Date d'expiration (facultatif)",
     "yourLanguage": "Votre langue",
     "yourInterest": "Votre centre d'intérêt",
-    "customFieldValue": "ex. Française"
+    "customFieldValue": "ex. Française",
+    "honorAwardName": "Nom de la distinction",
+    "honorAwardIssuer": "Organisme décernant"
   },
   "buttons": {
     "addWorkExperience": "+ Ajouter une expérience professionnelle",
@@ -104,7 +109,9 @@
     "cancel": "Annuler",
     "confirm": "Confirmer",
     "aiAssistant": "Assistant IA",
-    "share": "Partager"
+    "share": "Partager",
+    "addLeadershipExperience": "+ Ajouter une expérience de leadership",
+    "addHonorAward": "+ Ajouter une distinction"
   },
   "aria": {
     "removeWorkExperience": "Supprimer l'expérience professionnelle",
@@ -130,7 +137,9 @@
     "selectRow": "Sélectionner {{name}}",
     "accountMenu": "Menu du compte",
     "showPassword": "Afficher le mot de passe",
-    "hidePassword": "Masquer le mot de passe"
+    "hidePassword": "Masquer le mot de passe",
+    "removeLeadershipExperience": "Supprimer l'expérience de leadership",
+    "removeHonorAward": "Supprimer la distinction"
   },
   "templates": {
     "basic": "Basique",
@@ -138,7 +147,8 @@
     "minimal": "Minimaliste",
     "elegant": "Élégant",
     "classic": "Classique",
-    "pageTitle": "Modèles"
+    "pageTitle": "Modèles",
+    "harvard": "Harvard"
   },
   "myResumes": {
     "pageTitle": "Mes CV",
@@ -275,8 +285,8 @@
     "ctaStart": "Créer un CV",
     "features": {
       "templates": {
-        "title": "5 modèles professionnels",
-        "description": "Basic, Modern, Minimal, Elegant et Classic : choisissez le style qui vous convient."
+        "title": "6 modèles professionnels",
+        "description": "Basic, Modern, Minimal, Elegant, Classic et Harvard — choisissez le style qui vous convient."
       },
       "coverLetter": {
         "title": "Lettres de motivation assorties",
@@ -435,7 +445,7 @@
       "name": "Gratuit",
       "price": "0 $",
       "cta": "Commencer",
-      "savedItemsValue": "Jusqu'à 2 de chaque"
+      "savedItemsValue": "Jusqu'à 10 de chaque"
     },
     "pro": {
       "name": "Pro",

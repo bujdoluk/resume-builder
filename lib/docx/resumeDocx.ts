@@ -6,12 +6,14 @@ import {
   dateRange,
   filledCertificationEntries,
   filledEducationEntries,
+  filledHonorAwardEntries,
   filledLanguageEntries,
+  filledLeadershipEntries,
   filledSimpleEntries,
   filledWorkEntries,
   resolveFieldOrder,
 } from "@/lib/resumeContent";
-import { sectionLabels, type ResumeData, type SectionKey } from "@/lib/resumeData";
+import { harvardSectionLabels, sectionLabels, type ResumeData, type SectionKey } from "@/lib/resumeData";
 
 export interface GenerateResumeDocxParams {
   data: ResumeData;
@@ -146,6 +148,40 @@ export function generateResumeDocx({
     const heading = key === "customFields" ? data.customFieldsTitle || sectionLabels[key] : sectionLabels[key];
     children.push(sectionHeading(heading));
     children.push(...sectionParagraphs);
+  }
+
+  // Harvard-only bonus sections — included unconditionally regardless of the
+  // active template (this exporter has no notion of templateId at all), so
+  // the content survives even if the user switches away from Harvard after
+  // filling them in. See the comment above honorAwardEntrySchema in
+  // lib/resumeData.ts.
+  const leadershipParagraphs = filledLeadershipEntries(data).flatMap((entry) => {
+    const paragraphs: Paragraph[] = [];
+    if (entry.position) paragraphs.push(boldParagraph(entry.position));
+    const meta = [dateRange(entry.dateFrom, entry.dateTo), entry.location]
+      .filter(Boolean)
+      .join("  ·  ");
+    if (meta) paragraphs.push(metaParagraph(meta));
+    if (entry.jobDescription) paragraphs.push(...bodyParagraphs(entry.jobDescription));
+    return paragraphs;
+  });
+  if (leadershipParagraphs.length > 0) {
+    children.push(sectionHeading(harvardSectionLabels.leadershipExperience));
+    children.push(...leadershipParagraphs);
+  }
+
+  const honorAwardParagraphs = filledHonorAwardEntries(data).flatMap((entry) => {
+    const paragraphs: Paragraph[] = [];
+    if (entry.name) paragraphs.push(boldParagraph(entry.name));
+    const meta = [entry.issuer, dateRange(entry.dateFrom, entry.dateTo)]
+      .filter(Boolean)
+      .join("  ·  ");
+    if (meta) paragraphs.push(metaParagraph(meta));
+    return paragraphs;
+  });
+  if (honorAwardParagraphs.length > 0) {
+    children.push(sectionHeading(harvardSectionLabels.honorsAwards));
+    children.push(...honorAwardParagraphs);
   }
 
   return new Document({

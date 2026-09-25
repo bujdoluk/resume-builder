@@ -16,7 +16,8 @@
     "myResumes": "Мои резюме",
     "resumeBuilder": "Резюме",
     "coverLetterBuilder": "Сопроводительное письмо",
-    "myCoverLetters": "Мои сопроводительные письма"
+    "myCoverLetters": "Мои сопроводительные письма",
+    "harvardLockedTooltip": "Стиль Harvard использует фиксированное форматирование"
   },
   "fields": {
     "photo": "Фото",
@@ -42,7 +43,9 @@
     "certifications": "Сертификаты",
     "languages": "Языки",
     "interests": "Интересы",
-    "customFields": "Дополнительное поле"
+    "customFields": "Дополнительное поле",
+    "leadershipExperience": "Лидерский опыт",
+    "honorsAwards": "Награды и достижения"
   },
   "resumeSteps": {
     "personalInfo": "Личная информация",
@@ -83,7 +86,9 @@
     "certificationDateTo": "Дата истечения (необязательно)",
     "yourLanguage": "Ваш язык",
     "yourInterest": "Ваш интерес",
-    "customFieldValue": "напр. Российское"
+    "customFieldValue": "напр. Российское",
+    "honorAwardName": "Название награды",
+    "honorAwardIssuer": "Организация, вручившая награду"
   },
   "buttons": {
     "addWorkExperience": "+ Добавить опыт работы",
@@ -104,7 +109,9 @@
     "cancel": "Отмена",
     "confirm": "Подтвердить",
     "aiAssistant": "ИИ-помощник",
-    "share": "Поделиться"
+    "share": "Поделиться",
+    "addLeadershipExperience": "+ Добавить лидерский опыт",
+    "addHonorAward": "+ Добавить награду"
   },
   "aria": {
     "removeWorkExperience": "Удалить опыт работы",
@@ -130,7 +137,9 @@
     "selectRow": "Выбрать {{name}}",
     "accountMenu": "Меню аккаунта",
     "showPassword": "Показать пароль",
-    "hidePassword": "Скрыть пароль"
+    "hidePassword": "Скрыть пароль",
+    "removeLeadershipExperience": "Удалить лидерский опыт",
+    "removeHonorAward": "Удалить награду"
   },
   "templates": {
     "basic": "Базовый",
@@ -138,7 +147,8 @@
     "minimal": "Минималистичный",
     "elegant": "Элегантный",
     "classic": "Классический",
-    "pageTitle": "Шаблоны"
+    "pageTitle": "Шаблоны",
+    "harvard": "Harvard"
   },
   "myResumes": {
     "pageTitle": "Мои резюме",
@@ -275,8 +285,8 @@
     "ctaStart": "Создать резюме",
     "features": {
       "templates": {
-        "title": "5 профессиональных шаблонов",
-        "description": "Basic, Modern, Minimal, Elegant и Classic — выберите подходящий стиль."
+        "title": "6 профессиональных шаблонов",
+        "description": "Basic, Modern, Minimal, Elegant, Classic и Harvard — выберите подходящий стиль."
       },
       "coverLetter": {
         "title": "Подходящие сопроводительные письма",
@@ -435,7 +445,7 @@
       "name": "Бесплатный",
       "price": "0 $",
       "cta": "Начать",
-      "savedItemsValue": "До 2 каждого вида"
+      "savedItemsValue": "До 10 каждого вида"
     },
     "pro": {
       "name": "Pro",

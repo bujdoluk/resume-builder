@@ -5,12 +5,14 @@ import {
   dateRange,
   filledCertificationEntries,
   filledEducationEntries,
+  filledHonorAwardEntries,
   filledLanguageEntries,
+  filledLeadershipEntries,
   filledSimpleEntries,
   filledWorkEntries,
   resolveFieldOrder,
 } from "@/lib/resumeContent";
-import { sectionLabels, type ResumeData, type SectionKey } from "@/lib/resumeData";
+import { harvardSectionLabels, sectionLabels, type ResumeData, type SectionKey } from "@/lib/resumeData";
 
 export interface GenerateResumeTextParams {
   data: ResumeData;
@@ -94,6 +96,30 @@ export function generateResumeText({
     if (sectionLines.length === 0) continue;
     const heading = key === "customFields" ? data.customFieldsTitle || sectionLabels[key] : sectionLabels[key];
     lines.push("", heading.toUpperCase(), ...sectionLines);
+  }
+
+  // Harvard-only bonus sections — included unconditionally regardless of the
+  // active template, matching lib/docx/resumeDocx.ts's identical treatment.
+  // See the comment above honorAwardEntrySchema in lib/resumeData.ts.
+  const leadershipLines = filledLeadershipEntries(data).flatMap((entry) => {
+    const entryLines = [entry.position].filter(Boolean) as string[];
+    const range = dateRange(entry.dateFrom, entry.dateTo);
+    if (range) entryLines.push(range);
+    if (entry.location) entryLines.push(entry.location);
+    if (entry.jobDescription) entryLines.push(entry.jobDescription);
+    return [...entryLines, ""];
+  });
+  if (leadershipLines.length > 0) {
+    lines.push("", harvardSectionLabels.leadershipExperience.toUpperCase(), ...leadershipLines);
+  }
+
+  const honorAwardLines = filledHonorAwardEntries(data).map((entry) => {
+    const range = dateRange(entry.dateFrom, entry.dateTo);
+    const meta = [entry.issuer, range].filter(Boolean).join(" — ");
+    return meta ? `${entry.name} (${meta})` : entry.name;
+  });
+  if (honorAwardLines.length > 0) {
+    lines.push("", harvardSectionLabels.honorsAwards.toUpperCase(), ...honorAwardLines);
   }
 
   // Trailing blank lines can accumulate from the work/education entry

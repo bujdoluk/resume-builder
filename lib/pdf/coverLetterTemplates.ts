@@ -1,5 +1,6 @@
 
 import type { ComponentType } from "react";
+import CoverLetterHarvardPdfTemplate from "@/components/pdf/CoverLetterHarvardPdfTemplate";
 import CoverLetterModernPdfTemplate from "@/components/pdf/CoverLetterModernPdfTemplate";
 import CoverLetterPdfTemplate, {
   type CoverLetterPdfTemplateProps,
@@ -14,4 +15,5 @@ export const coverLetterPdfTemplates: Record<
 > = {
   basic: CoverLetterPdfTemplate,
   modern: CoverLetterModernPdfTemplate,
+  harvard: CoverLetterHarvardPdfTemplate,
 };

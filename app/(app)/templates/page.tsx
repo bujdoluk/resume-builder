@@ -4,7 +4,7 @@ import TemplatesPageContent from "@/components/TemplatesPageContent";
 
 export const metadata: Metadata = {
   title: "Templates",
-  description: "Browse resume templates — Basic, Modern, Minimal, Elegant, and Classic.",
+  description: "Browse resume templates — Basic, Modern, Minimal, Elegant, Classic, and Harvard.",
   alternates: {
     canonical: "/templates",
   },

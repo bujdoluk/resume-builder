@@ -4,15 +4,17 @@ import type { TemplateDefinition } from "@/lib/templateDefinition";
 import CoverLetterBasicMobileTemplate, {
   type CoverLetterMobileTemplateProps,
 } from "@/components/cover-letter/mobile-templates/CoverLetterBasicMobileTemplate";
+import CoverLetterHarvardMobileTemplate from "@/components/cover-letter/mobile-templates/CoverLetterHarvardMobileTemplate";
 import CoverLetterModernMobileTemplate from "@/components/cover-letter/mobile-templates/CoverLetterModernMobileTemplate";
 import CoverLetterBasicTemplate, {
   type CoverLetterTemplateProps,
 } from "@/components/cover-letter/desktop-templates/CoverLetterBasicTemplate";
+import CoverLetterHarvardTemplate from "@/components/cover-letter/desktop-templates/CoverLetterHarvardTemplate";
 import CoverLetterModernTemplate from "@/components/cover-letter/desktop-templates/CoverLetterModernTemplate";
 
 export type { CoverLetterTemplateProps, CoverLetterMobileTemplateProps };
 
-export type CoverLetterTemplateId = "basic" | "modern";
+export type CoverLetterTemplateId = "basic" | "modern" | "harvard";
 
 export const coverLetterTemplates: TemplateDefinition<
   CoverLetterTemplateId,
@@ -30,6 +32,12 @@ export const coverLetterTemplates: TemplateDefinition<
     name: "Modern",
     component: CoverLetterModernTemplate,
     mobileTemplateComponent: CoverLetterModernMobileTemplate,
+  },
+  {
+    id: "harvard",
+    name: "Harvard",
+    component: CoverLetterHarvardTemplate,
+    mobileTemplateComponent: CoverLetterHarvardMobileTemplate,
   },
 ];
 

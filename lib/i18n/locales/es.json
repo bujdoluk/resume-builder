@@ -16,7 +16,8 @@
     "myResumes": "Mis currículums",
     "resumeBuilder": "Currículum",
     "coverLetterBuilder": "Carta de presentación",
-    "myCoverLetters": "Mis cartas de presentación"
+    "myCoverLetters": "Mis cartas de presentación",
+    "harvardLockedTooltip": "El estilo Harvard usa un formato fijo"
   },
   "fields": {
     "photo": "Foto",
@@ -42,7 +43,9 @@
     "certifications": "Certificaciones",
     "languages": "Idiomas",
     "interests": "Intereses",
-    "customFields": "Campo personalizado"
+    "customFields": "Campo personalizado",
+    "leadershipExperience": "Experiencia de Liderazgo",
+    "honorsAwards": "Premios y Distinciones"
   },
   "resumeSteps": {
     "personalInfo": "Información personal",
@@ -83,7 +86,9 @@
     "certificationDateTo": "Fecha de caducidad (opcional)",
     "yourLanguage": "Tu idioma",
     "yourInterest": "Tu interés",
-    "customFieldValue": "p. ej. Española"
+    "customFieldValue": "p. ej. Española",
+    "honorAwardName": "Nombre del premio",
+    "honorAwardIssuer": "Organización que otorga"
   },
   "buttons": {
     "addWorkExperience": "+ Añadir experiencia laboral",
@@ -104,7 +109,9 @@
     "cancel": "Cancelar",
     "confirm": "Confirmar",
     "aiAssistant": "Asistente de IA",
-    "share": "Compartir"
+    "share": "Compartir",
+    "addLeadershipExperience": "+ Añadir experiencia de liderazgo",
+    "addHonorAward": "+ Añadir premio"
   },
   "aria": {
     "removeWorkExperience": "Eliminar experiencia laboral",
@@ -130,7 +137,9 @@
     "selectRow": "Seleccionar {{name}}",
     "accountMenu": "Menú de cuenta",
     "showPassword": "Mostrar contraseña",
-    "hidePassword": "Ocultar contraseña"
+    "hidePassword": "Ocultar contraseña",
+    "removeLeadershipExperience": "Eliminar experiencia de liderazgo",
+    "removeHonorAward": "Eliminar premio"
   },
   "templates": {
     "basic": "Básico",
@@ -138,7 +147,8 @@
     "minimal": "Minimalista",
     "elegant": "Elegante",
     "classic": "Clásico",
-    "pageTitle": "Plantillas"
+    "pageTitle": "Plantillas",
+    "harvard": "Harvard"
   },
   "myResumes": {
     "pageTitle": "Mis currículums",
@@ -275,8 +285,8 @@
     "ctaStart": "Crear currículum",
     "features": {
       "templates": {
-        "title": "5 plantillas profesionales",
-        "description": "Basic, Modern, Minimal, Elegant y Classic: elige el estilo que más te guste."
+        "title": "6 plantillas profesionales",
+        "description": "Basic, Modern, Minimal, Elegant, Classic y Harvard: elige el estilo que más te guste."
       },
       "coverLetter": {
         "title": "Cartas de presentación a juego",
@@ -435,7 +445,7 @@
       "name": "Gratis",
       "price": "0 $",
       "cta": "Empezar",
-      "savedItemsValue": "Hasta 2 de cada uno"
+      "savedItemsValue": "Hasta 10 de cada uno"
     },
     "pro": {
       "name": "Pro",

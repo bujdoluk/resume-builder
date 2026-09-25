@@ -107,7 +107,18 @@ export default function CoverLetterFormFields({
 }: CoverLetterFormFieldsProps) {
   const { t } = useTranslation();
 
-  const fontFamily = font ? fontsByKey[font].variable : undefined;
+  // Harvard's style is locked — color and font are always ignored, matching
+  // the resume side's HarvardTemplate.tsx. There's no separate "harvard"
+  // branch below (unlike "modern") because Harvard reuses the same
+  // single-column layout as every other non-modern template; only these two
+  // values need overriding.
+  const isHarvardLocked = templateId === "harvard";
+  const fontFamily = isHarvardLocked
+    ? '"Times New Roman", Times, serif'
+    : font
+      ? fontsByKey[font].variable
+      : undefined;
+  const effectiveColor = isHarvardLocked ? null : color;
   const fontSizeStyle = getFontSizeStyle(fontSize ?? "medium");
 
   const visibleSenderOrder = fieldOrder.filter((key) => senderKeys.includes(key));
@@ -547,7 +558,7 @@ export default function CoverLetterFormFields({
                   : undefined
               }
               titlePlaceholder={t(sectionTitleKey[key])}
-              color={color}
+              color={effectiveColor}
               isFirst={index === 0}
             />
             {sectionFieldsContent[key]}

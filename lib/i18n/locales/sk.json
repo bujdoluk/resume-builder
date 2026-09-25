@@ -16,7 +16,8 @@
     "myResumes": "Moje životopisy",
     "resumeBuilder": "Životopis",
     "coverLetterBuilder": "Motivačný list",
-    "myCoverLetters": "Moje motivačné listy"
+    "myCoverLetters": "Moje motivačné listy",
+    "harvardLockedTooltip": "Štýl Harvard používa pevne dané formátovanie"
   },
   "fields": {
     "photo": "Fotka",
@@ -42,7 +43,9 @@
     "certifications": "Certifikáty",
     "languages": "Jazyky",
     "interests": "Záujmy",
-    "customFields": "Vlastné pole"
+    "customFields": "Vlastné pole",
+    "leadershipExperience": "Vedúce skúsenosti",
+    "honorsAwards": "Ocenenia a vyznamenania"
   },
   "resumeSteps": {
     "personalInfo": "Osobné údaje",
@@ -83,7 +86,9 @@
     "certificationDateTo": "Dátum platnosti do (voliteľné)",
     "yourLanguage": "Váš jazyk",
     "yourInterest": "Váš záujem",
-    "customFieldValue": "napr. Slovenská"
+    "customFieldValue": "napr. Slovenská",
+    "honorAwardName": "Názov ocenenia",
+    "honorAwardIssuer": "Udeľujúca organizácia"
   },
   "buttons": {
     "addWorkExperience": "+ Pridať pracovnú skúsenosť",
@@ -104,7 +109,9 @@
     "cancel": "Zrušiť",
     "confirm": "Potvrdiť",
     "aiAssistant": "AI asistent",
-    "share": "Zdieľať"
+    "share": "Zdieľať",
+    "addLeadershipExperience": "+ Pridať vedúcu skúsenosť",
+    "addHonorAward": "+ Pridať ocenenie"
   },
   "aria": {
     "removeWorkExperience": "Odstrániť pracovnú skúsenosť",
@@ -130,7 +137,9 @@
     "selectRow": "Vybrať {{name}}",
     "accountMenu": "Ponuka účtu",
     "showPassword": "Zobraziť heslo",
-    "hidePassword": "Skryť heslo"
+    "hidePassword": "Skryť heslo",
+    "removeLeadershipExperience": "Odstrániť vedúcu skúsenosť",
+    "removeHonorAward": "Odstrániť ocenenie"
   },
   "templates": {
     "basic": "Základný",
@@ -138,7 +147,8 @@
     "minimal": "Minimalistický",
     "elegant": "Elegantný",
     "classic": "Klasický",
-    "pageTitle": "Šablóny"
+    "pageTitle": "Šablóny",
+    "harvard": "Harvard"
   },
   "myResumes": {
     "pageTitle": "Moje životopisy",
@@ -275,8 +285,8 @@
     "ctaStart": "Vytvoriť životopis",
     "features": {
       "templates": {
-        "title": "5 profesionálnych šablón",
-        "description": "Basic, Modern, Minimal, Elegant a Classic – vyberte štýl, ktorý vám sedí."
+        "title": "6 profesionálnych šablón",
+        "description": "Basic, Modern, Minimal, Elegant, Classic a Harvard — vyberte si štýl, ktorý vám sedí."
       },
       "coverLetter": {
         "title": "Zodpovedajúce motivačné listy",
@@ -435,7 +445,7 @@
       "name": "Zadarmo",
       "price": "0 $",
       "cta": "Začať",
-      "savedItemsValue": "Až 2 od každého"
+      "savedItemsValue": "Až 10 od každého"
     },
     "pro": {
       "name": "Pro",

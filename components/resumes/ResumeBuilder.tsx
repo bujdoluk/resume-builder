@@ -32,6 +32,7 @@ import {
   emptyResumeData,
   type CertificationEntry,
   type EducationEntry,
+  type HonorAwardEntry,
   type LanguageEntry,
   type ResumeData,
   type SectionKey,
@@ -226,6 +227,14 @@ export default function ResumeBuilder({
 
   function handleInterestsChange(interests: SimpleEntry[]) {
     setData((prev) => ({ ...prev, interests }));
+  }
+
+  function handleLeadershipChange(leadershipExperience: WorkEntry[]) {
+    setData((prev) => ({ ...prev, leadershipExperience }));
+  }
+
+  function handleHonorsChange(honorsAwards: HonorAwardEntry[]) {
+    setData((prev) => ({ ...prev, honorsAwards }));
   }
 
   async function handleNewResume() {
@@ -634,6 +643,8 @@ export default function ResumeBuilder({
           onCertificationsChange={handleCertificationsChange}
           onLanguagesChange={handleLanguagesChange}
           onInterestsChange={handleInterestsChange}
+          onLeadershipChange={handleLeadershipChange}
+          onHonorsChange={handleHonorsChange}
           sectionOrder={sectionOrder}
           onReorderSections={setSectionOrder}
           visibleFields={visibleFields}
@@ -659,6 +670,8 @@ export default function ResumeBuilder({
             onCertificationsChange={handleCertificationsChange}
             onLanguagesChange={handleLanguagesChange}
             onInterestsChange={handleInterestsChange}
+            onLeadershipChange={handleLeadershipChange}
+            onHonorsChange={handleHonorsChange}
               sectionOrder={sectionOrder}
             onReorderSections={setSectionOrder}
             templateId={templateId}

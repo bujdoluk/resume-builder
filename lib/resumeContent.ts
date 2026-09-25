@@ -3,6 +3,7 @@ import { allFields, type FieldKey } from "@/lib/fields";
 import type {
   CertificationEntry,
   EducationEntry,
+  HonorAwardEntry,
   LanguageEntry,
   ResumeData,
   SimpleEntry,
@@ -47,4 +48,16 @@ export function filledCertificationEntries(data: ResumeData): CertificationEntry
 
 export function filledLanguageEntries(data: ResumeData): LanguageEntry[] {
   return data.languages.filter((e) => e.language);
+}
+
+// Harvard-only bonus sections — see the comment above honorAwardEntrySchema
+// in lib/resumeData.ts for why these live outside SECTION_KEYS.
+export function filledLeadershipEntries(data: ResumeData): WorkEntry[] {
+  return data.leadershipExperience.filter(
+    (e) => e.position || e.location || e.jobDescription || e.dateFrom || e.dateTo,
+  );
+}
+
+export function filledHonorAwardEntries(data: ResumeData): HonorAwardEntry[] {
+  return data.honorsAwards.filter((e) => e.name || e.issuer || e.dateFrom || e.dateTo);
 }

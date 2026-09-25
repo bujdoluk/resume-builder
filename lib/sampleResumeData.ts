@@ -71,4 +71,24 @@ export const sampleResumeData: ResumeData = {
   ],
   customFieldValue: "American",
   customFieldsTitle: "Nationality",
+  leadershipExperience: [
+    {
+      id: "sample-leadership-1",
+      position: "Design Guild Lead",
+      dateFrom: "01-09-2019",
+      dateTo: "Present",
+      location: "Acme Inc.",
+      jobDescription:
+        "Organized a cross-team critique series and mentorship program for 20+ designers.",
+    },
+  ],
+  honorsAwards: [
+    {
+      id: "sample-honor-1",
+      name: "Design Excellence Award",
+      issuer: "Acme Inc.",
+      dateFrom: "2023",
+      dateTo: "",
+    },
+  ],
 };

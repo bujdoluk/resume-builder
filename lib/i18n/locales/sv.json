@@ -16,7 +16,8 @@
     "myResumes": "Mina CV:n",
     "resumeBuilder": "CV",
     "coverLetterBuilder": "Personligt brev",
-    "myCoverLetters": "Mina personliga brev"
+    "myCoverLetters": "Mina personliga brev",
+    "harvardLockedTooltip": "Harvard-stilen använder fast formatering"
   },
   "fields": {
     "photo": "Foto",
@@ -42,7 +43,9 @@
     "certifications": "Certifieringar",
     "languages": "Språk",
     "interests": "Intressen",
-    "customFields": "Anpassat fält"
+    "customFields": "Anpassat fält",
+    "leadershipExperience": "Ledarskapserfarenhet",
+    "honorsAwards": "Utmärkelser och priser"
   },
   "resumeSteps": {
     "personalInfo": "Personlig information",
@@ -83,7 +86,9 @@
     "certificationDateTo": "Utgångsdatum (valfritt)",
     "yourLanguage": "Ditt språk",
     "yourInterest": "Ditt intresse",
-    "customFieldValue": "t.ex. Svensk"
+    "customFieldValue": "t.ex. Svensk",
+    "honorAwardName": "Namn på utmärkelsen",
+    "honorAwardIssuer": "Utfärdande organisation"
   },
   "buttons": {
     "addWorkExperience": "+ Lägg till arbetslivserfarenhet",
@@ -104,7 +109,9 @@
     "cancel": "Avbryt",
     "confirm": "Bekräfta",
     "aiAssistant": "AI-assistent",
-    "share": "Dela"
+    "share": "Dela",
+    "addLeadershipExperience": "+ Lägg till ledarskapserfarenhet",
+    "addHonorAward": "+ Lägg till utmärkelse"
   },
   "aria": {
     "removeWorkExperience": "Ta bort arbetslivserfarenhet",
@@ -130,7 +137,9 @@
     "selectRow": "Markera {{name}}",
     "accountMenu": "Kontomeny",
     "showPassword": "Visa lösenord",
-    "hidePassword": "Dölj lösenord"
+    "hidePassword": "Dölj lösenord",
+    "removeLeadershipExperience": "Ta bort ledarskapserfarenhet",
+    "removeHonorAward": "Ta bort utmärkelse"
   },
   "templates": {
     "basic": "Enkel",
@@ -138,7 +147,8 @@
     "minimal": "Minimalistisk",
     "elegant": "Elegant",
     "classic": "Klassisk",
-    "pageTitle": "Mallar"
+    "pageTitle": "Mallar",
+    "harvard": "Harvard"
   },
   "myResumes": {
     "pageTitle": "Mina CV:n",
@@ -275,8 +285,8 @@
     "ctaStart": "Skapa CV",
     "features": {
       "templates": {
-        "title": "5 professionella mallar",
-        "description": "Basic, Modern, Minimal, Elegant och Classic – välj den stil som passar dig."
+        "title": "6 professionella mallar",
+        "description": "Basic, Modern, Minimal, Elegant, Classic och Harvard — välj den stil som passar dig."
       },
       "coverLetter": {
         "title": "Matchande personliga brev",
@@ -435,7 +445,7 @@
       "name": "Gratis",
       "price": "0 kr",
       "cta": "Kom igång",
-      "savedItemsValue": "Upp till 2 av varje"
+      "savedItemsValue": "Upp till 10 av varje"
     },
     "pro": {
       "name": "Pro",

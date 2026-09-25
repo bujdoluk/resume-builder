@@ -4,39 +4,31 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import AiRewriteButton from "@/components/ai-tools/AiRewriteButton";
 import AutoResizeTextarea from "@/components/AutoResizeTextarea";
+import type { MobileTemplateProps } from "@/components/resumes/mobile-templates/BasicMobileTemplate";
 import {
-  CertificationsIcon,
-  CustomFieldsIcon,
-  EducationIcon,
-  InterestsIcon,
-  LanguagesIcon,
-  SkillsIcon,
-  WorkHistoryIcon,
-} from "@/components/Icons";
-import {
-  renderFieldItems,
   reorderEntries,
   SortableBlock,
   SortableGroup,
 } from "@/components/Sortable";
-import { createResumeFormHandlers } from "@/components/resumes/useResumeFormHandlers";
-import { getContrastTextColor } from "@/lib/color";
+import {
+  createHarvardFormHandlers,
+  createResumeFormHandlers,
+} from "@/components/resumes/useResumeFormHandlers";
 import { type FieldKey } from "@/lib/fields";
 import { formatPhoneAsYouType } from "@/lib/phone";
 import {
   languageLevelKey,
   languageLevels,
-  type CertificationEntry,
   type EducationEntry,
   type HonorAwardEntry,
-  type LanguageEntry,
-  type ModernSectionZones,
-  type ResumeData,
   type SectionKey,
-  type SimpleEntry,
   type WorkEntry,
 } from "@/lib/resumeData";
-import type { EducationEntryFieldKey, WorkEntryFieldKey } from "@/types/resume";
+import type {
+  EducationEntryFieldKey,
+  HonorAwardEntryFieldKey,
+  WorkEntryFieldKey,
+} from "@/types/resume";
 
 const defaultWorkFieldOrder: WorkEntryFieldKey[] = [
   "position",
@@ -55,30 +47,12 @@ const defaultEducationFieldOrder: EducationEntryFieldKey[] = [
   "description",
 ];
 
-export interface MobileTemplateProps {
-  data: ResumeData;
-  onChange: (field: keyof ResumeData, value: string) => void;
-  onWorkHistoryChange: (workExperience: WorkEntry[]) => void;
-  onEducationChange: (education: EducationEntry[]) => void;
-  onSkillsChange: (skills: SimpleEntry[]) => void;
-  onCertificationsChange: (certifications: CertificationEntry[]) => void;
-  onLanguagesChange: (languages: LanguageEntry[]) => void;
-  onInterestsChange: (interests: SimpleEntry[]) => void;
-  // Harvard-only bonus sections (see the comment above honorAwardEntrySchema
-  // in lib/resumeData.ts) — optional since only HarvardMobileTemplate uses
-  // them; every other mobile template receives and ignores them.
-  onLeadershipChange?: (leadershipExperience: WorkEntry[]) => void;
-  onHonorsChange?: (honorsAwards: HonorAwardEntry[]) => void;
-  sectionOrder: SectionKey[];
-  onReorderSections: (order: SectionKey[]) => void;
-  visibleFields: FieldKey[];
-  onReorderFields: (order: FieldKey[]) => void;
-  modernSectionZones: ModernSectionZones;
-  onChangeModernSectionZones: React.Dispatch<
-    React.SetStateAction<ModernSectionZones>
-  >;
-  color: string | null;
-}
+const defaultHonorAwardFieldOrder: HonorAwardEntryFieldKey[] = [
+  "name",
+  "issuer",
+  "dateFrom",
+  "dateTo",
+];
 
 function RemoveButton({
   label,
@@ -112,29 +86,21 @@ function RemoveButton({
 }
 
 function SectionHeader({
-  icon,
   title,
-  color,
   onTitleChange,
   titlePlaceholder,
 }: {
-  icon: React.ReactNode;
   title: string;
-  color?: string | null;
   onTitleChange?: (value: string) => void;
   titlePlaceholder?: string;
 }) {
   return (
-    <div className="mt-4 mb-2">
-      <h2
-        className="flex items-center gap-2 text-sm font-semibold tracking-wide text-gray-500 uppercase"
-        style={color ? { color } : undefined}
-      >
-        {icon}
+    <div className="mt-6 mb-3 border-b border-black pb-1">
+      <h2 className="text-sm font-bold tracking-[0.2em] uppercase">
         {onTitleChange ? (
           <input
             type="text"
-            className="min-w-0 flex-1 border-none bg-transparent p-0 text-sm font-semibold tracking-wide text-gray-500 uppercase outline-none focus:outline-none"
+            className="w-full border-none bg-transparent p-0 text-sm font-bold tracking-[0.2em] uppercase outline-none focus:outline-none"
             value={title}
             placeholder={titlePlaceholder}
             onChange={(e) => onTitleChange(e.target.value)}
@@ -147,7 +113,10 @@ function SectionHeader({
   );
 }
 
-export default function BasicMobileTemplate({
+// Harvard's style is locked: no color, no icons, no photo, fixed serif font
+// — see HarvardTemplate.tsx (the read-only desktop counterpart) for the
+// same rules applied to the print/preview output.
+export default function HarvardMobileTemplate({
   data,
   onChange,
   onWorkHistoryChange,
@@ -156,11 +125,12 @@ export default function BasicMobileTemplate({
   onCertificationsChange,
   onLanguagesChange,
   onInterestsChange,
+  onLeadershipChange,
+  onHonorsChange,
   sectionOrder,
   onReorderSections,
   visibleFields,
   onReorderFields,
-  color,
 }: MobileTemplateProps) {
   const { t } = useTranslation();
   const handlers = createResumeFormHandlers({
@@ -173,13 +143,23 @@ export default function BasicMobileTemplate({
     onLanguagesChange,
     onInterestsChange,
   });
+  const harvardHandlers = createHarvardFormHandlers({
+    data,
+    onLeadershipChange: onLeadershipChange ?? (() => {}),
+    onHonorsChange: onHonorsChange ?? (() => {}),
+  });
   const [workFieldOrder, setWorkFieldOrder] = useState(defaultWorkFieldOrder);
   const [educationFieldOrder, setEducationFieldOrder] = useState(
     defaultEducationFieldOrder,
   );
+  const [leadershipFieldOrder, setLeadershipFieldOrder] = useState(defaultWorkFieldOrder);
+  const [honorAwardFieldOrder, setHonorAwardFieldOrder] = useState(
+    defaultHonorAwardFieldOrder,
+  );
 
   function workEntryFields(
     entry: WorkEntry,
+    update: (id: string, field: Exclude<keyof WorkEntry, "id">, value: string) => void,
   ): Record<WorkEntryFieldKey, React.ReactNode> {
     return {
       position: (
@@ -189,9 +169,7 @@ export default function BasicMobileTemplate({
             placeholder={t("placeholders.yourPosition")}
             className="input input-plain w-full"
             value={entry.position}
-            onChange={(e) =>
-              handlers.updateWorkEntry(entry.id, "position", e.target.value)
-            }
+            onChange={(e) => update(entry.id, "position", e.target.value)}
           />
         </fieldset>
       ),
@@ -202,9 +180,7 @@ export default function BasicMobileTemplate({
             placeholder={t("placeholders.startDateWork")}
             className="input input-plain w-full"
             value={entry.dateFrom}
-            onChange={(e) =>
-              handlers.updateWorkEntry(entry.id, "dateFrom", e.target.value)
-            }
+            onChange={(e) => update(entry.id, "dateFrom", e.target.value)}
           />
         </fieldset>
       ),
@@ -215,9 +191,7 @@ export default function BasicMobileTemplate({
             placeholder={t("placeholders.endDateWork")}
             className="input input-plain w-full"
             value={entry.dateTo}
-            onChange={(e) =>
-              handlers.updateWorkEntry(entry.id, "dateTo", e.target.value)
-            }
+            onChange={(e) => update(entry.id, "dateTo", e.target.value)}
           />
         </fieldset>
       ),
@@ -228,9 +202,7 @@ export default function BasicMobileTemplate({
             placeholder="Location"
             className="input input-plain w-full"
             value={entry.location}
-            onChange={(e) =>
-              handlers.updateWorkEntry(entry.id, "location", e.target.value)
-            }
+            onChange={(e) => update(entry.id, "location", e.target.value)}
           />
         </fieldset>
       ),
@@ -240,22 +212,14 @@ export default function BasicMobileTemplate({
             <AiRewriteButton
               text={entry.jobDescription}
               style="bullets"
-              onRewrite={(newText) =>
-                handlers.updateWorkEntry(entry.id, "jobDescription", newText)
-              }
+              onRewrite={(newText) => update(entry.id, "jobDescription", newText)}
             />
           </div>
           <AutoResizeTextarea
             placeholder={t("placeholders.describeResponsibilities")}
             className="textarea input-plain w-full"
             value={entry.jobDescription}
-            onChange={(e) =>
-              handlers.updateWorkEntry(
-                entry.id,
-                "jobDescription",
-                e.target.value,
-              )
-            }
+            onChange={(e) => update(entry.id, "jobDescription", e.target.value)}
           />
         </fieldset>
       ),
@@ -347,11 +311,7 @@ export default function BasicMobileTemplate({
             className="textarea input-plain w-full"
             value={entry.description}
             onChange={(e) =>
-              handlers.updateEducationEntry(
-                entry.id,
-                "description",
-                e.target.value,
-              )
+              handlers.updateEducationEntry(entry.id, "description", e.target.value)
             }
           />
         </fieldset>
@@ -359,91 +319,71 @@ export default function BasicMobileTemplate({
     };
   }
 
-  const avatar = !visibleFields.includes("photo") ? null : (
-    <label
-      className="avatar avatar-placeholder relative w-fit cursor-pointer"
-      aria-label={t("aria.uploadProfilePhoto")}
-    >
-      <div
-        className="bg-neutral text-neutral-content h-24 w-24 rounded-full"
-        style={
-          color
-            ? { backgroundColor: color, color: getContrastTextColor(color) }
-            : undefined
-        }
-      >
-        {data.photo ? (
-          // eslint-disable-next-line @next/next/no-img-element -- user-uploaded data URL, not an optimizable static asset
-          <img
-            src={data.photo}
-            alt="Profile photo"
-            className="h-full w-full object-cover"
+  function honorAwardFields(
+    entry: HonorAwardEntry,
+  ): Record<HonorAwardEntryFieldKey, React.ReactNode> {
+    return {
+      name: (
+        <fieldset className="fieldset">
+          <input
+            type="text"
+            placeholder={t("placeholders.honorAwardName")}
+            className="input w-full"
+            value={entry.name}
+            onChange={(e) =>
+              harvardHandlers.updateHonorAward(entry.id, "name", e.target.value)
+            }
           />
-        ) : (
-          <div className="flex h-full w-full flex-col items-center justify-center gap-1">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              className="h-8 w-8 stroke-current"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="1.5"
-                d="M12 16.5V4.5m0 0-4 4m4-4 4 4M4.5 16.5v2a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2v-2"
-              />
-            </svg>
-            <span className="text-xs font-medium">
-              {t("placeholders.uploadPhoto")}
-            </span>
-          </div>
-        )}
-      </div>
-      {data.photo && (
-        <button
-          type="button"
-          aria-label={t("aria.removePhoto")}
-          className="btn btn-circle btn-xs absolute top-0 right-0 bg-white text-neutral"
-          style={
-            color ? { backgroundColor: getContrastTextColor(color), color } : undefined
-          }
-          onClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            handlers.removePhoto();
-          }}
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            className="h-3 w-3 stroke-current"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M6 18 18 6M6 6l12 12"
-            />
-          </svg>
-        </button>
-      )}
-      <input
-        type="file"
-        accept="image/*"
-        className="hidden"
-        onChange={handlers.handlePhotoChange}
-      />
-    </label>
-  );
+        </fieldset>
+      ),
+      issuer: (
+        <fieldset className="fieldset">
+          <input
+            type="text"
+            placeholder={t("placeholders.honorAwardIssuer")}
+            className="input w-full"
+            value={entry.issuer}
+            onChange={(e) =>
+              harvardHandlers.updateHonorAward(entry.id, "issuer", e.target.value)
+            }
+          />
+        </fieldset>
+      ),
+      dateFrom: (
+        <fieldset className="fieldset">
+          <input
+            type="text"
+            placeholder={t("placeholders.certificationDateFrom")}
+            className="input w-full"
+            value={entry.dateFrom}
+            onChange={(e) =>
+              harvardHandlers.updateHonorAward(entry.id, "dateFrom", e.target.value)
+            }
+          />
+        </fieldset>
+      ),
+      dateTo: (
+        <fieldset className="fieldset">
+          <input
+            type="text"
+            placeholder={t("placeholders.certificationDateTo")}
+            className="input w-full"
+            value={entry.dateTo}
+            onChange={(e) =>
+              harvardHandlers.updateHonorAward(entry.id, "dateTo", e.target.value)
+            }
+          />
+        </fieldset>
+      ),
+    };
+  }
 
   const name = !visibleFields.includes("name") ? null : (
     <fieldset className="fieldset">
       <input
         type="text"
         placeholder={t("placeholders.yourName")}
-        className="input input-plain w-full text-3xl font-bold"
+        className="input input-plain w-full text-center text-3xl font-bold tracking-wide uppercase"
         value={data.name}
         onChange={(e) => onChange("name", e.target.value)}
       />
@@ -455,7 +395,7 @@ export default function BasicMobileTemplate({
       <input
         type="text"
         placeholder={t("placeholders.yourJobTitle")}
-        className="input input-plain w-full text-lg text-gray-600"
+        className="input input-plain w-full text-center text-sm"
         value={data.jobTitle}
         onChange={(e) => onChange("jobTitle", e.target.value)}
       />
@@ -464,153 +404,71 @@ export default function BasicMobileTemplate({
 
   const phone = !visibleFields.includes("phone") ? null : (
     <fieldset className="fieldset">
-      <label className="input w-full">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          className="h-6 w-6 shrink-0 stroke-current text-gray-500"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="1.5"
-            d="M2.25 6.75c0 8.284 6.716 15 15 15h1.5a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293a12.045 12.045 0 0 1-5.688-5.688l1.293-.97c.362-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z"
-          />
-        </svg>
-        <input
-          type="tel"
-          placeholder={t("placeholders.yourPhone")}
-          className="grow"
-          value={data.phone}
-          onChange={(e) => onChange("phone", formatPhoneAsYouType(e.target.value))}
-        />
-      </label>
+      <input
+        type="tel"
+        placeholder={t("placeholders.yourPhone")}
+        className="input input-plain w-full text-center text-sm"
+        value={data.phone}
+        onChange={(e) => onChange("phone", formatPhoneAsYouType(e.target.value))}
+      />
     </fieldset>
   );
 
   const email = !visibleFields.includes("email") ? null : (
     <fieldset className="fieldset">
-      <label className="input w-full">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          className="h-6 w-6 shrink-0 stroke-current text-gray-500"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="1.5"
-            d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75"
-          />
-        </svg>
-        <input
-          type="email"
-          placeholder={t("placeholders.yourEmail")}
-          className="grow"
-          value={data.email}
-          onChange={(e) => onChange("email", e.target.value)}
-        />
-      </label>
+      <input
+        type="email"
+        placeholder={t("placeholders.yourEmail")}
+        className="input input-plain w-full text-center text-sm"
+        value={data.email}
+        onChange={(e) => onChange("email", e.target.value)}
+      />
     </fieldset>
   );
 
   const address = !visibleFields.includes("address") ? null : (
     <fieldset className="fieldset">
-      <label className="input w-full">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          className="h-6 w-6 shrink-0 stroke-current text-gray-500"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="1.5"
-            d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
-          />
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="1.5"
-            d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z"
-          />
-        </svg>
-        <input
-          type="text"
-          placeholder={t("placeholders.yourAddress")}
-          className="grow"
-          value={data.address}
-          onChange={(e) => onChange("address", e.target.value)}
-        />
-      </label>
+      <input
+        type="text"
+        placeholder={t("placeholders.yourAddress")}
+        className="input input-plain w-full text-center text-sm"
+        value={data.address}
+        onChange={(e) => onChange("address", e.target.value)}
+      />
     </fieldset>
   );
 
   const website = !visibleFields.includes("website") ? null : (
     <fieldset className="fieldset">
-      <label className="input w-full">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          className="h-6 w-6 shrink-0 stroke-current text-gray-500"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="1.5"
-            d="M12 21a9.004 9.004 0 0 0 8.716-6.747M12 21a9.004 9.004 0 0 1-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 0 1 7.843 4.582M12 3a8.997 8.997 0 0 0-7.843 4.582m15.686 0A11.953 11.953 0 0 1 12 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0 1 21 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0 1 12 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A8.959 8.959 0 0 1 3 12c0-1.605.42-3.113 1.157-4.418"
-          />
-        </svg>
-        <input
-          type="text"
-          placeholder={t("placeholders.yourWebsite")}
-          className="grow"
-          value={data.website}
-          onChange={(e) => onChange("website", e.target.value)}
-        />
-      </label>
+      <input
+        type="text"
+        placeholder={t("placeholders.yourWebsite")}
+        className="input input-plain w-full text-center text-sm"
+        value={data.website}
+        onChange={(e) => onChange("website", e.target.value)}
+      />
     </fieldset>
   );
 
   const linkedin = !visibleFields.includes("linkedin") ? null : (
     <fieldset className="fieldset">
-      <label className="input w-full">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          className="h-6 w-6 shrink-0 stroke-current text-gray-500"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="1.5"
-            d="M13.19 8.688a4.5 4.5 0 0 1 1.242 7.244l-4.5 4.5a4.5 4.5 0 0 1-6.364-6.364l1.757-1.757m13.35-.622 1.757-1.757a4.5 4.5 0 0 0-6.364-6.364l-4.5 4.5a4.5 4.5 0 0 0 1.242 7.244"
-          />
-        </svg>
-        <input
-          type="text"
-          placeholder={t("placeholders.yourLinkedIn")}
-          className="grow"
-          value={data.linkedin}
-          onChange={(e) => onChange("linkedin", e.target.value)}
-        />
-      </label>
+      <input
+        type="text"
+        placeholder={t("placeholders.yourLinkedIn")}
+        className="input input-plain w-full text-center text-sm"
+        value={data.linkedin}
+        onChange={(e) => onChange("linkedin", e.target.value)}
+      />
     </fieldset>
   );
 
   const aboutMe = !visibleFields.includes("aboutMe") ? null : (
     <div>
-      <h2
-        className="mt-4 mb-2 text-sm font-semibold tracking-wide text-gray-500 uppercase"
-        style={color ? { color } : undefined}
-      >
-        {t("fields.aboutMe")}
-      </h2>
+      <div className="mt-6 mb-3 border-b border-black pb-1">
+        <h2 className="text-sm font-bold tracking-[0.2em] uppercase">
+          {t("fields.aboutMe")}
+        </h2>
+      </div>
       <AutoResizeTextarea
         placeholder={t("placeholders.aboutMe")}
         className="textarea input-plain w-full"
@@ -620,8 +478,8 @@ export default function BasicMobileTemplate({
     </div>
   );
 
+  // Photo is force-hidden regardless of visibleFields — see HarvardTemplate.
   const fieldContent: Partial<Record<FieldKey, React.ReactNode>> = {
-    photo: avatar,
     name,
     jobTitle,
     phone,
@@ -631,31 +489,24 @@ export default function BasicMobileTemplate({
     linkedin,
     aboutMe,
   };
+  const harvardFieldOrder = visibleFields.filter((key) => key !== "photo");
 
   const sectionContent: Record<SectionKey, React.ReactNode> = {
     workExperience: (
       <>
-        <SectionHeader
-          icon={<WorkHistoryIcon className="h-6 w-6 stroke-current" />}
-          title={t("sections.workExperience")}
-          color={color}
-        />
+        <SectionHeader title={t("sections.workExperience")} />
         <div className="flex flex-col gap-4">
           <SortableGroup
-            dndId="work-history-entries"
+            dndId="harvard-work-history-entries"
             ids={data.workExperience.map((entry) => entry.id)}
             onReorder={(order) =>
               onWorkHistoryChange(reorderEntries(data.workExperience, order))
             }
           >
             {data.workExperience.map((entry) => {
-              const fields = workEntryFields(entry);
+              const fields = workEntryFields(entry, handlers.updateWorkEntry);
               return (
-                <SortableBlock
-                  key={entry.id}
-                  id={entry.id}
-                  className="flex flex-col gap-2 rounded-lg p-4"
-                >
+                <SortableBlock key={entry.id} id={entry.id} className="flex flex-col gap-2">
                   <div className="flex justify-end">
                     <RemoveButton
                       label={t("aria.removeWorkExperience")}
@@ -663,7 +514,7 @@ export default function BasicMobileTemplate({
                     />
                   </div>
                   <SortableGroup
-                    dndId={`work-fields-${entry.id}`}
+                    dndId={`harvard-work-fields-${entry.id}`}
                     ids={workFieldOrder}
                     onReorder={setWorkFieldOrder}
                   >
@@ -690,14 +541,10 @@ export default function BasicMobileTemplate({
 
     education: (
       <>
-        <SectionHeader
-          icon={<EducationIcon className="h-6 w-6 stroke-current" />}
-          title={t("sections.education")}
-          color={color}
-        />
+        <SectionHeader title={t("sections.education")} />
         <div className="flex flex-col gap-4">
           <SortableGroup
-            dndId="education-entries"
+            dndId="harvard-education-entries"
             ids={data.education.map((entry) => entry.id)}
             onReorder={(order) =>
               onEducationChange(reorderEntries(data.education, order))
@@ -706,11 +553,7 @@ export default function BasicMobileTemplate({
             {data.education.map((entry) => {
               const fields = educationEntryFields(entry);
               return (
-                <SortableBlock
-                  key={entry.id}
-                  id={entry.id}
-                  className="flex flex-col gap-2 rounded-lg p-4"
-                >
+                <SortableBlock key={entry.id} id={entry.id} className="flex flex-col gap-2">
                   <div className="flex justify-end">
                     <RemoveButton
                       label={t("aria.removeEducation")}
@@ -718,7 +561,7 @@ export default function BasicMobileTemplate({
                     />
                   </div>
                   <SortableGroup
-                    dndId={`education-fields-${entry.id}`}
+                    dndId={`harvard-education-fields-${entry.id}`}
                     ids={educationFieldOrder}
                     onReorder={setEducationFieldOrder}
                   >
@@ -745,18 +588,12 @@ export default function BasicMobileTemplate({
 
     skills: (
       <>
-        <SectionHeader
-          icon={<SkillsIcon className="h-6 w-6 stroke-current" />}
-          title={t("sections.skills")}
-          color={color}
-        />
+        <SectionHeader title={t("sections.skills")} />
         <div className="flex flex-col gap-2">
           <SortableGroup
-            dndId="skills-entries"
+            dndId="harvard-skills-entries"
             ids={data.skills.map((entry) => entry.id)}
-            onReorder={(order) =>
-              onSkillsChange(reorderEntries(data.skills, order))
-            }
+            onReorder={(order) => onSkillsChange(reorderEntries(data.skills, order))}
           >
             {data.skills.map((entry) => (
               <SortableBlock key={entry.id} id={entry.id}>
@@ -791,14 +628,10 @@ export default function BasicMobileTemplate({
 
     certifications: (
       <>
-        <SectionHeader
-          icon={<CertificationsIcon className="h-6 w-6 stroke-current" />}
-          title={t("sections.certifications")}
-          color={color}
-        />
+        <SectionHeader title={t("sections.certifications")} />
         <div className="flex flex-col gap-2">
           <SortableGroup
-            dndId="certifications-entries"
+            dndId="harvard-certifications-entries"
             ids={data.certifications.map((entry) => entry.id)}
             onReorder={(order) =>
               onCertificationsChange(reorderEntries(data.certifications, order))
@@ -865,24 +698,18 @@ export default function BasicMobileTemplate({
 
     languages: (
       <>
-        <SectionHeader
-          icon={<LanguagesIcon className="h-6 w-6 stroke-current" />}
-          title={t("sections.languages")}
-          color={color}
-        />
+        <SectionHeader title={t("sections.languages")} />
         <div className="flex flex-col gap-2">
           <SortableGroup
-            dndId="languages-entries"
+            dndId="harvard-languages-entries"
             ids={data.languages.map((entry) => entry.id)}
-            onReorder={(order) =>
-              onLanguagesChange(reorderEntries(data.languages, order))
-            }
+            onReorder={(order) => onLanguagesChange(reorderEntries(data.languages, order))}
           >
             {data.languages.map((entry) => {
               const levelIndex = languageLevels.indexOf(entry.level);
               return (
                 <SortableBlock key={entry.id} id={entry.id}>
-                  <div className="flex items-center gap-2 rounded-lg p-4">
+                  <div className="flex items-center gap-2">
                     <fieldset className="fieldset min-w-0 flex-1">
                       <input
                         type="text"
@@ -890,11 +717,7 @@ export default function BasicMobileTemplate({
                         className="input w-full"
                         value={entry.language}
                         onChange={(e) =>
-                          handlers.updateLanguage(
-                            entry.id,
-                            "language",
-                            e.target.value,
-                          )
+                          handlers.updateLanguage(entry.id, "language", e.target.value)
                         }
                       />
                     </fieldset>
@@ -902,7 +725,7 @@ export default function BasicMobileTemplate({
                       className="flex shrink-0 items-center gap-2"
                       aria-label="Language proficiency level"
                     >
-                      <span className="shrink-0 text-xs whitespace-nowrap text-gray-500">
+                      <span className="shrink-0 text-xs whitespace-nowrap">
                         {t(languageLevelKey(entry.level))}
                       </span>
                       <div className="rating shrink-0 pl-2">
@@ -910,14 +733,11 @@ export default function BasicMobileTemplate({
                           <input
                             key={level}
                             type="radio"
-                            name={`basic-mobile-language-level-${entry.id}`}
+                            name={`harvard-mobile-language-level-${entry.id}`}
                             aria-label={t(languageLevelKey(level))}
                             className="mask mask-star"
-                            style={color ? { backgroundColor: color } : undefined}
                             checked={index === levelIndex}
-                            onChange={() =>
-                              handlers.updateLanguage(entry.id, "level", level)
-                            }
+                            onChange={() => handlers.updateLanguage(entry.id, "level", level)}
                           />
                         ))}
                       </div>
@@ -944,18 +764,12 @@ export default function BasicMobileTemplate({
 
     interests: (
       <>
-        <SectionHeader
-          icon={<InterestsIcon className="h-6 w-6 stroke-current" />}
-          title={t("sections.interests")}
-          color={color}
-        />
+        <SectionHeader title={t("sections.interests")} />
         <div className="flex flex-col gap-2">
           <SortableGroup
-            dndId="interests-entries"
+            dndId="harvard-interests-entries"
             ids={data.interests.map((entry) => entry.id)}
-            onReorder={(order) =>
-              onInterestsChange(reorderEntries(data.interests, order))
-            }
+            onReorder={(order) => onInterestsChange(reorderEntries(data.interests, order))}
           >
             {data.interests.map((entry) => (
               <SortableBlock key={entry.id} id={entry.id}>
@@ -991,11 +805,9 @@ export default function BasicMobileTemplate({
     customFields: (
       <>
         <SectionHeader
-          icon={<CustomFieldsIcon className="h-6 w-6 stroke-current" />}
           title={data.customFieldsTitle}
           onTitleChange={(value) => onChange("customFieldsTitle", value)}
           titlePlaceholder={t("sections.customFields")}
-          color={color}
         />
         <fieldset className="fieldset">
           <input
@@ -1011,21 +823,28 @@ export default function BasicMobileTemplate({
   };
 
   return (
-    <div className="resume-scalable flex flex-col gap-4 bg-white pl-8">
+    <div
+      className="resume-scalable flex flex-col gap-4 bg-white pl-8 text-black"
+      style={{ fontFamily: '"Times New Roman", Times, serif' }}
+    >
       <div data-section-anchor="personalInfo">
         <SortableGroup
-          dndId="basic-mobile-fields"
-          ids={visibleFields}
+          dndId="harvard-mobile-fields"
+          ids={harvardFieldOrder}
           onReorder={onReorderFields}
         >
           <div className="flex flex-col gap-4">
-            {renderFieldItems(visibleFields, fieldContent)}
+            {harvardFieldOrder.map((key) => (
+              <SortableBlock key={key} id={key}>
+                {fieldContent[key]}
+              </SortableBlock>
+            ))}
           </div>
         </SortableGroup>
       </div>
 
       <SortableGroup
-        dndId="basic-mobile-sections"
+        dndId="harvard-mobile-sections"
         ids={sectionOrder}
         onReorder={onReorderSections}
       >
@@ -1037,6 +856,98 @@ export default function BasicMobileTemplate({
           ))}
         </div>
       </SortableGroup>
+
+      <div className="flex flex-col gap-2">
+        <SectionHeader title={t("sections.leadershipExperience")} />
+        <div className="flex flex-col gap-4">
+          <SortableGroup
+            dndId="harvard-leadership-entries"
+            ids={data.leadershipExperience.map((entry) => entry.id)}
+            onReorder={(order) =>
+              (onLeadershipChange ?? (() => {}))(
+                reorderEntries(data.leadershipExperience, order),
+              )
+            }
+          >
+            {data.leadershipExperience.map((entry) => {
+              const fields = workEntryFields(entry, harvardHandlers.updateLeadershipEntry);
+              return (
+                <SortableBlock key={entry.id} id={entry.id} className="flex flex-col gap-2">
+                  <div className="flex justify-end">
+                    <RemoveButton
+                      label={t("aria.removeLeadershipExperience")}
+                      onClick={() => harvardHandlers.removeLeadershipEntry(entry.id)}
+                    />
+                  </div>
+                  <SortableGroup
+                    dndId={`harvard-leadership-fields-${entry.id}`}
+                    ids={leadershipFieldOrder}
+                    onReorder={setLeadershipFieldOrder}
+                  >
+                    {leadershipFieldOrder.map((key) => (
+                      <SortableBlock key={key} id={key}>
+                        {fields[key]}
+                      </SortableBlock>
+                    ))}
+                  </SortableGroup>
+                </SortableBlock>
+              );
+            })}
+          </SortableGroup>
+          <button
+            type="button"
+            className="btn btn-outline btn-sm w-fit"
+            onClick={harvardHandlers.addLeadershipEntry}
+          >
+            {t("buttons.addLeadershipExperience")}
+          </button>
+        </div>
+      </div>
+
+      <div className="flex flex-col gap-2">
+        <SectionHeader title={t("sections.honorsAwards")} />
+        <div className="flex flex-col gap-4">
+          <SortableGroup
+            dndId="harvard-honors-entries"
+            ids={data.honorsAwards.map((entry) => entry.id)}
+            onReorder={(order) =>
+              (onHonorsChange ?? (() => {}))(reorderEntries(data.honorsAwards, order))
+            }
+          >
+            {data.honorsAwards.map((entry) => {
+              const fields = honorAwardFields(entry);
+              return (
+                <SortableBlock key={entry.id} id={entry.id} className="flex flex-col gap-2">
+                  <div className="flex justify-end">
+                    <RemoveButton
+                      label={t("aria.removeHonorAward")}
+                      onClick={() => harvardHandlers.removeHonorAward(entry.id)}
+                    />
+                  </div>
+                  <SortableGroup
+                    dndId={`harvard-honors-fields-${entry.id}`}
+                    ids={honorAwardFieldOrder}
+                    onReorder={setHonorAwardFieldOrder}
+                  >
+                    {honorAwardFieldOrder.map((key) => (
+                      <SortableBlock key={key} id={key}>
+                        {fields[key]}
+                      </SortableBlock>
+                    ))}
+                  </SortableGroup>
+                </SortableBlock>
+              );
+            })}
+          </SortableGroup>
+          <button
+            type="button"
+            className="btn btn-outline btn-sm w-fit"
+            onClick={harvardHandlers.addHonorAward}
+          >
+            {t("buttons.addHonorAward")}
+          </button>
+        </div>
+      </div>
     </div>
   );
 }

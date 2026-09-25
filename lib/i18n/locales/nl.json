@@ -16,7 +16,8 @@
     "myResumes": "Mijn cv's",
     "resumeBuilder": "CV",
     "coverLetterBuilder": "Motivatiebrief",
-    "myCoverLetters": "Mijn motivatiebrieven"
+    "myCoverLetters": "Mijn motivatiebrieven",
+    "harvardLockedTooltip": "Harvard-stijl gebruikt een vaste opmaak"
   },
   "fields": {
     "photo": "Foto",
@@ -42,7 +43,9 @@
     "certifications": "Certificeringen",
     "languages": "Talen",
     "interests": "Interesses",
-    "customFields": "Aangepast veld"
+    "customFields": "Aangepast veld",
+    "leadershipExperience": "Leiderschapservaring",
+    "honorsAwards": "Onderscheidingen en Prijzen"
   },
   "resumeSteps": {
     "personalInfo": "Persoonlijke gegevens",
@@ -83,7 +86,9 @@
     "certificationDateTo": "Vervaldatum (optioneel)",
     "yourLanguage": "Uw taal",
     "yourInterest": "Uw interesse",
-    "customFieldValue": "bijv. Nederlandse"
+    "customFieldValue": "bijv. Nederlandse",
+    "honorAwardName": "Naam van de onderscheiding",
+    "honorAwardIssuer": "Uitreikende organisatie"
   },
   "buttons": {
     "addWorkExperience": "+ Werkervaring toevoegen",
@@ -104,7 +109,9 @@
     "cancel": "Annuleren",
     "confirm": "Bevestigen",
     "aiAssistant": "AI-assistent",
-    "share": "Delen"
+    "share": "Delen",
+    "addLeadershipExperience": "+ Leiderschapservaring toevoegen",
+    "addHonorAward": "+ Onderscheiding toevoegen"
   },
   "aria": {
     "removeWorkExperience": "Werkervaring verwijderen",
@@ -130,7 +137,9 @@
     "selectRow": "{{name}} selecteren",
     "accountMenu": "Accountmenu",
     "showPassword": "Wachtwoord tonen",
-    "hidePassword": "Wachtwoord verbergen"
+    "hidePassword": "Wachtwoord verbergen",
+    "removeLeadershipExperience": "Leiderschapservaring verwijderen",
+    "removeHonorAward": "Onderscheiding verwijderen"
   },
   "templates": {
     "basic": "Basis",
@@ -138,7 +147,8 @@
     "minimal": "Minimalistisch",
     "elegant": "Elegant",
     "classic": "Klassiek",
-    "pageTitle": "Sjablonen"
+    "pageTitle": "Sjablonen",
+    "harvard": "Harvard"
   },
   "myResumes": {
     "pageTitle": "Mijn cv's",
@@ -275,8 +285,8 @@
     "ctaStart": "Cv maken",
     "features": {
       "templates": {
-        "title": "5 professionele sjablonen",
-        "description": "Basic, Modern, Minimal, Elegant en Classic – kies de stijl die bij je past."
+        "title": "6 professionele sjablonen",
+        "description": "Basic, Modern, Minimal, Elegant, Classic en Harvard — kies de stijl die bij je past."
       },
       "coverLetter": {
         "title": "Bijpassende motivatiebrieven",
@@ -435,7 +445,7 @@
       "name": "Gratis",
       "price": "€0",
       "cta": "Aan de slag",
-      "savedItemsValue": "Tot 2 van elk"
+      "savedItemsValue": "Tot 10 van elk"
     },
     "pro": {
       "name": "Pro",

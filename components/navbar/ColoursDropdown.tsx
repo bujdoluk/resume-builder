@@ -1,5 +1,6 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import { useTranslation } from "react-i18next";
 import { useAppState } from "@/components/AppState";
 import { ColoursIcon } from "@/components/Icons";
@@ -8,12 +9,19 @@ import { rows } from "@/lib/color";
 
 export default function ColoursDropdown() {
   const { t } = useTranslation();
-  const { color, setColor } = useAppState();
+  const pathname = usePathname();
+  const { color, setColor, templateId, coverLetterTemplateId } = useAppState();
 
   const isPresetColor = rows.some((row) =>
     row.some((swatch) => swatch.value === color),
   );
   const isCustomSelected = color !== null && !isPresetColor;
+
+  // Harvard's style is locked — the color picker is shared between the
+  // resume and cover letter builders (both mount this same dropdown), so
+  // which templateId is relevant depends on which route is active.
+  const isHarvardActive =
+    pathname === "/app" ? templateId === "harvard" : coverLetterTemplateId === "harvard";
 
   return (
     <NavbarDropdownButton
@@ -21,6 +29,8 @@ export default function ColoursDropdown() {
       label={t("sidebar.colours")}
       panelClassName="w-auto"
       align="start"
+      disabled={isHarvardActive}
+      disabledTitle={t("sidebar.harvardLockedTooltip")}
     >
       <div className="flex flex-col gap-2">
         {rows.map((row, rowIndex) => (

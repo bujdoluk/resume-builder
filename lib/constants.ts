@@ -33,8 +33,8 @@ export const RESUMES_PAGE_SIZE = 12;
 export const COVER_LETTERS_PAGE_SIZE = 12;
 
 export const FREE_TIER_LIMITS = {
-  resumes: 2,
-  coverLetters: 2,
+  resumes: 10,
+  coverLetters: 10,
 };
 
 export const RATE_LIMIT_SEND_EMAIL_REQUESTS = 5;

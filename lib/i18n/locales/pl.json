@@ -16,7 +16,8 @@
     "myResumes": "Moje CV",
     "resumeBuilder": "CV",
     "coverLetterBuilder": "List motywacyjny",
-    "myCoverLetters": "Moje listy motywacyjne"
+    "myCoverLetters": "Moje listy motywacyjne",
+    "harvardLockedTooltip": "Styl Harvard używa stałego formatowania"
   },
   "fields": {
     "photo": "Zdjęcie",
@@ -42,7 +43,9 @@
     "certifications": "Certyfikaty",
     "languages": "Języki",
     "interests": "Zainteresowania",
-    "customFields": "Pole niestandardowe"
+    "customFields": "Pole niestandardowe",
+    "leadershipExperience": "Doświadczenie w kierowaniu",
+    "honorsAwards": "Nagrody i wyróżnienia"
   },
   "resumeSteps": {
     "personalInfo": "Dane osobowe",
@@ -83,7 +86,9 @@
     "certificationDateTo": "Data ważności (opcjonalnie)",
     "yourLanguage": "Twój język",
     "yourInterest": "Twoje zainteresowanie",
-    "customFieldValue": "np. Polska"
+    "customFieldValue": "np. Polska",
+    "honorAwardName": "Nazwa nagrody",
+    "honorAwardIssuer": "Organizacja przyznająca"
   },
   "buttons": {
     "addWorkExperience": "+ Dodaj doświadczenie zawodowe",
@@ -104,7 +109,9 @@
     "cancel": "Anuluj",
     "confirm": "Potwierdź",
     "aiAssistant": "Asystent AI",
-    "share": "Udostępnij"
+    "share": "Udostępnij",
+    "addLeadershipExperience": "+ Dodaj doświadczenie w kierowaniu",
+    "addHonorAward": "+ Dodaj nagrodę"
   },
   "aria": {
     "removeWorkExperience": "Usuń doświadczenie zawodowe",
@@ -130,7 +137,9 @@
     "selectRow": "Zaznacz {{name}}",
     "accountMenu": "Menu konta",
     "showPassword": "Pokaż hasło",
-    "hidePassword": "Ukryj hasło"
+    "hidePassword": "Ukryj hasło",
+    "removeLeadershipExperience": "Usuń doświadczenie w kierowaniu",
+    "removeHonorAward": "Usuń nagrodę"
   },
   "templates": {
     "basic": "Podstawowy",
@@ -138,7 +147,8 @@
     "minimal": "Minimalistyczny",
     "elegant": "Elegancki",
     "classic": "Klasyczny",
-    "pageTitle": "Szablony"
+    "pageTitle": "Szablony",
+    "harvard": "Harvard"
   },
   "myResumes": {
     "pageTitle": "Moje CV",
@@ -275,8 +285,8 @@
     "ctaStart": "Utwórz CV",
     "features": {
       "templates": {
-        "title": "5 profesjonalnych szablonów",
-        "description": "Basic, Modern, Minimal, Elegant i Classic – wybierz styl, który Ci odpowiada."
+        "title": "6 profesjonalnych szablonów",
+        "description": "Basic, Modern, Minimal, Elegant, Classic i Harvard — wybierz styl, który Ci odpowiada."
       },
       "coverLetter": {
         "title": "Dopasowane listy motywacyjne",
@@ -435,7 +445,7 @@
       "name": "Darmowy",
       "price": "0 zł",
       "cta": "Zacznij",
-      "savedItemsValue": "Do 2 każdego rodzaju"
+      "savedItemsValue": "Do 10 każdego rodzaju"
     },
     "pro": {
       "name": "Pro",
