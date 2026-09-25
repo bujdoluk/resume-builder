@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.10.0](https://github.com/bujdoluk/resume-builder/compare/QuickResumeBuilder.online-v0.9.0...QuickResumeBuilder.online-v0.10.0) (2026-09-25)
+
+
+### Features
+
+* add Harvard official-style resume and cover letter template ([dd3b91b](https://github.com/bujdoluk/resume-builder/commit/dd3b91b40367c62f7f58d180fae1d175a885e1bc))
+
+
+### Bug Fixes
+
+* fixed ts, added routes to robots.ts ([4ea63b4](https://github.com/bujdoluk/resume-builder/commit/4ea63b47fcb68dd679def3a43af73aa378289b4e))
+* regenerate database.types.ts and patch audit-flagged transitive deps ([3a9ffd7](https://github.com/bujdoluk/resume-builder/commit/3a9ffd7d29cdc853b5db6e625edbbca2841217da))
+* upgrade next.js to 16.3.6 to patch critical RCE advisories ([a8ca875](https://github.com/bujdoluk/resume-builder/commit/a8ca8753582a83789b5f8adc916913b5b2d46c75))
+
 ## [0.9.0](https://github.com/bujdoluk/resume-builder/compare/QuickResumeBuilder.online-v0.8.0...QuickResumeBuilder.online-v0.9.0) (2026-08-11)
 
 
