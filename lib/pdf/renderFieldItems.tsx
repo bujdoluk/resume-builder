@@ -80,7 +80,8 @@ export function renderPdfFieldItems(
       }
     }
 
-    nodes.push(<View key={key}>{fieldContent[key]}</View>);
+    // Unlike the preview's empty Fragment, an empty View still takes a flex gap slot.
+    if (fieldContent[key]) nodes.push(<View key={key}>{fieldContent[key]}</View>);
     i++;
   }
 

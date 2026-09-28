@@ -130,9 +130,11 @@ export default function HarvardTemplate({
     skills: skillEntries.length > 0 && (
       <>
         <SectionTitle>{t("sections.skills")}</SectionTitle>
-        <p className="text-sm">
-          {skillEntries.map((entry) => entry.value).join(" · ")}
-        </p>
+        <ul className="flex flex-col gap-1 text-sm">
+          {skillEntries.map((entry) => (
+            <li key={entry.id}>{entry.value}</li>
+          ))}
+        </ul>
       </>
     ),
 

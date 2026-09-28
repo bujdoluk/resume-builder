@@ -1,30 +1,36 @@
 "use client";
 
 import { useTranslation } from "react-i18next";
-import { allSections, useAppState } from "@/components/AppState";
+import { useAppState } from "@/components/AppState";
 import { TemplatesIcon } from "@/components/Icons";
 import NavbarDropdownButton from "@/components/navbar/NavbarDropdownButton";
 import { sampleResumeData } from "@/lib/sampleResumeData";
+import { getDefaultSectionOrder, sectionOrderForTemplate } from "@/lib/sectionOrder";
 import TemplateThumbnail from "@/components/TemplateThumbnail";
-import { templates } from "@/lib/templates";
+import { templates, type TemplateId } from "@/lib/templates";
 
 export default function TemplatesDropdown() {
   const { t } = useTranslation();
-  const { templateId, setTemplateId } = useAppState();
+  const { templateId, setTemplateId, setSectionOrder } = useAppState();
+
+  function selectTemplate(id: TemplateId) {
+    setTemplateId(id);
+    setSectionOrder((prev) => sectionOrderForTemplate(prev, id));
+  }
 
   return (
     <NavbarDropdownButton
       icon={<TemplatesIcon className="h-5 w-5 stroke-current" />}
       label={t("sidebar.templates")}
-      panelClassName="w-auto"
+      panelClassName="w-max max-w-[calc(100vw-2rem)] max-h-[calc(100vh-8rem)] overflow-y-auto"
       align="start"
     >
-      <div className="flex gap-3">
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3">
         {templates.map((template) => (
           <button
             key={template.id}
             type="button"
-            onClick={() => setTemplateId(template.id)}
+            onClick={() => selectTemplate(template.id)}
             className={`flex flex-col items-center gap-1 rounded-md p-1 ${
               templateId === template.id ? "ring-primary ring-2" : ""
             }`}
@@ -32,7 +38,7 @@ export default function TemplatesDropdown() {
             <TemplateThumbnail width={210}>
               <template.component
                 data={sampleResumeData}
-                sectionOrder={allSections}
+                sectionOrder={getDefaultSectionOrder(template.id)}
               />
             </TemplateThumbnail>
           </button>

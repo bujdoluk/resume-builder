@@ -11,20 +11,13 @@ import i18n from "@/lib/i18n/i18n";
 import i18nCore from "@/lib/i18n/i18nCore";
 import { defaultLanguageCode } from "@/lib/i18n/languages";
 import type { ModernSectionZones, SectionKey } from "@/lib/resumeData";
+import { standardSectionOrder } from "@/lib/sectionOrder";
 import { defaultTemplateId, type TemplateId } from "@/lib/templates";
 
 const defaultFont: FontKey = defaultFontKey;
 export { allFields, fieldLabels, type FieldKey };
 
-export const allSections: SectionKey[] = [
-  "workExperience",
-  "education",
-  "skills",
-  "languages",
-  "certifications",
-  "interests",
-  "customFields",
-];
+export const allSections: SectionKey[] = [...standardSectionOrder];
 
 export const defaultSectionOrder: SectionKey[] = [...allSections];
 

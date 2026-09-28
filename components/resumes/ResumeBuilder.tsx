@@ -43,6 +43,7 @@ import { checkResumeFormat } from "@/lib/atsChecker/checkResumeFormat";
 import { useResumeQuery, useSaveResumeMutation } from "@/lib/queries/resumes";
 import { pdfTemplates } from "@/lib/pdf/templates";
 import { scrollToSectionAnchor } from "@/lib/scrollToSectionAnchor";
+import { sectionOrderForTemplate } from "@/lib/sectionOrder";
 import { isShareLinkActive } from "@/lib/shareLink";
 import { createClient } from "@/lib/supabase/client";
 import { countResumes } from "@/lib/supabase/resumes";
@@ -149,8 +150,11 @@ export default function ResumeBuilder({
   }
 
   useEffect(() => {
-    setTemplateId(resolveTemplateId(initialTemplateId));
-  }, [initialTemplateId, setTemplateId]);
+    const id = resolveTemplateId(initialTemplateId);
+    setTemplateId(id);
+    // A saved resume brings its own stored order, applied once it loads.
+    if (!initialResumeId) setSectionOrder((prev) => sectionOrderForTemplate(prev, id));
+  }, [initialTemplateId, initialResumeId, setTemplateId, setSectionOrder]);
 
   useEffect(() => {
     setLastEditorPath(

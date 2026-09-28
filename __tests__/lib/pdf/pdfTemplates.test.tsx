@@ -6,13 +6,20 @@ import { pdfTemplates } from "@/lib/pdf/templates";
 import { emptyResumeData, type ResumeData, type SectionKey } from "@/lib/resumeData";
 import { defaultCoverLetterSectionOrder } from "@/lib/coverLetterSections";
 
-// Alias inter to a built-in font so @react-pdf doesn't fetch webfonts.
+// Alias webfont families to built-in fonts so @react-pdf doesn't fetch webfonts.
 beforeAll(() => {
   Font.register({
     family: "inter",
     fonts: [
       { src: "Helvetica", fontWeight: "normal" },
       { src: "Helvetica-Bold", fontWeight: "bold" },
+    ],
+  });
+  Font.register({
+    family: "tinos",
+    fonts: [
+      { src: "Times-Roman", fontWeight: "normal" },
+      { src: "Times-Bold", fontWeight: "bold" },
     ],
   });
 });

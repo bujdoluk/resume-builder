@@ -3,18 +3,14 @@
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
 import TemplateThumbnail from "@/components/TemplateThumbnail";
-import type { SectionKey } from "@/lib/resumeData";
 import { sampleResumeData } from "@/lib/sampleResumeData";
-import { templates } from "@/lib/templates";
+import { getDefaultSectionOrder } from "@/lib/sectionOrder";
+import { templates, type TemplateId } from "@/lib/templates";
 
-const allSections: SectionKey[] = [
-  "workExperience",
-  "education",
-  "skills",
-  "languages",
-  "certifications",
-  "interests",
-];
+// The gallery has always left out the custom field section.
+function thumbnailSectionOrder(templateId: TemplateId) {
+  return getDefaultSectionOrder(templateId).filter((key) => key !== "customFields");
+}
 
 export default function TemplatesPageContent() {
   const { t } = useTranslation();
@@ -34,7 +30,7 @@ export default function TemplatesPageContent() {
               <TemplateThumbnail width={220}>
                 <template.component
                   data={sampleResumeData}
-                  sectionOrder={allSections}
+                  sectionOrder={thumbnailSectionOrder(template.id)}
                 />
               </TemplateThumbnail>
               <span className="font-medium group-hover:underline">

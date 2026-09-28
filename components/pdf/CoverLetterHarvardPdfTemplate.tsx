@@ -2,10 +2,12 @@ import { Document, Page, StyleSheet, Text, View } from "@react-pdf/renderer";
 import type { CoverLetterPdfTemplateProps } from "@/components/pdf/CoverLetterPdfTemplate";
 import type { CoverLetterFieldKey } from "@/lib/coverLetterFields";
 import { getFontScaleRatio } from "@/lib/fontSize";
+import { HARVARD_PDF_FONT } from "@/lib/pdf/fonts";
 
 const BLACK = "#000000";
 
-// Harvard is locked: built-in Times fonts, no color. Font size stays adjustable.
+// Harvard is locked: fixed Times-style serif (Tinos), no color. Font size stays adjustable.
+// Mirrors CoverLetterHarvardTemplate.tsx at 1px = 0.75pt: font sizes scale, spacing stays fixed.
 export default function CoverLetterHarvardPdfTemplate({
   data,
   fontSize,
@@ -17,17 +19,24 @@ export default function CoverLetterHarvardPdfTemplate({
   const s = (px: number) => Math.round(px * scale * 10) / 10;
 
   const styles = StyleSheet.create({
-    page: { fontFamily: "Times-Roman", padding: 48, fontSize: s(10.5), color: BLACK },
-    senderName: { fontFamily: "Times-Bold", fontSize: s(13) },
-    meta: { fontSize: s(9.5), marginTop: 2 },
-    block: { flexDirection: "column", gap: 2 },
-    spacedBlock: { flexDirection: "column", gap: 2, marginTop: 24 },
-    recipientName: { fontFamily: "Times-Bold" },
-    subject: { fontFamily: "Times-Bold", marginTop: 24 },
-    greeting: { marginTop: 24 },
-    body: { marginTop: 16, lineHeight: 1.5 },
-    closingBlock: { flexDirection: "column", gap: 2, marginTop: 24 },
-    customFieldsBlock: { flexDirection: "column", gap: 2, marginTop: 24 },
+    page: {
+      fontFamily: HARVARD_PDF_FONT,
+      padding: 36,
+      fontSize: s(12),
+      lineHeight: 1.5,
+      color: BLACK,
+    },
+    senderName: { fontWeight: "bold", fontSize: s(13.5), lineHeight: 1.56 },
+    meta: { fontSize: s(10.5), lineHeight: 1.43 },
+    block: { flexDirection: "column", gap: 3 },
+    spacedBlock: { flexDirection: "column", gap: 3, marginTop: 18 },
+    recipientName: { fontWeight: "bold" },
+    subject: { fontWeight: "bold", marginTop: 18 },
+    greeting: { marginTop: 18 },
+    // react-pdf resolves a unitless lineHeight against this style's own fontSize, not the inherited one.
+    body: { marginTop: 12, fontSize: s(12), lineHeight: 1.625 },
+    closingBlock: { flexDirection: "column", gap: 3, marginTop: 18 },
+    customFieldsBlock: { flexDirection: "column", marginTop: 18 },
   });
 
   const senderName = isVisible("senderName") && data.senderName;
@@ -62,7 +71,7 @@ export default function CoverLetterHarvardPdfTemplate({
           )}
         </View>
 
-        {date && <Text style={[styles.meta, { marginTop: 24 }]}>{date}</Text>}
+        {date && <Text style={[styles.meta, { marginTop: 18 }]}>{date}</Text>}
 
         <View style={styles.spacedBlock}>
           {recipientName && <Text style={styles.recipientName}>{recipientName}</Text>}

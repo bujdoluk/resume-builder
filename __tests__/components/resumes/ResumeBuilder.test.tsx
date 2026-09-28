@@ -2,7 +2,7 @@ import "@testing-library/jest-dom/vitest";
 import { cleanup, fireEvent, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { AppStateProvider } from "@/components/AppState";
+import { AppStateProvider, useAppState } from "@/components/AppState";
 import ResumeBuilder from "@/components/resumes/ResumeBuilder";
 import { ToastProvider } from "@/components/Toast";
 import { allFields } from "@/lib/fields";
@@ -59,6 +59,11 @@ vi.stubGlobal("ResizeObserver", ResizeObserverStub);
 // fireEvent.change instead of userEvent.type: per-keystroke rerenders of both panes are too slow.
 function fillField(element: HTMLElement, value: string) {
   fireEvent.change(element, { target: { value } });
+}
+
+function SectionOrderProbe() {
+  const { sectionOrder } = useAppState();
+  return <output data-testid="section-order">{sectionOrder.join(",")}</output>;
 }
 
 afterEach(cleanup);
@@ -290,5 +295,56 @@ describe("ResumeBuilder", () => {
       return inputs;
     });
     await waitFor(() => expect(nameInputs[1]).toHaveValue("Jane Doe"));
+  });
+
+  it("starts a new harvard resume with skills as the first section", async () => {
+    renderWithQueryClient(
+      <AppStateProvider>
+        <ToastProvider>
+          <ResumeBuilder initialTemplateId="harvard" />
+          <SectionOrderProbe />
+        </ToastProvider>
+      </AppStateProvider>,
+    );
+
+    await waitFor(() =>
+      expect(screen.getByTestId("section-order")).toHaveTextContent(
+        "skills,workExperience,education,languages,certifications,interests,customFields",
+      ),
+    );
+  });
+
+  it("keeps the stored section order of a saved harvard resume", async () => {
+    const storedOrder = ["workExperience", "education", "skills", "languages", "certifications", "interests", "customFields"];
+    mocks.getResume.mockResolvedValue({
+      id: "resume-1",
+      name: "Existing Resume",
+      templateId: "harvard",
+      color: null,
+      font: null,
+      fontSize: null,
+      sectionOrder: storedOrder,
+      visibleFields: allFields,
+      modernSectionZones: {},
+      data: { ...emptyResumeData, name: "Jane Doe" },
+      shareToken: null,
+      shareTokenExpiresAt: null,
+      createdAt: "2026-01-01T00:00:00.000Z",
+      updatedAt: "2026-01-01T00:00:00.000Z",
+      deletedAt: null,
+    });
+
+    renderWithQueryClient(
+      <AppStateProvider>
+        <ToastProvider>
+          <ResumeBuilder initialTemplateId="harvard" initialResumeId="resume-1" />
+          <SectionOrderProbe />
+        </ToastProvider>
+      </AppStateProvider>,
+    );
+
+    await waitFor(() => expect(mocks.getResume).toHaveBeenCalled());
+    await waitFor(() => expect(screen.getAllByPlaceholderText("Your name")[1]).toHaveValue("Jane Doe"));
+    expect(screen.getByTestId("section-order")).toHaveTextContent(storedOrder.join(","));
   });
 });

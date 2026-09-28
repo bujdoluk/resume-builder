@@ -53,6 +53,15 @@ const fontFiles: Record<FontKey, { normal: string; bold: string }> = {
   },
 };
 
+// Built-in Times-Roman is WinAnsi-only and silently drops Latin Extended-A glyphs (Č, ř, ľ, ł...).
+// Tinos is metric-compatible with Times New Roman; these gstatic files include the latin-ext range.
+export const HARVARD_PDF_FONT = "tinos";
+
+const harvardFontFiles = {
+  normal: "https://fonts.gstatic.com/s/tinos/v26/buE4poGnedXvwjX1fmI.woff",
+  bold: "https://fonts.gstatic.com/s/tinos/v26/buE1poGnedXvwj1AW3Fg0Ck.woff",
+};
+
 let registered = false;
 
 export function registerPdfFonts() {
@@ -71,4 +80,12 @@ export function registerPdfFonts() {
       ],
     });
   }
+
+  Font.register({
+    family: HARVARD_PDF_FONT,
+    fonts: [
+      { src: harvardFontFiles.normal, fontWeight: "normal" },
+      { src: harvardFontFiles.bold, fontWeight: "bold" },
+    ],
+  });
 }
