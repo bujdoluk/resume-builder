@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.11.0](https://github.com/bujdoluk/resume-builder/compare/QuickResumeBuilder.online-v0.10.0...QuickResumeBuilder.online-v0.11.0) (2026-09-28)
+
+
+### Features
+
+* harvard skills-first order, one-per-row skills, PDF parity + Czech glyphs, menu grid ([4603402](https://github.com/bujdoluk/resume-builder/commit/4603402ad476aad547dd69b9e0d1ed4b5c0b555c))
+
 ## [0.10.0](https://github.com/bujdoluk/resume-builder/compare/QuickResumeBuilder.online-v0.9.0...QuickResumeBuilder.online-v0.10.0) (2026-09-28)
 
 
