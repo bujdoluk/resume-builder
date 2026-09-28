@@ -22,11 +22,7 @@ export default function PreviewModal<T extends object>({
   templateProps,
 }: PreviewModalProps<T>) {
   const dialogRef = useRef<HTMLDialogElement>(null);
-  // #pdf-area is portaled straight onto <body> (see below) so the print
-  // stylesheet can `display: none` every other body child wholesale — it
-  // can't do that while this div is nested arbitrarily deep in the app
-  // shell alongside everything else. document.body doesn't exist during
-  // SSR, so the portal is gated on mount.
+  // Portaled onto body so the print stylesheet can hide every other body child. Gated on mount since body doesn't exist during SSR.
   const mounted = useHasMounted();
 
   useImperativeHandle(ref, () => ({

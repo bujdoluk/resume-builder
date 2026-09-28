@@ -1,6 +1,3 @@
-/**
- * Next.js build/runtime configuration.
- */
 import type { NextConfig } from "next";
 import { withSentryConfig } from "@sentry/nextjs";
 import { buildSecurityHeaders } from "./lib/securityHeaders";

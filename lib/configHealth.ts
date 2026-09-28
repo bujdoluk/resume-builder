@@ -1,4 +1,3 @@
-
 export interface ConfigHealth {
   rateLimit: boolean;
   captcha: boolean;
@@ -17,11 +16,7 @@ export interface ConfigHealth {
   };
 }
 
-// Reports only whether each optional integration's env vars are present —
-// never the values themselves. Several of these fail open at runtime rather
-// than erroring when unconfigured (rate limiting, captcha, AI features), by
-// design, so a misconfigured production deployment wouldn't otherwise
-// surface anywhere until the missing protection is actually exploited.
+// Presence only, never values. Several integrations fail open, so a missing var would otherwise go unnoticed.
 export function getConfigHealth(
   env: Record<string, string | undefined> = process.env,
 ): ConfigHealth {

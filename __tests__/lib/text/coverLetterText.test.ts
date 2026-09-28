@@ -56,7 +56,7 @@ describe("generateCoverLetterText", () => {
     const text = generateCoverLetterText({
       data: coverLetterData,
       sectionOrder: defaultCoverLetterSectionOrder,
-      visibleFields: ["senderName", "greeting", "body", "closing"], // excludes "subject"
+      visibleFields: ["senderName", "greeting", "body", "closing"],
     });
 
     expect(text).not.toContain("Subject:");

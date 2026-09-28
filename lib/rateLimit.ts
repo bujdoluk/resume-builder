@@ -1,10 +1,7 @@
 import { Ratelimit, type Duration } from "@upstash/ratelimit";
 import { Redis } from "@upstash/redis";
 
-// Lazily instantiated, same reasoning as lib/stripe.ts/lib/email/resend.ts —
-// a missing UPSTASH_* env var shouldn't crash the build, only make
-// checkRateLimit() a no-op at runtime (so local dev works without an
-// Upstash account, same as this app's other optional integrations).
+// Lazy so a missing UPSTASH_* var doesn't break the build.
 let redis: Redis | null | undefined;
 
 export function getRedis(): Redis | null {
@@ -35,9 +32,7 @@ function getLimiter(name: string, requests: number, window: Duration): Ratelimit
   return limiter;
 }
 
-// Returns true if the request should proceed. Fails open (returns true)
-// when Upstash isn't configured, so this can be called unconditionally from
-// every route without a separate "is rate limiting enabled" check.
+// Fails open when Upstash isn't configured.
 export async function checkRateLimit(
   name: string,
   identifier: string,
@@ -51,8 +46,7 @@ export async function checkRateLimit(
   return success;
 }
 
-// Vercel (and most reverse proxies) set x-forwarded-for to
-// "client, proxy1, proxy2, ..." — the first entry is the original client.
+// The first x-forwarded-for entry is the original client.
 export function getRequestIp(request: Request): string {
   const forwardedFor = request.headers.get("x-forwarded-for");
   return forwardedFor?.split(",")[0]?.trim() || "unknown";

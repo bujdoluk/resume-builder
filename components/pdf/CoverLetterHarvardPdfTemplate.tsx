@@ -1,4 +1,3 @@
-
 import { Document, Page, StyleSheet, Text, View } from "@react-pdf/renderer";
 import type { CoverLetterPdfTemplateProps } from "@/components/pdf/CoverLetterPdfTemplate";
 import type { CoverLetterFieldKey } from "@/lib/coverLetterFields";
@@ -6,10 +5,7 @@ import { getFontScaleRatio } from "@/lib/fontSize";
 
 const BLACK = "#000000";
 
-// Harvard's style is locked: fixed Times-Roman/Times-Bold (@react-pdf's
-// built-in base-14 fonts, no Font.register() needed), no color — see
-// components/pdf/HarvardPdfTemplate.tsx (the resume side) for the same rule.
-// Font size stays adjustable, same as every other template.
+// Harvard is locked: built-in Times fonts, no color. Font size stays adjustable.
 export default function CoverLetterHarvardPdfTemplate({
   data,
   fontSize,

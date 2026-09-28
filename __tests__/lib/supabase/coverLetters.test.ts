@@ -99,8 +99,6 @@ describe("saveCoverLetter", () => {
     expect(row).toEqual({
       id: "cover-letter-1",
       name: "My Cover Letter",
-      // fakeTableRow.data only has `senderName` — everything else must come
-      // from emptyCoverLetterData rather than being missing/undefined.
       data: { ...emptyCoverLetterData, senderName: "Jane Doe" },
       createdAt: "2026-01-01T00:00:00.000Z",
       updatedAt: "2026-01-02T00:00:00.000Z",

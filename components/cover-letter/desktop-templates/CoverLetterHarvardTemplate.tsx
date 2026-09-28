@@ -4,9 +4,7 @@ import type { CoverLetterTemplateProps } from "@/components/cover-letter/desktop
 import type { CoverLetterFieldKey } from "@/lib/coverLetterFields";
 import { getFontSizeStyle } from "@/lib/fontSize";
 
-// Harvard's style is locked: color and font props are intentionally unused
-// below — see components/resumes/desktop-templates/HarvardTemplate.tsx for
-// the same rule applied to the resume side.
+// Harvard's style is locked, so color and font are unused.
 export default function CoverLetterHarvardTemplate({
   data,
   fontSize,

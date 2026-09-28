@@ -64,9 +64,7 @@ export interface MobileTemplateProps {
   onCertificationsChange: (certifications: CertificationEntry[]) => void;
   onLanguagesChange: (languages: LanguageEntry[]) => void;
   onInterestsChange: (interests: SimpleEntry[]) => void;
-  // Harvard-only bonus sections (see the comment above honorAwardEntrySchema
-  // in lib/resumeData.ts) — optional since only HarvardMobileTemplate uses
-  // them; every other mobile template receives and ignores them.
+  // Only HarvardMobileTemplate uses these.
   onLeadershipChange?: (leadershipExperience: WorkEntry[]) => void;
   onHonorsChange?: (honorsAwards: HonorAwardEntry[]) => void;
   sectionOrder: SectionKey[];

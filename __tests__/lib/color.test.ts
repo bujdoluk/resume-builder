@@ -11,14 +11,12 @@ describe("getContrastTextColor", () => {
   });
 
   it("picks black text just above the brightness threshold", () => {
-    // For an equal r=g=b gray, the weighted brightness formula's
-    // coefficients sum to 1000, so brightness == the channel value itself.
-    // 0x9c = 156, just over the 155 threshold.
+    // For a gray, brightness equals the channel value. 0x9c = 156, just over the 155 threshold.
     expect(getContrastTextColor("#9c9c9c")).toBe("#000000");
   });
 
   it("picks white text just below the brightness threshold", () => {
-    // 0x9a = 154, just under the 155 threshold.
+    // 0x9a = 154, just under the threshold.
     expect(getContrastTextColor("#9a9a9a")).toBe("#ffffff");
   });
 });

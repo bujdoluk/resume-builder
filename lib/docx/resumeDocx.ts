@@ -1,4 +1,3 @@
-
 import { Document, HeadingLevel, Paragraph, TextRun } from "docx";
 import { fieldLabels, type FieldKey } from "@/lib/fields";
 import {
@@ -150,11 +149,7 @@ export function generateResumeDocx({
     children.push(...sectionParagraphs);
   }
 
-  // Harvard-only bonus sections — included unconditionally regardless of the
-  // active template (this exporter has no notion of templateId at all), so
-  // the content survives even if the user switches away from Harvard after
-  // filling them in. See the comment above honorAwardEntrySchema in
-  // lib/resumeData.ts.
+  // Exported regardless of template so the content survives switching away from Harvard.
   const leadershipParagraphs = filledLeadershipEntries(data).flatMap((entry) => {
     const paragraphs: Paragraph[] = [];
     if (entry.position) paragraphs.push(boldParagraph(entry.position));

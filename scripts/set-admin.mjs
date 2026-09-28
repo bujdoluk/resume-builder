@@ -1,17 +1,6 @@
 #!/usr/bin/env node
-/**
- * Grants the admin role (gates the "Add Blog" form on /blog) to a user by
- * email, via app_metadata.role — the only authorization-safe metadata
- * field, since regular users cannot self-modify app_metadata (unlike
- * user_metadata). Requires SUPABASE_SERVICE_ROLE_KEY in .env.local.
- *
- * Usage: node scripts/set-admin.mjs someone@example.com
- *
- * Note: app_metadata only lands in a user's session JWT at token
- * issue/refresh time. If they're already logged in, they must log out and
- * back in before the new role appears — both the "Add Blog" button and the
- * blog_posts insert policy will otherwise keep seeing the old claim.
- */
+// Grants admin via app_metadata, which users can't modify. They must log in again to get the role.
+// Usage: node scripts/set-admin.mjs someone@example.com
 import { readFileSync } from "node:fs";
 import { createClient } from "@supabase/supabase-js";
 

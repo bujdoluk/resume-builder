@@ -1,7 +1,6 @@
 import type { SavedDocumentSort } from "@/components/SavedDocumentsPageContent";
 import type { ListTab } from "@/types/ui";
 
-/** Structural shape SavedDocumentsPageContent needs — queryKeys.resumes/coverLetters both satisfy it. */
 export interface DocumentQueryKeys {
   all: (userId: string) => readonly unknown[];
   count: (userId: string) => readonly unknown[];
@@ -9,17 +8,9 @@ export interface DocumentQueryKeys {
   list: (userId: string, tab: ListTab, sort: SavedDocumentSort, page: number) => readonly unknown[];
 }
 
-/**
- * Centralized query-key factory. Every consumer of a given piece of data
- * (e.g. resume count is read by both Sidebar and the free-tier limit check
- * in ResumeBuilder) must use the same key here so a single
- * queryClient.invalidateQueries call reaches all of them — this replaces the
- * old resumeListVersion/coverLetterListVersion counters in AppState.tsx.
- */
+// Every consumer must share these keys so one invalidateQueries reaches all of them.
 export const queryKeys = {
-  /** The raw Supabase Session (or null) — used by useIsAdmin/AuthButton for role/email display. */
   session: () => ["session"] as const,
-  /** ensureUserId's resolved id (anonymous sign-in performed if needed) — used by every data-owning read/write. */
   userId: () => ["userId"] as const,
   isAdmin: () => ["isAdmin"] as const,
   subscription: (userId: string) => ["subscription", userId] as const,
@@ -42,6 +33,6 @@ export const queryKeys = {
     detail: (id: string) => ["coverLetters", "detail", id] as const,
   },
 
-  /** getTotpFactor operates on the current session, not a passed-in userId — one factor per tab. */
+  // Uses the current session, so the key has no userId.
   mfaFactor: () => ["mfaFactor"] as const,
 } as const;

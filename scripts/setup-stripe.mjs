@@ -1,15 +1,6 @@
 #!/usr/bin/env node
-/**
- * One-time setup script: creates the "QuickResumeBuilder Pro" Stripe
- * Product with a monthly ($19.99) and yearly ($167.99) recurring Price,
- * then prints the Price IDs to paste into .env.local as
- * STRIPE_PRICE_ID_MONTHLY / STRIPE_PRICE_ID_ANNUAL. Safe to re-run — it
- * reuses an existing "QuickResumeBuilder Pro" product/prices instead of
- * creating duplicates.
- *
- * Usage: node scripts/setup-stripe.mjs
- * Requires STRIPE_SECRET_KEY to already be set in .env.local.
- */
+// Creates the Pro product and prices, then prints the IDs for .env.local. Safe to re-run.
+// Usage: node scripts/setup-stripe.mjs
 import { readFileSync } from "node:fs";
 import Stripe from "stripe";
 

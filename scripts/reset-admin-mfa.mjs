@@ -1,16 +1,6 @@
 #!/usr/bin/env node
-/**
- * Recovery script for a lost 2FA authenticator device: clears all TOTP
- * factors for a user by email via the service-role admin API, so they can
- * re-enroll from scratch. Does NOT touch app_metadata.role — admin access
- * stays intact, but /api/blog and /api/admin/config-health remain 403 until
- * the user re-enrolls (see lib/adminAuth.ts's aal2 requirement) and fully
- * logs out and back in — a silent token refresh alone won't pick this up.
- *
- * Usage: node scripts/reset-admin-mfa.mjs someone@example.com
- *
- * Requires SUPABASE_SERVICE_ROLE_KEY in .env.local.
- */
+// Clears a user's TOTP factors after a lost device. Leaves the admin role alone; the user must re-enroll and log in again.
+// Usage: node scripts/reset-admin-mfa.mjs someone@example.com
 import { readFileSync } from "node:fs";
 import { createClient } from "@supabase/supabase-js";
 

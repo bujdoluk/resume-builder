@@ -4,10 +4,6 @@ import { describe, expect, it, vi } from "vitest";
 import HarvardMobileTemplate from "@/components/resumes/mobile-templates/HarvardMobileTemplate";
 import { emptyResumeData, type SectionKey } from "@/lib/resumeData";
 
-// jsdom doesn't implement dnd-kit's pointer sensors' underlying APIs;
-// Sortable-wrapped lists render fine, so no stub is needed here beyond what
-// dnd-kit itself already tolerates in jsdom for a plain render (no drag).
-
 const sectionOrder: SectionKey[] = [];
 const noop = () => {};
 

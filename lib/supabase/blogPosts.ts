@@ -1,4 +1,3 @@
-
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { unstable_cache } from "next/cache";
 import { Temporal } from "temporal-polyfill";
@@ -26,10 +25,7 @@ export const categoryBadgeClass: Record<BlogCategoryKey, string> = {
 const SELECT_COLUMNS =
   "id, slug, category, title, subtitle, content, author_name, author_avatar_url, read_time, published_at";
 
-// The exact columns SELECT_COLUMNS asks for, picked from the generated Row
-// type — Supabase's typed client can't reliably infer a narrowed shape from
-// a hand-written column-list string, so this cast target is kept in sync
-// with the real table schema explicitly instead.
+// The typed client can't infer a shape from a column string, so keep this in sync with the table.
 type BlogPostSelectedRow = Pick<
   Tables<"blog_posts">,
   | "id"
@@ -44,9 +40,7 @@ type BlogPostSelectedRow = Pick<
   | "published_at"
 >;
 
-// `category` is a plain text column with a Postgres CHECK constraint (see
-// supabase/migrations/0006_create_blog_posts.sql) — same caveat as `plan` in
-// subscriptions.ts: the generated type is `string`, narrowed here.
+// category is text with a CHECK constraint, so narrow the generated string type.
 function toCategory(value: string): BlogCategoryKey {
   return (blogCategories as string[]).includes(value) ? (value as BlogCategoryKey) : "resumeTips";
 }
@@ -163,9 +157,6 @@ export async function updateBlogPost(
   return data ? mapRow(data as BlogPostSelectedRow) : null;
 }
 
-// Returns the deleted row (or null if nothing matched that id — already
-// deleted, or a bad id) so callers can use its slug/title without a
-// separate fetch, e.g. for an audit log entry.
 export async function deleteBlogPost(
   supabase: SupabaseClient<Database>,
   id: string,

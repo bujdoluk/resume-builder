@@ -68,9 +68,7 @@ function loadDraft(): ResumeData | null {
   try {
     const raw = window.localStorage.getItem(DRAFT_STORAGE_KEY);
     if (!raw) return null;
-    // Drafts saved before a data-model field was added (e.g. customFields)
-    // won't have it in their stored JSON — backfill from the current
-    // defaults so older drafts don't crash newer template code.
+    // Backfill defaults so older drafts missing newer fields don't crash the templates.
     return { ...emptyResumeData, ...(JSON.parse(raw) as ResumeData) };
   } catch {
     return null;
@@ -81,7 +79,6 @@ function saveDraft(data: ResumeData) {
   try {
     window.localStorage.setItem(DRAFT_STORAGE_KEY, JSON.stringify(data));
   } catch {
-
   }
 }
 
@@ -89,7 +86,6 @@ function clearDraft() {
   try {
     window.localStorage.removeItem(DRAFT_STORAGE_KEY);
   } catch {
-
   }
 }
 

@@ -66,7 +66,7 @@ describe("generateResumeText", () => {
     const text = generateResumeText({
       data: resumeData,
       sectionOrder,
-      visibleFields: ["email"], // deliberately excludes "name"
+      visibleFields: ["email"],
     });
 
     expect(text).not.toContain("Jane Doe");

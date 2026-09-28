@@ -17,9 +17,7 @@ export default function ColoursDropdown() {
   );
   const isCustomSelected = color !== null && !isPresetColor;
 
-  // Harvard's style is locked — the color picker is shared between the
-  // resume and cover letter builders (both mount this same dropdown), so
-  // which templateId is relevant depends on which route is active.
+  // Harvard is locked. Both builders share this dropdown, so check the template for the active route.
   const isHarvardActive =
     pathname === "/app" ? templateId === "harvard" : coverLetterTemplateId === "harvard";
 

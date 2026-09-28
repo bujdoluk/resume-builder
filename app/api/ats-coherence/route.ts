@@ -1,4 +1,3 @@
-
 import * as Sentry from "@sentry/nextjs";
 import { errorResponse } from "@/lib/apiErrors";
 import { validateBody } from "@/lib/apiValidation";
@@ -10,7 +9,6 @@ import {
   RATE_LIMIT_ATS_COHERENCE_REQUESTS,
   RATE_LIMIT_ATS_COHERENCE_WINDOW,
 } from "@/lib/constants";
-// import { verifyCaptchaToken } from "@/lib/hcaptcha";
 import { checkRateLimit, getRequestIp } from "@/lib/rateLimit";
 import { atsCoherenceBodySchema } from "@/lib/validation/atsCoherence";
 
@@ -26,11 +24,6 @@ export async function POST(request: Request) {
   }
 
   const body = await request.json().catch(() => null);
-  // const { captchaToken } = body ?? {};
-
-  // if (!(await verifyCaptchaToken(captchaToken))) {
-  //   return errorResponse(HTTP_BAD_REQUEST, "captchaVerificationFailed", request);
-  // }
 
   const parsed = validateBody(atsCoherenceBodySchema, body ?? {});
   if (!parsed.success) {

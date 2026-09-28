@@ -3,11 +3,7 @@ import { coverLetterDataSchema, type CoverLetterData } from "@/lib/coverLetterDa
 
 const MODEL = "openai/gpt-oss-20b";
 
-// Same reasoning-model calibration as lib/resumeImport/parseResumeText.ts —
-// see that file for the full explanation (wasted reasoning tokens, and
-// Groq's per-account TPM limit being enforced against the requested
-// max_completion_tokens ceiling rather than actual usage). A cover letter
-// is far shorter than a resume, so this budget is already generous.
+// Same reasoning-model budget as parseResumeText.ts. Cover letters are short, so this is generous.
 const MAX_COMPLETION_TOKENS = 2000;
 const REASONING_EFFORT = "low";
 
@@ -64,13 +60,6 @@ const COVER_LETTER_EXTRACTION_SCHEMA = {
 
 type ExtractedCoverLetter = Omit<CoverLetterData, "customFieldValue" | "customFieldsTitle">;
 
-/**
- * Turns raw cover letter text into a trustworthy CoverLetterData. Unlike
- * resume extraction, there are no arrays/ids to mint here — the Groq output
- * already matches coverLetterDataSchema's shape field-for-field, so it goes
- * straight through .parse() (whose per-field .catch() defaults still
- * protect against a malformed/partial model response).
- */
 export async function parseCoverLetterText(text: string): Promise<CoverLetterData> {
   const completion = await getGroqClient().chat.completions.create({
     model: MODEL,

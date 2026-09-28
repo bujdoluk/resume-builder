@@ -1,4 +1,3 @@
-
 import { generateId } from "@/lib/generateId";
 import {
   defaultLanguageLevel,
@@ -217,11 +216,7 @@ export function createResumeFormHandlers({
   };
 }
 
-// Harvard-only bonus sections (see the comment above honorAwardEntrySchema in
-// lib/resumeData.ts) — kept as a separate factory rather than folding into
-// ResumeFormHandlersProps above so every other template's mobile component
-// doesn't need to start passing (and ignoring) two more callbacks it has no
-// use for.
+// Separate so other mobile templates don't have to pass Harvard-only callbacks.
 export interface HarvardFormHandlersProps {
   data: ResumeData;
   onLeadershipChange: (leadershipExperience: WorkEntry[]) => void;

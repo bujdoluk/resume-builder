@@ -68,7 +68,7 @@ describe("generateResumeDocx", () => {
     const doc = generateResumeDocx({
       data: resumeData,
       sectionOrder,
-      visibleFields: ["email"], // deliberately excludes "name"
+      visibleFields: ["email"],
     });
     const xml = await documentXml(await Packer.toBuffer(doc));
 
@@ -78,7 +78,7 @@ describe("generateResumeDocx", () => {
 
   it("omits a section heading entirely when it has no content", async () => {
     const doc = generateResumeDocx({
-      data: resumeData, // certifications, languages, interests are all empty
+      data: resumeData,
       sectionOrder,
     });
     const xml = await documentXml(await Packer.toBuffer(doc));

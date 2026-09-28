@@ -35,7 +35,6 @@ import {
 const ApexChart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 function LanguageDonut({ percent, color }: { percent: number; color: string }) {
-
   const chartValue = Math.max(percent, 1);
 
   return (
@@ -76,10 +75,6 @@ function LanguageDonut({ percent, color }: { percent: number; color: string }) {
   );
 }
 
-// Section header in either of Elegant's two zone looks — identical rule to
-// Modern's SectionHeader: accent-colored icon+text in the main column, or a
-// smaller opacity-70 look with no accent color in the sidebar, so a section
-// keeps whichever style matches the zone it's currently placed in.
 function SectionHeader({
   icon,
   title,

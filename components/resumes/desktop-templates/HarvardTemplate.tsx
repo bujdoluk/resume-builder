@@ -22,10 +22,7 @@ function SectionTitle({ children }: { children: React.ReactNode }) {
   );
 }
 
-// Harvard's style is locked (see the parent conversation's decision): color
-// and font are always ignored here, photo is always excluded regardless of
-// visibleFields, and no icons are rendered anywhere — this is what makes it
-// "official" rather than just another customizable template.
+// Harvard is locked: color and font are ignored, and there's no photo and no icons.
 export default function HarvardTemplate({
   data,
   sectionOrder,

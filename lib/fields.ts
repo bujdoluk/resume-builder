@@ -1,4 +1,3 @@
-
 import { z } from "zod";
 
 const FIELD_KEYS = [
@@ -16,8 +15,7 @@ const FIELD_KEYS = [
 export type FieldKey = (typeof FIELD_KEYS)[number];
 export const fieldKeySchema = z.enum(FIELD_KEYS);
 
-// Drops individually-invalid entries rather than discarding the whole list —
-// one corrupted field key shouldn't hide every other still-valid one.
+// Drop invalid entries instead of the whole list.
 export const visibleFieldsSchema: z.ZodType<FieldKey[]> = z
   .array(z.unknown())
   .catch([])

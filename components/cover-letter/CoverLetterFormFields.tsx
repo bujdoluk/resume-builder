@@ -51,8 +51,7 @@ function replaceSubsequence<T>(
 ): T[] {
   let i = 0;
   return fullOrder.map((key) =>
-    // `newSubsequence` is always a reorder of the same elements matched by
-    // `subsequenceKeys` (see call sites), so `i` never runs past its length.
+    // newSubsequence is always a reorder of the subsequenceKeys matches, so i stays in range.
     subsequenceKeys.includes(key) ? newSubsequence[i++]! : key,
   );
 }
@@ -107,11 +106,7 @@ export default function CoverLetterFormFields({
 }: CoverLetterFormFieldsProps) {
   const { t } = useTranslation();
 
-  // Harvard's style is locked — color and font are always ignored, matching
-  // the resume side's HarvardTemplate.tsx. There's no separate "harvard"
-  // branch below (unlike "modern") because Harvard reuses the same
-  // single-column layout as every other non-modern template; only these two
-  // values need overriding.
+  // Harvard locks color and font.
   const isHarvardLocked = templateId === "harvard";
   const fontFamily = isHarvardLocked
     ? '"Times New Roman", Times, serif'
@@ -135,9 +130,7 @@ export default function CoverLetterFormFields({
     date: showDate,
     subject: showSubject,
     letter: visibleLetterOrder.length > 0,
-    // No on/off toggle exists for this section (unlike the others, which
-    // key off fieldOrder inclusion) — always show it in the editable form;
-    // read-only rendering layers gate on the fields being filled instead.
+    // This section has no toggle, so always show it in the form.
     customFields: true,
   };
   const visibleSectionOrder = sectionOrder.filter((key) => sectionVisible[key]);
@@ -318,9 +311,7 @@ export default function CoverLetterFormFields({
         />
       </fieldset>
     ),
-    // Reuses senderName (Section 1) rather than a separate data field, so
-    // the signature always stays in sync with the sender's own name — this
-    // input just gives a second, contextual place to edit it.
+    // Reuses senderName so the signature stays in sync.
     signature: (
       <fieldset className="fieldset">
         <input
@@ -343,9 +334,7 @@ export default function CoverLetterFormFields({
     customFields: "coverLetter.sectionCustomFields",
   };
 
-  // Fields only, no header — the header is rendered separately at map time
-  // so `isFirst` can reflect the section's actual position in whichever
-  // list it's currently being rendered from.
+  // The header is rendered at map time so isFirst reflects the real position.
   const sectionFieldsContent: Record<CoverLetterSectionKey, React.ReactNode> = {
     sender: (
       <SortableGroup
@@ -442,9 +431,7 @@ export default function CoverLetterFormFields({
           ...next.main,
         ]),
       );
-      // Merge (don't replace) so a section keeps its remembered zone for
-      // whenever it's re-enabled via the Navbar's Features control, instead
-      // of silently snapping back to "main".
+      // Merge so a disabled section remembers its zone when re-enabled.
       onChangeSectionZones?.((prev) => ({
         ...prev,
         ...Object.fromEntries(next.sidebar.map((key) => [key, "sidebar" as const])),

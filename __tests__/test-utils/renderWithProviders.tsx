@@ -2,11 +2,7 @@ import type { ReactElement, ReactNode } from "react";
 import { render, type RenderResult } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
-/**
- * A fresh, test-scoped QueryClient — no retries (so a mocked rejection
- * surfaces immediately instead of being retried per queryClient.ts's
- * production default) and no caching between tests.
- */
+// No retries so mocked rejections surface immediately, and no cache shared between tests.
 export function createTestQueryClient(): QueryClient {
   return new QueryClient({
     defaultOptions: {

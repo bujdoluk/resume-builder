@@ -61,9 +61,7 @@ describe("createVersionedCodec", () => {
     });
 
     it("treats non-object input (null, array, primitive) as empty data", () => {
-      // No migration step is registered for version 0, so this stays at
-      // version 0 rather than reaching currentVersion — see the "stops
-      // without throwing when a migration step is missing" case above.
+      // No step is registered for v0, so it stays at 0.
       const codec = createVersionedCodec(1, {});
 
       expect(codec.migrate(null)).toEqual({ __schemaVersion: 0 });

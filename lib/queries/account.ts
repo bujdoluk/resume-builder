@@ -7,12 +7,7 @@ import { getTotpFactor } from "@/lib/supabase/auth";
 import type { Database } from "@/lib/supabase/database.types";
 import type { TotpFactor } from "@/types/auth";
 
-/**
- * `data` is `undefined` while loading, `null` once resolved with no factor
- * enrolled, or the factor once enrolled — the same three-state shape
- * AccountPage's hand-rolled `useState<TotpFactor | null | undefined>` used,
- * so call sites don't need to change how they branch on it.
- */
+// undefined while loading, null when no factor is enrolled.
 export function useMfaFactorQuery(
   supabase: SupabaseClient<Database>,
   enabled: boolean,

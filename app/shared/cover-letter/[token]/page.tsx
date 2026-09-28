@@ -1,4 +1,3 @@
-
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { cache } from "react";
@@ -10,8 +9,7 @@ interface PageProps {
   params: Promise<{ token: string }>;
 }
 
-// De-duplicates the lookup between generateMetadata and the page render
-// below — React's cache() memoizes per-request, not across requests.
+// cache() dedupes the lookup between generateMetadata and the render, per request.
 const loadCoverLetter = cache((token: string) =>
   getCoverLetterByShareToken(createServiceRoleClient(), token),
 );
@@ -19,8 +17,7 @@ const loadCoverLetter = cache((token: string) =>
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { token } = await params;
   const coverLetter = await loadCoverLetter(token);
-  // Deliberately not localized — see the matching comment in
-  // app/shared/resume/[token]/page.tsx.
+  // Not localized, see the resume share page.
   return { title: coverLetter ? coverLetter.name : "Link not found" };
 }
 

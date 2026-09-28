@@ -1,4 +1,3 @@
-
 import { fieldLabels, type FieldKey } from "@/lib/fields";
 import {
   contactFieldKeys,
@@ -98,9 +97,7 @@ export function generateResumeText({
     lines.push("", heading.toUpperCase(), ...sectionLines);
   }
 
-  // Harvard-only bonus sections — included unconditionally regardless of the
-  // active template, matching lib/docx/resumeDocx.ts's identical treatment.
-  // See the comment above honorAwardEntrySchema in lib/resumeData.ts.
+  // Exported regardless of template, same as resumeDocx.ts.
   const leadershipLines = filledLeadershipEntries(data).flatMap((entry) => {
     const entryLines = [entry.position].filter(Boolean) as string[];
     const range = dateRange(entry.dateFrom, entry.dateTo);
@@ -122,8 +119,6 @@ export function generateResumeText({
     lines.push("", harvardSectionLabels.honorsAwards.toUpperCase(), ...honorAwardLines);
   }
 
-  // Trailing blank lines can accumulate from the work/education entry
-  // separators above — trim them so the file doesn't end in empty lines.
   while (lines.length > 0 && lines[lines.length - 1] === "") lines.pop();
 
   return lines.join("\n");

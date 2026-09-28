@@ -19,7 +19,6 @@ describe("HarvardTemplate — style lock", () => {
     const root = container.querySelector(".resume-scalable");
     expect(root).not.toBeNull();
     expect(root?.getAttribute("style") ?? "").not.toContain("ff0000");
-    // No descendant should carry the accent color as an inline style either.
     container.querySelectorAll<HTMLElement>("[style]").forEach((el) => {
       expect(el.style.color).not.toBe("rgb(255, 0, 0)");
       expect(el.style.borderColor).not.toBe("rgb(255, 0, 0)");

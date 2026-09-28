@@ -7,15 +7,7 @@ const LG_BREAKPOINT_PX = 1024;
 const MODAL_WIDTH_RATIO = 0.95;
 const MODAL_HEIGHT_RATIO = 0.9;
 
-// A4 page height in CSS px at 96dpi (1mm = 96/25.4px). Every resume/cover
-// letter template renders at min-h-[297mm] (see
-// components/resumes/desktop-templates/*.tsx and
-// components/cover-letter/desktop-templates/*.tsx), so this is what "one
-// page" means regardless of a given document's actual (possibly multi-page)
-// content height. Scaling against this fixed reference — rather than the
-// document's full natural height — lets a single-page document shrink to
-// fit the modal with no scrollbar, while a longer document still overflows
-// past one page's worth of space and scrolls instead of shrinking further.
+// A4 height in CSS px. Scaling to one page lets short documents fit, while longer ones scroll.
 const A4_PAGE_HEIGHT_PX = 297 * (96 / 25.4);
 
 export default function ScaleToFit({

@@ -187,11 +187,7 @@ export default function Sidebar() {
           </li>
         </ul>
 
-        {/* One fixed slot for whichever builder is currently mounted, so
-            the nav links above never shift position as steps appear,
-            disappear, or change length while editing — only ever one of
-            these two summaries is non-null at a time, since only one
-            builder is ever mounted. */}
+        {/* One fixed slot so the nav links don't shift as steps change. */}
         {!collapsed && (resumeStepsSummary || coverLetterStepsSummary) && (
           <div className="border-t-base-300 mt-2 border-t px-4 pt-4">
             {resumeStepsSummary ? (

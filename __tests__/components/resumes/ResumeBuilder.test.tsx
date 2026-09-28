@@ -48,8 +48,7 @@ vi.mock("@/lib/supabase/resumes", () => ({
   saveResume: mocks.saveResume,
 }));
 
-// jsdom doesn't implement ResizeObserver; ScaleToFit only uses it to react
-// to layout changes we don't need in a headless test.
+// jsdom has no ResizeObserver.
 class ResizeObserverStub {
   observe() {}
   unobserve() {}
@@ -57,10 +56,7 @@ class ResizeObserverStub {
 }
 vi.stubGlobal("ResizeObserver", ResizeObserverStub);
 
-// Fills a text input/textarea in one render (fireEvent.change) instead of
-// userEvent.type's per-keystroke renders — ResumeBuilder re-renders both the
-// mobile and desktop panes on every change, which is far too expensive per
-// character across ~30 fields in jsdom.
+// fireEvent.change instead of userEvent.type: per-keystroke rerenders of both panes are too slow.
 function fillField(element: HTMLElement, value: string) {
   fireEvent.change(element, { target: { value } });
 }
@@ -68,8 +64,7 @@ function fillField(element: HTMLElement, value: string) {
 afterEach(cleanup);
 
 beforeEach(() => {
-  // jsdom doesn't implement <dialog>'s showModal/close; the save-name dialog
-  // and testing-library's visibility checks both rely on the `open` attribute.
+  // jsdom lacks showModal/close, and testing-library checks the open attribute.
   HTMLDialogElement.prototype.showModal = function showModal(this: HTMLDialogElement) {
     this.setAttribute("open", "");
   };
@@ -108,10 +103,7 @@ describe("ResumeBuilder", () => {
   it("fills out every resume section and saves the resume", async () => {
     const user = userEvent.setup();
 
-    // Renders the full builder tree (both mobile and desktop panes) and
-    // touches ~30 fields; the default 5000ms testTimeout is too tight once
-    // this runs alongside the rest of the suite under load. Even 15000ms
-    // has proven flaky as the suite has grown — 30000ms gives real headroom.
+    // The full builder tree is slow under load; 15s was still flaky.
 
     const { container } = renderWithQueryClient(
       <AppStateProvider>
@@ -121,10 +113,7 @@ describe("ResumeBuilder", () => {
       </AppStateProvider>,
     );
 
-    // ResumeBuilder renders a mobile pane and a desktop pane at the same
-    // time (Tailwind's responsive classes aren't applied in jsdom), so every
-    // field/button exists twice. Scope everything to the desktop pane, which
-    // always renders the same Resume.tsx regardless of template.
+    // Both panes render in jsdom, so scope queries to the desktop pane.
     const desktopPaneEl = container.children[1] as HTMLElement;
     const desktopPane = within(desktopPaneEl);
 
@@ -164,8 +153,7 @@ describe("ResumeBuilder", () => {
       "Frontend engineer with 8 years of experience building accessible web applications.",
     );
 
-    // Work Experience (filled before Education so its "Location" field is
-    // still the only one in the pane)
+    // Filled before Education so its Location field is still the only one.
     await user.click(
       desktopPane.getByRole("button", { name: "+ Add Work Experience" }),
     );
@@ -295,9 +283,7 @@ describe("ResumeBuilder", () => {
       </AppStateProvider>,
     );
 
-    // ResumeBuilder renders a mobile pane and a desktop pane at once (see the
-    // "fills out every resume section" test above) — [0] is the mobile input,
-    // [1] is the desktop one, both populated once the load effect resolves.
+    // [0] is the mobile input, [1] the desktop one.
     const nameInputs = await waitFor(() => {
       const inputs = screen.getAllByPlaceholderText("Your name") as HTMLInputElement[];
       expect(inputs).toHaveLength(2);

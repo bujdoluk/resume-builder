@@ -41,7 +41,6 @@ export function useDeletedResumeCountQuery(
   });
 }
 
-/** Loads an existing resume by id (used by ResumeBuilder when editing a saved resume). */
 export function useResumeQuery(
   supabase: SupabaseClient<Database>,
   id: string | null,

@@ -1,4 +1,3 @@
-
 import { pdf } from "@react-pdf/renderer";
 import { RATE_LIMIT_SHARED_DOCUMENT_REQUESTS, RATE_LIMIT_SHARED_DOCUMENT_WINDOW } from "@/lib/constants";
 import { defaultCoverLetterSectionOrder } from "@/lib/coverLetterSections";
@@ -10,10 +9,7 @@ import { checkRateLimit, getRequestIp } from "@/lib/rateLimit";
 import { getCoverLetterByShareToken } from "@/lib/supabase/coverLetters";
 import { createServiceRoleClient } from "@/lib/supabase/serviceRole";
 
-// Cover letters don't persist their own template/color/font/section-order
-// per document (see CoverLetterBuilder.tsx — those live in the app-wide
-// AppState context, not the saved row), so the shared view always renders
-// with the default template and section order.
+// Cover letters don't save template, color or font per document, so shared views use the defaults.
 export async function GET(
   request: Request,
   { params }: { params: Promise<{ token: string }> },

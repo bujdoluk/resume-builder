@@ -1,4 +1,3 @@
-
 import { Temporal } from "temporal-polyfill";
 import { HEALTH_CHECK_TIMEOUT_MS } from "@/lib/constants";
 import { getRedis } from "@/lib/rateLimit";
@@ -25,9 +24,7 @@ function withTimeout<T>(promise: PromiseLike<T>, ms: number): Promise<T> {
   });
 }
 
-// Confirms Postgres is actually answering, not just that the app process is
-// up — a head-only count avoids pulling any row data back. This is the one
-// check /api/health treats as critical: the app can't serve anything without it.
+// A head-only count proves Postgres answers without fetching rows. This is the only critical check.
 export async function checkDatabase(): Promise<HealthCheckResult> {
   const start = Temporal.Now.instant();
   try {
@@ -43,9 +40,7 @@ export async function checkDatabase(): Promise<HealthCheckResult> {
   }
 }
 
-// Rate limiting already fails open when Upstash isn't configured (see
-// lib/rateLimit.ts), so an unconfigured/unreachable Redis is reported as
-// informational (status "degraded") rather than taking the whole check down.
+// Rate limiting fails open, so a Redis outage is only degraded.
 export async function checkRedis(): Promise<HealthCheckResult> {
   const redis = getRedis();
   if (!redis) return { ok: true, latencyMs: null };

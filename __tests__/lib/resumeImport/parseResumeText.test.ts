@@ -59,13 +59,7 @@ describe("parseResumeText", () => {
   });
 
   it("caps max_completion_tokens and sets a low reasoning effort", async () => {
-    // Regression test: gpt-oss-20b is a reasoning model that can burn its
-    // whole completion budget on internal reasoning tokens before writing
-    // any JSON, and Groq's per-account rate limit is enforced against the
-    // *requested* max_completion_tokens ceiling (shared with prompt
-    // tokens), not actual usage — so both of these matter, not just one.
-    // See lib/resumeImport/parseResumeText.ts for the calibration behind
-    // these exact values.
+    // gpt-oss-20b can burn its budget on reasoning, and Groq rate limits on the requested max_completion_tokens. See parseResumeText.ts.
     mocks.create.mockResolvedValue(groqResponse(validExtraction));
 
     const { parseResumeText } = await import("@/lib/resumeImport/parseResumeText");

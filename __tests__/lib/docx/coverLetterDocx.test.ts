@@ -57,7 +57,7 @@ describe("generateCoverLetterDocx", () => {
     const doc = generateCoverLetterDocx({
       data: coverLetterData,
       sectionOrder: defaultCoverLetterSectionOrder,
-      visibleFields: ["senderName", "greeting", "body", "closing"], // excludes "subject"
+      visibleFields: ["senderName", "greeting", "body", "closing"],
     });
     const xml = await documentXml(await Packer.toBuffer(doc));
 
@@ -72,10 +72,8 @@ describe("generateCoverLetterDocx", () => {
     });
     const xml = await documentXml(await Packer.toBuffer(doc));
 
-    // Sender/recipient/subject content should still be present...
     expect(xml).toContain("Jane Doe");
     expect(xml).toContain("Subject:");
-    // ...but nothing from the now-empty letter section should appear.
     expect(xml).not.toContain("Dear Alex,");
     expect(xml).not.toContain("I would love to bring my experience to your team.");
     expect(xml).not.toContain("Best regards,");

@@ -122,7 +122,7 @@ describe("POST /api/cron/cleanup-anonymous-users", () => {
     const { POST } = await import("@/app/api/cron/cleanup-anonymous-users/route");
     const response = await POST(cronRequest("Bearer test-cron-secret"));
 
-    // All three ids must be attempted — a single bad row must not abort the batch.
+    // A single bad row must not abort the batch.
     expect(mocks.deleteUser).toHaveBeenCalledTimes(3);
     expect(await response.json()).toEqual({ deleted: 2, failed: 1 });
     expect(mocks.captureException).toHaveBeenCalledTimes(1);

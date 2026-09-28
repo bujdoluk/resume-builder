@@ -326,7 +326,7 @@ export default function SavedDocumentsPageContent<
       setSelectedIds(new Set());
       if (remainingOnPage <= 0 && page > 1) setPage(page - 1);
     } catch {
-      // Reported centrally via the query client's mutation cache.
+      // Reported by the mutation cache.
     }
   }
 
@@ -339,7 +339,7 @@ export default function SavedDocumentsPageContent<
       setSelectedIds(new Set());
       if (remainingOnPage <= 0 && page > 1) setPage(page - 1);
     } catch {
-      // Reported centrally via the query client's mutation cache.
+      // Reported by the mutation cache.
     }
   }
 
@@ -356,7 +356,7 @@ export default function SavedDocumentsPageContent<
       setSelectedIds(new Set());
       if (remainingOnPage <= 0 && page > 1) setPage(page - 1);
     } catch {
-      // Reported centrally via the query client's mutation cache.
+      // Reported by the mutation cache.
     }
   }
 
@@ -371,7 +371,7 @@ export default function SavedDocumentsPageContent<
       const isLastRowOnPage = documents?.length === 1 && page > 1;
       if (isLastRowOnPage) setPage(page - 1);
     } catch {
-      // Reported centrally via the query client's mutation cache.
+      // Reported by the mutation cache.
     }
   }
 
@@ -382,7 +382,7 @@ export default function SavedDocumentsPageContent<
       const isLastRowOnPage = documents?.length === 1 && page > 1;
       if (isLastRowOnPage) setPage(page - 1);
     } catch {
-      // Reported centrally via the query client's mutation cache.
+      // Reported by the mutation cache.
     }
   }
 
@@ -397,7 +397,7 @@ export default function SavedDocumentsPageContent<
       const isLastRowOnPage = documents?.length === 1 && page > 1;
       if (isLastRowOnPage) setPage(page - 1);
     } catch {
-      // Reported centrally via the query client's mutation cache.
+      // Reported by the mutation cache.
     }
   }
 
@@ -407,7 +407,7 @@ export default function SavedDocumentsPageContent<
     try {
       await renameMutation.mutateAsync({ id: row.id, name: newName });
     } catch {
-      // Reported centrally via the query client's mutation cache.
+      // Reported by the mutation cache.
     }
   }
 
@@ -417,8 +417,7 @@ export default function SavedDocumentsPageContent<
       const result = await duplicateMutation.mutateAsync(id);
       if (result.duplicated) goToPage(1);
     } catch {
-      // Reported centrally via the query client's mutation cache; the user
-      // already saw the alert() in onError above.
+      // Reported by the mutation cache; onError already alerted the user.
     }
   }
 

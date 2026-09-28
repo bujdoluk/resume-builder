@@ -9,17 +9,8 @@ export interface SharedDocumentViewProps {
   downloadFileName: string;
 }
 
-// Client Component so useTranslation() has the full React runtime available
-// — importing the i18n singleton (or using the hook) directly from the
-// Server Component page that renders this breaks the build, since
-// initReactI18next touches client-only React APIs (createContext) at
-// import time, and Server Component pages are bundled against a restricted
-// server-only React that doesn't have them.
-//
-// Renders the PDF with pdfjs-dist directly to <canvas> elements rather than
-// an <embed type="application/pdf">, since most mobile browsers (Chrome
-// Mobile, Safari iOS) don't support inline PDF embeds at all and just show
-// a blank box — canvas rendering works the same everywhere.
+// Client Component because initReactI18next breaks the Server Component build.
+// Renders to canvas because mobile browsers show a blank box for PDF embeds.
 export default function SharedDocumentView({
   title,
   pdfUrl,
@@ -39,12 +30,7 @@ export default function SharedDocumentView({
 
       try {
         const pdfjsLib = await import("pdfjs-dist");
-        // Loaded as a plain static asset (copied into public/ by
-        // scripts/copy-pdf-worker.mjs at install time) rather than via
-        // `new Worker(new URL(...))` — that pattern needs bundler-specific
-        // rewriting that only works when the `new Worker()` call itself is
-        // visible at the call site, not buried inside a third-party
-        // package's own internals.
+        // Loaded as a static asset because new Worker(new URL()) rewriting fails inside third-party packages.
         pdfjsLib.GlobalWorkerOptions.workerSrc = "/pdf.worker.min.mjs";
 
         const doc = await pdfjsLib.getDocument({ url: pdfUrl }).promise;

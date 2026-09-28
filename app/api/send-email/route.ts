@@ -1,4 +1,3 @@
-
 import { errorResponse } from "@/lib/apiErrors";
 import { validateBody } from "@/lib/apiValidation";
 import {
@@ -9,7 +8,6 @@ import {
   RATE_LIMIT_SEND_EMAIL_REQUESTS,
   RATE_LIMIT_SEND_EMAIL_WINDOW,
 } from "@/lib/constants";
-// import { verifyCaptchaToken } from "@/lib/hcaptcha";
 import { sendExportEmail } from "@/lib/email/sendExportEmail";
 import { checkRateLimit, getRequestIp } from "@/lib/rateLimit";
 import {
@@ -32,11 +30,6 @@ export async function POST(request: Request) {
 
   const body = await request.json().catch(() => null);
   const { format, pdfBase64, docxBase64, textContent } = body ?? {};
-  // const { captchaToken } = body ?? {};
-
-  // if (!(await verifyCaptchaToken(captchaToken))) {
-  //   return errorResponse(HTTP_BAD_REQUEST, "captchaVerificationFailed", request);
-  // }
 
   const parsed = validateBody(sendEmailBaseSchema, body ?? {});
   if (!parsed.success) {

@@ -1,4 +1,3 @@
-
 import type { Metadata } from "next";
 import {
   Geist,
@@ -19,7 +18,6 @@ import {
 import { AppStateProvider } from "@/components/AppState";
 import ConsentedAnalytics from "@/components/cookies/ConsentedAnalytics";
 import { CookieConsentProvider } from "@/components/cookies/CookieConsent";
-// import InvisibleCaptcha from "@/components/hcaptcha/InvisibleCaptcha";
 import Navbar from "@/components/Navbar";
 import QueryAuthSync from "@/components/QueryAuthSync";
 import { QueryProvider } from "@/components/QueryProvider";
@@ -162,7 +160,6 @@ export default function RootLayout({
           <ToastProvider>
             <CookieConsentProvider>
               <AppStateProvider>
-                {/* <InvisibleCaptcha /> */}
                 <Navbar />
                 <div className="flex flex-1 flex-col">{children}</div>
                 <ConsentedAnalytics />

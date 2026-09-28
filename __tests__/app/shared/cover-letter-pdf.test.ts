@@ -20,10 +20,7 @@ vi.mock("@/lib/supabase/serviceRole", () => ({
   createServiceRoleClient: () => ({}),
 }));
 
-// Same font-registration workaround as __tests__/lib/pdf/pdfTemplates.test.tsx
-// — every PDF template defaults to "inter" when no font is given, and
-// @react-pdf throws unless it's registered. Aliasing it to a built-in PDF
-// font avoids a real network fetch to Google Fonts in this test.
+// Alias inter to a built-in font so @react-pdf doesn't fetch Google Fonts.
 beforeAll(() => {
   Font.register({
     family: "inter",

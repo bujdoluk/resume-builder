@@ -8,16 +8,7 @@ export class DocumentImportExtractionError extends Error {
   }
 }
 
-// pdfjs-dist runs "workerless" in Node by loading its worker module into the
-// main thread instead of a real Worker — but it locates that module via a
-// runtime `import("./pdf.worker.mjs")` relative to its own bundled chunk.
-// Under Next's bundler that chunk doesn't live next to a copy of the worker
-// file, so the dynamic import 404s ("Setting up fake worker failed").
-// pdfjs checks `globalThis.pdfjsWorker` *before* attempting that broken
-// path, so importing the worker module normally (letting the bundler
-// resolve it like any other import) and exposing it there sidesteps the
-// runtime path lookup entirely. See pdfjs-dist's PDFWorker class
-// (#mainThreadWorkerMessageHandler / _setupFakeWorkerGlobal).
+// pdfjs checks globalThis.pdfjsWorker before its runtime import, which 404s under Next's bundler.
 async function ensurePdfWorkerRegistered() {
   if ((globalThis as { pdfjsWorker?: unknown }).pdfjsWorker) return;
   (globalThis as { pdfjsWorker?: unknown }).pdfjsWorker = await import(
@@ -27,8 +18,7 @@ async function ensurePdfWorkerRegistered() {
 
 async function extractPdfText(buffer: Buffer): Promise<string> {
   await ensurePdfWorkerRegistered();
-  // The "standardFontDataUrl" warning pdfjs logs here is about rendering
-  // embedded glyphs, which getTextContent() never needs.
+  // The standardFontDataUrl warning is harmless; getTextContent doesn't render glyphs.
   const { getDocument } = await import("pdfjs-dist/legacy/build/pdf.mjs");
   const doc = await getDocument({ data: new Uint8Array(buffer) }).promise;
 
@@ -46,12 +36,6 @@ async function extractDocxText(buffer: Buffer): Promise<string> {
   return result.value.trim();
 }
 
-/**
- * Extracts plain text from an uploaded document (resume or cover letter).
- * Throws DocumentImportExtractionError for a corrupt file or one with no
- * extractable text (e.g. a scanned/image-only PDF) — the caller maps that
- * to a clean user-facing error rather than sending empty input to Groq.
- */
 export async function extractDocumentText(buffer: Buffer, fileType: ImportFileType): Promise<string> {
   let text: string;
   try {

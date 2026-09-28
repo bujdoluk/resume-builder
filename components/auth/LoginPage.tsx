@@ -21,10 +21,6 @@ import { forgetSessionOnBrowserClose } from "@/lib/supabase/rememberMe";
 
 type Mode = "login" | "signup" | "reset";
 
-// Captcha disabled — see handleSubmit/handleResetSubmit and the two
-// commented-out <HCaptcha> renders below.
-// const HCAPTCHA_SITE_KEY = process.env.NEXT_PUBLIC_HCAPTCHA_SITE_KEY;
-
 function LoginForm() {
   const { t } = useTranslation();
   const router = useRouter();
@@ -74,10 +70,6 @@ function LoginForm() {
   async function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
     setError(null);
-    // if (HCAPTCHA_SITE_KEY && !captchaToken) {
-    //   setError(t("auth.captchaRequired"));
-    //   return;
-    // }
     setSubmitting(true);
     try {
       if (mode === "login") {
@@ -131,10 +123,6 @@ function LoginForm() {
   async function handleResetSubmit(event: React.FormEvent) {
     event.preventDefault();
     setError(null);
-    // if (HCAPTCHA_SITE_KEY && !captchaToken) {
-    //   setError(t("auth.captchaRequired"));
-    //   return;
-    // }
     setSubmitting(true);
     try {
       const redirectTo = `${window.location.origin}/auth/callback?next=${encodeURIComponent("/reset-password")}`;
@@ -222,15 +210,6 @@ function LoginForm() {
                   />
                 </fieldset>
 
-                {/* {HCAPTCHA_SITE_KEY && (
-                  <HCaptcha
-                    ref={hcaptchaRef}
-                    sitekey={HCAPTCHA_SITE_KEY}
-                    onVerify={setCaptchaToken}
-                    onExpire={() => setCaptchaToken(null)}
-                  />
-                )} */}
-
                 {error && <p className="text-error text-sm">{error}</p>}
 
                 <button type="submit" className="btn btn-primary mt-1" disabled={submitting}>
@@ -307,15 +286,6 @@ function LoginForm() {
                     </button>
                   </div>
                 )}
-
-                {/* {HCAPTCHA_SITE_KEY && (
-                  <HCaptcha
-                    ref={hcaptchaRef}
-                    sitekey={HCAPTCHA_SITE_KEY}
-                    onVerify={setCaptchaToken}
-                    onExpire={() => setCaptchaToken(null)}
-                  />
-                )} */}
 
                 {error && <p className="text-error text-sm">{error}</p>}
 

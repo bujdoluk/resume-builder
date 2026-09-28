@@ -1,4 +1,3 @@
-
 import type { AuthError, SupabaseClient } from "@supabase/supabase-js";
 import type { TotpEnrollment, TotpFactor } from "@/types/auth";
 
@@ -108,9 +107,6 @@ export async function logOut(supabase: SupabaseClient): Promise<void> {
   await supabase.auth.signOut();
 }
 
-// True once a password sign-in has established an aal1 session but the user
-// has a verified TOTP factor — i.e. LoginPage must prompt for the 6-digit
-// code before the session actually reaches aal2.
 export async function getStepUpRequired(supabase: SupabaseClient): Promise<boolean> {
   const { data } = await supabase.auth.mfa.getAuthenticatorAssuranceLevel();
   return data?.nextLevel === "aal2" && data.currentLevel !== "aal2";
@@ -139,9 +135,7 @@ export async function confirmTotpEnrollment(
   if (error) throw mapMfaError(error);
 }
 
-// Only ever returns a *verified* factor — Supabase's listFactors() already
-// filters its `totp` array to verified entries, so an abandoned/unconfirmed
-// enrollment never shows up here as "enabled".
+// listFactors only returns verified factors, so abandoned enrollments don't count.
 export async function getTotpFactor(supabase: SupabaseClient): Promise<TotpFactor | null> {
   const { data, error } = await supabase.auth.mfa.listFactors();
   if (error) throw mapMfaError(error);

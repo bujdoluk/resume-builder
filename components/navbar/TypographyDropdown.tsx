@@ -13,8 +13,7 @@ export default function TypographyDropdown() {
   const { font, setFont, templateId, coverLetterTemplateId } = useAppState();
   const selectedFont = font ?? defaultFontKey;
 
-  // Harvard's style is locked — see ColoursDropdown.tsx for why this checks
-  // both templateId and coverLetterTemplateId.
+  // Harvard is locked, see ColoursDropdown.tsx.
   const isHarvardActive =
     pathname === "/app" ? templateId === "harvard" : coverLetterTemplateId === "harvard";
 

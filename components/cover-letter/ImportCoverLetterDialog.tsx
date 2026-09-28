@@ -40,7 +40,7 @@ function readAsBase64(file: File): Promise<string> {
         reject(new Error("Unexpected file reader result."));
         return;
       }
-      // "data:<mime>;base64,<data>" — the API only wants the payload.
+      // Strip the data URL prefix; the API only wants the base64 payload.
       resolve(reader.result.slice(reader.result.indexOf(",") + 1));
     };
     reader.onerror = () => reject(reader.error ?? new Error("Failed to read file."));
@@ -48,10 +48,6 @@ function readAsBase64(file: File): Promise<string> {
   });
 }
 
-// A section counts as "found" if any of its fields came back non-empty —
-// unlike resume import, cover letter sections (sender/date/recipient/
-// subject/letter) already include the sender's personal info, so there's
-// no separate "personal info" badge needed here.
 function populatedSections(data: CoverLetterData): CoverLetterSectionKey[] {
   return (Object.keys(coverLetterSectionFieldKeys) as CoverLetterSectionKey[]).filter((section) =>
     coverLetterSectionFieldKeys[section].some((field) => isCoverLetterFieldFilled(field, data)),

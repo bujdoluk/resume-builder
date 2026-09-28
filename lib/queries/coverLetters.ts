@@ -41,7 +41,6 @@ export function useDeletedCoverLetterCountQuery(
   });
 }
 
-/** Loads an existing cover letter by id (used by CoverLetterBuilder when editing a saved one). */
 export function useCoverLetterQuery(
   supabase: SupabaseClient<Database>,
   id: string | null,

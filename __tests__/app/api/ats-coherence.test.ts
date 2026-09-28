@@ -4,7 +4,6 @@ import en from "@/lib/i18n/locales/en.json";
 
 const mocks = vi.hoisted(() => ({
   checkRateLimit: vi.fn(),
-  // verifyCaptchaToken: vi.fn(),
   checkCoherence: vi.fn(),
   captureException: vi.fn(),
 }));
@@ -13,10 +12,6 @@ vi.mock("@/lib/rateLimit", () => ({
   checkRateLimit: mocks.checkRateLimit,
   getRequestIp: () => "203.0.113.1",
 }));
-
-// vi.mock("@/lib/hcaptcha", () => ({
-//   verifyCaptchaToken: mocks.verifyCaptchaToken,
-// }));
 
 vi.mock("@/lib/atsChecker/checkCoherence", () => ({
   checkCoherence: mocks.checkCoherence,
@@ -35,13 +30,11 @@ function jsonRequest(body: unknown): Request {
 }
 
 const validBody = { documentText: "Senior Frontend Engineer with 8 years of experience." };
-// const validBody = { captchaToken: "captcha-token", documentText: "Senior Frontend Engineer with 8 years of experience." };
 
 beforeEach(() => {
   vi.clearAllMocks();
   process.env.GROQ_API_KEY = "test-groq-key";
   mocks.checkRateLimit.mockResolvedValue(true);
-  // mocks.verifyCaptchaToken.mockResolvedValue(true);
   mocks.checkCoherence.mockResolvedValue({ coherent: true, reason: "Reads as real professional content." });
 });
 
@@ -54,20 +47,8 @@ describe("POST /api/ats-coherence", () => {
 
     expect(response.status).toBe(429);
     expect((await response.json()).error).toBe(en.apiErrors.rateLimited);
-    // expect(mocks.verifyCaptchaToken).not.toHaveBeenCalled();
     expect(mocks.checkCoherence).not.toHaveBeenCalled();
   });
-
-  // it("rejects a failed captcha verification", async () => {
-  //   mocks.verifyCaptchaToken.mockResolvedValue(false);
-  //
-  //   const { POST } = await import("@/app/api/ats-coherence/route");
-  //   const response = await POST(jsonRequest(validBody));
-  //
-  //   expect(response.status).toBe(400);
-  //   expect((await response.json()).error).toBe(en.apiErrors.captchaVerificationFailed);
-  //   expect(mocks.checkCoherence).not.toHaveBeenCalled();
-  // });
 
   it("rejects missing or blank document text", async () => {
     const { POST } = await import("@/app/api/ats-coherence/route");

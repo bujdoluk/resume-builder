@@ -68,9 +68,7 @@ interface ResumeProps {
   onCertificationsChange: (certifications: CertificationEntry[]) => void;
   onLanguagesChange: (languages: LanguageEntry[]) => void;
   onInterestsChange: (interests: SimpleEntry[]) => void;
-  // Harvard-only bonus sections (see the comment above honorAwardEntrySchema
-  // in lib/resumeData.ts) — only ever read/rendered when templateId ===
-  // "harvard", but always passed since Resume.tsx has a single caller.
+  // Only rendered by the Harvard template.
   onLeadershipChange: (leadershipExperience: WorkEntry[]) => void;
   onHonorsChange: (honorsAwards: HonorAwardEntry[]) => void;
   sectionOrder: SectionKey[];
@@ -237,10 +235,7 @@ export default function Resume({
 }: ResumeProps) {
   const { t } = useTranslation();
   const isHarvard = templateId === "harvard";
-  // Harvard's style is locked — shadowing `color` here (rather than
-  // threading a second "effectiveColor" through every call site below)
-  // means every existing color={color}/style={color ? ... : ...} usage in
-  // this file automatically goes inert for Harvard with no further changes.
+  // Shadowing color makes every color usage below inert for Harvard.
   const color = isHarvard ? null : rawColor;
   const fontFamily = isHarvard
     ? '"Times New Roman", Times, serif'
@@ -406,8 +401,6 @@ export default function Resume({
     };
   }
 
-  // Harvard-only bonus section, same shape as workExperience — see the
-  // comment above honorAwardEntrySchema in lib/resumeData.ts.
   function leadershipEntryFields(
     entry: WorkEntry,
   ): Record<WorkEntryFieldKey, React.ReactNode> {
@@ -697,8 +690,6 @@ export default function Resume({
     };
   }
 
-  // Harvard-only bonus section — see the comment above honorAwardEntrySchema
-  // in lib/resumeData.ts.
   function honorAwardEntryFields(
     entry: HonorAwardEntry,
   ): Record<HonorAwardEntryFieldKey, React.ReactNode> {
@@ -851,10 +842,6 @@ export default function Resume({
       ? "border-primary/40 flex flex-col border-l-2 pl-3"
       : "flex flex-col  rounded-lg p-4";
 
-  // Modern and Elegant's sections restyle their header to match whichever
-  // zone they're currently placed in (see useModernZoneLayout's
-  // sidebarItems above) — Basic always uses "main", Minimal always uses
-  // "minimal".
   function sectionVariant(key: SectionKey): "main" | "minimal" | "sidebar" {
     if (templateId === "minimal") return "minimal";
     if (
@@ -1632,9 +1619,7 @@ export default function Resume({
     </fieldset>
   );
 
-  // About Me is freely draggable between Modern's sidebar and main zones
-  // too (not just sections), so its header restyles the same way sections'
-  // do — reusing the shared SectionHeader instead of a fixed ternary.
+  // About Me can move between Modern's zones, so it uses the shared SectionHeader.
   const aboutMeVariant: "main" | "minimal" | "sidebar" =
     templateId === "minimal"
       ? "minimal"

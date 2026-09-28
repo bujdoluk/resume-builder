@@ -1,4 +1,3 @@
-
 import { Document, Page, StyleSheet, Text, View } from "@react-pdf/renderer";
 import type { PdfTemplateProps } from "@/components/pdf/BasicPdfTemplate";
 import { allFields, type FieldKey } from "@/lib/fields";
@@ -13,11 +12,7 @@ import { harvardSectionLabels, languageLevelKey, type SectionKey } from "@/lib/r
 
 const BLACK = "#000000";
 
-// Harvard's style is locked: "Times-Roman"/"Times-Bold" are two of
-// @react-pdf's 14 standard base fonts, built into the PDF spec — unlike
-// every other template's fonts (lib/pdf/fonts.ts), these need no
-// Font.register() call at all. No color, no icons, no photo (see
-// HarvardTemplate.tsx, the on-screen counterpart, for the same rules).
+// Harvard is locked: Times is a built-in PDF font, so no Font.register(). No color, icons or photo.
 export default function HarvardPdfTemplate({
   data,
   sectionOrder,

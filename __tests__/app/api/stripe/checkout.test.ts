@@ -23,9 +23,7 @@ vi.mock("@/lib/stripe", () => ({
   }),
 }));
 
-// PRICE_IDS is built from these env vars at module load time, so they must
-// be set before the route module is ever imported (each test dynamically
-// imports it after configuring mocks, but all tests share this same env).
+// PRICE_IDS reads these at module load, so they must be set before any import.
 process.env.STRIPE_PRICE_ID_MONTHLY = "price_monthly_test";
 process.env.STRIPE_PRICE_ID_ANNUAL = "price_annual_test";
 

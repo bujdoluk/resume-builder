@@ -22,9 +22,7 @@ vi.mock("@upstash/ratelimit", () => {
   return { Ratelimit: FakeRatelimit };
 });
 
-// checkRateLimit lazily caches both the Redis client and each named limiter
-// as module-level singletons, so env-var changes or mock reconfiguration
-// only take effect on a freshly (re-)imported module instance.
+// Limiters are cached as module singletons, so re-import after changing config.
 beforeEach(() => {
   vi.resetModules();
   vi.clearAllMocks();
@@ -86,12 +84,9 @@ describe("checkRateLimit", () => {
 
     const { checkRateLimit } = await import("@/lib/rateLimit");
     await checkRateLimit("test", "user-1", 5, "10 m");
-    await checkRateLimit("test", "user-2", 999, "1 s"); // same name, different limits
+    await checkRateLimit("test", "user-2", 999, "1 s");
 
-    // The second call's limits are silently ignored — the limiter built on
-    // the first call for this name is reused as-is. Callers must always
-    // pass the same (requests, window) for a given name, which every route
-    // in this app does (the limits are constants).
+    // The first limiter built for a name wins; later limits are ignored.
     expect(mocks.slidingWindow).toHaveBeenCalledTimes(1);
     expect(mocks.slidingWindow).toHaveBeenCalledWith(5, "10 m");
   });

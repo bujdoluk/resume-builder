@@ -113,9 +113,7 @@ function SectionHeader({
   );
 }
 
-// Harvard's style is locked: no color, no icons, no photo, fixed serif font
-// — see HarvardTemplate.tsx (the read-only desktop counterpart) for the
-// same rules applied to the print/preview output.
+// Harvard is locked: no color, icons or photo, fixed serif font.
 export default function HarvardMobileTemplate({
   data,
   onChange,
@@ -478,7 +476,7 @@ export default function HarvardMobileTemplate({
     </div>
   );
 
-  // Photo is force-hidden regardless of visibleFields — see HarvardTemplate.
+  // Harvard never shows the photo.
   const fieldContent: Partial<Record<FieldKey, React.ReactNode>> = {
     name,
     jobTitle,

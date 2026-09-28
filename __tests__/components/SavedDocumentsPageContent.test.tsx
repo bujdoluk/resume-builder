@@ -51,10 +51,6 @@ vi.mock("@/lib/supabase/subscriptions", () => ({
   isPaidPlan: (plan: string) => plan !== "free",
 }));
 
-// Reuses the real "myResumes.*"/"pricing.*" translation keys — this test
-// exercises the shared mechanics behind both MyResumesPageContent and
-// MyCoverLettersPageContent, not resume-specific wording, so which real
-// keys the fake `labels` point at doesn't matter.
 const labels: SavedDocumentsLabels = {
   pageTitle: "myResumes.pageTitle",
   newDocument: "myResumes.newResume",
@@ -164,9 +160,7 @@ describe("SavedDocumentsPageContent", () => {
     fireEvent.click(screen.getByText("Recently Deleted"));
 
     await waitFor(() => expect(mocks.listDeleted).toHaveBeenCalled());
-    // The previous tab's rows stay on screen (React Query's keepPreviousData,
-    // avoiding a loading-spinner flash) until the deleted-tab query resolves,
-    // so wait for the transition rather than asserting synchronously.
+    // keepPreviousData keeps the old rows on screen until the deleted tab query resolves.
     await waitFor(() => expect(screen.queryByText("First Document")).not.toBeInTheDocument());
   });
 
@@ -185,7 +179,7 @@ describe("SavedDocumentsPageContent", () => {
 
   it("gates restore behind the free-tier limit and offers to view plans instead of restoring", async () => {
     mocks.getSubscription.mockResolvedValue({ plan: "free" });
-    mocks.count.mockResolvedValue(2); // already at the freeTierLimit of 2
+    mocks.count.mockResolvedValue(2);
     mocks.listDeleted.mockResolvedValue(rows);
     mocks.countDeleted.mockResolvedValue(rows.length);
 

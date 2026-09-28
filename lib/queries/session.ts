@@ -7,7 +7,6 @@ import { queryKeys } from "@/lib/queries/keys";
 import type { Database } from "@/lib/supabase/database.types";
 import { ensureUserId } from "@/lib/supabase/session";
 
-/** The current Supabase session (or null), kept live via onAuthStateChange. */
 export function useSessionQuery(supabase: SupabaseClient<Database>): UseQueryResult<Session | null> {
   const queryClient = useQueryClient();
 
@@ -29,7 +28,6 @@ export function useSessionQuery(supabase: SupabaseClient<Database>): UseQueryRes
   });
 }
 
-/** Whether the current session belongs to an admin, kept live via onAuthStateChange. */
 export function useIsAdminQuery(supabase: SupabaseClient<Database>): UseQueryResult<boolean> {
   const queryClient = useQueryClient();
 
@@ -51,14 +49,7 @@ export function useIsAdminQuery(supabase: SupabaseClient<Database>): UseQueryRes
   });
 }
 
-/**
- * The current user's id — anonymous sign-in is performed on first read if
- * there's no session (see ensureUserId). No auth-state subscription here:
- * unlike session/isAdmin above, callers of ensureUserId never lived-updated
- * on auth changes even before this migration (each imperative save/delete
- * handler just re-calls ensureUserId fresh); an actual login/logout instead
- * invalidates this and every other user-scoped query via QueryAuthSync.
- */
+// Signs in anonymously if there's no session. Login and logout invalidate it via QueryAuthSync.
 export function useUserIdQuery(supabase: SupabaseClient<Database>): UseQueryResult<string> {
   return useQuery({
     queryKey: queryKeys.userId(),

@@ -3,23 +3,9 @@ import { languageLevels, resumeDataSchema, type ResumeData } from "@/lib/resumeD
 
 const MODEL = "openai/gpt-oss-20b";
 
-// gpt-oss-20b is a reasoning model: by default it spends a large,
-// unpredictable share of its completion-token budget on internal
-// "reasoning" tokens before writing the actual JSON, which can exhaust the
-// budget before the JSON is even started (json_validate_failed / "max
-// completion tokens reached before generating a valid document").
-// reasoning_effort: "low" cuts that waste dramatically (observed ~95%+
-// reduction in reasoning tokens in testing) with no loss in extraction
-// quality, making the remaining budget both sufficient and predictable.
-//
-// max_completion_tokens still needs an explicit, generous-but-bounded
-// value: Groq's per-account rate limit is enforced against this requested
-// ceiling, not actual usage, and it's shared with prompt tokens in the same
-// request — so it can't just be set arbitrarily high. 4000 comfortably
-// covers real-world dense multi-page resumes (observed ~1100-1200
-// completion tokens for a 6-job, ~4000-char resume) while leaving headroom
-// under the shared per-request token budget alongside a
-// MAX_IMPORT_EXTRACTED_TEXT_LENGTH-sized prompt (see lib/constants.ts).
+// reasoning_effort low stops gpt-oss-20b burning its token budget on reasoning.
+// Groq rate limits on the requested max_completion_tokens, so keep it bounded.
+// 4000 fits dense resumes, which use about 1200.
 const MAX_COMPLETION_TOKENS = 4000;
 const REASONING_EFFORT = "low";
 

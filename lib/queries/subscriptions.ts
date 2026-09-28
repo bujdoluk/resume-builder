@@ -7,12 +7,6 @@ import type { Database } from "@/lib/supabase/database.types";
 import { getSubscription } from "@/lib/supabase/subscriptions";
 import type { Subscription } from "@/types/subscription";
 
-/**
- * Shared across BillingPage, the free-tier limit checks in
- * ResumeBuilder/CoverLetterBuilder/SavedDocumentsPageContent, and anywhere
- * else that needs the current plan — reading the same cache entry instead of
- * each independently re-fetching it.
- */
 export function useSubscriptionQuery(
   supabase: SupabaseClient<Database>,
   userId: string | undefined,

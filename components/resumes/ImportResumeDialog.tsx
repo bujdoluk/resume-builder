@@ -34,7 +34,7 @@ function readAsBase64(file: File): Promise<string> {
         reject(new Error("Unexpected file reader result."));
         return;
       }
-      // "data:<mime>;base64,<data>" — the API only wants the payload.
+      // Strip the data URL prefix; the API only wants the base64 payload.
       resolve(reader.result.slice(reader.result.indexOf(",") + 1));
     };
     reader.onerror = () => reject(reader.error ?? new Error("Failed to read file."));

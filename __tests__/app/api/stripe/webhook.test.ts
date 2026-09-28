@@ -35,9 +35,6 @@ vi.mock("@/lib/auditLog", async (importOriginal) => {
   return { ...actual, logAuditEvent: mocks.logAuditEvent };
 });
 
-// A minimal fake of supabase-js's fluent query builder covering exactly
-// what the webhook route uses: `.from("subscriptions").upsert(...)` and
-// `.from("subscriptions").select("id").eq(...).maybeSingle()`.
 function createSupabaseMock(opts: {
   existingRow?: { id: string } | null;
   upsertError?: Error | null;
@@ -221,7 +218,7 @@ describe("POST /api/stripe/webhook", () => {
     mocks.constructEvent.mockReturnValue(
       subscriptionEvent("customer.subscription.deleted", {
         status: "canceled",
-        cancel_at_period_end: true, // should still be forced to false below
+        cancel_at_period_end: true,
       }),
     );
     const { from, upsert } = createSupabaseMock({});
@@ -313,9 +310,7 @@ describe("POST /api/stripe/webhook", () => {
       expect.any(Error),
       expect.objectContaining({ tags: { stripeEventType: "customer.subscription.updated" } }),
     );
-    // upsertSubscription throws before reaching its own logAuditEvent call
-    // when the upsert itself fails — a failed write must never be recorded
-    // as a successful subscription change.
+    // upsertSubscription throws before its own audit log call, so a failed write is never logged as a change.
     expect(mocks.logAuditEvent).not.toHaveBeenCalled();
   });
 });

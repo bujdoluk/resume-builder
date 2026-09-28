@@ -15,9 +15,7 @@ import sv from "@/lib/i18n/locales/sv.json";
 
 const locales: Record<string, unknown> = { cs, de, es, fr, it: itLocale, nb, nl, pl, pt, ru, sk, sv };
 
-// Arrays (e.g. pricing.featureRows) are treated as a single leaf — their
-// *content* is translated per-locale, but the key structure around them
-// isn't expected to fan out per array index.
+// Arrays count as one leaf: their content is translated, but keys don't fan out per index.
 function collectKeyPaths(value: unknown, prefix = ""): string[] {
   if (Array.isArray(value)) {
     return [prefix];

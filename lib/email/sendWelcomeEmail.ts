@@ -1,4 +1,3 @@
-
 import * as Sentry from "@sentry/nextjs";
 import { EMAIL_FROM, getResend } from "@/lib/email/resend";
 
@@ -19,8 +18,7 @@ export async function sendWelcomeEmail(
       html: `<p>Thanks for subscribing to <strong>QuickResumeBuilder ${planName}</strong>!</p><p>You now have unlimited saved resumes and cover letters. You can view or manage your subscription anytime at <a href="${origin}/account">${origin}/account</a>.</p><p>— The QuickResumeBuilder.online team</p>`,
     });
   } catch (error) {
-    // Best-effort — a failed welcome email shouldn't fail the whole webhook
-    // (the subscription itself is already upserted by the time this runs).
+    // Best effort: the subscription is already saved, so don't fail the webhook.
     console.error("Failed to send welcome email:", error);
     Sentry.captureException(error, { tags: { plan } });
   }

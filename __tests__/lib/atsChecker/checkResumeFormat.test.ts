@@ -63,11 +63,11 @@ describe("checkResumeFormat", () => {
       workExperience: [
         {
           id: "w1",
-          position: "  ", // blank position — should not count as filled...
+          position: "  ",
           dateFrom: "06-2020",
           dateTo: "Present",
           location: "Remote",
-          jobDescription: "Improved page load time by 30%.", // ...even though other fields are set
+          jobDescription: "Improved page load time by 30%.",
         },
       ],
     };

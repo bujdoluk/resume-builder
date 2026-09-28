@@ -6,13 +6,7 @@ import { pdfTemplates } from "@/lib/pdf/templates";
 import { emptyResumeData, type ResumeData, type SectionKey } from "@/lib/resumeData";
 import { defaultCoverLetterSectionOrder } from "@/lib/coverLetterSections";
 
-// Every PDF template defaults to the "inter" family when no font is passed
-// (see components/pdf/*PdfTemplate.tsx: `font ?? "inter"`), and @react-pdf
-// throws if a referenced family was never registered. Production registers
-// real webfonts from a remote CDN (lib/pdf/fonts.ts) — that's unnecessary
-// network I/O for a smoke test, so alias "inter" to a built-in PDF font
-// instead (@react-pdf/font resolves standard PDF font names synchronously,
-// with no network access).
+// Alias inter to a built-in font so @react-pdf doesn't fetch webfonts.
 beforeAll(() => {
   Font.register({
     family: "inter",

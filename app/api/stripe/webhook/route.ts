@@ -1,4 +1,3 @@
-
 import type Stripe from "stripe";
 import { Temporal } from "temporal-polyfill";
 import * as Sentry from "@sentry/nextjs";
@@ -138,10 +137,7 @@ export async function POST(request: Request) {
           status: isDeleted ? "canceled" : subscription.status,
           currentPeriodEnd: isDeleted ? null : periodEndFromSubscription(subscription),
           cancelAtPeriodEnd: isDeleted ? false : subscription.cancel_at_period_end,
-          // No actor email here — Stripe doesn't include it on the
-          // subscription payload, and looking it up would mean an extra
-          // API call on every webhook just for this field. metadata's
-          // stripeCustomerId is enough to identify the account if needed.
+          // Stripe doesn't send the email here; stripeCustomerId in metadata identifies the account.
           action: isDeleted ? AUDIT_ACTIONS.SUBSCRIPTION_CANCELED : AUDIT_ACTIONS.SUBSCRIPTION_UPDATED,
         });
         break;

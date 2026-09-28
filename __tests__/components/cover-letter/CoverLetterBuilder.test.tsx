@@ -47,8 +47,7 @@ vi.mock("@/lib/supabase/coverLetters", () => ({
   saveCoverLetter: mocks.saveCoverLetter,
 }));
 
-// jsdom doesn't implement ResizeObserver; ScaleToFit only uses it to react
-// to layout changes we don't need in a headless test.
+// jsdom has no ResizeObserver.
 class ResizeObserverStub {
   observe() {}
   unobserve() {}
@@ -56,10 +55,7 @@ class ResizeObserverStub {
 }
 vi.stubGlobal("ResizeObserver", ResizeObserverStub);
 
-// Fills a text input/textarea in one render (fireEvent.change) instead of
-// userEvent.type's per-keystroke renders — CoverLetterBuilder re-renders both
-// the mobile and desktop panes on every change, which is far too expensive
-// per character across every field in jsdom.
+// fireEvent.change instead of userEvent.type: per-keystroke rerenders of both panes are too slow.
 function fillField(element: HTMLElement, value: string) {
   fireEvent.change(element, { target: { value } });
 }
@@ -67,8 +63,7 @@ function fillField(element: HTMLElement, value: string) {
 afterEach(cleanup);
 
 beforeEach(() => {
-  // jsdom doesn't implement <dialog>'s showModal/close; the save-name dialog
-  // and testing-library's visibility checks both rely on the `open` attribute.
+  // jsdom lacks showModal/close, and testing-library checks the open attribute.
   HTMLDialogElement.prototype.showModal = function showModal(this: HTMLDialogElement) {
     this.setAttribute("open", "");
   };
@@ -98,10 +93,7 @@ beforeEach(() => {
 
 describe("CoverLetterBuilder", () => {
   it("fills out every cover letter section and saves the cover letter", async () => {
-    // Renders the full builder tree (both mobile and desktop panes); the
-    // default 5000ms testTimeout is too tight once this runs alongside the
-    // rest of the suite under load. Even 15000ms has proven flaky as the
-    // suite has grown — 30000ms gives real headroom.
+    // The full builder tree is slow under load; 15s was still flaky.
     const user = userEvent.setup();
 
     const { container } = renderWithQueryClient(
@@ -112,19 +104,12 @@ describe("CoverLetterBuilder", () => {
       </AppStateProvider>,
     );
 
-    // CoverLetterBuilder returns a single wrapping <div> (unlike
-    // ResumeBuilder's Fragment), containing the mobile pane and desktop pane
-    // as its own children. Both panes render simultaneously in jsdom since
-    // Tailwind's responsive classes aren't applied, so scope everything to
-    // the desktop pane to avoid ambiguous matches.
+    // Both panes render in jsdom, so scope queries to the desktop pane.
     const rootEl = container.children[0] as HTMLElement;
     const desktopPaneEl = rootEl.children[1] as HTMLElement;
     const desktopPane = within(desktopPaneEl);
 
-    // Your Information — "Jane Doe" placeholder also appears on the Letter
-    // section's "signature" field, which is a deliberate UI alias for the
-    // same senderName data (not a separate field), so only the first match
-    // needs to be filled.
+    // "Jane Doe" also matches the signature field, which is an alias of senderName.
     fillField(desktopPane.getAllByPlaceholderText("Jane Doe")[0]!, "Jane Doe");
     fillField(
       desktopPane.getByPlaceholderText("123 Main St, Springfield"),
@@ -226,10 +211,7 @@ describe("CoverLetterBuilder", () => {
       </AppStateProvider>,
     );
 
-    // CoverLetterBuilder renders a mobile pane and a desktop pane at once
-    // (see the "fills out every cover letter section" test above) — [0] is
-    // the mobile input, [1] is the desktop one, both populated once the load
-    // effect resolves.
+    // [0] is the mobile input, [1] the desktop one.
     const companyInputs = await waitFor(() => {
       const inputs = screen.getAllByPlaceholderText("Acme Inc.") as HTMLInputElement[];
       expect(inputs).toHaveLength(2);

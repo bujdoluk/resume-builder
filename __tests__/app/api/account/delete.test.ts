@@ -134,8 +134,7 @@ describe("POST /api/account/delete", () => {
     expect(response.status).toBe(502);
     expect((await response.json()).error).toBe(en.apiErrors.failedToCancelSubscription);
     expect(mocks.captureException).toHaveBeenCalled();
-    // Deleting the account after a failed cancellation would orphan an
-    // active paid Stripe subscription with no user left to manage it.
+    // Deleting after a failed cancel would orphan an active Stripe subscription.
     expect(mocks.deleteUser).not.toHaveBeenCalled();
     expect(mocks.logAuditEvent).not.toHaveBeenCalled();
   });

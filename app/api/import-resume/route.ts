@@ -1,4 +1,3 @@
-
 import * as Sentry from "@sentry/nextjs";
 import { errorResponse } from "@/lib/apiErrors";
 import { validateBody } from "@/lib/apiValidation";
@@ -12,7 +11,6 @@ import {
   RATE_LIMIT_IMPORT_RESUME_WINDOW,
 } from "@/lib/constants";
 import { extractDocumentText, DocumentImportExtractionError } from "@/lib/documentImport/extractText";
-// import { verifyCaptchaToken } from "@/lib/hcaptcha";
 import { checkRateLimit, getRequestIp } from "@/lib/rateLimit";
 import { parseResumeText } from "@/lib/resumeImport/parseResumeText";
 import { importResumeBodySchema } from "@/lib/validation/importResume";
@@ -29,11 +27,6 @@ export async function POST(request: Request) {
   }
 
   const body = await request.json().catch(() => null);
-  // const { captchaToken } = body ?? {};
-
-  // if (!(await verifyCaptchaToken(captchaToken))) {
-  //   return errorResponse(HTTP_BAD_REQUEST, "captchaVerificationFailed", request);
-  // }
 
   const parsed = validateBody(importResumeBodySchema, body ?? {});
   if (!parsed.success) {
@@ -54,10 +47,7 @@ export async function POST(request: Request) {
   try {
     text = await extractDocumentText(fileBuffer, fileType);
   } catch (error) {
-    // Always logged (including the wrapped cause) — extractDocumentText
-    // rewraps every extraction failure into DocumentImportExtractionError, so
-    // without this the underlying pdfjs-dist/mammoth error would never
-    // surface anywhere.
+    // Log the cause: extractDocumentText wraps every failure, which would hide the pdfjs/mammoth error.
     console.error(error, error instanceof DocumentImportExtractionError ? error.cause : undefined);
     if (!(error instanceof DocumentImportExtractionError)) {
       Sentry.captureException(error);

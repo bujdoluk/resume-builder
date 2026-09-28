@@ -6,7 +6,6 @@ import { DocumentImportExtractionError } from "@/lib/documentImport/extractText"
 
 const mocks = vi.hoisted(() => ({
   checkRateLimit: vi.fn(),
-  // verifyCaptchaToken: vi.fn(),
   extractDocumentText: vi.fn(),
   parseResumeText: vi.fn(),
   captureException: vi.fn(),
@@ -16,10 +15,6 @@ vi.mock("@/lib/rateLimit", () => ({
   checkRateLimit: mocks.checkRateLimit,
   getRequestIp: () => "203.0.113.1",
 }));
-
-// vi.mock("@/lib/hcaptcha", () => ({
-//   verifyCaptchaToken: mocks.verifyCaptchaToken,
-// }));
 
 vi.mock("@/lib/documentImport/extractText", async (importOriginal) => {
   const actual = await importOriginal<typeof import("@/lib/documentImport/extractText")>();
@@ -46,17 +41,11 @@ const validBody = {
   fileBase64: Buffer.from("fake pdf bytes").toString("base64"),
   fileType: "pdf",
 };
-// const validBody = {
-//   captchaToken: "captcha-token",
-//   fileBase64: Buffer.from("fake pdf bytes").toString("base64"),
-//   fileType: "pdf",
-// };
 
 beforeEach(() => {
   vi.clearAllMocks();
   process.env.GROQ_API_KEY = "test-groq-key";
   mocks.checkRateLimit.mockResolvedValue(true);
-  // mocks.verifyCaptchaToken.mockResolvedValue(true);
   mocks.extractDocumentText.mockResolvedValue("Jane Doe resume text");
   mocks.parseResumeText.mockResolvedValue({ ...emptyResumeData, name: "Jane Doe" });
 });
@@ -70,20 +59,8 @@ describe("POST /api/import-resume", () => {
 
     expect(response.status).toBe(429);
     expect((await response.json()).error).toBe(en.apiErrors.rateLimited);
-    // expect(mocks.verifyCaptchaToken).not.toHaveBeenCalled();
     expect(mocks.parseResumeText).not.toHaveBeenCalled();
   });
-
-  // it("rejects a failed captcha verification", async () => {
-  //   mocks.verifyCaptchaToken.mockResolvedValue(false);
-  //
-  //   const { POST } = await import("@/app/api/import-resume/route");
-  //   const response = await POST(jsonRequest(validBody));
-  //
-  //   expect(response.status).toBe(400);
-  //   expect((await response.json()).error).toBe(en.apiErrors.captchaVerificationFailed);
-  //   expect(mocks.parseResumeText).not.toHaveBeenCalled();
-  // });
 
   it("rejects a missing file", async () => {
     const { POST } = await import("@/app/api/import-resume/route");

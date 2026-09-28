@@ -65,11 +65,7 @@ export const certificationEntrySchema = z.object({
 });
 export type CertificationEntry = z.infer<typeof certificationEntrySchema>;
 
-// Harvard-only bonus sections (see resumeDataSchema below) — deliberately
-// NOT part of SECTION_KEYS: they're excluded from sectionOrder,
-// modernSectionZones, and every other template's rendering by design, not
-// oversight, so they don't need to appear in the switches/records keyed by
-// SectionKey elsewhere in the codebase.
+// Harvard-only sections are deliberately not in SECTION_KEYS; no other template renders them.
 export const honorAwardEntrySchema = z.object({
   id: idSchema,
   name: z.string().catch(""),
@@ -92,8 +88,7 @@ const SECTION_KEYS = [
 export type SectionKey = (typeof SECTION_KEYS)[number];
 export const sectionKeySchema = z.enum(SECTION_KEYS);
 
-// Drops individually-invalid entries rather than discarding the whole order
-// — one corrupted section key shouldn't hide every other still-valid one.
+// Drop invalid entries instead of the whole order.
 export const sectionOrderSchema: z.ZodType<SectionKey[]> = z
   .array(z.unknown())
   .catch([])
@@ -109,10 +104,7 @@ export const sectionLabels: Record<SectionKey, string> = {
   customFields: "Custom Field",
 };
 
-// Fixed-English labels for the Harvard-only bonus sections, used by the
-// three exporters (PDF/DOCX/text) the same way sectionLabels is above — kept
-// here once so the PDF template, docx generator, and text generator can't
-// drift apart on the exact wording.
+// Shared so the PDF, DOCX and text exporters use the same wording.
 export const harvardSectionLabels = {
   leadershipExperience: "Leadership Experience",
   honorsAwards: "Honors & Awards",
@@ -136,9 +128,7 @@ export const defaultModernSectionZones: Record<ModernZoneItem, ModernSectionZone
 const modernZoneItemSchema = z.enum([...SECTION_KEYS, "aboutMe"] as const satisfies readonly ModernZoneItem[]);
 const modernSectionZoneSchema = z.enum(["sidebar", "main"] as const satisfies readonly ModernSectionZone[]);
 
-// Individually-invalid entries are dropped rather than the whole object
-// falling back to {} — a single bad zone assignment shouldn't discard every
-// other (valid) one.
+// Drop invalid entries instead of the whole object.
 export const modernSectionZonesSchema: z.ZodType<ModernSectionZones> = z
   .record(z.string(), z.unknown())
   .catch({})
@@ -204,28 +194,16 @@ export const emptyResumeData: ResumeData = resumeDataSchema.parse({});
 
 export const RESUME_SCHEMA_VERSION = 1;
 
-// Add an entry here (keyed by the version being upgraded FROM) whenever a
-// breaking change is made to ResumeData's stored shape — see
-// lib/schemaVersion.ts for the contract. Nothing to migrate yet since this
-// is the first version; rows written before this scaffold existed have no
-// __schemaVersion at all and are treated as version 0, which starts the
-// loop below the same way a real legacy version would.
+// Keyed by the version being upgraded from. Rows without __schemaVersion count as version 0.
 const resumeMigrations: Record<number, (data: Record<string, unknown>) => Record<string, unknown>> = {};
 
 const resumeCodec = createVersionedCodec<ResumeData>(RESUME_SCHEMA_VERSION, resumeMigrations);
 
-/** Stamps the current schema version onto data about to be persisted. */
 export function stampResumeData(data: ResumeData): Record<string, unknown> {
   return resumeCodec.stamp(data);
 }
 
-/**
- * Runs pending migrations against raw storage input, then validates the
- * result — the one path that should be used to turn a stored jsonb `data`
- * value back into a trustworthy ResumeData, replacing a plain
- * `{ ...emptyResumeData, ...row.data }` spread (which only backfills
- * missing top-level keys, not nested ones, and never rejects garbage).
- */
+// Use this, not a spread into emptyResumeData: the spread doesn't backfill nested keys or reject garbage.
 export function parseStoredResumeData(raw: unknown): ResumeData {
   return resumeDataSchema.parse(resumeCodec.migrate(raw));
 }

@@ -1,4 +1,3 @@
-
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { Temporal } from "temporal-polyfill";
 import { parseStoredCoverLetterData, stampCoverLetterData, type CoverLetterData } from "@/lib/coverLetterData";
@@ -35,8 +34,7 @@ export async function saveCoverLetter(
   const payload = {
     user_id: params.userId,
     name: params.name,
-    // See the matching comment in resumes.ts's saveResume — same cast, same
-    // reason (stampCoverLetterData's return type is intentionally broad).
+    // stampCoverLetterData's return type is intentionally broad.
     data: stampCoverLetterData(params.data) as Json,
     updated_at: Temporal.Now.instant().toString(),
   };

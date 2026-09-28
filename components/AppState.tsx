@@ -91,10 +91,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     i18n.changeLanguage(language);
-    // Keeps the PDF templates' language-level labels (e.g. "Beginner")
-    // in sync with the user's chosen app language for client-side
-    // downloads — i18nCore is a separate, React-free instance (see
-    // lib/i18n/i18nCore.ts for why) so it needs its own explicit sync.
+    // i18nCore is a separate instance, so keep its language in sync for PDF downloads.
     i18nCore.changeLanguage(language);
   }, [language]);
 

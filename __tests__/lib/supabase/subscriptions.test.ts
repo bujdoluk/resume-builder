@@ -2,8 +2,6 @@ import type { SupabaseClient } from "@supabase/supabase-js";
 import { describe, expect, it, vi } from "vitest";
 import { getSubscription, isPaidPlan } from "@/lib/supabase/subscriptions";
 
-// A minimal fake of supabase-js's fluent query builder covering exactly what
-// getSubscription uses: `.from("subscriptions").select(...).eq(...).maybeSingle()`.
 function createSupabaseMock(result: { data?: unknown; error?: unknown }) {
   const maybeSingle = vi.fn().mockResolvedValue(result);
   const eq = vi.fn(() => ({ maybeSingle }));
